@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: #3c3cbf;
+    background-color: #1a1a1b;
     font-family: 'Poppins', sans-serif;
     color: #777878;
 }
@@ -17,6 +17,8 @@ body {
     height: 56px;
     padding: 0 1rem; /*'root em' tamaño relativo a la fuente raiz: default 16px*/
     background-color: #1E1E1F;
+    /*box-shadow: x-y-blur-expansion*/
+    box-shadow: 0px 10px 10px 0px rgba(117, 117, 117, 0.10); /*sombra*/
     gap: 1rem;
     flex-wrap: wrap; /*responsive*/
 }
@@ -29,6 +31,11 @@ body {
     gap: 0.75rem;
 }
 
+.account-section {
+    display: flex;
+    align-items: center;
+    gap: 0.05rem; 
+}
 /* icon conf */
 .menu-btn, .mic-btn, .notify-btn, .user-btn {
     background: none;
@@ -103,16 +110,33 @@ body {
 /* --------- Right Section--------- */
 
 .create-btn {
-    background-color: #a3d9a5;
+    background-color: #1a1a1b;
     border-radius: 20px;
-    padding: 5px 10px;
-    color: #1F1F20;
+    padding: 10px;
+    color: #777878;
+    font-size: 1.2rem;
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
     cursor: pointer;
     border: none;
-    font-size: 0.95rem;
+}
+
+.create-btn i:first-child {
+    background-color: #a3d9a5;
+    color: #1a1a1b;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+.account-section {
+    background-color: #1a1a1b;
+    border-radius: 20px;
+    padding: 5px 10px;
 }
 
 /* Responsive */
