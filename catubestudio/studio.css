@@ -1,24 +1,26 @@
 * {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 body {
     background-color: #1F1F20;
     font-family: 'Poppins', sans-serif;
-    color: #777878;
+    color:#777878;
 }
 
-header {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     height: 56px;
     padding: 0 1rem; /*'root em' tamaño relativo a la fuente raiz: default 16px*/
     background-color: #1E1E1F;
+    /*box-shadow: x-y-blur-expansion*/
+    box-shadow: 0px 10px 10px 0px rgba(117, 117, 117, 0.10); /*sombra*/
     gap: 1rem;
     flex-wrap: wrap; /*responsive*/
-    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
 }
 
 /*-------Sections--------*/
@@ -29,6 +31,11 @@ header {
     gap: 0.75rem;
 }
 
+.account-section {
+    display: flex;
+    align-items: center;
+    gap: 0.05rem; 
+}
 /* icon conf */
 .menu-btn, .mic-btn, .notify-btn, .user-btn {
     background: none;
@@ -103,6 +110,55 @@ header {
 /* --------- Right Section--------- */
 
 .create-btn {
+    background-color: #1a1a1b;
+    border-radius: 20px;
+    padding: 10px;
+    color: #777878;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    border: none;
+}
+
+.create-btn i:first-child {
+    background-color: #a3d9a5;
+    color: #1a1a1b;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.account-section {
+    background-color: #1a1a1b;
+    border-radius: 20px;
+    padding: 5px 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-section {
+        order: 3;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.5rem;
+        height: auto;
+    }
+}
+
+/* --------- Right Section--------- */
+
+.create-btn {
     background-color: #a3d9a5;
     border-radius: 20px;
     padding: 5px 10px;
@@ -134,18 +190,21 @@ header {
 /* --------- Dashboard Section--------- */
 
 #title {
-    font-size: 22px;
+    font-size: 20px;
     color: #FFFFFF;
+    display: flex;
+    justify-content: baseline;
 }
 
 .left-menu {
     height: 1000px;
-    width: 15%;
+    width: 240px;
     background-color: #1A1A1B;
 }
 
 .container {
     display: flex;
+    
 }
 
 .content {
@@ -192,8 +251,8 @@ header {
 
 .card {
     background-color: #1A1A1B;
-    height: 615px;
-    width: 330px;
+    height: 625px;
+    width: 360px;
     margin: 10px;
     padding: 20px;
     text-align: center;
@@ -211,13 +270,20 @@ header {
 
 }
 
-.recent-cats {
+.card2 {
     background-color: #1A1A1B;
-    height: 75px;
-    width: 1110px;
+    height: 140px;
+    width: 1120px;
     border-radius: 15px;
     margin: 10px;
     padding: 20px;
+
+}
+
+.recent-cats{
+display: flex;
+flex-direction: row;
+justify-content: space-between;
 
 }
 
@@ -233,7 +299,6 @@ header {
 .all-videos{
     display: flex;
     flex-direction: column;
-    align-items: center;
     gap: 10px;
 }
 
@@ -241,11 +306,12 @@ header {
     display: flex;
     justify-content: row;
     
+    
 }   
 
 .user-photo {
-    width: 30px;
-    height: 30px;
+    width: 50px;
+    height: 50px;
     background-color: #D9D9D9;
     border-radius: 50%;
     margin-top: 20px;
@@ -272,8 +338,8 @@ color: #D9D9D9;
 }
 
 .video-commented{
-    width: 55px;
-    height: 30px;
+    width: 65px;
+    height: 50px;
     background-color: #D9D9D9;
     border-radius: 5px;
     margin-top: 20px;
@@ -282,9 +348,50 @@ color: #D9D9D9;
 
 }
 
+.channel{ 
+    margin-left: 205px;
+}
+
 .channel-photo {
-    width: 150px;
-    height: 150px;
+    width: 100px;
+    height: 100px;
+    margin-top: 35px;
     background-color: #D9D9D9;
     border-radius: 50%;
 }
+
+.cn{
+    font-size: 28px;
+}
+
+.subtitle{
+    font-size: 14px;
+    display: flex;
+    justify-content: baseline;
+    margin-top: 15px;
+    color:#FFFFFF;
+}
+
+.sub-number{
+display: flex;
+font-size: 28px;
+margin-top: 5px;
+color:#FFFFFF;
+}
+
+.btn{
+    width: 100px;
+    height: 45px;
+    background-color: #1F1F20;
+    color:#FFFFFF;
+border-radius: 25px;
+border: 2px solid;
+border-color: #1a1a1b;
+font-size: 16px;
+
+}
+
+.btn:hover {
+    cursor: pointer;
+    background-color: #749269;
+  }
