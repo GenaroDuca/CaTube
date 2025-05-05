@@ -287,15 +287,6 @@ justify-content: space-between;
 
 }
 
-.channel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin: 10px;
-    padding: 20px;
-}
-
 .all-videos{
     display: flex;
     flex-direction: column;
@@ -348,8 +339,16 @@ color: #D9D9D9;
 
 }
 
-.channel{ 
-    margin-left: 205px;
+.channel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 10px;
+    margin-right: 45px;
+    padding: 20px;
+    position: absolute;
+    right: 0;
 }
 
 .channel-photo {
