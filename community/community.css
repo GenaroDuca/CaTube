@@ -1,0 +1,354 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #1F1F20;
+    font-family: 'Poppins', sans-serif;
+    color:#777878;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 56px;
+    padding: 0 1rem; /*'root em' tamaño relativo a la fuente raiz: default 16px*/
+    background-color: #1E1E1F;
+    /*box-shadow: x-y-blur-expansion*/
+    box-shadow: 0px 10px 10px 0px rgba(117, 117, 117, 0.10); /*sombra*/
+    gap: 1rem;
+    flex-wrap: wrap; /*responsive*/
+}
+
+/*-------Sections--------*/
+
+.left-section, .search-section, .right-section {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.account-section {
+    display: flex;
+    align-items: center;
+    gap: 0.05rem; 
+}
+/* icon conf */
+.menu-btn, .mic-btn, .notify-btn, .user-btn {
+    background: none;
+    border: none;
+    color: #777878;
+    cursor: pointer;
+    font-size: 1.2rem; /*los iconos de la libreria se comportan como caracteres especiales*/
+    width: 32px;
+    height: 32px; /* width y height controlan el size del boton, no del icono*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*--------- Left Section--------- */
+
+.logo {
+    height: 32px;
+}
+
+.title {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #777878;
+}
+
+/* --------- Mid Section--------- */
+
+.search-section {
+    flex: 1; /*puede crecer o decrecer*/
+    max-width: 500px; /*limite max*/
+}
+
+.mic-section {
+    background-color: #1a1a1b;
+    border-radius: 50%;
+    height: 36px;
+    width: 36px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bar-section {
+    display: flex;
+    align-items: center;
+    background-color: #1a1a1b;
+    border-radius: 20px;
+    overflow: hidden;
+    flex: 1;
+}
+
+.search-section input {
+    background: transparent;
+    border: none;
+    color: #777878;
+    padding: 8px 12px;
+    flex: 1;
+    min-width: 120px;
+    font-size: 0.95rem;
+}
+
+.search-btn {
+    background-color: #a3d9a5;
+    padding: 8px 12px;
+    border: none;
+    color: #1F1F20;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+/* --------- Right Section--------- */
+
+.create-btn {
+    background-color: #1a1a1b;
+    border-radius: 20px;
+    padding: 10px;
+    color: #777878;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    border: none;
+}
+
+.create-btn i:first-child {
+    background-color: #a3d9a5;
+    color: #1a1a1b;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+.account-section {
+    background-color: #1a1a1b;
+    border-radius: 20px;
+    padding: 5px 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-section {
+        order: 3;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.5rem;
+        height: auto;
+    }
+}
+
+/* --------- Right Section--------- */
+
+.create-btn {
+    background-color: #a3d9a5;
+    border-radius: 20px;
+    padding: 5px 10px;
+    color: #1F1F20;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    border: none;
+    font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .search-section {
+        order: 3;
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+        padding: 0.5rem;
+        height: auto;
+    }
+}
+
+/* --------- Dashboard Section--------- */
+
+#title {
+    font-size: 20px;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: baseline;
+}
+
+.left-menu {
+    height: 1000px;
+    width: 240px;
+    background-color: #1A1A1B;
+}
+
+.container {
+    display: flex;
+   
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    
+
+}
+
+.top-row {
+    display: flex;
+    flex-direction: column;
+ 
+}
+
+.dash{
+    margin-left: 10px;
+    font-size: 28px;
+    color: #FFFFFF;
+    padding: 20px;
+}
+
+.subtitle{
+    font-size: 22px;
+    color:#FFFFFF;
+    margin-left: 35px;
+    margin-top: 20px;
+}
+
+.line-color{
+    width: 115px;
+    height: 1px;
+    margin-left: 35px;
+    background-color:#FFFFFF;
+ 
+}
+
+.line{
+    width: 1062px;
+    height: 1px;
+    background-color:#FFFFFF;
+    opacity: 15%;
+ 
+}
+
+  .video { 
+    display: flex;
+    justify-content: row;
+    width: 1000px;
+    margin-left: 45px;
+    margin-top: 25px;
+    
+}  
+
+  .user-photo {
+    width: 100px;
+    height: 100px;
+    background-color: #D9D9D9;
+    border-radius: 50%;
+    margin-bottom: 25px;
+    padding: 10px;
+
+}
+
+.user-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 8px;
+    padding: 10px;
+    margin-left: 10px;
+
+}
+
+.username{
+margin-bottom: 10px;
+}
+
+.user-message{
+color: #D9D9D9;
+margin-bottom: 10px;
+}
+
+.lca {
+    display: flex;
+    align-items: center;
+    align-self: center;
+    justify-content: space-between;
+    gap: 15px;
+  }
+  
+.btn{
+    width: 70px;
+    height: 35px;
+    background-color: #1a1a1b;
+    color:#FFFFFF;
+border-radius: 25px;
+border: 2px solid;
+border-color: #1a1a1b;
+font-size: 16px;
+
+}
+
+.btn:hover {
+    cursor: pointer;
+    background-color: #749269;
+  }
+
+.video-commented{
+    width: 135px;
+    height: 100px;
+    background-color: #D9D9D9;
+    border-radius: 5px;
+    margin-left: 350px;
+    padding: 10px;
+
+}
+
+.video-title{
+    margin-left: 15px;
+    color:#FFFFFF
+   
+}
+
+.channel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 10px;
+    margin-right: 45px;
+    padding: 20px;
+    position: absolute;
+    right: 0;
+}
+
+.channel-photo {
+    width: 100px;
+    height: 100px;
+    margin-top: 35px;
+    background-color: #D9D9D9;
+    border-radius: 50%;
+}
+
+.cn{
+    font-size: 28px;
+}
