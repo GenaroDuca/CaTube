@@ -82,13 +82,12 @@
     margin: 20px;
   }
   
-  .input-group {
+  .input-group div {
     display: flex;
     align-items: center;
-    margin-bottom: 15px;
   }
   
-  .input-group input {
+  .input {
     width: 250px;
     height: 40px;
     border: none;
@@ -97,6 +96,25 @@
     background-color: rgba(255, 255, 255, 0.678);
     text-align: center;
     margin-left: -10px;
+  }
+
+  .input-group label {
+    font-size: 14px;
+    margin-left: 45px;
+  }
+
+  .input:focus {
+    outline: none;
+  }
+
+  .incorrect-input {
+    border: 3px solid rgb(202, 102, 102);
+    border-left: none;
+  }
+
+  .correct-input {
+    border: 3px solid rgb(140, 233, 140);
+    border-left: none;
   }
   
   .icon-circle {
@@ -137,7 +155,7 @@
   
   .btn.outlined:hover {
     background-color: #1a1a1b;
-    color: #90b484;
+    color: #cbeec0;
   }
   
   /* Media query adjustments */
@@ -148,7 +166,11 @@
       width: 350px;
       height: auto;
     }
-  
+
+    .input-group {
+      margin-bottom: 10px;
+    }
+
     .panel-section {
       width: 100%;
     }
@@ -160,7 +182,7 @@
   
     .auth-box-login button,
     .auth-box-signup button {
-      margin: 0 0 -30px; 
+      margin: 5px 0 -30px; 
     }
   
     .panel-section h1 {
