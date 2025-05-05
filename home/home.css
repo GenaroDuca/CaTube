@@ -5,7 +5,7 @@
 }
 
 body {
-    background-color: #1a1a1b;
+    background-color: #1F1F20;
     font-family: 'Poppins', sans-serif;
     color: #777878;
 }
@@ -48,6 +48,15 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.menu-btn:hover,
+.mic-btn:hover,
+.notify-btn:hover, 
+.user-btn:hover {
+    width: 40px;
+    height: 40px;
+    color:#a3d9a5;
 }
 
 /*--------- Left Section--------- */
@@ -107,11 +116,14 @@ body {
     cursor: pointer;
 }
 
+.search-btn:hover   {
+    background-color: #749269;
+}
 /* --------- Right Section--------- */
 
 .create-btn {
     background-color: #1a1a1b;
-    border-radius: 20px;
+    border-radius: 30px;
     padding: 10px;
     color: #777878;
     font-size: 1.2rem;
@@ -133,14 +145,186 @@ body {
     justify-content: center;
     font-size: 1rem;
 }
+
+.create-btn:hover   {
+    background-color: #749269;
+    color: white;
+}
+
 .account-section {
     background-color: #1a1a1b;
     border-radius: 20px;
     padding: 5px 10px;
 }
 
-/* Responsive */
+/*------------Body-----------*/
+
+/*ADS*/
+.ads {
+    display: flex;
+    justify-content: center;
+    margin: 1rem;
+}
+
+.img-ads {
+    border-radius: 30px;
+    overflow: hidden;
+    max-width: 100%;
+}
+
+/*SECCIONES*/
+.popular-channels, .trending, .subscriptions {
+    background-color: #1a1a1b;
+    width: 95%;
+    height: 15rem;
+    padding: 1rem 2rem;
+    margin: 1rem auto;
+    border-radius: 30px;
+}
+
+.trending {
+    height: 29rem;
+}
+
+.subscriptions {
+    height: 23rem;
+}
+
+
+/*carruseles*/
+
+.carousel-container {
+    /* para posicionar las flechas */
+    position: relative; 
+    padding: 0 50px;
+    gap: 1rem;
+    margin: 2rem auto;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.carousel-btn.left {
+    left: 0; /* Posiciona la flecha fuera del contenido */
+    transform: translate(-50%, -50%);
+}
+
+.carousel-btn.right {
+    right: 0;
+    transform: translate(50%, -50%);
+}
+
+.carousel-btn:hover {
+    background-color:#a3d9a5;
+}
+
+.carousel-channels,
+.carousel-trends,
+.carousel-subs {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto; /*permite el desplazamiento horizontal*/
+    scroll-behavior:smooth; /*suaviza el desplazamiento*/
+}
+
+.carousel-channels::-webkit-scrollbar,
+.carousel-trends::-webkit-scrollbar,
+.carousel-subs::-webkit-scrollbar {
+    display: none; /*oculta el scroll*/
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: auto;
+    height: auto;
+}
+
+.profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.subtitle {
+    color:#777878;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.profile-photo {
+    width: 106px;
+    height: 106px;
+    border-radius: 50%;
+}
+
+.name-channel, .sub-channel {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden; 
+    /* agrega ... si el texto es muy largo */
+    text-overflow: ellipsis; 
+    margin: 0.25rem 0;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #777878; 
+}
+
+/*shorts*/
+
+.short {
+    width: 190px;
+    height: 300px;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.short:hover {
+    transform: scale(1.05);
+    /*suaviza la animacion*/
+    transition: all 0.3s ease; 
+}
+
+/*miniaturas*/
+
+.video-thumb {
+    width: 377px;
+    height: auto;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.video-thumb:hover {
+    transform: scale(1.05);
+    /*suaviza la animacion*/
+    transition: all 0.3s ease; 
+}
+
+.video-card {
+    text-align: center;
+    width: 377px;
+}
+/*------------Responsive-----------*/
+
+/*media query: regla de css aplicar estilos solo cuando se cumple una condición específica relacionada con el tamaño o características de la pantalla*/
+
 @media (max-width: 768px) {
+    /* Header */
     .search-section {
         order: 3;
         width: 100%;
@@ -153,8 +337,78 @@ body {
         padding: 0.5rem;
         height: auto;
     }
+
+    .left-section, .right-section {
+        justify-content: center;
+        width: 100%;
+    }
+
+    .logo {
+        height: 24px;
+    }
+
+    .title {
+        font-size: 1rem;
+    }
+
+    /* Carruseles */
+    .carousel-container {
+        padding: 0 20px; /* Reduce el padding lateral */
+    }
+
+    .carousel-btn {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
+
+    .video-card {
+        width: 100%; /* Ocupa todo el ancho disponible */
+    }
+
+    .video-thumb {
+        width: 100%; /* Ajusta las miniaturas al ancho del contenedor */
+        border-radius: 20px; /* Reduce el borde redondeado */
+    }
+
+    /* Secciones */
+    .popular-channels, .trending, .subscriptions {
+        width: 100%; /* Ocupa todo el ancho disponible */
+        padding: 1rem;
+        margin: 1rem 0;
+    }
+
+    .trending {
+        height: auto; /* Ajusta la altura automáticamente */
+    }
+
+    .subscriptions {
+        height: auto; /* Ajusta la altura automáticamente */
+    }
+
+    /* Shorts */
+    .short {
+        width: 100%; /* Ocupa todo el ancho disponible */
+        height: auto; /* Ajusta la altura automáticamente */
+        border-radius: 20px; /* Reduce el borde redondeado */
+    }
+
+    /* Texto */
+    .name-channel, .sub-channel {
+        font-size: 0.9rem; /* Reduce el tamaño del texto */
+    }
+
+    .subtitle {
+        font-size: 1rem; /* Ajusta el tamaño del subtítulo */
+    }
+
+    /* ADS */
+    .ads {
+        margin: 1rem 0;
+    }
+
+    .img-ads {
+        width: 100%; /* Ocupa todo el ancho disponible */
+        border-radius: 20px; /* Reduce el borde redondeado */
+    }
 }
-
-
-
-
