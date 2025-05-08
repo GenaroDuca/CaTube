@@ -1,5 +1,9 @@
 /*------------Body-----------*/
 
+a {
+    text-decoration: none;
+}
+
 /*ADS*/
 .ads {
     display: flex;
@@ -10,11 +14,14 @@
 .img-ads {
     border-radius: 30px;
     overflow: hidden;
-    max-width: 100%;
+    max-width: 95%;
 }
 
 /*SECCIONES*/
-.popular-channels, .trending, .subscriptions {
+.popular-channels,
+.trending,
+.subscriptions,
+.recommendations {
     background-color: #1a1a1b;
     width: 95%;
     height: auto;
@@ -26,14 +33,15 @@
 /*carruseles*/
 
 .carousel-container {
-    /* para posicionar las flechas */
-    position: relative; 
+    display: flex;
+    justify-content: center;
+    position: relative;
     gap: 1rem;
 }
 
 .carousel-btn {
     position: absolute;
-    top: 44%;
+    top: 50%;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
@@ -46,11 +54,13 @@
     align-items: center;
     cursor: pointer;
     z-index: 10;
-    transition: background-color 0.3s ease; /* Apply transition here */
+    transition: background-color 0.3s ease;
+    /* Apply transition here */
 }
 
 .carousel-btn.left {
-    left: 0; /* Posiciona la flecha fuera del contenido */
+    left: 0;
+    /* Posiciona la flecha fuera del contenido */
     transform: translate(-50%, -50%);
 }
 
@@ -60,7 +70,8 @@
 }
 
 .carousel-btn:hover {
-    background-color:#90B484; /* Only change the property */
+    background-color: #90B484;
+    /* Only change the property */
 
 }
 
@@ -70,98 +81,122 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    overflow-x: auto; /*permite el desplazamiento horizontal*/
-    scroll-behavior:smooth; /*suaviza el desplazamiento*/
+    overflow-x: auto;
+    /*permite el desplazamiento horizontal*/
+    scroll-behavior: smooth;
+    /*suaviza el desplazamiento*/
 }
 
 .carousel-channels::-webkit-scrollbar,
 .carousel-trends::-webkit-scrollbar,
 .carousel-subs::-webkit-scrollbar {
-    display: none; /*oculta el scroll*/
+    display: none;
+    /*oculta el scroll*/
 }
+
+/* populaar channels */
 
 .profile {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 1rem;
     width: auto;
     height: auto;
 }
 
-.profile-info {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-}
-
 .subtitle {
-    color:#777878;
+    color: #777878;
     font-size: 1.2rem;
     font-weight: bold;
-    margin-bottom: 1rem;
 }
 
 .profile-photo {
-    width: 106px;
-    height: 106px;
+    width: 80px;
+    height: auto;
     border-radius: 50%;
+    margin-top: 20px;
+    transition: transform 0.3s ease;
+    /* Apply transition here */
+
 }
 
-.name-channel, .sub-channel {
+.profile-photo:hover {
+    transform: scale(1.1);
+    /* Only change the property */
+}
+
+.name-channel,
+.sub-channel {
     display: block;
     white-space: nowrap;
-    overflow: hidden; 
-    /* agrega ... si el texto es muy largo */
-    text-overflow: ellipsis; 
-    margin: 0.25rem 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 1rem;
-    font-weight: bold;
-    color: #777878; 
+    color: #777878;
+    margin-top: 5px;
 }
 
 /*shorts*/
 
 .short-card {
-    width: 190px;
-    height: auto; 
+    width: 200px;
+    height: auto;
 }
 
 .short {
-    width: 100%;
+    width: 150px;
     height: auto;
     border-radius: 20px;
-    transition: transform 0.3s ease; /* Apply transition here */
+    transition: transform 0.3s ease;
+    /* Apply transition here */
+    margin-top: 20px;
 }
 
 .short:hover {
-    transform: scale(1.05); /* Only change the property */
+    transform: scale(1.05);
+    /* Only change the property */
 }
 
 /*miniaturas*/
 
 .video-thumb {
-    width: 377px;
+    width: 100%;
     height: auto;
     border-radius: 30px;
     overflow: hidden;
-    transition: transform 0.3s ease; /* Apply transition here */
+    transition: transform 0.3s ease;
+    /* Apply transition here */
+    margin-top: 20px;
 }
 
 .video-thumb:hover {
-    transform: scale(1.05); /* Only change the property */
+    transform: scale(1.05);
+    /* Only change the property */
 }
 
 .video-card {
-    width: 377px;
+    width: 400px;
 }
+
+/* Recommendations */
+
+.recommendations-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 1rem;
+}
+
 /*------------Responsive-----------*/
 
 /*media query: regla de css aplicar estilos solo cuando se cumple una condición específica relacionada con el tamaño o características de la pantalla*/
 
 @media (max-width: 768px) {
+
     /* Carruseles */
     .carousel-container {
-        padding: 0 20px; /* Reduce el padding lateral */
+        padding: 0 20px;
+        /* Reduce el padding lateral */
     }
 
     .carousel-btn {
@@ -170,41 +205,26 @@
         font-size: 0.9rem;
     }
 
-    .video-card {
-        width: 100%; /* Ocupa todo el ancho disponible */
+    .profile-photo {
+        width: 60px;
     }
 
     .video-thumb {
-        width: 277px; /* Ajusta las miniaturas al ancho del contenedor */
-        border-radius: 20px; /* Reduce el borde redondeado */
+        width: 100%;
+        /* Ajusta las miniaturas al ancho del contenedor */
+        border-radius: 10px;
     }
 
-    /* Secciones */
-    .popular-channels, .trending, .subscriptions {
-        width: 100%; /* Ocupa todo el ancho disponible */
+    .video-card {
+        width: 100%;
+        /* Ajusta las tarjetas al ancho del contenedor */
     }
 
-    .trending, .subscriptions {
-        height: auto; /* Ajusta la altura automáticamente */
+    .short {
+        width: 100px;
     }
 
-    /* Texto */
-    .name-channel, .sub-channel {
-        font-size: 0.9rem; /* Reduce el tamaño del texto */
-    }
-
-    .subtitle {
-        font-size: 1rem; /* Ajusta el tamaño del subtítulo */
-        
-    }
-
-    /* ADS */
-    .ads {
-        margin: 1rem 0;
-    }
-
-    .img-ads {
-        width: 100%; /* Ocupa todo el ancho disponible */
-        border-radius: 20px; /* Reduce el borde redondeado */
+    .video-thumb-recommendations {
+        border-radius: 30px;
     }
 }
