@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CaTube</title>
     <link rel="stylesheet" href="home.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"> <!-- libreria Font Awesome para iconos -->
+    <link rel="stylesheet" href="../header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- libreria Font Awesome para iconos -->
 </head>
 
 <body>
@@ -13,19 +16,19 @@
     <header class="header">
         <!-- Menu y logo -->
         <div class="left-section">
-            <button class="menu-btn" aria-label="Open menu"><i class="fas fa-bars"></i></button> <!-- i se usa como contenedor de iconos -->
-            <img src="./media/Logo/catube_white.svg" alt="CaTube logo" class="logo">
+            <!-- i se usa como contenedor de iconos -->
+            <img src="../media/header_media/logo/catube_white.svg" alt="CaTube logo" class="logo">
             <span class="title">CaTube</span>
         </div>
 
         <!-- Seccion de busqueda -->
         <div class="search-section">
-            <div class="mic-section" >
+            <div class="mic-section">
                 <button class="mic-btn" aria-label="Search with voice">
                     <i class="fa fa-microphone"></i>
                 </button>
             </div>
-            
+
             <div class="bar-section">
                 <input type="text" placeholder="Search">
                 <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
@@ -33,12 +36,12 @@
         </div>
 
         <!-- Seccion de creador y perfil -->
-        <div class="right-section" >
+        <div class="right-section">
             <button class="create-btn">Create <i class="fas fa-plus"></i></button>
 
             <div class="account-section">
-                <button class="notify-btn"><i class="fas fa-bell"></i></button>
-                <button class="user-btn"><i class="fas fa-user"></i></button>
+                <a href="../studio/studio.html"><button class="notify-btn"><i class="fas fa-bell"></i></button></a>
+                <a href="../register/register.html"><button class="user-btn"><i class="fas fa-user"></i></button></a>
             </div>
         </div>
     </header>
@@ -46,199 +49,212 @@
     <main class="main-content">
         <!-- ads -->
         <div class="ads">
-            <img class="img-ads" src="./media/ads/offers.png" alt="Oferta de camaras Instax">
+            <img class="img-ads" src="../media/home_media/ads/offers.png" alt="Oferta de camaras Instax">
         </div>
 
         <!-- titulo de la seccion -->
         <section class="popular-channels">
-            <h2 class="subtitle">Popular Channels</h2>
-        
+            <h2 class="subtitle">Popular channels</h2>
+
             <!-- contiene botones y contenido del carrusel -->
             <div class="carousel-container">
                 <!-- boton izq -->
-                <button class="carousel-btn left" aria-label="Previous channels" onclick="scrollCarousel('left', 'carousel-channels')">&#10094;</button>
+                <button class="carousel-btn left" aria-label="Previous channels"
+                    onclick="scrollCarousel('left', 'carousel-channels')">&#10094;</button>
                 <!-- carrusel vacio que contendra canales ingresados por js -->
                 <div class="carousel-channels" id="carousel">
                     <!-- ejemplos para editar en css -->
                     <div class="profile">
-                        <img src="./media/profile/angel.jpg" class="profile-photo" alt="profile" loading="lazy">
+                        <img src="../media/home_media/profile/angel.jpg" class="profile-photo" alt="profile">
                         <div class="profile-info">
-                            <p class="name-channel">Channel One</p> 
+                            <p class="name-channel">Channel one</p>
                             <p class="sub-channel">15k subs</p>
                         </div>
                     </div>
-                    
+
                     <div class="profile">
-                        <img src="./media/profile/angel.jpg" class="profile-photo" alt="profile">
+                        <img src="../media/home_media/profile/angel.jpg" class="profile-photo" alt="profile">
                         <div class="profile-info">
-                            <p class="name-channel">Channel One</p>
-                            <p class="sub-channel">15k subs</p>
-                        </div>
-                    </div>
-                    <div class="profile">
-                        <img src="./media/profile/angel.jpg" class="profile-photo" alt="profile">
-                        <div class="profile-info">
-                            <p class="name-channel">Channel One</p>
+                            <p class="name-channel">Channel one</p>
                             <p class="sub-channel">15k subs</p>
                         </div>
                     </div>
                     <div class="profile">
-                        <img src="./media/profile/angel.jpg" class="profile-photo" alt="profile">
+                        <img src="../media/home_media/profile/angel.jpg" class="profile-photo" alt="profile">
                         <div class="profile-info">
-                            <p class="name-channel">Channel One</p>
+                            <p class="name-channel">Channel one</p>
                             <p class="sub-channel">15k subs</p>
                         </div>
                     </div>
                     <div class="profile">
-                        <img src="./media/profile/angel.jpg" class="profile-photo" alt="profile">
+                        <img src="../media/home_media/profile/angel.jpg" class="profile-photo" alt="profile">
                         <div class="profile-info">
-                            <p class="name-channel">Channel One</p>
+                            <p class="name-channel">Channel one</p>
                             <p class="sub-channel">15k subs</p>
                         </div>
                     </div>
                     <div class="profile">
-                        <img src="./media/profile/angel.jpg" class="profile-photo" alt="profile">
+                        <img src="../media/home_media/profile/angel.jpg" class="profile-photo" alt="profile">
                         <div class="profile-info">
-                            <p class="name-channel">Channel One</p>
+                            <p class="name-channel">Channel one</p>
                             <p class="sub-channel">15k subs</p>
                         </div>
                     </div>
                     <div class="profile">
-                        <img src="./media/profile/angel.jpg" class="profile-photo" alt="profile">
+                        <img src="../media/home_media/profile/angel.jpg" class="profile-photo" alt="profile">
                         <div class="profile-info">
-                            <p class="name-channel">Channel One</p>
+                            <p class="name-channel">Channel one</p>
                             <p class="sub-channel">15k subs</p>
                         </div>
                     </div>
                     <div class="profile">
-                        <img src="./media/profile/angel.jpg" class="profile-photo" alt="profile">
+                        <img src="../media/home_media/profile/angel.jpg" class="profile-photo" alt="profile">
                         <div class="profile-info">
-                            <p class="name-channel">Channel One</p>
+                            <p class="name-channel">Channel one</p>
                             <p class="sub-channel">15k subs</p>
                         </div>
                     </div>
                     <div class="profile">
-                        <img src="./media/profile/angel.jpg" class="profile-photo" alt="profile">
+                        <img src="../media/home_media/profile/angel.jpg" class="profile-photo" alt="profile">
                         <div class="profile-info">
-                            <p class="name-channel">Channel One</p>
+                            <p class="name-channel">Channel one</p>
+                            <p class="sub-channel">15k subs</p>
+                        </div>
+                    </div>
+                    <div class="profile">
+                        <img src="../media/home_media/profile/angel.jpg" class="profile-photo" alt="profile">
+                        <div class="profile-info">
+                            <p class="name-channel">Channel one</p>
                             <p class="sub-channel">15k subs</p>
                         </div>
                     </div>
                 </div>
                 <!-- boton der -->
-                <button class="carousel-btn right" aria-label="Next channels" onclick="scrollCarousel('right', 'carousel-channels')">&#10095;</button>
+                <button class="carousel-btn right" aria-label="Next channels"
+                    onclick="scrollCarousel('right', 'carousel-channels')">&#10095;</button>
             </div>
         </section>
 
         <!-- titulo de la seccion -->
         <section class="trending">
             <h2 class="subtitle">Trending</h2>
-        
+
             <!-- contiene botones y contenido del carrusel -->
             <div class="carousel-container">
                 <!-- boton izq -->
-                <button class="carousel-btn left" aria-label="Previous trending videos" onclick="scrollCarousel('left', 'carousel-trends')">&#10094;</button>
+                <button class="carousel-btn left" aria-label="Previous trending videos"
+                    onclick="scrollCarousel('left', 'carousel-trends')">&#10094;</button>
                 <!-- carrusel vacio que contendra shorts de canales en tendencia ingresados por js -->
-                <div class="carousel-trends" id="carousel-trends" >
+                <div class="carousel-trends" id="carousel-trends">
                     <!-- ejemplos para editar en css -->
                     <div class="short-card">
-                        <img src="./media/profile/gena.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat Dance</p>
+                        <img src="../media/home_media/profile/gena.jpg" alt="Video Thumbnail" class="short">
+                        <p class="name-channel">Cat dance</p>
                         <p class="sub-channel">12k views • 3h ago</p>
                     </div>
                     <div class="short-card">
-                        <img src="./media/profile/gena.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny Cats</p>
+                        <img src="../media/home_media/profile/gena.jpg" alt="Video Thumbnail" class="short">
+                        <p class="name-channel">Funny cats</p>
                         <p class="sub-channel">9k views • 1d ago</p>
                     </div>
                     <div class="short-card">
-                        <img src="./media/profile/gena.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat Fight!</p>
+                        <img src="../media/home_media/profile/gena.jpg" alt="Video Thumbnail" class="short">
+                        <p class="name-channel">Cat fight!</p>
                         <p class="sub-channel">5k views • 2d ago</p>
                     </div>
                     <div class="short-card">
-                        <img src="./media/profile/gena.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat Fight!</p>
+                        <img src="../media/home_media/profile/gena.jpg" alt="Video Thumbnail" class="short">
+                        <p class="name-channel">Cat fight!</p>
                         <p class="sub-channel">5k views • 2d ago</p>
                     </div>
                     <div class="short-card">
-                        <img src="./media/profile/gena.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat Fight!</p>
+                        <img src="../media/home_media/profile/gena.jpg" alt="Video Thumbnail" class="short">
+                        <p class="name-channel">Cat fight!</p>
                         <p class="sub-channel">5k views • 2d ago</p>
                     </div>
                     <div class="short-card">
-                        <img src="./media/profile/gena.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat Fight!</p>
+                        <img src="../media/home_media/profile/gena.jpg" alt="Video Thumbnail" class="short">
+                        <p class="name-channel">Cat fight!</p>
                         <p class="sub-channel">5k views • 2d ago</p>
                     </div>
                     <div class="short-card">
-                        <img src="./media/profile/gena.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat Fight!</p>
+                        <img src="../media/home_media/profile/gena.jpg" alt="Video Thumbnail" class="short">
+                        <p class="name-channel">Cat fight!</p>
                         <p class="sub-channel">5k views • 2d ago</p>
                     </div>
                     <div class="short-card">
-                        <img src="./media/profile/gena.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat Fight!</p>
+                        <img src="../media/home_media/profile/gena.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Cat fight!</p>
                         <p class="sub-channel">5k views • 2d ago</p>
                     </div>
                 </div>
                 <!-- boton der -->
-                <button class="carousel-btn right" aria-label="Next trending videos" onclick="scrollCarousel('right', 'carousel-trends')">&#10095;</button>
+                <button class="carousel-btn right" aria-label="Next trending videos"
+                    onclick="scrollCarousel('right', 'carousel-trends')">&#10095;</button>
             </div>
         </section>
 
         <!-- titulo de la seccion -->
         <section class="subscriptions">
             <h2 class="subtitle">Catscribers</h2>
-        
+
             <!-- contiene botones y contenido del carrusel -->
             <div class="carousel-container">
                 <!-- boton izq -->
-                <button class="carousel-btn left" aria-label="Previous subscription videos" onclick="scrollCarousel('left', 'carousel-subs')">&#10094;</button>
+                <button class="carousel-btn left" aria-label="Previous subscription videos"
+                    onclick="scrollCarousel('left', 'carousel-subs')">&#10094;</button>
                 <!-- carrusel vacio que contendra los videos de las subs del usuario ingresados por js -->
-                <div class="carousel-subs" id="carousel-subs" >
+                <div class="carousel-subs" id="carousel-subs">
                     <!-- ejemplos para editar en css -->
                     <div class="video-card">
-                        <img src="./media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail" class="video-thumb">
+                        <img src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                            class="video-thumb">
                         <p class="name-channel">YourCat</p>
                         <p class="sub-channel">8k views • 2h ago</p>
                     </div>
                     <div class="video-card">
-                        <img src="./media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail" class="video-thumb">
+                        <img src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                            class="video-thumb">
                         <p class="name-channel">Daily Purrs</p>
                         <p class="sub-channel">2k views • 5h ago</p>
                     </div>
                     <div class="video-card">
-                        <img src="./media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail" class="video-thumb">
+                        <img src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                            class="video-thumb">
                         <p class="name-channel">Daily Purrs</p>
                         <p class="sub-channel">2k views • 5h ago</p>
                     </div>
                     <div class="video-card">
-                        <img src="./media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail" class="video-thumb">
+                        <img src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                            class="video-thumb">
                         <p class="name-channel">Daily Purrs</p>
                         <p class="sub-channel">2k views • 5h ago</p>
                     </div>
                     <div class="video-card">
-                        <img src="./media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail" class="video-thumb">
+                        <img src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                            class="video-thumb">
                         <p class="name-channel">Daily Purrs</p>
                         <p class="sub-channel">2k views • 5h ago</p>
                     </div>
                     <div class="video-card">
-                        <img src="./media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail" class="video-thumb">
+                        <img src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                            class="video-thumb">
                         <p class="name-channel">Daily Purrs</p>
                         <p class="sub-channel">2k views • 5h ago</p>
                     </div>
                 </div>
                 <!-- boton der -->
-                <button class="carousel-btn right" aria-label="Next subscription videos" onclick="scrollCarousel('right', 'carousel-subs')">&#10095;</button>
+                <button class="carousel-btn right" aria-label="Next subscription videos"
+                    onclick="scrollCarousel('right', 'carousel-subs')">&#10095;</button>
             </div>
         </section>
 
         <!-- ads -->
         <div class="ads">
-            <img class="img-ads" src="./media/ads/offers.png" alt="Oferta de camaras Instax" loading="lazy">
+            <img class="img-ads" src="../media/home_media/ads/offers.png" alt="Oferta de camaras Instax" loading="lazy">
         </div>
     </main>
     <script src="carousel.js"></script>
 </body>
+
 </html>

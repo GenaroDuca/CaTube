@@ -1,13 +1,13 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; /*controla el tamaño y evita errores de diseño*/
 }
 
 body {
     background-color: #1F1F20;
     font-family: 'Poppins', sans-serif;
-    color:#777878;
+    color: #777878;
 }
 
 .header {
@@ -18,7 +18,7 @@ body {
     padding: 0 1rem; /*'root em' tamaño relativo a la fuente raiz: default 16px*/
     background-color: #1E1E1F;
     /*box-shadow: x-y-blur-expansion*/
-    box-shadow: 0px 10px 10px 0px rgba(117, 117, 117, 0.10); /*sombra*/
+    box-shadow: 0px 0px 100px 0px rgba(0, 0, 0, 0.253); /*sombra*/
     gap: 1rem;
     flex-wrap: wrap; /*responsive*/
 }
@@ -36,18 +36,27 @@ body {
     align-items: center;
     gap: 0.05rem; 
 }
-/* icon conf */
+/* icon buttons conf */
 .menu-btn, .mic-btn, .notify-btn, .user-btn {
     background: none;
     border: none;
     color: #777878;
     cursor: pointer;
-    font-size: 1.2rem; /*los iconos de la libreria se comportan como caracteres especiales*/
+    font-size: 1.2rem; /* icons behave like special characters */
     width: 32px;
     height: 32px; /* width y height controlan el size del boton, no del icono*/
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: color 0.3s ease; /* Apply transition here */
+}
+
+/* icon buttons hover */
+.menu-btn:hover,
+.mic-btn:hover,
+.notify-btn:hover, 
+.user-btn:hover {
+    color:#90B484; /* Only change the property */
 }
 
 /*--------- Left Section--------- */
@@ -99,19 +108,23 @@ body {
 }
 
 .search-btn {
-    background-color: #a3d9a5;
+    background-color: #90B484;
     padding: 8px 12px;
     border: none;
     color: #1F1F20;
     font-size: 1rem;
     cursor: pointer;
+    transition: background-color 0.3s ease; /* Apply transition here */
 }
 
+.search-btn:hover   {
+    background-color: #749269; /* Only change the property */
+}
 /* --------- Right Section--------- */
 
 .create-btn {
     background-color: #1a1a1b;
-    border-radius: 20px;
+    border-radius: 30px;
     padding: 10px;
     color: #777878;
     font-size: 1.2rem;
@@ -120,10 +133,11 @@ body {
     gap: 8px;
     cursor: pointer;
     border: none;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Apply transition here */
 }
 
-.create-btn i:first-child {
-    background-color: #a3d9a5;
+.create-btn i { /* Simplified selector */
+    background-color: #90B484;
     color: #1a1a1b;
     border-radius: 50%;
     width: 24px;
@@ -134,13 +148,17 @@ body {
     font-size: 1rem;
 }
 
+.create-btn:hover   {
+    background-color: #749269;
+    color: black;
+}
+
 .account-section {
     background-color: #1a1a1b;
     border-radius: 20px;
     padding: 5px 10px;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
     .search-section {
         order: 3;
@@ -154,122 +172,17 @@ body {
         padding: 0.5rem;
         height: auto;
     }
-}
 
-/* --------- Right Section--------- */
-
-.create-btn {
-    background-color: #a3d9a5;
-    border-radius: 20px;
-    padding: 5px 10px;
-    color: #1F1F20;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    cursor: pointer;
-    border: none;
-    font-size: 0.95rem;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-    .search-section {
-        order: 3;
+    .left-section, .right-section {
+        justify-content: center;
         width: 100%;
-        margin-top: 0.5rem;
     }
 
-    .header {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 0.5rem;
-        height: auto;
+    .logo {
+        height: 24px;
     }
-}
 
-/* --------- Dashboard Section--------- */
-
-#title {
-    font-size: 20px;
-    color: #FFFFFF;
-    display: flex;
-    justify-content: baseline;
-}
-
-.left-menu {
-    height: 1000px;
-    width: 240px;
-    background-color: #1A1A1B;
-}
-
-.container {
-    display: flex;
-   
-}
-
-.content {
-    display: flex;
-    flex-direction: row;
-    
-
-}
-
-.top-row {
-    display: flex;
-    flex-direction: column;
- 
-}
-
-.dash{
-    margin-left: 10px;
-    font-size: 28px;
-    color: #FFFFFF;
-    padding: 20px;
-}
-
-.subtitle{
-    font-size: 22px;
-    color:#FFFFFF;
-    margin-left: 35px;
-    margin-top: 20px;
-}
-
-.line-color{
-    width: 68px;
-    height: 1px;
-    margin-left: 35px;
-    background-color:#FFFFFF;
- 
-}
-
-.line{
-    width: 1062px;
-    height: 1px;
-    background-color:#FFFFFF;
-    opacity: 15%;
- 
-}
-
-.channel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin: 10px;
-    margin-right: 45px;
-    padding: 20px;
-    position: absolute;
-    right: 0;
-}
-
-.channel-photo {
-    width: 100px;
-    height: 100px;
-    margin-top: 35px;
-    background-color: #D9D9D9;
-    border-radius: 50%;
-}
-
-.cn{
-    font-size: 28px;
+    .title {
+        font-size: 1rem;
+    }
 }
