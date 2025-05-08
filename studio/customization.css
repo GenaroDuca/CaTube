@@ -1,0 +1,86 @@
+/* --------- Customization Section--------- */
+
+#title {
+    font-size: 20px;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: baseline;
+}
+
+.left-menu {
+    height: 1000px;
+    width: 240px;
+    background-color: #1A1A1B;
+}
+
+.container {
+    display: flex;
+   
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    
+
+}
+
+.top-row {
+    display: flex;
+    flex-direction: column;
+ 
+}
+
+.dash{
+    margin-left: 10px;
+    font-size: 28px;
+    color: #FFFFFF;
+    padding: 20px;
+}
+
+.subtitle{
+    font-size: 22px;
+    color:#FFFFFF;
+    margin-left: 35px;
+    margin-top: 20px;
+}
+
+.line-color{
+    width: 68px;
+    height: 1px;
+    margin-left: 35px;
+    background-color:#FFFFFF;
+ 
+}
+
+.line{
+    width: 1062px;
+    height: 1px;
+    background-color:#FFFFFF;
+    opacity: 15%;
+ 
+}
+
+.channel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 10px;
+    margin-right: 45px;
+    padding: 20px;
+    position: absolute;
+    right: 0;
+}
+
+.channel-photo {
+    width: 100px;
+    height: 100px;
+    margin-top: 35px;
+    background-color: #D9D9D9;
+    border-radius: 50%;
+}
+
+.cn{
+    font-size: 28px;
+}
