@@ -28,7 +28,7 @@ for (let index = 0; index < input.length; index++) {
             const value = input[index].value;
             const isValidUsernameChars = /^[a-zA-Z0-9_]+$/.test(value);
         // Signup username validation
-            if (value.length < 6 || value.length > 20 || (value.length > 0 && !isValidUsernameChars)) { // Verifica longitud y caracteres válidos (si no está vacío)
+            if (value.length < 5 || value.length > 20 || (value.length > 0 && !isValidUsernameChars)) { // Verifica longitud y caracteres válidos (si no está vacío)
                 input[index].classList.remove("correct-input");
                 input[index].classList.add("incorrect-input");
                 if (input[index].value.length == 0) {

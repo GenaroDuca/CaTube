@@ -1,164 +1,3 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box; /*controla el tamaño y evita errores de diseño*/
-}
-
-body {
-    background-color: #1F1F20;
-    font-family: 'Poppins', sans-serif;
-    color: #777878;
-}
-
-.header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height: 56px;
-    padding: 0 1rem; /*'root em' tamaño relativo a la fuente raiz: default 16px*/
-    background-color: #1E1E1F;
-    /*box-shadow: x-y-blur-expansion*/
-    box-shadow: 0px 0px 100px 0px rgba(0, 0, 0, 0.253); /*sombra*/
-    gap: 1rem;
-    flex-wrap: wrap; /*responsive*/
-}
-
-/*-------Sections--------*/
-
-.left-section, .search-section, .right-section {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-}
-
-.account-section {
-    display: flex;
-    align-items: center;
-    gap: 0.05rem; 
-}
-/* icon buttons conf */
-.menu-btn, .mic-btn, .notify-btn, .user-btn {
-    background: none;
-    border: none;
-    color: #777878;
-    cursor: pointer;
-    font-size: 1.2rem; /* icons behave like special characters */
-    width: 32px;
-    height: 32px; /* width y height controlan el size del boton, no del icono*/
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: color 0.3s ease; /* Apply transition here */
-}
-
-/* icon buttons hover */
-.menu-btn:hover,
-.mic-btn:hover,
-.notify-btn:hover, 
-.user-btn:hover {
-    color:#90B484; /* Only change the property */
-}
-
-/*--------- Left Section--------- */
-
-.logo {
-    height: 32px;
-}
-
-.title {
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: #777878;
-}
-
-/* --------- Mid Section--------- */
-
-.search-section {
-    flex: 1; /*puede crecer o decrecer*/
-    max-width: 500px; /*limite max*/
-}
-
-.mic-section {
-    background-color: #1a1a1b;
-    border-radius: 50%;
-    height: 36px;
-    width: 36px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.bar-section {
-    display: flex;
-    align-items: center;
-    background-color: #1a1a1b;
-    border-radius: 20px;
-    overflow: hidden;
-    flex: 1;
-}
-
-.search-section input {
-    background: transparent;
-    border: none;
-    color: #777878;
-    padding: 8px 12px;
-    flex: 1;
-    min-width: 120px;
-    font-size: 0.95rem;
-}
-
-.search-btn {
-    background-color: #90B484;
-    padding: 8px 12px;
-    border: none;
-    color: #1F1F20;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease; /* Apply transition here */
-}
-
-.search-btn:hover   {
-    background-color: #749269; /* Only change the property */
-}
-/* --------- Right Section--------- */
-
-.create-btn {
-    background-color: #1a1a1b;
-    border-radius: 30px;
-    padding: 10px;
-    color: #777878;
-    font-size: 1.2rem;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    border: none;
-    transition: background-color 0.3s ease, color 0.3s ease; /* Apply transition here */
-}
-
-.create-btn i { /* Simplified selector */
-    background-color: #90B484;
-    color: #1a1a1b;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-}
-
-.create-btn:hover   {
-    background-color: #749269;
-    color: black;
-}
-
-.account-section {
-    background-color: #1a1a1b;
-    border-radius: 20px;
-    padding: 5px 10px;
-}
-
 /*------------Body-----------*/
 
 /*ADS*/
@@ -178,34 +17,23 @@ body {
 .popular-channels, .trending, .subscriptions {
     background-color: #1a1a1b;
     width: 95%;
-    height: 15rem;
+    height: auto;
     padding: 1rem 2rem;
     margin: 1rem auto;
     border-radius: 30px;
 }
-
-.trending {
-    height: 29rem;
-}
-
-.subscriptions {
-    height: 23rem;
-}
-
 
 /*carruseles*/
 
 .carousel-container {
     /* para posicionar las flechas */
     position: relative; 
-    padding: 0 50px;
     gap: 1rem;
-    margin: 2rem auto;
 }
 
 .carousel-btn {
     position: absolute;
-    top: 50%;
+    top: 44%;
     transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
@@ -240,6 +68,7 @@ body {
 .carousel-trends,
 .carousel-subs {
     display: flex;
+    align-items: center;
     gap: 1rem;
     overflow-x: auto; /*permite el desplazamiento horizontal*/
     scroll-behavior:smooth; /*suaviza el desplazamiento*/
@@ -269,6 +98,7 @@ body {
     color:#777878;
     font-size: 1.2rem;
     font-weight: bold;
+    margin-bottom: 1rem;
 }
 
 .profile-photo {
@@ -291,11 +121,15 @@ body {
 
 /*shorts*/
 
-.short {
+.short-card {
     width: 190px;
-    height: 300px;
-    border-radius: 30px;
-    overflow: hidden;
+    height: auto; 
+}
+
+.short {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
     transition: transform 0.3s ease; /* Apply transition here */
 }
 
@@ -318,7 +152,6 @@ body {
 }
 
 .video-card {
-    text-align: center;
     width: 377px;
 }
 /*------------Responsive-----------*/
@@ -326,33 +159,6 @@ body {
 /*media query: regla de css aplicar estilos solo cuando se cumple una condición específica relacionada con el tamaño o características de la pantalla*/
 
 @media (max-width: 768px) {
-    /* Header */
-    .search-section {
-        order: 3;
-        width: 100%;
-        margin-top: 0.5rem;
-    }
-
-    .header {
-        flex-direction: column;
-        align-items: stretch;
-        padding: 0.5rem;
-        height: auto;
-    }
-
-    .left-section, .right-section {
-        justify-content: center;
-        width: 100%;
-    }
-
-    .logo {
-        height: 24px;
-    }
-
-    .title {
-        font-size: 1rem;
-    }
-
     /* Carruseles */
     .carousel-container {
         padding: 0 20px; /* Reduce el padding lateral */
@@ -369,30 +175,17 @@ body {
     }
 
     .video-thumb {
-        width: 100%; /* Ajusta las miniaturas al ancho del contenedor */
+        width: 277px; /* Ajusta las miniaturas al ancho del contenedor */
         border-radius: 20px; /* Reduce el borde redondeado */
     }
 
     /* Secciones */
     .popular-channels, .trending, .subscriptions {
         width: 100%; /* Ocupa todo el ancho disponible */
-        padding: 1rem;
-        margin: 1rem 0;
     }
 
-    .trending {
+    .trending, .subscriptions {
         height: auto; /* Ajusta la altura automáticamente */
-    }
-
-    .subscriptions {
-        height: auto; /* Ajusta la altura automáticamente */
-    }
-
-    /* Shorts */
-    .short {
-        width: 100%; /* Ocupa todo el ancho disponible */
-        height: auto; /* Ajusta la altura automáticamente */
-        border-radius: 20px; /* Reduce el borde redondeado */
     }
 
     /* Texto */
@@ -402,6 +195,7 @@ body {
 
     .subtitle {
         font-size: 1rem; /* Ajusta el tamaño del subtítulo */
+        
     }
 
     /* ADS */
