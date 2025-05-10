@@ -1,4 +1,15 @@
 /* --------- Customization Section--------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #1F1F20;
+    font-family: 'Poppins', sans-serif;
+    color:#777878;
+}
 
 #title {
     font-size: 20px;
@@ -38,14 +49,14 @@
     padding: 20px;
 }
 
-.subtitle{
+.title-profile{
     font-size: 22px;
     color:#FFFFFF;
     margin-left: 35px;
     margin-top: 20px;
 }
 
-.line-color{
+.line-color-customization {
     width: 68px;
     height: 1px;
     margin-left: 35px;
@@ -59,6 +70,110 @@
     background-color:#FFFFFF;
     opacity: 15%;
  
+}
+
+.subtitle-customization {
+    font-size: 18px;
+    padding: 20px;
+    color:#FFFFFF;
+    margin-left: 16px;
+}
+
+.card-customization{ 
+    background-color: #1a1a1b;
+    height: 220px;
+    width: 350px;
+    margin-left: 35px;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.tv{
+    width: 205px;
+    height: 175px;
+    margin-bottom: 20px;
+    top: 0px;   /* Ajusta según lo necesites */
+    left: 0px; /* Ajusta según lo necesites */
+}
+
+.banner-tv{
+height: 102px;
+      width: 150px;
+    background-color: aqua;
+    position: absolute;
+     top: 52px;   /* Ajusta según lo necesites */
+    left: 90px; /* Ajusta según lo necesites */
+}
+
+.pc{
+    position: absolute;
+    top: 75px;   /* Ajusta según lo necesites */
+    left: 90px; /* Ajusta según lo necesites */
+}
+
+.banner-pc{
+height: 25px;
+      width: 104px;
+    background-color: aqua;
+    position: absolute;
+     top:113px;   /* Ajusta según lo necesites */
+    left: 115px; /* Ajusta según lo necesites */
+}
+
+.cel{
+    position: absolute;
+    top: 80px;  /* Ajusta según lo necesites */
+    left: 215px; /* Ajusta según lo necesites */
+}
+
+.banner-cel{
+height: 12px;
+      width: 46px;
+    background-color: aqua;
+    position: absolute;
+     top:102px;   /* Ajusta según lo necesites */
+    left: 246px; /* Ajusta según lo necesites */
+}
+
+.channel-photo-card {
+    width: 175px;
+    height: 175px;
+    background-color: #D9D9D9;
+    border-radius: 50%;
+}
+
+.rectangle-customization {
+    width: 1027px;
+    height: 55px;
+    margin-left: 35px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 15px;
+}
+
+.rectangle-customization-description{
+    width: 1027px;
+    height: 155px;
+    margin-left: 35px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 15px;
+    overflow-y: auto; /* Permite scroll si el texto es muy largo */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.text-customization {
+    font-size: 18px;
+    color: #FFFFFF;
+    margin-left: 20px;
+    margin-top: 15px;
+    opacity: 1; 
+    max-width: 972px;
+    word-break: break-word;
 }
 
 .channel {
