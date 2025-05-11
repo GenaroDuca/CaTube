@@ -16,12 +16,6 @@ document.getElementById("go-to-login").addEventListener("click", () => {
 const input = document.getElementsByClassName("input");
 const signupBtn = document.getElementById("signup-btn"); // Asegúrate que tu botón de signup tenga id="signup-btn"
 
-let user = {
-    username: "",
-    email: "",
-    password: ""
-}
-
 for (let index = 0; index < input.length; index++) {
     input[index].addEventListener("input", () => {
         if (index == 2) {
