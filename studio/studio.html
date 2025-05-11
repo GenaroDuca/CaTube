@@ -6,21 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="community.css">
-    <link rel="stylesheet" href="customization.css">
-    <link rel="stylesheet" href="dashboard.css">
-
-    <link rel="stylesheet" href="../header.css">
     <!-- libreria Font Awesome para iconos -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Material Icons -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../header/header.css">
 </head>
 
 <body>
     <header class="header">
         <!-- Menu y logo -->
         <div class="left-section">
-            <img src="../media/header_media/logo/catube_white.svg" alt="CaTube logo" class="logo">
-            <span class="title">Studio</span>
+            <!-- i se usa como contenedor de iconos -->
+            <a href="../home/home.html"><img src="../media/header_media/logo/catube_white.svg" alt="CaTube logo"
+                    class="logo"></a>
+            <span class="title">CaTube</span>
         </div>
 
         <!-- Seccion de busqueda -->
@@ -43,482 +46,607 @@
 
             <div class="account-section">
                 <button class="notify-btn"><i class="fas fa-bell"></i></button>
-                <button class="user-btn"><i class="fas fa-user"></i></button>
+                <a href="../register/register.html"><button class="user-btn"><i class="fas fa-user"></i></button></a>
             </div>
         </div>
     </header>
 
-    <!-- Community -->
-    <div class="container">
-
+    <aside>
         <div class="left-menu">
+            <aside class="sidebar">
+                <!-- Sidebar Header -->
+                <header class="sidebar-header"></header>
+                <!-- Sidebar Navigation -->
+                <nav class="sidebar-nav">
+                    <!-- Primary Navigation Top Nav -->
+                    <ul class="nav-list primary-nav">
+                        <li class="nav-item">
+                            <button type="button" class="nav-link active">
+                                <span class="nav-icon material-symbols-outlined">dashboard</span>
+                                <span class="nav-label">Dashboard</span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">slideshow</span>
+                                <span class="nav-label">Content</span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">analytics</span>
+                                <span class="nav-label">Analytics</span>
+                            </button>
+                        </li>
+
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">groups</span>
+                                <span class="nav-label">Community</span>
+                            </button>
+                        </li>
+
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">store</span>
+                                <span class="nav-label">Store</span>
+                            </button>
+                        </li>
+
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">payments</span>
+                                <span class="nav-label">Earn</span>
+                            </button>
+                        </li>
+
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">colorize</span>
+                                <span class="nav-label">Customization</span>
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Secondary Bottom Nav -->
+                    <ul class="nav-list secondary-nav">
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">settings</span>
+                                <span class="nav-label">Settings</span>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+
+            </aside>
         </div>
 
-        <div class="content">
-            <div class="top-row">
-                <h1 class="dash">Community</h1>
-                <h1 class="subtitle">Comments</h1>
-                <div class="line-color">
-
-                </div>
-
-                <div class="line">
-
-                </div>
-
-                <div class="video">
-
-                    <div class="user-photo">
-
-                    </div>
-
-                    <div class="user-container">
-
-                        <h1 class="username">@user1</h1>
-
-                        <h1 class="user-message">user message</h1>
-
-                        <div class="lca">
-
-                            <button class="btn">
-                                Reply
-                            </button>
-
-                            <img src="../media/studio_media/likes.png" alt="like">
-
-                            <img src="../media/studio_media/dislikes.png" alt="dislike">
-
-                            <img src="../media/studio_media/catlove_icon.png" alt="catlove">
-
-                            <img src="../media/studio_media/settings.png" alt="settings">
-
-
-
-                        </div>
-
-
-
-
-                    </div>
-
-                    <div class="video-commented"></div>
-                    <div class="video-title">Title of video</div>
-
-                </div>
-
-                <div class="line">
-
-                </div>
-
-                <div class="video">
-
-                    <div class="user-photo">
-
-                    </div>
-
-                    <div class="user-container">
-
-                        <h1 class="username">@user1</h1>
-
-                        <h1 class="user-message">user message</h1>
-
-                        <div class="lca">
-
-                            <button class="btn">
-                                Reply
-                            </button>
-
-                            <img src="../media/studio_media/likes.png" alt="like">
-
-                            <img src="../media/studio_media/dislikes.png" alt="dislike">
-
-                            <img src="../media/studio_media/catlove_icon.png" alt="catlove">
-
-                            <img src="../media/studio_media/settings.png" alt="settings">
-
-
-
-
-                        </div>
-
-
-
-
-                    </div>
-
-                    <div class="video-commented"></div>
-                    <div class="video-title">Title of video</div>
-
-                </div>
-
-                <div class="line">
-
-                </div>
-
-                <div class="video">
-
-                    <div class="user-photo">
-
-                    </div>
-
-                    <div class="user-container">
-
-                        <h1 class="username">@user1</h1>
-
-                        <h1 class="user-message">user message</h1>
-
-                        <div class="lca">
-
-                            <button class="btn">
-                                Reply
-                            </button>
-
-                            <img src="../media/studio_media/likes.png" alt="like">
-
-                            <img src="../media/studio_media/dislikes.png" alt="dislike">
-
-                            <img src="../media/studio_media/catlove_icon.png" alt="catlove">
-
-                            <img src="../media/studio_media/settings.png" alt="settings">
-
-
-
-
-                        </div>
-
-
-
-
-                    </div>
-
-                    <div class="video-commented"></div>
-                    <div class="video-title">Title of video</div>
-
-                </div>
-                <div class="line">
-
-                </div>
-
-                <div class="video">
-
-                    <div class="user-photo">
-
-                    </div>
-
-                    <div class="user-container">
-
-                        <h1 class="username">@user1</h1>
-
-                        <h1 class="user-message">user message</h1>
-
-                        <div class="lca">
-
-                            <button class="btn">
-                                Reply
-                            </button>
-
-                            <img src="../media/studio_media/likes.png" alt="like">
-
-                            <img src="../media/studio_media/dislikes.png" alt="dislike">
-
-                            <img src="../media/studio_media/catlove_icon.png" alt="catlove">
-
-                            <img src="../media/studio_media/settings.png" alt="settings">
-
-
-
-
-                        </div>
-
-
-
-
-                    </div>
-
-                    <div class="video-commented"></div>
-                    <div class="video-title">Title of video</div>
-
-                </div>
-                <div class="line">
-
-                </div>
-
-                <div class="video">
-
-                    <div class="user-photo">
-
-                    </div>
-
-                    <div class="user-container">
-
-                        <h1 class="username">@user1</h1>
-
-                        <h1 class="user-message">user message</h1>
-
-                        <div class="lca">
-
-                            <button class="btn">
-                                Reply
-                            </button>
-
-                            <img src="../media/studio_media/likes.png" alt="like">
-
-                            <img src="../media/studio_media/dislikes.png" alt="dislike">
-
-                            <img src="../media/studio_media/catlove_icon.png" alt="catlove">
-
-                            <img src="../media/studio_media/settings.png" alt="settings">
-
-
-
-
-                        </div>
-
-
-
-
-                    </div>
-
-                    <div class="video-commented"></div>
-                    <div class="video-title">Title of video</div>
-
-                </div>
-            </div>
-
-            <div class="channel">
-                <div class="channel-photo">
-
-                </div>
-                <h1 class="cn"> Channel Name</h1>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- Customization -->
-    <div class="container">
-
-        <div class="left-menu">
-
-
-        </div>
-
-        <div class="content">
-
-            <div class="top-row">
-
-                <h1 class="dash">Channel customization</h1>
-                <h1 class="subtitle">Profile</h1>
-                <div class="line-color">
-
-                </div>
-
-                <div class="line">
-
-                </div>
-
-
-
-
-
-                <div class="channel">
-                    <div class="channel-photo">
-
-                    </div>
-                    <h1 class="cn"> Channel Name</h1>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <!-- Dashboard -->
-    <div class="container">
-
-        <div class="left-menu">
-
-
-        </div>
-
-        <div class="content">
-            <div class="top-row">
-                <h1 class="dash">Channel Dashboard</h1>
-                <div class="three-cards">
-                    <div class="card">
-
-                        <h1 id="title"> Latest Video performance</h1>
-
-                        <div class="latest-video">
-
-                        </div>
-
-                        <div class="lca">
-                            <img src="../imgs/Likes.png" alt="like">
-                            <div id="likeCount">
-                                0
-                            </div>
-                            <img src="../imgs/Comments.png" alt="comments">
-                            <div id="commentsCount">0
-
-                            </div>
-                            <img src="../imgs/Analytics.png" alt="analytics">
-                            <div id="analyticsCount">0
-
+        <!-- Dashboard -->
+        <div class="container">
+            <div class="content-dashboard">
+                <div class="top-row">
+                    <h1 class="title-dashboard">Channel Dashboard</h1>
+                    <div class="three-cards">
+                        <div class="card">
+                            <h1 id="title">Latest Video performance</h1>
+
+                            <img class="latest-video" src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg"
+                                alt="video" />
+                            <div class="lca-dashboard">
+                                <img src="../media/studio_media/likes.png" alt="like" />
+                                <div id="likeCount">0</div>
+                                <img src="../media/studio_media/comments.png" alt="comments" />
+                                <div id="commentsCount">0</div>
+                                <img src="../media/studio_media/analytics.png" alt="analytics" />
+                                <div id="analyticsCount">0</div>
                             </div>
                         </div>
 
-                    </div>
+                        <div class="card">
+                            <h1 id="title">Latest comments</h1>
 
-                    <div class="card">
-                        <h1 id="title"> Latest comments </h1>
+                            <div class="all-videos">
+                                <div class="video-dashboard">
+                                    <img class="userphoto-dashboard" src="../media/home_media/profile/angel.jpg"
+                                        alt="angel" />
+                                    <div class="user">
+                                        <h1 class="username-dashboard">@user1</h1>
+                                        <h1 class="user-message-dashboard">user message</h1>
+                                    </div>
 
-                        <div class="all-videos">
-
-                            <div class="video">
-
-                                <div class="user-photo">
-
+                                    <img class="video-commented-dashboard"
+                                        src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video" />
                                 </div>
+                                <div class="video-dashboard">
+                                    <img class="userphoto-dashboard" src="../media/home_media/profile/gena.jpg"
+                                        alt="gena" />
+                                    <div class="user">
+                                        <h1 class="username-dashboard">@user1</h1>
+                                        <h1 class="user-message-dashboard">user message</h1>
+                                    </div>
+                                    <img class="video-commented-dashboard"
+                                        src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video" />
+                                </div>
+                                <div class="video-dashboard">
+                                    <img class="userphoto-dashboard" src="../media/home_media/profile/jere.jpg"
+                                        alt="jere" />
+                                    <div class="user">
+                                        <h1 class="username-dashboard">@user1</h1>
+                                        <h1 class="user-message-dashboard">user message</h1>
+                                    </div>
+                                    <img class="video-commented-dashboard"
+                                        src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video" />
+                                </div>
+                                <div class="video-dashboard">
+                                    <img class="userphoto-dashboard" src="../media/home_media/profile/yukki.jpg"
+                                        alt="yukki" />
+                                    <div class="user">
+                                        <h1 class="username-dashboard">@user1</h1>
+                                        <h1 class="user-message-dashboard">user message</h1>
+                                    </div>
+                                    <img class="video-commented-dashboard"
+                                        src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video" />
+                                </div>
+                                <div class="video-dashboard">
+                                    <img class="userphoto-dashboard" src="../media/home_media/profile/angel.jpg"
+                                        alt="angel" />
+                                    <div class="user">
+                                        <h1 class="username-dashboard">@user1</h1>
+                                        <h1 class="user-message-dashboard">user message</h1>
+                                    </div>
+                                    <img class="video-commented-dashboard"
+                                        src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video" />
+                                </div>
+                                <div class="video-dashboard">
+                                    <img class="userphoto-dashboard" src="../media/home_media/profile/gena.jpg"
+                                        alt="gena" />
+                                    <div class="user">
+                                        <h1 class="username-dashboard">@user1</h1>
+                                        <h1 class="user-message-dashboard">user message</h1>
+                                    </div>
+                                    <img class="video-commented-dashboard"
+                                        src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video" />
+                                </div>
+                                <button class="btn-dashboard">View more</button>
+                            </div>
+                        </div>
 
+                        <div class="card">
+                            <h1 id="title">Channel analytics</h1>
+                            <h1 class="subtitle-dashboard">Currents Catscribers</h1>
+                            <h1 class="sub-number">10.000</h1>
+                        </div>
+                    </div>
+
+                    <div class="card2">
+                        <h1 id="title">Recent catscribers</h1>
+
+                        <div class="recent-cats">
+                            <div class="video-dashboard">
+                                <img class="userphoto-dashboard" src="../media/home_media/profile/angel.jpg"
+                                    alt="angel" />
                                 <div class="user">
-                                    <h1 class="username">@user1</h1>
-                                    <h1 class="user-message">user message</h1>
+                                    <h1 class="username-dashboard">@user1</h1>
+                                    <h1 class="user-message-dashboard">0 catscribers</h1>
                                 </div>
-
-
-                                <div class="video-commented"></div>
-
-
-
-
                             </div>
-                            <div class="video">
-                                <div class="user-photo">
-                                </div>
+                            <div class="video-dashboard">
+                                <img class="userphoto-dashboard" src="../media/home_media/profile/gena.jpg"
+                                    alt="gena" />
                                 <div class="user">
-                                    <h1 class="username">@user1</h1>
-                                    <h1 class="user-message">user message</h1>
+                                    <h1 class="username-dashboard">@user1</h1>
+                                    <h1 class="user-message-dashboard">0 catscribers</h1>
                                 </div>
-                                <div class="video-commented"></div>
                             </div>
-                            <div class="video">
-                                <div class="user-photo">
-                                </div>
+                            <div class="video-dashboard">
+                                <img class="userphoto-dashboard" src="../media/home_media/profile/jere.jpg"
+                                    alt="jere" />
                                 <div class="user">
-                                    <h1 class="username">@user1</h1>
-                                    <h1 class="user-message">user message</h1>
+                                    <h1 class="username-dashboard">@user1</h1>
+                                    <h1 class="user-message-dashboard">0 catscribers</h1>
                                 </div>
-                                <div class="video-commented"></div>
                             </div>
-                            <div class="video">
-                                <div class="user-photo">
-                                </div>
+                            <div class="video-dashboard">
+                                <img class="userphoto-dashboard" src="../media/home_media/profile/yukki.jpg"
+                                    alt="yukki" />
                                 <div class="user">
-                                    <h1 class="username">@user1</h1>
-                                    <h1 class="user-message">user message</h1>
+                                    <h1 class="username-dashboard">@user1</h1>
+                                    <h1 class="user-message-dashboard">0 catscribers</h1>
                                 </div>
-                                <div class="video-commented"></div>
                             </div>
-                            <div class="video">
-                                <div class="user-photo">
-                                </div>
+                            <div class="video-dashboard">
+                                <img class="userphoto-dashboard" src="../media/home_media/profile/angel.jpg"
+                                    alt="angel" />
                                 <div class="user">
-                                    <h1 class="username">@user1</h1>
-                                    <h1 class="user-message">user message</h1>
+                                    <h1 class="username-dashboard">@user1</h1>
+                                    <h1 class="user-message-dashboard">0 catscribers</h1>
                                 </div>
-                                <div class="video-commented"></div>
                             </div>
-                            <div class="video">
-                                <div class="user-photo">
-                                </div>
+                            <div class="video-dashboard">
+                                <img class="userphoto-dashboard" src="../media/home_media/profile/gena.jpg"
+                                    alt="gena" />
                                 <div class="user">
-                                    <h1 class="username">@user1</h1>
-                                    <h1 class="user-message">user message</h1>
+                                    <h1 class="username-dashboard">@user1</h1>
+                                    <h1 class="user-message-dashboard">0 catscribers</h1>
                                 </div>
-                                <div class="video-commented"></div>
-                            </div>
-                            <button class="btn">
-                                View more
-                            </button>
-
-
-                        </div>
-                    </div>
-
-                    <div class="card">
-                        <h1 id="title"> Channel analytics</h1>
-                        <h1 class="subtitle">Currents Catscribers </h1>
-                        <h1 class="sub-number"> 10.000</h1>
-                    </div>
-                </div>
-
-                <div class="card2">
-                    <h1 id="title"> Recent catscribers</h1>
-
-                    <div class="recent-cats">
-
-
-                        <div class="video">
-                            <div class="user-photo">
-                            </div>
-                            <div class="user">
-                                <h1 class="username">@user1</h1>
-                                <h1 class="user-message">0 catscribers</h1>
-                            </div>
-                        </div>
-
-                        <div class="video">
-                            <div class="user-photo">
-                            </div>
-                            <div class="user">
-                                <h1 class="username">@user1</h1>
-                                <h1 class="user-message">0 catscribers</h1>
-                            </div>
-                        </div>
-                        <div class="video">
-                            <div class="user-photo">
-                            </div>
-                            <div class="user">
-                                <h1 class="username">@user1</h1>
-                                <h1 class="user-message">0 catscribers</h1>
-                            </div>
-                        </div>
-                        <div class="video">
-                            <div class="user-photo">
-                            </div>
-                            <div class="user">
-                                <h1 class="username">@user1</h1>
-                                <h1 class="user-message">0 catscribers</h1>
-                            </div>
-                        </div>
-                        <div class="video">
-                            <div class="user-photo">
-                            </div>
-                            <div class="user">
-                                <h1 class="username">@user1</h1>
-                                <h1 class="user-message">0 catscribers</h1>
-                            </div>
-                        </div>
-                        <div class="video">
-                            <div class="user-photo">
-                            </div>
-                            <div class="user">
-                                <h1 class="username">@user1</h1>
-                                <h1 class="user-message">0 catscribers</h1>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="channel">
-            <div class="channel-photo">
 
+        <!-- Content -->
+        <div class="container hide">
+            <div class="content-content">
+                <h1>En construccion...</h1>
             </div>
-            <h1 class="cn"> Channel Name</h1>
+        </div>
+        <!-- Analytics -->
+        <div class="container hide">
+            <div class="content-analytics">
+                <h1>En construccion...</h1>
+            </div>
         </div>
 
-    </div>
+        <!-- Community -->
+        <div class="container hide">
+            <div class="content-community">
+                <div class="top-row">
+                    <h1 class="title-community">Community</h1>
+                    <h1 class="subtitle-community">Comments</h1>
+                    <div class="line-color-comments"></div>
+
+                    <div class="line"></div>
+
+                    <div class="video-community">
+                        <img class="userphoto-community" src="../media/home_media/profile/angel.jpg" alt="angel" />
+
+                        <div class="user-container">
+                            <h1 class="username">@user1</h1>
+
+                            <h1 class="user-message-community">user message</h1>
+
+                            <div class="lca-community">
+                                <button class="btn-community">Reply</button>
+
+                                <img src="../media/studio_media/likes.png" alt="like" />
+
+                                <img src="../media/studio_media/dislikes.png" alt="dislike" />
+
+                                <img src="../media/studio_media/catlove_icon.png" alt="catlove" />
+
+                                <img src="../media/studio_media/settings.png" alt="settings" />
+                            </div>
+                        </div>
+
+                        <img class="video-commented-community"
+                            src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video" />
+                        <div class="video-title">Title of video</div>
+                    </div>
+
+                    <div class="line"></div>
+
+                    <div class="video-community">
+                        <img class="userphoto-community" src="../media/home_media/profile/gena.jpg" alt="gena" />
+                        <div class="user-container">
+                            <h1 class="username-community">@user1</h1>
+
+                            <h1 class="user-message-community">user message</h1>
+
+                            <div class="lca-community">
+                                <button class="btn-community">Reply</button>
+
+                                <img src="../media/studio_media/likes.png" alt="like" />
+
+                                <img src="../media/studio_media/dislikes.png" alt="dislike" />
+
+                                <img src="../media/studio_media/catlove_icon.png" alt="catlove" />
+
+                                <img src="../media/studio_media/settings.png" alt="settings" />
+                            </div>
+                        </div>
+
+                        <img class="video-commented-community"
+                            src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video" />
+                        <div class="video-title">Title of video</div>
+                    </div>
+
+                    <div class="line"></div>
+
+                    <div class="video-community">
+                        <img class="userphoto-community" src="../media/home_media/profile/jere.jpg" alt="jere" />
+                        <div class="user-container">
+                            <h1 class="username-community">@user1</h1>
+
+                            <h1 class="user-message-community">user message</h1>
+
+                            <div class="lca-community">
+                                <button class="btn-community">Reply</button>
+
+                                <img src="../media/studio_media/likes.png" alt="like" />
+
+                                <img src="../media/studio_media/dislikes.png" alt="dislike" />
+
+                                <img src="../media/studio_media/catlove_icon.png" alt="catlove" />
+
+                                <img src="../media/studio_media/settings.png" alt="settings" />
+                            </div>
+                        </div>
+
+                        <img class="video-commented-community"
+                            src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video" />
+                        <div class="video-title">Title of video</div>
+                    </div>
+                    <div class="line"></div>
+
+                    <div class="video-community">
+                        <img class="userphoto-community" src="../media/home_media/profile/yukki.jpg" alt="yukki" />
+                        <div class="user-container">
+                            <h1 class="username-community">@user1</h1>
+
+                            <h1 class="user-message-community">user message</h1>
+
+                            <div class="lca-community">
+                                <button class="btn-community">Reply</button>
+
+                                <img src="../media/studio_media/likes.png" alt="like" />
+
+                                <img src="../media/studio_media/dislikes.png" alt="dislike" />
+
+                                <img src="../media/studio_media/catlove_icon.png" alt="catlove" />
+
+                                <img src="../media/studio_media/settings.png" alt="settings" />
+                            </div>
+                        </div>
+
+                        <img class="video-commented-community"
+                            src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video" />
+                        <div class="video-title">Title of video</div>
+                    </div>
+                    <div class="line"></div>
+
+                    <div class="video-community">
+                        <img class="userphoto-community" src="../media/home_media/profile/angel.jpg" alt="angel" />
+
+                        <div class="user-container">
+                            <h1 class="username-community">@user1</h1>
+
+                            <h1 class="user-message-community">user message</h1>
+
+                            <div class="lca-community">
+                                <button class="btn-community">Reply</button>
+
+                                <img src="../media/studio_media/likes.png" alt="like" />
+
+                                <img src="../media/studio_media/dislikes.png" alt="dislike" />
+
+                                <img src="../media/studio_media/catlove_icon.png" alt="catlove" />
+
+                                <img src="../media/studio_media/settings.png" alt="settings" />
+                            </div>
+                        </div>
+
+                        <img class="video-commented-community"
+                            src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video" />
+                        <div class="video-title">Title of video</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Store -->
+        <div class="container hide">
+
+            <div class="content-store">
+                <h1>Your store</h1>
+                <hr>
+
+                <div class="add-container">
+
+                    <div class="btn-container">
+                        <p>Add new product</p>
+                        <button type="button"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+
+                <h1>Your products</h1>
+                <hr>
+                <div class="products-container">
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Earn -->
+        <div class="container hide">
+            <div class="content-earn">
+                <h1>Earn money with CaTube</h1>
+                <hr>
+                <div class="earn-options">
+                    <details>
+                        <summary>Membership</summary>
+                        <h4>Grow your community and earn money monthly</h4>
+                        <p>Offer exclusive benefits for paid members that will excite your audience. Users can join from
+                            your video and channel pages. You'll receive 70% of the net revenue.</p>
+                    </details>
+                    <hr>
+                    <details>
+                        <summary>Donations</summary>
+                        <p>Donations help you engage with your community and feel supported.</p>
+                    </details>
+                    <hr>
+                    <details>
+                        <summary>Store</summary>
+                        <h4>You can have your own integrated store in Catube.</h4>
+                        <button type="button">Your Store</button>
+                    </details>
+                </div>
+
+                <div class="ear-requirements">
+                    <h3>Requirements to Monetize</h3>
+
+                    <h4>Subscribers</h4>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-track">
+                            <div class="progress-bar-fill" id="subscribersProgressBarFill">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress-bar-labels">
+                        <span id="subscribersProgressStartLabel">Subscribers</span>
+                        <span id="subscribersProgressEndLabel">Target: 500</span>
+                    </div>
+
+                    <h4>Videos Uploaded</h4>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-track">
+                            <div class="progress-bar-fill" id="videosUploadedProgressBarFill"></div>
+                        </div>
+                    </div>
+                    <div class="progress-bar-labels">
+                        <span id="videosUploadedProgressStartLabel">Videos</span>
+                        <span id="videosUploadedProgressEndLabel">Target: 3</span>
+                    </div>
+
+                    <h4>Valid Public Watch Hours</h4>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-track">
+                            <div class="progress-bar-fill" id="watchHoursProgressBarFill"></div>
+                        </div>
+                    </div>
+                    <div class="progress-bar-labels">
+                        <span id="watchHoursProgressStartLabel">Hours</span>
+                        <span id="watchHoursProgressEndLabel">Target: 3000</span>
+                    </div>
+                    <div class="apply-btn-container">
+                        <button type="button" id="applyButton" disabled>Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customization -->
+        <div class="container hide">
+
+            <div class="content">
+                <div class="top-row">
+                    <h1 class="dash">Channel customization</h1>
+                    <h1 class="title-profile">Profile</h1>
+                    <div class="line-color-customization"></div>
+                    <div class="line"></div>
+                    <h1 class="subtitle-customization">Banner image</h1>
+                    <div class="card-customization">
+                        <img class="tv" src="../media/studio_media/tv.png" alt="tv" style="order: 1" />
+                        <img class="banner-tv" src="../media/studio_media/banner-tv.png" alt="banner-tv" />
+                        <img class="pc" src="../media/studio_media/pc.png" alt="computer" style="order: 2" />
+                        <img class="banner-pc" src="../media/studio_media/banner-pc.png" alt="banner-pc" />
+                        <img class="cel" src="../media/studio_media/cel.png" alt="cel" style="order: 3" />
+                        <img class="banner-cel" src="../media/studio_media/banner-cel.png" alt="banner.cel" />
+                    </div>
+                    <h1 class="subtitle-customization">Picture</h1>
+                    <div class="card-customization">
+                        <img class="channel-photo-card" src="../media/home_media/profile/angel.jpg" alt="angel" />
+                    </div>
+                    <h1 class="subtitle-customization">Name</h1>
+                    <div class="rectangle-customization">
+                        <div class="text-customization">name</div>
+                    </div>
+                    <h1 class="subtitle-customization">Handle</h1>
+                    <div class="rectangle-customization">
+                        <div class="text-customization">@name</div>
+                    </div>
+                    <h1 class="subtitle-customization">Description</h1>
+                    <div class="rectangle-customization-description">
+                        <div class="text-customization">
+                            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Cupiditate odit excepturi
+                            temporibus vel aliquam accusamus neque et. Omnis nihil quia adipisci quasi necessitatibus
+                            doloremque, sint magnam deserunt. Minima, natus hic.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-menu">
+            <img src="../media/home_media/profile/angel.jpg" alt="angel" />
+            <h1>Channel Name</h1>
+        </div>
+    </aside>
+
+    <script src="script.js"></script>
+    <script src="../header/header.js"></script>
 
 </body>
 
