@@ -71,13 +71,14 @@ aside {
 .dashboard-card {
     background-color: #1a1a1b;
     flex: 1 1 430px;
-    border-radius: 15px;
+    border-radius: 30px;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 10px 0px 10px 0px;
     gap: 10px;
     text-align: center;
+    margin: 10px
 }
 
 .dashboard-card h3 {
@@ -270,6 +271,15 @@ aside {
 @media (max-width: 850px) {
     .video-community {
         flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .dashboard-card {
+        margin: 0;
+    }
+
+    .container {
+        padding: 10px;
     }
 
     .user-container {

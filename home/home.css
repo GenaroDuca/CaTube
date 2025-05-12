@@ -204,7 +204,7 @@ a {
 .sidebar {
   width: 270px;
   position: fixed;
-  margin: 16px;
+  margin: 15px 0px 0px 15px;
   border-radius: 20px;
   background: var(--primary-color);
   height: calc(100vh - 32px);
@@ -339,6 +339,27 @@ a {
 
 @media (max-width: 768px) {
 
+  .sidebar {
+    width: 200px;
+    margin: 0;
+    border-radius: 0px;
+  }
+
+  .sidebar-header {
+    padding: 60px 0px 0px 76px;
+  }
+
+  .sidebar.collapsed {
+    width: 70px;
+  }
+
+  .sidebar-nav .nav-list {
+    padding: 0px 5px;
+  }
+
+  .main-content {
+    margin-left: 70px;
+  }
 
   /* Carruseles */
   .carousel-container {
