@@ -48,10 +48,10 @@ aside {
 
 .three-cards {
     display: flex;
-    flex-wrap: wrap; 
-    justify-content: space-around; 
+    flex-wrap: wrap;
+    justify-content: space-around;
     margin-top: 5px;
-    gap: 10px; 
+    gap: 10px;
 }
 
 .lca-dashboard {
@@ -59,11 +59,11 @@ aside {
     align-items: center;
     align-self: center;
     justify-content: space-between;
-    gap: clamp(8px, 2vw, 15px);  
+    gap: clamp(8px, 2vw, 15px);
 }
 
 .lca div {
-    font-size: clamp(0.8rem, 2vw, 1rem); 
+    font-size: clamp(0.8rem, 2vw, 1rem);
     font-weight: bold;
     margin-right: clamp(5px, 1vw, 10px);
 }
@@ -78,7 +78,7 @@ aside {
     padding: 10px 0px 10px 0px;
     gap: 10px;
     text-align: center;
-} 
+}
 
 .dashboard-card h3 {
     margin: 0;
@@ -88,7 +88,7 @@ aside {
     width: 80%;
     height: auto;
     aspect-ratio: 16/9;
-    object-fit: cover; 
+    object-fit: cover;
     background-color: #d9d9d9;
     border-radius: 15px;
 }
@@ -108,27 +108,27 @@ aside {
 
 .video-dashboard {
     display: flex;
-    justify-content: center; 
-    align-items: center; 
-    gap: 15px; 
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
 }
 
 
 .userphoto-dashboard {
-    width: clamp(40px, 10vw, 60px); 
-    height: clamp(40px, 10vw, 60px); 
-    object-fit: cover; 
+    width: clamp(40px, 10vw, 60px);
+    height: clamp(40px, 10vw, 60px);
+    object-fit: cover;
     border-radius: 50%;
     margin-left: 20px;
 }
 
 .user {
     font-size: clamp(0.7rem, 1.8vw, 0.9rem);
-    padding: 5px; 
-    margin-top: 0; 
+    padding: 5px;
+    margin-top: 0;
     text-align: left;
     flex-grow: 1;
-    
+
 }
 
 .username-dashboard {
@@ -140,7 +140,7 @@ aside {
 .video-commented-dashboard {
     width: clamp(70px, 18vw, 90px);
     height: auto;
-    aspect-ratio: 16/9; 
+    aspect-ratio: 16/9;
     object-fit: cover;
     background-color: #d9d9d9;
     border-radius: 5px;
@@ -148,7 +148,7 @@ aside {
 }
 
 .subtitle-dashboard {
-    font-size: clamp(0.85rem, 2.2vw, 1.1rem); 
+    font-size: clamp(0.85rem, 2.2vw, 1.1rem);
     display: flex;
     justify-content: baseline;
     margin-top: 15px;
@@ -159,8 +159,8 @@ aside {
 }
 
 .btn-dashboard {
-   
-    padding: clamp(8px, 1.5vw, 12px) clamp(15px, 3vw, 25px); 
+
+    padding: clamp(8px, 1.5vw, 12px) clamp(15px, 3vw, 25px);
     background-color: #90B484;
     border-radius: 25px;
     border: 2px solid;
@@ -180,124 +180,109 @@ aside {
 
 /* --------- Community Section--------- */
 .content-community {
-    display: flex;
-    flex-direction: row;
-}
-
-.top-row {
+    width: 100%;
     display: flex;
     flex-direction: column;
-}
 
-.title-community {
-    margin-left: 10px;
-    font-size: 28px;
-    padding: 20px;
-}
-
-.subtitle-community {
-    font-size: 22px;
-
-}
-
-.line-color-comments {
-    width: 115px;
-    height: 1px;
-    margin-left: 35px;
-}
-
-.line {
-    width: 1062px;
-    height: 1px;
-    background-color: #777878;
-    opacity: 15%;
 }
 
 .video-community {
+    margin-top: 20px;
+    width: 100%;
+    background-color: #1a1a1b;
+    border-radius: 30px;
     display: flex;
-    justify-content: row;
-    width: 1000px;
-    margin-left: 45px;
-    margin-top: 25px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: clamp(15px, 3vw, 20px);
+    gap: clamp(15px, 3vw, 20px);
 }
 
 .userphoto-community {
-    width: 100px;
-    height: 100px;
+    width: clamp(60px, 12vw, 80px);
+    height: clamp(60px, 12vw, 80px);
     border-radius: 50%;
-    margin-bottom: 25px;
+    flex-shrink: 0;
 }
 
 .user-container {
     display: flex;
+    align-items: center;
+    gap: clamp(10px, 2vw, 15px);
+    flex: 1;
+}
+
+.use-info-container {
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    font-size: 8px;
-    padding: 10px;
-    margin-left: 10px;
-}
-
-.username-community {
-    margin-bottom: 10px;
-}
-
-.user-message-community {
-    margin-bottom: 10px;
+    justify-content: space-between;
 }
 
 .lca-community {
     display: flex;
     align-items: center;
-    align-self: center;
-    justify-content: space-between;
-    gap: 15px;
+    gap: clamp(8px, 1.5vw, 12px);
+    flex-wrap: wrap;
 }
 
-.lca-community img:hover {
+.lca-community img, .lca-dashboard img {
+    transition: all 0.3s ease;
+}
+
+.lca-community img:hover,
+.lca-dashboard img:hover {
     transform: scale(1.1);
     cursor: pointer;
-    transition: transform 0.3s ease;
-    ;
 }
 
 .btn-community {
-    width: 70px;
-    height: 35px;
+    padding: clamp(6px, 1.2vw, 8px) clamp(12px, 2.5vw, 18px);
     background-color: #90B484;
     border-radius: 25px;
-    font-size: 16px;
+    font-size: clamp(0.8rem, 1.8vw, 0.9rem);
     border: none;
     transition: background-color 0.3s ease, color 0.3s ease;
-    /* Apply transition here */
+    color: #201f20;
 }
 
 .btn-community:hover {
     background-color: #749269;
-    color: black;
     cursor: pointer;
+}
+
+.use-info-container {
+    height: 100%;
+    display: flex;
+    flex-direction:column;
+    justify-content: space-around ;
+}
+
+.video {
+    flex: 1.5;
+    text-align: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+}
+
+@media (max-width: 850px) {
+    .video-community {
+        flex-direction: column;
+    }
+
+    .user-container {
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+    }
 }
 
 .video-commented-community {
     width: 175px;
     height: 100px;
-    border-radius: 5px;
-    margin-left: 310px;
-}
-
-.video-title {
-    margin-left: 15px;
-}
-
-.channel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin: 10px;
-    margin-right: 45px;
-    padding: 20px;
-    position: absolute;
-    right: 0;
+    border-radius: 20px;
 }
 
 /* Store */
