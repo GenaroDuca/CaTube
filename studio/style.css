@@ -50,7 +50,6 @@ aside {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    margin-top: 5px;
     gap: 10px;
 }
 
@@ -184,12 +183,12 @@ aside {
     width: 100%;
     display: flex;
     flex-direction: column;
-
+    margin-top: 20px;
 }
 
 .video-community {
-    margin-top: 20px;
     width: 100%;
+    margin-bottom: 20px;
     background-color: #1a1a1b;
     border-radius: 30px;
     display: flex;
@@ -226,7 +225,8 @@ aside {
     flex-wrap: wrap;
 }
 
-.lca-community img, .lca-dashboard img {
+.lca-community img,
+.lca-dashboard img {
     transition: all 0.3s ease;
 }
 
@@ -254,8 +254,8 @@ aside {
 .use-info-container {
     height: 100%;
     display: flex;
-    flex-direction:column;
-    justify-content: space-around ;
+    flex-direction: column;
+    justify-content: space-around;
 }
 
 .video {
@@ -271,7 +271,7 @@ aside {
 @media (max-width: 850px) {
     .video-community {
         flex-direction: column;
-        margin-top: 10px;
+        margin-bottom: 10px;
     }
 
     .dashboard-card {
@@ -327,7 +327,7 @@ hr {
 .btn-container {
     width: 100%;
     height: 50px;
-    border-radius: 20px;
+    border-radius: 30px;
     background-color: #1a1a1b;
     display: flex;
     align-items: center;
@@ -337,6 +337,9 @@ hr {
 .btn-container p {
     padding: 8px 12px;
     font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden; 
+    text-overflow: ellipsis; 
 }
 
 .btn-container button {
@@ -444,15 +447,11 @@ hr {
     margin-top: 10px;
 }
 
-h3 {
-    margin: 10px 0px -20px 0px;
-}
-
-.ear-requirements h3 {
+.earn-requirements h3 {
     margin-top: 20px;
 }
 
-.ear-requirements h4 {
+.earn-requirements h4 {
     margin-top: 50px;
 }
 
