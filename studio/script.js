@@ -28,13 +28,12 @@ const maxVideosUploaded = 3;
 const currentWatchHours = 450;
 const maxWatchHours = 3000;
 
-
 function checkMonetizationEligibility() {
     const subscribersMet = currentSubscribers >= maxSubscribers;
     const videosUploadedMet = currentVideosUploaded >= maxVideosUploaded;
     const watchHoursMet = currentWatchHours >= maxWatchHours;
 
-    const applyButton = document.getElementById('applyButton'); // Make sure your button has id="applyButton"
+    const applyButton = document.getElementById('applyButton');
 
     if (applyButton) {
         if (subscribersMet && videosUploadedMet && watchHoursMet) {
@@ -47,35 +46,49 @@ function checkMonetizationEligibility() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    updateProgressBar(currentSubscribers, maxSubscribers, 'subscribersProgressBarFill', 'subscribersProgressStartLabel', 'subscribersProgressEndLabel');
-    updateProgressBar(currentVideosUploaded, maxVideosUploaded, 'videosUploadedProgressBarFill', 'videosUploadedProgressStartLabel', 'videosUploadedProgressEndLabel');
-    updateProgressBar(currentWatchHours, maxWatchHours, 'watchHoursProgressBarFill', 'watchHoursProgressStartLabel', 'watchHoursProgressEndLabel');
-
-    checkMonetizationEligibility();
-});
-
 /* Hide/Show Sections */
 function setupNavigation() {
     const navLinks = document.querySelectorAll('.sidebar-nav .primary-nav .nav-link');
-    const contentSections = document.querySelectorAll('aside > .container'); // Assuming containers are direct children of aside
+    const contentSections = document.querySelectorAll('aside > .container');
+    const storeButton = document.getElementById('storeButton');
 
     navLinks.forEach((link, index) => {
         link.addEventListener('click', () => {
-            // Remove active class from all links
+            // Deactivate all nav links
             navLinks.forEach(nav => nav.classList.remove('active'));
-            // Add active class to the clicked link
             link.classList.add('active');
 
             // Hide all content sections
             contentSections.forEach(section => section.classList.add('hide'));
-            // Show the corresponding content section
+
             if (contentSections[index]) {
                 contentSections[index].classList.remove('hide');
             }
         });
-    });
+    })
+
+    if (storeButton) {
+        storeButton.addEventListener('click', () => {
+
+            const storeNavLinkIndex = 4;
+
+            const storeNavLink = navLinks[storeNavLinkIndex];
+            const storeContentSection = contentSections[storeNavLinkIndex];
+
+            // Deactivate all nav links
+            if (storeNavLink && storeContentSection) {
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                storeNavLink.classList.add('active');
+                
+                // Hide all content sections
+                contentSections.forEach(section => section.classList.add('hide'));
+                storeContentSection.classList.remove('hide');
+            }
+        });
+    }
 }
+
+
 
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -89,5 +102,5 @@ document.addEventListener('DOMContentLoaded', function () {
     updateProgressBar(currentShortsViews, maxShortsViews, 'shortsViewsProgressBarFill', 'shortsViewsProgressStartLabel', 'shortsViewsProgressEndLabel');
 
     // Check monetization eligibility
-    checkMonetizationEligibility(); // Check eligibility and update button state
+    checkMonetizationEligibility(); 
 });
