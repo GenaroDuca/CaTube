@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content 2</title>
+    <link rel="stylesheet" href="content.css">
+    <link rel="stylesheet" href="../header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- libreria Font Awesome para iconos -->
+    <!-- Google Material Icons -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <!-- Menu y logo -->
+        <div class="left-section">
+            <img src="../media/header_media/logo/catube_white.svg" alt="CaTube logo" class="logo">
+            <span class="title">Studio</span>
+        </div>
+
+        <!-- Seccion de busqueda -->
+        <div class="search-section">
+            <div class="mic-section">
+                <button class="mic-btn" aria-label="Search with voice">
+                    <i class="fa fa-microphone"></i>
+                </button>
+            </div>
+
+            <div class="bar-section">
+                <input type="text" placeholder="Search">
+                <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+
+        <!-- Seccion de creador y perfil -->
+        <div class="right-section">
+            <button class="create-btn">Create <i class="fas fa-plus"></i></button>
+
+            <div class="account-section">
+                <button class="notify-btn"><i class="fas fa-bell"></i></button>
+                <button class="user-btn"><i class="fas fa-user"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Left menu -->
+        <div class="left-menu">
+            <aside class="sidebar">
+                <!-- Sidebar Header -->
+                <header class="sidebar-header"></header>
+                <!-- Sidebar Navigation -->
+                <nav class="sidebar-nav">
+                    <!-- Primary Navigation Top Nav -->
+                    <ul class="nav-list primary-nav">
+                        <li class="nav-item">
+                            <button type="button" class="nav-link active">
+                                <span class="nav-icon material-symbols-outlined">dashboard</span>
+                                <span class="nav-label">Dashboard</span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">slideshow</span>
+                                <span class="nav-label">Content</span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">analytics</span>
+                                <span class="nav-label">Analytics</span>
+                            </button>
+                        </li>
+
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">groups</span>
+                                <span class="nav-label">Community</span>
+                            </button>
+                        </li>
+
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">store</span>
+                                <span class="nav-label">Store</span>
+                            </button>
+                        </li>
+
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">payments</span>
+                                <span class="nav-label">Earn</span>
+                            </button>
+                        </li>
+
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">colorize</span>
+                                <span class="nav-label">Customization</span>
+                            </button>
+                        </li>
+                    </ul>
+
+                    <!-- Secondary Bottom Nav -->
+                    <ul class="nav-list secondary-nav">
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">settings</span>
+                                <span class="nav-label">Settings</span>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+        </div>
+
+        <div class="channel-content">
+            <h1>Channel content</h1>
+            <!-- botones de las secciones -->
+            <div class="tabs">
+                <ul class="ul">
+                    <li class="li active">Videos</li>
+                    <li class="li">Shorts</li>
+                    <li class="li">Playlists</li>
+                </ul>
+            </div>
+            <hr> <!-- separador -->
+            <!-- seccion de filtro -->
+            <div class="filter-bar">
+                <div class="filter-icon"><i class="fa-solid fa-filter"></i>
+                </div>
+                    <div class="filter-input">
+                        <input type="text" class="text-input" role="textbox" placeholder="Filter">
+                    </div>
+            </div>
+            <hr>
+
+            <!-- tabla de contenidos -->
+            <div class="content-container">
+                <!-- videos -->
+                <div class="content-table active">
+                    <div class="row-header">
+                            <div class="cell checkbox" role="columnheader">
+                                <input type="checkbox" class="checkbox">
+                            </div>
+                            <div class="cell video" role="columnheader">
+                                <h3 class="header-name">Video</h3>
+                            </div>
+                            <div class="cell visibility" role="columnheader">
+                                <h3 class="header-name">Visibility</h3>
+                            </div>
+                            <div class="cell restrictions" role="columnheader">
+                                <h3 class="header-name">Restrictions</h3>
+                            </div>
+                            <div class="cell date sortable" role="columnheader">
+                                <h3>Date</h3>
+                            </div>
+                            <div class="cell views sortable" role="columnheader">
+                                <h3 class="header-name">Views</h3>
+                            </div>
+                            <div class="cell comments" role="columnheader">
+                                <h3 class="header-name">Comments</h3>
+                            </div>
+                            <div class="cell likes" role="columnheader">
+                                <h3 class="header-name">"Like" (%)</h3>
+                            </div>
+                    </div>
+                    <hr>
+                    <div class="row content">
+                        <div class="cell checkbox">
+                            <input type="checkbox" class="checkbox">
+                        </div>
+                        <div class="cell video">
+                            <img src="../media/home_media/thumbnails/miniatura.jpg" class="thumb">
+                            <div class="video-info">
+                                <p class="title-video">Nombre del video</p>
+                                <p class="description">Descripción breve...</p>
+                            </div>
+                        </div>
+                        <div class="cell visibility">Public</div>
+                        <div class="cell restrictions">None</div>
+                        <div class="cell date">
+                            1 sept 2024<br>
+                            <span class="published">Publicado</span>
+                        </div>
+                        <div class="cell views">99</div>
+                        <div class="cell comments">5</div>
+                        <div class="cell likes">100.0%</div>
+                    </div>
+                    <hr>
+                    <div class="row content">
+                        <div class="cell checkbox">
+                            <input type="checkbox" class="checkbox">
+                        </div>
+                        <div class="cell video">
+                            <img src="../media/home_media/thumbnails/miniatura.jpg" class="thumb">
+                            <div class="video-info">
+                                <p class="title-video">Nombre del video</p>
+                                <p class="description">Descripción breve...</p>
+                            </div>
+                        </div>
+                        <div class="cell visibility">Public</div>
+                        <div class="cell restrictions">None</div>
+                        <div class="cell date">
+                            1 sept 2024<br>
+                            <span class="published">Publicado</span>
+                        </div>
+                        <div class="cell views">99</div>
+                        <div class="cell comments">5</div>
+                        <div class="cell likes">100.0%</div>
+                    </div>
+                    <hr>
+                    <div class="row content">
+                        <div class="cell checkbox">
+                            <input type="checkbox" class="checkbox">
+                        </div>
+                        <div class="cell video">
+                            <img src="../media/home_media/thumbnails/miniatura.jpg" class="thumb">
+                            <div class="video-info">
+                                <p class="title-video">Nombre del video</p>
+                                <p class="description">Descripción breve...</p>
+                            </div>
+                        </div>
+                        <div class="cell visibility">Public</div>
+                        <div class="cell restrictions">None</div>
+                        <div class="cell date">
+                            1 sept 2024<br>
+                            <span class="published">Publicado</span>
+                        </div>
+                        <div class="cell views">99</div>
+                        <div class="cell comments">5</div>
+                        <div class="cell likes">100.0%</div>
+                    </div>
+                    <hr>
+                </div>
+                <!-- shorts -->
+                <div class="content-table">
+                    <div class="row-header">
+                            <div class="cell checkbox" role="columnheader">
+                                <input type="checkbox" class="checkbox">
+                            </div>
+                            <div class="cell video" role="columnheader">
+                                <h3 class="header-name">Short</h3>
+                            </div>
+                            <div class="cell visibility" role="columnheader">
+                                <h3 class="header-name">Visibility</h3>
+                            </div>
+                            <div class="cell restrictions" role="columnheader">
+                                <h3 class="header-name">Restrictions</h3>
+                            </div>
+                            <div class="cell date sortable" role="columnheader">
+                                <h3>Date</h3>
+                            </div>
+                            <div class="cell views sortable" role="columnheader">
+                                <h3 class="header-name">Views</h3>
+                            </div>
+                            <div class="cell comments" role="columnheader">
+                                <h3 class="header-name">Comments</h3>
+                            </div>
+                            <div class="cell likes" role="columnheader">
+                                <h3 class="header-name">"Like" (%)</h3>
+                            </div>
+                    </div>
+                    <hr>
+                    <div class="row content">
+                        <div class="cell checkbox">
+                            <input type="checkbox" class="checkbox">
+                        </div>
+                        <div class="cell video">
+                            <img src="../media/home_media/thumbnails/miniatura.jpg" class="thumb">
+                            <div class="video-info">
+                                <p class="title-video">Nombre del short</p>
+                                <p class="description">Descripción breve...</p>
+                            </div>
+                        </div>
+                        <div class="cell visibility">Public</div>
+                        <div class="cell restrictions">None</div>
+                        <div class="cell date">
+                            1 sept 2024<br>
+                            <span class="published">Publicado</span>
+                        </div>
+                        <div class="cell views">99</div>
+                        <div class="cell comments">5</div>
+                        <div class="cell likes">100.0%</div>
+                    </div>
+                    <hr>
+                    <div class="row content">
+                        <div class="cell checkbox">
+                            <input type="checkbox" class="checkbox">
+                        </div>
+                        <div class="cell video">
+                            <img src="../media/home_media/thumbnails/miniatura.jpg" class="thumb">
+                            <div class="video-info">
+                                <p class="title-video">Nombre del short</p>
+                                <p class="description">Descripción breve...</p>
+                            </div>
+                        </div>
+                        <div class="cell visibility">Public</div>
+                        <div class="cell restrictions">None</div>
+                        <div class="cell date">
+                            1 sept 2024<br>
+                            <span class="published">Publicado</span>
+                        </div>
+                        <div class="cell views">99</div>
+                        <div class="cell comments">5</div>
+                        <div class="cell likes">100.0%</div>
+                    </div>
+                    <hr>
+                    <div class="row content">
+                        <div class="cell checkbox">
+                            <input type="checkbox" class="checkbox">
+                        </div>
+                        <div class="cell video">
+                            <img src="../media/home_media/thumbnails/miniatura.jpg" class="thumb">
+                            <div class="video-info">
+                                <p class="title-video">Nombre del short</p>
+                                <p class="description">Descripción breve...</p>
+                            </div>
+                        </div>
+                        <div class="cell visibility">Public</div>
+                        <div class="cell restrictions">None</div>
+                        <div class="cell date">
+                            1 sept 2024<br>
+                            <span class="published">Publicado</span>
+                        </div>
+                        <div class="cell views">99</div>
+                        <div class="cell comments">5</div>
+                        <div class="cell likes">100.0%</div>
+                    </div>
+                    <hr>
+                </div>
+                <!-- playlists -->
+                <div class="content-table">
+                    <div class="row-header">
+                            <div class="cell checkbox" role="columnheader">
+                                <input type="checkbox" class="checkbox">
+                            </div>
+                            <div class="cell video" role="columnheader">
+                                <h3 class="header-name">Playlist</h3>
+                            </div>
+                            <div class="cell visibility" role="columnheader">
+                                <h3 class="header-name">Visibility</h3>
+                            </div>
+                            <div class="cell restrictions" role="columnheader">
+                                <h3 class="header-name">Restrictions</h3>
+                            </div>
+                            <div class="cell date sortable" role="columnheader">
+                                <h3>Date</h3>
+                            </div>
+                            <div class="cell views sortable" role="columnheader">
+                                <h3 class="header-name">Views</h3>
+                            </div>
+                            <div class="cell comments" role="columnheader">
+                                <h3 class="header-name">Comments</h3>
+                            </div>
+                            <div class="cell likes" role="columnheader">
+                                <h3 class="header-name">"Like" (%)</h3>
+                            </div>
+                    </div>
+                    <hr>
+                    <div class="row content">
+                        <div class="cell checkbox">
+                            <input type="checkbox" class="checkbox">
+                        </div>
+                        <div class="cell video">
+                            <img src="../media/home_media/thumbnails/miniatura.jpg" class="thumb">
+                            <div class="video-info">
+                                <p class="title-video">Nombre de la playlist</p>
+                                <p class="description">Descripción breve...</p>
+                            </div>
+                        </div>
+                        <div class="cell visibility">Public</div>
+                        <div class="cell restrictions">None</div>
+                        <div class="cell date">
+                            1 sept 2024<br>
+                            <span class="published">Publicado</span>
+                        </div>
+                        <div class="cell views">99</div>
+                        <div class="cell comments">5</div>
+                        <div class="cell likes">100.0%</div>
+                    </div>
+                    <hr>
+                    <div class="row content">
+                        <div class="cell checkbox">
+                            <input type="checkbox" class="checkbox">
+                        </div>
+                        <div class="cell video">
+                            <img src="../media/home_media/thumbnails/miniatura.jpg" class="thumb">
+                            <div class="video-info">
+                                <p class="title-video">Nombre de la playlist</p>
+                                <p class="description">Descripción breve...</p>
+                            </div>
+                        </div>
+                        <div class="cell visibility">Public</div>
+                        <div class="cell restrictions">None</div>
+                        <div class="cell date">
+                            1 sept 2024<br>
+                            <span class="published">Publicado</span>
+                        </div>
+                        <div class="cell views">99</div>
+                        <div class="cell comments">5</div>
+                        <div class="cell likes">100.0%</div>
+                    </div>
+                    <hr>
+                    <div class="row content">
+                        <div class="cell checkbox">
+                            <input type="checkbox" class="checkbox">
+                        </div>
+                        <div class="cell video">
+                            <img src="../media/home_media/thumbnails/miniatura.jpg" class="thumb">
+                            <div class="video-info">
+                                <p class="title-video">Nombre de la playlist</p>
+                                <p class="description">Descripción breve...</p>
+                            </div>
+                        </div>
+                        <div class="cell visibility">Public</div>
+                        <div class="cell restrictions">None</div>
+                        <div class="cell date">
+                            1 sept 2024<br>
+                            <span class="published">Publicado</span>
+                        </div>
+                        <div class="cell views">99</div>
+                        <div class="cell comments">5</div>
+                        <div class="cell likes">100.0%</div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-menu">
+            <img src="../media/home_media/profile/yukki.jpg" alt="profile image" />
+            <h1>Channel Name</h1>
+        </div>
+
+    </main>
+
+</body>
+<script src="content.js"></script>
+<script src="script.js"></script>
+</html>
