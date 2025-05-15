@@ -1,201 +1,195 @@
 /* --------- Customization Section--------- */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
-    background-color: #1F1F20;
-    font-family: 'Poppins', sans-serif;
-    color:#777878;
+  background-color: #1f1f20;
+  font-family: "Poppins", sans-serif;
+  color: #777878;
 }
 
 #title {
-    font-size: 20px;
-    color: #FFFFFF;
-    display: flex;
-    justify-content: baseline;
+  font-size: 20px;
+  color: #ffffff;
+  display: flex;
+  justify-content: baseline;
 }
 
 .left-menu {
-    height: 1000px;
-    width: 240px;
-    background-color: #1A1A1B;
+  height: 1000px;
+  width: 240px;
+  background-color: #1a1a1b;
 }
 
 .container {
-    display: flex;
-   
+  display: flex;
 }
 
 .content {
-    display: flex;
-    flex-direction: row;
-    
-
+  display: flex;
+  flex-direction: row;
 }
 
 .top-row {
-    display: flex;
-    flex-direction: column;
- 
+  display: flex;
+  flex-direction: column;
 }
 
-.dash{
-    margin-left: 10px;
-    font-size: 28px;
-    color: #FFFFFF;
-    padding: 20px;
+.dash {
+  margin-left: 10px;
+  font-size: 28px;
+  color: #ffffff;
+  padding: 20px;
 }
 
-.title-profile{
-    font-size: 22px;
-    color:#FFFFFF;
-    margin-left: 35px;
-    margin-top: 20px;
+.title-profile {
+  font-size: 22px;
+  color: #ffffff;
+  margin-left: 35px;
+  margin-top: 20px;
 }
 
 .line-color-customization {
-    width: 68px;
-    height: 1px;
-    margin-left: 35px;
-    background-color:#FFFFFF;
- 
+  width: 68px;
+  height: 1px;
+  margin-left: 35px;
+  background-color: #ffffff;
 }
 
-.line{
-    width: 1062px;
-    height: 1px;
-    background-color:#FFFFFF;
-    opacity: 15%;
- 
+.line {
+  width: 1062px;
+  height: 1px;
+  background-color: #ffffff;
+  opacity: 15%;
 }
 
 .subtitle-customization {
-    font-size: 18px;
-    padding: 20px;
-    color:#FFFFFF;
-    margin-left: 16px;
+  font-size: 18px;
+  padding: 20px;
+  color: #ffffff;
+  margin-left: 16px;
 }
 
-.card-customization{ 
-    background-color: #1a1a1b;
-    height: 220px;
-    width: 350px;
-    margin-left: 35px;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
+.card-customization {
+  background-color: #1a1a1b;
+  height: 220px;
+  width: 350px;
+  margin-left: 35px;
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
-.tv{
-    width: 205px;
-    height: 175px;
-    margin-bottom: 20px;
-    top: 0px;   /* Ajusta según lo necesites */
-    left: 0px; /* Ajusta según lo necesites */
+.tv {
+  width: 205px;
+  height: 150px;
+  margin-bottom: 50px;
+  top: 0px; /* Ajusta según lo necesites */
+  left: 0px; /* Ajusta según lo necesites */
 }
 
-.banner-tv{
-height: 102px;
-      width: 150px;
-    background-color: aqua;
-    position: absolute;
-     top: 52px;   /* Ajusta según lo necesites */
-    left: 90px; /* Ajusta según lo necesites */
+.banner-tv {
+  height: 87px;
+  width: 150px;
+  background-color: aqua;
+  position: absolute;
+  top: 44px; /* Ajusta según lo necesites */
+  left: 90px; /* Ajusta según lo necesites */
 }
 
-.pc{
-    position: absolute;
-    top: 75px;   /* Ajusta según lo necesites */
-    left: 90px; /* Ajusta según lo necesites */
+.pc {
+  position: absolute;
+  top: 75px; /* Ajusta según lo necesites */
+  left: 90px; /* Ajusta según lo necesites */
 }
 
-.banner-pc{
-height: 25px;
-      width: 104px;
-    background-color: aqua;
-    position: absolute;
-     top:113px;   /* Ajusta según lo necesites */
-    left: 115px; /* Ajusta según lo necesites */
+.banner-pc {
+  height: 30px;
+  width: 104px;
+  background-color: aqua;
+  position: absolute;
+  top: 113px; /* Ajusta según lo necesites */
+  left: 115px; /* Ajusta según lo necesites */
 }
 
-.cel{
-    position: absolute;
-    top: 80px;  /* Ajusta según lo necesites */
-    left: 215px; /* Ajusta según lo necesites */
+.cel {
+  position: absolute;
+  top: 80px; /* Ajusta según lo necesites */
+  left: 215px; /* Ajusta según lo necesites */
 }
 
-.banner-cel{
-height: 12px;
-      width: 46px;
-    background-color: aqua;
-    position: absolute;
-     top:102px;   /* Ajusta según lo necesites */
-    left: 246px; /* Ajusta según lo necesites */
+.banner-cel {
+  height: 12px;
+  width: 46px;
+  background-color: aqua;
+  position: absolute;
+  top: 102px; /* Ajusta según lo necesites */
+  left: 246px; /* Ajusta según lo necesites */
 }
 
 .channel-photo-card {
-    width: 175px;
-    height: 175px;
-    background-color: #D9D9D9;
-    border-radius: 50%;
+  width: 175px;
+  height: 175px;
+  background-color: #d9d9d9;
+  border-radius: 50%;
 }
 
 .rectangle-customization {
-    width: 1027px;
-    height: 55px;
-    margin-left: 35px;
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 15px;
+  width: 1027px;
+  height: 55px;
+  margin-left: 35px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
 }
 
-.rectangle-customization-description{
-    width: 1027px;
-    height: 155px;
-    margin-left: 35px;
-    border: 1px solid rgba(255,255,255,0.15);
-    border-radius: 15px;
-    overflow-y: auto; /* Permite scroll si el texto es muy largo */
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+.rectangle-customization-description {
+  width: 1027px;
+  height: 155px;
+  margin-left: 35px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 15px;
+  overflow-y: auto; /* Permite scroll si el texto es muy largo */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .text-customization {
-    font-size: 18px;
-    color: #FFFFFF;
-    margin-left: 20px;
-    margin-top: 15px;
-    opacity: 1; 
-    max-width: 972px;
-    word-break: break-word;
+  font-size: 18px;
+  color: #ffffff;
+  margin-left: 20px;
+  margin-top: 15px;
+  opacity: 1;
+  max-width: 972px;
+  word-break: break-word;
 }
 
 .channel {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    margin: 10px;
-    margin-right: 45px;
-    padding: 20px;
-    position: absolute;
-    right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 10px;
+  margin-right: 45px;
+  padding: 20px;
+  position: absolute;
+  right: 0;
 }
 
 .channel-photo {
-    width: 100px;
-    height: 100px;
-    margin-top: 35px;
-    background-color: #D9D9D9;
-    border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  margin-top: 35px;
+  background-color: #d9d9d9;
+  border-radius: 50%;
 }
 
-.cn{
-    font-size: 28px;
+.cn {
+  font-size: 28px;
 }
