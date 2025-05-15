@@ -183,12 +183,17 @@ main {
     width: 100%;
     overflow: hidden;
     position: absolute;
+    opacity: 1;
+}
+
+.content-table.hide {
     opacity: 0;
 }
 
-.content-table.active {
+/* .content-table.active {
     opacity: 1;
-}
+} */
+
 .row-header, .row {
     display: flex;
     align-items: center;
