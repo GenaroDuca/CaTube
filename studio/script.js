@@ -1,0 +1,161 @@
+'use strict'
+
+function updateProgressBar(currentValue, maxValue, progressBarFillId, startLabelId, endLabelId) {
+    // Validate values
+    if (currentValue < 0) currentValue = 0;
+    if (currentValue > maxValue) currentValue = maxValue;
+
+    const percentage = (currentValue / maxValue) * 100;
+
+    const progressBarFill = document.getElementById(progressBarFillId);
+
+
+    if (progressBarFill) {
+        progressBarFill.style.width = percentage + '%';
+        progressBarFill.textContent = currentValue;
+    }
+}
+
+// Monetization Requirements Data
+
+// Subscribers
+const currentSubscribers = 20;
+const maxSubscribers = 500;
+
+// Videos Uploaded 
+const currentVideosUploaded = 2;
+const maxVideosUploaded = 3;
+
+// Public Watch Hours
+const currentWatchHours = 450;
+const maxWatchHours = 3000;
+
+// Public Shorts Views (assuming these are needed for the progress bar)
+const currentShortsViews = 150000; // Example value
+const maxShortsViews = 10000000;   // Example value (e.g., 10M for Shorts monetization)
+
+
+function checkMonetizationEligibility() {
+    const subscribersMet = currentSubscribers >= maxSubscribers;
+    const videosUploadedMet = currentVideosUploaded >= maxVideosUploaded;
+    const watchHoursMet = currentWatchHours >= maxWatchHours;
+
+    const applyButton = document.getElementById('applyButton');
+
+    if (applyButton) {
+        if (subscribersMet && videosUploadedMet && watchHoursMet) {
+            applyButton.disabled = false;
+            console.log("All primary requirements met. Apply button enabled.");
+        } else {
+            applyButton.disabled = true;
+            console.log("Not all primary requirements met. Apply button disabled.");
+        }
+    }
+}
+
+
+// Hide/Show Content Sections
+function configurarFiltroContenido() {
+    const botones = document.querySelectorAll('.content-ul .content-li-btn');
+    const tablas = document.querySelectorAll('.content-table');
+
+    botones.forEach((boton, indice) => {
+        boton.addEventListener('click', () => {
+            // Ocultar todos los tbody
+            tablas.forEach(tbody => {
+                tbody.classList.add('hide');
+            });
+
+            // Remover clase 'active' de todos los botones
+            botones.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Mostrar tbody correspondiente al botón clickeado
+            if (tablas[indice]) {
+                tablas[indice].classList.remove('hide');
+            }
+
+            // Activar botón clickeado
+            boton.classList.add('active');
+        });
+    });
+
+    // Inicializar estado al cargar la página
+    document.addEventListener('DOMContentLoaded', () => {
+        tablas.forEach((tbody, index) => {
+            if (index === 0) {
+                tbody.classList.remove('hide'); // Mostrar solo el primero
+            } else {
+                tbody.classList.add('hide');
+            }
+        });
+
+        if (botones.length > 0) {
+            botones.forEach(btn => btn.classList.remove('active'));
+            botones[0].classList.add('active');
+        }
+    });
+}
+
+// Select all checkboxes
+function selectAllCheckboxes() {
+    //TO DO
+}
+
+// Hide/Show Sections
+function setupNavigation() {
+    const navLinks = document.querySelectorAll('.sidebar-nav .primary-nav .nav-link');
+    const contentSections = document.querySelectorAll('main > .container');
+    const storeButton = document.getElementById('storeButton');
+
+    navLinks.forEach((link, index) => {
+        link.addEventListener('click', () => {
+            // Deactivate all nav links
+            navLinks.forEach(nav => nav.classList.remove('active'));
+            link.classList.add('active');
+
+            // Hide all content sections
+            contentSections.forEach(section => section.classList.add('hide'));
+
+            if (contentSections[index]) {
+                contentSections[index].classList.remove('hide');
+            }
+        });
+    })
+
+    if (storeButton) {
+        storeButton.addEventListener('click', () => {
+
+            const storeNavLinkIndex = 4;
+
+            const storeNavLink = navLinks[storeNavLinkIndex];
+            const storeContentSection = contentSections[storeNavLinkIndex];
+
+            // Deactivate all nav links
+            if (storeNavLink && storeContentSection) {
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                storeNavLink.classList.add('active');
+
+                // Hide all content sections
+                contentSections.forEach(section => section.classList.add('hide'));
+                storeContentSection.classList.remove('hide');
+            }
+        });
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    // Setup navigation
+    setupNavigation();
+    configurarFiltroContenido()
+
+    // Update progress bars
+    updateProgressBar(currentSubscribers, maxSubscribers, 'subscribersProgressBarFill', 'subscribersProgressStartLabel', 'subscribersProgressEndLabel');
+    updateProgressBar(currentVideosUploaded, maxVideosUploaded, 'videosUploadedProgressBarFill', 'videosUploadedProgressStartLabel', 'videosUploadedProgressEndLabel');
+    updateProgressBar(currentWatchHours, maxWatchHours, 'watchHoursProgressBarFill', 'watchHoursProgressStartLabel', 'watchHoursProgressEndLabel');
+    updateProgressBar(currentShortsViews, maxShortsViews, 'shortsViewsProgressBarFill', 'shortsViewsProgressStartLabel', 'shortsViewsProgressEndLabel');
+
+    // Check monetization eligibility
+    checkMonetizationEligibility();
+});
