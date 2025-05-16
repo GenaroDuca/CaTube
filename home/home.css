@@ -25,7 +25,7 @@ a {
 .trending,
 .subscriptions,
 .recommendations {
-  background-color: #1a1a1b;
+  background-color: var(--primary-color);
   width: 95%;
   height: auto;
   padding: 1rem 2rem;
@@ -47,8 +47,7 @@ a {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  color: white;
+  background-color: var(--btn);
   border: none;
   border-radius: 50%;
   width: 40px;
@@ -57,14 +56,10 @@ a {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  z-index: 10;
-  transition: background-color 0.3s ease;
-  /* Apply transition here */
 }
 
 .carousel-btn.left {
   left: 0;
-  /* Posiciona la flecha fuera del contenido */
   transform: translate(-50%, -50%);
 }
 
@@ -74,9 +69,7 @@ a {
 }
 
 .carousel-btn:hover {
-  background-color: #90B484;
-  /* Only change the property */
-
+  background-color: var(--btn-dark);
 }
 
 .carousel-channels,
@@ -108,24 +101,18 @@ a {
   height: auto;
 }
 
-.subtitle {
-  color: #777878;
-  font-size: 1.2rem;
-  font-weight: bold;
-}
-
 .profile-photo {
   width: 80px;
   height: auto;
   border-radius: 50%;
   margin-top: 20px;
-  transition: transform 0.3s ease;
-  /* Apply transition here */
+
 }
 
 .profile-photo:hover {
   transform: scale(1.1);
-  /* Only change the property */
+  cursor: pointer;
+
 }
 
 .name-channel,
@@ -134,8 +121,6 @@ a {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 1rem;
-  color: #777878;
   margin-top: 5px;
 }
 
@@ -150,14 +135,12 @@ a {
   width: 150px;
   height: auto;
   border-radius: 20px;
-  transition: transform 0.3s ease;
-  /* Apply transition here */
   margin-top: 20px;
 }
 
 .short:hover {
   transform: scale(1.05);
-  /* Only change the property */
+  cursor: pointer;
 }
 
 /*miniaturas*/
@@ -167,14 +150,13 @@ a {
   height: auto;
   border-radius: 30px;
   overflow: hidden;
-  transition: transform 0.3s ease;
-  /* Apply transition here */
   margin-top: 20px;
 }
 
 .video-thumb:hover {
   transform: scale(1.05);
-  /* Only change the property */
+  cursor: pointer;
+
 }
 
 .video-card {
@@ -192,23 +174,13 @@ a {
 
 /* MENU */
 
-:root {
-  --primary-color: #1A1A1B;
-  --secondary-background-color: #1f1f20;
-  --text-color: #777878;
-  --hover-color-a: #90B484;
-  --hover-color-b: #749269;
-}
-
-
 .sidebar {
   width: 270px;
   position: fixed;
   margin: 15px 0px 0px 15px;
-  border-radius: 20px;
+  border-radius: 30px;
   background: var(--primary-color);
   height: calc(100vh - 32px);
-  transition: 0.4s ease;
   z-index: 2;
 }
 
@@ -234,14 +206,13 @@ a {
   bottom: 10px;
   width: 35px;
   border: none;
-  color: var(--primary-color);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border-radius: 8px;
-  background: var(--hover-color-a);
-  transition: 0.4s ease;
+  border-radius: 30px;
+  background: var(--btn);
+  color: var(--hover-color);
 }
 
 .sidebar-header .sidebar-toggler {
@@ -250,12 +221,7 @@ a {
 }
 
 .sidebar-header .toggler:hover {
-  background: var(--hover-color-b);
-}
-
-.sidebar-header .sidebar-toggler span {
-  font-size: 1.75rem;
-  transition: 0.6s ease;
+  background: var(--btn-dark);
 }
 
 .sidebar.collapsed .sidebar-header .sidebar-toggler span {
@@ -269,7 +235,6 @@ a {
   padding: 0 15px;
   flex-direction: column;
   transform: translateY(10px);
-  transition: 0.4s ease;
 }
 
 .sidebar.collapsed .sidebar-nav .primary-nav {
@@ -281,20 +246,15 @@ a {
   display: flex;
   gap: 12px;
   white-space: nowrap;
-  border-radius: 8px;
+  border-radius: 30px;
   align-items: center;
   padding: 11.5px 15px;
   text-decoration: none;
-  transition: 0.4s ease;
 }
 
 .sidebar-nav .nav-link:hover {
-  color: var(--primary-color);
-  background: var(--hover-color-a);
-}
-
-.sidebar-nav .nav-link .nav-label {
-  transition: opacity 0s ease;
+  color: var(--hover-color);
+  background-color: var(--btn);
 }
 
 .sidebar-nav .nav-item {
@@ -311,10 +271,9 @@ a {
   color: var(--primary-color);
   padding: 6px 12px;
   border-radius: 8px;
-  background: var(--hover-color-a);
+  background: var(--hover-color);
   white-space: nowrap;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-  transition: 0s;
 }
 
 .sidebar.collapsed .sidebar-nav .nav-tooltip {
@@ -325,7 +284,7 @@ a {
   opacity: 1;
   pointer-events: auto;
   transform: translateY(50%);
-  transition: 0.4s ease;
+  background-color: var(--btn);
 }
 
 .sidebar.collapsed .sidebar-nav .nav-link .nav-label {
@@ -370,7 +329,6 @@ a {
   .carousel-btn {
     width: 30px;
     height: 30px;
-    font-size: 0.9rem;
   }
 
   .profile-photo {
