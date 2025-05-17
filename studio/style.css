@@ -463,31 +463,35 @@ main {
 }
 
 .tv {
-    width: 205px;
-    height: 175px;
-    margin-bottom: 20px;
+  width: 205px;
+  height: 150px;
+  margin-bottom: 50px;
+  top: 0px; /* Ajusta según lo necesites */
+  left: 0px; /* Ajusta según lo necesites */
 }
 
 .banner-tv {
-    height: 102px;
-    width: 150px;
-    position: absolute;
-    top: 52px;
-    left: 90px;
+  height: 87px;
+  width: 150px;
+  background-color: aqua;
+  position: absolute;
+  top: 44px; /* Ajusta según lo necesites */
+  left: 90px; /* Ajusta según lo necesites */
 }
 
 .pc {
-    position: absolute;
-    top: 75px;
-    left: 90px;
+  position: absolute;
+  top: 75px; /* Ajusta según lo necesites */
+  left: 90px; /* Ajusta según lo necesites */
 }
 
 .banner-pc {
-    height: 25px;
-    width: 104px;
-    position: absolute;
-    top: 113px;
-    left: 115px;
+  height: 30px;
+  width: 104px;
+  background-color: aqua;
+  position: absolute;
+  top: 113px; /* Ajusta según lo necesites */
+  left: 115px; /* Ajusta según lo necesites */
 }
 
 .cel {
