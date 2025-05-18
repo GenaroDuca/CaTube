@@ -143,6 +143,38 @@ function setupNavigation() {
             }
         });
     }
+
+    const params = new URLSearchParams(window.location.search);
+const sectionParam = params.get("section");
+
+if (sectionParam === "customization") {
+    const customizationNavLinkIndex = 6;
+    const customizationNavLink = navLinks[customizationNavLinkIndex];
+    const customizationContentSection = contentSections[customizationNavLinkIndex];
+
+    if (customizationNavLink && customizationContentSection) {
+        navLinks.forEach(nav => nav.classList.remove('active'));
+        contentSections.forEach(section => section.classList.add('hide'));
+
+        customizationNavLink.classList.add('active');
+        customizationContentSection.classList.remove('hide');
+    }
+}
+
+if (sectionParam === "content") {
+    const customizationNavLinkIndex = 1;
+    const customizationNavLink = navLinks[customizationNavLinkIndex];
+    const customizationContentSection = contentSections[customizationNavLinkIndex];
+
+    if (customizationNavLink && customizationContentSection) {
+        navLinks.forEach(nav => nav.classList.remove('active'));
+        contentSections.forEach(section => section.classList.add('hide'));
+
+        customizationNavLink.classList.add('active');
+        customizationContentSection.classList.remove('hide');
+    }
+}
+
 }
 
 document.addEventListener('DOMContentLoaded', function () {
