@@ -77,6 +77,26 @@ main {
     gap: 10px;
 }
 
+.recent-cats-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.recent-cats {
+    padding: 10px 20px 10px 20px;
+    width: auto;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.userphoto-recent-cats {
+    width: 60px;
+    height: auto;
+    border-radius: 50%;
+}
+
 .video-commented-dashboard {
     width: 30%;
     height: auto;
@@ -422,104 +442,78 @@ main {
 }
 
 /* Customization */
-.top-row {
+.cards-customization-container {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 10px;
 }
 
-.title-profile {
-    margin-left: 35px;
-    margin-top: 20px;
-}
-
-.line-color-customization {
-    width: 68px;
-    height: 1px;
-    margin-left: 35px;
-}
-
-.line {
-    width: 1062px;
-    height: 1px;
-    opacity: 0.15;
-}
-
-.subtitle-customization {
-    padding: 20px;
-    margin-left: 16px;
-}
 
 .card-customization {
-    background: var(--primary-color);
-    height: 220px;
-    width: 350px;
-    margin-left: 35px;
-    border-radius: 15px;
+    width: 50%;
     display: flex;
+    flex: 1 1 250px;
+    border-radius: var(--border-radius);
     flex-direction: column;
     align-items: center;
+    text-align: center;
+    gap: 10px;
+}
+
+.card-customization div {
+    display: flex;
     justify-content: center;
-    position: relative;
+    align-items: center;
+    width: 100%;
+    min-height: 250px;
+    background: var(--primary-color);
+    border-radius: var(--border-radius);
 }
 
-.tv {
-  width: 205px;
-  height: 150px;
-  margin-bottom: 50px;
-  top: 0px; /* Ajusta según lo necesites */
-  left: 0px; /* Ajusta según lo necesites */
+.info-customization-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
 }
 
-.banner-tv {
-  height: 87px;
-  width: 150px;
-  background-color: aqua;
-  position: absolute;
-  top: 44px; /* Ajusta según lo necesites */
-  left: 90px; /* Ajusta según lo necesites */
+.custom-file-label {
+    padding: 12px;
+    width: 150px;
+    background-color: var(--btn);
+    color: var(--hover-color);
+    border-radius: 30px;
 }
 
-.pc {
-  position: absolute;
-  top: 75px; /* Ajusta según lo necesites */
-  left: 90px; /* Ajusta según lo necesites */
+.custom-file-label:hover {
+    background-color: var(--btn-dark);
+    cursor: pointer;
 }
 
-.banner-pc {
-  height: 30px;
-  width: 104px;
-  background-color: aqua;
-  position: absolute;
-  top: 113px; /* Ajusta según lo necesites */
-  left: 115px; /* Ajusta según lo necesites */
-}
-
-.cel {
-    position: absolute;
-    top: 80px;
-    left: 215px;
-}
-
-.banner-cel {
-    height: 12px;
-    width: 46px;
-    position: absolute;
-    top: 102px;
-    left: 246px;
-}
-
-.channel-photo-card {
+.photo-card {
     width: 175px;
-    height: 175px;
+    height: auto;
     border-radius: 50%;
 }
 
-.rectangle-customization,
-.rectangle-customization-description {
-    width: 1027px;
-    margin-left: 35px;
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 15px;
+.banner {
+    border-radius: 0;
+}
+
+.info-customization-container input {
+    width: 100%;
+    border: 1px solid var(--text-color);
+    background-color: transparent;
+    color: var(--text-color);
+    border-radius: 30px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+
+.content input:focus {
+    outline: none;
 }
 
 .rectangle-customization {
@@ -528,17 +522,6 @@ main {
 
 .rectangle-customization-description {
     height: 155px;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-}
-
-.text-customization {
-    margin-left: 20px;
-    margin-top: 15px;
-    max-width: 972px;
-    word-break: break-word;
 }
 
 /* Sidebar */
