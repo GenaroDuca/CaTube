@@ -379,6 +379,10 @@ main {
     border-top-left-radius: var(--border-radius);
 }
 
+.add-container{
+    margin-bottom: 20px;
+}
+
 /* Earn */
 .earn-options {
     width: 100%;
@@ -611,4 +615,9 @@ main {
     .filter-bar {
         justify-content: center;
     }
+
+    .content-ul {
+    gap: 0rem;
+
+}
 }
