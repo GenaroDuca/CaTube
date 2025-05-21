@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CaTube Studio</title>
+    <link rel="icon" type="image/svg+xml" href="../media/header_media/logo/catube_white.svg">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Material Icons -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../header/header.css">
+</head>
+
+<body>
+    <header class="header">
+        <!-- Menu y logo -->
+        <div class="left-section">
+            <a href="../index.html">
+                <img src="../media/header_media/logo/catube_white.svg" alt="CaTube logo" class="logo">
+            </a>
+            <span class="title">CaTube</span>
+        </div>
+        <!-- Seccion de busqueda -->
+        <div class="search-section">
+            <div class="mic-section">
+                <button class="mic-btn" aria-label="Search with voice">
+                    <i class="fa fa-microphone"></i>
+                </button>
+            </div>
+            <div class="bar-section">
+                <input type="text" placeholder="Search">
+                <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+        <!-- Seccion de creador y perfil -->
+        <div class="right-section">
+            <button class="create-btn">Create <i class="fas fa-plus"></i></button>
+            <div class="account-section">
+                <button class="notify-btn"><i class="fas fa-bell"></i></button>
+                <a href="../register/register.html"><button class="user-btn"><i class="fas fa-user"></i></button></a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="left-menu">
+            <aside class="sidebar">
+                <header class="sidebar-header"></header>
+                <nav class="sidebar-nav">
+                    <ul class="nav-list primary-nav">
+                        <li class="nav-item">
+                            <button type="button" class="nav-link active">
+                                <span class="nav-icon material-symbols-outlined">dashboard</span>
+                                <span class="nav-label">Dashboard</span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">slideshow</span>
+                                <span class="nav-label">Content</span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">analytics</span>
+                                <span class="nav-label">Analytics</span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">groups</span>
+                                <span class="nav-label">Community</span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">store</span>
+                                <span class="nav-label">Store</span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">payments</span>
+                                <span class="nav-label">Earn</span>
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">colorize</span>
+                                <span class="nav-label">Customization</span>
+                            </button>
+                        </li>
+                    </ul>
+                    <ul class="nav-list secondary-nav">
+                        <li class="nav-item">
+                            <button type="button" class="nav-link">
+                                <span class="material-symbols-outlined">settings</span>
+                                <span class="nav-label">Settings</span>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="container">
+            <h1>Dashboard</h1>
+            <hr>
+            <div class="content">
+                <div class="cards-container">
+                    <div class="three-cards">
+                        <div class="dashboard-card">
+                            <h3>Latest Video performance</h3>
+                            <img class="latest-video" src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg"
+                                alt="video">
+                            <div class="lca-dashboard">
+                                <img src="../media/studio_media/likes.png" alt="like">
+                                <div id="likeCount">0</div>
+                                <img src="../media/studio_media/comments.png" alt="comments">
+                                <div id="commentsCount">0</div>
+                                <img src="../media/studio_media/analytics.png" alt="analytics">
+                                <div id="analyticsCount">0</div>
+                            </div>
+                        </div>
+                        <div class="dashboard-card">
+                            <h3>Latest comments</h3>
+                            <div class="video-dashboard">
+                                <img class="userphoto-dashboard" src="../media/home_media/profile/angel.jpg"
+                                    alt="angel">
+                                <div class="user">
+                                    <p class="username-dashboard">@user1</p>
+                                    <p class="user-message-dashboard">user message</p>
+                                </div>
+                                <img class="video-commented-dashboard"
+                                    src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video">
+                            </div>
+                            <div class="video-dashboard">
+                                <img class="userphoto-dashboard" src="../media/home_media/profile/angel.jpg"
+                                    alt="angel">
+                                <div class="user">
+                                    <p class="username-dashboard">@user1</p>
+                                    <p class="user-message-dashboard">user message</p>
+                                </div>
+                                <img class="video-commented-dashboard"
+                                    src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video">
+                            </div>
+                            <div class="video-dashboard">
+                                <img class="userphoto-dashboard" src="../media/home_media/profile/angel.jpg"
+                                    alt="angel">
+                                <div class="user">
+                                    <p class="username-dashboard">@user1</p>
+                                    <p class="user-message-dashboard">user message</p>
+                                </div>
+                                <img class="video-commented-dashboard"
+                                    src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video">
+                            </div>
+                            <div class="video-dashboard">
+                                <img class="userphoto-dashboard" src="../media/home_media/profile/angel.jpg"
+                                    alt="angel">
+                                <div class="user">
+                                    <p class="username-dashboard">@user1</p>
+                                    <p class="user-message-dashboard">user message</p>
+                                </div>
+                                <img class="video-commented-dashboard"
+                                    src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video">
+                            </div>
+                            <div class="video-dashboard">
+                                <img class="userphoto-dashboard" src="../media/home_media/profile/angel.jpg"
+                                    alt="angel">
+                                <div class="user">
+                                    <p class="username-dashboard">@user1</p>
+                                    <p class="user-message-dashboard">user message</p>
+                                </div>
+                                <img class="video-commented-dashboard"
+                                    src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video">
+                            </div>
+                            <button class="btn-dashboard">View more</button>
+                        </div>
+                        <div class="dashboard-card">
+                            <h3>Recent catscribers</h3>
+                            <div class="recent-cats-container">
+                                <div class="recent-cats">
+                                    <img class="userphoto-recent-cats" src="../media/home_media/profile/angel.jpg"
+                                        alt="angel">
+                                    <div>
+                                        <p>@user1</p>
+                                        <p>0 catscribers</p>
+                                    </div>
+                                </div>
+                                <div class="recent-cats">
+                                    <img class="userphoto-recent-cats" src="../media/home_media/profile/angel.jpg"
+                                        alt="angel">
+                                    <div>
+                                        <p>@user1</p>
+                                        <p>0 catscribers</p>
+                                    </div>
+                                </div>
+                                <div class="recent-cats">
+                                    <img class="userphoto-recent-cats" src="../media/home_media/profile/angel.jpg"
+                                        alt="angel">
+                                    <div>
+                                        <p>@user1</p>
+                                        <p>0 catscribers</p>
+                                    </div>
+                                </div>
+                                <div class="recent-cats">
+                                    <img class="userphoto-recent-cats" src="../media/home_media/profile/angel.jpg"
+                                        alt="angel">
+                                    <div>
+                                        <p>@user1</p>
+                                        <p>0 catscribers</p>
+                                    </div>
+                                </div>
+                                <div class="recent-cats">
+                                    <img class="userphoto-recent-cats" src="../media/home_media/profile/angel.jpg"
+                                        alt="angel">
+                                    <div>
+                                        <p>@user1</p>
+                                        <p>0 catscribers</p>
+                                    </div>
+                                </div>
+                                <div class="recent-cats">
+                                    <img class="userphoto-recent-cats" src="../media/home_media/profile/angel.jpg"
+                                        alt="angel">
+                                    <div>
+                                        <p>@user1</p>
+                                        <p>0 catscribers</p>
+                                    </div>
+                                </div>
+                                <div class="recent-cats">
+                                    <img class="userphoto-recent-cats" src="../media/home_media/profile/angel.jpg"
+                                        alt="angel">
+                                    <div>
+                                        <p>@user1</p>
+                                        <p>0 catscribers</p>
+                                    </div>
+                                </div>
+                                <div class="recent-cats">
+                                    <img class="userphoto-recent-cats" src="../media/home_media/profile/angel.jpg"
+                                        alt="angel">
+                                    <div>
+                                        <p>@user1</p>
+                                        <p>0 catscribers</p>
+                                    </div>
+                                </div>
+                                <div class="recent-cats">
+                                    <img class="userphoto-recent-cats" src="../media/home_media/profile/angel.jpg"
+                                        alt="angel">
+                                    <div>
+                                        <p>@user1</p>
+                                        <p>0 catscribers</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <h3>Currents Catscribers</h3>
+                            <p class="sub-number">10.000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="container hide">
+            <h1>Content</h1>
+            <hr>
+            <div class="content">
+                <div class="filter-bar">
+                    <ul class="content-ul">
+                        <li><button type="button" class="content-li-btn active">Videos</button></li>
+                        <li><button type="button" class="content-li-btn">Shorts</button></li>
+                        <li><button type="button" class="content-li-btn">Playlists</button></li>
+                    </ul>
+                    <div class="filter-container">
+                        <div class="filter-icon"><i class="fa-solid fa-filter"></i></div>
+                        <div class="filter-input">
+                            <input type="text" class="text-input" role="textbox" placeholder="Filter">
+                        </div>
+                    </div>
+                </div>
+                <div class="scroll-table-container">
+                    <table class="content-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="header-video">
+                                        <input type="checkbox" class="checkbox">
+                                        <span>Video</span>
+                                    </div>
+                                </th>
+                                <th>Visibility</th>
+                                <th>Restrictions</th>
+                                <th>Date</th>
+                                <th>Views</th>
+                                <th>Comments</th>
+                                <th>"Like" (%)</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del video</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del video</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del video</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del video</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del video</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del video</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del video</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del video</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="content-table hide">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="header-video">
+                                        <input type="checkbox" class="checkbox">
+                                        <span>Video</span>
+                                    </div>
+                                </th>
+                                <th>Visibility</th>
+                                <th>Restrictions</th>
+                                <th>Date</th>
+                                <th>Views</th>
+                                <th>Comments</th>
+                                <th>"Like" (%)</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="content-table hide">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="header-video">
+                                        <input type="checkbox" class="checkbox">
+                                        <span>Video</span>
+                                    </div>
+                                </th>
+                                <th>Visibility</th>
+                                <th>Restrictions</th>
+                                <th>Date</th>
+                                <th>Views</th>
+                                <th>Comments</th>
+                                <th>"Like" (%)</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre de la playlist</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre de la playlist</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre de la playlist</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre de la playlist</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre de la playlist</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre de la playlist</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre de la playlist</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre de la playlist</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics -->
+        <div class="container hide">
+            <h1>Soon...</h1>
+            <hr>
+            <div class="content"></div>
+        </div>
+
+        <!-- Community -->
+        <div class="container hide">
+            <h1>Community</h1>
+            <hr>
+            <div class="content">
+                <div class="video-community">
+                    <div class="user-container">
+                        <img class="userphoto-community" src="../media/home_media/profile/angel.jpg" alt="angel">
+                        <div class="use-info-container">
+                            <p class="username">@user1</p>
+                            <p class="user-message-community">user message</p>
+                            <div class="lca-community">
+                                <button class="btn-community">Reply</button>
+                                <div>
+                                    <img src="../media/studio_media/likes.png" alt="like">
+                                    <img src="../media/studio_media/dislikes.png" alt="dislike">
+                                    <img src="../media/studio_media/catlove_icon.png" alt="catlove">
+                                    <img src="../media/studio_media/settings.png" alt="settings">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video">
+                        <img class="video-commented-community"
+                            src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video">
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda amet illo at. Alias
+                            deserunt</p>
+                    </div>
+                </div>
+                <div class="video-community">
+                    <div class="user-container">
+                        <img class="userphoto-community" src="../media/home_media/profile/angel.jpg" alt="angel">
+                        <div class="use-info-container">
+                            <p class="username">@user1</p>
+                            <p class="user-message-community">user message</p>
+                            <div class="lca-community">
+                                <button class="btn-community">Reply</button>
+                                <div>
+                                    <img src="../media/studio_media/likes.png" alt="like">
+                                    <img src="../media/studio_media/dislikes.png" alt="dislike">
+                                    <img src="../media/studio_media/catlove_icon.png" alt="catlove">
+                                    <img src="../media/studio_media/settings.png" alt="settings">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video">
+                        <img class="video-commented-community"
+                            src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video">
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda amet illo at. Alias
+                            deserunt</p>
+                    </div>
+                </div>
+                <div class="video-community">
+                    <div class="user-container">
+                        <img class="userphoto-community" src="../media/home_media/profile/angel.jpg" alt="angel">
+                        <div class="use-info-container">
+                            <p class="username">@user1</p>
+                            <p class="user-message-community">user message</p>
+                            <div class="lca-community">
+                                <button class="btn-community">Reply</button>
+                                <div>
+                                    <img src="../media/studio_media/likes.png" alt="like">
+                                    <img src="../media/studio_media/dislikes.png" alt="dislike">
+                                    <img src="../media/studio_media/catlove_icon.png" alt="catlove">
+                                    <img src="../media/studio_media/settings.png" alt="settings">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video">
+                        <img class="video-commented-community"
+                            src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video">
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda amet illo at. Alias
+                            deserunt</p>
+                    </div>
+                </div>
+                <div class="video-community">
+                    <div class="user-container">
+                        <img class="userphoto-community" src="../media/home_media/profile/angel.jpg" alt="angel">
+                        <div class="use-info-container">
+                            <p class="username">@user1</p>
+                            <p class="user-message-community">user message</p>
+                            <div class="lca-community">
+                                <button class="btn-community">Reply</button>
+                                <div>
+                                    <img src="../media/studio_media/likes.png" alt="like">
+                                    <img src="../media/studio_media/dislikes.png" alt="dislike">
+                                    <img src="../media/studio_media/catlove_icon.png" alt="catlove">
+                                    <img src="../media/studio_media/settings.png" alt="settings">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video">
+                        <img class="video-commented-community"
+                            src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video">
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda amet illo at. Alias
+                            deserunt</p>
+                    </div>
+                </div>
+                <div class="video-community">
+                    <div class="user-container">
+                        <img class="userphoto-community" src="../media/home_media/profile/angel.jpg" alt="angel">
+                        <div class="use-info-container">
+                            <p class="username">@user1</p>
+                            <p class="user-message-community">user message</p>
+                            <div class="lca-community">
+                                <button class="btn-community">Reply</button>
+                                <div>
+                                    <img src="../media/studio_media/likes.png" alt="like">
+                                    <img src="../media/studio_media/dislikes.png" alt="dislike">
+                                    <img src="../media/studio_media/catlove_icon.png" alt="catlove">
+                                    <img src="../media/studio_media/settings.png" alt="settings">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video">
+                        <img class="video-commented-community"
+                            src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video">
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda amet illo at. Alias
+                            deserunt</p>
+                    </div>
+                </div>
+                <div class="video-community">
+                    <div class="user-container">
+                        <img class="userphoto-community" src="../media/home_media/profile/angel.jpg" alt="angel">
+                        <div class="use-info-container">
+                            <p class="username">@user1</p>
+                            <p class="user-message-community">user message</p>
+                            <div class="lca-community">
+                                <button class="btn-community">Reply</button>
+                                <div>
+                                    <img src="../media/studio_media/likes.png" alt="like">
+                                    <img src="../media/studio_media/dislikes.png" alt="dislike">
+                                    <img src="../media/studio_media/catlove_icon.png" alt="catlove">
+                                    <img src="../media/studio_media/settings.png" alt="settings">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="video">
+                        <img class="video-commented-community"
+                            src="../media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="video">
+                        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Assumenda amet illo at. Alias
+                            deserunt</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Store -->
+        <div class="container hide">
+            <h1>Your store</h1>
+            <hr>
+            <div class="content">
+                <div class="add-container">
+                    <div class="btn-container">
+                        <p>Add new product</p>
+                        <button type="button"><i class="fas fa-plus"></i></button>
+                    </div>
+                </div>
+                <h2>Your products</h2>
+                <hr>
+                <div class="products-container">
+                    <!-- Repite este bloque para cada producto -->
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                    <div class="product-card">
+                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
+                        <h2>Product name</h2>
+                        <h3>$Price</h3>
+                        <p>Description</p>
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earn -->
+        <div class="container hide">
+            <h1>Earn CaTube</h1>
+            <hr>
+            <div class="content">
+                <div class="earn-options">
+                    <details>
+                        <summary>Membership</summary>
+                        <h4>Grow your community and earn money monthly</h4>
+                        <p>Offer exclusive benefits for paid members that will excite your audience. Users can join from
+                            your video and channel pages. You'll receive 70% of the net revenue.</p>
+                    </details>
+                    <hr>
+                    <details>
+                        <summary>Donations</summary>
+                        <p>Donations help you engage with your community and feel supported.</p>
+                    </details>
+                    <hr>
+                    <details>
+                        <summary>Store</summary>
+                        <h4>You can have your own integrated store in Catube.</h4>
+                        <button type="button" id="storeButton">Your Store</button>
+                    </details>
+                </div>
+                <div class="earn-requirements">
+                    <h3>Requirements to Monetize</h3>
+                    <h4>Subscribers</h4>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-track">
+                            <div class="progress-bar-fill" id="subscribersProgressBarFill"></div>
+                        </div>
+                    </div>
+                    <div class="progress-bar-labels">
+                        <span id="subscribersProgressStartLabel">Subscribers</span>
+                        <span id="subscribersProgressEndLabel">Target: 500</span>
+                    </div>
+                    <h4>Videos Uploaded</h4>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-track">
+                            <div class="progress-bar-fill" id="videosUploadedProgressBarFill"></div>
+                        </div>
+                    </div>
+                    <div class="progress-bar-labels">
+                        <span id="videosUploadedProgressStartLabel">Videos</span>
+                        <span id="videosUploadedProgressEndLabel">Target: 3</span>
+                    </div>
+                    <h4>Valid Public Watch Hours</h4>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-track">
+                            <div class="progress-bar-fill" id="watchHoursProgressBarFill"></div>
+                        </div>
+                    </div>
+                    <div class="progress-bar-labels">
+                        <span id="watchHoursProgressStartLabel">Hours</span>
+                        <span id="watchHoursProgressEndLabel">Target: 3000</span>
+                    </div>
+                    <div class="apply-btn-container">
+                        <button type="button" id="applyButton" disabled>Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customization -->
+        <div class="container hide">
+            <h1>Customization</h1>
+            <hr>
+            <div class="content">
+                <div class="cards-customization-container">
+                    <div class="card-customization">
+                        <span>Banner image</span>
+                        <div>
+                            <img class="photo-card banner" src="../media/studio_media/banner-customization.png"
+                                alt="Banner">
+                        </div>
+                        <label for="banner-upload" class="custom-file-label">
+                            <span>Upload</span>
+                            <input id="banner-upload" type="file" accept="image/*" style="display:none;">
+                        </label>
+                    </div>
+                    <div class="card-customization">
+                        <span>Picture</span>
+                        <div>
+                            <img class="photo-card" src="../media/home_media/profile/angel.jpg" alt="angel">
+                        </div>
+                        <label for="picture-upload" class="custom-file-label">
+                            <span>Upload</span>
+                            <input id="picture-upload" type="file" accept="image/*" style="display:none;">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="info-customization-container">
+                    <span>Name</span>
+                    <input type="text" class="rectangle-customization" placeholder="name">
+
+                    <span>Handle</span>
+                    <input type="text" class="rectangle-customization" placeholder="@name">
+
+                    <span>Description</span>
+                    <input type="text" class="rectangle-customization-description" placeholder="Description">
+                </div>
+            </div>
+        </div>
+
+        <div class="right-menu">
+            <img src="../media/home_media/profile/angel.jpg" alt="angel">
+            <h1>Channel Name</h1>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script src="../header/header.js"></script>
+</body>
+
+</html>
