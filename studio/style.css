@@ -303,6 +303,51 @@ main {
     margin: 2px 0 0 0;
 }
 
+/* Channel Analytics*/
+/* Contenedor general */
+.analytics-container {
+    box-sizing: border-box;
+    padding: auto;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 1200px;
+}
+
+/* Título y controles */
+.control-graphic {
+    padding: 20px;
+    text-align: center;
+}
+
+/* Contenedor de los gráficos */
+.graphics {
+    background: var(--primary-color);
+    border-radius: var(--border-radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 40px;
+    padding: 30px 10px;
+}
+
+/* Estilo individual de cada gráfico */
+.chart-container {
+    width: 100%;
+    /* max-width: 900px; */
+    background-color: var(--primary-color);
+    padding: 0;
+    position: relative;
+    /* aspect-ratio: 16 / 9; */
+}
+
+/* Canvas del gráfico */
+.chart-container canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
 /* Community */
 .video-community {
     width: 100%;
