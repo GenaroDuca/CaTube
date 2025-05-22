@@ -89,7 +89,6 @@ button:hover {
     gap: 0.05rem;
 }
 
-/* icon buttons conf */
 .menu-btn,
 .mic-btn,
 .notify-btn,
@@ -106,7 +105,6 @@ button:hover {
     align-items: center;
 }
 
-/* icon buttons hover */
 .menu-btn:hover,
 .mic-btn:hover,
 .notify-btn:hover,
