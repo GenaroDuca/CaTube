@@ -18,14 +18,12 @@
 
 <body>
     <header class="header">
-        <!-- Menu y logo -->
         <div class="left-section">
             <a href="../index.html">
                 <img src="../media/header_media/logo/catube_white.svg" alt="CaTube logo" class="logo">
             </a>
             <span class="title">CaTube</span>
         </div>
-        <!-- Seccion de busqueda -->
         <div class="search-section">
             <div class="mic-section">
                 <button class="mic-btn" aria-label="Search with voice">
@@ -37,7 +35,6 @@
                 <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
             </div>
         </div>
-        <!-- Seccion de creador y perfil -->
         <div class="right-section">
             <button class="create-btn">Create <i class="fas fa-plus"></i></button>
             <div class="account-section">
@@ -97,7 +94,7 @@
                         </li>
                     </ul>
                     <ul class="nav-list secondary-nav">
-                        <li class="nav-item">
+                        <li class="nav-item setting-left-menu-item">
                             <button type="button" class="nav-link">
                                 <span class="material-symbols-outlined">settings</span>
                                 <span class="nav-label">Settings</span>
@@ -787,26 +784,28 @@
         </div>
 
         <!-- Analytics -->
-<div class="container hide">
-  <h1>Channel Analytics</h1>
-  <hr>
-  <div class="content">
-    <div class="analytics-container">
-        <div class="control-graphic">
-          <h2>Daily stats</h2>
-        </div>
-        <div class="graphics">
-            <div class="chart-container " style="min-width: 370px; min-height: 370px; max-width: 900px; max-height: 900px;">
-                <canvas id="lineChart"></canvas>
-            </div>
+        <div class="container hide">
+            <h1>Channel Analytics</h1>
             <hr>
-            <div class="chart-container" style="min-width: 284px; min-height: 284px; max-width: 375px; min-height: 552px;">
-                <canvas id="doughnutChart"></canvas>
+            <div class="content">
+                <div class="analytics-container">
+                    <div class="control-graphic">
+                        <h2>Daily stats</h2>
+                    </div>
+                    <div class="graphics">
+                        <div class="chart-container "
+                            style="min-width: 370px; min-height: 370px; max-width: 900px; max-height: 900px;">
+                            <canvas id="lineChart"></canvas>
+                        </div>
+                        <hr>
+                        <div class="chart-container"
+                            style="min-width: 284px; min-height: 284px; max-width: 375px; min-height: 552px;">
+                            <canvas id="doughnutChart"></canvas>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-  </div>
-</div>
 
         <!-- Community -->
         <div class="container hide">
@@ -974,7 +973,6 @@
                 <h2>Your products</h2>
                 <hr>
                 <div class="products-container">
-                    <!-- Repite este bloque para cada producto -->
                     <div class="product-card">
                         <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
                         <h2>Product name</h2>

@@ -4,7 +4,9 @@ main {
 }
 
 .container {
-    width: 70%;
+    width: 70vw;
+    margin-left: 15vw;
+    margin-right: 15vw;
     padding: 20px;
 }
 
@@ -14,15 +16,29 @@ main {
 
 .left-menu,
 .right-menu {
-    width: 15%;
+    position: fixed;
+    top: 0;
+    width: 15vw;
+    height: 100vh;
     background: var(--primary-color);
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 10px;
+    z-index: 10;
+    margin-top: 50px;
+}
+
+.left-menu {
+    left: 0;
+}
+
+.right-menu {
+    right: 0;
 }
 
 .right-menu img {
+    margin-top: 15px;
     width: 100%;
     border-radius: 50%;
 }
@@ -187,7 +203,6 @@ main {
 }
 
 /* Content */
-
 /* Table & Filter */
 .filter-bar {
     display: flex;
@@ -304,7 +319,6 @@ main {
 }
 
 /* Channel Analytics*/
-/* Contenedor general */
 .analytics-container {
     box-sizing: border-box;
     padding: auto;
@@ -313,13 +327,11 @@ main {
     max-width: 1200px;
 }
 
-/* Título y controles */
 .control-graphic {
     padding: 20px;
     text-align: center;
 }
 
-/* Contenedor de los gráficos */
 .graphics {
     background: var(--primary-color);
     border-radius: var(--border-radius);
@@ -331,7 +343,6 @@ main {
     padding: 30px 10px;
 }
 
-/* Estilo individual de cada gráfico */
 .chart-container {
     width: 100%;
     /* max-width: 900px; */
@@ -341,7 +352,6 @@ main {
     /* aspect-ratio: 16 / 9; */
 }
 
-/* Canvas del gráfico */
 .chart-container canvas {
     width: 100% !important;
     height: 100% !important;
@@ -424,7 +434,7 @@ main {
     border-top-left-radius: var(--border-radius);
 }
 
-.add-container{
+.add-container {
     margin-bottom: 20px;
 }
 
@@ -614,6 +624,10 @@ main {
     bottom: 30px;
 }
 
+.setting-left-menu-item {
+    margin-bottom: 30px;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
     .sidebar {
@@ -662,7 +676,6 @@ main {
     }
 
     .content-ul {
-    gap: 0rem;
-
-}
+        gap: 0rem;
+    }
 }
