@@ -787,11 +787,26 @@
         </div>
 
         <!-- Analytics -->
-        <div class="container hide">
-            <h1>Soon...</h1>
-            <hr>
-            <div class="content"></div>
+<div class="container hide">
+  <h1>Channel Analytics</h1>
+  <hr>
+  <div class="content">
+    <div class="analytics-container">
+        <div class="control-graphic">
+          <h2>Daily stats</h2>
         </div>
+        <div class="graphics">
+            <div class="chart-container " style="min-width: 370px; min-height: 370px; max-width: 900px; max-height: 900px;">
+                <canvas id="lineChart"></canvas>
+            </div>
+            <hr>
+            <div class="chart-container" style="min-width: 284px; min-height: 284px; max-width: 375px; min-height: 552px;">
+                <canvas id="doughnutChart"></canvas>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
 
         <!-- Community -->
         <div class="container hide">
@@ -1133,6 +1148,7 @@
 
     <script src="script.js"></script>
     <script src="../header/header.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 
 </html>

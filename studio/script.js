@@ -191,3 +191,77 @@ document.addEventListener('DOMContentLoaded', function () {
     // Check monetization eligibility
     checkMonetizationEligibility();
 });
+
+// Analytics Sections
+document.addEventListener('DOMContentLoaded', function () {
+  const ctx = document.getElementById('lineChart').getContext('2d');
+  const lineChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+      datasets: [
+        {
+          label: 'Vistas',
+          data: [1200, 1900, 3000, 5000, 3200, 4200, 6100, 7000, 8000, 9000, 10000, 11000, 12000],
+          borderColor: 'rgb(162, 209, 117)',
+          backgroundColor: 'rgba(92, 117, 84, 0.2)',
+          fill: true,
+          tension: 0.3
+        },
+        {
+          label: 'Suscriptores',
+          data: [100, 200, 400, 350, 300, 450, 600, 700, 800, 900, 1000, 1100],
+          borderColor: 'rgb(211, 224, 201)',
+          backgroundColor: 'rgba(62, 51, 82, 0.2)',
+          fill: true,
+          tension: 0.3
+        },
+        {
+          label: 'Tiempo de visualización (horas)',
+          data: [500, 700, 1200, 2000, 1800, 2400, 3100, 4000, 4500, 5000, 6000, 7000],
+          borderColor: 'rgb(255, 205, 86)',
+          backgroundColor: 'rgba(255, 205, 86, 0.2)',
+          fill: true,
+          tension: 0.3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Estadísticas mensuales de contenido'
+        }
+      }
+    }
+  });
+
+  const ctx2 = document.getElementById('doughnutChart').getContext('2d');
+  const doughnutData = {
+    labels: ['Búsqueda en CaTube', 'Videos sugeridos', 'Páginas externas'],
+    datasets: [{
+      label: 'Origen del tráfico',
+      data: [45, 35, 20],
+      backgroundColor: [
+        'rgb(116, 146, 105)',
+        'rgb(144, 180, 132)',
+        'rgb(116, 146, 132)'
+      ],
+      hoverOffset: 6
+    }]
+  };
+  const doughnutChart = new Chart(ctx2, {
+    type: 'doughnut',
+    data: doughnutData,
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Tráfico'
+        }
+      }
+    }
+  });
+});
