@@ -162,7 +162,7 @@ a {
   color: #cbeec0;
 }
 
-/* Media query adjustments */
+/* Media query */
 @media (max-width: 768px) {
 
   .auth-box-login,
