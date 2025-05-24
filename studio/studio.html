@@ -788,21 +788,102 @@
             <h1>Channel Analytics</h1>
             <hr>
             <div class="content">
-                <div class="analytics-container">
-                    <div class="control-graphic">
-                        <h2>Daily stats</h2>
-                    </div>
-                    <div class="graphics">
-                        <div class="chart-container "
-                            style="min-width: 370px; min-height: 370px; max-width: 900px; max-height: 900px;">
-                            <canvas id="lineChart"></canvas>
-                        </div>
-                        <hr>
-                        <div class="chart-container"
-                            style="min-width: 284px; min-height: 284px; max-width: 375px; min-height: 552px;">
-                            <canvas id="doughnutChart"></canvas>
-                        </div>
-                    </div>
+<div class="analytics-container">
+  <div class="control-graphic">
+    <div class="ts-control-video">
+      <h2>Daily Stats</h2>
+    </div>
+    <div class="ts-graphics">
+      <div class="ts-chart-container ts-line-chart">
+        <canvas id="lineChart"></canvas>
+      </div>
+
+      <hr />
+
+      <div class="ts-chart-container ts-doughnut-chart">
+        <canvas id="doughnutChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+<div>
+    <br>
+  <div class="ts-control-video">
+    <h2>Top Videos</h2>
+  </div>
+  <div class="ts-scroll-table">
+    <table class="ts-video-table">
+      <thead>
+        <tr>
+          <th>
+            <div class="ts-video-header">
+              <span>Video</span>
+            </div>
+          </th>
+          <th>Views</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-label="Video">
+            <div class="ts-video-content">
+              <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura" />
+              <div class="ts-video-text">
+                <p class="ts-video-title">Nombre del video</p>
+              </div>
+            </div>
+          </td>
+          <td data-label="Views">99</td>
+        </tr>
+                <tr>
+          <td data-label="Video">
+            <div class="ts-video-content">
+              <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura" />
+              <div class="ts-video-text">
+                <p class="ts-video-title">Nombre del video</p>
+              </div>
+            </div>
+          </td>
+          <td data-label="Views">55</td>
+        </tr>
+                <tr>
+          <td data-label="Video">
+            <div class="ts-video-content">
+              <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura" />
+              <div class="ts-video-text">
+                <p class="ts-video-title">Nombre del video</p>
+              </div>
+            </div>
+          </td>
+          <td data-label="Views">35</td>
+        </tr>
+                <tr>
+          <td data-label="Video">
+            <div class="ts-video-content">
+              <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura" />
+              <div class="ts-video-text">
+                <p class="ts-video-title">Nombre del video</p>
+              </div>
+            </div>
+          </td>
+          <td data-label="Views">22</td>
+        </tr>
+                <tr>
+          <td data-label="Video">
+            <div class="ts-video-content">
+              <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura" />
+              <div class="ts-video-text">
+                <p class="ts-video-title">Nombre del video</p>
+              </div>
+            </div>
+          </td>
+          <td data-label="Views">10</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
                 </div>
             </div>
         </div>

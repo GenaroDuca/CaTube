@@ -320,43 +320,118 @@ main {
 
 /* Channel Analytics*/
 .analytics-container {
-    box-sizing: border-box;
-    padding: auto;
-    margin: 0 auto;
-    width: 100%;
-    max-width: 1200px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  max-height: 100vh;
 }
 
-.control-graphic {
-    padding: 20px;
+.control-graphic .ts-control-video {
+  padding: 20px;
+}
+
+.ts-control-video {
     text-align: center;
 }
 
-.graphics {
-    background: var(--primary-color);
-    border-radius: var(--border-radius);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 40px;
-    padding: 30px 10px;
+.ts-graphics {
+  background: var(--primary-color);
+  border-radius: var(--border-radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 20px;
+  padding: 30px 10px;
 }
 
-.chart-container {
-    width: 100%;
-    /* max-width: 900px; */
-    background-color: var(--primary-color);
-    padding: 0;
-    position: relative;
-    /* aspect-ratio: 16 / 9; */
+.ts-chart-container {
+  width: 100%;
+  max-width: 900px;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  background-color: var(--primary-color);
 }
 
-.chart-container canvas {
-    width: 100% !important;
-    height: 100% !important;
-    display: block;
+.ts-chart-container.ts-line-chart {
+  max-width: 900px;
+  aspect-ratio: 16 / 9;
 }
+
+.ts-chart-container.ts-doughnut-chart {
+  width: 100%;
+  max-width: clamp(284px, 40vw, 375px);
+  aspect-ratio: 1 / 1;
+}
+
+.ts-chart-container canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+
+.ts-scroll-table {
+  overflow-x: auto;
+  width: 100%;
+  border-radius: var(--border-radius);
+  margin-top: 20px;
+}
+
+.ts-video-table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  background: var(--primary-color);
+}
+
+/* .ts-video-table thead {
+  background: #0000e4;
+} */
+
+.ts-video-table th,
+.ts-video-table td {
+  padding: 20px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.ts-video-header,
+.ts-video-content {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ts-video-content img {
+  width: 80px;
+  border-radius: 6px;
+}
+
+.ts-video-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.ts-video-title {
+  font-weight: bold;
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .ts-chart-container {
+    max-width: 90vw;
+    aspect-ratio: 1 / 1;
+  }
+
+  .ts-graphics {
+    gap: 20px;
+    padding: 20px 5px;
+  }
+}
+
 
 /* Community */
 .video-community {
