@@ -21,13 +21,11 @@
             margin: 0;
             font-family: Arial, sans-serif;
             overflow: hidden;
-            /* Para evitar barras de scroll */
         }
 
         #gameCanvas {
-            border: 2px solid #fff;
+            border-radius: 30px;
             background-color: #87CEEB;
-            /* Color cielo */
         }
 
         #startScreen,
@@ -60,6 +58,11 @@
         #gameOverScreen button:hover {
             background-color: #45a049;
         }
+
+        #startScreen button:disabled {
+            background-color: #aaa;
+            cursor: default;
+        }
     </style>
 </head>
 
@@ -70,49 +73,22 @@
                     class="logo"></a>
             <span class="title">CaTube</span>
         </div>
-
-        <div class="search-section">
-            <div class="mic-section">
-                <button class="mic-btn" aria-label="Search with voice">
-                    <i class="fa fa-microphone"></i>
-                </button>
-            </div>
-
-            <div class="bar-section">
-                <input type="text" placeholder="Search">
-                <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
-            </div>
-        </div>
-
         <div class="right-section">
-            <button class="create-btn">
-                <p>Create </p><i class="fas fa-plus"></i>
-            </button>
-
-            <div class="account-section">
-                <button class="notify-btn">
-                    <i class="fas fa-bell"></i>
-                </button>
-                <a href="#">
-                    <button class="user-btn">
-                        <i class="fas fa-user"></i>
-                    </button>
-                </a>
-            </div>
+            <a href="/index.html"><button class="return-btn-soon">Return</button></a>
         </div>
     </header>
-    
+
+
     <div id="startScreen">
-        <h1>Flappy HTML</h1>
-        <p>Pulsa Espacio o haz Clic para saltar.</p>
-        <button id="startButton">Empezar Juego</button>
+        <h1>Catube Flappy</h1>
+        <button id="startButton">Loading...</button>
     </div>
 
     <div id="gameOverScreen" style="display: none;">
         <h1>Game Over</h1>
-        <p>Puntuación: <span id="finalScore">0</span></p>
-        <p>Mejor Puntuación: <span id="highScore">0</span></p>
-        <button id="restartButton">Reintentar</button>
+        <p>Points: <span id="finalScore">0</span></p>
+        <p>Record: <span id="highScore">0</span></p>
+        <button id="restartButton">Retry</button>
     </div>
 
     <canvas id="gameCanvas"></canvas>
@@ -128,17 +104,21 @@
         const finalScoreDisplay = document.getElementById('finalScore');
         const highScoreDisplay = document.getElementById('highScore');
 
-        // Configuraciones del juego
-        const BIRD_WIDTH = 40;
-        const BIRD_HEIGHT = 30;
-        const BIRD_COLOR = 'yellow';
+        // --- NUEVO: Configuración de la imagen del pájaro ---
+        const BIRD_IMAGE_PATH = '/media/header_media/logo/catube_white.svg'; // <-- ¡CAMBIA ESTO POR LA RUTA A TU IMAGEN!
+        const birdImage = new Image();
+        let birdImageLoaded = false;
+        // ----------------------------------------------------
+
+        const BIRD_WIDTH = 40; // Ancho deseado para dibujar la imagen
+        const BIRD_HEIGHT = 30; // Alto deseado para dibujar la imagen
         const BIRD_X = 50;
 
         const GRAVITY = 0.5;
         const JUMP_STRENGTH = -8;
 
         const PIPE_WIDTH = 70;
-        const PIPE_GAP = 160; // Aumentado ligeramente de 150 a 160
+        const PIPE_GAP = 160;
         const PIPE_COLOR = 'green';
         const PIPE_SPEED = 3;
         const PIPE_SPAWN_INTERVAL = 1500;
@@ -147,10 +127,10 @@
         let pipes = [];
         let score = 0;
         let highScore = localStorage.getItem('flappyHighScore') || 0;
-        let gameInterval; // No usado con requestAnimationFrame, pero se deja por si se revierte
         let gameRunning = false;
         let lastPipeSpawnTime = 0;
-        let animationFrameId; // Para controlar requestAnimationFrame
+        let animationFrameId;
+        let lastFrameTime = 0;
 
         function resizeCanvas() {
             canvas.width = Math.min(window.innerWidth * 0.9, 500);
@@ -162,8 +142,8 @@
             birdVelocityY = 0;
             pipes = [];
             score = 0;
-            lastPipeSpawnTime = performance.now(); // Usar performance.now() para mayor precisión
-            updateHighScoreDisplay();
+            lastPipeSpawnTime = performance.now();
+            updateHighScoreDisplay(); // Ya se muestra en startGameScreen y gameOverScreen
             gameOverScreen.style.display = 'none';
             startScreen.style.display = 'none';
             gameRunning = true;
@@ -173,31 +153,55 @@
             }
 
             spawnPipe();
-            lastFrameTime = performance.now(); // Inicializar para el primer gameLoop
-            gameLoop(lastFrameTime); // Iniciar el bucle de juego
+            lastFrameTime = performance.now();
+            gameLoop(lastFrameTime);
         }
 
         function startGameScreen() {
             resizeCanvas();
             startScreen.style.display = 'block';
             gameOverScreen.style.display = 'none';
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar por si acaso
-            // No es necesario dibujar texto aquí si la pantalla de inicio HTML lo cubre
             updateHighScoreDisplay();
+            startButton.disabled = true; // Deshabilitar hasta que la imagen cargue
+            startButton.textContent = "Cargando...";
+
+            // Cargar la imagen del pájaro
+            birdImage.onload = () => {
+                birdImageLoaded = true;
+                startButton.disabled = false;
+                startButton.textContent = "Start Game";
+                console.log("Imagen del pájaro cargada.");
+                // Opcional: si quieres dibujar algo en el canvas de inicio una vez cargada la imagen
+                // ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // if (birdImageLoaded) ctx.drawImage(birdImage, canvas.width/2 - BIRD_WIDTH/2, canvas.height/2 - BIRD_HEIGHT/2, BIRD_WIDTH, BIRD_HEIGHT);
+            };
+            birdImage.onerror = () => {
+                console.error(`Error al cargar la imagen: ${BIRD_IMAGE_PATH}. Se usará el pájaro por defecto.`);
+                birdImageLoaded = false; // Para que use el fallback
+                startButton.disabled = false;
+                startButton.textContent = "Empezar (Error Imagen)";
+            };
+            birdImage.src = BIRD_IMAGE_PATH;
         }
 
         function drawBird() {
-            ctx.fillStyle = BIRD_COLOR;
-            ctx.fillRect(BIRD_X, birdY, BIRD_WIDTH, BIRD_HEIGHT);
-
-            ctx.fillStyle = 'white';
-            ctx.beginPath();
-            ctx.arc(BIRD_X + BIRD_WIDTH * 0.7, birdY + BIRD_HEIGHT * 0.4, BIRD_WIDTH * 0.15, 0, Math.PI * 2);
-            ctx.fill();
-            ctx.fillStyle = 'black';
-            ctx.beginPath();
-            ctx.arc(BIRD_X + BIRD_WIDTH * 0.75, birdY + BIRD_HEIGHT * 0.4, BIRD_WIDTH * 0.08, 0, Math.PI * 2);
-            ctx.fill();
+            if (birdImageLoaded && birdImage.complete && birdImage.naturalWidth > 0) {
+                // Dibuja la imagen si está cargada
+                ctx.drawImage(birdImage, BIRD_X, birdY, BIRD_WIDTH, BIRD_HEIGHT);
+            } else {
+                // Fallback: Dibuja un rectángulo si la imagen no se cargó
+                ctx.fillStyle = 'yellow'; // BIRD_COLOR ya no está definido, usamos un valor directo
+                ctx.fillRect(BIRD_X, birdY, BIRD_WIDTH, BIRD_HEIGHT);
+                // Ojo simple para el fallback
+                ctx.fillStyle = 'white';
+                ctx.beginPath();
+                ctx.arc(BIRD_X + BIRD_WIDTH * 0.7, birdY + BIRD_HEIGHT * 0.4, BIRD_WIDTH * 0.15, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.fillStyle = 'black';
+                ctx.beginPath();
+                ctx.arc(BIRD_X + BIRD_WIDTH * 0.75, birdY + BIRD_HEIGHT * 0.4, BIRD_WIDTH * 0.08, 0, Math.PI * 2);
+                ctx.fill();
+            }
         }
 
         function birdJump() {
@@ -217,43 +221,21 @@
 
         function spawnPipe() {
             if (!gameRunning) return;
-
-            // MIN_MARGIN_FROM_EDGE asegura que las tuberías superior e inferior tengan una altura mínima visible,
-            // y que el hueco no esté demasiado pegado a los bordes.
-            const MIN_MARGIN_FROM_EDGE = 75; // Antes implícitamente era 50px. Aumentado a 75px.
-
-            // El rango de alturas aleatorias para la tubería superior.
-            // Se calcula para que tanto la tubería superior como la inferior tengan al menos MIN_MARGIN_FROM_EDGE de altura.
+            const MIN_MARGIN_FROM_EDGE = 75;
             const availableRandomRange = canvas.height - PIPE_GAP - (2 * MIN_MARGIN_FROM_EDGE);
-
             let topPipeHeight;
             if (availableRandomRange <= 0) {
-                // Si el canvas es demasiado pequeño para los márgenes y el hueco,
-                // la tubería superior tomará la altura mínima permitida.
-                // Esto centrará el hueco si es posible, o lo pondrá lo más arriba posible respetando el margen.
                 topPipeHeight = MIN_MARGIN_FROM_EDGE;
             } else {
                 topPipeHeight = Math.random() * availableRandomRange + MIN_MARGIN_FROM_EDGE;
             }
-
-            pipes.push({
-                x: canvas.width,
-                y: 0,
-                height: topPipeHeight,
-                passed: false
-            });
-            pipes.push({
-                x: canvas.width,
-                y: topPipeHeight + PIPE_GAP,
-                height: canvas.height - (topPipeHeight + PIPE_GAP),
-                passed: true
-            });
+            pipes.push({ x: canvas.width, y: 0, height: topPipeHeight, passed: false });
+            pipes.push({ x: canvas.width, y: topPipeHeight + PIPE_GAP, height: canvas.height - (topPipeHeight + PIPE_GAP), passed: true });
         }
 
         function updatePipes() {
             for (let i = 0; i < pipes.length; i++) {
                 pipes[i].x -= PIPE_SPEED;
-
                 if (BIRD_X < pipes[i].x + PIPE_WIDTH &&
                     BIRD_X + BIRD_WIDTH > pipes[i].x &&
                     birdY < pipes[i].y + pipes[i].height &&
@@ -261,7 +243,6 @@
                     endGame();
                     return;
                 }
-
                 if (i % 2 === 0 && !pipes[i].passed && pipes[i].x + PIPE_WIDTH < BIRD_X) {
                     pipes[i].passed = true;
                     score++;
@@ -297,10 +278,9 @@
         }
 
         function endGame() {
-            if (!gameRunning) return; // Evitar múltiples llamadas a endGame
+            if (!gameRunning) return;
             gameRunning = false;
-            cancelAnimationFrame(animationFrameId); // Detener el bucle de juego
-
+            cancelAnimationFrame(animationFrameId);
             if (score > highScore) {
                 highScore = score;
                 localStorage.setItem('flappyHighScore', highScore);
@@ -310,38 +290,32 @@
             gameOverScreen.style.display = 'block';
         }
 
-        let lastFrameTime = 0;
         function gameLoop(currentTime) {
             if (!gameRunning) return;
-
-            animationFrameId = requestAnimationFrame(gameLoop); // Solicitar el próximo frame primero
-
-            // const deltaTime = currentTime - lastFrameTime; // No se usa activamente para física aquí, pero es buena práctica
+            animationFrameId = requestAnimationFrame(gameLoop);
             lastFrameTime = currentTime;
-
             if (currentTime - lastPipeSpawnTime > PIPE_SPAWN_INTERVAL) {
                 spawnPipe();
                 lastPipeSpawnTime = currentTime;
             }
-
             updateBird();
             updatePipes();
-
             if (!gameRunning) return;
-
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawPipes();
-            drawBird();
+            drawBird(); // Ahora dibuja la imagen
             drawScore();
         }
 
-        startButton.addEventListener('click', initGame);
+        startButton.addEventListener('click', () => {
+            if (!startButton.disabled) initGame();
+        });
         restartButton.addEventListener('click', initGame);
 
         document.addEventListener('keydown', (e) => {
             if (e.code === 'Space') {
-                e.preventDefault(); // Evita que la página haga scroll si el espacio está enfocado en algo
-                if (!gameRunning && startScreen.style.display === 'block') {
+                e.preventDefault();
+                if (!gameRunning && startScreen.style.display === 'block' && !startButton.disabled) {
                     initGame();
                 } else if (gameRunning) {
                     birdJump();
@@ -351,9 +325,8 @@
             }
         });
 
-        // Usar mousedown para una respuesta más rápida que click
         canvas.addEventListener('mousedown', () => {
-            if (!gameRunning && startScreen.style.display === 'block') {
+            if (!gameRunning && startScreen.style.display === 'block' && !startButton.disabled) {
                 initGame();
             } else if (gameRunning) {
                 birdJump();
@@ -364,36 +337,30 @@
 
         window.addEventListener('resize', () => {
             const wasRunning = gameRunning;
-            if (wasRunning) { // Pausar temporalmente si estaba corriendo
+            if (wasRunning) {
                 gameRunning = false;
                 cancelAnimationFrame(animationFrameId);
             }
             resizeCanvas();
             if (startScreen.style.display === 'block' || gameOverScreen.style.display === 'block') {
-                // Si estamos en una pantalla de menú, solo redimensionamos y la UI se adapta
-                // No es necesario redibujar el canvas con texto aquí si las pantallas HTML lo cubren.
-                // Si el juego estaba en game over, mostramos la pantalla de game over de nuevo
                 if (gameOverScreen.style.display === 'block') {
-                    finalScoreDisplay.textContent = score; // Asegurar que el score se muestre
+                    finalScoreDisplay.textContent = score;
                     updateHighScoreDisplay();
                 } else {
-                    startGameScreen(); // Volver a mostrar pantalla de inicio
+                    // Re-ejecutar startGameScreen para que maneje la carga de imagen y estado del botón
+                    startGameScreen();
                 }
             } else if (wasRunning) {
-                // Si el juego estaba corriendo, redibujar el estado actual y reanudar
-                // Esto es más complejo, por ahora lo simplificamos:
-                // Al redimensionar durante el juego, podría ser mejor simplemente reiniciar
-                // o mostrar una pantalla de pausa. Por ahora, si estaba corriendo,
-                // lo llevamos a la pantalla de inicio para evitar problemas de estado.
-                startGameScreen(); // Simplificación: volver a la pantalla de inicio
+                startGameScreen(); // Volver a la pantalla de inicio, simplificado
             } else {
-                startGameScreen(); // Por defecto, mostrar pantalla de inicio
+                startGameScreen();
             }
         });
 
         // Inicializar
-        startGameScreen();
+        startGameScreen(); // Esto ahora también maneja la carga de la imagen
     </script>
+    <script src="/header/header.js"></script>
 </body>
 
 </html>

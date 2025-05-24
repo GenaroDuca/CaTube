@@ -48,4 +48,20 @@ document.addEventListener('DOMContentLoaded', () => {
             userSidebar.classList.add('collapsed');
         }
     });
+
+    // Soon modal
+    document.addEventListener('click', function (e) {
+        const soonLink = e.target.closest('a.soon');
+        if (soonLink) {
+            e.preventDefault();
+            document.getElementById('soon-modal').style.display = 'flex';
+        }
+        if (e.target.id === 'soon-modal') {
+            e.target.style.display = 'none';
+        }
+    });
+    document.getElementById('close-soon-modal').onclick = function () {
+        document.getElementById('soon-modal').style.display = 'none';
+    };
+
 });
