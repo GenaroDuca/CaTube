@@ -12,43 +12,133 @@
     <!-- Google Material Icons -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./studio.css">
     <link rel="stylesheet" href="../header/header.css">
 </head>
 
 <body>
     <header class="header">
         <div class="left-section">
-            <a href="../index.html">
-                <img src="../media/header_media/logo/catube_white.svg" alt="CaTube logo" class="logo">
-            </a>
+            <a href="../index.html"><img src="/media/header_media/logo/catube_white.svg" alt="CaTube logo"
+                    class="logo"></a>
             <span class="title">CaTube</span>
         </div>
+
         <div class="search-section">
             <div class="mic-section">
                 <button class="mic-btn" aria-label="Search with voice">
                     <i class="fa fa-microphone"></i>
                 </button>
             </div>
+
             <div class="bar-section">
                 <input type="text" placeholder="Search">
                 <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
             </div>
         </div>
+
         <div class="right-section">
-            <button class="create-btn">Create <i class="fas fa-plus"></i></button>
+            <button class="create-btn">
+                <p>Create </p><i class="fas fa-plus"></i>
+            </button>
+
             <div class="account-section">
-                <button class="notify-btn"><i class="fas fa-bell"></i></button>
-                <a href="../register/register.html"><button class="user-btn"><i class="fas fa-user"></i></button></a>
+                <button class="notify-btn">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <a href="#">
+                    <button class="user-btn">
+                        <i class="fas fa-user"></i>
+                    </button>
+                </a>
             </div>
         </div>
     </header>
 
+    <!-- right account menu -->
+    <aside class="ts-sidebar collapsed">
+        <!-- Navigation -->
+        <nav class="ts-sidebar-nav">
+            <ul class="ts-nav-list">
+                <li class="ts-nav-item">
+                    <a href="/register/register.html" class="ts-nav-link">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span class="ts-nav-label">Log In</span>
+                    </a>
+                    <!-- <span class="ts-nav-tooltip">Get out</span> -->
+                </li>
+
+                <li class="ts-nav-item">
+                    <a href="/yourChannel/yourChannel.html" class="ts-nav-link">
+                        <span class="material-symbols-outlined">account_box</span>
+                        <span class="ts-nav-label">Your channel</span>
+                    </a>
+                    <!-- <span class="ts-nav-tooltip">Your channel</span> -->
+                </li>
+
+                <li class="ts-nav-item">
+                    <a href="#" class="ts-nav-link soon">
+                        <span class="material-symbols-outlined">diversity_4</span>
+                        <span class="ts-nav-label">Friends</span>
+                    </a>
+                    <!-- <span class="ts-nav-tooltip">Friends</span> -->
+                </li>
+
+                <li class="ts-nav-item">
+                    <a href="/studio/studio.html" class="ts-nav-link">
+                        <span class="material-symbols-outlined">
+                            <img src="/media/studio_media/studio.icon.svg" alt="Studio Icon"
+                                style="width: 20px; height: 20px; margin-right: 8px;" />
+                        </span>
+                        <span class="ts-nav-label">CaTube Studio</span>
+                    </a>
+                    <!-- <span class="ts-nav-tooltip">CaTube Studio</span> -->
+                </li>
+
+                <hr />
+
+                <li class="ts-nav-item">
+                    <a href="#" class="ts-nav-link soon">
+                        <span class="material-symbols-outlined">mode_night</span>
+                        <span class="ts-nav-label">Appearance</span>
+                    </a>
+                    <!-- <span class="ts-nav-tooltip">Appearance</span> -->
+                </li>
+
+                <hr />
+
+                <li class="ts-nav-item">
+                    <a href="#" class="ts-nav-link soon">
+                        <span class="material-symbols-outlined">settings</span>
+                        <span class="ts-nav-label">Settings</span>
+                    </a>
+                    <!-- <span class="ts-nav-tooltip">Settings</span> -->
+                </li>
+
+                <li class="ts-nav-item">
+                    <a href="#" class="ts-nav-link soon">
+                        <span class="material-symbols-outlined">help</span>
+                        <span class="ts-nav-label">Help</span>
+                    </a>
+                    <!-- <span class="ts-nav-tooltip">Help</span> -->
+                </li>
+
+                <li class="ts-nav-item">
+                    <a href="#" class="ts-nav-link soon">
+                        <span class="material-symbols-outlined">feedback</span>
+                        <span class="ts-nav-label">Send feedback</span>
+                    </a>
+                    <!-- <span class="ts-nav-tooltip">Send feedback</span> -->
+                </li>
+            </ul>
+        </nav>
+    </aside>
+
     <main>
         <div class="left-menu">
-            <aside class="sidebar">
-                <header class="sidebar-header"></header>
-                <nav class="sidebar-nav">
+            <aside class="sidebar-left-studio">
+                <header class="sidebar-left-studio-header"></header>
+                <nav class="sidebar-left-studio-nav">
                     <ul class="nav-list primary-nav">
                         <li class="nav-item">
                             <button type="button" class="nav-link active">
@@ -785,23 +875,189 @@
 
         <!-- Analytics -->
         <div class="container hide">
-            <h1>Channel Analytics</h1>
+            <h1>Analytics</h1>
             <hr>
             <div class="content">
-                <div class="analytics-container">
-                    <div class="control-graphic">
-                        <h2>Daily stats</h2>
+                <div class="graphics-container">
+                    <div class="ts-chart-container ts-line-chart">
+                        <canvas id="lineChart"></canvas>
                     </div>
-                    <div class="graphics">
-                        <div class="chart-container "
-                            style="min-width: 370px; min-height: 370px; max-width: 900px; max-height: 900px;">
-                            <canvas id="lineChart"></canvas>
-                        </div>
-                        <hr>
-                        <div class="chart-container"
-                            style="min-width: 284px; min-height: 284px; max-width: 375px; min-height: 552px;">
-                            <canvas id="doughnutChart"></canvas>
-                        </div>
+
+                    <div class="ts-chart-container ts-doughnut-chart">
+                        <canvas id="doughnutChart"></canvas>
+                    </div>
+                </div>
+                <div>
+                    <br>
+                    <div class="ts-control-video">
+                        <h2>Top Videos</h2>
+                    </div>
+                    <div class="scroll-table-container">
+                        <table class="analytics-table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <div class="header-video">
+                                            <input type="checkbox" class="checkbox">
+                                            <span>Video</span>
+                                        </div>
+                                    </th>
+                                    <th>Visibility</th>
+                                    <th>Restrictions</th>
+                                    <th>Date</th>
+                                    <th>Views</th>
+                                    <th>Comments</th>
+                                    <th>"Like" (%)</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr>
+                                    <td data-label="Video">
+                                        <div class="video-content">
+                                            <input type="checkbox">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                            <div class="video-text">
+                                                <p class="video-title">Nombre del video</p>
+                                                <p class="video-description">Descripción breve...</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-label="Visibility">Public</td>
+                                    <td data-label="Restrictions">None</td>
+                                    <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                    <td data-label="Views">99</td>
+                                    <td data-label="Comments">5</td>
+                                    <td data-label="Like (%)">100.0%</td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Video">
+                                        <div class="video-content">
+                                            <input type="checkbox">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                            <div class="video-text">
+                                                <p class="video-title">Nombre del video</p>
+                                                <p class="video-description">Descripción breve...</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-label="Visibility">Public</td>
+                                    <td data-label="Restrictions">None</td>
+                                    <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                    <td data-label="Views">99</td>
+                                    <td data-label="Comments">5</td>
+                                    <td data-label="Like (%)">100.0%</td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Video">
+                                        <div class="video-content">
+                                            <input type="checkbox">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                            <div class="video-text">
+                                                <p class="video-title">Nombre del video</p>
+                                                <p class="video-description">Descripción breve...</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-label="Visibility">Public</td>
+                                    <td data-label="Restrictions">None</td>
+                                    <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                    <td data-label="Views">99</td>
+                                    <td data-label="Comments">5</td>
+                                    <td data-label="Like (%)">100.0%</td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Video">
+                                        <div class="video-content">
+                                            <input type="checkbox">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                            <div class="video-text">
+                                                <p class="video-title">Nombre del video</p>
+                                                <p class="video-description">Descripción breve...</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-label="Visibility">Public</td>
+                                    <td data-label="Restrictions">None</td>
+                                    <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                    <td data-label="Views">99</td>
+                                    <td data-label="Comments">5</td>
+                                    <td data-label="Like (%)">100.0%</td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Video">
+                                        <div class="video-content">
+                                            <input type="checkbox">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                            <div class="video-text">
+                                                <p class="video-title">Nombre del video</p>
+                                                <p class="video-description">Descripción breve...</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-label="Visibility">Public</td>
+                                    <td data-label="Restrictions">None</td>
+                                    <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                    <td data-label="Views">99</td>
+                                    <td data-label="Comments">5</td>
+                                    <td data-label="Like (%)">100.0%</td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Video">
+                                        <div class="video-content">
+                                            <input type="checkbox">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                            <div class="video-text">
+                                                <p class="video-title">Nombre del video</p>
+                                                <p class="video-description">Descripción breve...</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-label="Visibility">Public</td>
+                                    <td data-label="Restrictions">None</td>
+                                    <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                    <td data-label="Views">99</td>
+                                    <td data-label="Comments">5</td>
+                                    <td data-label="Like (%)">100.0%</td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Video">
+                                        <div class="video-content">
+                                            <input type="checkbox">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                            <div class="video-text">
+                                                <p class="video-title">Nombre del video</p>
+                                                <p class="video-description">Descripción breve...</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-label="Visibility">Public</td>
+                                    <td data-label="Restrictions">None</td>
+                                    <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                    <td data-label="Views">99</td>
+                                    <td data-label="Comments">5</td>
+                                    <td data-label="Like (%)">100.0%</td>
+                                </tr>
+                                <tr>
+                                    <td data-label="Video">
+                                        <div class="video-content">
+                                            <input type="checkbox">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                            <div class="video-text">
+                                                <p class="video-title">Nombre del video</p>
+                                                <p class="video-description">Descripción breve...</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td data-label="Visibility">Public</td>
+                                    <td data-label="Restrictions">None</td>
+                                    <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                    <td data-label="Views">99</td>
+                                    <td data-label="Comments">5</td>
+                                    <td data-label="Like (%)">100.0%</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
