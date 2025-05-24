@@ -33,12 +33,19 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-});
 
+    // --- Extends Right menu ---
+    const userSidebar = document.querySelector('.ts-sidebar');
+    const userBtn = document.querySelector('.user-btn');
 
-const sidebar = document.querySelector('.rsm-sidebar');
-const sidebarToggler = document.querySelector('.rsm-sidebar-toggler');
+    userBtn?.addEventListener('click', e => {
+        e.stopPropagation();
+        userSidebar.classList.toggle('collapsed');
+    });
 
-sidebarToggler.addEventListener('click', () => {
-    sidebar.classList.toggle('collapsed');
+    document.addEventListener('click', e => {
+        if (!userSidebar.classList.contains('collapsed') && !userSidebar.contains(e.target) && e.target !== userBtn) {
+            userSidebar.classList.add('collapsed');
+        }
+    });
 });

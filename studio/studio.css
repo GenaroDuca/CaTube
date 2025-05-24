@@ -25,7 +25,6 @@ main {
     flex-direction: column;
     align-items: center;
     padding: 10px;
-    z-index: 10;
     margin-top: 50px;
 }
 
@@ -35,6 +34,7 @@ main {
 
 .right-menu {
     right: 0;
+    text-align: center;
 }
 
 .right-menu img {
@@ -273,19 +273,23 @@ main {
     margin-top: 20px;
 }
 
-.content-table {
+.content-table,
+.analytics-table {
     width: 100%;
     min-width: 600px;
     border-collapse: collapse;
     background: var(--primary-color);
 }
 
-.content-table thead {
+.content-table thead,
+.analytics-table thead {
     background: #2a2a2b;
 }
 
 .content-table th,
-.content-table td {
+.content-table td,
+.analytics-table th,
+.analytics-table td {
     padding: 20px;
     text-align: left;
     white-space: nowrap;
@@ -319,117 +323,53 @@ main {
 }
 
 /* Channel Analytics*/
-.analytics-container {
-  box-sizing: border-box;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 1200px;
-  max-height: 100vh;
-}
-
-.control-graphic .ts-control-video {
-  padding: 20px;
-}
-
-.ts-control-video {
-    text-align: center;
-}
-
-.ts-graphics {
-  background: var(--primary-color);
-  border-radius: var(--border-radius);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 20px;
-  padding: 30px 10px;
+.graphics-container {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 10px;
 }
 
 .ts-chart-container {
-  width: 100%;
-  max-width: 900px;
-  aspect-ratio: 1 / 1;
-  position: relative;
-  background-color: var(--primary-color);
+    min-width: 200px;
+    box-sizing: border-box;
+    padding: 20px;
+    background: var(--primary-color);
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .ts-chart-container.ts-line-chart {
-  max-width: 900px;
-  aspect-ratio: 16 / 9;
+    flex: 1 1 600px;
+    width: 100%;
+    aspect-ratio: 16 / 9;
 }
 
 .ts-chart-container.ts-doughnut-chart {
-  width: 100%;
-  max-width: clamp(284px, 40vw, 375px);
-  aspect-ratio: 1 / 1;
+    flex: 1 1 350px;
+    width: 100%;
+    aspect-ratio: 1 / 1;
 }
 
 .ts-chart-container canvas {
-  width: 100%;
-  height: 100%;
-  display: block;
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 
-
-.ts-scroll-table {
-  overflow-x: auto;
-  width: 100%;
-  border-radius: var(--border-radius);
-  margin-top: 20px;
-}
-
-.ts-video-table {
-  width: 100%;
-  min-width: 600px;
-  border-collapse: collapse;
-  background: var(--primary-color);
-}
-
-/* .ts-video-table thead {
-  background: #0000e4;
-} */
-
-.ts-video-table th,
-.ts-video-table td {
-  padding: 20px;
-  text-align: left;
-  white-space: nowrap;
-}
-
-.ts-video-header,
-.ts-video-content {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.ts-video-content img {
-  width: 80px;
-  border-radius: 6px;
-}
-
-.ts-video-text {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-.ts-video-title {
-  font-weight: bold;
-  margin: 0;
-}
 
 @media (max-width: 480px) {
-  .ts-chart-container {
-    max-width: 90vw;
-    aspect-ratio: 1 / 1;
-  }
+    .ts-chart-container {
+        max-width: 90vw;
+        aspect-ratio: 1 / 1;
+    }
 
-  .ts-graphics {
-    gap: 20px;
-    padding: 20px 5px;
-  }
+    .ts-graphics {
+        gap: 20px;
+        padding: 20px 5px;
+    }
 }
 
 
@@ -659,7 +599,7 @@ main {
 }
 
 /* Sidebar */
-.sidebar {
+.sidebar-left-studio {
     margin: 16px;
     border-radius: 16px;
     background: var(--primary-color);
@@ -667,14 +607,14 @@ main {
     width: 100%;
 }
 
-.sidebar-nav .nav-list {
+.sidebar-left-studio-nav .nav-list {
     list-style: none;
     display: flex;
     gap: 5px;
     flex-direction: column;
 }
 
-.sidebar-nav .nav-link {
+.sidebar-left-studio-nav .nav-link {
     width: 100%;
     color: var(--text-color);
     display: flex;
@@ -688,13 +628,13 @@ main {
     border: none;
 }
 
-.sidebar-nav .nav-link:hover {
+.sidebar-left-studio-nav .nav-link:hover {
     color: var(--hover-color);
     background: var(--btn);
 
 }
 
-.sidebar-nav .secondary-nav {
+.sidebar-left-studio-nav .secondary-nav {
     position: absolute;
     bottom: 30px;
 }
@@ -705,12 +645,12 @@ main {
 
 /* Responsive */
 @media (max-width: 1024px) {
-    .sidebar {
+    .sidebar-left-studio {
         display: flex;
         justify-content: center;
     }
 
-    .sidebar-nav .nav-link .nav-label,
+    .sidebar-left-studio-nav .nav-link .nav-label,
     .right-menu h1 {
         display: none;
     }
