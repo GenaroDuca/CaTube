@@ -34,8 +34,12 @@ p {
     font-size: var(--font-size);
 }
 
-h1{
+h1 {
     font-size: 2rem;
+}
+
+a {
+    text-decoration: none;
 }
 
 hr {
@@ -44,13 +48,9 @@ hr {
     border: none;
 }
 
-.catube-btn {
-    
-}
+.catube-btn {}
 
-.soon {
-    cursor: not-allowed;
-}
+.soon {}
 
 
 button:hover {
@@ -360,7 +360,8 @@ button:hover {
     pointer-events: none;
     transition: opacity 0.2s;
     z-index: 10;
-    display: block; /* Siempre block */
+    display: block;
+    /* Siempre block */
 }
 
 /* Solo muestra el tooltip en hover y collapsed */
@@ -485,6 +486,79 @@ button:hover {
   opacity: 1;
 } */
 
+/* --- Modal --- */
+#soon-modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    justify-content: center;
+}
+
+.soon-modal-content {
+    background-color: #1a1a1b;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    max-width: 90vw;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.soon-modal-content h2 {
+    margin: 30px;
+}
+
+.soon-modal-content p {
+    margin-bottom: 24px;
+}
+
+.close-soon-modal-container {
+    width: 100%;
+    padding: 20px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    background-color: #90B484;
+    margin-bottom: -32px;
+}
+
+#close-soon-modal {
+    width: 100px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 30px;
+    background-color: transparent;
+    cursor: pointer;
+    border: 1px solid var(--primary-color);
+}
+
+#close-soon-modal:hover {
+    background: var(--primary-color);
+    color: var(--btn);
+}
+
+.play-modal-btn, .return-btn-soon {
+    width: 100px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 30px;
+    margin-bottom: 20px;
+    background-color: var(--btn);
+}
+
+.return-btn-soon {
+    margin: 0;
+}
+
+.play-modal-btn:hover, .return-btn-soon:hover {
+    background-color: var(--btn-dark);
+}
 
 @media (max-width: 768px) {
 

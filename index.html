@@ -5,9 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CaTube Home</title>
-    <link rel="webside icon" type="img" href="./media/header_media/logo/catube_white.svg">
-    <link rel="stylesheet" href="./home/home.css">
-    <link rel="stylesheet" href="./header/header.css">
+    <link rel="webside icon" type="img" href="/media/header_media/logo/catube_white.svg">
+    <link rel="stylesheet" href="/home/home.css">
+    <link rel="stylesheet" href="/header/header.css">
     <!-- Font Awesome (icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Google Fonts (icons) -->
@@ -15,12 +15,11 @@
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 
-<body>
 
-    
+<body>
     <header class="header">
         <div class="left-section">
-            <a href="/index.html"><img src="./media/header_media/logo/catube_white.svg" alt="CaTube logo"
+            <a href="/index.html"><img src="/media/header_media/logo/catube_white.svg" alt="CaTube logo"
                     class="logo"></a>
             <span class="title">CaTube</span>
         </div>
@@ -39,19 +38,36 @@
         </div>
 
         <div class="right-section">
-            <button class="create-btn">
-                <p>Create </p><i class="fas fa-plus"></i>
-            </button>
+            <a href="#" class="soon">
+                <button class="create-btn">
+                    <p>Create </p><i class="fas fa-plus soon"></i>
+                </button>
+            </a>
 
             <div class="account-section">
-                <button class="notify-btn">
-                    <i class="fas fa-bell"></i>
-                </button>
+                <a href="#" class="soon">
+                    <button class="notify-btn">
+                        <i class="fas fa-bell soon"></i>
+                    </button>
+                </a>
                 <a href="#">
                     <button class="user-btn">
                         <i class="fas fa-user"></i>
                     </button>
                 </a>
+            </div>
+        </div>
+        <!-- Soon Modal -->
+        <div id="soon-modal">
+            <div class="soon-modal-content">
+                <h2>Function not available yet</h2>
+                <p>This feature is coming soon!</p>
+                <div class="play-modal-btn-container">
+                    <a href="/soon/soon.html"><button class="play-modal-btn">¡Play!</button></a>
+                </div>
+                <div class="close-soon-modal-container">
+                    <button id="close-soon-modal">Close</button> <br>
+                </div>
             </div>
         </div>
     </header>
@@ -205,7 +221,7 @@
                         </span>
                         <span class="ts-nav-label">CaTube Studio</span>
                     </a>
-                    <!-- <span class="ts-nav-tooltip">CaTube Studio</span>
+                    <!-- <span class="ts-nav-tooltip">CaTube Studio</span> -->
                 </li>
 
                 <hr />
@@ -675,7 +691,6 @@
         </div>
 
     </main>
-
 
     <script src="./home/home.js"></script>
     <script src="./header/header.js"></script>

@@ -623,7 +623,6 @@ main {
     border-radius: var(--border-radius);
     align-items: center;
     padding: 11.5px 15px;
-    text-decoration: none;
     background: transparent;
     border: none;
 }
