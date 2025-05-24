@@ -16,11 +16,18 @@ function scrollCarousel(direction, carouselId) {
     }
 }
 
+// Extend left menu
 const sidebar = document.querySelector('.sidebar');
 const sidebarToggler = document.querySelector('.sidebar-toggler');
 
-// Toggle sidebar on button click
-sidebarToggler.addEventListener('click', () => {
-    sidebar.classList.toggle('collapsed');
+sidebarToggler?.addEventListener('click', e => {
+  e.stopPropagation();
+  sidebar.classList.toggle('collapsed');
+});
+
+document.addEventListener('click', e => {
+  if (!sidebar.classList.contains('collapsed') && !sidebar.contains(e.target) && e.target !== sidebarToggler) {
+    sidebar.classList.add('collapsed');
+  }
 });
 

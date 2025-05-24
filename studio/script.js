@@ -105,7 +105,7 @@ function selectAllCheckboxes() {
 
 // Hide/Show Sections
 function setupNavigation() {
-    const navLinks = document.querySelectorAll('.sidebar-nav .primary-nav .nav-link');
+    const navLinks = document.querySelectorAll('.sidebar-left-studio-nav .primary-nav .nav-link');
     const contentSections = document.querySelectorAll('main > .container');
     const storeButton = document.getElementById('storeButton');
 
