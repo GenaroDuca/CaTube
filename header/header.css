@@ -627,10 +627,6 @@ button:hover {
     gap: 20px;
 }
 
-.feedback-modal-content label {
-    margin-bottom: -10px;
-}
-
 .feedback-modal-content form input[type="email"],
 .feedback-modal-content form textarea {
     border-radius: 30px;
@@ -806,8 +802,6 @@ button:hover {
 .disable-account-btn:hover {
     background-color: #575757 !important;
 }
-
-
 
 @media (max-width: 768px) {
 
