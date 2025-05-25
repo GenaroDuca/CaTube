@@ -165,6 +165,10 @@ a {
   gap: 1rem;
 }
 
+.carousel-videos {
+  display: none;
+}
+
 /*------------Responsive-----------*/
 @media (max-width: 768px) {
   .main-content {
@@ -184,21 +188,39 @@ a {
   .profile-photo {
     width: 60px;
   }
-
-  .video-thumb {
-    width: 100%;
-    border-radius: 10px;
-  }
-
   .video-card {
     width: 100%;
   }
 
-  .short {
-    width: 100px;
+  .video-thumb {
+    width: 120px;
+    border-radius: 10px;
+    margin-top: 10px;
   }
 
-  .video-thumb-recommendations {
-    border-radius: 30px;
+  .short-card {
+    width: 100%;
+  }
+  
+  .short {
+    width: 100px;
+    height: 160px;
+    margin-top: 10px;
+  }
+
+  .recommendations-container {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 1rem;
+    scroll-behavior: smooth;
+    display: flex;
+  }
+
+  .recommendations-container::-webkit-scrollbar {
+    display: none;
+  }
+
+    .carousel-btn {
+    display: block;
   }
 }
