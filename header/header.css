@@ -624,7 +624,7 @@ button:hover {
     display: flex;
     flex-direction: column;
     padding: 20px;
-    gap: 10px;
+    gap: 20px;
 }
 
 .feedback-modal-content form input[type="email"],
@@ -664,9 +664,10 @@ button:hover {
     background-color: var(--btn);
     color: var(--primary-color);
     border: none;
-    padding: 10px 20px;
+    padding: 12px 20px;
     border-radius: 30px;
     cursor: pointer;
+    margin-top: 10px;
 }
 
 .feedback-modal-content form button:hover {
@@ -679,7 +680,7 @@ button:hover {
     display: flex;
     flex-direction: column;
     padding: 20px;
-    gap: 10px;
+    gap: 20px;
 }
 
 .frequently-asked-questions summary {
@@ -752,6 +753,24 @@ button:hover {
     cursor: pointer;
 }
 
+.change-password-form label {
+    margin-bottom: -10px;
+}
+
+.change-password-form a,
+.change-password-form p {
+    margin-top: -15px;
+    margin-left: 10px;
+}
+
+.change-password-form a {
+    color: var(--btn);
+}
+
+.change-password-form a:hover {
+    color: var(--btn-dark);
+}
+
 .change-password-form button:hover {
     background-color: var(--btn-dark);
 }
@@ -805,6 +824,19 @@ button:hover {
     .setting-section {
         padding: 20px;
         width: 100%;
+    }
+
+    .change-password-form button {
+        padding: 6px 10px;
+    }
+
+    .delete-account-btn,
+    .disable-account-btn {
+        padding: 6px 10px;
+    }
+
+    .settings-option-btn {
+        padding: 6px 10px;
     }
 
     .sidebar {
