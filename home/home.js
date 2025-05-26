@@ -1,19 +1,18 @@
-// Carousel //
-function scrollCarousel(direction, carouselId) {
-    const carousel = document.querySelector(`.${carouselId}`);
-    const scrollAmount = 200; // Cantidad de desplazamiento en píxeles
-
+// Carousel que funciona con varios carruseles con la misma clase
+var buttons = document.querySelectorAll('.carousel-btn');
+for (var i = 0; i < buttons.length; i++) {
+  buttons[i].addEventListener('click', function () {
+    var direction = this.getAttribute('data-direction');
+    // Busca el carrusel más cercano con la clase conocida
+    var carousel = this.parentElement.querySelector('.recommendations-container, .carousel-trends, .carousel-subs, .carousel-channels, .recommendations-container');
+    if (!carousel) return;
+    var scrollAmount = carousel.offsetWidth * 0.8;
     if (direction === 'left') {
-        carousel.scrollBy({
-            left: -scrollAmount,
-            behavior: 'smooth'
-        });
-    } else if (direction === 'right') {
-        carousel.scrollBy({
-            left: scrollAmount,
-            behavior: 'smooth'
-        });
+      carousel.scrollLeft -= scrollAmount;
+    } else {
+      carousel.scrollLeft += scrollAmount;
     }
+  });
 }
 
 // Extend left menu
@@ -30,4 +29,3 @@ document.addEventListener('click', e => {
     sidebar.classList.add('collapsed');
   }
 });
-
