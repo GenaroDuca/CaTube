@@ -312,6 +312,10 @@
   background-color: var(--primary-color)
 }
 
+.container-row-posts p {
+  color: var(--btn)
+}
+
 @media (max-width:768px) {
   .banner {
     height: auto;
@@ -395,5 +399,9 @@
   .row {
     justify-content: center;
     margin-top: 20px
+  }
+
+  .text-principal-video h2 {
+    margin-top: 20px;
   }
 }

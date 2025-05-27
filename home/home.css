@@ -181,6 +181,11 @@ a {
     padding: 0 20px;
   }
 
+  .popular-channels, .trending, .subscriptions, .recommendations {
+        padding: 10 10px;
+
+  }
+
   .carousel-btn {
     width: 30px;
     height: 30px;
@@ -189,9 +194,10 @@ a {
   .profile-photo {
     width: 60px;
   }
-  .video-card {
+
+  /* .video-card {
     width: 100%;
-  }
+  } */
 
   .video-thumb {
     width: 120px;
@@ -208,6 +214,7 @@ a {
     height: 160px;
     margin-top: 10px;
   }
+
 
   .recommendations-container {
     flex-wrap: nowrap;

@@ -72,7 +72,8 @@ h1 {
 hr {
     background: var(--text-color);
     height: 1px;
-    border: none
+    border: none;
+    border-radius: 30px;
 }
 
 .frequently-asked-questions summary,
