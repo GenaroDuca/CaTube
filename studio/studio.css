@@ -234,7 +234,8 @@ main {
 
 .content input:focus,
 .filter-bar input[type=text]:focus {
-    outline: 0
+    outline: 0;
+    border: 1px solid var(--btn)
 }
 
 .filter-icon {
@@ -257,7 +258,7 @@ main {
     border: none;
     color: var(--text-color);
     padding: 10px;
-    border-radius: 15px
+    border-radius: 30px
 }
 
 .scroll-table-container,

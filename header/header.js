@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.stopPropagation();
             userSidebar.classList.toggle('collapsed');
         });
-        
+
         // Close sidebar when clicking outside
         document.addEventListener('click', e => {
             const isModal = e.target.closest('.right-menu-modal');
@@ -110,6 +110,46 @@ document.addEventListener('DOMContentLoaded', () => {
                 event.stopPropagation();
                 modal.style.display = 'none';
             });
+        }
+    });
+});
+
+// Extend left menu
+const sidebar = document.querySelector('.sidebar');
+const sidebarToggler = document.querySelector('.sidebar-toggler');
+
+if (sidebarToggler) {
+    sidebarToggler.addEventListener('click', e => {
+        e.stopPropagation();
+        sidebar.classList.toggle('collapsed');
+    });
+}
+
+document.addEventListener('click', e => {
+    if (
+        sidebar &&
+        !sidebar.classList.contains('collapsed') &&
+        !sidebar.contains(e.target) &&
+        e.target !== sidebarToggler
+    ) {
+        sidebar.classList.add('collapsed');
+    }
+});
+
+// carousel
+const carouselButtons = document.querySelectorAll('.carousel-btn');
+carouselButtons.forEach(button => {
+    button.addEventListener('click', function () {
+        const direction = this.getAttribute('data-direction');
+        const carousel = this.parentElement.querySelector(
+            '.recommendations-container, .carousel-trends, .carousel-subs, .carousel-channels'
+        );
+        if (!carousel) return;
+        const scrollAmount = carousel.offsetWidth * 0.8;
+        if (direction === 'left') {
+            carousel.scrollLeft -= scrollAmount;
+        } else {
+            carousel.scrollLeft += scrollAmount;
         }
     });
 });
