@@ -17,6 +17,7 @@
 
 
 <body>
+    <!-- General Html -->
     <header class="header">
         <div class="left-section">
             <a href="/index.html"><img src="/media/header_media/logo/catube_white.svg" alt="CaTube logo"
@@ -266,6 +267,127 @@
         </nav>
     </aside>
 
+    <!-- Modals -->
+    <div class="right-menu-modal">
+        <div class="settings-modal-content">
+            <header>
+                <h1>Settings</h1>
+                <button type="button" class="close-right-menu-modal"><span class="material-symbols-outlined">
+                        do_not_disturb_on
+                    </span>
+                </button>
+            </header>
+            <div class="settings-main-content">
+                <nav>
+                    <ul>
+                        <li><button type="button" class="settings-option-btn active">Account</button></li>
+                        <li><button type="button" class="settings-option-btn">Notifications</button></li>
+                        <li><button type="button" class="settings-option-btn">Privacy</button></li>
+                        <li><button type="button" class="settings-option-btn">Payments</button></li>
+                        <li><button type="button" class="settings-option-btn">Advanced</button></li>
+                    </ul>
+                </nav>
+
+                <section class="setting-section">
+                    <form action="" class="change-password-form">
+
+                        <label for="current-password">Current Password:</label>
+                        <input type="password" id="current-password" name="current-password"
+                            placeholder="Current password" required>
+                        <a href="#">Forgot your password?</a>
+
+                        <label for="new-password">New Password:</label>
+                        <input type="password" id="new-password" name="new-password" placeholder="New password"
+                            required>
+                        <p for="password">Min 8 characters, incl. upper, lower, num, symbol</p>
+
+                        <label for="confirm-new-password">Confirm New Password:</label>
+                        <input type="password" id="confirm-new-password" name="confirm-new-password"
+                            placeholder="Confirm new password" required>
+
+                        <button type="submit">Change</button>
+                    </form>
+
+                    <div>
+                        <button type="button" class="disable-account-btn">Disable Account</button>
+                        <button type="button" class="delete-account-btn">Delete Account</button>
+                    </div>
+                </section>
+                <section class="setting-section hide">
+
+                </section>
+                <section class="setting-section hide">
+
+                </section>
+                <section class="setting-section hide">
+
+                </section>
+                <section class="setting-section hide">
+
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="right-menu-modal">
+        <div class="help-modal-content">
+            <header>
+                <h1>Help</h1>
+                <button type="button" class="close-right-menu-modal">
+                    <span class="material-symbols-outlined">
+                        do_not_disturb_on
+                    </span>
+                </button>
+            </header>
+            <div class="frequently-asked-questions">
+                <h2>Frequently Asked Questions</h2>
+                <p>Here are some common questions and answers to help you get started.</p>
+                <details>
+                    <summary><strong>How do I upload a video?</strong></summary>
+                    <p>Go to your channel and click "Upload" or click "Create"</p>
+                </details>
+                <hr>
+                <details>
+                    <summary><strong>How do I change my password?</strong></summary>
+                    <p>Go to Settings -> Account and change your password.</p>
+                </details>
+                <hr>
+                <details>
+                    <summary><strong>How do I report a problem?</strong></summary>
+                    <p>To report a problem, you can use the feedback form or contact our support team directly.</p>
+                    <p>Contact us at <a href="mailto:catube@gmail.com">catube@gmail.com</a></p>
+                </details>
+            </div>
+        </div>
+    </div>
+
+    <div class="right-menu-modal">
+        <div class="feedback-modal-content">
+            <header>
+                <h1>Feedback</h1>
+                <button type="button" class="close-right-menu-modal"><span class="material-symbols-outlined">
+                        do_not_disturb_on
+                    </span>
+                </button>
+            </header>
+
+            <form action="mailto:catube@gmail.com" method="POST" enctype="text/plain">
+                <label for="feedback-email">Your email (optional):</label>
+                <input type="email" id="feedback-email" name="email" placeholder="your@email.com">
+
+                <label for="feedback-text">Your feedback:</label>
+                <textarea id="feedback-text" name="feedback" rows="4" required
+                    placeholder="Write your feedback here..."></textarea>
+                <label for="feedback-file">Add image (optional)</label>
+                <input id="feedback-file" type="file" accept="image">
+
+                <button type="submit" class="submit-feedback-btn">Send Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- -->
     <main class="main-content">
         <!-- ads -->
         <div class="ads">
@@ -1060,126 +1182,6 @@
         </div>
 
     </main>
-
-    <!-- Modals -->
-    <div class="right-menu-modal">
-        <div class="settings-modal-content">
-            <header>
-                <h1>Settings</h1>
-                <button type="button" class="close-right-menu-modal"><span class="material-symbols-outlined">
-                        do_not_disturb_on
-                    </span>
-                </button>
-            </header>
-            <div class="settings-main-content">
-                <nav>
-                    <ul>
-                        <li><button type="button" class="settings-option-btn active">Account</button></li>
-                        <li><button type="button" class="settings-option-btn">Notifications</button></li>
-                        <li><button type="button" class="settings-option-btn">Privacy</button></li>
-                        <li><button type="button" class="settings-option-btn">Payments</button></li>
-                        <li><button type="button" class="settings-option-btn">Advanced</button></li>
-                    </ul>
-                </nav>
-
-                <section class="setting-section">
-                    <form action="" class="change-password-form">
-
-                        <label for="current-password">Current Password:</label>
-                        <input type="password" id="current-password" name="current-password"
-                            placeholder="Current password" required>
-                        <a href="#">Forgot your password?</a>
-
-                        <label for="new-password">New Password:</label>
-                        <input type="password" id="new-password" name="new-password" placeholder="New password"
-                            required>
-                        <p for="password">Min 8 characters, incl. upper, lower, num, symbol</p>
-
-                        <label for="confirm-new-password">Confirm New Password:</label>
-                        <input type="password" id="confirm-new-password" name="confirm-new-password"
-                            placeholder="Confirm new password" required>
-
-                        <button type="submit">Change</button>
-                    </form>
-
-                    <div>
-                        <button type="button" class="disable-account-btn">Disable Account</button>
-                        <button type="button" class="delete-account-btn">Delete Account</button>
-                    </div>
-                </section>
-                <section class="setting-section hide">
-
-                </section>
-                <section class="setting-section hide">
-
-                </section>
-                <section class="setting-section hide">
-
-                </section>
-                <section class="setting-section hide">
-
-                </section>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="right-menu-modal">
-        <div class="help-modal-content">
-            <header>
-                <h1>Help</h1>
-                <button type="button" class="close-right-menu-modal">
-                    <span class="material-symbols-outlined">
-                        do_not_disturb_on
-                    </span>
-                </button>
-            </header>
-            <div class="frequently-asked-questions">
-                <h2>Frequently Asked Questions</h2>
-                <p>Here are some common questions and answers to help you get started.</p>
-                <details>
-                    <summary><strong>How do I upload a video?</strong></summary>
-                    <p>Go to your channel and click "Upload" or click "Create"</p>
-                </details>
-                <hr>
-                <details>
-                    <summary><strong>How do I change my password?</strong></summary>
-                    <p>Go to Settings -> Account and change your password.</p>
-                </details>
-                <hr>
-                <details>
-                    <summary><strong>How do I report a problem?</strong></summary>
-                    <p>To report a problem, you can use the feedback form or contact our support team directly.</p>
-                    <p>Contact us at <a href="mailto:catube@gmail.com">catube@gmail.com</a></p>
-                </details>
-            </div>
-        </div>
-    </div>
-
-    <div class="right-menu-modal">
-        <div class="feedback-modal-content">
-            <header>
-                <h1>Feedback</h1>
-                <button type="button" class="close-right-menu-modal"><span class="material-symbols-outlined">
-                        do_not_disturb_on
-                    </span>
-                </button>
-            </header>
-
-            <form action="mailto:catube@gmail.com" method="POST" enctype="text/plain">
-                <label for="feedback-email">Your email (optional):</label>
-                <input type="email" id="feedback-email" name="email" placeholder="your@email.com">
-
-                <label for="feedback-text">Your feedback:</label>
-                <textarea id="feedback-text" name="feedback" rows="4" required
-                    placeholder="Write your feedback here..."></textarea>
-                <label for="feedback-file">Add image (optional)</label>
-                <input id="feedback-file" type="file" accept="image">
-
-                <button type="submit" class="submit-feedback-btn">Send Feedback</button>
-            </form>
-        </div>
-    </div>
 
     <script src="./home/home.js"></script>
     <script src="./header/header.js"></script>

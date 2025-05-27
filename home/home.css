@@ -140,17 +140,18 @@ a {
 
 /*miniaturas*/
 .video-thumb {
-  width: 100%;
+  min-width: 200px;
+  max-width: 100%;
   height: auto;
-  border-radius: 30px;
+  border-radius: 20px;
   overflow: hidden;
   margin-top: 20px;
+  aspect-ratio: 16 / 9;
 }
 
 .video-thumb:hover {
   transform: scale(1.05);
   cursor: pointer;
-
 }
 
 .video-card {
