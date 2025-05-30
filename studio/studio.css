@@ -5,11 +5,6 @@
     display: flex
 }
 
-main {
-    display: flex;
-    justify-content: space-between
-}
-
 .container {
     width: 70vw;
     margin-left: 15vw;
