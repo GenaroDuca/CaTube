@@ -36,13 +36,15 @@ if (header && searchButton && searchInput) {
 const userSidebar = document.querySelector('.ts-sidebar');
 const userBtn = document.querySelector('.user-btn');
 
-userBtn.addEventListener('click', e => {
-    e.stopPropagation();
-    userSidebar.classList.toggle('collapsed');
-    if (!friendsContainer.classList.contains('collapsed')) {
-        friendsContainer.classList.add('collapsed');
-    }
-});
+if (userBtn && userSidebar) {
+    userBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        userSidebar.classList.toggle('collapsed');
+        if (friendsContainer && !friendsContainer.classList.contains('collapsed')) {
+            friendsContainer.classList.add('collapsed');
+        }
+    });
+}
 
 // --- "Soon" Modal ---
 const soonModal = document.getElementById('soon-modal');
@@ -82,32 +84,16 @@ rightMenuBtns.forEach((btn, idx) => {
     });
 });
 
-// Close modals by clicking outside or on close button
-rightModals.forEach(modal => {
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            e.stopPropagation();
-            modal.style.display = 'none';
-        }
-    });
-    // Close button
-    const closeBtn = modal.querySelector('.close-right-menu-modal');
-    if (closeBtn) {
-        closeBtn.addEventListener('click', (event) => {
-            event.stopPropagation();
-            modal.style.display = 'none';
-        });
-    }
-});
-
 // Extend left menu
 const sidebar = document.querySelector('.sidebar');
 const sidebarToggler = document.querySelector('.sidebar-toggler');
-sidebarToggler.addEventListener('click', e => {
-    e.stopPropagation();
-    sidebar.classList.toggle('collapsed');
-});
 
+if (sidebarToggler && sidebar) {
+    sidebarToggler.addEventListener('click', e => {
+        e.stopPropagation();
+        sidebar.classList.toggle('collapsed');
+    });
+}
 
 // carousel
 const carouselButtons = document.querySelectorAll('.carousel-btn');
@@ -164,9 +150,10 @@ document.addEventListener('click', (e) => {
     ) {
         notificationContainer.classList.add('collapsed');
         friendsContainer.classList.add('collapsed');
-        sidebar.classList.add('collapsed');
+        if (sidebar) {
+                sidebar.classList.add('collapsed');
+        }
         userSidebar.classList.add('collapsed');
-
     }
 });
 
@@ -174,11 +161,11 @@ document.addEventListener('click', (e) => {
 const openSearchFriendBtn = document.querySelector('.open-search-friend-btn');
 const friendsHeaderOne = document.querySelector('.friends-header-one');
 const friendsHeaderTwo = document.querySelector('.friends-header-two');
-const searchFriendInput = document.querySelector('.search-friend-input'); // Asegúrate que tu input tenga esta clase o cámbiala por el selector correcto
+const searchFriendInput = document.querySelector('.search-friend-input');
 
 openSearchFriendBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    
+
     friendsHeaderOne.classList.add("hide");
     friendsHeaderTwo.classList.remove("hide");
 });
