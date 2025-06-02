@@ -28,14 +28,14 @@
 
     <div class="search-section">
       <div class="mic-section">
-        <button class="mic-btn" aria-label="Search with voice">
+        <button class="mic-btn soon" aria-label="Search with voice">
           <i class="fa fa-microphone"></i>
         </button>
       </div>
 
       <div class="bar-section">
-        <input type="text" placeholder="Search">
-        <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+        <input type="text" placeholder="Search" class="soon">
+        <button class="search-btn soon" aria-label="Search"><i class="fas fa-search"></i></button>
       </div>
     </div>
 
@@ -53,19 +53,6 @@
         <button type="button" class="user-btn">
           <i class="fas fa-user"></i>
         </button>
-      </div>
-    </div>
-    <!-- Modal -->
-    <div id="soon-modal">
-      <div class="soon-modal-content">
-        <h2>Function not available yet</h2>
-        <p>This feature is coming!</p>
-        <div class="play-modal-btn-container">
-          <a href="/soon/soon.html"><button class="play-modal-btn">¡Play!</button></a>
-        </div>
-        <div class="close-soon-modal-container">
-          <button id="close-soon-modal">Close</button> <br>
-        </div>
       </div>
     </div>
   </header>
@@ -89,7 +76,7 @@
         </li>
         <hr>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="#" class="nav-link soon">
             <span class="material-symbols-outlined">
               radar
             </span> <span class="nav-label">Discover </span>
@@ -97,7 +84,7 @@
           <span class="nav-tooltip">Discover</span>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="#" class="nav-link soon">
             <span class="material-symbols-outlined">
               celebration
             </span> <span class="nav-label">CaTube Party</span>
@@ -105,7 +92,7 @@
           <span class="nav-tooltip">CaTube Party</span>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="#" class="nav-link soon">
             <span class="material-symbols-outlined">
               school
             </span> <span class="nav-label">CaTube Education</span>
@@ -114,7 +101,7 @@
         </li>
         <hr>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="#" class="nav-link soon">
             <span class="material-symbols-outlined">
               auto_awesome_motion
             </span> <span class="nav-label">Shorts</span>
@@ -122,14 +109,14 @@
           <span class="nav-tooltip">Shorts</span>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="#" class="nav-link soon">
             <span class="material-symbols-outlined">crown</span>
             <span class="nav-label">Trending</span>
           </a>
           <span class="nav-tooltip">Trending</span>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="#" class="nav-link soon">
             <span class="material-symbols-outlined">subscriptions</span>
             <span class="nav-label">Catscribers</span>
           </a>
@@ -144,35 +131,35 @@
           <span class="nav-tooltip">You</span>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="#" class="nav-link soon">
             <span class="material-symbols-outlined">history</span>
             <span class="nav-label">History</span>
           </a>
           <span class="nav-tooltip">History</span>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="#" class="nav-link soon">
             <span class="material-symbols-outlined">playlist_play</span>
             <span class="nav-label">Playlist</span>
           </a>
           <span class="nav-tooltip">Playlist</span>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="#" class="nav-link soon">
             <span class="material-symbols-outlined">smart_display</span>
             <span class="nav-label">Your videos</span>
           </a>
           <span class="nav-tooltip">Your videos</span>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="#" class="nav-link soon">
             <span class="material-symbols-outlined">schedule</span>
             <span class="nav-label">View later</span>
           </a>
           <span class="nav-tooltip">View later</span>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="#" class="nav-link soon">
             <span class="material-symbols-outlined">favorite</span>
             <span class="nav-label">Liked</span>
           </a>
@@ -225,7 +212,7 @@
         <hr />
 
         <li class="ts-nav-item">
-          <a href="#" class="ts-nav-link">
+          <a href="#" class="ts-nav-link soon">
             <span class="material-symbols-outlined">mode_night</span>
             <span class="ts-nav-label">Appearance</span>
           </a>
@@ -329,6 +316,14 @@
     <header>
       <div class="friends-header-one">
         <h2 class="friends-title">Friends</h2>
+        <div>
+          <span class="select-label">Your status</span>
+          <select>
+            <option>Online</option>
+            <option>Offline</option>
+            <option>Occupied</option>
+          </select>
+        </div>
         <button class="open-search-friend-btn">
           <i class="fas fa-search"></i>
         </button>
@@ -342,13 +337,15 @@
           <i class="fas fa-search"></i>
         </button>
       </div>
+
     </header>
 
     <main>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
+      <div class="friend-card online-friend">
+        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+        <div class="friend-status"></div>
         <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
+        <button type="button" class="invite-friend-btn">
           <i class="fas fa-plus"></i>
         </button>
         <button type="button" class="chat-friend-btn">
@@ -357,10 +354,11 @@
           </span>
         </button>
       </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
+      <div class="friend-card offline-friend">
+        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+        <div class="friend-status"></div>
         <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
+        <button type="button" class="invite-friend-btn">
           <i class="fas fa-plus"></i>
         </button>
         <button type="button" class="chat-friend-btn">
@@ -369,10 +367,11 @@
           </span>
         </button>
       </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
+      <div class="friend-card occupied-friend">
+        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+        <div class="friend-status"></div>
         <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
+        <button type="button" class="invite-friend-btn">
           <i class="fas fa-plus"></i>
         </button>
         <button type="button" class="chat-friend-btn">
@@ -381,10 +380,11 @@
           </span>
         </button>
       </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
+      <div class="friend-card online-friend">
+        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+        <div class="friend-status"></div>
         <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
+        <button type="button" class="invite-friend-btn">
           <i class="fas fa-plus"></i>
         </button>
         <button type="button" class="chat-friend-btn">
@@ -393,10 +393,11 @@
           </span>
         </button>
       </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
+      <div class="friend-card online-friend">
+        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+        <div class="friend-status"></div>
         <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
+        <button type="button" class="invite-friend-btn">
           <i class="fas fa-plus"></i>
         </button>
         <button type="button" class="chat-friend-btn">
@@ -405,10 +406,11 @@
           </span>
         </button>
       </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
+      <div class="friend-card online-friend">
+        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+        <div class="friend-status"></div>
         <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
+        <button type="button" class="invite-friend-btn">
           <i class="fas fa-plus"></i>
         </button>
         <button type="button" class="chat-friend-btn">
@@ -417,10 +419,11 @@
           </span>
         </button>
       </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
+      <div class="friend-card online-friend">
+        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+        <div class="friend-status"></div>
         <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
+        <button type="button" class="invite-friend-btn">
           <i class="fas fa-plus"></i>
         </button>
         <button type="button" class="chat-friend-btn">
@@ -429,83 +432,145 @@
           </span>
         </button>
       </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
+
 
     </main>
   </aside>
 
-  <!-- -->
+  <!-- Modals -->
+  <div class="right-menu-modal">
+    <div class="settings-modal-content">
+      <header>
+        <h1>Settings</h1>
+        <button type="button" class="close-right-menu-modal"><span class="material-symbols-outlined">
+            do_not_disturb_on
+          </span>
+        </button>
+      </header>
+      <div class="settings-main-content">
+        <nav>
+          <ul>
+            <li><button type="button" class="settings-option-btn active">Account</button></li>
+            <li><button type="button" class="settings-option-btn soon">Notifications</button></li>
+            <li><button type="button" class="settings-option-btn soon">Privacy</button></li>
+            <li><button type="button" class="settings-option-btn soon">Payments</button></li>
+            <li><button type="button" class="settings-option-btn soon">Advanced</button></li>
+          </ul>
+        </nav>
+
+        <section class="setting-section">
+          <form action="" class="change-password-form">
+
+            <label for="current-password">Current Password:</label>
+            <input type="password" id="current-password" name="current-password" placeholder="Current password"
+              required>
+            <a href="#">Forgot your password?</a>
+
+            <label for="new-password">New Password:</label>
+            <input type="password" id="new-password" name="new-password" placeholder="New password" required>
+            <p for="password">Min 8 characters, incl. upper, lower, num, symbol</p>
+
+            <label for="confirm-new-password">Confirm New Password:</label>
+            <input type="password" id="confirm-new-password" name="confirm-new-password"
+              placeholder="Confirm new password" required>
+
+            <button type="submit">Change</button>
+          </form>
+
+          <div>
+            <button type="button" class="disable-account-btn">Disable Account</button>
+            <button type="button" class="delete-account-btn">Delete Account</button>
+          </div>
+        </section>
+        <section class="setting-section hide">
+
+        </section>
+        <section class="setting-section hide">
+
+        </section>
+        <section class="setting-section hide">
+
+        </section>
+        <section class="setting-section hide">
+
+        </section>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="right-menu-modal">
+    <div class="help-modal-content">
+      <header>
+        <h1>Help</h1>
+        <button type="button" class="close-right-menu-modal">
+          <span class="material-symbols-outlined">
+            do_not_disturb_on
+          </span>
+        </button>
+      </header>
+      <div class="frequently-asked-questions">
+        <h2>Frequently Asked Questions</h2>
+        <p>Here are some common questions and answers to help you get started.</p>
+        <details>
+          <summary><strong>How do I upload a video?</strong></summary>
+          <p>Go to your channel and click "Upload" or click "Create"</p>
+        </details>
+        <hr>
+        <details>
+          <summary><strong>How do I change my password?</strong></summary>
+          <p>Go to Settings -> Account and change your password.</p>
+        </details>
+        <hr>
+        <details>
+          <summary><strong>How do I report a problem?</strong></summary>
+          <p>To report a problem, you can use the feedback form or contact our support team directly.</p>
+          <p>Contact us at <a href="mailto:catube@gmail.com">catube@gmail.com</a></p>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <div class="right-menu-modal">
+    <div class="feedback-modal-content">
+      <header>
+        <h1>Feedback</h1>
+        <button type="button" class="close-right-menu-modal"><span class="material-symbols-outlined">
+            do_not_disturb_on
+          </span>
+        </button>
+      </header>
+
+      <form action="mailto:catube@gmail.com" method="POST" enctype="text/plain">
+        <label for="feedback-email">Your email (optional):</label>
+        <input type="email" id="feedback-email" name="email" placeholder="your@email.com">
+
+        <label for="feedback-text">Your feedback:</label>
+        <textarea id="feedback-text" name="feedback" rows="4" required
+          placeholder="Write your feedback here..."></textarea>
+        <label for="feedback-file">Add image (optional)</label>
+        <input id="feedback-file" type="file" accept="image">
+
+        <button type="submit" class="submit-feedback-btn">Send Feedback</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Soon Modal -->
+  <div id="soon-modal">
+    <div class="soon-modal-content">
+      <h2>Function not available yet</h2>
+      <p>This feature is coming soon!</p>
+      <div class="play-modal-btn-container">
+        <a href="/catube_flappy/catube_flappy.html"><button class="play-modal-btn">¡Play!</button></a>
+      </div>
+      <div class="close-soon-modal-container">
+        <button id="close-soon-modal">Close</button> <br>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main content -->
   <main class="main-content">
     <div class="banner-container">
       <img class="banner" src="../media/studio_media/banner-tv.jpg" alt="banner" />

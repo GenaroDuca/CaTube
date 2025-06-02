@@ -17,479 +17,424 @@
 
 
 <body>
-  <!-- General Html -->
-  <header class="header">
-    <div class="left-section">
-      <a href="/index.html"><img src="/media/header_media/logo/catube_white.svg" alt="CaTube logo" class="logo"></a>
-      <span class="title">CaTube</span>
-    </div>
-
-    <div class="search-section">
-      <div class="mic-section">
-        <button class="mic-btn" aria-label="Search with voice">
-          <i class="fa fa-microphone"></i>
-        </button>
-      </div>
-
-      <div class="bar-section">
-        <input type="text" placeholder="Search">
-        <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
-      </div>
-    </div>
-
-    <div class="right-section">
-      <a href="#" class="soon">
-        <button class="create-btn">
-          <p>Create </p><i class="fas fa-plus"></i>
-        </button>
-      </a>
-
-      <div class="account-section">
-        <button class="notify-btn">
-          <i class="fas fa-bell"></i>
-        </button>
-        <button type="button" class="user-btn">
-          <i class="fas fa-user"></i>
-        </button>
-      </div>
-    </div>
-  </header>
-
-  <!-- left menu-->
-  <aside class="sidebar collapsed">
-    <header class="sidebar-header">
-      <button class="toggler sidebar-toggler">
-        <span class="material-symbols-outlined">chevron_left</span>
-      </button>
-
-    </header>
-    <nav class="sidebar-nav">
-      <ul class="nav-list primary-nav">
-        <li class="nav-item">
-          <a href="/index.html" class="nav-link">
-            <span class="nav-icon material-symbols-outlined">home</span>
-            <span class="nav-label">Home</span>
-          </a>
-          <span class="nav-tooltip">Home</span>
-        </li>
-        <hr>
-        <li class="nav-item">
-          <a href="#" class="nav-link ">
-            <span class="material-symbols-outlined">
-              radar
-            </span> <span class="nav-label">Discover </span>
-          </a>
-          <span class="nav-tooltip">Discover</span>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">
-              celebration
-            </span> <span class="nav-label">CaTube Party</span>
-          </a>
-          <span class="nav-tooltip">CaTube Party</span>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">
-              school
-            </span> <span class="nav-label">CaTube Education</span>
-          </a>
-          <span class="nav-tooltip">CaTube Education</span>
-        </li>
-        <hr>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">
-              auto_awesome_motion
-            </span> <span class="nav-label">Shorts</span>
-          </a>
-          <span class="nav-tooltip">Shorts</span>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">crown</span>
-            <span class="nav-label">Trending</span>
-          </a>
-          <span class="nav-tooltip">Trending</span>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">subscriptions</span>
-            <span class="nav-label">Catscribers</span>
-          </a>
-          <span class="nav-tooltip">Catscribers</span>
-        </li>
-        <hr>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">account_circle</span>
-            <span class="nav-label">You</span>
-          </a>
-          <span class="nav-tooltip">You</span>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">history</span>
-            <span class="nav-label">History</span>
-          </a>
-          <span class="nav-tooltip">History</span>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">playlist_play</span>
-            <span class="nav-label">Playlist</span>
-          </a>
-          <span class="nav-tooltip">Playlist</span>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">smart_display</span>
-            <span class="nav-label">Your videos</span>
-          </a>
-          <span class="nav-tooltip">Your videos</span>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">schedule</span>
-            <span class="nav-label">View later</span>
-          </a>
-          <span class="nav-tooltip">View later</span>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            <span class="material-symbols-outlined">favorite</span>
-            <span class="nav-label">Liked</span>
-          </a>
-          <span class="nav-tooltip">Liked</span>
-        </li>
-      </ul>
-    </nav>
-  </aside>
-
-  <!-- right account menu -->
-  <aside class="ts-sidebar collapsed">
-    <!-- Navigation -->
-    <nav class="ts-sidebar-nav">
-      <ul class="ts-nav-list">
-        <li class="ts-nav-item">
-          <a href="/register/register.html" class="ts-nav-link">
-            <span class="material-symbols-outlined">logout</span>
-            <span class="ts-nav-label">Log In</span>
-          </a>
-          <!-- <span class="ts-nav-tooltip">Get out</span> -->
-        </li>
-
-        <li class="ts-nav-item">
-          <a href="/yourChannel/yourChannel.html" class="ts-nav-link">
-            <span class="material-symbols-outlined">account_box</span>
-            <span class="ts-nav-label">Your channel</span>
-          </a>
-          <!-- <span class="ts-nav-tooltip">Your channel</span> -->
-        </li>
-
-        <li class="ts-nav-item">
-          <button type="button" class="ts-nav-link friends-btn">
-            <span class="material-symbols-outlined">diversity_4</span>
-            <span class="ts-nav-label">Friends</span>
-          </button>
-          <!-- <span class="ts-nav-tooltip">Friends</span> -->
-        </li>
-
-        <li class="ts-nav-item">
-          <a href="/studio/studio.html" class="ts-nav-link">
-            <span class="material-symbols-outlined">
-              <img src="/media/studio_media/studio.icon.svg" alt="Studio Icon"
-                style="width: 20px; height: 20px; margin-right: 8px;" />
-            </span>
-            <span class="ts-nav-label">CaTube Studio</span>
-          </a>
-          <!-- <span class="ts-nav-tooltip">CaTube Studio</span> -->
-        </li>
-
-        <hr />
-
-        <li class="ts-nav-item">
-          <a href="#" class="ts-nav-link">
-            <span class="material-symbols-outlined">mode_night</span>
-            <span class="ts-nav-label">Appearance</span>
-          </a>
-          <!-- <span class="ts-nav-tooltip">Appearance</span> -->
-        </li>
-
-        <hr />
-
-
-
-        <li class="ts-nav-item">
-          <button type="button" class="ts-nav-link right-menu-modal-btn">
-            <span class="material-symbols-outlined">settings</span>
-            <span class="ts-nav-label">Settings</span>
-          </button>
-          <!-- <span class="ts-nav-tooltip">Settings</span> -->
-        </li>
-
-        <li class="ts-nav-item">
-          <button type="button" class="ts-nav-link right-menu-modal-btn">
-            <span class="material-symbols-outlined">help</span>
-            <span class="ts-nav-label">Help</span>
-          </button>
-          <!-- <span class="ts-nav-tooltip">Help</span> -->
-        </li>
-
-        <li class="ts-nav-item">
-          <button type="button" class="ts-nav-link right-menu-modal-btn">
-            <span class="material-symbols-outlined">feedback</span>
-            <span class="ts-nav-label">Send feedback</span>
-          </button>
-          <!-- <span class="ts-nav-tooltip">Send feedback</span> -->
-        </li>
-
-
-
-      </ul>
-    </nav>
-  </aside>
-
-  <!-- Notifications menu -->
-  <aside class="notifications-sidebar collapsed">
-    <header>
-      <h2>Notifications</h2>
-    </header>
-    <main>
-      <div class="notification-item">
-        <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
-        <div>
-          <p class="notification-text">New video from <strong>Channel Name</strong></p>
-          <span class="notification-time">2 hours ago</span>
+    <!-- General Html -->
+    <header class="header">
+        <div class="left-section">
+            <a href="/index.html"><img src="/media/header_media/logo/catube_white.svg" alt="CaTube logo"
+                    class="logo"></a>
+            <span class="title">CaTube</span>
         </div>
-      </div>
-      <div class="notification-item">
-        <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
-        <div>
-          <p class="notification-text">New video from <strong>Channel Name</strong></p>
-          <span class="notification-time">2 hours ago</span>
-        </div>
-      </div>
-      <div class="notification-item">
-        <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
-        <div>
-          <p class="notification-text">New video from <strong>Channel Name</strong></p>
-          <span class="notification-time">2 hours ago</span>
-        </div>
-      </div>
-      <div class="notification-item">
-        <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
-        <div>
-          <p class="notification-text">New video from <strong>Channel Name</strong></p>
-          <span class="notification-time">2 hours ago</span>
-        </div>
-      </div>
-      <div class="notification-item">
-        <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
-        <div>
-          <p class="notification-text">New video from <strong>Channel Name</strong></p>
-          <span class="notification-time">2 hours ago</span>
-        </div>
-      </div>
-      <div class="notification-item">
-        <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
-        <div>
-          <p class="notification-text">New video from <strong>Channel Name</strong></p>
-          <span class="notification-time">2 hours ago</span>
-        </div>
-      </div>
-      <div class="notification-item">
-        <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
-        <div>
-          <p class="notification-text">New video from <strong>Channel Name</strong></p>
-          <span class="notification-time">2 hours ago</span>
-        </div>
-      </div>
-    </main>
-  </aside>
 
-  <!-- Friends menu -->
-  <aside class="friends-sidebar collapsed">
-    <header>
-      <div class="friends-header-one">
-        <h2 class="friends-title">Friends</h2>
-        <button class="open-search-friend-btn">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
-      <div class="friends-header-two hide">
-        <button type="button" class="back-to-friends-header-one"> <span class="material-symbols-outlined">
-            redo
-          </span></button>
-        <input type="text" placeholder="Search friends" class="search-friend-input">
-        <button class="search-friend-btn" aria-label="Search">
-          <i class="fas fa-search"></i>
-        </button>
-      </div>
+        <div class="search-section">
+            <div class="mic-section">
+                <button class="mic-btn soon" aria-label="Search with voice">
+                    <i class="fa fa-microphone"></i>
+                </button>
+            </div>
+
+            <div class="bar-section">
+                <input type="text" placeholder="Search" class="soon">
+                <button class="search-btn soon" aria-label="Search"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <a href="#" class="soon">
+                <button class="create-btn">
+                    <p>Create </p><i class="fas fa-plus"></i>
+                </button>
+            </a>
+
+            <div class="account-section">
+                <button class="notify-btn">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <button type="button" class="user-btn">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
     </header>
 
-    <main>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
-      <div>
-        <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture">
-        <p>Name friend</p>
-        <button type="button" class="inivite-friend-btn">
-          <i class="fas fa-plus"></i>
-        </button>
-        <button type="button" class="chat-friend-btn">
-          <span class="material-symbols-outlined">
-            chat
-          </span>
-        </button>
-      </div>
+    <!-- left menu-->
+    <aside class="sidebar collapsed">
+        <header class="sidebar-header">
+            <button class="toggler sidebar-toggler">
+                <span class="material-symbols-outlined">chevron_left</span>
+            </button>
 
-    </main>
-  </aside>
+        </header>
+        <nav class="sidebar-nav">
+            <ul class="nav-list primary-nav">
+                <li class="nav-item">
+                    <a href="/index.html" class="nav-link">
+                        <span class="nav-icon material-symbols-outlined">home</span>
+                        <span class="nav-label">Home</span>
+                    </a>
+                    <span class="nav-tooltip">Home</span>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">
+                            radar
+                        </span> <span class="nav-label">Discover </span>
+                    </a>
+                    <span class="nav-tooltip">Discover</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">
+                            celebration
+                        </span> <span class="nav-label">CaTube Party</span>
+                    </a>
+                    <span class="nav-tooltip">CaTube Party</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">
+                            school
+                        </span> <span class="nav-label">CaTube Education</span>
+                    </a>
+                    <span class="nav-tooltip">CaTube Education</span>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">
+                            auto_awesome_motion
+                        </span> <span class="nav-label">Shorts</span>
+                    </a>
+                    <span class="nav-tooltip">Shorts</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">crown</span>
+                        <span class="nav-label">Trending</span>
+                    </a>
+                    <span class="nav-tooltip">Trending</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">subscriptions</span>
+                        <span class="nav-label">Catscribers</span>
+                    </a>
+                    <span class="nav-tooltip">Catscribers</span>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="material-symbols-outlined">account_circle</span>
+                        <span class="nav-label">You</span>
+                    </a>
+                    <span class="nav-tooltip">You</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">history</span>
+                        <span class="nav-label">History</span>
+                    </a>
+                    <span class="nav-tooltip">History</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">playlist_play</span>
+                        <span class="nav-label">Playlist</span>
+                    </a>
+                    <span class="nav-tooltip">Playlist</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">smart_display</span>
+                        <span class="nav-label">Your videos</span>
+                    </a>
+                    <span class="nav-tooltip">Your videos</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">schedule</span>
+                        <span class="nav-label">View later</span>
+                    </a>
+                    <span class="nav-tooltip">View later</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">favorite</span>
+                        <span class="nav-label">Liked</span>
+                    </a>
+                    <span class="nav-tooltip">Liked</span>
+                </li>
+            </ul>
+        </nav>
+    </aside>
 
+    <!-- right account menu -->
+    <aside class="ts-sidebar collapsed">
+        <!-- Navigation -->
+        <nav class="ts-sidebar-nav">
+            <ul class="ts-nav-list">
+                <li class="ts-nav-item">
+                    <a href="/register/register.html" class="ts-nav-link">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span class="ts-nav-label">Log In</span>
+                    </a>
+                    <!-- <span class="ts-nav-tooltip">Get out</span> -->
+                </li>
+
+                <li class="ts-nav-item">
+                    <a href="/yourChannel/yourChannel.html" class="ts-nav-link">
+                        <span class="material-symbols-outlined">account_box</span>
+                        <span class="ts-nav-label">Your channel</span>
+                    </a>
+                    <!-- <span class="ts-nav-tooltip">Your channel</span> -->
+                </li>
+
+                <li class="ts-nav-item">
+                    <button type="button" class="ts-nav-link friends-btn">
+                        <span class="material-symbols-outlined">diversity_4</span>
+                        <span class="ts-nav-label">Friends</span>
+                    </button>
+                    <!-- <span class="ts-nav-tooltip">Friends</span> -->
+                </li>
+
+                <li class="ts-nav-item">
+                    <a href="/studio/studio.html" class="ts-nav-link">
+                        <span class="material-symbols-outlined">
+                            <img src="/media/studio_media/studio.icon.svg" alt="Studio Icon"
+                                style="width: 20px; height: 20px; margin-right: 8px;" />
+                        </span>
+                        <span class="ts-nav-label">CaTube Studio</span>
+                    </a>
+                    <!-- <span class="ts-nav-tooltip">CaTube Studio</span> -->
+                </li>
+
+                <hr />
+
+                <li class="ts-nav-item">
+                    <a href="#" class="ts-nav-link soon">
+                        <span class="material-symbols-outlined">mode_night</span>
+                        <span class="ts-nav-label">Appearance</span>
+                    </a>
+                    <!-- <span class="ts-nav-tooltip">Appearance</span> -->
+                </li>
+
+                <hr />
+
+
+
+                <li class="ts-nav-item">
+                    <button type="button" class="ts-nav-link right-menu-modal-btn">
+                        <span class="material-symbols-outlined">settings</span>
+                        <span class="ts-nav-label">Settings</span>
+                    </button>
+                    <!-- <span class="ts-nav-tooltip">Settings</span> -->
+                </li>
+
+                <li class="ts-nav-item">
+                    <button type="button" class="ts-nav-link right-menu-modal-btn">
+                        <span class="material-symbols-outlined">help</span>
+                        <span class="ts-nav-label">Help</span>
+                    </button>
+                    <!-- <span class="ts-nav-tooltip">Help</span> -->
+                </li>
+
+                <li class="ts-nav-item">
+                    <button type="button" class="ts-nav-link right-menu-modal-btn">
+                        <span class="material-symbols-outlined">feedback</span>
+                        <span class="ts-nav-label">Send feedback</span>
+                    </button>
+                    <!-- <span class="ts-nav-tooltip">Send feedback</span> -->
+                </li>
+
+
+
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- Notifications menu -->
+    <aside class="notifications-sidebar collapsed">
+        <header>
+            <h2>Notifications</h2>
+        </header>
+        <main>
+            <div class="notification-item">
+                <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
+                <div>
+                    <p class="notification-text">New video from <strong>Channel Name</strong></p>
+                    <span class="notification-time">2 hours ago</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
+                <div>
+                    <p class="notification-text">New video from <strong>Channel Name</strong></p>
+                    <span class="notification-time">2 hours ago</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
+                <div>
+                    <p class="notification-text">New video from <strong>Channel Name</strong></p>
+                    <span class="notification-time">2 hours ago</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
+                <div>
+                    <p class="notification-text">New video from <strong>Channel Name</strong></p>
+                    <span class="notification-time">2 hours ago</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
+                <div>
+                    <p class="notification-text">New video from <strong>Channel Name</strong></p>
+                    <span class="notification-time">2 hours ago</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
+                <div>
+                    <p class="notification-text">New video from <strong>Channel Name</strong></p>
+                    <span class="notification-time">2 hours ago</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
+                <div>
+                    <p class="notification-text">New video from <strong>Channel Name</strong></p>
+                    <span class="notification-time">2 hours ago</span>
+                </div>
+            </div>
+        </main>
+    </aside>
+
+    <!-- Friends menu -->
+    <aside class="friends-sidebar collapsed">
+        <header>
+            <div class="friends-header-one">
+                <h2 class="friends-title">Friends</h2>
+                <div>
+                    <span class="select-label">Your status</span>
+                    <select>
+                        <option>Online</option>
+                        <option>Offline</option>
+                        <option>Occupied</option>
+                    </select>
+                </div>
+                <button class="open-search-friend-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="friends-header-two hide">
+                <button type="button" class="back-to-friends-header-one"> <span class="material-symbols-outlined">
+                        redo
+                    </span></button>
+                <input type="text" placeholder="Search friends" class="search-friend-input">
+                <button class="search-friend-btn" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+
+        </header>
+
+        <main>
+            <div class="friend-card online-friend">
+                <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+                <div class="friend-status"></div>
+                <p>Name friend</p>
+                <button type="button" class="invite-friend-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button type="button" class="chat-friend-btn">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                </button>
+            </div>
+            <div class="friend-card offline-friend">
+                <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+                <div class="friend-status"></div>
+                <p>Name friend</p>
+                <button type="button" class="invite-friend-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button type="button" class="chat-friend-btn">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                </button>
+            </div>
+            <div class="friend-card occupied-friend">
+                <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+                <div class="friend-status"></div>
+                <p>Name friend</p>
+                <button type="button" class="invite-friend-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button type="button" class="chat-friend-btn">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                </button>
+            </div>
+            <div class="friend-card online-friend">
+                <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+                <div class="friend-status"></div>
+                <p>Name friend</p>
+                <button type="button" class="invite-friend-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button type="button" class="chat-friend-btn">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                </button>
+            </div>
+            <div class="friend-card online-friend">
+                <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+                <div class="friend-status"></div>
+                <p>Name friend</p>
+                <button type="button" class="invite-friend-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button type="button" class="chat-friend-btn">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                </button>
+            </div>
+            <div class="friend-card online-friend">
+                <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+                <div class="friend-status"></div>
+                <p>Name friend</p>
+                <button type="button" class="invite-friend-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button type="button" class="chat-friend-btn">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                </button>
+            </div>
+            <div class="friend-card online-friend">
+                <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+                <div class="friend-status"></div>
+                <p>Name friend</p>
+                <button type="button" class="invite-friend-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button type="button" class="chat-friend-btn">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                </button>
+            </div>
+
+
+        </main>
+    </aside>
 
     <!-- Modals -->
     <div class="right-menu-modal">
@@ -505,10 +450,10 @@
                 <nav>
                     <ul>
                         <li><button type="button" class="settings-option-btn active">Account</button></li>
-                        <li><button type="button" class="settings-option-btn">Notifications</button></li>
-                        <li><button type="button" class="settings-option-btn">Privacy</button></li>
-                        <li><button type="button" class="settings-option-btn">Payments</button></li>
-                        <li><button type="button" class="settings-option-btn">Advanced</button></li>
+                        <li><button type="button" class="settings-option-btn soon">Notifications</button></li>
+                        <li><button type="button" class="settings-option-btn soon">Privacy</button></li>
+                        <li><button type="button" class="settings-option-btn soon">Payments</button></li>
+                        <li><button type="button" class="settings-option-btn soon">Advanced</button></li>
                     </ul>
                 </nav>
 
@@ -611,7 +556,21 @@
         </div>
     </div>
 
-    <!-- -->
+    <!-- Soon Modal -->
+    <div id="soon-modal">
+        <div class="soon-modal-content">
+            <h2>Function not available yet</h2>
+            <p>This feature is coming soon!</p>
+            <div class="play-modal-btn-container">
+                <a href="/catube_flappy/catube_flappy.html"><button class="play-modal-btn">¡Play!</button></a>
+            </div>
+            <div class="close-soon-modal-container">
+                <button id="close-soon-modal">Close</button> <br>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Conent -->
     <main class="main-content">
         <!-- ads -->
         <div class="ads">
