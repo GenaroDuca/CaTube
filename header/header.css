@@ -53,7 +53,7 @@ a {
 #soon-modal,
 .feedback-modal-content form input[type=file],
 .hide {
-    display: none !important
+    display: none
 }
 
 .header,
@@ -536,7 +536,7 @@ button:hover {
 
 .right-menu-modal {
     display: none;
-    z-index: 10000;
+    z-index: 999;
     width: 100vw;
     background: rgba(0, 0, 0, .5);
     justify-content: center;
@@ -836,7 +836,6 @@ button:hover {
 .friends-header-one {
     height: 75px;
     padding: 20px;
-    flex-shrink: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -851,6 +850,36 @@ button:hover {
     height: 0;
 }
 
+.friends-header-one div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.friends-header-one select {
+    border-radius: 30px;
+    background-color: transparent;
+    border: 1px solid var(--text-color);
+    color: (var(--text-color));
+    cursor: pointer;
+}
+
+.friends-header-one select:focus {
+    outline: none;
+    border-color: var(--btn);
+}
+
+.friends-header-one select option {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.friends-header-one select option:hover {
+    cursor: pointer;
+    background-color: var(--btn);
+}
+
 .friends-header-two {
     height: 75px;
     padding: 20px;
@@ -860,6 +889,11 @@ button:hover {
     align-items: center;
     opacity: 1;
     visibility: visible;
+}
+
+.friends-header-two.hide,
+.friends-header-one.hide {
+    display: none;
 }
 
 .friends-sidebar.collapsed .friends-header-two {
@@ -937,15 +971,14 @@ button:hover {
 
 /* ----------------------------- */
 
-.friends-sidebar main div {
+.friend-card {
     width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-    margin-top: 10px;
+    margin-bottom: 10px;
 }
-
 
 
 .friends-sidebar main div img {
@@ -954,7 +987,33 @@ button:hover {
     border-radius: 50%;
 }
 
-.inivite-friend-btn {
+.friend-card div {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin-top: 30px;
+    margin-left: -25px;
+    z-index: 2;
+}
+
+.online-friend div {
+    background-color: rgb(146, 231, 172);
+}
+
+.offline-friend div {
+    background-color: rgb(126, 126, 126);
+}
+
+.occupied-friend div {
+    background-color: rgb(228, 89, 70);
+}
+
+.gray {
+    filter: grayscale(100%);
+}
+
+
+.invite-friend-btn {
     background-color: var(--btn);
     color: var(--primary-color);
     border: none;

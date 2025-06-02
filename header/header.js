@@ -49,18 +49,15 @@ if (userBtn && userSidebar) {
 // --- "Soon" Modal ---
 const soonModal = document.getElementById('soon-modal');
 const closeSoonModal = document.getElementById('close-soon-modal');
+const soonModalBtn = document.querySelectorAll('.soon');
 
-document.addEventListener('click', function (e) {
-    const soonLink = e.target.closest('a.soon');
-    if (soonLink && soonModal) {
-        e.preventDefault();
-        soonModal.style.display = 'flex';
-    }
-    if (e.target === soonModal) {
-        soonModal.style.display = 'none';
-    }
+soonModalBtn.forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (soonModal) soonModal.style.display = 'flex';
+    });
 });
 
+// Close "Soon" modal
 if (closeSoonModal && soonModal) {
     closeSoonModal.onclick = function () {
         soonModal.style.display = 'none';
@@ -72,14 +69,25 @@ const rightMenuBtns = document.querySelectorAll('.right-menu-modal-btn');
 const rightModals = document.querySelectorAll('.right-menu-modal');
 
 // Show modals
-rightMenuBtns.forEach((btn, idx) => {
+rightMenuBtns.forEach((btn, modal) => {
     btn.addEventListener('click', (e) => {
         e.stopPropagation();
         rightModals.forEach(modal => {
             modal.style.display = 'none';
         });
-        if (rightModals[idx]) {
-            rightModals[idx].style.display = 'flex';
+        if (rightModals[modal]) {
+            rightModals[modal].style.display = 'flex';
+        }
+    });
+});
+
+// Close modals
+const closeRightModalsBtn = document.querySelectorAll('.close-right-menu-modal');
+closeRightModalsBtn.forEach((btn, modal) => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (rightModals[modal]) {
+            rightModals[modal].style.display = 'none';
         }
     });
 });
@@ -133,29 +141,6 @@ friendsBtn.addEventListener('click', (e) => {
 
 
 // close menus when clicking outside
-document.addEventListener('click', (e) => {
-
-    if (
-        !notificationContainer.classList.contains('collapsed') &&
-        !notificationContainer.contains(e.target) &&
-        e.target !== notificationBtn || !friendsContainer.classList.contains('collapsed') &&
-        !friendsContainer.contains(e.target) &&
-        e.target !== friendsContainer || sidebar &&
-        !sidebar.classList.contains('collapsed') &&
-        !sidebar.contains(e.target) &&
-        e.target !== sidebarToggler
-        || !userSidebar.classList.contains('collapsed') &&
-        !userSidebar.contains(e.target) &&
-        e.target !== userBtn
-    ) {
-        notificationContainer.classList.add('collapsed');
-        friendsContainer.classList.add('collapsed');
-        if (sidebar) {
-                sidebar.classList.add('collapsed');
-        }
-        userSidebar.classList.add('collapsed');
-    }
-});
 
 // Btn search friends
 const openSearchFriendBtn = document.querySelector('.open-search-friend-btn');
@@ -178,3 +163,23 @@ backtoFriendHeaderOneBtn.addEventListener('click', (e) => {
     friendsHeaderTwo.classList.add("hide");
     if (searchFriendInput) searchFriendInput.value = '';
 });
+
+// Friends offline/online/occupied 
+const friendsCards = document.querySelectorAll(".friend-card");
+
+const inviteFriendBtn = document.querySelectorAll(".invite-friend-btn");
+const chatFriendBtn = document.querySelectorAll(".chat-friend-btn");
+const friendImg = document.querySelectorAll(".friend-img");
+
+for (let i = 0; i < friendsCards.length; i++) {
+
+    if (friendsCards[i].classList.contains("offline-friend")) {
+        inviteFriendBtn[i].classList.add("gray")
+        chatFriendBtn[i].classList.add("gray")
+        friendImg[i].classList.add("gray")
+    } else if (friendsCards[i].classList.contains("occupied-friend")) {
+        inviteFriendBtn[i].classList.add("gray")
+        chatFriendBtn[i].classList.add("gray")
+        friendImg[i].classList.add("gray")
+    }
+}

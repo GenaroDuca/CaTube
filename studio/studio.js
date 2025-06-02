@@ -51,7 +51,7 @@ function setupContentTabs() {
 // --- Main Navigation (Sidebar) ---
 function setupSidebarNavigation() {
   const navLinks = document.querySelectorAll('.sidebar-left-studio-nav .primary-nav .nav-link');
-  const sections = document.querySelectorAll('main > .container');
+  const sections = document.querySelectorAll('main > .container-studio');
   navLinks.forEach((link, idx) => {
     link.addEventListener('click', () => {
       navLinks.forEach(l => l.classList.remove('active'));
