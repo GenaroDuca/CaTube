@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- Header Search ---
     const header = document.querySelector('.header');
     const searchButton = document.querySelector('.search-btn');
     const searchInput = document.querySelector('.search-section input[type="text"]');
@@ -6,12 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (header && searchButton && searchInput) {
         searchButton.addEventListener('click', () => {
             if (header.classList.contains('search-active')) {
-
                 if (searchInput.value === '') {
                     header.classList.remove('search-active');
                 } else {
-
-                    console.log('BuscanSdo:', searchInput.value);
+                    console.log('Searching:', searchInput.value);
                 }
             } else {
                 header.classList.add('search-active');
@@ -33,12 +32,124 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    // --- Right Sidebar Menu ---
+    const userSidebar = document.querySelector('.ts-sidebar');
+    const userBtn = document.querySelector('.user-btn');
+
+    if (userBtn && userSidebar) {
+        userBtn.addEventListener('click', e => {
+            e.stopPropagation();
+            userSidebar.classList.toggle('collapsed');
+        });
+
+        // Close sidebar when clicking outside
+        document.addEventListener('click', e => {
+            const isModal = e.target.closest('.right-menu-modal');
+            if (
+                !userSidebar.classList.contains('collapsed') &&
+                !userSidebar.contains(e.target) &&
+                e.target !== userBtn &&
+                !isModal
+            ) {
+                userSidebar.classList.add('collapsed');
+            }
+        });
+    }
+
+    // --- "Soon" Modal ---
+    const soonModal = document.getElementById('soon-modal');
+    const closeSoonModal = document.getElementById('close-soon-modal');
+
+    document.addEventListener('click', function (e) {
+        const soonLink = e.target.closest('a.soon');
+        if (soonLink && soonModal) {
+            e.preventDefault();
+            soonModal.style.display = 'flex';
+        }
+        if (e.target === soonModal) {
+            soonModal.style.display = 'none';
+        }
+    });
+
+    if (closeSoonModal && soonModal) {
+        closeSoonModal.onclick = function () {
+            soonModal.style.display = 'none';
+        };
+    }
+
+    // --- Right Menu Modals ---
+    const rightMenuBtns = document.querySelectorAll('.right-menu-modal-btn');
+    const rightModals = document.querySelectorAll('.right-menu-modal');
+
+    // Show modals
+    rightMenuBtns.forEach((btn, idx) => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            rightModals.forEach(modal => {
+                modal.style.display = 'none';
+            });
+            if (rightModals[idx]) {
+                rightModals[idx].style.display = 'flex';
+            }
+        });
+    });
+
+    // Close modals by clicking outside or on close button
+    rightModals.forEach(modal => {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                e.stopPropagation();
+                modal.style.display = 'none';
+            }
+        });
+        // Close button
+        const closeBtn = modal.querySelector('.close-right-menu-modal');
+        if (closeBtn) {
+            closeBtn.addEventListener('click', (event) => {
+                event.stopPropagation();
+                modal.style.display = 'none';
+            });
+        }
+    });
 });
 
+// Extend left menu
+const sidebar = document.querySelector('.sidebar');
+const sidebarToggler = document.querySelector('.sidebar-toggler');
 
-const sidebar = document.querySelector('.rsm-sidebar');
-const sidebarToggler = document.querySelector('.rsm-sidebar-toggler');
+if (sidebarToggler) {
+    sidebarToggler.addEventListener('click', e => {
+        e.stopPropagation();
+        sidebar.classList.toggle('collapsed');
+    });
+}
 
-sidebarToggler.addEventListener('click', () => {
-    sidebar.classList.toggle('collapsed');
+document.addEventListener('click', e => {
+    if (
+        sidebar &&
+        !sidebar.classList.contains('collapsed') &&
+        !sidebar.contains(e.target) &&
+        e.target !== sidebarToggler
+    ) {
+        sidebar.classList.add('collapsed');
+    }
+});
+
+// carousel
+const carouselButtons = document.querySelectorAll('.carousel-btn');
+carouselButtons.forEach(button => {
+    button.addEventListener('click', function () {
+        const direction = this.getAttribute('data-direction');
+        const carousel = this.parentElement.querySelector(
+            '.recommendations-container, .carousel-trends, .carousel-subs, .carousel-channels'
+        );
+        if (!carousel) return;
+        const scrollAmount = carousel.offsetWidth * 0.8;
+        if (direction === 'left') {
+            carousel.scrollLeft -= scrollAmount;
+        } else {
+            carousel.scrollLeft += scrollAmount;
+        }
+    });
 });

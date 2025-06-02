@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Catube Flappy</title>
+    <link rel="webside icon" type="img" href="/media/header_media/logo/catube_white.svg">
+    <link rel="stylesheet" href="/header/header.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        #gameCanvas {
+            border-radius: 15px;
+            background-color: #87CEEB;
+            margin-top: 70px; /* Ajusta según altura del header + margen */
+            display: block;
+        }
+
+        #startScreen,
+        #gameOverScreen {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            z-index: 110;
+            width: 85%;
+            max-width: 400px;
+        }
+
+        #startScreen h1,
+        #gameOverScreen h1 {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+        }
+
+        #startScreen button,
+        #gameOverScreen button {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            width: 70%;
+            max-width: 220px;
+        }
+
+        #startScreen button:hover,
+        #gameOverScreen button:hover {
+            background-color: #45a049;
+        }
+
+        #startScreen button:disabled {
+            background-color: #aaa;
+            cursor: default;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="left-section">
+            <a href="/index.html"><img src="/media/header_media/logo/catube_white.svg" alt="CaTube logo"
+                    class="logo"></a>
+            <span class="title">CaTube</span>
+        </div>
+        <div class="right-section">
+            <a href="/index.html"><button class="return-btn-soon">Return</button></a>
+        </div>
+    </header>
+
+
+    <div id="startScreen">
+        <h1>Catube Flappy</h1>
+        <button id="startButton">Loading...</button>
+    </div>
+
+    <div id="gameOverScreen" style="display: none;">
+        <h1>Game Over</h1>
+        <p>Points: <span id="finalScore">0</span></p>
+        <p>Record: <span id="highScore">0</span></p>
+        <button id="restartButton">Retry</button>
+    </div>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        const startScreen = document.getElementById('startScreen');
+        const gameOverScreen = document.getElementById('gameOverScreen');
+        const startButton = document.getElementById('startButton');
+        const restartButton = document.getElementById('restartButton');
+        const finalScoreDisplay = document.getElementById('finalScore');
+        const highScoreDisplay = document.getElementById('highScore');
+
+        const BIRD_IMAGE_PATH = '/media/header_media/logo/catube_white.svg';
+        const birdImage = new Image();
+        let birdImageLoaded = false;
+
+        const BIRD_WIDTH = 40;
+        const BIRD_HEIGHT = 30;
+        const BIRD_X = 50;
+
+        // --- FÍSICA INDEPENDIENTE DE FRAMERATE (VALORES POR SEGUNDO) ---
+        const BASE_FPS_FOR_TUNING = 60;
+
+        // Tus valores originales "por frame"
+        const ORIGINAL_GRAVITY_ACCEL_PER_FRAME_SQUARED = 0.5; // Aceleración en px/frame^2
+        const ORIGINAL_JUMP_VELOCITY_PER_FRAME = -8;          // Velocidad inicial en px/frame
+        const ORIGINAL_PIPE_SPEED_PER_FRAME = 3;              // Velocidad en px/frame
+
+        // Variables para almacenar los valores de física actuales (px/s o px/s^2)
+        let ACCELERATION_GRAVITY_px_per_s2;
+        let INITIAL_JUMP_VELOCITY_px_per_s;
+        let CURRENT_PIPE_SPEED_px_per_s;
+
+        // Factores para ajustar la jugabilidad en móviles
+        const MOBILE_GRAVITY_FACTOR = 0.8;    // Gravedad un poco más suave en móvil
+        const MOBILE_JUMP_FACTOR = 0.9;       // Salto un poco menos potente
+        const MOBILE_PIPE_SPEED_FACTOR = 0.9; // Tuberías un poco más lentas
+
+
+        const PIPE_WIDTH = 70;
+        const PIPE_GAP_BASE = 165; // Aumentado un poco el hueco base
+        const PIPE_COLOR = 'green';
+        const PIPE_SPAWN_INTERVAL = 1700; // Un poco más de tiempo entre tuberías
+
+        let birdY, birdVelocityY_per_sec;
+        let pipes = [];
+        let score = 0;
+        let highScore = localStorage.getItem('flappyHighScore') || 0;
+        let gameRunning = false;
+        let lastPipeSpawnTime = 0;
+        let animationFrameId;
+        let lastFrameTime = 0;
+
+        function applyDeviceSpecificPhysics() {
+            const isMobile = window.innerWidth < 768 || ('ontouchstart' in window);
+
+            // Calcular valores base para escritorio (convertidos a por segundo)
+            // Aceleración = (px/frame^2) * (frames/s)^2 = px/s^2
+            const desktopAccelerationGravity = ORIGINAL_GRAVITY_ACCEL_PER_FRAME_SQUARED * (BASE_FPS_FOR_TUNING ** 2);
+            // Velocidad = (px/frame) * (frames/s) = px/s
+            const desktopInitialJumpVelocity = ORIGINAL_JUMP_VELOCITY_PER_FRAME * BASE_FPS_FOR_TUNING;
+            const desktopPipeSpeed = ORIGINAL_PIPE_SPEED_PER_FRAME * BASE_FPS_FOR_TUNING;
+
+            if (isMobile) {
+                ACCELERATION_GRAVITY_px_per_s2 = desktopAccelerationGravity * MOBILE_GRAVITY_FACTOR;
+                INITIAL_JUMP_VELOCITY_px_per_s = desktopInitialJumpVelocity * MOBILE_JUMP_FACTOR;
+                CURRENT_PIPE_SPEED_px_per_s = desktopPipeSpeed * MOBILE_PIPE_SPEED_FACTOR;
+                // console.log("Mobile physics: G=", ACCELERATION_GRAVITY_px_per_s2, "J=", INITIAL_JUMP_VELOCITY_px_per_s);
+            } else {
+                ACCELERATION_GRAVITY_px_per_s2 = desktopAccelerationGravity;
+                INITIAL_JUMP_VELOCITY_px_per_s = desktopInitialJumpVelocity;
+                CURRENT_PIPE_SPEED_px_per_s = desktopPipeSpeed;
+                // console.log("Desktop physics: G=", ACCELERATION_GRAVITY_px_per_s2, "J=", INITIAL_JUMP_VELOCITY_px_per_s);
+            }
+        }
+
+        function resizeCanvas() {
+            const header = document.querySelector('.header');
+            const headerHeight = header ? header.offsetHeight : 60;
+            const verticalPadding = 40;
+            const availableHeight = window.innerHeight - headerHeight - verticalPadding;
+            const horizontalPadding = 40;
+            const availableWidth = window.innerWidth - horizontalPadding;
+
+            canvas.width = Math.min(availableWidth, 500);
+            canvas.height = Math.min(availableHeight, 600);
+            canvas.style.marginTop = `${headerHeight + (verticalPadding / 2)}px`;
+        }
+
+        function initGame() {
+            applyDeviceSpecificPhysics();
+
+            birdY = canvas.height / 2 - BIRD_HEIGHT / 2;
+            birdVelocityY_per_sec = 0;
+            pipes = [];
+            score = 0;
+            lastPipeSpawnTime = performance.now();
+
+            gameOverScreen.style.display = 'none';
+            startScreen.style.display = 'none';
+            gameRunning = true;
+
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
+            spawnPipe();
+            lastFrameTime = performance.now();
+            animationFrameId = requestAnimationFrame(gameLoop);
+        }
+
+        function startGameScreen() {
+            applyDeviceSpecificPhysics();
+            resizeCanvas();
+            startScreen.style.display = 'block';
+            gameOverScreen.style.display = 'none';
+            updateHighScoreDisplay();
+            startButton.disabled = true;
+            startButton.textContent = "Loading...";
+
+            birdImage.onload = () => {
+                birdImageLoaded = true;
+                startButton.disabled = false;
+                startButton.textContent = "Start Game";
+            };
+            birdImage.onerror = () => {
+                console.error(`Error loading image: ${BIRD_IMAGE_PATH}. Using fallback.`);
+                birdImageLoaded = false;
+                startButton.disabled = false;
+                startButton.textContent = "Start (Image Error)";
+            };
+
+            if (birdImage.src !== window.location.origin + BIRD_IMAGE_PATH || !birdImage.complete) {
+                birdImage.src = BIRD_IMAGE_PATH;
+            } else if (birdImage.complete) { // Si ya está cargada (ej. por caché)
+                birdImage.onload();
+            }
+        }
+
+        function drawBird() {
+            if (birdImageLoaded && birdImage.complete && birdImage.naturalWidth > 0) {
+                ctx.drawImage(birdImage, BIRD_X, birdY, BIRD_WIDTH, BIRD_HEIGHT);
+            } else {
+                ctx.fillStyle = 'yellow'; ctx.fillRect(BIRD_X, birdY, BIRD_WIDTH, BIRD_HEIGHT);
+                ctx.fillStyle = 'white'; ctx.beginPath(); ctx.arc(BIRD_X + BIRD_WIDTH * 0.7, birdY + BIRD_HEIGHT * 0.4, BIRD_WIDTH * 0.15, 0, Math.PI * 2); ctx.fill();
+                ctx.fillStyle = 'black'; ctx.beginPath(); ctx.arc(BIRD_X + BIRD_WIDTH * 0.75, birdY + BIRD_HEIGHT * 0.4, BIRD_WIDTH * 0.08, 0, Math.PI * 2); ctx.fill();
+            }
+        }
+
+        function birdJump() {
+            if (gameRunning) {
+                birdVelocityY_per_sec = INITIAL_JUMP_VELOCITY_px_per_s;
+            }
+        }
+
+        function updateBird(deltaTime) {
+            birdVelocityY_per_sec += ACCELERATION_GRAVITY_px_per_s2 * deltaTime;
+            birdY += birdVelocityY_per_sec * deltaTime;
+
+            if (birdY + BIRD_HEIGHT > canvas.height || birdY < 0) endGame();
+        }
+
+        function spawnPipe() {
+            if (!gameRunning) return;
+            const isMobile = window.innerWidth < 768 || ('ontouchstart' in window);
+            const MIN_MARGIN_FROM_EDGE = isMobile ? 65 : 75; // Ajustado para móvil
+            const currentPipeGap = isMobile ? PIPE_GAP_BASE + 20 : PIPE_GAP_BASE; // Más hueco en móvil
+
+            const availableRandomRange = canvas.height - currentPipeGap - (2 * MIN_MARGIN_FROM_EDGE);
+            let topPipeHeight = (availableRandomRange <= 0) ? MIN_MARGIN_FROM_EDGE : (Math.random() * availableRandomRange + MIN_MARGIN_FROM_EDGE);
+            
+            pipes.push({ x: canvas.width, y: 0, height: topPipeHeight, passed: false });
+            pipes.push({ x: canvas.width, y: topPipeHeight + currentPipeGap, height: canvas.height - (topPipeHeight + currentPipeGap), passed: true });
+        }
+
+        function updatePipes(deltaTime) {
+            for (let i = 0; i < pipes.length; i++) {
+                pipes[i].x -= CURRENT_PIPE_SPEED_px_per_s * deltaTime;
+
+                if (BIRD_X < pipes[i].x + PIPE_WIDTH && BIRD_X + BIRD_WIDTH > pipes[i].x &&
+                    birdY < pipes[i].y + pipes[i].height && birdY + BIRD_HEIGHT > pipes[i].y) {
+                    endGame(); return;
+                }
+                if (i % 2 === 0 && !pipes[i].passed && pipes[i].x + PIPE_WIDTH < BIRD_X) {
+                    pipes[i].passed = true; score++;
+                }
+            }
+            pipes = pipes.filter(pipe => pipe.x + PIPE_WIDTH > 0);
+        }
+
+        function drawPipes() {
+            ctx.fillStyle = PIPE_COLOR;
+            pipes.forEach(pipe => {
+                ctx.fillRect(pipe.x, pipe.y, PIPE_WIDTH, pipe.height);
+                ctx.fillStyle = '#558B2F';
+                ctx.fillRect(pipe.x - 2, pipe.y, PIPE_WIDTH + 4, 10);
+                ctx.fillRect(pipe.x - 2, pipe.y + pipe.height - 10, PIPE_WIDTH + 4, 10);
+                ctx.fillStyle = PIPE_COLOR;
+            });
+        }
+
+        function drawScore() { drawText(`Points: ${score}`, 20, 30, 20, "white", "left"); }
+        function drawText(text, x, y, size, color, align = "center") {
+            ctx.fillStyle = color; ctx.font = `bold ${size}px Arial`; ctx.textAlign = align; ctx.fillText(text, x, y);
+        }
+        function updateHighScoreDisplay() { highScoreDisplay.textContent = highScore; }
+
+        function endGame() {
+            if (!gameRunning) return;
+            gameRunning = false;
+            cancelAnimationFrame(animationFrameId);
+            if (score > highScore) { highScore = score; localStorage.setItem('flappyHighScore', highScore); }
+            finalScoreDisplay.textContent = score; updateHighScoreDisplay();
+            gameOverScreen.style.display = 'block';
+        }
+
+        function gameLoop(currentTime) {
+            if (!gameRunning) return;
+            animationFrameId = requestAnimationFrame(gameLoop);
+
+            const deltaTime = (currentTime - lastFrameTime) / 1000;
+            lastFrameTime = currentTime;
+            const cappedDeltaTime = Math.min(deltaTime, 1 / 30); // Cap at ~30fps logic
+
+            if (currentTime - lastPipeSpawnTime > PIPE_SPAWN_INTERVAL) {
+                spawnPipe(); lastPipeSpawnTime = currentTime;
+            }
+
+            updateBird(cappedDeltaTime);
+            updatePipes(cappedDeltaTime);
+
+            if (!gameRunning) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawPipes(); drawBird(); drawScore();
+        }
+
+        startButton.addEventListener('click', () => { if (!startButton.disabled) initGame(); });
+        restartButton.addEventListener('click', initGame);
+
+        function handlePlayerInput() {
+            if (!gameRunning && startScreen.style.display === 'block' && !startButton.disabled) initGame();
+            else if (gameRunning) birdJump();
+            else if (!gameRunning && gameOverScreen.style.display === 'block') initGame();
+        }
+
+        document.addEventListener('keydown', (e) => { if (e.code === 'Space') { e.preventDefault(); handlePlayerInput(); } });
+        let tapEvent = ('ontouchstart' in window) ? 'touchstart' : 'mousedown';
+        canvas.addEventListener(tapEvent, (e) => { e.preventDefault(); handlePlayerInput(); });
+
+        window.addEventListener('resize', () => {
+            const wasRunning = gameRunning;
+            if (wasRunning) { gameRunning = false; cancelAnimationFrame(animationFrameId); }
+            startGameScreen(); // Recalculates physics, resizes canvas, and shows start screen
+            if (gameOverScreen.style.display === 'block' && !wasRunning) {
+                 finalScoreDisplay.textContent = score; updateHighScoreDisplay();
+            }
+        });
+
+        startGameScreen(); // Initial call
+    </script>
+    <script src="/header/header.js"></script>
+</body>
+</html>
