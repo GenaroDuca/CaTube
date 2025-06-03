@@ -39,12 +39,9 @@
         </div>
 
         <div class="right-section">
-            <a href="#" class="soon">
-                <button class="create-btn">
-                    <p>Create </p><i class="fas fa-plus"></i>
-                </button>
-            </a>
-
+            <button class="create-video-btn">
+                <p>Create </p><i class="fas fa-plus"></i>
+            </button>
             <div class="account-section">
                 <button class="notify-btn">
                     <i class="fas fa-bell"></i>
@@ -55,6 +52,118 @@
             </div>
         </div>
     </header>
+
+    <!-- left menu-->
+    <aside class="sidebar collapsed">
+        <header class="sidebar-header">
+            <button class="toggler sidebar-toggler">
+                <span class="material-symbols-outlined">chevron_left</span>
+            </button>
+
+        </header>
+        <nav class="sidebar-nav">
+            <ul class="nav-list primary-nav">
+                <li class="nav-item">
+                    <a href="/index.html" class="nav-link">
+                        <span class="nav-icon material-symbols-outlined">home</span>
+                        <span class="nav-label">Home</span>
+                    </a>
+                    <span class="nav-tooltip">Home</span>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">
+                            radar
+                        </span> <span class="nav-label">Discover </span>
+                    </a>
+                    <span class="nav-tooltip">Discover</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">
+                            celebration
+                        </span> <span class="nav-label">CaTube Party</span>
+                    </a>
+                    <span class="nav-tooltip">CaTube Party</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">
+                            school
+                        </span> <span class="nav-label">CaTube Education</span>
+                    </a>
+                    <span class="nav-tooltip">CaTube Education</span>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">
+                            auto_awesome_motion
+                        </span> <span class="nav-label">Shorts</span>
+                    </a>
+                    <span class="nav-tooltip">Shorts</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">crown</span>
+                        <span class="nav-label">Trending</span>
+                    </a>
+                    <span class="nav-tooltip">Trending</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">subscriptions</span>
+                        <span class="nav-label">Catscribers</span>
+                    </a>
+                    <span class="nav-tooltip">Catscribers</span>
+                </li>
+                <hr>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <span class="material-symbols-outlined">account_circle</span>
+                        <span class="nav-label">You</span>
+                    </a>
+                    <span class="nav-tooltip">You</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">history</span>
+                        <span class="nav-label">History</span>
+                    </a>
+                    <span class="nav-tooltip">History</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">playlist_play</span>
+                        <span class="nav-label">Playlist</span>
+                    </a>
+                    <span class="nav-tooltip">Playlist</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">smart_display</span>
+                        <span class="nav-label">Your videos</span>
+                    </a>
+                    <span class="nav-tooltip">Your videos</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">schedule</span>
+                        <span class="nav-label">View later</span>
+                    </a>
+                    <span class="nav-tooltip">View later</span>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link soon">
+                        <span class="material-symbols-outlined">favorite</span>
+                        <span class="nav-label">Liked</span>
+                    </a>
+                    <span class="nav-tooltip">Liked</span>
+                </li>
+            </ul>
+        </nav>
+    </aside>
 
     <!-- right account menu -->
     <aside class="ts-sidebar collapsed">
@@ -325,6 +434,8 @@
     </aside>
 
     <!-- Modals -->
+
+    <!-- Settings Modal -->
     <div class="right-menu-modal">
         <div class="settings-modal-content">
             <header>
@@ -387,6 +498,7 @@
         </div>
     </div>
 
+    <!-- help Modal -->
     <div class="right-menu-modal">
         <div class="help-modal-content">
             <header>
@@ -419,6 +531,7 @@
         </div>
     </div>
 
+    <!-- SendFeedback Modal -->
     <div class="right-menu-modal">
         <div class="feedback-modal-content">
             <header>
@@ -455,6 +568,82 @@
             <div class="close-soon-modal-container">
                 <button id="close-soon-modal">Close</button> <br>
             </div>
+        </div>
+    </div>
+
+    <!-- Create Video Modal -->
+    <div class="create-video-modal">
+        <div class="create-video-content">
+            <header>
+                <h1>Create Video</h1>
+                <button type="button" class="close-create-video-modal"><span class="material-symbols-outlined">
+                        do_not_disturb_on
+                    </span>
+                </button>
+            </header>
+            <main>
+                <h2>Video title</h2>
+                <div>
+                    <input type="text" id="video-title" placeholder="Enter video title">
+                </div>
+                <h2>Video description</h2>
+                <div>
+                    <textarea id="video-description"
+                        placeholder="Video description Video description Video description Video description Video description Video description "></textarea>
+                </div>
+                <h2>Video</h2>
+                <div class="create-thumbnail">
+                    <img src="/media/yourChannel_media/thumbnails/cabildo.png" alt="Thumbnail">
+                    <label for="edit-thumbnail">
+                        <span class="soon">Upload</span>
+                        <input disabled type="file" accept="video/mp4" name="edit-thumbnail" id="edit-thumbnail">
+                    </label>
+                </div>
+
+                <h2>Video thumbnail</h2>
+                <div class="create-thumbnail">
+                    <img src="/media/yourChannel_media/thumbnails/duki.jpeg" alt="Thumbnail">
+                    <label for="edit-thumbnail">
+                        <span class="soon">Upload</span>
+                        <input disabled type="file" accept="image/*" id="edit-thumbnail" name="edit-thumbnail"> </label>
+                </div>
+
+                <h2>Video tags</h2>
+                <div class="create-video-tags-container">
+                    <section>
+                        <select id="video-tags" name="video-tags" multiple>
+                            <option value="music">#music</option>
+                            <option value="vlog">#vlog</option>
+                            <option value="cooking">#cooking</option>
+                            <option value="nashe">#nashe</option>
+                            <option value="idooo">#idooo</option>
+                            <option value="deaaa">#deaaa</option>
+                        </select>
+                    </section>
+                    <section class="tag-input-container">
+                        <span>Create your own tag</span>
+                        <div>
+                            <input type="text" id="custom-tag" placeholder="Enter your tag">
+                            <button type="button" class="soon"><i class="fas fa-plus"></i> </button>
+                        </div>
+                    </section>
+                    <section>
+                        <select id="video-tags" name="video-tags" multiple>
+                            <option value="music">#music</option>
+                            <option value="vlog">#vlog</option>
+                            <option value="cooking">#cooking</option>
+                            <option value="nashe">#nashe</option>
+                            <option value="idooo">#idooo</option>
+                            <option value="deaaa">#deaaa</option>
+                        </select>
+                    </section>
+                </div>
+                <div class="create-video-buttons">
+                    <button type="button" class="discard-changes-create-video soon">Discard video</button>
+
+                    <button type="button" class="apply-changes-create-video soon">Upload video</button>
+                </div>
+            </main>
         </div>
     </div>
 

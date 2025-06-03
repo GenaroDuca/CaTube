@@ -650,6 +650,8 @@
     overflow-y: scroll;
     scrollbar-width: thin;
     scrollbar-color: var(--btn) transparent;
+    background-color: var(--background-color);
+
 }
 
 .edit-video-modal header {
@@ -675,7 +677,7 @@
 
 .edit-video-modal main {
     width: 100%;
-    padding: 20px;
+    padding: 0px 20px 20px 20px;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
     background-color: var(--background-color);
@@ -762,7 +764,7 @@
 
 .edit-video-tags-container section select {
     padding: 20px;
-    height: 300px;
+    height: auto;
     border-radius: 30px;
     background-color: var(--primary-color);
     color: var(--text-color);
@@ -906,6 +908,5 @@
 
     .edit-video-tags-container {
         flex-wrap: wrap;
-
     }
 }
