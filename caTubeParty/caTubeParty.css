@@ -1,0 +1,199 @@
+.watch-party-container {
+    margin: 1rem;
+
+    display: flex;
+    flex-direction: row;;
+    gap: 1rem;
+}
+
+/* friends pannel */
+.friends-sidebar {
+    background-color:var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 1rem 2rem;
+    width: 5%;
+    height: 88vh;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+
+}
+
+.btn-toggler {
+    border: none;
+    border-radius: 50%;
+    background-color: var(--btn);
+    width: 2rem;
+    height: 2rem;
+    cursor: pointer;
+    margin-bottom: 2rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-toggler span {
+    transform: rotate(180deg);
+}
+
+.friend-profile-status img {
+    width: 50px;
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+}
+
+.friend-profile-status{
+    position: relative;
+}
+
+.friend-status {
+    position: absolute;
+    bottom: 1rem;
+    right: 0.05rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+}
+
+.friend-status.online {
+    background-color: #90B484;
+}
+
+.friend-status.busy {
+    background-color: #f14c4c;
+}
+
+img.offline {
+    filter: grayscale(100%);
+}
+
+/* Watch video */
+.video-player-container {
+    background-color: var(--primary-color);
+    border-radius: var(--border-radius);
+    width: 80%;
+    height: 88vh;
+    overflow: hidden;
+
+    display: flex;
+}
+
+.video-play {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+
+.plyr--full-ui .plyr__controls button:hover {
+    border-radius: 50%;
+    background-color: var(--btn);
+    transition: color 0.2s ease;
+}
+
+.plyr--full-ui input[type="range"] {
+    --plyr-range-fill-background: var(--btn);
+}
+
+/* chat party */
+.chat-party {
+    background-color: var(--primary-color);
+    border-radius: var(--border-radius);
+    width: 20%;
+    height: 88vh;
+    padding: 1rem;
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1rem;
+}
+
+/* chat messages */
+.chat-input-container {
+    width: 100%;
+}
+
+.chat-input-container .chat-input {
+    background: none;
+    border: none;
+    margin-top: 1rem;
+    color: #777878;
+    outline: none;
+}
+
+.send-btn {
+    background-color: var(--btn);
+    border: none;
+    border-radius: var(--border-radius);
+    width: 4rem;
+    height: 2rem;
+    cursor: pointer;
+}
+
+.send-btn:hover {
+    background-color: var(--btn-dark);
+    color: white;
+}
+
+/* List video */
+.list-video-container {
+    background-color: var(--primary-color);
+    border-radius: var(--border-radius);
+    width: 100%;
+    height: 88vh;
+    padding: 1rem 2rem;
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.video-card {
+    width: 400px;
+}
+
+/*miniaturas*/
+.video-thumb {
+    min-width: 200px;
+    max-width: 100%;
+    height: auto;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 20px;
+    aspect-ratio: 16 / 9;
+}
+
+/* scrollbar */
+/* Aplica al scroll de todo el body */
+body::-webkit-scrollbar {
+    width: 10px; /* ancho del scroll vertical */
+    height: 10px; /* alto del scroll horizontal */
+}
+
+/* Fondo de la barra (track) */
+body::-webkit-scrollbar-track {
+    background: #777878;
+}
+
+/* Color del "pulgar" (la parte que se mueve) */
+body::-webkit-scrollbar-thumb {
+    background: #90B484;
+    border-radius: 30px;
+}
+
+/* Al pasar el mouse */
+body::-webkit-scrollbar-thumb:hover {
+    background: #749269;
+    cursor: pointer;
+}

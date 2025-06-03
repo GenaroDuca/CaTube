@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CaTube Party</title>
+    <link rel="stylesheet" href="/caTubeParty/caTubeParty.css">
+    <link rel="stylesheet" href="/header/header.css">
+    <link rel="icon" type="image/svg+xml" href="/media/header_media/logo/catube_white.svg">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Material Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
+    <!-- Plyr para reproductor de video -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css">
+</head>
+<body>
+
+    <header class="header">
+        <div class="left-section">
+            <a href="/index.html"><img src="/media/header_media/logo/catube_white.svg" alt="CaTube logo"
+                    class="logo"></a>
+            <span class="title">CaTubeParty</span>
+        </div>
+
+        <div class="search-section">
+            <div class="mic-section">
+                <button class="mic-btn" aria-label="Search with voice">
+                    <i class="fa fa-microphone"></i>
+                </button>
+            </div>
+
+            <div class="bar-section">
+                <input type="text" placeholder="Search">
+                <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <a href="#" class="soon">
+                <button class="create-btn">
+                    <p>Create </p><i class="fas fa-plus soon"></i>
+                </button>
+            </a>
+
+            <div class="account-section">
+                <a href="#" class="soon">
+                    <button class="notify-btn">
+                        <i class="fas fa-bell soon"></i>
+                    </button>
+                </a>
+                <button type="button" class="user-btn">
+                    <i class="fas fa-user"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Soon Modal -->
+        <div id="soon-modal">
+            <div class="soon-modal-content">
+                <h2>Function not available yet</h2>
+                <p>This feature is coming soon!</p>
+                <div class="play-modal-btn-container">
+                    <a href="/soon/soon.html"><button class="play-modal-btn">¡Play!</button></a>
+                </div>
+                <div class="close-soon-modal-container">
+                    <button id="close-soon-modal">Close</button> <br>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <div class="watch-party-container">
+            <div class="friends-sidebar collapsed">
+                    <button class="toggler btn-toggler">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                <div class="friend-profile-status">
+                    <img src="/media/home_media/profile/angel.jpg" alt="angel">
+                    <span class="friend-status busy"></span>
+                </div>
+                <div class="friend-profile-status">
+                    <img src="/media/home_media/profile/gena.jpg" alt="gena">
+                    <span class="friend-status online"></span>
+                </div>
+                <div class="friend-profile-status">
+                    <img src="/media/home_media/profile/jere.jpg" alt="jere">
+                    <span class="friend-status busy"></span>
+                </div>
+                <div class="friend-profile-status">
+                    <img src="/media/home_media/profile/yukki.jpg" alt="thiago">
+                    <span class="friend-status online"></span>
+                </div>
+                <div class="friend-profile-status">
+                    <img class="offline" src="/media/home_media/profile/yukki.jpg" alt="thiago">
+                </div>
+                <div class="friend-profile-status">
+                    <img class="offline" src="/media/home_media/profile/yukki.jpg" alt="thiago">
+                </div>
+                <div class="friend-profile-status">
+                    <img class="offline" src="/media/home_media/profile/yukki.jpg" alt="thiago">
+                </div>
+            </div>
+            <div class="video-player-container">
+                <!-- playsinline no fuerza a la reproduccion en pantalla completa-->
+                <video id="player" class="video-play" src="/media/videos/ToyStory3.mp4" playsinline controls></video>
+            </div>
+
+            <div class="chat-party">
+                <div class="chat-input-container">
+                    <hr>
+                    <input type="text" placeholder="Type a message..." class="chat-input">
+                    <button class="send-btn">Send</button>
+                </div>
+            </div>
+        </div>
+        <div class="watch-party-container">
+            <div class="list-video-container">
+                <div class="video-card">
+                        <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                            class="video-thumb video-thumb-recommendations">
+                        <p class="name-channel">YourCat</p>
+                        <p class="sub-channel">8k views • 2h ago</p>
+                    </div>
+                    <div class="video-card">
+                        <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                            class="video-thumb video-thumb-recommendations">
+                        <p class="name-channel">YourCat</p>
+                        <p class="sub-channel">8k views • 2h ago</p>
+                    </div>
+                    <div class="video-card">
+                        <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                            class="video-thumb video-thumb-recommendations">
+                        <p class="name-channel">YourCat</p>
+                        <p class="sub-channel">8k views • 2h ago</p>
+                    </div>
+                    <div class="video-card">
+                        <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                            class="video-thumb video-thumb-recommendations">
+                        <p class="name-channel">YourCat</p>
+                        <p class="sub-channel">8k views • 2h ago</p>
+                    </div>
+                    <div class="video-card">
+                        <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                            class="video-thumb video-thumb-recommendations">
+                        <p class="name-channel">YourCat</p>
+                        <p class="sub-channel">8k views • 2h ago</p>
+                    </div>
+                    <div class="video-card">
+                        <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                            class="video-thumb video-thumb-recommendations">
+                        <p class="name-channel">YourCat</p>
+                        <p class="sub-channel">8k views • 2h ago</p>
+                    </div>
+            </div>
+        </div>
+    </main>
+</body>
+<script src="/caTubeParty/caTubeParty.js"></script>
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+</html>
