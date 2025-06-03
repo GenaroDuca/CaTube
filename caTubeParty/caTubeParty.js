@@ -22,7 +22,7 @@ document.addEventListener('click', e => {
     }
 });
 
-// Initialize Plyr for video player
+// Initialize Plyr
 document.addEventListener('DOMContentLoaded', () => {
     const player = new Plyr('#player', {
         controls: [
