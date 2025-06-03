@@ -114,3 +114,42 @@ document.addEventListener('DOMContentLoaded', function () {
   checkMonetizationEligibility();
   setupCharts();
 });
+
+//Edit video modal 
+const editVideoModal = document.querySelector('.edit-video-modal');
+const openEditVideoBtns = document.querySelectorAll('.edit-video-btn');
+const closeEditVideoModalBtn = document.querySelector('.close-edit-video-modal');
+
+if (openEditVideoBtns) {
+  openEditVideoBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      editVideoModal.style.display = 'flex';
+    });
+  });
+}
+
+if (closeEditVideoModalBtn) {
+  closeEditVideoModalBtn.addEventListener('click', () => {
+    editVideoModal.style.display = 'none';
+  });
+}
+
+// const editVideoModal = document.querySelector('.edit-video-modal');
+// const closeEditVideoModalBtn = document.querySelector('.close-edit-video-modal');
+// const openEditVideoBtns = document.querySelectorAll('.edit-video-btn');
+
+// function openEditVideoModal() {
+//     if (editVideoModal) editVideoModal.style.display = 'flex';
+// }
+
+// function closeEditVideoModal() {
+//     if (editVideoModal) editVideoModal.style.display = 'none';
+// }
+
+// openEditVideoBtns.forEach(btn => {
+//     btn.addEventListener('click', openEditVideoModal);
+// });
+
+// if (closeEditVideoModalBtn) {
+//     closeEditVideoModalBtn.addEventListener('click', closeEditVideoModal);
+// }

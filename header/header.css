@@ -949,7 +949,6 @@ button:hover {
 }
 
 .open-search-friend-btn:hover {
-    background-color: var(--primary-color);
     color: var(--btn);
 }
 
@@ -1021,6 +1020,14 @@ button:hover {
     height: 24px;
     border-radius: 30px;
     cursor: pointer;
+}
+
+.invite-friend-btn:hover, .back-to-friends-header-one:hover {
+    background-color: var(--btn-dark);
+}
+
+.chat-friend-btn:hover {
+    transform: scale(1.1);
 }
 
 .chat-friend-btn {
