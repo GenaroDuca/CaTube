@@ -39,7 +39,7 @@ transition-delay: 0s; }
     background-image: linear-gradient(
         to bottom,
         rgba(0, 0, 0, 0.6) 0%,  
-        rgba(0, 0, 0, 0.4) 40%, 
+        rgba(0, 0, 0, 0.5) 70%, 
         rgba(0, 0, 0, 0) 100%   
     );
 }
@@ -61,10 +61,6 @@ transition-delay: 0s; }
 .channel-info p {
     font-size: 14px;
 }
-
-.channel-name {}
-
-.short-description {}
 
 .subscribe-button {
     background: var(--btn);
@@ -149,11 +145,57 @@ transition: opacity 0.3s ease, visibility 0s linear 0.3s;
     z-index: 1;
 }
 
+/* Fullscren */
+
+.fullscreen-short-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 1000;
+    display: none;
+}
+
+.fullscreen-short-overlay.active {
+    display: block;
+}
+
+.short-block.maximized {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: auto !important;
+    height: 90vh !important;
+    max-width: 90vw !important;
+    aspect-ratio: 9 / 16 !important;
+    z-index: 1001 !important;
+    box-shadow: 0 0 40px rgba(0,0,0,0.7);
+}
+
+.short-block.maximized .video-placeholder,
+.short-block.maximized .video-placeholder video {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+}
+
+body.short-maximized-active {
+    overflow: hidden !important;
+}
+
 @media (max-width: 768px) {
 
+.container-short-principal{
+   
+  
+}
+
 .short-block {
-    width: 335px;
-    height: 700px;
+    width: 221.25px;
+    height: 500px;
     border-radius: var(--border-radius);
     display: flex;
     flex-direction: column;
@@ -192,4 +234,18 @@ transition: opacity 0.3s ease, visibility 0s linear 0.3s;
     background: var(--btn-dark);
 }
 
+.action-button {
+    background-color: rgba(0, 0, 0, 0.55);
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
+
+}
+

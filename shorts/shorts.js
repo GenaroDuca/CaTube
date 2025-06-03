@@ -1,83 +1,167 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const playPauseBtn = document.getElementById('playPauseBtn');
-    if (!playPauseBtn) { 
-        console.error("Button playPauseBtn not found");
-        return; 
-    }
-    const playPauseImg = playPauseBtn.querySelector('img');
-    if (!playPauseImg) { 
-        console.error("Image in playPauseBtn not found");
+    const video = document.getElementById('shortVideo');
+    if (!video) {
+        console.error("Elemento video con id 'shortVideo' no encontrado.");
         return;
     }
 
-    let isPlaying = true;
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const playPauseImg = playPauseBtn ? playPauseBtn.querySelector('img') : null;
+
+    const soundMuteBtn = document.getElementById('soundMuteBtn');
+    const soundMuteImg = soundMuteBtn ? soundMuteBtn.querySelector('img') : null;
+
+    if (!playPauseBtn || !playPauseImg || !soundMuteBtn || !soundMuteImg) {
+        console.error("Faltan elementos de UI (botones o imágenes).");
+        return;
+    }
 
     const playIconSrc = playPauseBtn.dataset.playSrc;
     const pauseIconSrc = playPauseBtn.dataset.pauseSrc;
+    const soundIconSrc = soundMuteBtn.dataset.soundSrc;
+    const muteIconSrc = soundMuteBtn.dataset.muteSrc;
 
-    if (!playIconSrc || !pauseIconSrc) {
-        console.error("Data attributes data-play-src or data-pause-src not defined on playPauseBtn.");
+    if (!playIconSrc || !pauseIconSrc || !soundIconSrc || !muteIconSrc) {
+        console.error("Faltan uno o más data attributes para los iconos en los botones.");
+        return;
     }
 
-    if (isPlaying) {
-        playPauseImg.src = pauseIconSrc;
-        playPauseImg.alt = 'pause';
-        console.log("Initial state: Playing, showing PAUSE icon:", pauseIconSrc);
-    } else {
-        playPauseImg.src = playIconSrc;
-        playPauseImg.alt = 'play';
-        console.log("Initial state: Paused, showing PLAY icon:", playIconSrc);
-    }
-
-    playPauseBtn.addEventListener('click', function () {
-        if (isPlaying) {
+    function updatePlayPauseIcon() {
+        if (video.paused) {
             playPauseImg.src = playIconSrc;
             playPauseImg.alt = 'play';
-            console.log("Click: Video Paused, showing PLAY icon");
         } else {
             playPauseImg.src = pauseIconSrc;
             playPauseImg.alt = 'pause';
-            console.log("Click: Video Playing, showing PAUSE icon");
         }
-        isPlaying = !isPlaying;
-    });
-    
-    const soundMuteBtn = document.getElementById('soundMuteBtn');
-    if (soundMuteBtn) {
-        const soundMuteImg = soundMuteBtn.querySelector('img');
-        if (soundMuteImg) {
-            let isMuted = false; 
-            const soundIconSrc = soundMuteBtn.dataset.soundSrc;
-            const muteIconSrc = soundMuteBtn.dataset.muteSrc;
+    }
 
-            if (!soundIconSrc || !muteIconSrc) {
-                console.error("Data attributes data-sound-src or data-mute-src not defined on soundMuteBtn.");
-            }
+    function updateSoundMuteIcon() {
+        if (video.muted) {
+            soundMuteImg.src = muteIconSrc;
+            soundMuteImg.alt = 'unmute';
+        } else {
+            soundMuteImg.src = soundIconSrc;
+            soundMuteImg.alt = 'mute';
+        }
+    }
 
-            if (isMuted) {
-                soundMuteImg.src = muteIconSrc;
-                soundMuteImg.alt = 'unmute'; 
-            } else {
-                soundMuteImg.src = soundIconSrc;
-                soundMuteImg.alt = 'mute'; 
-            }
+    console.log("Estado inicial del video - Paused:", video.paused);
+    console.log("Estado inicial del video - Muted:", video.muted);
+    console.log("Estado inicial del video - Autoplay attribute:", video.hasAttribute('autoplay'));
 
-            soundMuteBtn.addEventListener('click', function() {
-                if (isMuted) {
-                    soundMuteImg.src = soundIconSrc;
-                    soundMuteImg.alt = 'mute'; 
-                    console.log("Sound Unmuted");
-                } else {  
-                    soundMuteImg.src = muteIconSrc;
-                    soundMuteImg.alt = 'unmute'; 
-                    console.log("Sound Muted");
-                }
-                isMuted = !isMuted; 
+    updatePlayPauseIcon();
+    updateSoundMuteIcon();
+
+    playPauseBtn.addEventListener('click', function () {
+        if (video.paused) {
+            video.play().then(() => {
+                console.log("Video.play() llamado y promesa resuelta.");
+            }).catch(error => {
+                console.error("Error al intentar video.play():", error);
             });
         } else {
-            console.error("Image in soundMuteBtn not found");
+            video.pause();
+            console.log("Video.pause() llamado.");
         }
-    } else {
-        console.error("Button soundMuteBtn not found");
+    });
+
+    soundMuteBtn.addEventListener('click', function() {
+        video.muted = !video.muted;
+        console.log("Video.muted cambiado a:", video.muted);
+    });
+
+    video.addEventListener('play', () => {
+        console.log("Evento 'play' del video disparado.");
+        updatePlayPauseIcon();
+    });
+    video.addEventListener('pause', () => {
+        console.log("Evento 'pause' del video disparado.");
+        updatePlayPauseIcon();
+    });
+    video.addEventListener('volumechange', () => {
+        console.log("Evento 'volumechange' del video disparado. Muted:", video.muted);
+        updateSoundMuteIcon();
+    });
+
+    video.addEventListener('canplay', () => {
+        console.log("Evento 'canplay' del video disparado.");
+        updatePlayPauseIcon();
+        updateSoundMuteIcon();
+    });
+
+    video.addEventListener('loadedmetadata', () => {
+        console.log("Evento 'loadedmetadata' del video disparado. Duración:", video.duration);
+        updatePlayPauseIcon();
+        updateSoundMuteIcon();
+        console.log("Después de loadedmetadata - Paused:", video.paused, "Muted:", video.muted);
+    });
+
+    video.addEventListener('error', (e) => {
+        console.error("Error en el elemento video:", e);
+    });
+
+    console.log("Shorts.js cargado y configurado.");
+
+    const maximizeBtns = document.querySelectorAll('#maximize');
+    let fullscreenOverlay = document.getElementById('fullscreenShortOverlay'); 
+    let currentlyMaximizedShort = null;
+
+    if (!fullscreenOverlay) {
+        fullscreenOverlay = document.createElement('div');
+        fullscreenOverlay.id = 'fullscreenShortOverlay';
+        fullscreenOverlay.className = 'fullscreen-short-overlay';
+        document.body.appendChild(fullscreenOverlay);
+        fullscreenOverlay.addEventListener('click', function(event) {
+            if (event.target === fullscreenOverlay) {
+                if (currentlyMaximizedShort) {
+                    toggleMaximizeState(currentlyMaximizedShort.querySelector('#maximize'));
+                }
+            }
+        });
     }
+
+    function toggleMaximizeState(buttonElement) {
+        const shortBlock = buttonElement.closest('.short-block');
+        if (!shortBlock) return;
+
+        const isMaximized = shortBlock.classList.contains('maximized');
+
+        if (isMaximized) {
+            // Minimizar
+            shortBlock.classList.remove('maximized');
+            if (fullscreenOverlay) fullscreenOverlay.classList.remove('active');
+            document.body.classList.remove('short-maximized-active');
+            
+            buttonElement.innerHTML = '<img src="../media/studio_media/maximize.png" alt="Maximize">'; 
+            buttonElement.setAttribute('title', 'Maximize');
+            currentlyMaximizedShort = null;
+        } else {
+            shortBlock.classList.add('maximized');
+            if (fullscreenOverlay) fullscreenOverlay.classList.add('active');
+            document.body.classList.add('short-maximized-active');
+
+            buttonElement.innerHTML = '<img src="../media/short_media/gg_minimize.png" alt="Minimize">'; 
+            buttonElement.setAttribute('title', 'Minimize');
+            currentlyMaximizedShort = shortBlock;
+        }
+    }
+
+    maximizeBtns.forEach(btn => {
+        btn.addEventListener('click', function(event) {
+            event.stopPropagation();
+            toggleMaximizeState(this); 
+        });
+    });
+
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && document.body.classList.contains('short-maximized-active')) {
+            if (currentlyMaximizedShort) {
+                const maximizeButtonInMaximizedShort = currentlyMaximizedShort.querySelector('#maximize');
+                if (maximizeButtonInMaximizedShort) {
+                    toggleMaximizeState(maximizeButtonInMaximizedShort); 
+                }
+            }
+        }
+    });
 });
