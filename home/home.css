@@ -3,10 +3,6 @@ a {
   text-decoration: none;
 }
 
-.main-content {
-  margin-left: 100px;
-}
-
 .ads {
   display: flex;
   justify-content: center;
@@ -39,7 +35,6 @@ a {
   justify-content: center;
   position: relative;
   gap: 1rem;
-  z-index: 1;
 }
 
 .carousel-btn {
@@ -55,7 +50,7 @@ a {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  z-index: 2;
+  z-index: 1;
 }
 
 .carousel-btn.left {
@@ -140,44 +135,77 @@ a {
 
 /*miniaturas*/
 .video-thumb {
-  width: 100%;
+  min-width: 200px;
+  max-width: 100%;
   height: auto;
-  border-radius: 30px;
+  border-radius: 20px;
   overflow: hidden;
   margin-top: 20px;
+  aspect-ratio: 16 / 9;
 }
 
 .video-thumb:hover {
   transform: scale(1.05);
   cursor: pointer;
-
-}
-
-.video-card {
-  width: 400px;
 }
 
 /* Recommendations */
+
 .recommendations-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
+  width: 100%;
 }
 
-.carousel-videos {
-  display: none;
+.video-card {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.video-thumb-recommendations {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 20px;
+  margin-top: 20px;
+  transition: transform 0.2s;
+}
+
+.video-thumb-recommendations:hover {
+  transform: scale(1.05);
+  cursor: pointer;
 }
 
 /*------------Responsive-----------*/
-@media (max-width: 768px) {
-  .main-content {
-    margin-left: 70px;
+
+@media (max-width: 1200px) {
+  .recommendations-container {
+    grid-template-columns: repeat(3, 1fr);
   }
+}
+
+@media (max-width: 900px) {
+  .recommendations-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
 
   /* Carruseles */
   .carousel-container {
     padding: 0 20px;
+  }
+
+  .popular-channels,
+  .trending,
+  .subscriptions,
+  .recommendations {
+    padding: 10 10px;
   }
 
   .carousel-btn {
@@ -188,9 +216,10 @@ a {
   .profile-photo {
     width: 60px;
   }
-  .video-card {
+
+  /* .video-card {
     width: 100%;
-  }
+  } */
 
   .video-thumb {
     width: 120px;
@@ -201,12 +230,13 @@ a {
   .short-card {
     width: 100%;
   }
-  
+
   .short {
     width: 100px;
     height: 160px;
     margin-top: 10px;
   }
+
 
   .recommendations-container {
     flex-wrap: nowrap;
@@ -220,7 +250,7 @@ a {
     display: none;
   }
 
-    .carousel-btn {
+  .carousel-btn {
     display: block;
   }
 }

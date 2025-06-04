@@ -17,6 +17,7 @@
 
 
 <body>
+    <!-- General Html -->
     <header class="header">
         <div class="left-section">
             <a href="/index.html"><img src="/media/header_media/logo/catube_white.svg" alt="CaTube logo"
@@ -26,46 +27,28 @@
 
         <div class="search-section">
             <div class="mic-section">
-                <button class="mic-btn" aria-label="Search with voice">
+                <button class="mic-btn soon" aria-label="Search with voice">
                     <i class="fa fa-microphone"></i>
                 </button>
             </div>
 
             <div class="bar-section">
-                <input type="text" placeholder="Search">
-                <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
+                <input type="text" placeholder="Search" class="soon">
+                <button class="search-btn soon" aria-label="Search"><i class="fas fa-search"></i></button>
             </div>
         </div>
 
         <div class="right-section">
-            <a href="#" class="soon">
-                <button class="create-btn">
-                    <p>Create </p><i class="fas fa-plus soon"></i>
-                </button>
-            </a>
-
+            <button class="create-video-btn">
+                <p>Create </p><i class="fas fa-plus"></i>
+            </button>
             <div class="account-section">
-                <a href="#" class="soon">
-                    <button class="notify-btn">
-                        <i class="fas fa-bell soon"></i>
-                    </button>
-                </a>
+                <button class="notify-btn">
+                    <i class="fas fa-bell"></i>
+                </button>
                 <button type="button" class="user-btn">
                     <i class="fas fa-user"></i>
                 </button>
-            </div>
-        </div>
-        <!-- Soon Modal -->
-        <div id="soon-modal">
-            <div class="soon-modal-content">
-                <h2>Function not available yet</h2>
-                <p>This feature is coming soon!</p>
-                <div class="play-modal-btn-container">
-                    <a href="/soon/soon.html"><button class="play-modal-btn">¡Play!</button></a>
-                </div>
-                <div class="close-soon-modal-container">
-                    <button id="close-soon-modal">Close</button> <br>
-                </div>
             </div>
         </div>
     </header>
@@ -137,7 +120,7 @@
                 </li>
                 <hr>
                 <li class="nav-item">
-                    <a href="#" class="nav-link soon">
+                    <a href="#" class="nav-link">
                         <span class="material-symbols-outlined">account_circle</span>
                         <span class="nav-label">You</span>
                     </a>
@@ -204,7 +187,7 @@
                 </li>
 
                 <li class="ts-nav-item">
-                    <button type="button" class="ts-nav-link soon">
+                    <button type="button" class="ts-nav-link friends-btn">
                         <span class="material-symbols-outlined">diversity_4</span>
                         <span class="ts-nav-label">Friends</span>
                     </button>
@@ -266,6 +249,405 @@
         </nav>
     </aside>
 
+    <!-- Notifications menu -->
+    <aside class="notifications-sidebar collapsed">
+        <header>
+            <h2>Notifications</h2>
+        </header>
+        <main>
+            <div class="notification-item">
+                <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
+                <div>
+                    <p class="notification-text">New video from <strong>Channel Name</strong></p>
+                    <span class="notification-time">2 hours ago</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
+                <div>
+                    <p class="notification-text">New video from <strong>Channel Name</strong></p>
+                    <span class="notification-time">2 hours ago</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
+                <div>
+                    <p class="notification-text">New video from <strong>Channel Name</strong></p>
+                    <span class="notification-time">2 hours ago</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
+                <div>
+                    <p class="notification-text">New video from <strong>Channel Name</strong></p>
+                    <span class="notification-time">2 hours ago</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
+                <div>
+                    <p class="notification-text">New video from <strong>Channel Name</strong></p>
+                    <span class="notification-time">2 hours ago</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
+                <div>
+                    <p class="notification-text">New video from <strong>Channel Name</strong></p>
+                    <span class="notification-time">2 hours ago</span>
+                </div>
+            </div>
+            <div class="notification-item">
+                <img src="/media/home_media/profile/angel.jpg" alt="Profile Picture">
+                <div>
+                    <p class="notification-text">New video from <strong>Channel Name</strong></p>
+                    <span class="notification-time">2 hours ago</span>
+                </div>
+            </div>
+        </main>
+    </aside>
+
+    <!-- Friends menu -->
+    <aside class="friends-sidebar collapsed">
+        <header>
+            <div class="friends-header-one">
+                <h2 class="friends-title">Friends</h2>
+                <div>
+                    <span class="select-label">Your status</span>
+                    <select>
+                        <option>Online</option>
+                        <option>Offline</option>
+                        <option>Occupied</option>
+                    </select>
+                </div>
+                <button class="open-search-friend-btn">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+            <div class="friends-header-two hide">
+                <button type="button" class="back-to-friends-header-one"> <span class="material-symbols-outlined">
+                        redo
+                    </span></button>
+                <input type="text" placeholder="Search friends" class="search-friend-input">
+                <button class="search-friend-btn" aria-label="Search">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+
+        </header>
+
+        <main>
+            <div class="friend-card online-friend">
+                <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+                <div class="friend-status"></div>
+                <p>Name friend</p>
+                <button type="button" class="invite-friend-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button type="button" class="chat-friend-btn">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                </button>
+            </div>
+            <div class="friend-card offline-friend">
+                <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+                <div class="friend-status"></div>
+                <p>Name friend</p>
+                <button type="button" class="invite-friend-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button type="button" class="chat-friend-btn">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                </button>
+            </div>
+            <div class="friend-card occupied-friend">
+                <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+                <div class="friend-status"></div>
+                <p>Name friend</p>
+                <button type="button" class="invite-friend-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button type="button" class="chat-friend-btn">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                </button>
+            </div>
+            <div class="friend-card online-friend">
+                <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+                <div class="friend-status"></div>
+                <p>Name friend</p>
+                <button type="button" class="invite-friend-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button type="button" class="chat-friend-btn">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                </button>
+            </div>
+            <div class="friend-card online-friend">
+                <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+                <div class="friend-status"></div>
+                <p>Name friend</p>
+                <button type="button" class="invite-friend-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button type="button" class="chat-friend-btn">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                </button>
+            </div>
+            <div class="friend-card online-friend">
+                <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+                <div class="friend-status"></div>
+                <p>Name friend</p>
+                <button type="button" class="invite-friend-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button type="button" class="chat-friend-btn">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                </button>
+            </div>
+            <div class="friend-card online-friend">
+                <img src="/media/home_media/profile/gena.jpg" alt="Friend Profile Picture" class="friend-img">
+                <div class="friend-status"></div>
+                <p>Name friend</p>
+                <button type="button" class="invite-friend-btn">
+                    <i class="fas fa-plus"></i>
+                </button>
+                <button type="button" class="chat-friend-btn">
+                    <span class="material-symbols-outlined">
+                        chat
+                    </span>
+                </button>
+            </div>
+
+
+        </main>
+    </aside>
+
+    <!-- Modals -->
+
+    <!-- Settings Modal -->
+    <div class="right-menu-modal">
+        <div class="settings-modal-content">
+            <header>
+                <h1>Settings</h1>
+                <button type="button" class="close-right-menu-modal"><span class="material-symbols-outlined">
+                        do_not_disturb_on
+                    </span>
+                </button>
+            </header>
+            <div class="settings-main-content">
+                <nav>
+                    <ul>
+                        <li><button type="button" class="settings-option-btn active">Account</button></li>
+                        <li><button type="button" class="settings-option-btn soon">Notifications</button></li>
+                        <li><button type="button" class="settings-option-btn soon">Privacy</button></li>
+                        <li><button type="button" class="settings-option-btn soon">Payments</button></li>
+                        <li><button type="button" class="settings-option-btn soon">Advanced</button></li>
+                    </ul>
+                </nav>
+
+                <section class="setting-section">
+                    <form action="" class="change-password-form">
+
+                        <label for="current-password">Current Password:</label>
+                        <input type="password" id="current-password" name="current-password"
+                            placeholder="Current password" required>
+                        <a href="#">Forgot your password?</a>
+
+                        <label for="new-password">New Password:</label>
+                        <input type="password" id="new-password" name="new-password" placeholder="New password"
+                            required>
+                        <p for="password">Min 8 characters, incl. upper, lower, num, symbol</p>
+
+                        <label for="confirm-new-password">Confirm New Password:</label>
+                        <input type="password" id="confirm-new-password" name="confirm-new-password"
+                            placeholder="Confirm new password" required>
+
+                        <button type="submit">Change</button>
+                    </form>
+
+                    <div>
+                        <button type="button" class="disable-account-btn">Disable Account</button>
+                        <button type="button" class="delete-account-btn">Delete Account</button>
+                    </div>
+                </section>
+                <section class="setting-section hide">
+
+                </section>
+                <section class="setting-section hide">
+
+                </section>
+                <section class="setting-section hide">
+
+                </section>
+                <section class="setting-section hide">
+
+                </section>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- help Modal -->
+    <div class="right-menu-modal">
+        <div class="help-modal-content">
+            <header>
+                <h1>Help</h1>
+                <button type="button" class="close-right-menu-modal">
+                    <span class="material-symbols-outlined">
+                        do_not_disturb_on
+                    </span>
+                </button>
+            </header>
+            <div class="frequently-asked-questions">
+                <h2>Frequently Asked Questions</h2>
+                <p>Here are some common questions and answers to help you get started.</p>
+                <details>
+                    <summary><strong>How do I upload a video?</strong></summary>
+                    <p>Go to your channel and click "Upload" or click "Create"</p>
+                </details>
+                <hr>
+                <details>
+                    <summary><strong>How do I change my password?</strong></summary>
+                    <p>Go to Settings -> Account and change your password.</p>
+                </details>
+                <hr>
+                <details>
+                    <summary><strong>How do I report a problem?</strong></summary>
+                    <p>To report a problem, you can use the feedback form or contact our support team directly.</p>
+                    <p>Contact us at <a href="mailto:catube@gmail.com">catube@gmail.com</a></p>
+                </details>
+            </div>
+        </div>
+    </div>
+
+    <!-- SendFeedback Modal -->
+    <div class="right-menu-modal">
+        <div class="feedback-modal-content">
+            <header>
+                <h1>Feedback</h1>
+                <button type="button" class="close-right-menu-modal"><span class="material-symbols-outlined">
+                        do_not_disturb_on
+                    </span>
+                </button>
+            </header>
+
+            <form action="mailto:catube@gmail.com" method="POST" enctype="text/plain">
+                <label for="feedback-email">Your email (optional):</label>
+                <input type="email" id="feedback-email" name="email" placeholder="your@email.com">
+
+                <label for="feedback-text">Your feedback:</label>
+                <textarea id="feedback-text" name="feedback" rows="4" required
+                    placeholder="Write your feedback here..."></textarea>
+                <label for="feedback-file">Add image (optional)</label>
+                <input id="feedback-file" type="file" accept="image">
+
+                <button type="submit" class="submit-feedback-btn">Send Feedback</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Soon Modal -->
+    <div id="soon-modal">
+        <div class="soon-modal-content">
+            <h2>Function not available yet</h2>
+            <p>This feature is coming soon!</p>
+            <div class="play-modal-btn-container">
+                <a href="/catube_flappy/catube_flappy.html"><button class="play-modal-btn">¡Play!</button></a>
+            </div>
+            <div class="close-soon-modal-container">
+                <button id="close-soon-modal">Close</button> <br>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Video Modal -->
+    <div class="create-video-modal">
+        <div class="create-video-content">
+            <header>
+                <h1>Create Video</h1>
+                <button type="button" class="close-create-video-modal"><span class="material-symbols-outlined">
+                        do_not_disturb_on
+                    </span>
+                </button>
+            </header>
+            <main>
+                <h2>Video title</h2>
+                <div>
+                    <input type="text" id="video-title" placeholder="Enter video title">
+                </div>
+                <h2>Video description</h2>
+                <div>
+                    <textarea id="video-description"
+                        placeholder="Video description Video description Video description Video description Video description Video description "></textarea>
+                </div>
+                <h2>Video</h2>
+                <div class="create-thumbnail">
+                    <img src="/media/yourChannel_media/thumbnails/cabildo.png" alt="Thumbnail">
+                    <label for="edit-thumbnail">
+                        <span class="soon">Upload</span>
+                        <input disabled type="file" accept="video/mp4" name="edit-thumbnail" id="edit-thumbnail">
+                    </label>
+                </div>
+
+                <h2>Video thumbnail</h2>
+                <div class="create-thumbnail">
+                    <img src="/media/yourChannel_media/thumbnails/duki.jpeg" alt="Thumbnail">
+                    <label for="edit-thumbnail">
+                        <span class="soon">Upload</span>
+                        <input disabled type="file" accept="image/*" id="edit-thumbnail" name="edit-thumbnail"> </label>
+                </div>
+
+                <h2>Video tags</h2>
+                <div class="create-video-tags-container">
+                    <section>
+                        <select id="video-tags" name="video-tags" multiple>
+                            <option value="music">#music</option>
+                            <option value="vlog">#vlog</option>
+                            <option value="cooking">#cooking</option>
+                            <option value="nashe">#nashe</option>
+                            <option value="idooo">#idooo</option>
+                            <option value="deaaa">#deaaa</option>
+                        </select>
+                    </section>
+                    <section class="tag-input-container">
+                        <span>Create your own tag</span>
+                        <div>
+                            <input type="text" id="custom-tag" placeholder="Enter your tag">
+                            <button type="button" class="soon"><i class="fas fa-plus"></i> </button>
+                        </div>
+                    </section>
+                    <section>
+                        <select id="video-tags" name="video-tags" multiple>
+                            <option value="music">#music</option>
+                            <option value="vlog">#vlog</option>
+                            <option value="cooking">#cooking</option>
+                            <option value="nashe">#nashe</option>
+                            <option value="idooo">#idooo</option>
+                            <option value="deaaa">#deaaa</option>
+                        </select>
+                    </section>
+                </div>
+                <div class="create-video-buttons">
+                    <button type="button" class="discard-changes-create-video soon">Discard video</button>
+
+                    <button type="button" class="apply-changes-create-video soon">Upload video</button>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Main Conent -->
     <main class="main-content">
         <!-- ads -->
         <div class="ads">
@@ -833,12 +1215,7 @@
                 <button class="carousel-btn left carousel-videos" aria-label="Previous recommended videos"
                     data-direction="left" data-carousel="recommendations-container">&#10094;</button>
                 <div class="recommendations-container" id="recommendations-container">
-                    <div class="video-card">
-                        <img src="./media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
-                            class="video-thumb video-thumb-recommendations">
-                        <p class="name-channel">YourCat</p>
-                        <p class="sub-channel">8k views • 2h ago</p>
-                    </div>
+                    
                     <div class="video-card">
                         <img src="./media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
                             class="video-thumb video-thumb-recommendations">
@@ -1061,128 +1438,8 @@
 
     </main>
 
-    <!-- Modals -->
-    <div class="right-menu-modal">
-        <div class="settings-modal-content">
-            <header>
-                <h1>Settings</h1>
-                <button type="button" class="close-right-menu-modal"><span class="material-symbols-outlined">
-                        do_not_disturb_on
-                    </span>
-                </button>
-            </header>
-            <div class="settings-main-content">
-                <nav>
-                    <ul>
-                        <li><button type="button" class="settings-option-btn active">Account</button></li>
-                        <li><button type="button" class="settings-option-btn">Notifications</button></li>
-                        <li><button type="button" class="settings-option-btn">Privacy</button></li>
-                        <li><button type="button" class="settings-option-btn">Payments</button></li>
-                        <li><button type="button" class="settings-option-btn">Advanced</button></li>
-                    </ul>
-                </nav>
-
-                <section class="setting-section">
-                    <form action="" class="change-password-form">
-
-                        <label for="current-password">Current Password:</label>
-                        <input type="password" id="current-password" name="current-password"
-                            placeholder="Current password" required>
-                        <a href="#">Forgot your password?</a>
-
-                        <label for="new-password">New Password:</label>
-                        <input type="password" id="new-password" name="new-password" placeholder="New password"
-                            required>
-                        <p for="password">Min 8 characters, incl. upper, lower, num, symbol</p>
-
-                        <label for="confirm-new-password">Confirm New Password:</label>
-                        <input type="password" id="confirm-new-password" name="confirm-new-password"
-                            placeholder="Confirm new password" required>
-
-                        <button type="submit">Change</button>
-                    </form>
-
-                    <div>
-                        <button type="button" class="disable-account-btn">Disable Account</button>
-                        <button type="button" class="delete-account-btn">Delete Account</button>
-                    </div>
-                </section>
-                <section class="setting-section hide">
-
-                </section>
-                <section class="setting-section hide">
-
-                </section>
-                <section class="setting-section hide">
-
-                </section>
-                <section class="setting-section hide">
-
-                </section>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="right-menu-modal">
-        <div class="help-modal-content">
-            <header>
-                <h1>Help</h1>
-                <button type="button" class="close-right-menu-modal">
-                    <span class="material-symbols-outlined">
-                        do_not_disturb_on
-                    </span>
-                </button>
-            </header>
-            <div class="frequently-asked-questions">
-                <h2>Frequently Asked Questions</h2>
-                <p>Here are some common questions and answers to help you get started.</p>
-                <details>
-                    <summary><strong>How do I upload a video?</strong></summary>
-                    <p>Go to your channel and click "Upload" or click "Create"</p>
-                </details>
-                <hr>
-                <details>
-                    <summary><strong>How do I change my password?</strong></summary>
-                    <p>Go to Settings -> Account and change your password.</p>
-                </details>
-                <hr>
-                <details>
-                    <summary><strong>How do I report a problem?</strong></summary>
-                    <p>To report a problem, you can use the feedback form or contact our support team directly.</p>
-                    <p>Contact us at <a href="mailto:catube@gmail.com">catube@gmail.com</a></p>
-                </details>
-            </div>
-        </div>
-    </div>
-
-    <div class="right-menu-modal">
-        <div class="feedback-modal-content">
-            <header>
-                <h1>Feedback</h1>
-                <button type="button" class="close-right-menu-modal"><span class="material-symbols-outlined">
-                        do_not_disturb_on
-                    </span>
-                </button>
-            </header>
-
-            <form action="mailto:catube@gmail.com" method="POST" enctype="text/plain">
-                <label for="feedback-email">Your email (optional):</label>
-                <input type="email" id="feedback-email" name="email" placeholder="your@email.com">
-
-                <label for="feedback-text">Your feedback:</label>
-                <textarea id="feedback-text" name="feedback" rows="4" required
-                    placeholder="Write your feedback here..."></textarea>
-                <label for="feedback-file">Add image (optional)</label>
-                <input id="feedback-file" type="file" accept="image">
-
-                <button type="submit" class="submit-feedback-btn">Send Feedback</button>
-            </form>
-        </div>
-    </div>
-
-    <script src="./home/home.js"></script>
-    <script src="./header/header.js"></script>
+    <script src="/home/home.js"></script>
+    <script src="/header/header.js"></script>
 </body>
 
 </html>

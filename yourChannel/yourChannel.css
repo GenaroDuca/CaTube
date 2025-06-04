@@ -3,6 +3,7 @@
 .content-ul li button {
   background: var(--primary-color)
 }
+
 .banner-container {
   display: flex;
   justify-content: center;
@@ -32,7 +33,6 @@
   gap: 20px
 }
 
-
 .container-button ul {
   display: flex;
   flex-wrap: wrap;
@@ -60,11 +60,6 @@
   width: 285px;
 }
 
-.video-thumbnail p {
-  text-overflow: ellipsis;
-}
-
-.for-you-thumbnail img,
 .video-thumbnail img {
   width: 100%;
   height: auto;
@@ -137,13 +132,10 @@
   border-radius: 30px
 }
 
-
 .container-row p,
 .video-channel-posts {
   margin-right: 20px
 }
-
-/*Home*/
 
 .principal-video-container {
   display: flex;
@@ -177,26 +169,6 @@
   text-align: justify
 }
 
-/*Video decoration */
-/* .video-titles {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, .55);
-  padding: 6px 10px;
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis
-}
-
-.video-footer {
-  height: 10px;
-  background-color: #90b484
-} */
-
-/*Post*/
 .container-row-posts,
 .options {
   background: #1f1f20;
@@ -210,7 +182,6 @@
 }
 
 .actual-icon-holder,
-.container-row-icons,
 .icon-wrapper {
   display: flex;
   align-items: center;
@@ -258,14 +229,8 @@
   margin-bottom: 20px;
 }
 
-.line,
 .options {
   margin-top: 20px
-}
-
-.line {
-  margin-left: 0;
-  margin-right: 0
 }
 
 .options {
@@ -287,7 +252,6 @@
   padding: 12px 20px;
 }
 
-.btn-cancel,
 .btn-trash {
   background: #1f1f20;
   border-radius: 30px;
@@ -305,12 +269,6 @@
 .btn-trash:hover,
 .icon:hover {
   transform: scale(1.1);
-}
-
-.btn-cancel {
-  width: 112.56px;
-  height: 43px;
-  color: var(--text-color)
 }
 
 .postsOptions,
@@ -354,13 +312,17 @@
   background-color: var(--primary-color)
 }
 
+.container-row-posts p {
+  color: var(--btn)
+}
+
 @media (max-width:768px) {
   .banner {
     height: auto;
     aspect-ratio: 16/9
   }
 
-  .contaienr-profile {
+  .container-profile {
     flex-direction: column
   }
 
@@ -437,5 +399,9 @@
   .row {
     justify-content: center;
     margin-top: 20px
+  }
+
+  .text-principal-video h2 {
+    margin-top: 20px;
   }
 }
