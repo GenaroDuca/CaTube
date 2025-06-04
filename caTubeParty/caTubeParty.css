@@ -2,7 +2,7 @@
     margin: 1rem;
 
     display: flex;
-    flex-direction: row;;
+    flex-direction: row;
     gap: 1rem;
 }
 
@@ -180,18 +180,17 @@ body::-webkit-scrollbar {
     height: 10px; /* alto del scroll horizontal */
 }
 
-/* Fondo de la barra (track) */
+/* Fondo de la barra */
 body::-webkit-scrollbar-track {
     background: #777878;
 }
 
-/* Color del "pulgar" (la parte que se mueve) */
+/* Color de la parte que se mueve */
 body::-webkit-scrollbar-thumb {
     background: #90B484;
     border-radius: 30px;
 }
 
-/* Al pasar el mouse */
 body::-webkit-scrollbar-thumb:hover {
     background: #749269;
     cursor: pointer;
