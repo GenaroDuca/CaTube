@@ -52,7 +52,8 @@ const closeSoonModal = document.getElementById('close-soon-modal');
 const soonModalBtn = document.querySelectorAll('.soon');
 
 soonModalBtn.forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
         if (soonModal) soonModal.style.display = 'flex';
     });
 });
@@ -139,9 +140,6 @@ friendsBtn.addEventListener('click', (e) => {
     friendsContainer.classList.toggle('collapsed');
 });
 
-
-// close menus when clicking outside
-
 // Btn search friends
 const openSearchFriendBtn = document.querySelector('.open-search-friend-btn');
 const friendsHeaderOne = document.querySelector('.friends-header-one');
@@ -182,4 +180,20 @@ for (let i = 0; i < friendsCards.length; i++) {
         chatFriendBtn[i].classList.add("gray")
         friendImg[i].classList.add("gray")
     }
+}
+
+// Create Video Modal
+const createVideoModal = document.querySelector('.create-video-modal');
+const closeCreateVideoModal = document.querySelector('.close-create-video-modal');
+const createVideoModalBtn = document.querySelector('.create-video-btn');
+
+createVideoModalBtn.addEventListener('click', () => {
+    if (createVideoModal) createVideoModal.style.display = 'flex';
+});
+
+// Close create video modal 
+if (closeCreateVideoModal && createVideoModal) {
+    closeCreateVideoModal.onclick = function () {
+        createVideoModal.style.display = 'none';
+    };
 }

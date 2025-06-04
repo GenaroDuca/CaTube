@@ -2,10 +2,7 @@
 
 // --- Progress Bar Functions ---
 function updateProgressBar(current, max, barId) {
-  // Clamp values
-  if (current < 0) current = 0;
-  if (current > max) current = max;
-
+  current = Math.max(0, Math.min(current, max));
   const percent = (current / max) * 100;
   const bar = document.getElementById(barId);
   if (bar) {
@@ -35,15 +32,12 @@ function setupContentTabs() {
   const tables = document.querySelectorAll('.scroll-table-container .content-table');
   buttons.forEach((btn, idx) => {
     btn.addEventListener('click', () => {
-      // Hide all tables and remove active from all buttons
       tables.forEach(tab => tab.classList.add('hide'));
       buttons.forEach(b => b.classList.remove('active'));
-      // Show selected table and activate button
       if (tables[idx]) tables[idx].classList.remove('hide');
       btn.classList.add('active');
     });
   });
-  // Show first table and activate first button by default
   if (tables[0]) tables[0].classList.remove('hide');
   if (buttons[0]) buttons[0].classList.add('active');
 }
@@ -60,96 +54,106 @@ function setupSidebarNavigation() {
       if (sections[idx]) sections[idx].classList.remove('hide');
     });
   });
-  // Show first section by default
-  if (navLinks[0]) navLinks[0].classList.add('active');
-  if (sections[0]) sections[0].classList.remove('hide');
 }
 
-// --- Chart Setup  ---
+// --- Chart Setup ---
 function setupCharts() {
-  if (window.Chart) {
-    // Line Chart
-    const line = document.getElementById('lineChart');
-    if (line) {
-      new Chart(line.getContext('2d'), {
-        type: 'line',
-        data: {
-          labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-          datasets: [
-            { label: 'Vistas', data: [1200, 1900, 3000, 5000, 3200, 4200, 6100, 7000, 8000, 9000, 10000, 11000], borderColor: 'rgb(162, 209, 117)', backgroundColor: 'rgba(92, 117, 84, 0.2)', fill: true, tension: 0.3 },
-            { label: 'Suscriptores', data: [100, 200, 400, 350, 300, 450, 600, 700, 800, 900, 1000, 1100], borderColor: 'rgb(211, 224, 201)', backgroundColor: 'rgba(62, 51, 82, 0.2)', fill: true, tension: 0.3 },
-            { label: 'Horas vistas', data: [500, 700, 1200, 2000, 1800, 2400, 3100, 4000, 4500, 5000, 6000, 7000], borderColor: 'rgb(255, 205, 86)', backgroundColor: 'rgba(255, 205, 86, 0.2)', fill: true, tension: 0.3 }
-          ]
-        },
-        options: { responsive: true, maintainAspectRatio: false }
-      });
-    }
-    // Doughnut Chart
-    const doughnut = document.getElementById('doughnutChart');
-    if (doughnut) {
-      new Chart(doughnut.getContext('2d'), {
-        type: 'doughnut',
-        data: {
-          labels: ['Búsqueda en CaTube', 'Videos sugeridos', 'Páginas externas'],
-          datasets: [{
-            label: 'Origen del tráfico',
-            data: [45, 35, 20],
-            backgroundColor: ['rgb(116, 146, 105)', 'rgb(144, 180, 132)', 'rgb(116, 146, 132)'],
-            hoverOffset: 6
-          }]
-        },
-        options: { responsive: true, maintainAspectRatio: false }
-      });
-    }
+  if (!window.Chart) return;
+  // Line Chart
+  const line = document.getElementById('lineChart');
+  if (line) {
+    new Chart(line.getContext('2d'), {
+      type: 'line',
+      data: {
+        labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        datasets: [
+          { label: 'Vistas', data: [1200, 1900, 3000, 5000, 3200, 4200, 6100, 7000, 8000, 9000, 10000, 11000], borderColor: 'rgb(162, 209, 117)', backgroundColor: 'rgba(92, 117, 84, 0.2)', fill: true, tension: 0.3 },
+          { label: 'Suscriptores', data: [100, 200, 400, 350, 300, 450, 600, 700, 800, 900, 1000, 1100], borderColor: 'rgb(211, 224, 201)', backgroundColor: 'rgba(62, 51, 82, 0.2)', fill: true, tension: 0.3 },
+          { label: 'Horas vistas', data: [500, 700, 1200, 2000, 1800, 2400, 3100, 4000, 4500, 5000, 6000, 7000], borderColor: 'rgb(255, 205, 86)', backgroundColor: 'rgba(255, 205, 86, 0.2)', fill: true, tension: 0.3 }
+        ]
+      },
+      options: { responsive: true, maintainAspectRatio: false }
+    });
+  }
+  // Doughnut Chart
+  const doughnut = document.getElementById('doughnutChart');
+  if (doughnut) {
+    new Chart(doughnut.getContext('2d'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Búsqueda en CaTube', 'Videos sugeridos', 'Páginas externas'],
+        datasets: [{
+          label: 'Origen del tráfico',
+          data: [45, 35, 20],
+          backgroundColor: ['rgb(116, 146, 105)', 'rgb(144, 180, 132)', 'rgb(116, 146, 132)'],
+          hoverOffset: 6
+        }]
+      },
+      options: { responsive: true, maintainAspectRatio: false }
+    });
   }
 }
 
-// --- Initialize Everything on Page Load ---
-document.addEventListener('DOMContentLoaded', function () {
-  setupSidebarNavigation();
-  setupContentTabs();
-  updateProgressBar(currentSubscribers, maxSubscribers, 'subscribersProgressBarFill');
-  updateProgressBar(currentVideos, maxVideos, 'videosUploadedProgressBarFill');
-  updateProgressBar(currentWatchHours, maxWatchHours, 'watchHoursProgressBarFill');
-  checkMonetizationEligibility();
-  setupCharts();
-});
-
-//Edit video modal 
+// --- Edit video modal ---
 const editVideoModal = document.querySelector('.edit-video-modal');
 const openEditVideoBtns = document.querySelectorAll('.edit-video-btn');
 const closeEditVideoModalBtn = document.querySelector('.close-edit-video-modal');
 
-if (openEditVideoBtns) {
-  openEditVideoBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      editVideoModal.style.display = 'flex';
-    });
+openEditVideoBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (editVideoModal) editVideoModal.style.display = 'flex';
   });
-}
+});
 
 if (closeEditVideoModalBtn) {
   closeEditVideoModalBtn.addEventListener('click', () => {
-    editVideoModal.style.display = 'none';
+    if (editVideoModal) editVideoModal.style.display = 'none';
   });
 }
 
-// const editVideoModal = document.querySelector('.edit-video-modal');
-// const closeEditVideoModalBtn = document.querySelector('.close-edit-video-modal');
-// const openEditVideoBtns = document.querySelectorAll('.edit-video-btn');
+// --- Go to Studio sections buttons ---
+const allSections = document.querySelectorAll('.container-studio');
+const storeLink = document.querySelector('#storeButton');
+const storeSection = Array.from(allSections).find(section =>
+  section.querySelector('h1') && section.querySelector('h1').textContent.toLowerCase().includes('store')
+);
 
-// function openEditVideoModal() {
-//     if (editVideoModal) editVideoModal.style.display = 'flex';
-// }
+if (storeLink && storeSection) {
+  storeLink.addEventListener('click', function (e) {
+    e.preventDefault();
+    allSections.forEach(sec => sec.classList.add('hide'));
+    storeSection.classList.remove('hide');
+  });
+}
 
-// function closeEditVideoModal() {
-//     if (editVideoModal) editVideoModal.style.display = 'none';
-// }
+// --- Mostrar sección según parámetro de URL ---
+const params = new URLSearchParams(window.location.search);
+const sectionParam = params.get('section');
 
-// openEditVideoBtns.forEach(btn => {
-//     btn.addEventListener('click', openEditVideoModal);
-// });
+if (sectionParam) {
+  allSections.forEach(sec => sec.classList.add('hide'));
+  const targetSection = Array.from(allSections).find(section =>
+    section.querySelector('h1') &&
+    section.querySelector('h1').textContent.toLowerCase().includes(sectionParam)
+  );
+  if (targetSection) {
+    targetSection.classList.remove('hide');
+  }
+} else {
+  if (allSections[0]) allSections[0].classList.remove('hide');
+}
 
-// if (closeEditVideoModalBtn) {
-//     closeEditVideoModalBtn.addEventListener('click', closeEditVideoModal);
-// }
+// --- Initialize Everything on Page Load ---
+document.addEventListener('DOMContentLoaded', function () {
+  // Sidebar navigation
+  setupSidebarNavigation();
+  // Content section
+  setupContentTabs();
+  // Earn section
+  updateProgressBar(currentSubscribers, maxSubscribers, 'subscribersProgressBarFill');
+  updateProgressBar(currentVideos, maxVideos, 'videosUploadedProgressBarFill');
+  updateProgressBar(currentWatchHours, maxWatchHours, 'watchHoursProgressBarFill');
+  checkMonetizationEligibility();
+  // Analytics section
+  setupCharts();
+});
