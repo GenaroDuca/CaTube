@@ -213,6 +213,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
+    const videoPlaceholder = document.querySelector('.video-placeholder');
+
+if (videoPlaceholder && video) { 
+        videoPlaceholder.addEventListener('click', function(event) {
+
+            if (event.target === videoPlaceholder || event.target === video) {
+                console.log("DEBUG: Clic en el área del video detectado.");
+                if (video.paused) {
+                    video.play().catch(error => console.error("Error al intentar video.play() desde clic en video:", error));
+                } else {
+                    video.pause();
+                }
+            } else {
+                console.log("DEBUG: Clic en el área del video, pero en un elemento hijo:", event.target);
+            }
+        });
+    }
 
     if (shortHeader) {
 
