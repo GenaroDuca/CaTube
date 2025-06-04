@@ -137,4 +137,88 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     videoElement.addEventListener('contextmenu', e => e.preventDefault());
+
+    // Usuario no logueado:
+    const currentUserID = null;
+    const channelOwnerID = 'angel';
+    let isSubscribed = false;
+
+    // Dueño del canal:
+    //    const currentUserID = 'angel'; 
+    //     const channelOwnerID = 'angel'; 
+    //     let isSubscribed = false;
+
+    // Usuario suscripto:
+    // const currentUserID = 'gena';
+    // const channelOwnerID = 'angel'; 
+    // let isSubscribed = true;
+
+    // Usuario no suscripto:
+    // const currentUserID = 'gena';
+    // const channelOwnerID = 'angel';
+    // let isSubscribed = false;
+
+    const subscribeButton = document.querySelector('.action-button-subscribe');
+    const analyticsButton = document.querySelector('.action-button-analytics');
+    const editVideoButton = document.querySelector('.action-button-edit');
+
+    if (subscribeButton && analyticsButton && editVideoButton) {
+        if (currentUserID && currentUserID === channelOwnerID) {
+            subscribeButton.style.display = 'none';
+            analyticsButton.style.display = 'inline-block'; 
+            editVideoButton.style.display = 'inline-block'; 
+            console.log("Mostrando botones de dueño del canal.");
+        } else if (currentUserID) {
+            subscribeButton.style.display = 'inline-block'; 
+            analyticsButton.style.display = 'none';
+            editVideoButton.style.display = 'none';
+
+            if (isSubscribed) {
+                subscribeButton.textContent = 'Unsubscribe';      
+            } else {
+                subscribeButton.textContent = 'Suscribe';
+            }
+            console.log("Mostrando botón de suscribir para visitante.");
+        } else {
+            subscribeButton.style.display = 'inline-block'; 
+            subscribeButton.textContent = 'Log in to subscribe'; 
+            analyticsButton.style.display = 'none';
+            editVideoButton.style.display = 'none';
+            console.log("Usuario no logueado, mostrando botón de suscribir.");
+        }
+    } else {
+        console.warn("No se encontraron todos los botones de acción del canal.");
+    }
+
+    if (subscribeButton) {
+        subscribeButton.addEventListener('click', () => {
+            if (!currentUserID) {
+                alert("Please log in to subscribe!");
+                // Redirigir a la página de login.
+                return;
+            }
+
+            if (isSubscribed) {
+                console.log('API Call: Unsubscribe');
+                isSubscribed = false;
+                subscribeButton.textContent = 'Suscribe';
+            } else {
+                console.log('API Call: Subscribe');
+                isSubscribed = true;
+                subscribeButton.textContent = 'Unsubscribe';
+            }
+        });
+    }
+    if (analyticsButton) {
+        analyticsButton.addEventListener('click', () => {
+            console.log("Ir a Analytics");
+              // Redirigir a la página de Analytics.
+        });
+    }
+    if (editVideoButton) {
+        editVideoButton.addEventListener('click', () => {
+            console.log("Ir a Editar Video");
+            // Redirigir a la página de Edit Video.
+        });
+    }
 });
