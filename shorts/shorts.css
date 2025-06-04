@@ -31,6 +31,61 @@ transition-delay: 0s;}
 visibility: visible;
 transition-delay: 0s; }
 
+.container-play-vol {
+    display: flex;
+    align-items: center; /* Alinea el botón de play y el contenedor de volumen */
+    margin-left: 20px;
+    z-index: 2;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.volume-control-container {
+    position: relative; /* Para posicionar el slider si es necesario, o simplemente para agrupar */
+    display: flex;
+    align-items: center;
+    margin-left: 10px; /* Espacio después del botón de play */
+}
+
+.volume-slider {
+    /* Estilos básicos para el slider, puedes personalizarlos mucho más */
+    width: 80px; /* Ancho del slider */
+    height: 8px;
+    margin-left: 8px; /* Espacio entre el botón de volumen y el slider */
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    -webkit-appearance: none; /* Quitar apariencia por defecto en WebKit/Blink */
+    appearance: none;
+    display: none; /* Oculto por defecto, JS lo controla */
+}
+
+/* Estilos para el "thumb" (la bolita/deslizador) del slider */
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    background: var(--btn, #4CAF50); /* Usa tu variable de color de botón */
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    background: var(--btn, #4CAF50);
+    border-radius: 50%;
+    cursor: pointer;
+    border: none; /* Firefox a veces añade un borde */
+}
+
+/* Clase para mostrar el slider */
+.volume-slider.visible {
+    display: inline-block; /* O 'block' o 'flex' según cómo quieras que se muestre */
+}
+
 .short-header {
     display: flex;
     align-items: center;

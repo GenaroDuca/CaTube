@@ -410,11 +410,14 @@
                         data-play-src="../media/studio_media/play.png" data-pause-src="../media/studio_media/pause.png">
                         <img src="../media/studio_media/play.png" alt="play">
                     </button>
-                    <button type="button" id="soundMuteBtn" class="action-button btn-sound"
-                        data-sound-src="../media/studio_media/sound.png"
-                        data-mute-src="../media/studio_media/no-sound.png">
-                        <img src="../media/studio_media/sound.png" alt="sound on">
-                    </button>
+                    <div class="volume-control-container">
+                        <button type="button" id="soundMuteBtn" class="action-button btn-sound"
+                            data-sound-src="../media/studio_media/sound.png"
+                            data-mute-src="../media/studio_media/no-sound.png">
+                            <img src="../media/studio_media/sound.png" alt="sound on">
+                        </button>
+                        <input type="range" id="volumeSlider" class="volume-slider" min="0" max="1" step="0.01" value="1" style="display: none;">
+                    </div>
                 </div>
                 <div class="video-placeholder">
                     <video id=shortVideo src="../media/short_media/Funny Cars Crossing Bollard _ BeamNG.Drive.mp4" autoplay muted loop></video>
