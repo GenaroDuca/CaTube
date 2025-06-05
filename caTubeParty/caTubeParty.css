@@ -1,23 +1,44 @@
 .watch-party-container {
     margin: 1rem;
+    gap: 1rem;
 
     display: flex;
     flex-direction: row;
-    gap: 1rem;
+    position: relative;
 }
 
 /* friends pannel */
+.friends-sidebar,
+.friends-sidebar.collapsed {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+}
+
 .friends-sidebar {
-    background-color:var(--primary-color);
+    background-color: var(--primary-color);
+    opacity: 0.9;
     border-radius: var(--border-radius);
     padding: 1rem 2rem;
-    width: 5%;
+    width: 250px;
     height: 88vh;
+    box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493);
+    backdrop-filter: blur(10px);
+    transition: opacity .2s;
     
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: hidden;
+}
+
+.sidebar-header {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-bottom: 1rem;
 }
 
 .btn-toggler {
@@ -34,7 +55,26 @@
     align-items: center;
 }
 
+.friends-sidebar.collapsed .sidebar-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+
+.friends-sidebar.collapsed .btn-toggler {
+    margin-bottom: 2rem;
+    min-width: 2rem;
+    min-height: 2rem;
+}
+
 .btn-toggler span {
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+.btn-toggler span.rotated {
     transform: rotate(180deg);
 }
 
@@ -42,20 +82,101 @@
     width: 50px;
     height: auto;
     border-radius: 50%;
-    margin-bottom: 1rem;
+    position: relative;
+    z-index: 1;
 }
 
-.friend-profile-status{
+.friend-icon {
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.friend-profile-status {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.2rem;
     position: relative;
+}
+
+.friend-name {
+    flex: 1;
+    color: var(--text-color);
+    font-weight: 500;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+}
+
+.friend-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.friend-add-btn,
+.friend-chat-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.2rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.friend-add-btn {
+    background-color: var(--btn);
+    border-radius: 50%;
+    font-size: 0.05rem;
+}
+
+.friend-add-btn:hover {
+    background-color: var(--btn-dark);
+}
+
+.friend-add-btn.disabled {
+    background-color: #777878;
+}
+
+.friend-chat-btn.disabled {
+    color: #777878;
+}
+
+.friend-chat-btn {
+    color: var(--btn);
+}
+
+.friend-chat-btn:hover {
+    color: var(--btn-dark);
+}
+
+.friends-sidebar.collapsed {
+    background-color:var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 1rem 2rem;
+    width: 85px;
+    height: 88vh;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.friends-sidebar.collapsed .friend-name,
+.friends-sidebar.collapsed .friend-actions {
+    display: none;
 }
 
 .friend-status {
     position: absolute;
-    bottom: 1rem;
-    right: 0.05rem;
+    left: 2rem;
+    top: 2rem;
     width: 1rem;
     height: 1rem;
     border-radius: 50%;
+    z-index: 2;
 }
 
 .friend-status.online {
@@ -76,9 +197,12 @@ img.offline {
     border-radius: var(--border-radius);
     width: 80%;
     height: 88vh;
+    margin-left: 7%;
     overflow: hidden;
 
     display: flex;
+    z-index: 0;
+    position: relative;
 }
 
 .video-play {
@@ -90,7 +214,7 @@ img.offline {
     padding: 0;
 }
 
-
+/* Plyr styles */
 .plyr--full-ui .plyr__controls button:hover {
     border-radius: 50%;
     background-color: var(--btn);
