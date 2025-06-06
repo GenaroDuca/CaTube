@@ -1008,7 +1008,6 @@ button:hover {
     filter: grayscale(100%);
 }
 
-
 .invite-friend-btn {
     background-color: var(--btn);
     color: var(--primary-color);
