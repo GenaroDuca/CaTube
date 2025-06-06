@@ -44,13 +44,17 @@
 
 /* Plyr styles */
 .video-player-container {
+    background-color: var(--primary-color, #000);
+    border-radius: var(--border-radius);
     width: 100%;
+    max-height: calc(100vh - var(--header-height) - 40px);
+    overflow: hidden;
+    position: relative;
 }
 
 .plyr--full-ui .plyr__controls button:hover {
-    border-radius: 50%;
     background-color: var(--btn);
-    transition: color 0.2s ease;
+    color: var(--primary-color);
 }
 
 .plyr--full-ui input[type="range"] {
@@ -99,6 +103,7 @@
     width: 4rem;
     height: 100%;
     cursor: pointer;
+    width: 30%;
 }
 
 .send-btn:hover {
@@ -162,5 +167,19 @@
     .friend-main div img {
         width: 50px;
         height: 50px;
+    }
+
+    
+
+    button[data-plyr="theater"] {
+        display: none;
+    }
+
+    button[data-plyr="pip"] {
+        display: none !important;
+    }
+
+    .plyr__volume input[type="range"] {
+        display: none !important;
     }
 }
