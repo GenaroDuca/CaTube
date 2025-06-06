@@ -41,6 +41,7 @@
 /* ========== PLYR CUSTOMIZATION ========== */
 .plyr--full-ui .plyr__controls button:hover {
     background-color: var(--btn);
+    color: var(--primary-color);
 }
 
 .plyr--full-ui input[type="range"] {
@@ -647,8 +648,8 @@ body.in-theater-mode .main-content {
     }
 
     .plyr__volume input[type="range"] {
-    display: none !important;
-}
+        display: none !important;
+    }
 
     .description-watch {
         margin-top: 0px;
