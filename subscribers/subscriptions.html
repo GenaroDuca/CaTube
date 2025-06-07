@@ -131,209 +131,334 @@
         </nav>
     </aside>
 
-    <main class="main-content">
-        <section class="subscriptions">
+    <main class="subscriptions-main-content">
+        <section class="subscriptions-section">
             <h3 class="subtitle">Subscriptions</h3>
 
             <!-- contiene botones y contenido del carrusel -->
-            <div class="carousel-container">
+            <div class="subscriptions-carousel-container">
                 <!-- boton izq -->
-                <button class="carousel-btn left" aria-label="Previous subscription videos"
-                    onclick="scrollCarousel('left', 'carousel-subs')">&#10094;</button>
+                <button class="subscriptions-carousel-btn prev" aria-label="Previous subscription videos" onclick="scrollCarousel('left', 'carousel-subs')">&#10094;</button>
                 <!-- carrusel vacio que contendra los videos de las subs del usuario ingresados por js -->
-                <div class="carousel-subs" id="carousel-subs">
+                <div class="carousel-subs">
                     <!-- ejemplos para editar en css -->
-                    <div class="video-card">
-                        <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
-                            class="video-thumb">
-                        <p class="name-channel">YourCat</p>
-                        <p class="sub-channel">8k views • 2h ago</p>
+                    <div class="carousel-row row1">
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 2h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 2h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 2h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 2h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 2h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 2h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 2h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 2h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 2h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 2h ago</p>
+                        </div>
                     </div>
-                    <div class="video-card">
-                        <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
-                            class="video-thumb">
-                        <p class="name-channel">YourCat</p>
-                        <p class="sub-channel">8k views • 2h ago</p>
-                    </div>
-                    <div class="video-card">
-                        <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
-                            class="video-thumb">
-                        <p class="name-channel">YourCat</p>
-                        <p class="sub-channel">8k views • 2h ago</p>
-                    </div>
-                    <div class="video-card">
-                        <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
-                            class="video-thumb">
-                        <p class="name-channel">YourCat</p>
-                        <p class="sub-channel">8k views • 2h ago</p>
-                    </div>
-                    <div class="video-card">
-                        <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
-                            class="video-thumb">
-                        <p class="name-channel">YourCat</p>
-                        <p class="sub-channel">8k views • 2h ago</p>
-                    </div>
-                    <div class="video-card">
-                        <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
-                            class="video-thumb">
-                        <p class="name-channel">YourCat</p>
-                        <p class="sub-channel">8k views • 2h ago</p>
-                    </div>
-                    <div class="video-card">
-                        <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
-                            class="video-thumb">
-                        <p class="name-channel">YourCat</p>
-                        <p class="sub-channel">8k views • 2h ago</p>
-                    </div>
-                    <div class="video-card">
-                        <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
-                            class="video-thumb">
-                        <p class="name-channel">YourCat</p>
-                        <p class="sub-channel">8k views • 2h ago</p>
-                    </div>
-                    <div class="video-card">
-                        <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
-                            class="video-thumb">
-                        <p class="name-channel">YourCat</p>
-                        <p class="sub-channel">8k views • 2h ago</p>
-                    </div>
-                    <div class="video-card">
-                        <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
-                            class="video-thumb">
-                        <p class="name-channel">YourCat</p>
-                        <p class="sub-channel">8k views • 2h ago</p>
-                    </div>
-                    <div class="video-card">
-                        <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
-                            class="video-thumb">
-                        <p class="name-channel">Daily Purrs</p>
-                        <p class="sub-channel">2k views • 5h ago</p>
-                    </div>
-                    <div class="video-card">
-                        <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
-                            class="video-thumb">
-                        <p class="name-channel">Daily Purrs</p>
-                        <p class="sub-channel">2k views • 5h ago</p>
-                    </div>
-                    <div class="video-card">
-                        <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
-                            class="video-thumb">
-                        <p class="name-channel">Daily Purrs</p>
-                        <p class="sub-channel">2k views • 5h ago</p>
-                    </div>
-                    <div class="video-card">
-                        <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
-                            class="video-thumb">
-                        <p class="name-channel">Daily Purrs</p>
-                        <p class="sub-channel">2k views • 5h ago</p>
-                    </div>
-                    <div class="video-card">
-                        <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
-                            class="video-thumb">
-                        <p class="name-channel">Daily Purrs</p>
-                        <p class="sub-channel">2k views • 5h ago</p>
+                    <div class="carousel-row row2">
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 18h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 18h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 18h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 18h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 18h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 18h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 18h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 18h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 18h ago</p>
+                        </div>
+                        <div class="subscriptions-video-card">
+                            <img src="/media/home_media/thumbnails/pinterest_swap_challenge.jpg" alt="Video Thumbnail"
+                                class="subscriptions-video-thumb">
+                            <p class="name-channel">YourCat</p>
+                            <p class="sub-channel">8k views • 18h ago</p>
+                        </div>
                     </div>
                 </div>
                 <!-- boton der -->
-                <button class="carousel-btn right" aria-label="Next subscription videos"
-                    onclick="scrollCarousel('right', 'carousel-subs')">&#10095;</button>
+                <button class="subscriptions-carousel-btn next" aria-label="Next subscription videos"
+                onclick="scrollCarousel('right', 'carousel-subs')">&#10095;</button>
             </div>
         </section>
-        <section class="trending">
+        <section class="subscriptions-section shorts">
             <h3 class="subtitle">Shorts</h3>
 
             <!-- contiene botones y contenido del carrusel -->
-            <div class="carousel-container">
+            <div class="subscriptions-carousel-container">
                 <!-- boton izq -->
-                <button class="carousel-btn left" aria-label="Previous trending videos"
-                    onclick="scrollCarousel('left', 'carousel-trends')">&#10094;</button>
-                <!-- carrusel vacio que contendra shorts de canales en tendencia ingresados por js -->
-                <div class="carousel-trends" id="carousel-trends">
+                <button class="subscriptions-carousel-btn prev" aria-label="Previous subscription videos" onclick="scrollCarousel('left', 'carousel-subs-shorts')">&#10094;</button>
+                <!-- carrusel vacio que contendra los videos de las subs del usuario ingresados por js -->
+                <div class="carousel-subs carousel-subs-shorts">
                     <!-- ejemplos para editar en css -->
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat dance</p>
-                        <p class="sub-channel">12k views • 3h ago</p>
+                    <div class="carousel-row-shorts row1">
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 3h ago</p>
+                        </div>
                     </div>
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
-                    </div>
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat fight!</p>
-                        <p class="sub-channel">5k views • 2d ago</p>
-                    </div>
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat fight!</p>
-                        <p class="sub-channel">5k views • 2d ago</p>
-                    </div>
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat fight!</p>
-                        <p class="sub-channel">5k views • 2d ago</p>
-                    </div>
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat fight!</p>
-                        <p class="sub-channel">5k views • 2d ago</p>
-                    </div>
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat fight!</p>
-                        <p class="sub-channel">5k views • 2d ago</p>
-                    </div>
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat fight!</p>
-                        <p class="sub-channel">5k views • 2d ago</p>
-                    </div>
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat dance</p>
-                        <p class="sub-channel">12k views • 3h ago</p>
-                    </div>
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
-                    </div>
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat fight!</p>
-                        <p class="sub-channel">5k views • 2d ago</p>
-                    </div>
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat fight!</p>
-                        <p class="sub-channel">5k views • 2d ago</p>
-                    </div>
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat fight!</p>
-                        <p class="sub-channel">5k views • 2d ago</p>
-                    </div>
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat fight!</p>
-                        <p class="sub-channel">5k views • 2d ago</p>
-                    </div>
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat fight!</p>
-                        <p class="sub-channel">5k views • 2d ago</p>
-                    </div>
-                    <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Cat fight!</p>
-                        <p class="sub-channel">5k views • 2d ago</p>
+                    <div class="carousel-row-shorts row2">
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
+                        <div class="subscriptions-short-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="subscriptions-short-thumb">
+                            <p class="name-channel">Cat dance</p>
+                            <p class="sub-channel">12k views • 5h ago</p>
+                        </div>
                     </div>
                 </div>
                 <!-- boton der -->
-                <button class="carousel-btn right" aria-label="Next trending videos"
-                    onclick="scrollCarousel('right', 'carousel-trends')">&#10095;</button>
+                <button class="subscriptions-carousel-btn next" aria-label="Next subscription videos" onclick="scrollCarousel('right', 'carousel-subs-shorts')">&#10095;</button>
             </div>
         </section>
         <!-- ads -->
@@ -341,8 +466,8 @@
             <img class="img-ads" src="/media/home_media/ads/offers.png" alt="Oferta de camaras Instax" loading="lazy">
         </div>
     </main>
+</body>
+    <script src="/subscriptions.js"></script>
     <script src="/home/home.js"></script>
     <script src="/header/header.js"></script>
-</body>
-
 </html>
