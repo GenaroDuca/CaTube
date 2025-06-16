@@ -1,0 +1,113 @@
+.container-profile {
+    display: flex;
+    width: 95%;
+    height: auto;
+    padding: 20px;
+    margin: 1rem auto;
+    border-radius: 30px
+}
+
+.first-part-profile {
+    display: flex;
+    align-items: center;
+    gap: 20px
+}
+
+.row-info {
+    display: flex;
+    gap: 20px;
+    justify-content: start
+}
+
+.row-info p {
+    text-wrap: nowrap;
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
+.video-thumbnail {
+    width: 285px;
+}
+
+.video-thumbnail img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+    border-radius: 30px;
+    margin-bottom: 10px;
+}
+
+.channel-photo {
+    width: 199px;
+    height: 199px;
+    border-radius: 50%
+}
+
+.container-btn-option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-viewall-history,
+.btn-viewall-playlists,
+.btn-viewall-viewlater,
+.btn-viewall-liked {
+    cursor: pointer;
+    border: none;
+    border-radius: 30px;
+    padding: 10px;
+    background-color: var(--btn);
+    text-wrap: nowrap
+}
+
+.btn-viewall-history:hover,
+.btn-viewall-playlists:hover,
+.btn-viewall-viewlater:hover,
+.btn-viewall-liked:hover {
+    color: var(--primary-color);
+    background-color: var(--btn-dark);
+}
+
+@media (max-width:768px) {
+
+    .container-profile {
+        flex-direction: column
+    }
+
+    .first-part-profile {
+        flex-direction: column;
+        align-items: center
+    }
+
+    .channel-photo {
+        width: 100px;
+        height: 100px
+    }
+
+    .video-thumbnail {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .video-thumbnail img {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16/9;
+    }
+
+}
+
+@media (max-width:1100px) {
+    .container-profile {
+        flex-direction: column;
+        justify-content: center
+    }
+
+}
