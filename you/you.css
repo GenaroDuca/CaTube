@@ -52,6 +52,18 @@
     justify-content: space-between;
 }
 
+.container-btn-option div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+}
+
+.container-btn-option div span:hover{
+    cursor: pointer;
+    transform: scale(1.2);
+}
+
 .btn-viewall-history,
 .btn-viewall-playlists,
 .btn-viewall-viewlater,
