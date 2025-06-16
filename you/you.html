@@ -391,7 +391,6 @@
 
     <!-- Main content -->
     <main class="main-content">
-
         <div class="container-profile">
             <div class="first-part-profile">
                 <img class="channel-photo" src="../media/home_media/profile/angel.jpg" alt="angel" />
@@ -411,15 +410,13 @@
                 </div>
             </div>
         </div>
+        <!-- History -->
         <section class="subscriptions">
             <div class="container-btn-option">
                 <h3 class="subtitle">History</h3>
-                <div>
-                    <button class="btn-viewall-history">View all</button>
-                    <span class="material-symbols-outlined">
-                        delete
-                    </span>
-                </div>
+                <span class="material-symbols-outlined">
+                    delete
+                </span>
             </div>
             <div class="carousel-container">
                 <button class="carousel-btn left" aria-label="Previous subscription videos" data-direction="left"
@@ -605,10 +602,11 @@
             </div>
         </section>
 
+        <!-- Playlist -->
         <section class="subscriptions">
             <div class="container-btn-option">
                 <h3 class="subtitle">Playlists</h3>
-                <button class="btn-viewall-playlists">View all</button>
+                <button class="btn-viewall-playlists">View more</button>
             </div>
             <div class="carousel-container">
                 <button class="carousel-btn left" aria-label="Previous subscription videos" data-direction="left"
@@ -732,8 +730,78 @@
                 <button class="carousel-btn right" aria-label="Next subscription videos" data-direction="right"
                     data-carousel="carousel-subs-video">&#10095;</button>
             </div>
+            <div class="playlistSection collapsed">
+                <div class="playlistContent">
+                    <div class="playlist">
+                        <div class="thumbPlaylistContainer">
+                            <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Playlist Thumbnail"
+                                class="playlistThumb">
+                            <span class="playlistVideosCount">32 videos</span>
+                        </div>
+                        <h3>Playlist Name</h3>
+                        <select id="visibility" name="visibility">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                        <a href="">View full playlist</a>
+                    </div>
+                    <div class="playlist">
+                        <div class="thumbPlaylistContainer">
+                            <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Playlist Thumbnail"
+                                class="playlistThumb">
+                            <span class="playlistVideosCount">32 videos</span>
+                        </div>
+                        <h3>Playlist Name</h3>
+                        <select id="visibility" name="visibility">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                        <a href="">View full playlist</a>
+                    </div>
+                    <div class="playlist">
+                        <div class="thumbPlaylistContainer">
+                            <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Playlist Thumbnail"
+                                class="playlistThumb">
+                            <span class="playlistVideosCount">32 videos</span>
+                        </div>
+                        <h3>Playlist Name</h3>
+                        <select id="visibility" name="visibility">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                        <a href="">View full playlist</a>
+                    </div>
+                    <div class="playlist">
+                        <div class="thumbPlaylistContainer">
+                            <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Playlist Thumbnail"
+                                class="playlistThumb">
+                            <span class="playlistVideosCount">32 videos</span>
+                        </div>
+                        <h3>Playlist Name</h3>
+                        <select id="visibility" name="visibility">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                        <a href="">View full playlist</a>
+                    </div>
+                    <div class="playlist">
+                        <div class="thumbPlaylistContainer">
+                            <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Playlist Thumbnail"
+                                class="playlistThumb">
+                            <span class="playlistVideosCount">32 videos</span>
+                        </div>
+                        <h3>Playlist Name</h3>
+                        <select id="visibility" name="visibility">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                        <a href="">View full playlist</a>
+                    </div>
+                </div>
+            </div>
         </section>
 
+        <!-- View Later -->
         <section class="subscriptions">
             <div class="container-btn-option">
                 <h3 class="subtitle">View later</h3>
@@ -863,6 +931,7 @@
             </div>
         </section>
 
+        <!-- Liked -->
         <section class="subscriptions">
             <div class="container-btn-option">
                 <h3 class="subtitle">Liked</h3>
@@ -997,6 +1066,7 @@
     <script src="/home/home.js"></script>
     <script src="/header/header.js"></script>
     <script src="yourChannel.js"></script>
+    <script src="/you/you.js"></script>
 </body>
 
 </html>
