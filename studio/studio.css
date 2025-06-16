@@ -244,7 +244,6 @@
 .content-ul {
     display: flex;
     gap: 1rem;
-    font-weight: 600;
     list-style: none
 }
 
@@ -880,7 +879,8 @@
     }
 
     .content-ul {
-        gap: 0
+        flex-wrap: wrap;    
+        justify-content: center;
     }
 
     .edit-thumbnail {
