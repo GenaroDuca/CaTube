@@ -52,7 +52,7 @@
     justify-content: space-between;
 }
 
-.container-btn-option span:hover{
+.container-btn-option span:hover {
     cursor: pointer;
     transform: scale(1.2);
 }
@@ -89,44 +89,44 @@
 
 .playlistSection {
     width: 100%;
-    height: 700px;
     background-color: var(--primary-color);
+    max-height: 0;
+}
+
+.playlistSection:not(.collapsed) {
+    max-height: 2000px;
 }
 
 .playlistContent {
-    background-color: var(--primary-color);
-    border-radius: var(--border-radius);
-    margin-top: 1rem;
-    gap: 1rem;
     width: 100%;
-    height: auto;
-    padding: 2rem 3rem;
-
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-}
-
-.thumbPlaylistContainer {
-    position: relative;
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    justify-items: center;
 }
 
 .playlistContent .playlist {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 400px;
+    width: 100%;
+}
+
+.thumbPlaylistContainer {
+    position: relative;
+}
+
+.playlistThumb {
+    width: 100%;
 }
 
 .playlistThumb:hover {
     transform: scale(1.05);
-    transition: transform 0.3s ease-in-out;
     cursor: pointer;
 }
 
 .playlistContent .playlist img {
-    width: 400px;
     height: auto;
     border-radius: var(--border-radius);
     z-index: 1;
@@ -147,7 +147,7 @@
     justify-content: center;
 }
 
-select{
+select {
     background: none;
     border: none;
     outline: none;
@@ -168,7 +168,26 @@ a {
 }
 
 
+@media (max-width:1100px) {
+    .container-profile {
+        flex-direction: column;
+        justify-content: center
+    }
+
+    .playlistContent {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
 @media (max-width:768px) {
+    .playlistContent {
+        grid-template-columns: 1fr;
+    }
+
+    .playlistThumb{
+        border-radius: 15px !important;
+    }
 
     .container-profile {
         flex-direction: column
@@ -196,14 +215,6 @@ a {
         width: 100%;
         height: auto;
         aspect-ratio: 16/9;
-    }
-
-}
-
-@media (max-width:1100px) {
-    .container-profile {
-        flex-direction: column;
-        justify-content: center
     }
 
 }

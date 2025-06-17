@@ -596,7 +596,12 @@
 
 .sidebar-left-studio-nav .nav-link:hover {
     color: var(--hover-color);
-    background: var(--btn)
+    background: var(--btn);
+}
+
+.nav-link.active {
+       color: var(--hover-color);
+    background: var(--btn);
 }
 
 .sidebar-left-studio-nav .secondary-nav {
