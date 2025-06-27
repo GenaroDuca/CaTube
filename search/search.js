@@ -4,7 +4,7 @@ addEventListener('DOMContentLoaded', () => {
     const searchInput = document.querySelector('#searchInput');
     const searchBtnFilter = document.querySelectorAll('.filter-search-btn');
     const searchResults = document.querySelector('.search-results');
-    const categoryFilter = ['video-results', 'channel-results', 'short-results', 'playlist-results'];
+    const categoryFilter = ['recommendations', 'channel-results', 'short-results', 'playlist-results'];
 
     // button click event to filter search results
     searchBtnFilter.forEach(btn => {
