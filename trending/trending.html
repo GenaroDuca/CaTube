@@ -34,8 +34,9 @@
             </div>
 
             <div class="bar-section">
-<input type="text" placeholder="Search" class="soon">
-                <a href="/search/search.html"><button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button></a>
+                <input type="text" placeholder="Search" class="soon">
+                <a href="/search/search.html"><button class="search-btn" aria-label="Search"><i
+                            class="fas fa-search"></i></button></a>
             </div>
         </div>
 
@@ -113,7 +114,7 @@
                     <span class="nav-tooltip">Trending</span>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link soon">
+                    <a href="/subscribers/subscriptions.html" class="nav-link">
                         <span class="material-symbols-outlined">subscriptions</span>
                         <span class="nav-label">Catscribers</span>
                     </a>
@@ -441,25 +442,25 @@
         <div class="settings-modal-content">
             <header>
                 <h1>Settings</h1>
-                <button type="button" class="close-right-menu-modal"><span class="material-symbols-outlined">
-                        do_not_disturb_on
-                    </span>
+                <button type="button" class="close-right-menu-modal">
+                    <span class="material-symbols-outlined">do_not_disturb_on</span>
                 </button>
             </header>
             <div class="settings-main-content">
                 <nav>
                     <ul>
                         <li><button type="button" class="settings-option-btn active">Account</button></li>
-                        <li><button type="button" class="settings-option-btn soon">Notifications</button></li>
-                        <li><button type="button" class="settings-option-btn soon">Privacy</button></li>
-                        <li><button type="button" class="settings-option-btn soon">Payments</button></li>
-                        <li><button type="button" class="settings-option-btn soon">Advanced</button></li>
+                        <li><button type="button" class="settings-option-btn">Notifications</button></li>
+                        <li><button type="button" class="settings-option-btn">Privacy</button></li>
+                        <li><button type="button" class="settings-option-btn">Payments</button></li>
+                        <li><button type="button" class="settings-option-btn">Advanced</button></li>
                     </ul>
                 </nav>
 
+                <!-- 1. Account Section -->
                 <section class="setting-section">
+                    <h2>Account Settings</h2>
                     <form action="" class="change-password-form">
-
                         <label for="current-password">Current Password:</label>
                         <input type="password" id="current-password" name="current-password"
                             placeholder="Current password" required>
@@ -474,27 +475,111 @@
                         <input type="password" id="confirm-new-password" name="confirm-new-password"
                             placeholder="Confirm new password" required>
 
-                        <button type="submit">Change</button>
+                        <button type="submit">Change Password</button>
                     </form>
 
-                    <div>
+                    <div class="setting-section-btn-container">
                         <button type="button" class="disable-account-btn">Disable Account</button>
                         <button type="button" class="delete-account-btn">Delete Account</button>
                     </div>
                 </section>
+
+                <!-- 2. Notifications Section -->
                 <section class="setting-section hide">
-
+                    <h2>Notifications</h2>
+                    <div class="setting-item">
+                        <span>Email Notifications</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>Push Notifications</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>Mentions</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>New Followers</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>Newsletter</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
                 </section>
+
+                <!-- 3. Privacy Section -->
                 <section class="setting-section hide">
-
+                    <h2>Privacy</h2>
+                    <div class="setting-item">
+                        <span>Show activity status</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
                 </section>
+
+                <!-- 4. Payments Section -->
                 <section class="setting-section hide">
-
+                    <h2>Payments</h2>
+                    <p>Review your payment history.</p>
+                    <table class="payment-history">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2023-10-25</td>
+                                <td>Monthly Subscription</td>
+                                <td>$9.99</td>
+                            </tr>
+                            <tr>
+                                <td>2023-09-25</td>
+                                <td>Monthly Subscription</td>
+                                <td>$9.99</td>
+                            </tr>
+                            <tr>
+                                <td>2023-08-25</td>
+                                <td>Monthly Subscription</td>
+                                <td>$9.99</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </section>
+
+                <!-- 5. Advanced Section -->
                 <section class="setting-section hide">
-
+                    <h2>Advanced</h2>
+                    <div class="setting-item">
+                        <span>Language</span>
+                        <select name="language" class="settings-select">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                            <option value="fr">Français</option>
+                        </select>
+                    </div>
                 </section>
-
             </div>
         </div>
     </div>
@@ -660,139 +745,193 @@
                     data-carousel="carousel-trends">&#10094;</button>
                 <div class="carousel-trends" id="carousel-trends">
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
                         <img src="./media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
@@ -800,44 +939,60 @@
                         <p class="sub-channel">9k views • 1d ago</p>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                     <div class="short-card">
-                        <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
-                        <p class="name-channel">Funny cats</p>
-                        <p class="sub-channel">9k views • 1d ago</p>
+                        <a href="/shorts/shorts.html">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Video Thumbnail" class="short">
+                            <p class="name-channel">Funny cats</p>
+                            <p class="sub-channel">9k views • 1d ago</p>
+                        </a>
                     </div>
                 </div>
                 <button class="carousel-btn right" aria-label="Next trending videos" data-direction="right"
@@ -955,44 +1110,44 @@
             </div>
         </section>
     </main>
-<footer>
+    <footer>
         <div>
-                    <ul class="menu-elem">
-            <li class="menu-item"><a href="/legal-documents/about.html">About</a></li>
-            <li class="menu-item"><a href="/legal-documents/press.html">Press</a></li>
-            <li class="menu-item"><a href="/legal-documents/copyright.html">Copyright</a></li>
-            <li class="menu-item"><a href="/legal-documents/contact.html">Contact us</a></li>
-            <li class="menu-item"><a href="/legal-documents/advertise.html">Advertise</a></li>
-            <li class="menu-item"><a href="/legal-documents/developers.html">Developers</a></li>
-            <li class="menu-item"><a href="/legal-documents/terms.html">Terms</a></li>
-            <li class="menu-item"><a href="/legal-documents/privacy.html">Privacy</a></li>
-            <li class="menu-item"><a href="/legal-documents/policy&safety.html">Policy & Safety</a></li>
-            <li class="menu-item"><a href="/legal-documents/how-catube-works.html">How CaTube works</a></li>
-            <li class="menu-item"><a href="/legal-documents/test-new-features.html">Test new features</a></li>
-        </ul>
-        <ul class="social-icon">
-            <li class="icon-elem">
-                <a href="" class="icon">
-                    <ion-icon name="logo-youtube"></ion-icon>
-                </a>
-            </li>
-            <li class="icon-elem">
-                <a href="" class="icon">
-                    <ion-icon name="logo-instagram"></ion-icon>
-                </a>
-            </li>
-            <li class="icon-elem">
-                <a href="" class="icon">
-                    <ion-icon name="logo-twitter"></ion-icon>
-                </a>
-            </li>
-            <li class="icon-elem">
-                <a href="" class="icon">
-                    <ion-icon name="mail-outline"></ion-icon>
-                </a>
-            </li>
-        </ul>
-        <p class="footer-text">© 2025 CaTube. All rights reserved.</p>
+            <ul class="menu-elem">
+                <li class="menu-item"><a href="/legal-documents/about.html">About</a></li>
+                <li class="menu-item"><a href="/legal-documents/press.html">Press</a></li>
+                <li class="menu-item"><a href="/legal-documents/copyright.html">Copyright</a></li>
+                <li class="menu-item"><a href="/legal-documents/contact.html">Contact us</a></li>
+                <li class="menu-item"><a href="/legal-documents/advertise.html">Advertise</a></li>
+                <li class="menu-item"><a href="/legal-documents/developers.html">Developers</a></li>
+                <li class="menu-item"><a href="/legal-documents/terms.html">Terms</a></li>
+                <li class="menu-item"><a href="/legal-documents/privacy.html">Privacy</a></li>
+                <li class="menu-item"><a href="/legal-documents/policy&safety.html">Policy & Safety</a></li>
+                <li class="menu-item"><a href="/legal-documents/how-catube-works.html">How CaTube works</a></li>
+                <li class="menu-item"><a href="/legal-documents/test-new-features.html">Test new features</a></li>
+            </ul>
+            <ul class="social-icon">
+                <li class="icon-elem">
+                    <a href="" class="icon">
+                        <ion-icon name="logo-youtube"></ion-icon>
+                    </a>
+                </li>
+                <li class="icon-elem">
+                    <a href="" class="icon">
+                        <ion-icon name="logo-instagram"></ion-icon>
+                    </a>
+                </li>
+                <li class="icon-elem">
+                    <a href="" class="icon">
+                        <ion-icon name="logo-twitter"></ion-icon>
+                    </a>
+                </li>
+                <li class="icon-elem">
+                    <a href="" class="icon">
+                        <ion-icon name="mail-outline"></ion-icon>
+                    </a>
+                </li>
+            </ul>
+            <p class="footer-text">© 2025 CaTube. All rights reserved.</p>
         </div>
     </footer>
     <script src="/home/home.js"></script>
