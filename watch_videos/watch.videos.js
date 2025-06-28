@@ -184,7 +184,11 @@ document.addEventListener('DOMContentLoaded', () => {
             subscribeButton.textContent = 'Log in to subscribe'; 
             analyticsButton.style.display = 'none';
             editVideoButton.style.display = 'none';
+<<<<<<< HEAD
             console.log("Usuario no logueado, mostrando botón de suscribir.");
+=======
+            console.log("Usuario no logueado, mostrando botón de subscribir.");
+>>>>>>> Thiago
         }
     } else {
         console.warn("No se encontraron todos los botones de acción del canal.");
@@ -193,8 +197,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (subscribeButton) {
         subscribeButton.addEventListener('click', () => {
             if (!currentUserID) {
+<<<<<<< HEAD
                 alert("Please log in to subscribe!");
                 // Redirigir a la página de login.
+=======
+                // Redirigir a la página de login.
+                window.location.href = '/register/register.html';
+>>>>>>> Thiago
                 return;
             }
 
