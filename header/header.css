@@ -638,18 +638,12 @@ button:hover {
 }
 
 /* Settings modal */
-/* --- Tu CSS Original (con ajustes) --- */
 .settings-main-content {
     display: flex;
-    /* [CAMBIO CLAVE 1] */
-    /* Hacemos que este contenedor crezca para llenar el espacio vertical disponible */
     flex-grow: 1;
-    /* Evita que los hijos (nav y section) se desborden de este contenedor */
     overflow: hidden;
 }
 
-/* [NUEVO] - Estilos para el contenedor principal del modal */
-/* Estos estilos aseguran que el modal tenga un tamaño fijo y centrado */
 .settings-modal-content {
     display: flex;
     flex-direction: column;
@@ -661,6 +655,8 @@ button:hover {
     border-radius: 30px;
     background-color: var(--primary-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent;
 }
 
 .settings-main-content nav {
@@ -698,14 +694,11 @@ button:hover {
     display: flex;
     flex-direction: column;
     gap: 25px;
-    /* [CAMBIO CLAVE 2] */
-    /* Hacemos que la sección sea desplazable verticalmente si el contenido es muy largo */
     overflow-y: auto;
-    /* La sección ocupa el 100% de la altura disponible en el contenedor flex */
     height: 100%;
 }
 
-/* Oculta las secciones que no están activas */
+/* Oculta  secciones que no están activas */
 .setting-section.hide {
     display: none;
 }

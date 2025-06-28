@@ -192,11 +192,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (subscribeButton) {
         subscribeButton.addEventListener('click', () => {
-            if (!currentUserID) {
-                alert("Please log in to subscribe!");
-                // Redirigir a la página de login.
-                return;
-            }
+            // if (!currentUserID) {
+            //     alert("Please log in to subscribe!");
+            //     // Redirigir a la página de login.
+            //     return;
+            // }
 
             if (isSubscribed) {
                 console.log('API Call: Unsubscribe');
@@ -209,6 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    
     if (analyticsButton) {
         analyticsButton.addEventListener('click', () => {
             console.log("Ir a Analytics");

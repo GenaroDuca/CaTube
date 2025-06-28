@@ -114,9 +114,11 @@
 .subscribe-button {
     background: var(--btn);
     border-radius: var(--border-radius);
+    color: var(--primary-color);
     border: none;
     padding: 8px;
     margin-left: 10px;
+    text-align: center;
 }
 
 .subscribe-button:hover {
@@ -127,7 +129,6 @@
     margin-left: auto;
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0s linear 0.3s;
 }
 
 .video-placeholder {
@@ -264,6 +265,7 @@ body.short-maximized-active {
 
     .subscribe-button {
         background: var(--btn);
+        color: var(--primary-color);
         border-radius: 25px;
         border: none;
         padding: 6px;
