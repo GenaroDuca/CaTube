@@ -197,3 +197,39 @@ if (closeCreateVideoModal && createVideoModal) {
         createVideoModal.style.display = 'none';
     };
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Seleccionar todos los botones de navegación y todas las secciones de contenido
+    const settingsButtons = document.querySelectorAll('.settings-option-btn');
+    const settingsSections = document.querySelectorAll('.setting-section');
+
+    // Añadir un evento de clic a cada botón
+    settingsButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+
+            // --- 1. Resetear el estado de todos los elementos ---
+
+            // Quitar la clase 'active' de todos los botones
+            settingsButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Ocultar todas las secciones añadiendo la clase 'hide'
+            settingsSections.forEach(section => {
+                section.classList.add('hide');
+            });
+
+
+            // --- 2. Establecer el estado activo para el elemento clickeado ---
+
+            // Añadir la clase 'active' solo al botón que fue clickeado
+            button.classList.add('active');
+
+            // Mostrar la sección correspondiente al botón clickeado (usando el índice)
+            if (settingsSections[index]) {
+                settingsSections[index].classList.remove('hide');
+            }
+        });
+    });
+});

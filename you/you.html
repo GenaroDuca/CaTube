@@ -90,7 +90,7 @@
                     <span class="nav-tooltip">CaTube Party</span>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link soon">
+                    <a href="/education/education.html" class="nav-link">
                         <span class="material-symbols-outlined">
                             school
                         </span> <span class="nav-label">CaTube Education</span>
@@ -114,7 +114,7 @@
                     <span class="nav-tooltip">Trending</span>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link soon">
+                    <a href="/subscribers/subscriptions.html" class="nav-link">
                         <span class="material-symbols-outlined">subscriptions</span>
                         <span class="nav-label">Catscribers</span>
                     </a>
@@ -122,46 +122,46 @@
                 </li>
                 <hr>
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="/you/you.html" class="nav-link">
                         <span class="material-symbols-outlined">account_circle</span>
                         <span class="nav-label">You</span>
                     </a>
                     <span class="nav-tooltip">You</span>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link soon">
+                    <a href="/you/you.html" class="nav-link">
                         <span class="material-symbols-outlined">history</span>
                         <span class="nav-label">History</span>
                     </a>
                     <span class="nav-tooltip">History</span>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link soon">
+                    <a href="/you/you.html" class="nav-link">
                         <span class="material-symbols-outlined">playlist_play</span>
                         <span class="nav-label">Playlist</span>
                     </a>
                     <span class="nav-tooltip">Playlist</span>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link soon">
-                        <span class="material-symbols-outlined">smart_display</span>
-                        <span class="nav-label">Your videos</span>
-                    </a>
-                    <span class="nav-tooltip">Your videos</span>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link soon">
+                    <a href="/you/you.html" class="nav-link">
                         <span class="material-symbols-outlined">schedule</span>
                         <span class="nav-label">View later</span>
                     </a>
                     <span class="nav-tooltip">View later</span>
                 </li>
                 <li class="nav-item">
-                    <a href="#" class="nav-link soon">
+                    <a href="/you/you.html" class="nav-link">
                         <span class="material-symbols-outlined">favorite</span>
                         <span class="nav-label">Liked</span>
                     </a>
                     <span class="nav-tooltip">Liked</span>
+                </li>
+                <li class="nav-item">
+                    <a href="/studio/studio.html?section=content" class="nav-link">
+                        <span class="material-symbols-outlined">smart_display</span>
+                        <span class="nav-label">Your videos</span>
+                    </a>
+                    <span class="nav-tooltip">Your videos</span>
                 </li>
             </ul>
         </nav>
@@ -253,30 +253,30 @@
 
     <!-- Modals -->
 
-    <!-- Settings Modal -->
+        <!-- Settings Modal -->
     <div class="right-menu-modal">
         <div class="settings-modal-content">
             <header>
                 <h1>Settings</h1>
-                <button type="button" class="close-right-menu-modal"><span class="material-symbols-outlined">
-                        do_not_disturb_on
-                    </span>
+                <button type="button" class="close-right-menu-modal">
+                    <span class="material-symbols-outlined">do_not_disturb_on</span>
                 </button>
             </header>
             <div class="settings-main-content">
                 <nav>
                     <ul>
                         <li><button type="button" class="settings-option-btn active">Account</button></li>
-                        <li><button type="button" class="settings-option-btn soon">Notifications</button></li>
-                        <li><button type="button" class="settings-option-btn soon">Privacy</button></li>
-                        <li><button type="button" class="settings-option-btn soon">Payments</button></li>
-                        <li><button type="button" class="settings-option-btn soon">Advanced</button></li>
+                        <li><button type="button" class="settings-option-btn">Notifications</button></li>
+                        <li><button type="button" class="settings-option-btn">Privacy</button></li>
+                        <li><button type="button" class="settings-option-btn">Payments</button></li>
+                        <li><button type="button" class="settings-option-btn">Advanced</button></li>
                     </ul>
                 </nav>
 
+                <!-- 1. Account Section -->
                 <section class="setting-section">
+                    <h2>Account Settings</h2>
                     <form action="" class="change-password-form">
-
                         <label for="current-password">Current Password:</label>
                         <input type="password" id="current-password" name="current-password"
                             placeholder="Current password" required>
@@ -291,27 +291,111 @@
                         <input type="password" id="confirm-new-password" name="confirm-new-password"
                             placeholder="Confirm new password" required>
 
-                        <button type="submit">Change</button>
+                        <button type="submit">Change Password</button>
                     </form>
 
-                    <div>
+                    <div class="setting-section-btn-container">
                         <button type="button" class="disable-account-btn">Disable Account</button>
                         <button type="button" class="delete-account-btn">Delete Account</button>
                     </div>
                 </section>
+
+                <!-- 2. Notifications Section -->
                 <section class="setting-section hide">
-
+                    <h2>Notifications</h2>
+                    <div class="setting-item">
+                        <span>Email Notifications</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>Push Notifications</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>Mentions</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>New Followers</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <span>Newsletter</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
                 </section>
+
+                <!-- 3. Privacy Section -->
                 <section class="setting-section hide">
-
+                    <h2>Privacy</h2>
+                    <div class="setting-item">
+                        <span>Show activity status</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
                 </section>
+
+                <!-- 4. Payments Section -->
                 <section class="setting-section hide">
-
+                    <h2>Payments</h2>
+                    <p>Review your payment history.</p>
+                    <table class="payment-history">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2023-10-25</td>
+                                <td>Monthly Subscription</td>
+                                <td>$9.99</td>
+                            </tr>
+                            <tr>
+                                <td>2023-09-25</td>
+                                <td>Monthly Subscription</td>
+                                <td>$9.99</td>
+                            </tr>
+                            <tr>
+                                <td>2023-08-25</td>
+                                <td>Monthly Subscription</td>
+                                <td>$9.99</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </section>
+
+                <!-- 5. Advanced Section -->
                 <section class="setting-section hide">
-
+                    <h2>Advanced</h2>
+                    <div class="setting-item">
+                        <span>Language</span>
+                        <select name="language" class="settings-select">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                            <option value="fr">Français</option>
+                        </select>
+                    </div>
                 </section>
-
             </div>
         </div>
     </div>
@@ -391,7 +475,6 @@
 
     <!-- Main content -->
     <main class="main-content">
-
         <div class="container-profile">
             <div class="first-part-profile">
                 <img class="channel-photo" src="../media/home_media/profile/angel.jpg" alt="angel" />
@@ -411,10 +494,13 @@
                 </div>
             </div>
         </div>
+        <!-- History -->
         <section class="subscriptions">
             <div class="container-btn-option">
                 <h3 class="subtitle">History</h3>
-                <button class="btn-viewall-history">View all</button>
+                <span class="material-symbols-outlined">
+                    delete
+                </span>
             </div>
             <div class="carousel-container">
                 <button class="carousel-btn left" aria-label="Previous subscription videos" data-direction="left"
@@ -600,10 +686,11 @@
             </div>
         </section>
 
-        <section class="subscriptions">
+        <!-- Playlist -->
+        <section class="subscriptions" id="playlists-section">
             <div class="container-btn-option">
                 <h3 class="subtitle">Playlists</h3>
-                <button class="btn-viewall-playlists">View all</button>
+                <button class="btn-viewall-playlists">View more</button>
             </div>
             <div class="carousel-container">
                 <button class="carousel-btn left" aria-label="Previous subscription videos" data-direction="left"
@@ -727,12 +814,82 @@
                 <button class="carousel-btn right" aria-label="Next subscription videos" data-direction="right"
                     data-carousel="carousel-subs-video">&#10095;</button>
             </div>
+            <div class="playlistSection collapsed">
+                <div class="playlistContent">
+                    <div class="playlist">
+                        <div class="thumbPlaylistContainer">
+                            <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Playlist Thumbnail"
+                                class="playlistThumb">
+                            <span class="playlistVideosCount">32 videos</span>
+                        </div>
+                        <h3>Playlist Name</h3>
+                        <select id="visibility" name="visibility">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                        <a href="">View full playlist</a>
+                    </div>
+                    <div class="playlist">
+                        <div class="thumbPlaylistContainer">
+                            <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Playlist Thumbnail"
+                                class="playlistThumb">
+                            <span class="playlistVideosCount">32 videos</span>
+                        </div>
+                        <h3>Playlist Name</h3>
+                        <select id="visibility" name="visibility">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                        <a href="">View full playlist</a>
+                    </div>
+                    <div class="playlist">
+                        <div class="thumbPlaylistContainer">
+                            <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Playlist Thumbnail"
+                                class="playlistThumb">
+                            <span class="playlistVideosCount">32 videos</span>
+                        </div>
+                        <h3>Playlist Name</h3>
+                        <select id="visibility" name="visibility">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                        <a href="">View full playlist</a>
+                    </div>
+                    <div class="playlist">
+                        <div class="thumbPlaylistContainer">
+                            <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Playlist Thumbnail"
+                                class="playlistThumb">
+                            <span class="playlistVideosCount">32 videos</span>
+                        </div>
+                        <h3>Playlist Name</h3>
+                        <select id="visibility" name="visibility">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                        <a href="">View full playlist</a>
+                    </div>
+                    <div class="playlist">
+                        <div class="thumbPlaylistContainer">
+                            <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Playlist Thumbnail"
+                                class="playlistThumb">
+                            <span class="playlistVideosCount">32 videos</span>
+                        </div>
+                        <h3>Playlist Name</h3>
+                        <select id="visibility" name="visibility">
+                            <option value="public">Public</option>
+                            <option value="private">Private</option>
+                        </select>
+                        <a href="">View full playlist</a>
+                    </div>
+                </div>
+            </div>
         </section>
 
+        <!-- View Later -->
         <section class="subscriptions">
             <div class="container-btn-option">
                 <h3 class="subtitle">View later</h3>
-                <button class="btn-viewall-viewlater">View all</button>
+                <a href="#playlists-section"><button class="btn-viewall-viewlater">View all</button></a>
             </div>
             <div class="carousel-container">
                 <button class="carousel-btn left" aria-label="Previous subscription videos" data-direction="left"
@@ -858,10 +1015,10 @@
             </div>
         </section>
 
+        <!-- Liked -->
         <section class="subscriptions">
             <div class="container-btn-option">
                 <h3 class="subtitle">Liked</h3>
-                <button class="btn-viewall-liked">View all</button>
             </div>
             <div class="carousel-container">
                 <button class="carousel-btn left" aria-label="Previous subscription videos" data-direction="left"
@@ -992,6 +1149,7 @@
     <script src="/home/home.js"></script>
     <script src="/header/header.js"></script>
     <script src="yourChannel.js"></script>
+    <script src="/you/you.js"></script>
 </body>
 
 </html>

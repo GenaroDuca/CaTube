@@ -34,8 +34,10 @@ function setupContentTabs() {
     btn.addEventListener('click', () => {
       tables.forEach(tab => tab.classList.add('hide'));
       buttons.forEach(b => b.classList.remove('active'));
-      if (tables[idx]) tables[idx].classList.remove('hide');
-      btn.classList.add('active');
+      if (tables[idx]) {
+        tables[idx].classList.remove('hide');
+        buttons[idx].classList.add('active');
+      }
     });
   });
   if (tables[0]) tables[0].classList.remove('hide');
@@ -118,11 +120,20 @@ const storeSection = Array.from(allSections).find(section =>
   section.querySelector('h1') && section.querySelector('h1').textContent.toLowerCase().includes('store')
 );
 
+const navLinks = document.querySelectorAll('.sidebar-left-studio-nav .primary-nav .nav-link');
+
 if (storeLink && storeSection) {
   storeLink.addEventListener('click', function (e) {
     e.preventDefault();
     allSections.forEach(sec => sec.classList.add('hide'));
     storeSection.classList.remove('hide');
+    navLinks.forEach(link => {
+      if (link.textContent.toLowerCase().includes('store')) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
   });
 }
 
@@ -138,9 +149,21 @@ if (sectionParam) {
   );
   if (targetSection) {
     targetSection.classList.remove('hide');
+    // Activar el botón correspondiente
+    const navLinks = document.querySelectorAll('.sidebar-left-studio-nav .primary-nav .nav-link');
+    navLinks.forEach(link => {
+      // Busca el link cuyo texto coincide con el parámetro
+      if (link.textContent.toLowerCase().includes(sectionParam)) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
   }
 } else {
   if (allSections[0]) allSections[0].classList.remove('hide');
+
+  const navLinks = document.querySelectorAll('.sidebar-left-studio-nav .primary-nav .nav-link');
 }
 
 // --- Initialize Everything on Page Load ---

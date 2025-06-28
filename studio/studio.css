@@ -244,7 +244,6 @@
 .content-ul {
     display: flex;
     gap: 1rem;
-    font-weight: 600;
     list-style: none
 }
 
@@ -597,7 +596,12 @@
 
 .sidebar-left-studio-nav .nav-link:hover {
     color: var(--hover-color);
-    background: var(--btn)
+    background: var(--btn);
+}
+
+.nav-link.active {
+       color: var(--hover-color);
+    background: var(--btn);
 }
 
 .sidebar-left-studio-nav .secondary-nav {
@@ -880,7 +884,8 @@
     }
 
     .content-ul {
-        gap: 0
+        flex-wrap: wrap;    
+        justify-content: center;
     }
 
     .edit-thumbnail {
