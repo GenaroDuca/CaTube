@@ -1,4 +1,8 @@
 
+body {
+  background-color: #1f1f20;
+}
+
 .title-education-container {
     width: 95%;
     margin: 1rem auto;

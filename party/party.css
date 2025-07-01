@@ -3,6 +3,11 @@
     --plyr-video-control-color: var(--text-color);
 }
 
+body {
+  background-color: #1f1f20;
+}
+
+
 .watch-party-container {
     width: 95%;
     margin: 1rem auto;

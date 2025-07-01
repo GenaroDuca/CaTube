@@ -5,16 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    const theaterButtonHTML = `
-        <button type="button" class="plyr__control" data-plyr="theater" aria-label="Theater mode" title="Theater mode">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="7" width="20" height="10" rx="2" ry="2"></rect>
-                <line x1="2" y1="12" x2="22" y2="12"></line>
-            </svg>
-            <span class="plyr__tooltip">Theater mode</span>
-        </button>
-    `;
-
     const player = new Plyr(videoElement, {
         controls: [
             'play-large',
