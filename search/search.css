@@ -149,6 +149,11 @@ body {
     .channel-search {
         flex-direction: column;
     }
+
+    .content-ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 }
 
 @media (max-width: 400px) {

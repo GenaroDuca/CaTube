@@ -13,10 +13,9 @@ body {
     display: flex;
     flex-direction: coSlumn;
     gap: 20px;
+    width: 95%;
+    height: auto;
     margin: 1rem auto;
-    padding: 20px;
-    width: 100%;
-    max-width: 1800px;
 }
 
 .container-watch-comments {
@@ -281,6 +280,7 @@ body {
     flex-direction: column;
     flex-grow: 1;
     gap: 5px;
+    margin-left: 10px;
 }
 
 .username-watch {
@@ -344,6 +344,9 @@ body {
     flex-direction: column;
     gap: 15px;
     width: 100%;
+    background-color: var(--primary-color);
+    padding: 20px;
+    border-radius: 30px;
 }
 
 .watch-video-all {
@@ -513,6 +516,7 @@ body.in-theater-mode .main-content {
 @media (max-width: 1023px) {
     .container-all {
         align-items: center;
+        flex-direction: column;
         padding-left: 15px;
         padding-right: 15px;
     }
@@ -521,7 +525,6 @@ body.in-theater-mode .main-content {
     .container-medium,
     .container-watch-right {
         width: 100%;
-        max-width: 700px;
     }
 
     .video-player-container {
@@ -660,4 +663,26 @@ body.in-theater-mode .main-content {
     .description-watch {
         margin-top: 0px;
     }
+}
+
+@media (max-width: 400px) {
+    .watch-video-all {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .watch-video-card {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 16 / 9;
+    }
+
+    .lca-watch {
+        gap: 0px;
+    }
+
+    .container-user-watch {
+        gap: 5px;
+    }
+    
 }

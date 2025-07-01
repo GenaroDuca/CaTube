@@ -137,6 +137,27 @@ if (storeLink && storeSection) {
   });
 }
 
+// --- Go to community from dashboard section ---
+const dashboardBtn = document.querySelector('.btn-dashboard');
+const communitySection = Array.from(allSections).find(section =>
+  section.querySelector('h1') && section.querySelector('h1').textContent.toLowerCase().includes('community')
+);
+
+if (dashboardBtn && communitySection) {
+  dashboardBtn.addEventListener('click', function (e) {
+    e.preventDefault();
+    allSections.forEach(sec => sec.classList.add('hide'));
+    communitySection.classList.remove('hide');
+    navLinks.forEach(link => {
+      if (link.textContent.toLowerCase().includes('community')) {
+        link.classList.add('active');
+      } else {
+        link.classList.remove('active');
+      }
+    });
+  });
+}
+
 // --- Mostrar sección según parámetro de URL ---
 const params = new URLSearchParams(window.location.search);
 const sectionParam = params.get('section');
