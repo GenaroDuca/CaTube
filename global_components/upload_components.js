@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!container) {
             return;
         }
-        
+
         fetch(url)
             .then(response => response.text())
             .then(data => {
@@ -37,10 +37,14 @@ document.addEventListener('click', (e) => {
         e.stopPropagation();
         // Sidebar
         const sidebar = document.querySelector('.ts-sidebar');
+        const friendsSidebar = document.querySelector('.friends-sidebar');
 
         // Si sidebar exists
         if (sidebar) {
             sidebar.classList.toggle('collapsed');
+            if (sidebar.classList.contains('collapsed') && friendsSidebar && !friendsSidebar.classList.contains('collapsed')) {
+                friendsSidebar.classList.add('collapsed');
+            }
         }
     }
 
