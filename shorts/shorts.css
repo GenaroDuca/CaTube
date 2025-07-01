@@ -1,3 +1,7 @@
+body {
+    background-color: #1f1f1f;
+}
+
 .container-short-principal {
     margin: 1 rem 2 rem;
     padding: 20px;
@@ -230,7 +234,7 @@ body.short-maximized-active {
 
     .short-block {
         width: auto;
-        height: 500px;
+        height: 100%;
         aspect-ratio: 9 / 16;
         border-radius: var(--border-radius);
         display: flex;
@@ -290,6 +294,6 @@ body.short-maximized-active {
     }
 
     .container-short-principal {
-        padding: 100px 0px;
+        padding-top: 100px 0px;
     }
 }
