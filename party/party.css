@@ -108,7 +108,6 @@
 
 .send-btn:hover {
     background-color: var(--btn-dark);
-    color: white;
 }
 
 /* List video */
