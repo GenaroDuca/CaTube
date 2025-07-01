@@ -107,6 +107,32 @@ body {
     display: none;
 }
 
+/* Content ul*/
+.content-ul {
+    display: flex;
+    gap: 1rem;
+    list-style: none
+}
+
+.content-ul li button {
+    background: 0 0;
+    border: none;
+    color: var(--text-color);
+    padding: 10px;
+    border-radius: 30px
+}
+
+.scroll-table-container,
+.ts-chart-container,
+.video-community {
+    border-radius: var(--border-radius)
+}
+
+.content-ul li button.active {
+    background: var(--btn);
+    color: #1f1f20
+}
+
 /* Responsive: mantiene 3 columnas en mobile, ajusta flex internos */
 @media (max-width: 1200px) {
     .short-results {
