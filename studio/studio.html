@@ -7,275 +7,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CaTube Studio</title>
     <link rel="icon" type="image/svg+xml" href="../media/header_media/logo/catube_white.svg">
+
     <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <!-- Google Material Icons -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0">
-    <link rel="stylesheet" href="./studio.css">
-    <link rel="stylesheet" href="../header/header.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/studio/studio.css">
+    <link rel="stylesheet" href="/global_components/global_components.css">
+
 </head>
 
 <body>
-    <!-- General Html -->
-    <header class="header">
-        <div class="left-section">
-            <a href="/index.html"><img src="/media/header_media/logo/catube_white.svg" alt="CaTube logo"
-                    class="logo"></a>
-            <span class="title">CaTube</span>
-        </div>
+    <header></header>
 
-        <div class="search-section">
-            <div class="mic-section">
-                <button class="mic-btn" aria-label="Search with voice">
-                    <i class="fa fa-microphone"></i>
-                </button>
-            </div>
-
-            <div class="bar-section">
-                <input type="text" placeholder="Search">
-                <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
-            </div>
-        </div>
-
-        <div class="right-section">
-            <a href="#" class="soon">
-                <button class="create-btn">
-                    <p>Create </p><i class="fas fa-plus soon"></i>
-                </button>
-            </a>
-
-            <div class="account-section">
-                <a href="#" class="soon">
-                    <button class="notify-btn">
-                        <i class="fas fa-bell soon"></i>
-                    </button>
-                </a>
-                <button type="button" class="user-btn">
-                    <i class="fas fa-user"></i>
-                </button>
-            </div>
-        </div>
-        <!-- Soon Modal -->
-        <div id="soon-modal">
-            <div class="soon-modal-content">
-                <h2>Function not available yet</h2>
-                <p>This feature is coming soon!</p>
-                <div class="play-modal-btn-container">
-                    <a href="/soon/soon.html"><button class="play-modal-btn">¡Play!</button></a>
-                </div>
-                <div class="close-soon-modal-container">
-                    <button id="close-soon-modal">Close</button> <br>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- right account menu -->
-    <aside class="ts-sidebar collapsed">
-        <!-- Navigation -->
-        <nav class="ts-sidebar-nav">
-            <ul class="ts-nav-list">
-                <li class="ts-nav-item">
-                    <a href="/register/register.html" class="ts-nav-link">
-                        <span class="material-symbols-outlined">logout</span>
-                        <span class="ts-nav-label">Log In</span>
-                    </a>
-                    <!-- <span class="ts-nav-tooltip">Get out</span> -->
-                </li>
-
-                <li class="ts-nav-item">
-                    <a href="/yourChannel/yourChannel.html" class="ts-nav-link">
-                        <span class="material-symbols-outlined">account_box</span>
-                        <span class="ts-nav-label">Your channel</span>
-                    </a>
-                    <!-- <span class="ts-nav-tooltip">Your channel</span> -->
-                </li>
-
-                <li class="ts-nav-item">
-                    <button type="button" class="ts-nav-link soon">
-                        <span class="material-symbols-outlined">diversity_4</span>
-                        <span class="ts-nav-label">Friends</span>
-                    </button>
-                    <!-- <span class="ts-nav-tooltip">Friends</span> -->
-                </li>
-
-                <li class="ts-nav-item">
-                    <a href="/studio/studio.html" class="ts-nav-link">
-                        <span class="material-symbols-outlined">
-                            <img src="/media/studio_media/studio.icon.svg" alt="Studio Icon"
-                                style="width: 20px; height: 20px; margin-right: 8px;" />
-                        </span>
-                        <span class="ts-nav-label">CaTube Studio</span>
-                    </a>
-                    <!-- <span class="ts-nav-tooltip">CaTube Studio</span> -->
-                </li>
-
-                <hr />
-
-                <li class="ts-nav-item">
-                    <a href="#" class="ts-nav-link soon">
-                        <span class="material-symbols-outlined">mode_night</span>
-                        <span class="ts-nav-label">Appearance</span>
-                    </a>
-                    <!-- <span class="ts-nav-tooltip">Appearance</span> -->
-                </li>
-
-                <hr />
-
-
-
-                <li class="ts-nav-item">
-                    <button type="button" class="ts-nav-link right-menu-modal-btn">
-                        <span class="material-symbols-outlined">settings</span>
-                        <span class="ts-nav-label">Settings</span>
-                    </button>
-                    <!-- <span class="ts-nav-tooltip">Settings</span> -->
-                </li>
-
-                <li class="ts-nav-item">
-                    <button type="button" class="ts-nav-link right-menu-modal-btn">
-                        <span class="material-symbols-outlined">help</span>
-                        <span class="ts-nav-label">Help</span>
-                    </button>
-                    <!-- <span class="ts-nav-tooltip">Help</span> -->
-                </li>
-
-                <li class="ts-nav-item">
-                    <button type="button" class="ts-nav-link right-menu-modal-btn">
-                        <span class="material-symbols-outlined">feedback</span>
-                        <span class="ts-nav-label">Send feedback</span>
-                    </button>
-                    <!-- <span class="ts-nav-tooltip">Send feedback</span> -->
-                </li>
-
-
-
-            </ul>
-        </nav>
-    </aside>
-
-    <!-- Modals -->
-    <div class="right-menu-modal">
-        <div class="settings-modal-content">
-            <header>
-                <h1>Settings</h1>
-                <button type="button" class="close-right-menu-modal"><span class="material-symbols-outlined">
-                        do_not_disturb_on
-                    </span>
-                </button>
-            </header>
-            <div class="settings-main-content">
-                <nav>
-                    <ul>
-                        <li><button type="button" class="settings-option-btn active">Account</button></li>
-                        <li><button type="button" class="settings-option-btn">Notifications</button></li>
-                        <li><button type="button" class="settings-option-btn">Privacy</button></li>
-                        <li><button type="button" class="settings-option-btn">Payments</button></li>
-                        <li><button type="button" class="settings-option-btn">Advanced</button></li>
-                    </ul>
-                </nav>
-
-                <section class="setting-section">
-                    <form action="" class="change-password-form">
-
-                        <label for="current-password">Current Password:</label>
-                        <input type="password" id="current-password" name="current-password"
-                            placeholder="Current password" required>
-                        <a href="#">Forgot your password?</a>
-
-                        <label for="new-password">New Password:</label>
-                        <input type="password" id="new-password" name="new-password" placeholder="New password"
-                            required>
-                        <p for="password">Min 8 characters, incl. upper, lower, num, symbol</p>
-
-                        <label for="confirm-new-password">Confirm New Password:</label>
-                        <input type="password" id="confirm-new-password" name="confirm-new-password"
-                            placeholder="Confirm new password" required>
-
-                        <button type="submit">Change</button>
-                    </form>
-
-                    <div>
-                        <button type="button" class="disable-account-btn">Disable Account</button>
-                        <button type="button" class="delete-account-btn">Delete Account</button>
-                    </div>
-                </section>
-                <section class="setting-section hide">
-
-                </section>
-                <section class="setting-section hide">
-
-                </section>
-                <section class="setting-section hide">
-
-                </section>
-                <section class="setting-section hide">
-
-                </section>
-
-            </div>
-        </div>
-    </div>
-
-    <div class="right-menu-modal">
-        <div class="help-modal-content">
-            <header>
-                <h1>Help</h1>
-                <button type="button" class="close-right-menu-modal">
-                    <span class="material-symbols-outlined">
-                        do_not_disturb_on
-                    </span>
-                </button>
-            </header>
-            <div class="frequently-asked-questions">
-                <h2>Frequently Asked Questions</h2>
-                <p>Here are some common questions and answers to help you get started.</p>
-                <details>
-                    <summary><strong>How do I upload a video?</strong></summary>
-                    <p>Go to your channel and click "Upload" or click "Create"</p>
-                </details>
-                <hr>
-                <details>
-                    <summary><strong>How do I change my password?</strong></summary>
-                    <p>Go to Settings -> Account and change your password.</p>
-                </details>
-                <hr>
-                <details>
-                    <summary><strong>How do I report a problem?</strong></summary>
-                    <p>To report a problem, you can use the feedback form or contact our support team directly.</p>
-                    <p>Contact us at <a href="mailto:catube@gmail.com">catube@gmail.com</a></p>
-                </details>
-            </div>
-        </div>
-    </div>
-
-    <div class="right-menu-modal">
-        <div class="feedback-modal-content">
-            <header>
-                <h1>Feedback</h1>
-                <button type="button" class="close-right-menu-modal"><span class="material-symbols-outlined">
-                        do_not_disturb_on
-                    </span>
-                </button>
-            </header>
-
-            <form action="mailto:catube@gmail.com" method="POST" enctype="text/plain">
-                <label for="feedback-email">Your email (optional):</label>
-                <input type="email" id="feedback-email" name="email" placeholder="your@email.com">
-
-                <label for="feedback-text">Your feedback:</label>
-                <textarea id="feedback-text" name="feedback" rows="4" required
-                    placeholder="Write your feedback here..."></textarea>
-                <label for="feedback-file">Add image (optional)</label>
-                <input id="feedback-file" type="file" accept="image">
-
-                <button type="submit" class="submit-feedback-btn">Send Feedback</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- -->
+    <!-- Main Content -->
     <main>
         <div class="left-menu">
             <aside class="sidebar-left-studio">
@@ -338,7 +87,7 @@
         </div>
 
         <!-- Dashboard -->
-        <div class="container">
+        <div class="container-studio hide">
             <h1>Dashboard</h1>
             <hr>
             <div class="content">
@@ -497,7 +246,7 @@
         </div>
 
         <!-- Content -->
-        <div class="container hide">
+        <div class="container-studio hide">
             <h1>Content</h1>
             <hr>
             <div class="content">
@@ -530,6 +279,7 @@
                                 <th>Views</th>
                                 <th>Comments</th>
                                 <th>"Like" (%)</th>
+                                <th>Edit</th>
                             </tr>
                         </thead>
 
@@ -538,7 +288,9 @@
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre del video</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -551,12 +303,21 @@
                                 <td data-label="Views">99</td>
                                 <td data-label="Comments">5</td>
                                 <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
                             </tr>
                             <tr>
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre del video</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -569,12 +330,21 @@
                                 <td data-label="Views">99</td>
                                 <td data-label="Comments">5</td>
                                 <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
                             </tr>
                             <tr>
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre del video</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -587,12 +357,21 @@
                                 <td data-label="Views">99</td>
                                 <td data-label="Comments">5</td>
                                 <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
                             </tr>
                             <tr>
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre del video</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -605,12 +384,21 @@
                                 <td data-label="Views">99</td>
                                 <td data-label="Comments">5</td>
                                 <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
                             </tr>
                             <tr>
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre del video</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -623,12 +411,21 @@
                                 <td data-label="Views">99</td>
                                 <td data-label="Comments">5</td>
                                 <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
                             </tr>
                             <tr>
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre del video</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -641,12 +438,21 @@
                                 <td data-label="Views">99</td>
                                 <td data-label="Comments">5</td>
                                 <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
                             </tr>
                             <tr>
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre del video</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -659,12 +465,21 @@
                                 <td data-label="Views">99</td>
                                 <td data-label="Comments">5</td>
                                 <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
                             </tr>
                             <tr>
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre del video</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -677,6 +492,252 @@
                                 <td data-label="Views">99</td>
                                 <td data-label="Comments">5</td>
                                 <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <table class="content-table hide">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="header-video">
+                                        <input type="checkbox" class="checkbox">
+                                        <span>Video</span>
+                                    </div>
+                                </th>
+                                <th>Visibility</th>
+                                <th>Restrictions</th>
+                                <th>Date</th>
+                                <th>Views</th>
+                                <th>Comments</th>
+                                <th>"Like" (%)</th>
+                                <th>Edit</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td data-label="Video">
+                                    <div class="video-content">
+                                        <input type="checkbox">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
+                                        <div class="video-text">
+                                            <p class="video-title">Nombre del short</p>
+                                            <p class="video-description">Descripción breve...</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td data-label="Visibility">Public</td>
+                                <td data-label="Restrictions">None</td>
+                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
+                                <td data-label="Views">99</td>
+                                <td data-label="Comments">5</td>
+                                <td data-label="Like (%)">100.0%</td>
+                                <td>
+                                    <button class="edit-video-btn">
+                                        <span class="material-symbols-outlined">
+                                            edit
+                                        </span>
+                                    </button>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
@@ -704,173 +765,9 @@
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
-                                        <div class="video-text">
-                                            <p class="video-title">Nombre del short</p>
-                                            <p class="video-description">Descripción breve...</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td data-label="Visibility">Public</td>
-                                <td data-label="Restrictions">None</td>
-                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
-                                <td data-label="Views">99</td>
-                                <td data-label="Comments">5</td>
-                                <td data-label="Like (%)">100.0%</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Video">
-                                    <div class="video-content">
-                                        <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
-                                        <div class="video-text">
-                                            <p class="video-title">Nombre del short</p>
-                                            <p class="video-description">Descripción breve...</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td data-label="Visibility">Public</td>
-                                <td data-label="Restrictions">None</td>
-                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
-                                <td data-label="Views">99</td>
-                                <td data-label="Comments">5</td>
-                                <td data-label="Like (%)">100.0%</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Video">
-                                    <div class="video-content">
-                                        <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
-                                        <div class="video-text">
-                                            <p class="video-title">Nombre del short</p>
-                                            <p class="video-description">Descripción breve...</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td data-label="Visibility">Public</td>
-                                <td data-label="Restrictions">None</td>
-                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
-                                <td data-label="Views">99</td>
-                                <td data-label="Comments">5</td>
-                                <td data-label="Like (%)">100.0%</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Video">
-                                    <div class="video-content">
-                                        <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
-                                        <div class="video-text">
-                                            <p class="video-title">Nombre del short</p>
-                                            <p class="video-description">Descripción breve...</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td data-label="Visibility">Public</td>
-                                <td data-label="Restrictions">None</td>
-                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
-                                <td data-label="Views">99</td>
-                                <td data-label="Comments">5</td>
-                                <td data-label="Like (%)">100.0%</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Video">
-                                    <div class="video-content">
-                                        <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
-                                        <div class="video-text">
-                                            <p class="video-title">Nombre del short</p>
-                                            <p class="video-description">Descripción breve...</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td data-label="Visibility">Public</td>
-                                <td data-label="Restrictions">None</td>
-                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
-                                <td data-label="Views">99</td>
-                                <td data-label="Comments">5</td>
-                                <td data-label="Like (%)">100.0%</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Video">
-                                    <div class="video-content">
-                                        <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
-                                        <div class="video-text">
-                                            <p class="video-title">Nombre del short</p>
-                                            <p class="video-description">Descripción breve...</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td data-label="Visibility">Public</td>
-                                <td data-label="Restrictions">None</td>
-                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
-                                <td data-label="Views">99</td>
-                                <td data-label="Comments">5</td>
-                                <td data-label="Like (%)">100.0%</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Video">
-                                    <div class="video-content">
-                                        <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
-                                        <div class="video-text">
-                                            <p class="video-title">Nombre del short</p>
-                                            <p class="video-description">Descripción breve...</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td data-label="Visibility">Public</td>
-                                <td data-label="Restrictions">None</td>
-                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
-                                <td data-label="Views">99</td>
-                                <td data-label="Comments">5</td>
-                                <td data-label="Like (%)">100.0%</td>
-                            </tr>
-                            <tr>
-                                <td data-label="Video">
-                                    <div class="video-content">
-                                        <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
-                                        <div class="video-text">
-                                            <p class="video-title">Nombre del short</p>
-                                            <p class="video-description">Descripción breve...</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td data-label="Visibility">Public</td>
-                                <td data-label="Restrictions">None</td>
-                                <td data-label="Date">1 sept 2024<br><small>Publicado</small></td>
-                                <td data-label="Views">99</td>
-                                <td data-label="Comments">5</td>
-                                <td data-label="Like (%)">100.0%</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <table class="content-table hide">
-                        <thead>
-                            <tr>
-                                <th>
-                                    <div class="header-video">
-                                        <input type="checkbox" class="checkbox">
-                                        <span>Video</span>
-                                    </div>
-                                </th>
-                                <th>Visibility</th>
-                                <th>Restrictions</th>
-                                <th>Date</th>
-                                <th>Views</th>
-                                <th>Comments</th>
-                                <th>"Like" (%)</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <tr>
-                                <td data-label="Video">
-                                    <div class="video-content">
-                                        <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre de la playlist</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -888,7 +785,9 @@
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre de la playlist</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -906,7 +805,9 @@
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre de la playlist</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -924,7 +825,9 @@
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre de la playlist</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -942,7 +845,9 @@
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre de la playlist</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -960,7 +865,9 @@
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre de la playlist</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -978,7 +885,9 @@
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre de la playlist</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -996,7 +905,9 @@
                                 <td data-label="Video">
                                     <div class="video-content">
                                         <input type="checkbox">
-                                        <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        <a href="/watch_videos/watch_videos.html">
+                                            <img src="../media/home_media/thumbnails/miniatura.jpg" alt="Miniatura">
+                                        </a>
                                         <div class="video-text">
                                             <p class="video-title">Nombre de la playlist</p>
                                             <p class="video-description">Descripción breve...</p>
@@ -1013,10 +924,78 @@
                     </table>
                 </div>
             </div>
+
+            <!-- MODAL EDIT VIDEO -->
+            <div class="edit-video-modal">
+                <div class="edit-video-content">
+                    <header>
+                        <h1>Edit Video</h1>
+                        <button type="button" class="close-edit-video-modal"><span class="material-symbols-outlined">
+                                do_not_disturb_on
+                            </span>
+                        </button>
+                    </header>
+                    <main>
+                        <h2>Video title</h2>
+                        <div>
+                            <input type="text" id="video-title" placeholder=""
+                                value="current title current title current title current title">
+                        </div>
+                        <h2>Video description</h2>
+                        <div>
+                            <textarea
+                                id="video-description">Video description Video description Video description Video description Video description Video description </textarea>
+                        </div>
+                        <h2>Video thumbnais</h2>
+                        <div class="edit-thumbnail">
+                            <img src="/media/yourChannel_media/thumbnails/duki.jpeg" alt="Thumbnail">
+                            <label for="edit-thumbnail">
+                                <span class="soon">Upload</span>
+                                <input disabled type="file" name="edit-thumbnail" id="edit-thumbnail">
+                            </label>
+                        </div>
+                        <h2>Video tags</h2>
+                        <div class="edit-video-tags-container">
+                            <section>
+                                <select id="video-tags" name="video-tags" multiple>
+                                    <option value="music">#music</option>
+                                    <option value="vlog">#vlog</option>
+                                    <option value="cooking">#cooking</option>
+                                    <option value="nashe">#nashe</option>
+                                    <option value="idooo">#idooo</option>
+                                    <option value="deaaa">#deaaa</option>
+                                </select>
+                            </section>
+                            <section class="tag-input-container">
+                                <span>Create your own tag</span>
+                                <div>
+                                    <input type="text" id="custom-tag" placeholder="Enter your tag">
+                                    <button type="button" class="soon"><i class="fas fa-plus"></i> </button>
+                                </div>
+                            </section>
+                            <section>
+                                <select id="video-tags" name="video-tags" multiple>
+                                    <option value="music">#music</option>
+                                    <option value="vlog">#vlog</option>
+                                    <option value="cooking">#cooking</option>
+                                    <option value="nashe">#nashe</option>
+                                    <option value="idooo">#idooo</option>
+                                    <option value="deaaa">#deaaa</option>
+                                </select>
+                            </section>
+                        </div>
+                        <div class="edit-video-buttons">
+                            <button type="button" class="discard-changes-edit-video soon">Discard changes</button>
+
+                            <button type="button" class="apply-changes-edit-video soon">Apply changes</button>
+                        </div>
+                    </main>
+                </div>
+            </div>
         </div>
 
         <!-- Analytics -->
-        <div class="container hide">
+        <div class="container-studio hide">
             <h1>Analytics</h1>
             <hr>
             <div class="content">
@@ -1034,6 +1013,7 @@
                     <div class="ts-control-video">
                         <h2>Top Videos</h2>
                     </div>
+
                     <div class="scroll-table-container">
                         <table class="analytics-table">
                             <thead>
@@ -1206,7 +1186,7 @@
         </div>
 
         <!-- Community -->
-        <div class="container hide">
+        <div class="container-studio hide">
             <h1>Community</h1>
             <hr>
             <div class="content">
@@ -1358,7 +1338,7 @@
         </div>
 
         <!-- Store -->
-        <div class="container hide">
+        <div class="container-studio hide">
             <h1>Your store</h1>
             <hr>
             <div class="content">
@@ -1432,7 +1412,7 @@
         </div>
 
         <!-- Earn -->
-        <div class="container hide">
+        <div class="container-studio hide">
             <h1>Earn CaTube</h1>
             <hr>
             <div class="content">
@@ -1440,7 +1420,8 @@
                     <details>
                         <summary>Membership</summary>
                         <h4>Grow your community and earn money monthly</h4>
-                        <p>Offer exclusive benefits for paid members that will excite your audience. Users can join from
+                        <p>Offer exclusive benefits for paid members that will excite your audience. Users can join
+                            from
                             your video and channel pages. You'll receive 70% of the net revenue.</p>
                     </details>
                     <hr>
@@ -1452,7 +1433,8 @@
                     <details>
                         <summary>Store</summary>
                         <h4>You can have your own integrated store in Catube.</h4>
-                        <button type="button" id="storeButton">Your Store</button>
+                        <button type="button" id="storeButton">Your
+                            Store</button>
                     </details>
                 </div>
                 <div class="earn-requirements">
@@ -1495,7 +1477,7 @@
         </div>
 
         <!-- Customization -->
-        <div class="container hide">
+        <div class="container-studio hide">
             <h1>Customization</h1>
             <hr>
             <div class="content">
@@ -1542,8 +1524,12 @@
         </div>
     </main>
 
-    <script src="script.js"></script>
-    <script src="../header/header.js"></script>
+    <footer></footer>
+
+    <script src="/global_components/upload_components.js"></script>
+    <script src="/studio/studio.js"></script>
+
+    <!-- Analytics -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </body>
 

@@ -292,12 +292,12 @@ if (videoPlaceholder && video) {
             subscribeButtonForShort.addEventListener('click', () => {
                 console.log("DEBUG: CLIC en subscribeButtonForShort detectado.");
 
-                if (!currentUserID_Short) { 
-                    console.log("DEBUG: Usuario no logueado, mostrando alerta y redirigiendo.");
-                    alert("Please log in to perform this action!");
-                    //Llevar al login.
-                    return;
-                }
+                // if (!currentUserID_Short) { 
+                //     console.log("DEBUG: Usuario no logueado, mostrando alerta y redirigiendo.");
+                //     alert("Please log in to perform this action!");
+                //     //Llevar al login.
+                //     return;
+                // }
 
                 if (isCurrentUserSubscribedToChannel) {
                     console.log(`DEBUG: DESUSCRIBIENDO. User ${currentUserID_Short} del canal ${shortOwnerID}`);

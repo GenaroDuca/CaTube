@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+
+    <!-- libreria Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google fonts para iconos -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <!-- Custom CSS-->
+    <link rel="stylesheet" href="/search/search.css">
+    <link rel="stylesheet" href="/home/home.css">
+    <link rel="stylesheet" href="/global_components/global_components.css">
+
+</head>
+
+<body>
+    <header></header>
+
+    <section id="leftContainer"></section>
+
+    <!-- Main Content-->
+    <main class="main-content">
+
+        <section class="nav-filter">
+            <ul class="content-ul">
+                <li><button type="button" data-filter="all" class="filter-search-btn active">All</button></li>
+                <li><button type="button" data-filter="recommendations" class="filter-search-btn">Videos</button></li>
+                <li><button type="button" data-filter="short-results" class="filter-search-btn">Shorts</button></li>
+                <li><button type="button" data-filter="watched" class="filter-search-btn soon">Watched</button></li>
+                <li><button type="button" data-filter="unwatched" class="filter-search-btn soon">Unwatched</button></li>
+            </ul>
+        </section>
+
+        <section class="search-results">
+            <div class="recommendations">
+                <div class="carousel-container">
+                    <button class="carousel-btn left carousel-videos recommendations-carousel-btn"
+                        aria-label="Previous recommended videos" data-direction="left"
+                        data-carousel="recommendations-container">&#10094;</button>
+                    <div class="recommendations-container" id="recommendations-container">
+
+                        <div class="video-card">
+                            <a href="/watch_videos/watch_videos.html">
+                                <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                                    class="video-thumb video-thumb-recommendations">
+                            </a>
+                            <div class="video-info">
+                                <h3 class="video-title">Sample Video Title</h3>
+                                <div class="channel-search-info">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-videos-search">
+                                        <p class="video-channel">Channel Name</p>
+                                        <p class="video-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card">
+                            <a href="/watch_videos/watch_videos.html">
+                                <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                                    class="video-thumb video-thumb-recommendations">
+                            </a>
+                            <div class="video-info">
+                                <h3 class="video-title">Sample Video Title</h3>
+                                <div class="channel-search-info">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-videos-search">
+                                        <p class="video-channel">Channel Name</p>
+                                        <p class="video-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card">
+                            <a href="/watch_videos/watch_videos.html">
+                                <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                                    class="video-thumb video-thumb-recommendations">
+                            </a>
+                            <div class="video-info">
+                                <h3 class="video-title">Sample Video Title</h3>
+                                <div class="channel-search-info">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-videos-search">
+                                        <p class="video-channel">Channel Name</p>
+                                        <p class="video-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card">
+                            <a href="/watch_videos/watch_videos.html">
+                                <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                                    class="video-thumb video-thumb-recommendations">
+                            </a>
+                            <div class="video-info">
+                                <h3 class="video-title">Sample Video Title</h3>
+                                <div class="channel-search-info">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-videos-search">
+                                        <p class="video-channel">Channel Name</p>
+                                        <p class="video-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card">
+                            <a href="/watch_videos/watch_videos.html">
+                                <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                                    class="video-thumb video-thumb-recommendations">
+                            </a>
+                            <div class="video-info">
+                                <h3 class="video-title">Sample Video Title</h3>
+                                <div class="channel-search-info">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-videos-search">
+                                        <p class="video-channel">Channel Name</p>
+                                        <p class="video-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card">
+                            <a href="/watch_videos/watch_videos.html">
+                                <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                                    class="video-thumb video-thumb-recommendations">
+                            </a>
+                            <div class="video-info">
+                                <h3 class="video-title">Sample Video Title</h3>
+                                <div class="channel-search-info">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-videos-search">
+                                        <p class="video-channel">Channel Name</p>
+                                        <p class="video-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card">
+                            <a href="/watch_videos/watch_videos.html">
+                                <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                                    class="video-thumb video-thumb-recommendations">
+                            </a>
+                            <div class="video-info">
+                                <h3 class="video-title">Sample Video Title</h3>
+                                <div class="channel-search-info">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-videos-search">
+                                        <p class="video-channel">Channel Name</p>
+                                        <p class="video-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card">
+                            <a href="/watch_videos/watch_videos.html">
+                                <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                                    class="video-thumb video-thumb-recommendations">
+                            </a>
+                            <div class="video-info">
+                                <h3 class="video-title">Sample Video Title</h3>
+                                <div class="channel-search-info">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-videos-search">
+                                        <p class="video-channel">Channel Name</p>
+                                        <p class="video-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card">
+                            <a href="/watch_videos/watch_videos.html">
+                                <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                                    class="video-thumb video-thumb-recommendations">
+                            </a>
+                            <div class="video-info">
+                                <h3 class="video-title">Sample Video Title</h3>
+                                <div class="channel-search-info">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-videos-search">
+                                        <p class="video-channel">Channel Name</p>
+                                        <p class="video-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card">
+                            <a href="/watch_videos/watch_videos.html">
+                                <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                                    class="video-thumb video-thumb-recommendations">
+                            </a>
+                            <div class="video-info">
+                                <h3 class="video-title">Sample Video Title</h3>
+                                <div class="channel-search-info">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-videos-search">
+                                        <p class="video-channel">Channel Name</p>
+                                        <p class="video-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card">
+                            <a href="/watch_videos/watch_videos.html">
+                                <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                                    class="video-thumb video-thumb-recommendations">
+                            </a>
+                            <div class="video-info">
+                                <h3 class="video-title">Sample Video Title</h3>
+                                <div class="channel-search-info">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-videos-search">
+                                        <p class="video-channel">Channel Name</p>
+                                        <p class="video-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card">
+                            <a href="/watch_videos/watch_videos.html">
+                                <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                                    class="video-thumb video-thumb-recommendations">
+                            </a>
+                            <div class="video-info">
+                                <h3 class="video-title">Sample Video Title</h3>
+                                <div class="channel-search-info">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-videos-search">
+                                        <p class="video-channel">Channel Name</p>
+                                        <p class="video-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card">
+                            <a href="/watch_videos/watch_videos.html">
+                                <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                                    class="video-thumb video-thumb-recommendations">
+                            </a>
+                            <div class="video-info">
+                                <h3 class="video-title">Sample Video Title</h3>
+                                <div class="channel-search-info">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-videos-search">
+                                        <p class="video-channel">Channel Name</p>
+                                        <p class="video-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card">
+                            <a href="/watch_videos/watch_videos.html">
+                                <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                                    class="video-thumb video-thumb-recommendations">
+                            </a>
+                            <div class="video-info">
+                                <h3 class="video-title">Sample Video Title</h3>
+                                <div class="channel-search-info">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-videos-search">
+                                        <p class="video-channel">Channel Name</p>
+                                        <p class="video-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-card">
+                            <a href="/watch_videos/watch_videos.html">
+                                <img src="/media/home_media/thumbnails/miniatura.jpg" alt="Video Thumbnail"
+                                    class="video-thumb video-thumb-recommendations">
+                            </a>
+                            <div class="video-info">
+                                <h3 class="video-title">Sample Video Title</h3>
+                                <div class="channel-search-info">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-videos-search">
+                                        <p class="video-channel">Channel Name</p>
+                                        <p class="video-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <button class="carousel-btn right carousel-videos recommendations-carousel-btn"
+                        aria-label="Next recommended videos" data-direction="right"
+                        data-carousel="recommendations-container">&#10095;</button>
+                </div>
+            </div>
+            <div class="channel-results">
+                <div class="channel-search soon">
+                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image" class="profile-search-photo">
+                    <div class="info-videos-search">
+                        <p class="video-channel">Channel Name</p>
+                        <p class="video-views">1M Catscribers</p>
+                    </div>
+                </div>
+                <div class="channel-search soon">
+                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image" class="profile-search-photo">
+                    <div class="info-videos-search">
+                        <p class="video-channel">Channel Name</p>
+                        <p class="video-views">1M Catscribers</p>
+                    </div>
+                </div>
+                <div class="channel-search soon">
+                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image" class="profile-search-photo">
+                    <div class="info-videos-search">
+                        <p class="video-channel">Channel Name</p>
+                        <p class="video-views">1M Catscribers</p>
+                    </div>
+                </div>
+                <div class="channel-search soon">
+                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image" class="profile-search-photo">
+                    <div class="info-videos-search">
+                        <p class="video-channel">Channel Name</p>
+                        <p class="video-views">1M Catscribers</p>
+                    </div>
+                </div>
+                <div class="channel-search soon">
+                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image" class="profile-search-photo">
+                    <div class="info-videos-search">
+                        <p class="video-channel">Channel Name</p>
+                        <p class="video-views">1M Catscribers</p>
+                    </div>
+                </div>
+            </div>
+            <div class="short-results">
+                <div class="short-subs-card">
+                    <a href="/shorts/shorts.html">
+                        <div class="short-subs-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Short Thumbnail"
+                                class="short-thumb">
+                            <div class="short-info">
+                                <h3 class="short-title">Sample Short Title</h3>
+                                <div class="channel-search">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-shorts-search">
+                                        <p class="short-channel">Channel Name</p>
+                                        <p class="short-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="short-subs-card">
+                    <a href="/shorts/shorts.html">
+                        <div class="short-subs-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Short Thumbnail"
+                                class="short-thumb">
+                            <div class="short-info">
+                                <h3 class="short-title">Sample Short Title</h3>
+                                <div class="channel-search">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-shorts-search">
+                                        <p class="short-channel">Channel Name</p>
+                                        <p class="short-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="short-subs-card">
+                    <a href="/shorts/shorts.html">
+                        <div class="short-subs-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Short Thumbnail"
+                                class="short-thumb">
+                            <div class="short-info">
+                                <h3 class="short-title">Sample Short Title</h3>
+                                <div class="channel-search">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-shorts-search">
+                                        <p class="short-channel">Channel Name</p>
+                                        <p class="short-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="short-subs-card">
+                    <a href="/shorts/shorts.html">
+                        <div class="short-subs-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Short Thumbnail"
+                                class="short-thumb">
+                            <div class="short-info">
+                                <h3 class="short-title">Sample Short Title</h3>
+                                <div class="channel-search">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-shorts-search">
+                                        <p class="short-channel">Channel Name</p>
+                                        <p class="short-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="short-subs-card">
+                    <a href="/shorts/shorts.html">
+                        <div class="short-subs-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Short Thumbnail"
+                                class="short-thumb">
+                            <div class="short-info">
+                                <h3 class="short-title">Sample Short Title</h3>
+                                <div class="channel-search">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-shorts-search">
+                                        <p class="short-channel">Channel Name</p>
+                                        <p class="short-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="short-subs-card">
+                    <a href="/shorts/shorts.html">
+                        <div class="short-subs-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Short Thumbnail"
+                                class="short-thumb">
+                            <div class="short-info">
+                                <h3 class="short-title">Sample Short Title</h3>
+                                <div class="channel-search">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-shorts-search">
+                                        <p class="short-channel">Channel Name</p>
+                                        <p class="short-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="short-subs-card">
+                    <a href="/shorts/shorts.html">
+                        <div class="short-subs-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Short Thumbnail"
+                                class="short-thumb">
+                            <div class="short-info">
+                                <h3 class="short-title">Sample Short Title</h3>
+                                <div class="channel-search">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-shorts-search">
+                                        <p class="short-channel">Channel Name</p>
+                                        <p class="short-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="short-subs-card">
+                    <a href="/shorts/shorts.html">
+                        <div class="short-subs-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Short Thumbnail"
+                                class="short-thumb">
+                            <div class="short-info">
+                                <h3 class="short-title">Sample Short Title</h3>
+                                <div class="channel-search">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-shorts-search">
+                                        <p class="short-channel">Channel Name</p>
+                                        <p class="short-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                <div class="short-subs-card">
+                    <a href="/shorts/shorts.html">
+                        <div class="short-subs-card">
+                            <img src="/media/home_media/thumbnails/shorts.jpg" alt="Short Thumbnail"
+                                class="short-thumb">
+                            <div class="short-info">
+                                <h3 class="short-title">Sample Short Title</h3>
+                                <div class="channel-search">
+                                    <img src="/media/home_media/profile/yukki.jpg" alt="profile image"
+                                        class="profile-search-photo">
+                                    <div class="info-shorts-search">
+                                        <p class="short-channel">Channel Name</p>
+                                        <p class="short-views">1M views • 2 days ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer></footer>
+
+    <script src="/global_components/upload_components.js"></script>
+    <script src="/global_components/carousel.js"></script>
+    <script src="/search/search.js"></script>
+</body>
+
+</html>
