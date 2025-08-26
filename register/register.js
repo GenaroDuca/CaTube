@@ -76,7 +76,7 @@ for (let i = 0; i < inputs.length; i++) {
 }
 
 /* --- Signup Button Click --- */
-signupBtn.addEventListener("click", (event) => {
+signupBtn.addEventListener("click", async (event) => {
   event.preventDefault();
 
   const isUsernameValid = inputs[2].classList.contains("correct-input");
@@ -85,14 +85,47 @@ signupBtn.addEventListener("click", (event) => {
   const isRepeatPasswordValid = inputs[5].classList.contains("correct-input");
 
   if (isUsernameValid && isEmailValid && isPasswordValid && isRepeatPasswordValid) {
-    // Simulate user registration
-    const user = {
-      username: inputs[2].value,
-      email: inputs[3].value,
-      password: inputs[4].value
+    
+    // Creamos el objeto para enviar. Las claves DEBEN coincidir con el DTO de NestJS.
+    // OJO: Tu DTO espera 'username', 'email', 'password'.
+    const userData = {
+      username: inputs[2].value, 
+      email: inputs[3].value,    
+      password: inputs[4].value  
     };
-    console.log("User registered:", user);
+
+    try {
+      // Hacemos la petición a nuestro backend
+      const response = await fetch('http://localhost:3000/users', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) { // Éxito (status 201)
+          alert('¡Usuario registrado con éxito! Bienvenido, ' + result.username);
+          // Opcional: limpiar el formulario y cambiar al panel de login
+          document.querySelector("#signup-panel .form-section").reset();
+          document.getElementById("go-to-login").click();
+
+      } else { // Error del servidor (status 400, 500, etc.)
+          // El 'result.message' contendrá los detalles del error de NestJS
+          const errorMessage = result.message || 'Ocurrió un error desconocido.';
+          alert('Error al registrar: ' + JSON.stringify(errorMessage));
+      }
+
+    } catch (error) {
+      // Error de conexión (backend apagado, etc.)
+      console.error('Error de conexión:', error);
+      alert('No se pudo conectar con el servidor. Por favor, intenta más tarde.');
+    }
+
   } else {
-    console.log("User did not register: invalid input");
+    // Si los campos no son válidos, informamos al usuario.
+    alert("Por favor, corrige los campos marcados en rojo antes de continuar.");
   }
 });

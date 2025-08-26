@@ -42,15 +42,18 @@ function handleVoiceSearch() {
     recognition.onend = () => {
         micBtn.classList.remove('listening');
         searchInput.placeholder = "Search";
-        if (finalSearchTranscript) {
-            const searchPagePath = '/search/search.html';
-            if (window.location.pathname.includes(searchPagePath)) {
-                searchInput.dispatchEvent(new Event('input', { bubbles: true }));
-            } else {
-                sessionStorage.setItem('voiceSearchTerm', finalSearchTranscript);
-                window.location.href = searchPagePath;
-            }
+        let cleanedTranscript = finalSearchTranscript.trim();
+        cleanedTranscript = cleanedTranscript.replace(/\.$/, '');
+        if (cleanedTranscript) {
+        const searchPagePath = '/search/search.html';
+        if (window.location.pathname.includes(searchPagePath)) {
+            searchInput.value = cleanedTranscript; 
+            searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+        } else {
+            sessionStorage.setItem('voiceSearchTerm', cleanedTranscript);
+            window.location.href = searchPagePath;
         }
+    }
     };
     
     recognition.onerror = (e) => {
