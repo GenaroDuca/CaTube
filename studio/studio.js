@@ -187,6 +187,105 @@ if (sectionParam) {
   const navLinks = document.querySelectorAll('.sidebar-left-studio-nav .primary-nav .nav-link');
 }
 
+function setupChannelCustomization() {
+    const nameInput = document.getElementById('channel-name-input');
+    const handleInput = document.getElementById('channel-handle-input');
+    const descriptionInput = document.getElementById('channel-description-input');
+    const publishBtn = document.getElementById('publish-changes-btn');
+
+    if (!publishBtn) {
+        return;
+    }
+
+    async function loadCurrentChannelData() {
+        const channelId = localStorage.getItem('channelId');
+        const accessToken = localStorage.getItem('accessToken');
+
+        if (!channelId) {
+            console.error('No se encontró channelId en localStorage.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`http://localhost:3000/channels/${channelId}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('No se pudo obtener la información del canal.');
+            }
+
+            const channelData = await response.json();
+
+            nameInput.value = channelData.channel_name;
+            handleInput.value = channelData.url;
+            descriptionInput.value = channelData.description;
+
+        } catch (error) {
+            console.error('Error cargando los datos del canal:', error);
+        }
+    }
+
+    loadCurrentChannelData();
+
+    publishBtn.addEventListener('click', async () => {
+        const channelId = localStorage.getItem('channelId');
+
+        if (!channelId) {
+            alert('Error: No se pudo identificar el canal. Por favor, inicia sesión de nuevo.');
+            return;
+        }
+        
+        const updateData = {};
+        
+        if (nameInput.value) {
+            updateData.channel_name = nameInput.value;
+        }
+        if (handleInput.value) {
+            updateData.url = handleInput.value.replace('@', '');
+        }
+        if (descriptionInput.value) {
+            updateData.description = descriptionInput.value;
+        }
+
+        if (Object.keys(updateData).length === 0) {
+            alert('No hay cambios para publicar.');
+            return;
+        }
+        
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            const response = await fetch(`http://localhost:3000/channels/${channelId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`
+                },
+                body: JSON.stringify(updateData)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                alert('¡Canal actualizado con éxito!');
+                if (result.channel_name) nameInput.value = result.channel_name;
+                if (result.url) handleInput.value = result.url;
+                if (result.description) descriptionInput.value = result.description;
+            } else {
+                const errorMessage = result.message || 'Ocurrió un error desconocido.';
+                alert('Error al actualizar: ' + JSON.stringify(errorMessage));
+            }
+
+        } catch (error) {
+            console.error('Error de conexión:', error);
+            alert('No se pudo conectar con el servidor.');
+        }
+    });
+}
+
 // --- Initialize Everything on Page Load ---
 document.addEventListener('DOMContentLoaded', function () {
   // Sidebar navigation
@@ -200,4 +299,6 @@ document.addEventListener('DOMContentLoaded', function () {
   checkMonetizationEligibility();
   // Analytics section
   setupCharts();
+
+  setupChannelCustomization();
 });

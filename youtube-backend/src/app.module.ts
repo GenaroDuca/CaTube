@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm'; // Importamos el TypeORM
-import { UsersModule } from './users/users.module'; // Importamos el UsersModule
+import { TypeOrmModule } from '@nestjs/typeorm'; 
+import { UsersModule } from './users/users.module'; 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { User } from './users/user.entity'; // Importamos la entidad User
+import { User } from './users/user.entity'; 
+import { Channel } from './channels/channel.entity';
+import { ChannelsModule } from './channels/channels.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    // 1. Configuración principal de la base de datos.
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -15,13 +17,15 @@ import { User } from './users/user.entity'; // Importamos la entidad User
       username: 'root',       
       password: 'Colo123',   
       database: 'youtube_db',
-      entities: [User],       // Le decimos explícitamente qué entidades usar
-      synchronize: true,      // Solo para desarrollo
+      entities: [User, Channel],       
+      synchronize: true,      
     }),
 
-    // 2. Importar el módulo que necesita la conexión.
-    // Al importar UsersModule aquí, le damos acceso a la conexión que creamos arriba.
     UsersModule,
+
+    ChannelsModule,
+
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

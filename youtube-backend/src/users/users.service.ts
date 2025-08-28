@@ -1,36 +1,56 @@
-import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm'; // Importamos el inyector
-import { Repository } from 'typeorm'; // Importamos la herramienta Repository
-import { CreateUserDto } from './dto/create-user.dto'; // Importamos nuestro DTO
-import { User } from './user.entity'; // Importamos nuestra Entidad
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from './dto-users/create-user.dto';
+import { User } from './user.entity';
+import * as bcrypt from 'bcrypt';
+import { ChannelsService } from 'src/channels/channels.service';
 
 @Injectable()
 export class UsersService {
-    // El constructor es donde ocurre la "inyección de dependencias"
+
     constructor(
-        @InjectRepository(User) // ¡Esta es la magia!
+        @InjectRepository(User)
         private usersRepository: Repository<User>,
+
+        @Inject(forwardRef(() => ChannelsService))
+        private channelsService: ChannelsService,
     ) { }
 
-    // Método para crear un nuevo usuario
-    create(createUserDto: CreateUserDto): Promise<User> {
-        // 1. Creamos una instancia de la entidad User con los datos del DTO
-        const newUser = this.usersRepository.create(createUserDto);
+    async create(createUserDto: CreateUserDto): Promise<User> {
+        const salt = await bcrypt.genSalt();
+        const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
 
-        // Más adelante, aquí es donde añadiremos un paso crucial:
-        // encriptar la contraseña antes de guardarla.
-        // Pero por ahora, para entender el flujo, la guardaremos directamente.
+        const newUser = this.usersRepository.create({
+            username: createUserDto.username,
+            email: createUserDto.email,
+            password: hashedPassword,
+        });
 
-        // 2. Guardamos la nueva entidad en la base de datos
-        return this.usersRepository.save(newUser);
+        const savedUser = await this.usersRepository.save(newUser);
+
+        const defaultChannelDto = {
+            channel_name: savedUser.username,
+            description: `Bienvenido al canal de ${savedUser.username}`,
+            url: savedUser.username.toLowerCase(),
+        };
+
+        await this.channelsService.create(defaultChannelDto, savedUser);
+
+        return savedUser;
     }
-
-    // Método para obtener todos los usuarios (muy útil para probar)
     findAll(): Promise<User[]> {
         return this.usersRepository.find();
     }
 
+    async findOneByUsername(username: string): Promise<User | null> {
+        return this.usersRepository.findOne({
+            where: { username },
+            relations: ['channel'],
+        });
+    }
+
     async remove(id: number): Promise<void> {
-    await this.usersRepository.delete(id);
+        await this.usersRepository.delete(id);
     }
 }

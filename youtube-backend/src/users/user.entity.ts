@@ -1,22 +1,25 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
+import { Channel } from 'src/channels/channel.entity';
 
-@Entity('users') // 'usuarios' es el nombre de la tabla en la base de datos
+@Entity('users')
 export class User {
     @PrimaryGeneratedColumn()
-    usuario_id: number;
+    user_id: number;
 
     @Column()
     username: string;
 
-    @Column({ unique: true }) // El email debe ser único
+    @Column({ unique: true }) 
     email: string;
 
     @Column()
-    password: string; // ¡Importante! Más adelante, aquí guardaremos un hash, no el texto plano.
-
-    @CreateDateColumn() // TypeORM llenará esta columna automáticamente
+    password: string; 
+    @CreateDateColumn() 
     registration_date: Date;
 
-    @Column({ name: 'user_type', default: 'client' }) // Un valor por defecto
+    @Column({ name: 'user_type', default: 'client' })
     user_type: string;
+
+    @OneToOne(() => Channel, (channel) => channel.user)
+    channel: Channel;
 }

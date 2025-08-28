@@ -135,6 +135,10 @@ button:hover {
     align-items: center
 }
 
+.user-btn.logged-in {
+    color: var(--btn);
+}
+
 .change-password-form a,
 .menu-btn:hover,
 .mic-btn:hover,

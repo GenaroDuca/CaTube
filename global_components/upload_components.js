@@ -1,21 +1,67 @@
-document.addEventListener("DOMContentLoaded", function () {
+'use strict';
+
+function initializeUserInterface() {
+    const accessToken = localStorage.getItem('accessToken');
+    const userStatusBtn = document.getElementById('user-status-btn');
+    const loginLink = document.getElementById('login-link');
+    const logoutBtn = document.getElementById('logout-btn');
+
+    if (!userStatusBtn || !loginLink || !logoutBtn) {
+        console.error("No se encontraron los elementos de UI para el login/logout. Revisa los IDs en el HTML cargado.");
+        return;
+    }
+    
+    if (accessToken) {
+        userStatusBtn.classList.add('logged-in');
+        loginLink.style.display = 'none';
+        logoutBtn.style.display = 'flex';
+
+        logoutBtn.addEventListener('click', () => {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                localStorage.removeItem('accessToken');
+                localStorage.removeItem('channelId');
+                window.location.reload();
+            }
+        });
+    } else {
+        userStatusBtn.classList.remove('logged-in');
+        loginLink.style.display = 'flex';
+        logoutBtn.style.display = 'none';
+    }
+}
+
+async function loadComponents() {
+    console.log("Cargando componentes...");
+
     const loadComponent = (selector, url) => {
         const container = document.querySelector(selector);
         if (!container) {
-            return;
+            console.warn(`Contenedor con selector "${selector}" no encontrado en esta página. Saltando carga.`);
+            return Promise.resolve(); 
         }
-
-        fetch(url)
+        return fetch(url)
             .then(response => response.text())
-            .then(data => {
-                container.innerHTML = data;
-            })
-            .catch(error => console.error(`Error when upload component ${url}:`, error));
+            .then(data => { container.innerHTML = data; });
     };
 
-    loadComponent("header", "/global_components/header.html");
-    loadComponent("footer", "/global_components/footer.html");
-    loadComponent("#leftContainer", "/global_components/menus.html");
+    const componentsToLoad = [
+        loadComponent("header", "/global_components/header.html"),
+        loadComponent("#leftContainer", "/global_components/menus.html"), 
+        loadComponent("footer", "/global_components/footer.html")
+    ];
+
+    try {
+        await Promise.all(componentsToLoad);
+        console.log("Carga de componentes finalizada.");
+    } catch (error) {
+        console.error("Error crítico durante la carga de componentes:", error);
+    }
+}
+
+document.addEventListener("DOMContentLoaded", async function () {
+    console.log("DOM Cargado. Iniciando secuencia...");
+    await loadComponents();
+    initializeUserInterface();
 });
 
 // Logic to extends menus and show modals
@@ -244,4 +290,5 @@ document.addEventListener('click', (e) => {
         leftSection.classList.remove('hide');
     }
 });
+
 

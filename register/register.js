@@ -75,6 +75,47 @@ for (let i = 0; i < inputs.length; i++) {
   });
 }
 
+/* --- Login Button Click --- */
+const loginForm = document.querySelector("#login-panel .form-section");
+
+loginForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const loginData = {
+        username: loginForm.querySelector('input[type="text"]').value,
+        password: loginForm.querySelector('input[type="password"]').value
+    };
+    try {
+        const response = await fetch('http://localhost:3000/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(loginData)
+        });
+        const result = await response.json();
+
+        console.log("Respuesta del backend en el LOGIN:", result);
+        
+        if (response.ok) {
+    alert('¡Login exitoso!');
+    
+    localStorage.setItem('accessToken', result.access_token);
+    
+    if (result.user && result.user.channel && result.user.channel.channel_id) {
+        localStorage.setItem('channelId', result.user.channel.channel_id);
+        window.location.href = '/index.html';
+    } else {
+        console.error("La respuesta del login no contiene 'user.channel.channel_id'.");
+        alert("Login exitoso, pero hubo un problema al obtener los datos de tu canal.");
+    }
+
+} else {
+    const errorMessage = result.message || 'Error desconocido';
+    alert('Error en el login: ' + errorMessage);
+}
+    } catch (error) {
+        alert('No se pudo conectar con el servidor.');
+    }
+});
+
 /* --- Signup Button Click --- */
 signupBtn.addEventListener("click", async (event) => {
   event.preventDefault();
@@ -86,8 +127,6 @@ signupBtn.addEventListener("click", async (event) => {
 
   if (isUsernameValid && isEmailValid && isPasswordValid && isRepeatPasswordValid) {
     
-    // Creamos el objeto para enviar. Las claves DEBEN coincidir con el DTO de NestJS.
-    // OJO: Tu DTO espera 'username', 'email', 'password'.
     const userData = {
       username: inputs[2].value, 
       email: inputs[3].value,    
@@ -95,7 +134,6 @@ signupBtn.addEventListener("click", async (event) => {
     };
 
     try {
-      // Hacemos la petición a nuestro backend
       const response = await fetch('http://localhost:3000/users', {
           method: 'POST',
           headers: {
@@ -106,26 +144,22 @@ signupBtn.addEventListener("click", async (event) => {
 
       const result = await response.json();
 
-      if (response.ok) { // Éxito (status 201)
+      if (response.ok) {
           alert('¡Usuario registrado con éxito! Bienvenido, ' + result.username);
-          // Opcional: limpiar el formulario y cambiar al panel de login
           document.querySelector("#signup-panel .form-section").reset();
           document.getElementById("go-to-login").click();
 
-      } else { // Error del servidor (status 400, 500, etc.)
-          // El 'result.message' contendrá los detalles del error de NestJS
+      } else { 
           const errorMessage = result.message || 'Ocurrió un error desconocido.';
           alert('Error al registrar: ' + JSON.stringify(errorMessage));
       }
 
     } catch (error) {
-      // Error de conexión (backend apagado, etc.)
       console.error('Error de conexión:', error);
       alert('No se pudo conectar con el servidor. Por favor, intenta más tarde.');
     }
 
   } else {
-    // Si los campos no son válidos, informamos al usuario.
     alert("Por favor, corrige los campos marcados en rojo antes de continuar.");
   }
 });
