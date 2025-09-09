@@ -39,6 +39,7 @@ export class UsersService {
 
         return savedUser;
     }
+    
     findAll(): Promise<User[]> {
         return this.usersRepository.find();
     }

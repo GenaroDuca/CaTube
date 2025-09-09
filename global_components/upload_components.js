@@ -58,10 +58,47 @@ async function loadComponents() {
     }
 }
 
+function renderChannel(channel) {
+    const profileDiv = document.createElement('div');
+    profileDiv.className = 'profile';
+    const avatarImagesPath = './media/home_media/profile/';
+    const firstLetter = channel.channel_name?.charAt(0).toUpperCase();
+    const avatarSrc = `${avatarImagesPath}${firstLetter}.png`;
+    profileDiv.innerHTML = `
+        <img src="${avatarSrc}" class="profile-photo" alt="profile photo">
+        <p class="name-channel">${channel.channel_name}</p>
+        <p class="sub-channel">15k subs</p> 
+    `;
+    return profileDiv;
+}
+
+async function loadPopularChannels() {
+    try {
+        const response = await fetch('http://localhost:3000/channels');
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        const channels = await response.json();
+        const container = document.getElementById('carousel-channels');
+        if (!container) {
+            console.error('El contenedor para los canales no fue encontrado.');
+            return;
+        }
+        container.innerHTML = '';
+        channels.forEach(channel => {
+            const channelElement = renderChannel(channel);
+            container.appendChild(channelElement);
+        });
+    } catch (error) {
+        console.error('No se pudieron cargar los canales:', error);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
     console.log("DOM Cargado. Iniciando secuencia...");
     await loadComponents();
     initializeUserInterface();
+    loadPopularChannels();
 });
 
 // Logic to extends menus and show modals

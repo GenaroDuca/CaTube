@@ -14,6 +14,7 @@ export class User {
 
     @Column()
     password: string; 
+    
     @CreateDateColumn() 
     registration_date: Date;
 
