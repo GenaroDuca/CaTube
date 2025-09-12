@@ -23,4 +23,11 @@ export class User {
 
     @OneToOne(() => Channel, (channel) => channel.user)
     channel: Channel;
+
+    // Este método se llama automáticamente cuando se serializa el objeto a JSON.
+    // Excluye la contraseña del objeto resultante.
+    toJSON() {
+        const { password, ...result } = this;
+        return result;
+    }
 }

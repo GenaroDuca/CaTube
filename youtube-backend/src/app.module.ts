@@ -7,6 +7,8 @@ import { User } from './users/user.entity';
 import { Channel } from './channels/channel.entity';
 import { ChannelsModule } from './channels/channels.module';
 import { AuthModule } from './auth/auth.module';
+import { StoreModule } from './store/store.module';
+import { Store } from './store/entities/store.entity';
 
 @Module({
   imports: [
@@ -15,9 +17,9 @@ import { AuthModule } from './auth/auth.module';
       host: 'localhost',
       port: 3306,
       username: 'root',       
-      password: 'Colo123',   
+      password: 'geniducv1',   
       database: 'youtube_db',
-      entities: [User, Channel],       
+      entities: [User, Channel, Store],       
       synchronize: true,      
     }),
 
@@ -26,6 +28,8 @@ import { AuthModule } from './auth/auth.module';
     ChannelsModule,
 
     AuthModule,
+
+    StoreModule,
   ],
   controllers: [AppController],
   providers: [AppService],

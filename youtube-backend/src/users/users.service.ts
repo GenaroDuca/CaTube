@@ -51,6 +51,13 @@ export class UsersService {
         });
     }
 
+    findOneById(id: number): Promise<User | null> {
+        return this.usersRepository.findOne({
+            where: { user_id: id },
+            relations: ['channel'], 
+        });
+    }
+
     async remove(id: number): Promise<void> {
         await this.usersRepository.delete(id);
     }

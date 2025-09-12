@@ -1,5 +1,6 @@
-import { Column, JoinColumn, OneToOne, Entity, PrimaryGeneratedColumn, CreateDateColumn } from "typeorm";
+import { Column, JoinColumn, OneToOne, Entity, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from "typeorm";
 import { User } from "src/users/user.entity";
+import { Store } from "src/store/entities/store.entity";
 
 @Entity('channels')
 export class Channel {
@@ -23,4 +24,7 @@ export class Channel {
     @JoinColumn({ name: 'usuario_id' })
 
     user: User;
+
+    @OneToOne(() => Store, (store) => store.channel)
+    store: Store;
 }

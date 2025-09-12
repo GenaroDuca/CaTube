@@ -1,3 +1,5 @@
+
+
 'use strict';
 
 // --- Progress Bar Functions ---
@@ -188,102 +190,222 @@ if (sectionParam) {
 }
 
 function setupChannelCustomization() {
-    const nameInput = document.getElementById('channel-name-input');
-    const handleInput = document.getElementById('channel-handle-input');
-    const descriptionInput = document.getElementById('channel-description-input');
-    const publishBtn = document.getElementById('publish-changes-btn');
+  const nameInput = document.getElementById('channel-name-input');
+  const handleInput = document.getElementById('channel-handle-input');
+  const descriptionInput = document.getElementById('channel-description-input');
+  const publishBtn = document.getElementById('publish-changes-btn');
 
-    if (!publishBtn) {
-        return;
+  if (!publishBtn) {
+    return;
+  }
+
+  async function loadCurrentChannelData() {
+    const channelId = localStorage.getItem('channelId');
+    const accessToken = localStorage.getItem('accessToken');
+
+    if (!channelId) {
+      console.error('No se encontró channelId en localStorage.');
+      return;
     }
 
-    async function loadCurrentChannelData() {
-        const channelId = localStorage.getItem('channelId');
-        const accessToken = localStorage.getItem('accessToken');
-
-        if (!channelId) {
-            console.error('No se encontró channelId en localStorage.');
-            return;
+    try {
+      const response = await fetch(`http://localhost:3000/channels/${channelId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`
         }
+      });
 
-        try {
-            const response = await fetch(`http://localhost:3000/channels/${channelId}`, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`
-                }
-            });
+      if (!response.ok) {
+        throw new Error('No se pudo obtener la información del canal.');
+      }
 
-            if (!response.ok) {
-                throw new Error('No se pudo obtener la información del canal.');
-            }
+      const channelData = await response.json();
 
-            const channelData = await response.json();
+      nameInput.value = channelData.channel_name;
+      handleInput.value = channelData.url;
+      descriptionInput.value = channelData.description;
 
-            nameInput.value = channelData.channel_name;
-            handleInput.value = channelData.url;
-            descriptionInput.value = channelData.description;
+    } catch (error) {
+      console.error('Error cargando los datos del canal:', error);
+    }
+  }
 
-        } catch (error) {
-            console.error('Error cargando los datos del canal:', error);
-        }
+  loadCurrentChannelData();
+
+  publishBtn.addEventListener('click', async () => {
+    const channelId = localStorage.getItem('channelId');
+
+    if (!channelId) {
+      alert('Error: No se pudo identificar el canal. Por favor, inicia sesión de nuevo.');
+      return;
     }
 
-    loadCurrentChannelData();
+    const updateData = {};
 
-    publishBtn.addEventListener('click', async () => {
-        const channelId = localStorage.getItem('channelId');
+    if (nameInput.value) {
+      updateData.channel_name = nameInput.value;
+    }
+    if (handleInput.value) {
+      updateData.url = handleInput.value.replace('@', '');
+    }
+    if (descriptionInput.value) {
+      updateData.description = descriptionInput.value;
+    }
 
-        if (!channelId) {
-            alert('Error: No se pudo identificar el canal. Por favor, inicia sesión de nuevo.');
-            return;
-        }
-        
-        const updateData = {};
-        
-        if (nameInput.value) {
-            updateData.channel_name = nameInput.value;
-        }
-        if (handleInput.value) {
-            updateData.url = handleInput.value.replace('@', '');
-        }
-        if (descriptionInput.value) {
-            updateData.description = descriptionInput.value;
-        }
+    if (Object.keys(updateData).length === 0) {
+      alert('No hay cambios para publicar.');
+      return;
+    }
 
-        if (Object.keys(updateData).length === 0) {
-            alert('No hay cambios para publicar.');
-            return;
-        }
-        
-        try {
-            const accessToken = localStorage.getItem('accessToken');
-            const response = await fetch(`http://localhost:3000/channels/${channelId}`, {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                },
-                body: JSON.stringify(updateData)
-            });
+    try {
+      const accessToken = localStorage.getItem('accessToken');
+      const response = await fetch(`http://localhost:3000/channels/${channelId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(updateData)
+      });
 
-            const result = await response.json();
+      const result = await response.json();
 
-            if (response.ok) {
-                alert('¡Canal actualizado con éxito!');
-                if (result.channel_name) nameInput.value = result.channel_name;
-                if (result.url) handleInput.value = result.url;
-                if (result.description) descriptionInput.value = result.description;
-            } else {
-                const errorMessage = result.message || 'Ocurrió un error desconocido.';
-                alert('Error al actualizar: ' + JSON.stringify(errorMessage));
-            }
+      if (response.ok) {
+        alert('¡Canal actualizado con éxito!');
+        if (result.channel_name) nameInput.value = result.channel_name;
+        if (result.url) handleInput.value = result.url;
+        if (result.description) descriptionInput.value = result.description;
+      } else {
+        const errorMessage = result.message || 'Ocurrió un error desconocido.';
+        alert('Error al actualizar: ' + JSON.stringify(errorMessage));
+      }
 
-        } catch (error) {
-            console.error('Error de conexión:', error);
-            alert('No se pudo conectar con el servidor.');
-        }
+    } catch (error) {
+      console.error('Error de conexión:', error);
+      alert('No se pudo conectar con el servidor.');
+    }
+  });
+}
+
+// --- Create Store modal ---
+const createStoreModal = document.querySelector('.create-store-modal');
+const opencreateStoreBtns = document.querySelectorAll('.create-store');
+const closeCreateStoreModalBtn = document.querySelector('.close-create-store-modal');
+
+opencreateStoreBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    if (createStoreModal) createStoreModal.style.display = 'flex';
+  });
+});
+
+if (closeCreateStoreModalBtn) {
+  closeCreateStoreModalBtn.addEventListener('click', () => {
+    if (createStoreModal) createStoreModal.style.display = 'none';
+  });
+}
+
+const createStoreBtn = document.querySelector('.create-store-btn');
+if (createStoreBtn) {
+  createStoreBtn.addEventListener('click', async () => {
+    const storeNameInput = document.getElementById('store-name-input').value.trim();
+    const storeDescriptionInput = document.getElementById('store-description-input').value.trim();
+
+    if (!storeNameInput) {
+      alert('Please enter a store name.');
+      return;
+    }
+
+    const storeData = {
+      store_name: storeNameInput,
+      description: storeDescriptionInput,
+    };
+
+    console.log(storeData);
+
+    try {
+      const accessToken = localStorage.getItem('accessToken'); // Obtenemos el token
+      const response = await fetch('http://localhost:3000/store', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`, // Lo añadimos a la cabecera
+        },
+        body: JSON.stringify(storeData),
+      });
+
+      const responseBody = await response.text(); // o .json() si sabés que responde en JSON
+
+      if (response.ok) {
+        alert(`Store "${storeNameInput}" created successfully!`);
+        if (createStoreModal) createStoreModal.style.display = 'none'; // Ocultamos el modal
+        await setupStoreSection(); // Volvemos a cargar la sección de la tienda para que se actualice la vista
+      } else {
+        console.error('Server response:', response.status, responseBody);
+        alert(`Error ${response.status}: ${responseBody}`);
+      }
+
+    } catch (error) {
+      console.error('Connection error:', error);
+      alert('Could not connect to the server.');
+    }
+  });
+}
+
+// --- Store Section Logic ---
+async function setupStoreSection() {
+  const accessToken = localStorage.getItem('accessToken');
+  if (!accessToken) return;
+
+  // Selectores simplificados que ahora coinciden con el HTML corregido
+  const noStoreContainer = document.querySelector('.donot-store-container');
+  const hasStoreContainer = document.querySelector('.has-store-container');
+  const noProductsMessage = document.querySelector('.no-products-message');
+  const productsGrid = document.querySelector('.products-grid');
+
+  // Comprobación de que los contenedores principales existen
+  if (!noStoreContainer || !hasStoreContainer) {
+    console.error('Los contenedores de la tienda no fueron encontrados. Revisa el HTML.');
+    return;
+  }
+
+  try {
+    const response = await fetch('http://localhost:3000/store/my-store', {
+      headers: { 'Authorization': `Bearer ${accessToken}` }
     });
+
+    if (response.status === 404 || response.status === 204) { // 204 No Content
+      // No tiene tienda
+      noStoreContainer.classList.remove('hide');
+      hasStoreContainer.classList.add('hide');
+    } else if (response.ok) {
+      const store = await response.json();
+      // Sí tiene tienda
+      noStoreContainer.classList.add('hide');
+      hasStoreContainer.classList.remove('hide');
+
+      // aca iría la lógica para cargar y mostrar los productos de la tienda.
+      // Por ahora, simulamos que no hay productos.
+      const products = store.products || [];
+
+      if (products.length === 0) {
+        if(noProductsMessage) noProductsMessage.classList.remove('hide');
+        if(productsGrid) productsGrid.classList.add('hide');
+      } else {
+        if(noProductsMessage) noProductsMessage.classList.add('hide');
+        if(productsGrid) productsGrid.classList.remove('hide');
+        // Lógica para renderizar los productos en `productsGrid`
+      }
+
+    } else {
+      throw new Error('Failed to fetch store status');
+    }
+  } catch (error) {
+    console.error('Error setting up store section:', error);
+    // Por seguridad, mostramos la opción de crear tienda si hay un error
+    noStoreContainer.classList.remove('hide');
+    hasStoreContainer.classList.add('hide');
+  }
 }
 
 // --- Initialize Everything on Page Load ---
@@ -301,4 +423,6 @@ document.addEventListener('DOMContentLoaded', function () {
   setupCharts();
 
   setupChannelCustomization();
+
+  setupStoreSection();
 });

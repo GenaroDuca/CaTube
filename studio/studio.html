@@ -1341,7 +1341,13 @@
         <div class="container-studio hide">
             <h1>Your store</h1>
             <hr>
-            <div class="content">
+            <!-- Contenedor para cuando NO hay tienda -->
+            <div class="donot-store-container">
+                <p class="donot-store-message">You dont have a store yet</p>
+                <button class="create-store">Create</button>
+            </div>
+            <!-- Contenedor para cuando SÍ hay tienda (inicialmente oculto) -->
+            <div class="has-store-container hide">
                 <div class="add-container">
                     <div class="btn-container">
                         <p>Add new product</p>
@@ -1358,57 +1364,35 @@
                         <p>Description</p>
                         <button type="button"><i class="fa-solid fa-pen"></i></button>
                     </div>
-                    <div class="product-card">
-                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
-                        <h2>Product name</h2>
-                        <h3>$Price</h3>
-                        <p>Description</p>
-                        <button type="button"><i class="fa-solid fa-pen"></i></button>
-                    </div>
-                    <div class="product-card">
-                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
-                        <h2>Product name</h2>
-                        <h3>$Price</h3>
-                        <p>Description</p>
-                        <button type="button"><i class="fa-solid fa-pen"></i></button>
-                    </div>
-                    <div class="product-card">
-                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
-                        <h2>Product name</h2>
-                        <h3>$Price</h3>
-                        <p>Description</p>
-                        <button type="button"><i class="fa-solid fa-pen"></i></button>
-                    </div>
-                    <div class="product-card">
-                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
-                        <h2>Product name</h2>
-                        <h3>$Price</h3>
-                        <p>Description</p>
-                        <button type="button"><i class="fa-solid fa-pen"></i></button>
-                    </div>
-                    <div class="product-card">
-                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
-                        <h2>Product name</h2>
-                        <h3>$Price</h3>
-                        <p>Description</p>
-                        <button type="button"><i class="fa-solid fa-pen"></i></button>
-                    </div>
-                    <div class="product-card">
-                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
-                        <h2>Product name</h2>
-                        <h3>$Price</h3>
-                        <p>Description</p>
-                        <button type="button"><i class="fa-solid fa-pen"></i></button>
-                    </div>
-                    <div class="product-card">
-                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
-                        <h2>Product name</h2>
-                        <h3>$Price</h3>
-                        <p>Description</p>
-                        <button type="button"><i class="fa-solid fa-pen"></i></button>
-                    </div>
+            </div>
+
+            <!-- MODAL CREATE STORE -->
+            <div class="create-store-modal">
+                <div class="create-store-content">
+                    <header>
+                        <h1>Create your store</h1>
+                        <button type="button" class="close-create-store-modal"><span
+                                class="material-symbols-outlined">
+                                do_not_disturb_on
+                            </span>
+                        </button>
+                    </header>
+                    <main>
+                        <h2>Store name</h2>
+                        <div>
+                            <input type="text" id="store-name-input" placeholder="Enter your store name">
+                        </div>
+                        <h2>Store description</h2>
+                        <div>
+                            <textarea id="store-description-input" placeholder="Enter your store description"></textarea>
+                        </div>
+                        <div class="create-store-buttons">
+                            <button type="button" class="create-store-btn">Create Store</button>
+                        </div>
+                    </main>
                 </div>
             </div>
+        </div>
         </div>
 
         <!-- Earn -->
@@ -1510,10 +1494,11 @@
                     <input type="text" id="channel-name-input" class="rectangle-customization" placeholder="name">
 
                     <span>Handle</span>
-                    <input type="text" id="channel-handle-input"class="rectangle-customization" placeholder="@name">
+                    <input type="text" id="channel-handle-input" class="rectangle-customization" placeholder="@name">
 
                     <span>Description</span>
-                    <input type="text" id="channel-description-input" class="rectangle-customization-description" placeholder="Description">
+                    <input type="text" id="channel-description-input" class="rectangle-customization-description"
+                        placeholder="Description">
 
                     <button id="publish-changes-btn" class="custom-file-label">Publish</button>
                 </div>
