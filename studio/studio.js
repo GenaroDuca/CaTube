@@ -1,7 +1,5 @@
 
-
 'use strict';
-
 // --- Progress Bar Functions ---
 function updateProgressBar(current, max, barId) {
   current = Math.max(0, Math.min(current, max));
@@ -14,14 +12,17 @@ function updateProgressBar(current, max, barId) {
 }
 
 // --- Monetization Requirements ---
-const currentSubscribers = 20, maxSubscribers = 500;
-const currentVideos = 2, maxVideos = 3;
-const currentWatchHours = 450, maxWatchHours = 3000;
+const monetizationConfig = {
+  subscribers: { current: 20, max: 500, barId: 'subscribersProgressBarFill' },
+  videos: { current: 2, max: 3, barId: 'videosUploadedProgressBarFill' },
+  watchHours: { current: 450, max: 3000, barId: 'watchHoursProgressBarFill' },
+};
 
 function checkMonetizationEligibility() {
-  const enoughSubs = currentSubscribers >= maxSubscribers;
-  const enoughVideos = currentVideos >= maxVideos;
-  const enoughHours = currentWatchHours >= maxWatchHours;
+  const { subscribers, videos, watchHours } = monetizationConfig;
+  const enoughSubs = subscribers.current >= subscribers.max;
+  const enoughVideos = videos.current >= videos.max;
+  const enoughHours = watchHours.current >= watchHours.max;
   const applyBtn = document.getElementById('applyButton');
   if (applyBtn) {
     applyBtn.disabled = !(enoughSubs && enoughVideos && enoughHours);
@@ -46,20 +47,24 @@ function setupContentTabs() {
   if (buttons[0]) buttons[0].classList.add('active');
 }
 
-// --- Main Navigation (Sidebar) ---
-function setupSidebarNavigation() {
-  const navLinks = document.querySelectorAll('.sidebar-left-studio-nav .primary-nav .nav-link');
-  const sections = document.querySelectorAll('main > .container-studio');
-  navLinks.forEach((link, idx) => {
-    link.addEventListener('click', () => {
-      navLinks.forEach(l => l.classList.remove('active'));
-      sections.forEach(s => s.classList.add('hide'));
-      link.classList.add('active');
-      if (sections[idx]) sections[idx].classList.remove('hide');
-    });
-  });
-}
+// --- Main Navigation & Section Management ---
+function navigateToSection(sectionName, navLinks, sections) {
+  const targetSection = Array.from(sections).find(section =>
+    section.querySelector('h1')?.textContent.toLowerCase().includes(sectionName)
+  );
 
+  if (targetSection) {
+    sections.forEach(sec => sec.classList.add('hide'));
+    targetSection.classList.remove('hide');
+
+    navLinks.forEach(link => {
+      const linkText = link.querySelector('.nav-label')?.textContent.toLowerCase() || link.textContent.toLowerCase();
+      link.classList.toggle('active', linkText.includes(sectionName));
+    });
+    return true;
+  }
+  return false;
+}
 // --- Chart Setup ---
 function setupCharts() {
   if (!window.Chart) return;
@@ -98,95 +103,26 @@ function setupCharts() {
   }
 }
 
-// --- Edit video modal ---
-const editVideoModal = document.querySelector('.edit-video-modal');
-const openEditVideoBtns = document.querySelectorAll('.edit-video-btn');
-const closeEditVideoModalBtn = document.querySelector('.close-edit-video-modal');
+// --- Modal Management ---
+function setupModal(modalSelector, openSelector, closeSelector) {
+  const modal = document.querySelector(modalSelector);
+  const openBtns = document.querySelectorAll(openSelector);
+  const closeBtn = document.querySelector(closeSelector);
 
-openEditVideoBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (editVideoModal) editVideoModal.style.display = 'flex';
-  });
-});
+  if (!modal) return;
 
-if (closeEditVideoModalBtn) {
-  closeEditVideoModalBtn.addEventListener('click', () => {
-    if (editVideoModal) editVideoModal.style.display = 'none';
-  });
-}
-
-// --- Go to Studio sections buttons ---
-const allSections = document.querySelectorAll('.container-studio');
-const storeLink = document.querySelector('#storeButton');
-const storeSection = Array.from(allSections).find(section =>
-  section.querySelector('h1') && section.querySelector('h1').textContent.toLowerCase().includes('store')
-);
-
-const navLinks = document.querySelectorAll('.sidebar-left-studio-nav .primary-nav .nav-link');
-
-if (storeLink && storeSection) {
-  storeLink.addEventListener('click', function (e) {
-    e.preventDefault();
-    allSections.forEach(sec => sec.classList.add('hide'));
-    storeSection.classList.remove('hide');
-    navLinks.forEach(link => {
-      if (link.textContent.toLowerCase().includes('store')) {
-        link.classList.add('active');
-      } else {
-        link.classList.remove('active');
-      }
+  openBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      modal.style.display = 'flex';
     });
   });
-}
 
-// --- Go to community from dashboard section ---
-const dashboardBtn = document.querySelector('.btn-dashboard');
-const communitySection = Array.from(allSections).find(section =>
-  section.querySelector('h1') && section.querySelector('h1').textContent.toLowerCase().includes('community')
-);
-
-if (dashboardBtn && communitySection) {
-  dashboardBtn.addEventListener('click', function (e) {
-    e.preventDefault();
-    allSections.forEach(sec => sec.classList.add('hide'));
-    communitySection.classList.remove('hide');
-    navLinks.forEach(link => {
-      if (link.textContent.toLowerCase().includes('community')) {
-        link.classList.add('active');
-      } else {
-        link.classList.remove('active');
-      }
-    });
-  });
-}
-
-// --- Mostrar sección según parámetro de URL ---
-const params = new URLSearchParams(window.location.search);
-const sectionParam = params.get('section');
-
-if (sectionParam) {
-  allSections.forEach(sec => sec.classList.add('hide'));
-  const targetSection = Array.from(allSections).find(section =>
-    section.querySelector('h1') &&
-    section.querySelector('h1').textContent.toLowerCase().includes(sectionParam)
-  );
-  if (targetSection) {
-    targetSection.classList.remove('hide');
-    // Activar el botón correspondiente
-    const navLinks = document.querySelectorAll('.sidebar-left-studio-nav .primary-nav .nav-link');
-    navLinks.forEach(link => {
-      // Busca el link cuyo texto coincide con el parámetro
-      if (link.textContent.toLowerCase().includes(sectionParam)) {
-        link.classList.add('active');
-      } else {
-        link.classList.remove('active');
-      }
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => {
+      modal.style.display = 'none';
     });
   }
-} else {
-  if (allSections[0]) allSections[0].classList.remove('hide');
-
-  const navLinks = document.querySelectorAll('.sidebar-left-studio-nav .primary-nav .nav-link');
+  return modal;
 }
 
 function setupChannelCustomization() {
@@ -199,39 +135,20 @@ function setupChannelCustomization() {
     return;
   }
 
-  async function loadCurrentChannelData() {
-    const channelId = localStorage.getItem('channelId');
-    const accessToken = localStorage.getItem('accessToken');
-
-    if (!channelId) {
-      console.error('No se encontró channelId en localStorage.');
-      return;
-    }
-
+  async function loadAndDisplayChannelData() {
     try {
-      const response = await fetch(`http://localhost:3000/channels/${channelId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${accessToken}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('No se pudo obtener la información del canal.');
+      const channelData = await apiService.getChannelData();
+      if (channelData) {
+        nameInput.value = channelData.channel_name;
+        handleInput.value = channelData.url;
+        descriptionInput.value = channelData.description;
       }
-
-      const channelData = await response.json();
-
-      nameInput.value = channelData.channel_name;
-      handleInput.value = channelData.url;
-      descriptionInput.value = channelData.description;
-
     } catch (error) {
-      console.error('Error cargando los datos del canal:', error);
+      console.error('Error displaying channel data:', error);
     }
   }
 
-  loadCurrentChannelData();
+  loadAndDisplayChannelData();
 
   publishBtn.addEventListener('click', async () => {
     const channelId = localStorage.getItem('channelId');
@@ -259,20 +176,10 @@ function setupChannelCustomization() {
     }
 
     try {
-      const accessToken = localStorage.getItem('accessToken');
-      const response = await fetch(`http://localhost:3000/channels/${channelId}`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
-        },
-        body: JSON.stringify(updateData)
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
+      const result = await apiService.updateChannel(channelId, updateData);
+      if (result) {
         alert('¡Canal actualizado con éxito!');
+        // Actualizar los campos con la respuesta del servidor por si hubo alguna transformación
         if (result.channel_name) nameInput.value = result.channel_name;
         if (result.url) handleInput.value = result.url;
         if (result.description) descriptionInput.value = result.description;
@@ -288,25 +195,12 @@ function setupChannelCustomization() {
   });
 }
 
-// --- Create Store modal ---
-const createStoreModal = document.querySelector('.create-store-modal');
-const opencreateStoreBtns = document.querySelectorAll('.create-store');
-const closeCreateStoreModalBtn = document.querySelector('.close-create-store-modal');
+function setupCreateStore(modal) {
+  const createStoreBtn = document.querySelector('.create-store-btn');
+  if (!createStoreBtn) {
+    return;
+  }
 
-opencreateStoreBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    if (createStoreModal) createStoreModal.style.display = 'flex';
-  });
-});
-
-if (closeCreateStoreModalBtn) {
-  closeCreateStoreModalBtn.addEventListener('click', () => {
-    if (createStoreModal) createStoreModal.style.display = 'none';
-  });
-}
-
-const createStoreBtn = document.querySelector('.create-store-btn');
-if (createStoreBtn) {
   createStoreBtn.addEventListener('click', async () => {
     const storeNameInput = document.getElementById('store-name-input').value.trim();
     const storeDescriptionInput = document.getElementById('store-description-input').value.trim();
@@ -321,30 +215,15 @@ if (createStoreBtn) {
       description: storeDescriptionInput,
     };
 
-    console.log(storeData);
-
     try {
-      const accessToken = localStorage.getItem('accessToken'); // Obtenemos el token
-      const response = await fetch('http://localhost:3000/store', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`, // Lo añadimos a la cabecera
-        },
-        body: JSON.stringify(storeData),
-      });
-
-      const responseBody = await response.text(); // o .json() si sabés que responde en JSON
-
-      if (response.ok) {
+      const newStore = await apiService.createStore(storeData);
+      if (newStore) {
         alert(`Store "${storeNameInput}" created successfully!`);
-        if (createStoreModal) createStoreModal.style.display = 'none'; // Ocultamos el modal
-        await setupStoreSection(); // Volvemos a cargar la sección de la tienda para que se actualice la vista
+        if (modal) modal.style.display = 'none';
+        await setupStoreSection();
       } else {
-        console.error('Server response:', response.status, responseBody);
-        alert(`Error ${response.status}: ${responseBody}`);
+        // apiService ya maneja el alert de error
       }
-
     } catch (error) {
       console.error('Connection error:', error);
       alert('Could not connect to the server.');
@@ -356,49 +235,37 @@ if (createStoreBtn) {
 async function setupStoreSection() {
   const accessToken = localStorage.getItem('accessToken');
   if (!accessToken) return;
-
-  // Selectores simplificados que ahora coinciden con el HTML corregido
   const noStoreContainer = document.querySelector('.donot-store-container');
   const hasStoreContainer = document.querySelector('.has-store-container');
-  const noProductsMessage = document.querySelector('.no-products-message');
-  const productsGrid = document.querySelector('.products-grid');
 
-  // Comprobación de que los contenedores principales existen
   if (!noStoreContainer || !hasStoreContainer) {
     console.error('Los contenedores de la tienda no fueron encontrados. Revisa el HTML.');
     return;
   }
 
   try {
-    const response = await fetch('http://localhost:3000/store/my-store', {
-      headers: { 'Authorization': `Bearer ${accessToken}` }
-    });
+    const store = await apiService.getMyStore();
+    if (store) {
+      const noProductsMessage = hasStoreContainer.querySelector('.no-products-message');
+      const productsContainer = hasStoreContainer.querySelector('.products-container');
 
-    if (response.status === 404 || response.status === 204) { // 204 No Content
-      // No tiene tienda
-      noStoreContainer.classList.remove('hide');
-      hasStoreContainer.classList.add('hide');
-    } else if (response.ok) {
-      const store = await response.json();
-      // Sí tiene tienda
       noStoreContainer.classList.add('hide');
       hasStoreContainer.classList.remove('hide');
 
-      // aca iría la lógica para cargar y mostrar los productos de la tienda.
-      // Por ahora, simulamos que no hay productos.
-      const products = store.products || [];
+      // Llamamos a la nueva función para obtener los productos
+      const products = await apiService.getMyProducts();
 
-      if (products.length === 0) {
-        if(noProductsMessage) noProductsMessage.classList.remove('hide');
-        if(productsGrid) productsGrid.classList.add('hide');
+      if (products && products.length > 0) {
+        if (noProductsMessage) noProductsMessage.classList.add('hide');
+        renderProducts(products, productsContainer);
       } else {
-        if(noProductsMessage) noProductsMessage.classList.add('hide');
-        if(productsGrid) productsGrid.classList.remove('hide');
-        // Lógica para renderizar los productos en `productsGrid`
+        if (noProductsMessage) noProductsMessage.classList.remove('hide');
+        if (productsContainer) productsContainer.innerHTML = ''; // Limpiar por si acaso
       }
 
     } else {
-      throw new Error('Failed to fetch store status');
+      noStoreContainer.classList.remove('hide');
+      hasStoreContainer.classList.add('hide');
     }
   } catch (error) {
     console.error('Error setting up store section:', error);
@@ -408,21 +275,162 @@ async function setupStoreSection() {
   }
 }
 
-// --- Initialize Everything on Page Load ---
-document.addEventListener('DOMContentLoaded', function () {
-  // Sidebar navigation
-  setupSidebarNavigation();
-  // Content section
-  setupContentTabs();
-  // Earn section
-  updateProgressBar(currentSubscribers, maxSubscribers, 'subscribersProgressBarFill');
-  updateProgressBar(currentVideos, maxVideos, 'videosUploadedProgressBarFill');
-  updateProgressBar(currentWatchHours, maxWatchHours, 'watchHoursProgressBarFill');
-  checkMonetizationEligibility();
-  // Analytics section
-  setupCharts();
+function renderProducts(products, container) {
+  if (!container) return;
+  container.innerHTML = ''; // Limpiamos el contenedor
 
+  products.forEach(product => {
+    const productCard = document.createElement('div');
+    productCard.className = 'product-card';
+    productCard.innerHTML = `
+      <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="${product.product_name}">
+      <h2>${product.product_name}</h2>
+      <h3>$${parseFloat(product.price).toFixed(2)}</h3>
+      <p>${product.description || 'No description available.'}</p>
+      <div class="product-card-actions">
+        <button type="button" class="edit-product-btn" data-product-id="${product.product_id}"><i class="fa-solid fa-pen"></i></button>
+        <button type="button" class="delete-product-btn" data-product-id="${product.product_id}"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    `;
+    container.appendChild(productCard);
+  });
+
+  addDeleteEventListeners();
+  addEditEventListeners();
+}
+
+function addDeleteEventListeners() {
+  document.querySelectorAll('.delete-product-btn').forEach(button => {
+    button.addEventListener('click', async (event) => {
+      const productId = event.currentTarget.dataset.productId;
+      if (confirm(`Are you sure you want to delete product ${productId}?`)) {
+        const result = await apiService.deleteProduct(productId);
+        // La respuesta de un DELETE exitoso puede no tener cuerpo, así que verificamos el resultado.
+        // El apiService ya maneja los errores, así que si llega aquí, probablemente fue exitoso.
+        // Para ser más robustos, el backend podría devolver un { success: true }.
+        alert('Product deleted successfully.');
+        await setupStoreSection(); // Recargamos la lista de productos
+      }
+    });
+  });
+}
+
+function addEditEventListeners() {
+  const modal = document.querySelector('.edit-product-modal');
+  if (!modal) return;
+
+  document.querySelectorAll('.edit-product-btn').forEach(button => {
+    button.addEventListener('click', async (event) => {
+      const productId = event.currentTarget.dataset.productId;
+      const product = await apiService.getProduct(productId);
+
+      if (product) {
+        // Llenar el formulario del modal con los datos del producto
+        document.getElementById('edit-product-id').value = product.product_id;
+        document.getElementById('edit-product-name-input').value = product.product_name;
+        document.getElementById('edit-product-description-input').value = product.description;
+        document.getElementById('edit-product-price-input').value = product.price;
+        document.getElementById('edit-product-stock-input').value = product.stock;
+        modal.style.display = 'flex';
+      }
+    });
+  });
+
+  const form = document.getElementById('edit-product-form');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const productId = document.getElementById('edit-product-id').value;
+    const productData = {
+      product_name: document.getElementById('edit-product-name-input').value,
+      description: document.getElementById('edit-product-description-input').value,
+      price: parseFloat(document.getElementById('edit-product-price-input').value),
+      stock: parseInt(document.getElementById('edit-product-stock-input').value, 10),
+    };
+
+    const updatedProduct = await apiService.updateProduct(productId, productData);
+
+    if (updatedProduct) {
+      alert('Product updated successfully!');
+      modal.style.display = 'none';
+      form.reset();
+      await setupStoreSection(); // Recargar productos
+    }
+  });
+
+  setupModal('.edit-product-modal', null, '.close-edit-product-modal');
+}
+
+function setupAddProduct() {
+  const modal = setupModal('.add-product-modal', '.add-product-btn', '.close-add-product-modal');
+  const form = document.getElementById('add-product-form');
+
+  if (!form || !modal) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const formData = new FormData(form);
+
+    try {
+      const newProduct = await apiService.createProduct(formData);
+      if (newProduct) {
+        alert('Product added successfully!');
+        modal.style.display = 'none';
+        form.reset();
+        await setupStoreSection(); // Recargar la sección para mostrar el nuevo estado
+      }
+      // El apiService ya maneja los alerts de error
+    } catch (error) {
+      console.error('Error submitting product form:', error);
+      alert('Could not connect to the server.');
+    }
+  });
+}
+
+setupAddProduct();
+
+// --- Initialize Everything on Page Load ---
+document.addEventListener('DOMContentLoaded', () => {
+  // --- Select main elements once ---
+  const navLinks = document.querySelectorAll('.sidebar-left-studio-nav .primary-nav .nav-link');
+  const sections = document.querySelectorAll('main > .container-studio');
+
+  // --- Setup UI components ---
+  setupContentTabs();
+  setupCharts();
   setupChannelCustomization();
 
-  setupStoreSection();
+  // --- Setup Modals ---
+  setupModal('.edit-video-modal', '.edit-video-btn', '.close-edit-video-modal');
+  const createStoreModal = setupModal('.create-store-modal', '.create-store', '.close-create-store-modal');
+  setupModal('.add-product-modal', '.add-new-product', '.close-add-product-modal');
+  setupCreateStore(createStoreModal);
+
+  // --- Setup Earn Section ---
+  Object.values(monetizationConfig).forEach(({ current, max, barId }) => {
+    updateProgressBar(current, max, barId);
+  });
+  checkMonetizationEligibility();
+
+  // --- Setup Navigation ---
+  navLinks.forEach((link, idx) => {
+    link.addEventListener('click', () => {
+      const sectionName = link.querySelector('.nav-label')?.textContent.toLowerCase() || '';
+      navigateToSection(sectionName || `section-${idx}`, navLinks, sections);
+    });
+  });
+
+  document.querySelector('#storeButton')?.addEventListener('click', (e) => { e.preventDefault(); navigateToSection('store', navLinks, sections); });
+  document.querySelector('.btn-dashboard')?.addEventListener('click', (e) => { e.preventDefault(); navigateToSection('community', navLinks, sections); });
+
+  // --- Initial State ---
+  const params = new URLSearchParams(window.location.search);
+  const sectionParam = params.get('section');
+  const navigated = sectionParam ? navigateToSection(sectionParam, navLinks, sections) : false;
+
+  if (!navigated) {
+    navigateToSection('dashboard', navLinks, sections);
+  }
+
+  // --- Load Initial Data ---
+  setupStoreSection(); // Verifica si el usuario tiene una tienda
 });

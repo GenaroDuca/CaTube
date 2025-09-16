@@ -1351,21 +1351,19 @@
                 <div class="add-container">
                     <div class="btn-container">
                         <p>Add new product</p>
-                        <button type="button"><i class="fas fa-plus"></i></button>
+                        <button type="button" class="add-new-product"><i class="fas fa-plus"></i></button>
                     </div>
                 </div>
                 <h2>Your products</h2>
                 <hr>
+                <div class="no-products-message hide">
+                    <p>You don't have any products yet. Add your first one!</p>
+                </div>
                 <div class="products-container">
-                    <div class="product-card">
-                        <img src="../media/studio_media/store/remera_ejemplo.jpg" alt="">
-                        <h2>Product name</h2>
-                        <h3>$Price</h3>
-                        <p>Description</p>
-                        <button type="button"><i class="fa-solid fa-pen"></i></button>
-                    </div>
+                    <!-- Los productos se cargarán aquí dinámicamente -->
                 </div>
             </div>
+            
             <!-- MODAL CREATE STORE -->
             <div class="create-store-modal">
                 <div class="create-store-content">
@@ -1389,6 +1387,94 @@
                         <div class="create-store-buttons">
                             <button type="button" class="create-store-btn">Create Store</button>
                         </div>
+                    </main>
+                </div>
+            </div>
+
+            <!-- MODAL ADD PRODUCT -->
+            <div class="add-product-modal">
+                <div class="add-product-content">
+                    <header>
+                        <h1>Add a new Product</h1>
+                        <button type="button" class="close-add-product-modal"><span class="material-symbols-outlined">
+                                do_not_disturb_on
+                            </span>
+                        </button>
+                    </header>
+                    <main>
+                        <form id="add-product-form">
+                            <h2>Product Name</h2>
+                            <div>
+                                <input type="text" id="product-name-input" name="product_name"
+                                    placeholder="Enter product name" required>
+                            </div>
+                            <h2>Description</h2>
+                            <div>
+                                <textarea id="product-description-input" name="description"
+                                    placeholder="Enter product description"></textarea>
+                            </div>
+                        <div class="price-stock-container">
+                            <div class="form-group">
+                                <h2>Price</h2>
+                                <input type="number" id="product-price-input" name="price" placeholder="9.99" step="0.01" required>
+                            </div>
+                            <div class="form-group">
+                                <h2>Stock</h2>
+                                <input type="number" id="product-stock-input" name="stock" placeholder="100" required>
+                            </div>
+                        </div>
+
+                        <h2 class="image-title">Image</h2>
+                            <div>
+                                <input type="file" id="product-image-input" name="image" accept="image/*">
+                            </div>
+                            <div class="add-product-buttons">
+                                <button type="submit" class="create-product-btn">Add Product</button>
+                            </div>
+                        </form>
+                    </main>
+                </div>
+            </div>
+
+            <!-- MODAL EDIT PRODUCT -->
+            <div class="edit-product-modal">
+                <div class="edit-product-content">
+                    <header>
+                        <h1>Edit Product</h1>
+                        <button type="button" class="close-edit-product-modal"><span class="material-symbols-outlined">
+                                do_not_disturb_on
+                            </span>
+                        </button>
+                    </header>
+                    <main>
+                        <form id="edit-product-form">
+                            <input type="hidden" id="edit-product-id">
+                            <h2>Product Name</h2>
+                            <div>
+                                <input type="text" id="edit-product-name-input" name="product_name" placeholder="Enter product name" required>
+                            </div>
+                            <h2>Description</h2>
+                            <div>
+                                <textarea id="edit-product-description-input" name="description" placeholder="Enter product description"></textarea>
+                            </div>
+                            <div class="price-stock-container">
+                                <div class="form-group">
+                                    <h2>Price</h2>
+                                    <input type="number" id="edit-product-price-input" name="price" placeholder="9.99" step="0.01" required>
+                                </div>
+                                <div class="form-group">
+                                    <h2>Stock</h2>
+                                    <input type="number" id="edit-product-stock-input" name="stock" placeholder="100" required>
+                                </div>
+                            </div>
+                            <h2 class="image-title">Image</h2>
+                            <div>
+                                <input type="file" id="edit-product-image-input" name="image" accept="image/*">
+                            </div>
+                            <div class="add-product-buttons">
+                                <button type="submit" class="update-product-btn">Update Product</button>
+                            </div>
+                        </form>
                     </main>
                 </div>
             </div>
@@ -1504,32 +1590,6 @@
             </div>
         </div>
 
-        <!-- MODAL CREATE STORE (Movido aquí para que siempre esté accesible) -->
-        <div class="create-store-modal">
-            <div class="create-store-content">
-                <header>
-                    <h1>Create your store</h1>
-                    <button type="button" class="close-create-store-modal"><span class="material-symbols-outlined">
-                            do_not_disturb_on
-                        </span>
-                    </button>
-                </header>
-                <main>
-                    <h2>Store name</h2>
-                    <div>
-                        <input type="text" id="store-name-input" placeholder="Enter your store name">
-                    </div>
-                    <h2>Store description</h2>
-                    <div>
-                        <textarea id="store-description-input" placeholder="Enter your store description"></textarea>
-                    </div>
-                    <div class="create-store-buttons">
-                        <button type="button" class="create-store-btn">Create Store</button>
-                    </div>
-                </main>
-            </div>
-        </div>
-
         <div class="right-menu">
             <img src="../media/home_media/profile/angel.jpg" alt="angel">
             <h1>Channel Name</h1>
@@ -1539,6 +1599,7 @@
     <footer></footer>
 
     <script src="/global_components/upload_components.js"></script>
+    <script src="/studio/apiService.js"></script> <!-- Cargar el servicio de API primero -->
     <script src="/studio/studio.js"></script>
 
     <!-- Analytics -->

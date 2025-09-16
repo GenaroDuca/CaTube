@@ -904,7 +904,7 @@ footer div {
     background-color: var(--btn-dark);
 }
 
-.create-store-modal {
+.create-store-modal, .add-product-modal, .edit-product-modal {
     display: none;
     position: fixed;
     z-index: 999;
@@ -919,6 +919,8 @@ footer div {
     flex-direction: column;
 }
 
+.edit-product-content,
+.add-product-content,
 .create-store-content {
     border-radius: 30px;
     min-width: 320px;
@@ -934,6 +936,12 @@ footer div {
     text-align: center;
 }
 
+.delete-product-btn, .update-product-btn {
+    margin-top: 10px;
+}
+
+.edit-product-content header,
+.add-product-content header,
 .create-store-content header {
     width: 100%;
     background-color: var(--btn);
@@ -945,6 +953,8 @@ footer div {
     border-top-right-radius: 30px;
 }
 
+.close-edit-product-modal,
+.close-add-product-modal,
 .close-create-store-modal {
     background: none;
     border: none;
@@ -952,10 +962,14 @@ footer div {
     float: right;
 }
 
+.close-edit-product-modal:hover,
+.close-add-product-modal:hover,
 .close-create-store-modal:hover {
     transform: scale(1.1);
 }
 
+.edit-product-content main,
+.add-product-content main,
 .create-store-content main {
     width: 100%;
     padding: 0px 20px 20px 20px;
@@ -964,10 +978,18 @@ footer div {
     background-color: var(--background-color);
 }
 
+.edit-product-content main h2,
+.add-product-content main h2,
 .create-store-content main h2 {
     margin: 20px 0 10px;
 }
 
+.edit-product-content main input[type="number"],
+.edit-product-content main input[type="text"],
+.edit-product-content main input[type="file"],
+.add-product-content main input[type="file"],
+.add-product-content main input[type="number"],
+.add-product-content main input[type="text"],
 .create-store-content main input[type="text"] {
     width: 100%;
     padding: 12px 20px;
@@ -975,13 +997,18 @@ footer div {
     border-radius: 30px;
     background-color: transparent;
     color: var(--text-color);
+    box-sizing: border-box;
 }
 
+.edit-product-content main input:focus,
+.add-product-content main input:focus,
 .create-store-content main input[type="text"]:focus {
     outline: none;
     border: 1px solid var(--btn);
 }
 
+.edit-product-content main textarea,
+.add-product-content main textarea,
 .create-store-content main textarea {
     width: 100%;
     height: 100px;
@@ -993,6 +1020,48 @@ footer div {
     resize: none;
 }
 
+.edit-product-content main textarea:focus,
+.add-product-content main textarea:focus,
+.create-store-content main textarea:focus {
+    outline: none;
+    border: 1px solid var(--btn);
+}
+
+.price-stock-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.price-stock-container .form-group {
+    flex: 1;
+}
+
+.price-stock-container .form-group h2 {
+    text-align: left;
+    margin-left: 15px;
+}
+
+.image-title {
+    text-align: left;
+    margin-left: 15px;
+}
+
+.add-product-buttons {
+    margin-top: 20px;
+}
+
+.update-product-btn,
+.create-product-btn {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: var(--btn);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+}
 /*footer */
 
 @media (max-width:1024px) {
@@ -1076,5 +1145,9 @@ footer div {
 
     .edit-video-tags-container {
         flex-wrap: wrap;
+    }
+
+    .price-stock-container {
+        flex-direction: column;
     }
 }

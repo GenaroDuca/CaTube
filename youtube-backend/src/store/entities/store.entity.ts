@@ -1,8 +1,10 @@
 import { Channel } from "src/channels/channel.entity";
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Product } from "src/product/entities/product.entity";
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Store {
+    [x: string]: any;
     @PrimaryGeneratedColumn()
     store_id: number;
 
@@ -15,4 +17,7 @@ export class Store {
     @OneToOne(() => Channel, (channel) => channel.store)
     @JoinColumn({ name: 'channel_id' }) //clave foránea
     channel: Channel;
+    
+    @OneToMany(() => Product, (product) => product.store)
+    products: Product[];
 }

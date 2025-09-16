@@ -7,8 +7,10 @@ import { User } from './users/user.entity';
 import { Channel } from './channels/channel.entity';
 import { ChannelsModule } from './channels/channels.module';
 import { AuthModule } from './auth/auth.module';
+import { ProductModule } from './product/product.module';
 import { StoreModule } from './store/store.module';
 import { Store } from './store/entities/store.entity';
+import { Product } from './product/entities/product.entity';
 
 @Module({
   imports: [
@@ -19,7 +21,7 @@ import { Store } from './store/entities/store.entity';
       username: 'root',       
       password: 'geniducv1',   
       database: 'youtube_db',
-      entities: [User, Channel, Store],       
+      entities: [User, Channel, Store, Product],       
       synchronize: true,      
     }),
 
@@ -28,6 +30,8 @@ import { Store } from './store/entities/store.entity';
     ChannelsModule,
 
     AuthModule,
+
+    ProductModule,
 
     StoreModule,
   ],

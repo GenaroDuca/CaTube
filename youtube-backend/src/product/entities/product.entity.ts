@@ -1,0 +1,24 @@
+import { Store } from "src/store/entities/store.entity";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+
+@Entity()
+export class Product {
+    @PrimaryGeneratedColumn()
+    product_id: number;
+
+    @Column()
+    product_name: string;
+
+    @Column({ nullable: true })
+    description: string;
+
+    @Column('decimal', { precision: 10, scale: 2 })
+    price: number;
+
+    @Column()
+    stock: number;
+
+    @ManyToOne(() => Store, (store) => store.products)
+    @JoinColumn({ name: 'store_id' }) //clave foránea
+    store: Store;
+}
