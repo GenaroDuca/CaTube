@@ -11,6 +11,7 @@ import { ProductModule } from './product/product.module';
 import { StoreModule } from './store/store.module';
 import { Store } from './store/entities/store.entity';
 import { Product } from './product/entities/product.entity';
+import { Playlist } from './playlist/entities/playlist.entity';
 
 @Module({
   imports: [
@@ -19,9 +20,9 @@ import { Product } from './product/entities/product.entity';
       host: 'localhost',
       port: 3306,
       username: 'root',       
-      password: 'geniducv1',   
+      password: 'Milaneso23',   
       database: 'youtube_db',
-      entities: [User, Channel, Store, Product],       
+      entities: [User, Channel, Store, Product, Playlist],       
       synchronize: true,      
     }),
 

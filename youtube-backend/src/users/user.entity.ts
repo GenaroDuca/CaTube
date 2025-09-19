@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, OneToOne, OneToMany } from 'typeorm';
 import { Channel } from 'src/channels/channel.entity';
+import { Playlist } from 'src/playlist/entities/playlist.entity';
 
 @Entity('users')
 export class User {
@@ -30,4 +31,7 @@ export class User {
         const { password, ...result } = this;
         return result;
     }
+
+    @OneToMany(() => Playlist, (playlist) => playlist.user)
+    playlists: Playlist[];
 }

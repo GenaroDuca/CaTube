@@ -1,6 +1,7 @@
 import { Column, JoinColumn, OneToOne, Entity, PrimaryGeneratedColumn, CreateDateColumn, OneToMany } from "typeorm";
 import { User } from "src/users/user.entity";
 import { Store } from "src/store/entities/store.entity";
+import { Playlist } from "src/playlist/entities/playlist.entity";
 
 @Entity('channels')
 export class Channel {
@@ -27,4 +28,7 @@ export class Channel {
 
     @OneToOne(() => Store, (store) => store.channel)
     store: Store;
+
+     @OneToMany(() => Playlist, (playlist) => playlist.channel)
+    playlists: Playlist[];
 }
