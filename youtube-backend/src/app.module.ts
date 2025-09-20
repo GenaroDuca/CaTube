@@ -20,7 +20,7 @@ import { Playlist } from './playlist/entities/playlist.entity';
       host: 'localhost',
       port: 3306,
       username: 'root',       
-      password: 'Milaneso23',   
+      password: 'geniducv1',   
       database: 'youtube_db',
       entities: [User, Channel, Store, Product, Playlist],       
       synchronize: true,      
