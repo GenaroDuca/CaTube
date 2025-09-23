@@ -1,7 +1,7 @@
 import { Body, Controller,Delete,Get, Param, ParseIntPipe, Post, Patch } from '@nestjs/common';
 import { CreateChannelDto } from './dto-channels/create-channel.dto';
 import { ChannelsService } from './channels.service';
-import { User } from 'src/users/user.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Controller('channels')
 export class ChannelsController {
@@ -19,18 +19,18 @@ export class ChannelsController {
     }
 
     @Get(':id')
-    findOne(@Param('id', ParseIntPipe) id: number) {
+    findOne(@Param('id', ParseIntPipe) id: string) {
         return this.channelsService.findOneById(id);
     }
 
     @Delete(':id')
-    remove(@Param('id', ParseIntPipe) id: number) {
+    remove(@Param('id', ParseIntPipe) id: string) {
         return this.channelsService.remove(id);
     }
 
     @Patch(':id')
     update(
-        @Param('id', ParseIntPipe) id: number,
+        @Param('id', ParseIntPipe) id: string,
         @Body() updateChannelDto: CreateChannelDto
     ) {
         return this.channelsService.update(id, updateChannelDto);

@@ -3,8 +3,8 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "t
 
 @Entity()
 export class Product {
-    @PrimaryGeneratedColumn()
-    product_id: number;
+    @PrimaryGeneratedColumn("uuid")
+    product_id: string;
 
     @Column()
     product_name: string;

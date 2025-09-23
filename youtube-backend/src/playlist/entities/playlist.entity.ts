@@ -1,34 +1,36 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn } from "typeorm";
-import { User } from "../../users/user.entity";
-import { Channel } from "../../channels/channel.entity";
-import { channel } from "diagnostics_channel";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, JoinColumn, OneToMany } from "typeorm";
+import { User } from "../../users/entities/user.entity";
+import { Channel } from "../../channels/entities/channel.entity";
+import { PlaylistVideo } from '../../playlist_videos/entities/playlist_video.entity';
 
 @Entity()
 export class Playlist {
-    @PrimaryGeneratedColumn("uuid")
-    playlist_id: string;
+  @PrimaryGeneratedColumn("uuid")
+  playlist_id: string;
 
-    @Column()
-    playlist_title: string;
+  @Column()
+  playlist_title: string;
 
-    @Column({ nullable: true })
-    playlist_description: string;
+  @Column({ nullable: true })
+  playlist_description: string;
 
-    @Column({ default: false })
-    isPublic: boolean;
+  @Column({ default: false })
+  isPublic: boolean;
 
-    @CreateDateColumn()
-    createdAt: Date;
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @UpdateDateColumn()
-    updatedAt: Date;
+  @UpdateDateColumn()
+  updatedAt: Date;
 
-    @ManyToOne(() => User, user => user.playlists)
-    @JoinColumn({ name: 'user_id' })
-    user: User;
+  @ManyToOne(() => User, user => user.playlists)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
-    @ManyToOne(() => Channel, (channel) => channel.playlists) //muchas playlists pueden pertenecer a un canal
-    @JoinColumn({ name: 'channel_id' }) //clave foránea
-    channel: Channel;
+  @ManyToOne(() => Channel, channel => channel.playlists)
+  @JoinColumn({ name: 'channel_id' })
+  channel: Channel;
 
+  @OneToMany(() => PlaylistVideo, playlistVideo => playlistVideo.playlist)
+  playlistVideos: PlaylistVideo[];
 }

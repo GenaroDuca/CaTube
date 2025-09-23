@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Playlist } from './entities/playlist.entity';
 import { CreatePlaylistDto } from './dto/create-playlist.dto';
-import { User } from '../users/user.entity';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class PlaylistService {
@@ -16,7 +16,7 @@ export class PlaylistService {
 
   async create(
     createPlaylistDto: CreatePlaylistDto,
-    userId: number,
+    userId: string,
   ): Promise<Playlist> {
     // Busca el usuario por su ID
     const user = await this.userRepository.findOne({ where: { user_id: userId } });

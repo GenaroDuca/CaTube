@@ -4,7 +4,7 @@ import { UpdateStoreDto } from './dto/update-store.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Store } from './entities/store.entity';
 import { Repository } from 'typeorm';
-import { Channel } from 'src/channels/channel.entity';
+import { Channel } from 'src/channels/entities/channel.entity';
 import { UsersService } from 'src/users/users.service';
 
 @Injectable()
@@ -15,7 +15,7 @@ export class StoreService {
     private usersService: UsersService,
   ) {}
 
-  async create(createStoreDto: CreateStoreDto, userId: number): Promise<Store> {
+  async create(createStoreDto: CreateStoreDto, userId: string): Promise<Store> {
     const user = await this.usersService.findOneById(userId); // Necesitarás crear este método en UsersService
     if (!user) {
       throw new NotFoundException(`Usuario con ID ${userId} no encontrado`);
@@ -40,7 +40,7 @@ export class StoreService {
     return this.storeRepository.save(newStore);
   }
 
-  async findStoreByUserId(userId: number): Promise<Store> {
+  async findStoreByUserId(userId: string): Promise<Store> {
     const user = await this.usersService.findOneById(userId);
     if (!user || !user.channel) {
       // Si el usuario autenticado no tiene un canal, es una condición de error.
@@ -63,15 +63,15 @@ export class StoreService {
     return `This action returns all store`;
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return `This action returns a #${id} store`;
   }
 
-  update(id: number, updateStoreDto: UpdateStoreDto) {
+  update(id: string, updateStoreDto: UpdateStoreDto) {
     return `This action updates a #${id} store`;
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return `This action removes a #${id} store`;
   }
 }

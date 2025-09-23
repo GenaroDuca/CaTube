@@ -33,20 +33,20 @@ export class ProductController {
   @Get(':id')
   findOne(@Param('id') id: string, @Request() req) {
     const userId = req.user.userId;
-    return this.productService.findOne(+id, userId);
+    return this.productService.findOne(id, userId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto, @Request() req) {
     const userId = req.user.userId;
-    return this.productService.update(+id, updateProductDto, userId);
+    return this.productService.update(id, updateProductDto, userId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string, @Request() req) {
     const userId = req.user.userId;
-    return this.productService.removeProductAsOwner(+id, userId);
+    return this.productService.removeProductAsOwner(id, userId);
   }
 }

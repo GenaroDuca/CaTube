@@ -15,7 +15,7 @@ export class ProductService {
     private readonly storeRepository: Repository<Store>,
   ) {}
 
-  async create(createProductDto: CreateProductDto, userId: number) {
+  async create(createProductDto: CreateProductDto, userId: string) {
     // 1. Encontrar la tienda del usuario.
     const store = await this.storeRepository.findOne({
       where: { channel: { user: { user_id: userId } } },
@@ -36,7 +36,7 @@ export class ProductService {
     return `This action returns all product`;
   }
 
-  async findMyProducts(userId: number): Promise<Product[]> {
+  async findMyProducts(userId: string): Promise<Product[]> {
     // 1. Encontrar la tienda del usuario.
     const store = await this.storeRepository.findOne({
       where: { channel: { user: { user_id: userId } } },
@@ -50,7 +50,7 @@ export class ProductService {
     return this.productRepository.find({ where: { store: { store_id: store.store_id } } });
   }
 
-  async findOne(id: number, userId: number): Promise<Product> {
+  async findOne(id: string, userId: string): Promise<Product> {
     const product = await this.productRepository.findOne({
       where: { product_id: id },
       relations: ['store', 'store.channel', 'store.channel.user'],
@@ -67,7 +67,7 @@ export class ProductService {
     return product;
   }
 
-  async update(id: number, updateProductDto: UpdateProductDto, userId: number): Promise<Product> {
+  async update(id: string, updateProductDto: UpdateProductDto, userId: string): Promise<Product> {
     // Usamos findOne para asegurarnos de que el usuario es el propietario antes de actualizar.
     const productToUpdate = await this.findOne(id, userId);
 
@@ -77,11 +77,11 @@ export class ProductService {
     return this.productRepository.save(productToUpdate);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.productRepository.delete(id);
   }
 
-  async removeProductAsOwner(productId: number, userId: number) {
+  async removeProductAsOwner(productId: string, userId: string) {
     // 1. Buscar el producto y cargar la relación con la tienda y el canal.
     const product = await this.productRepository.findOne({
       where: { product_id: productId },

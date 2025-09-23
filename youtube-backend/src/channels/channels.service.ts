@@ -2,8 +2,8 @@ import { Injectable, NotFoundException, ConflictException } from '@nestjs/common
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 import { CreateChannelDto } from './dto-channels/create-channel.dto';
-import { Channel } from './channel.entity';
-import { User } from 'src/users/user.entity';
+import { Channel } from './entities/channel.entity';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class ChannelsService {
@@ -27,11 +27,11 @@ constructor(
         return this.channelRepository.find();
     }
 
-    async remove(id: number): Promise<void> {
+    async remove(id: string): Promise<void> {
         await this.channelRepository.delete(id);
     }
 
-    async findOneById(id: number): Promise<Channel> {
+    async findOneById(id: string): Promise<Channel> {
         const channel = await this.channelRepository.findOneBy({ channel_id: id });
 
         if (!channel) {
@@ -41,7 +41,7 @@ constructor(
         return channel;
     }
 
-    async update(id: number, updateChannelDto: CreateChannelDto): Promise<Channel> {
+    async update(id: string, updateChannelDto: CreateChannelDto): Promise<Channel> {
         const channelToUpdate = await this.channelRepository.findOneBy({ channel_id: id });
 
         if (!channelToUpdate) {

@@ -2,7 +2,7 @@ import { Injectable, Inject, forwardRef } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto-users/create-user.dto';
-import { User } from './user.entity';
+import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { ChannelsService } from 'src/channels/channels.service';
 
@@ -51,14 +51,14 @@ export class UsersService {
         });
     }
 
-    findOneById(id: number): Promise<User | null> {
+    findOneById(id: string): Promise<User | null> {
         return this.usersRepository.findOne({
             where: { user_id: id },
             relations: ['channel'], 
         });
     }
 
-    async remove(id: number): Promise<void> {
+    async remove(id: string): Promise<void> {
         await this.usersRepository.delete(id);
     }
 }
