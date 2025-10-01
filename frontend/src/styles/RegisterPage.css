@@ -1,0 +1,246 @@
+/* ==================================== */
+/* 1. Base (Body & Links) */
+/* ==================================== */
+
+body {
+    background-color: #1f1f20;
+}
+
+a {
+    text-decoration: none;
+}
+
+/* ==================================== */
+/* 2. Auth Panel (Overlay y Transición) */
+/* ==================================== */
+
+.auth-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Transición para la animación de entrada */
+    pointer-events: none; /* Desactiva clics cuando no está activo */
+}
+
+.auth-panel.active {
+    opacity: 1;
+    transform: scale(1);
+    pointer-events: all;
+    z-index: 1;
+}
+
+/* ==================================== */
+/* 3. Auth Box (Contenedor principal) */
+/* ==================================== */
+
+.auth-box-login,
+.auth-box-signup {
+    background-color: #1a1a1b;
+    border-radius: 30px;
+    box-shadow: 0 0 15px rgba(144, 180, 132, 0.4); /* Sombra mejorada para destacar */
+    display: flex;
+    overflow: hidden;
+    width: 600px;
+}
+
+.auth-box-login {
+    height: 400px;
+}
+
+.auth-box-signup {
+    height: 600px;
+}
+
+/* ==================================== */
+/* 4. Panel Section (Sección lateral con fondo de color) */
+/* ==================================== */
+
+.panel-section {
+    width: 250px;
+    background-color: #90b484;
+    color: #1a1a1b;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 20px; /* Añadido un poco de padding para mejor espaciado */
+    box-sizing: border-box;
+}
+
+.panel-section h1 {
+    color: #1a1a1b;
+    transition: transform 0.3s ease; /* Transición para el hover */
+}
+
+.panel-section h1:hover {
+    transform: scale(1.1);
+}
+
+.panel-section p {
+    margin: 20px;
+}
+
+/* ==================================== */
+/* 5. Form Section (Formulario de entrada) */
+/* ==================================== */
+
+.form-section {
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.form-section h1 {
+    color: #90b484;
+}
+
+/* ==================================== */
+/* 6. Inputs y Estructura de Formulario */
+/* ==================================== */
+
+.input-group div {
+    display: flex;
+    align-items: center;
+}
+
+.input {
+    width: 250px;
+    height: 40px;
+    border: none;
+    border-radius: 0 10px 10px 0;
+    background-color: rgba(255, 255, 255, 0.678);
+    text-align: center;
+    margin-left: -10px;
+    transition: background-color 0.2s ease;
+}
+
+.input:focus {
+    outline: none;
+    /* Añadido un foco visual sutil sin bordes extraños */
+    box-shadow: 0 0 0 2px #90b484; 
+}
+
+.form-section label {
+    margin: -35px 0 -35px 25px; /* Mantiene la posición superpuesta del label */
+}
+
+.icon-circle {
+    width: 50px;
+    height: 50px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+}
+
+.icon-circle i {
+    color: #000;
+}
+
+/* Validación de Input */
+.incorrect-input {
+    background-color: rgb(252, 196, 196);
+    color: #a80000;
+}
+
+.correct-input {
+    background-color: rgb(224, 255, 224);
+    color: #005a00;
+}
+
+.incorrect-input,
+.correct-input {
+    border-left: none;
+}
+
+/* ==================================== */
+/* 7. Botones */
+/* ==================================== */
+
+.register-btn {
+    width: 140px;
+    height: 50px;
+    border-radius: 25px;
+    background-color: #90b484;
+    border: none;
+    color: #1a1a1b; /* Asegura que el texto sea legible */
+    font-weight: bold;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.register-btn:hover {
+    cursor: pointer;
+    background-color: #749269;
+}
+
+.register-btn.outlined {
+    background-color: transparent;
+    border: 2px solid #1a1a1b;
+    color: #1a1a1b;
+}
+
+.register-btn.outlined:hover {
+    background-color: #1a1a1b;
+    color: #cbeec0;
+}
+
+/* ==================================== */
+/* 8. Media Query (Adaptación a Móvil) */
+/* ==================================== */
+
+@media (max-width: 768px) {
+
+    .auth-box-login,
+    .auth-box-signup {
+        flex-direction: column;
+        width: 350px;
+        height: auto;
+    }
+
+    .input-group {
+        margin-bottom: 10px;
+    }
+
+    .panel-section {
+        width: 100%;
+    }
+
+    .auth-box-login h1,
+    .auth-box-signup h1 {
+        margin: -30px 0 15px;
+    }
+
+    .auth-box-login button,
+    .auth-box-signup button {
+        margin: 5px 0 -30px;
+    }
+
+    .panel-section h1 {
+        margin: 15px 0px 0px 0px;
+    }
+
+    .panel-section p {
+        margin: 10px 0px 10px 0px;
+    }
+
+    .panel-section button {
+        margin: 0px 0px 15px 0px;
+    }
+
+    .form-section label {
+        margin: -6px 0 6px 0;
+    }
+}

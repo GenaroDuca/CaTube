@@ -1,0 +1,66 @@
+import '../styles/Home.css'
+import '../styles/Global_components.css'
+import Ads from './components/home/Ads.jsx'
+import Sidebar from "../views/components/hooks/Sidebar";
+import Footer from "./components/hooks/Footer.jsx";
+import Recommendations from './components/home/Recommendations.jsx'
+import Sections from './components/home/Sections.jsx'
+import Header from './components/header/Header.jsx'
+import { popularChannels, shorts, videos } from '../assets/data/Data.jsx';
+import { useRef, useState, useEffect } from 'react';
+import axios from 'axios';
+
+function Home() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  const popularChannelsRef = useRef(null);
+  const catsRef = useRef(null);
+  const shortsRef = useRef(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/users');
+        setData(response.data);
+      } catch (err) {
+        setError(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <div>Cargando...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  return (
+    <>
+        <Header></Header>
+        <Sidebar />
+        <main className="main-content">
+          <Ads />
+          <p>Datos del backend: {data ? data.map(user => user.username).join(', ') : 'No data'}</p>
+          <Sections section="popular-channels" subtitle="Popular Channels" ref={popularChannelsRef} render={popularChannels} type="profile" cts="carousel-cts" ></Sections>
+          <Sections section="trending" subtitle="Shorts" ref={shortsRef} render={shorts} type="short" cts="carousel-ctshorts"></Sections>
+          <Sections section="subscriptions" subtitle="Catscribers" ref={catsRef} render={videos} type="video" cts="carousel-ctsvideos"></Sections>
+
+          <Recommendations />
+
+          <Ads />
+
+          <Footer footer="footer"></Footer>
+        </main>
+    </>
+  )
+}
+
+export default Home

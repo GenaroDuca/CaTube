@@ -1,0 +1,87 @@
+/* === Card general === */
+.ct-subsCard {
+    align-items: center;
+    background-color: var(--primary-color);
+    border-radius: var(--border-radius);
+    color: var(--text);
+    display: flex;
+    font-size: 0.8rem;
+    gap: 30px;
+    justify-content: space-between;
+    padding: 1rem;
+    width: 350px;
+}
+
+/* === Avatar e info === */
+.ct-subsCard-header {
+    align-items: center;
+    cursor: pointer;
+    display: flex;
+    gap: 15px;
+}
+
+.ct-subsCard-avatar {
+    border-radius: 1000px;
+    height: 48px;
+    width: 48px;
+}
+
+.ct-subsCard-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.ct-subsCard-userName {
+    font-weight: bold;
+}
+
+.ct-subsCard-infoUserName {
+    opacity: 0.6;
+}
+
+/* === Botón === */
+.ct-subsCard-button {
+    background-color: var(--btn);
+    border: none;
+    border-radius: 999px;
+    color: var(--primary-color);
+    cursor: pointer;
+    font-weight: bold;
+    padding: 6px 16px;
+    transition: 0.3s ease background-color;
+}
+
+.ct-subsCard-button:hover {
+    opacity: 0.8;
+}
+
+/* === Estado: siguiendo === */
+.ct-subsCard-button.is-following {
+    background: transparent;
+    border: 1px solid;
+    color: var(--text);
+    width: 140px;
+}
+
+.ct-subsCard-button.is-following:hover {
+    background-color: rgba(255, 0, 0, 0.1);
+    border: 1px solid red;
+    color: red;
+}
+
+/* === Texto dinámico === */
+.ct-subsCard-text {
+    display: block;
+}
+
+.ct-subsCard-unsubscribe {
+    display: none;
+}
+
+.ct-subsCard-button.is-following:hover .ct-subsCard-text {
+    display: none;
+}
+
+.ct-subsCard-button.is-following:hover .ct-subsCard-unsubscribe {
+    display: block;
+}

@@ -1,0 +1,57 @@
+.notification-menu {
+    position: relative;
+}
+
+.notification-button {
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: var(--border-radius);
+    color: var(--text);
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+
+.notification-button:hover {
+    color: var(--btn);
+}
+
+.notification-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background-color: var(--btn);
+    color: white;
+    font-size: 0.8rem;
+    padding: 1px 6px;
+    border-radius: 999px;
+}
+
+.notification-dropdown {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #1e1e1f;
+    border-radius: 8px;
+    padding: 0.5rem;
+    width: 240px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+}
+
+.notification-item {
+    border-radius: 10px;
+    padding: 0.5rem;
+    color: var(--text);
+    font-size: 1rem;
+}
+
+.notification-item:hover {
+    background-color: var(--btn);
+    color: var(--primary-color);
+}
+
+.notification-item:last-child {
+    border-bottom: none;
+}

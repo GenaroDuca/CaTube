@@ -1,0 +1,856 @@
+/* ==================================== */
+/* 7. MODALS & Overlays Styles */
+/* ==================================== */
+
+/* SELECTOR UNIFICADO PARA OVERLAYS Y POSICIONAMIENTO CENTRAL */
+.right-menu-modal,
+#soon-modal,
+.create-video-modal,
+.create-store-modal,
+.add-product-modal,
+.edit-product-modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    background: rgba(0, 0, 0, .4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.right-menu-modal {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    backdrop-filter: blur(2px);
+    overflow: auto;
+    padding: 20px;
+    justify-content: center;
+}
+
+/* SELECTOR UNIFICADO PARA TAMAÑO Y CONTENIDO */
+.feedback-modal-content,
+.help-modal-content,
+.settings-modal-content,
+.soon-modal-content,
+.create-video-content,
+.edit-product-content,
+.add-product-content,
+.create-store-content {
+    background-color: var(--background-color);
+    border-radius: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, .2);
+    display: flex;
+    flex-direction: column;
+
+    /* PROPIEDADES DE TAMAÑO FIJO Y UNIFICADO: */
+    width: 800px;
+    max-width: 90vw;
+    height: 80vh;
+    max-height: 90vh;
+    overflow: auto;
+}
+
+/* Encabezados de todos los modales */
+.right-menu-modal header,
+.create-video-modal header,
+.edit-product-content header,
+.add-product-content header,
+.create-store-content header {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--btn);
+    padding: 20px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    color: var(--primary-color);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .25);
+    width: 100%;
+    flex-shrink: 0;
+}
+
+/* Botones de cerrar en headers */
+.right-menu-modal button,
+.create-video-modal header button,
+.close-edit-product-modal,
+.close-add-product-modal,
+.close-create-store-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    float: none;
+}
+
+.right-menu-modal header button:hover,
+.create-video-modal header button:hover,
+.close-edit-product-modal:hover,
+.close-add-product-modal:hover,
+.close-create-store-modal:hover {
+    transform: scale(1.1)
+}
+
+#soon-modal {
+    display: none;
+}
+
+.soon-modal-content {
+    text-align: center;
+    align-items: center;
+}
+
+.soon-modal-content h2 {
+    margin: 30px;
+    color: var(--text-color);
+}
+
+.soon-modal-content p {
+    margin-bottom: 24px
+}
+
+.close-soon-modal-container {
+    width: 100%;
+    padding: 20px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    background-color: #90b484;
+    margin-bottom: -32px
+}
+
+#close-soon-modal {
+    width: 100px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 30px;
+    background-color: transparent;
+    cursor: pointer;
+    border: 1px solid var(--primary-color)
+}
+
+#close-soon-modal:hover {
+    background: var(--primary-color);
+    color: var(--btn)
+}
+
+.play-modal-btn,
+.return-btn-soon {
+    width: 100px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 30px;
+    margin-bottom: 20px;
+    background-color: var(--btn)
+}
+
+.return-btn-soon {
+    margin: 0
+}
+
+.play-modal-btn:hover,
+.return-btn-soon:hover {
+    background-color: var(--btn-dark)
+}
+
+
+.feedback-modal-content form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px
+}
+
+.feedback-modal-content label {
+    margin-bottom: -10px
+}
+
+.feedback-modal-content form input[type=email],
+.feedback-modal-content form textarea {
+    border-radius: 30px;
+    padding: 20px;
+    background-color: transparent;
+    border: 1px solid var(--text-color);
+    resize: none;
+    color: var(--text-color)
+}
+
+.feedback-modal-content form input:focus,
+.feedback-modal-content form textarea:focus {
+    outline: none;
+    border-color: var(--btn)
+}
+
+.feedback-modal-content form input[type=file] {
+    display: none !important;
+}
+
+.feedback-modal-content form label[for=feedback-file] {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-align: center;
+    border: 1px solid var(--text-color);
+    cursor: pointer
+}
+
+.feedback-modal-content form label[for=feedback-file]:hover {
+    border: 1px solid var(--btn)
+}
+
+.feedback-modal-content form button {
+    background-color: var(--btn);
+    color: var(--primary-color);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 10px
+}
+
+.feedback-modal-content form button:hover {
+    background-color: var(--btn-dark);
+}
+
+.frequently-asked-questions {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+}
+
+.settings-main-content {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.settings-main-content nav {
+    padding: 20px;
+    border-bottom-left-radius: 30px;
+    width: 25%;
+    flex-shrink: 0;
+}
+
+.settings-main-content nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.settings-option-btn {
+    width: 100%;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 20px;
+    padding: 12px 20px;
+    cursor: pointer;
+    text-align: start;
+    color: var(--text-color);
+    font-size: 1em;
+    transition: background-color 0.2s;
+}
+
+.settings-option-btn.active,
+.settings-option-btn:hover {
+    background: var(--btn);
+    color: var(--primary-color)
+}
+
+.setting-section {
+    padding: 20px 40px;
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.setting-section.hide {
+    display: none;
+}
+
+.setting-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.change-password-form label {
+    margin-bottom: -10px;
+}
+
+.change-password-form input[type=password] {
+    border-radius: 30px;
+    padding: 12px 20px;
+    background-color: transparent;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+}
+
+.change-password-form input:focus {
+    outline: none;
+    border-color: var(--btn);
+}
+
+.change-password-form button {
+    background-color: var(--btn);
+    color: var(--primary-color);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.change-password-form button:hover {
+    background-color: var(--btn-dark);
+}
+
+.change-password-form a,
+.change-password-form p {
+    margin-top: -15px;
+    margin-left: 10px;
+    font-size: 0.8em;
+}
+
+.setting-section-btn-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.delete-account-btn,
+.disable-account-btn,
+.generic-btn {
+    padding: 12px 20px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-color);
+}
+
+.delete-account-btn {
+    background-color: #e96765 !important;
+}
+
+.delete-account-btn:hover {
+    background-color: #b94c4a !important;
+}
+
+.disable-account-btn {
+    background-color: #696969 !important;
+}
+
+.disable-account-btn:hover {
+    background-color: #575757 !important;
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #696969;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: var(--btn);
+}
+
+input:checked+.slider:before {
+    transform: translateX(26px);
+}
+
+.payment-history {
+    width: 100%;
+    margin-top: 10px;
+    border-spacing: 0;
+    border: 1px solid var(--btn);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.payment-history th,
+.payment-history td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--btn);
+}
+
+.payment-history tr:last-child td {
+    border-bottom: none;
+}
+
+.payment-history th {
+    background-color: #ffffff1a;
+    border-bottom: 1px solid var(--btn);
+}
+
+.settings-select {
+    border-radius: 30px;
+    padding: 12px 20px;
+    background-color: transparent;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+    width: 200px;
+}
+
+.settings-select:focus {
+    outline: none;
+    border: 1px solid var(--btn);
+}
+
+.settings-select option {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+
+.create-video-modal {
+    display: none;
+    flex-direction: column;
+}
+
+.create-video-modal header {
+    color: var(--primary-color);
+}
+
+.create-video-modal main {
+    width: 100%;
+    padding: 0px 20px 20px 20px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    background-color: var(--background-color);
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.create-video-content main h2 {
+    margin: 20px 0 10px;
+}
+
+.create-video-content main input[type="text"],
+.create-video-content main textarea {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid var(--text-color);
+    border-radius: 30px;
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+.create-video-content main textarea {
+    height: 100px;
+    resize: none;
+}
+
+.create-video-content main input[type="text"]:focus,
+.create-video-content main textarea:focus {
+    outline: none;
+    border: 1px solid var(--btn);
+}
+
+.create-thumbnail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: var(--primary-color);
+    padding: 20px;
+    border-radius: 30px;
+}
+
+.create-thumbnail img {
+    width: 300px;
+    border-radius: 15px;
+}
+
+.create-thumbnail input[type="file"] {
+    display: none;
+}
+
+.create-thumbnail label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 50px;
+    text-align: center;
+    padding: 10px;
+    background-color: var(--btn);
+    color: var(--primary-color);
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.create-thumbnail label:hover {
+    background-color: var(--btn-dark);
+}
+
+.create-video-tags-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.create-video-tags-container section {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+}
+
+.create-video-tags-container section select {
+    padding: 20px;
+    height: auto;
+    border-radius: 30px;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent;
+}
+
+.create-video-tags-container section :focus {
+    outline: none;
+}
+
+.create-video-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.tag-input-container div {
+    display: flex;
+    flex-direction: row;
+}
+
+.tag-input-container div button {
+    background: var(--btn);
+    color: var(--primary-color);
+    border: none;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.tag-input-container div button:hover {
+    background: var(--btn-dark);
+}
+
+.tag-input-container div input {
+    border-bottom-right-radius: 0px !important;
+    border-top-right-radius: 0px !important;
+}
+
+.create-video-buttons button {
+    padding: 12px 20px;
+    background-color: var(--btn);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.create-video-buttons button:hover {
+    background-color: var(--btn-dark);
+}
+
+.discard-changes-create-video {
+    background-color: #e96765 !important;
+    color: var(--primary-color);
+}
+
+.discard-changes-create-video:hover {
+    background-color: #b94c4a !important
+}
+
+/* Contenido Principal de Modales de Tienda/Producto */
+.edit-product-content main,
+.add-product-content main,
+.create-store-content main {
+    width: 100%;
+    padding: 0px 20px 20px 20px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    background-color: var(--background-color);
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.edit-product-content main h2,
+.add-product-content main h2,
+.create-store-content main h2 {
+    margin: 20px 0 10px;
+}
+
+/* Estilos de Input (Texto, Número y File) */
+.edit-product-content main input[type="number"],
+.edit-product-content main input[type="text"],
+.edit-product-content main input[type="file"],
+.add-product-content main input[type="file"],
+.add-product-content main input[type="number"],
+.add-product-content main input[type="text"],
+.create-store-content main input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid var(--text-color);
+    border-radius: 30px;
+    background-color: transparent;
+    color: var(--text-color);
+    box-sizing: border-box;
+}
+
+.edit-product-content main input:focus,
+.add-product-content main input:focus,
+.create-store-content main input[type="text"]:focus {
+    outline: none;
+    border: 1px solid var(--btn);
+}
+
+/* Estilos de Textarea */
+.edit-product-content main textarea,
+.add-product-content main textarea,
+.create-store-content main textarea {
+    width: 100%;
+    height: 100px;
+    padding: 12px 20px;
+    border: 1px solid var(--text-color);
+    border-radius: 30px;
+    background-color: transparent;
+    color: var(--text-color);
+    resize: none;
+}
+
+.edit-product-content main textarea:focus,
+.add-product-content main textarea:focus,
+.create-store-content main textarea:focus {
+    outline: none;
+    border: 1px solid var(--btn);
+}
+
+/* Estructura y Botones Específicos de Producto */
+.price-stock-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.price-stock-container .form-group {
+    flex: 1;
+}
+
+.price-stock-container .form-group h2 {
+    text-align: left;
+    margin-left: 15px;
+}
+
+.image-title {
+    text-align: left;
+    margin-left: 15px;
+}
+
+.update-product-btn,
+.create-product-btn,
+.create-store-btn {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: var(--btn);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 20px;
+}
+
+@media (max-width:768px) {
+    .main-content {
+        margin-left: 70px;
+    }
+
+    footer {
+        margin-left: 70px
+    }
+
+    .sidebar {
+        width: 200px;
+        margin: 0;
+        border-radius: 0
+    }
+
+    .sidebar-header {
+        padding: 60px 0 0 76px
+    }
+
+    .sidebar.collapsed {
+        width: 70px
+    }
+
+    .sidebar-nav .nav-list {
+        padding: 0 5px
+    }
+
+    .bar-section,
+    .title,
+    .mic-section {
+        display: none;
+    }
+
+    .bar-section.active,
+    .mic-section.active {
+        display: flex;
+    }
+
+    .search-btn-responsive {
+        display: flex;
+    }
+
+    .search-section {
+        display: flex;
+        justify-content: end;
+        gap: 5px;
+    }
+
+    .header.search-active .bar-section {
+        display: flex;
+        flex-grow: 1;
+        background-color: #1a1a1b;
+        border-radius: 20px;
+        overflow: hidden;
+        margin: 0 .5rem
+    }
+
+    .header.search-active .search-section input[type=text] {
+        display: block;
+        flex-grow: 1;
+        min-width: 10px
+    }
+
+    .header.search-active .search-btn {
+        background-color: #90b484;
+        color: #1f1f20;
+        border-radius: 0 20px 20px 0;
+        width: auto;
+        height: 100%;
+        padding: 8px 12px;
+        font-size: 1rem
+    }
+
+    .header.search-active .search-btn:hover {
+        background-color: #749269
+    }
+
+    .create-video-btn {
+        margin: 0 -10px
+    }
+
+    .settings-main-content {
+        flex-direction: column
+    }
+
+    .settings-main-content nav {
+        width: 100%;
+        border-bottom-left-radius: 0
+    }
+
+    .settings-main-content nav ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center
+    }
+
+    .setting-section {
+        padding: 20px;
+        width: 100%
+    }
+
+    .change-password-form button,
+    .delete-account-btn,
+    .disable-account-btn,
+    .settings-option-btn {
+        padding: 6px 10px
+    }
+
+    .notifications-sidebar.collapsed {
+        width: 290px;
+    }
+
+    .create-thumbnail {
+        justify-content: center;
+    }
+
+    .create-thumbnail img {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .create-video-tags-container section:nth-child(1) {
+        order: 1;
+        width: 45%;
+    }
+
+    .create-video-tags-container section:nth-child(2) {
+        order: 2;
+        width: 100%
+    }
+
+    .create-video-tags-container section:nth-child(3) {
+        order: 1;
+        width: 45%;
+    }
+
+    .create-video-tags-container {
+        flex-wrap: wrap;
+    }
+
+    .price-stock-container {
+        flex-direction: column;
+    }
+}
