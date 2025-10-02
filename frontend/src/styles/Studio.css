@@ -54,7 +54,8 @@ body {
 
 .right-menu img {
     margin-top: 15px;
-    width: 100%;
+    width: clamp(10px, 13vw, 266px);
+    height: clamp(10px, 13vw, 266px);
     border-radius: 50%;
 }
 
@@ -581,10 +582,29 @@ body {
     cursor: pointer;
 }
 
+.delete-account {
+    padding: 12px;
+    width: 150px;
+    background-color: #ff7676;
+    color: var(--hover-color);
+    border-radius: 30px;
+}
+
+.delete-account:hover {
+    background-color: #ff4040;
+    cursor: pointer;
+}
+
 .photo-card {
     width: 175px;
-    height: auto;
+    height: 175px;
     border-radius: 50%;
+}
+
+.photo-card-banner {
+    border-radius: 0;
+    width: 175px;
+    height: auto;
 }
 
 .banner {
@@ -608,6 +628,12 @@ body {
 .rectangle-customization-description {
     height: 155px;
 }
+
+.custom-buttons {
+    display: flex;
+    justify-content: space-around;
+}
+
 
 .sidebar-left-studio {
     margin: 16px;

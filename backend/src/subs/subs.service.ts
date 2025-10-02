@@ -17,7 +17,7 @@ export class SubscriptionsService {
   ) {}
 
   //Subscribe
-  async subscribe(user: User, channelId: string) {
+    async subscribe(user: User, channelId: string) {
     const channel = await this.channelsRepository.findOne({
       where: { channel_id: channelId },
     });
@@ -38,7 +38,13 @@ export class SubscriptionsService {
       channel,
     });
 
-    return this.subscriptionsRepository.save(subscription);
+    await this.subscriptionsRepository.save(subscription);
+
+    // Increment subscriber count
+    channel.subscriberCount += 1;
+    await this.channelsRepository.save(channel);
+
+    return subscription;
   }
 
   //Unsubscribe
@@ -49,7 +55,21 @@ export class SubscriptionsService {
 
     if (!subscription) throw new NotFoundException('Subscription not found');
 
-    return this.subscriptionsRepository.remove(subscription);
+    const channel = await this.channelsRepository.findOne({
+      where: { channel_id: channelId },
+    });
+
+    if (!channel) throw new NotFoundException('Channel not found');
+
+    await this.subscriptionsRepository.remove(subscription);
+
+    // Decrement subscriber count
+    if (channel.subscriberCount > 0) {
+      channel.subscriberCount -= 1;
+      await this.channelsRepository.save(channel);
+    }
+
+    return subscription;
   }
 
   //Get all subscriptions

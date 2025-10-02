@@ -1,6 +1,8 @@
-import React from 'react';
+import { useModal } from "../ModalContext";
 
-const AccountSettings = () => (
+const AccountSettings = () => {
+  const { openModal } = useModal();  
+  return(
   <section className="setting-section">
     <h2>Account Settings</h2>
     <form className="change-password-form">
@@ -20,9 +22,10 @@ const AccountSettings = () => (
 
     <div className="setting-section-btn-container">
       <button type="button" className="disable-account-btn soon">Disable Account</button>
-      <button type="button" className="delete-account-btn soon">Delete Account</button>
+      <button type="button" className="delete-account-btn soon" onClick={() => openModal('delete')}>Delete Account</button>
     </div>
   </section>
 );
+}
 
 export default AccountSettings;

@@ -24,6 +24,7 @@ const LoginForm = ({ togglePanel }) => {
         if (result.user && result.user.channel && result.user.channel.channel_id) {
           localStorage.setItem('channelId', result.user.channel.channel_id);
           localStorage.setItem('username', result.user.username);
+          localStorage.setItem('userId', result.user.user_id); 
           navigate('/');
         } else {
           console.error('La respuesta del login no contiene \'user.channel.channel_id\'.');

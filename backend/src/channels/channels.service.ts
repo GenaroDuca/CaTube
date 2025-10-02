@@ -1,9 +1,11 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+    import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 import { CreateChannelDto } from './dto-channels/create-channel.dto';
 import { Channel } from './entities/channel.entity';
 import { User } from 'src/users/entities/user.entity';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Injectable()
 export class ChannelsService {
@@ -20,6 +22,11 @@ constructor(
         url: createChannelDto.url,
         user: user,
     });
+
+    // Asignar avatar por defecto basado en la primera letra del nombre del canal
+    const firstLetter = newChannel.channel_name.charAt(0).toUpperCase();
+    newChannel.photoUrl = `/assets/media/profile/${firstLetter}.png`;
+
     return this.channelRepository.save(newChannel);
 }
 
@@ -59,5 +66,70 @@ constructor(
         Object.assign(channelToUpdate, updateChannelDto);
 
         return this.channelRepository.save(channelToUpdate);
+    }
+
+    async uploadBanner(id: string, file: any): Promise<Channel> {
+        const channel = await this.channelRepository.findOneBy({ channel_id: id });
+
+        if (!channel) {
+            throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
+        }
+
+        // Guardar archivo en carpeta uploads del backend
+        const uploadDir = path.join(__dirname, '..', '..', 'uploads', 'banners');
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+
+        const filename = `${id}_${Date.now()}_${file.originalname}`;
+        const filepath = path.join(uploadDir, filename);
+
+        fs.writeFileSync(filepath, file.buffer);
+
+        // Actualizar la entidad con la ruta o URL de la foto
+        channel.photoUrl = `/uploads/banners/${filename}`;
+
+        return this.channelRepository.save(channel);
+    }
+
+    async uploadPhoto(id: string, file: any): Promise<Channel> {
+        const channel = await this.channelRepository.findOneBy({ channel_id: id });
+
+        if (!channel) {
+            throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
+        }
+
+        // Guardar archivo en carpeta uploads del backend
+        const uploadDir = path.join(__dirname, '..', '..', 'uploads', 'profile');
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+        }
+
+        // Si ya existe una foto previa que no sea la por defecto, eliminarla para ahorrar espacio
+        if (channel.photoUrl && !channel.photoUrl.startsWith('/assets/media/profile/')) {
+            const oldFilePath = path.join(__dirname, '..', '..', channel.photoUrl);
+            if (fs.existsSync(oldFilePath)) {
+                fs.unlinkSync(oldFilePath);
+            }
+        }
+
+        const filename = `${id}_${Date.now()}_${file.originalname}`;
+        const filepath = path.join(uploadDir, filename);
+
+        fs.writeFileSync(filepath, file.buffer);
+
+        // Actualizar la entidad con la ruta o URL de la foto
+        channel.photoUrl = `/uploads/profile/${filename}`;
+
+        return this.channelRepository.save(channel);
+    }
+
+    async setDefaultPhoto(id: string): Promise<Channel> {
+        const channel = await this.findOneById(id);
+
+        const firstLetter = channel.channel_name.charAt(0).toUpperCase();
+        channel.photoUrl = `/assets/media/profile/${firstLetter}.png`;
+
+        return this.channelRepository.save(channel);
     }
 }

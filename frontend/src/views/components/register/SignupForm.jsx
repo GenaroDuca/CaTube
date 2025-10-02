@@ -83,7 +83,11 @@ const SignupForm = ({ togglePanel }) => {
           togglePanel(); // Go to login
         } else {
           const errorMessage = result.message || 'Ocurrió un error desconocido.';
-          alert('Error al registrar: ' + JSON.stringify(errorMessage));
+          if (errorMessage === 'Username already exists') {
+            alert('El nombre de usuario ya existe. Por favor, elige otro.');
+          } else {
+            alert('Error al registrar: ' + JSON.stringify(errorMessage));
+          }
         }
       } catch (error) {
         console.error('Error de conexión:', error);

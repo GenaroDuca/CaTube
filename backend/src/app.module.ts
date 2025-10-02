@@ -27,7 +27,7 @@ import { PlaylistVideo } from './playlist_videos/entities/playlist_video.entity'
       port: 3306,
       username: 'root',       
       password: 'Colo123',   
-      database: 'youtube_db',
+      database: 'catube_db',
       entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo],       
       synchronize: true,      
     }),

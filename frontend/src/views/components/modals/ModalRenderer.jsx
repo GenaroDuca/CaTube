@@ -5,6 +5,7 @@ import HelpModal from './HelpModal';
 import FeedbackModal from './FeedbackModal'
 import EditProductModal from './EditProductModal'
 import AddProductModal from './AddProductModal'
+import ModalDeleteAccount from './ModalDeleteAccount';
 
 const ModalRenderer = () => {
     const { modalState, closeModal } = useModal();
@@ -22,6 +23,8 @@ const ModalRenderer = () => {
             return <EditProductModal onClose={closeModal} />;
         case 'addproduct':
             return <AddProductModal onClose={closeModal} />;
+        case 'delete':
+            return <ModalDeleteAccount onClose={closeModal} />;
         default:
             return null;
     }

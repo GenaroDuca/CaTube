@@ -1,4 +1,4 @@
-import { Injectable, Inject, forwardRef } from '@nestjs/common';
+import { Injectable, Inject, forwardRef, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto-users/create-user.dto';
@@ -18,11 +18,20 @@ export class UsersService {
     ) { }
 
     async create(createUserDto: CreateUserDto): Promise<User> {
+        const capitalizedUsername = createUserDto.username.charAt(0).toUpperCase() + createUserDto.username.slice(1);
+
+        const existingUser = await this.usersRepository.findOne({
+            where: { username: capitalizedUsername },
+        });
+        if (existingUser) {
+            throw new ConflictException('Username already exists');
+        }
+
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
 
         const newUser = this.usersRepository.create({
-            username: createUserDto.username,
+            username: capitalizedUsername,
             email: createUserDto.email,
             password: hashedPassword,
         });
@@ -59,6 +68,24 @@ export class UsersService {
     }
 
     async remove(id: string): Promise<void> {
-        await this.usersRepository.delete(id);
+        try {
+            const user = await this.usersRepository.findOne({
+                where: { user_id: id },
+                relations: ['channel'],
+            });
+
+            if (!user) {
+                throw new Error('User not found');
+            }
+
+            if (user.channel) {
+                await this.channelsService.remove(user.channel.channel_id);
+            }
+
+            await this.usersRepository.delete(id);
+        } catch (error) {
+            console.error('Error deleting user:', error);
+            throw error;
+        }
     }
 }

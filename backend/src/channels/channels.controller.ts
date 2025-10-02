@@ -1,4 +1,5 @@
-import { Body, Controller,Delete,Get, Param, ParseIntPipe, Post, Patch } from '@nestjs/common';
+import { Body, Controller,Delete,Get, Param, Post, Patch, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateChannelDto } from './dto-channels/create-channel.dto';
 import { ChannelsService } from './channels.service';
 import { User } from 'src/users/entities/user.entity';
@@ -19,20 +20,26 @@ export class ChannelsController {
     }
 
     @Get(':id')
-    findOne(@Param('id', ParseIntPipe) id: string) {
+    findOne(@Param('id') id: string) {
         return this.channelsService.findOneById(id);
     }
 
     @Delete(':id')
-    remove(@Param('id', ParseIntPipe) id: string) {
+    remove(@Param('id') id: string) {
         return this.channelsService.remove(id);
     }
 
     @Patch(':id')
     update(
-        @Param('id', ParseIntPipe) id: string,
+        @Param('id') id: string,
         @Body() updateChannelDto: CreateChannelDto
     ) {
         return this.channelsService.update(id, updateChannelDto);
+    }
+
+    @Post(':id/photo')
+    @UseInterceptors(FileInterceptor('photo'))
+    uploadPhoto(@Param('id') id: string, @UploadedFile() file: any) {
+        return this.channelsService.uploadPhoto(id, file);
     }
 }

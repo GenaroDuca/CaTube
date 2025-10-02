@@ -29,6 +29,7 @@ body {
     padding: 20px;
     margin: 1rem auto;
     border-radius: 30px;
+    justify-content: space-between;
 }
 
 .first-part-profile {

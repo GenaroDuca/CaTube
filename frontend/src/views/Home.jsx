@@ -11,7 +11,7 @@ import { useRef, useState, useEffect } from 'react';
 import axios from 'axios';
 
 function Home() {
-  const [data, setData] = useState(null);
+  const [channels, setChannels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -20,10 +20,16 @@ function Home() {
   const shortsRef = useRef(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchChannels = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/users');
-        setData(response.data);
+        const response = await axios.get('http://localhost:3000/channels');
+        // Transform channels to match Profile component props
+        const transformedChannels = response.data.map(channel => ({
+          name: channel.channel_name,
+          subs: channel.subscriberCount,
+          photo: channel.photoUrl || '', // Use photoUrl if available
+        }));
+        setChannels(transformedChannels);
       } catch (err) {
         setError(err);
       } finally {
@@ -31,7 +37,7 @@ function Home() {
       }
     };
 
-    fetchData();
+    fetchChannels();
   }, []);
 
   if (loading) {
@@ -48,8 +54,7 @@ function Home() {
         <Sidebar />
         <main className="main-content">
           <Ads />
-          <p>Datos del backend: {data ? data.map(user => user.username).join(', ') : 'No data'}</p>
-          <Sections section="popular-channels" subtitle="Popular Channels" ref={popularChannelsRef} render={popularChannels} type="profile" cts="carousel-cts" ></Sections>
+          <Sections section="popular-channels" subtitle="Popular Channels" ref={popularChannelsRef} render={channels} type="profile" cts="carousel-cts" ></Sections>
           <Sections section="trending" subtitle="Shorts" ref={shortsRef} render={shorts} type="short" cts="carousel-ctshorts"></Sections>
           <Sections section="subscriptions" subtitle="Catscribers" ref={catsRef} render={videos} type="video" cts="carousel-ctsvideos"></Sections>
 

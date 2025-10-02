@@ -8,7 +8,7 @@ function CardCustomization(props){
                         </div>
                         <label htmlFor={props.for} className="custom-file-label">
                             <span>Upload</span>
-                            <input id={props.for} type="file" accept="image/*" style={{ display: "none" }}></input>
+                            <input id={props.for} type="file" accept="image/*" style={{ display: "none" }} onChange={props.onChange}></input>
                         </label>
         </div>
     );
