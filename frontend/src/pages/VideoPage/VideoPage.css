@@ -1,0 +1,18 @@
+
+.video-page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100vh;
+    gap: 1rem;
+}
+
+.main-content-video {
+    margin-top: 50px;
+    margin-left: 130px;
+    width: 100vw;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    padding: 20px;
+}

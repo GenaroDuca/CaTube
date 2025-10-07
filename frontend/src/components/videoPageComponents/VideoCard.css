@@ -1,0 +1,63 @@
+.ct-videoCard {
+    display: flex;
+    color: var(--text);
+    font-size: .8rem;
+    gap: 20px;
+    flex-direction: column;
+    width: 360px;
+    overflow: hidden;
+}
+
+.ct-videoCard-thumbnail {
+    cursor: pointer;
+    width: 360px;
+    height: auto;
+    border-radius: 20px;
+}
+
+.ct-videoCard-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.ct-videoCard-infoVideo {
+    display: flex;
+    flex-direction: column;
+}
+
+.ct-videoCard-info .ct-videoCard-title {
+    cursor: pointer;
+    font-size: large;
+    font-weight: 400;
+}
+
+.ct-videoCard-infoUser {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.ct-videoCard-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ct-videoCard-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 1000px;
+}
+
+.ct-videoCard-infoUserName {
+    font-size: medium;
+    opacity: .6;
+}
+
+.ct-videoCard-description.watch {
+    display: none;
+}

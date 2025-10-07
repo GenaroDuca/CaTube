@@ -13,6 +13,10 @@ Dependencias
     npm install @nestjs/jwt @nestjs/passport passport passport-jwt
     npm install @nestjs/platform-express
     npm install @nestjs/mapped-types
+    npm install --save @fortawesome/fontawesome-svg-core
+    npm install --save @fortawesome/free-solid-svg-icons
+    npm install --save @fortawesome/react-fontawesome
+    npm install react-router-dom
 
 Diagrama de flujo:
 

@@ -1,0 +1,186 @@
+.friends-sidebar {
+    width: 300px;
+    height: 350px;
+    background-color: rgba(30, 30, 31, 0.85);
+    box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493);
+    backdrop-filter: blur(10px);
+    border-radius: 30px;
+    position: fixed;
+    z-index: 3;
+    right: 0;
+    top: 195px;
+    margin-right: 300px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.friendSidebar-headerOne {
+    height: 75px;
+    padding: 20px;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.friendSidebar-status select {
+    border-radius: 30px;
+    background-color: transparent;
+    border: 1px solid var(--text-color);
+    color: (var(--text-color));
+    cursor: pointer;
+}
+
+.friendSidebar-status select:focus {
+    outline: none;
+    border-color: var(--btn);
+}
+
+/* .friendSidebar-status select option {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    cursor: pointer;
+} */
+
+/* .friendSidebar-status select option:hover {
+    cursor: pointer;
+    background-color: var(--btn);
+} */
+
+.friendSidebar-status {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.friendSidebar-headerTwo {
+    height: 75px;
+    padding: 20px;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    input {
+        background: var(--primary-color);
+        border: none;
+        padding: 0.5rem;
+        border-radius: var(--border-radius);
+        color: var(--text-color);
+    }
+    input:focus {
+        outline: none;
+    }
+    button {
+        background: var(--btn);
+        border: none;
+        padding: 0.5rem;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+    }
+}
+
+.openSearchFriend {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+    .searchFriendIcon {
+        font-size: 1.5rem;
+    }
+}
+
+
+.friends-sidebar main {
+    display: flex;
+    flex-direction: column;
+}
+
+.modalFriendCard {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    padding: 0.5rem 1rem 0.5rem  1rem;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modalFriendProfile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: relative;
+    gap: 8px;
+}
+
+.FriendImg {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--border-radius);
+}
+
+.buttonsFriends {
+    display: flex;
+    justify-content: flex-end;
+    background-color: transparent;
+    background: none;
+    gap: 10px;
+}
+
+.buttonAddFriend, .buttonChatFriend {
+    background: none;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.messageIcon, .addFriendIcon {
+    font-size: 1.5rem;
+    
+}
+
+.messageIcon {
+    color: var(--btn);
+}
+
+.addFriendIcon {
+    background-color: var(--btn);
+    border-radius: 50%;
+    padding: .1rem .03rem;
+}
+
+.friendStatus {
+    position: absolute;
+    z-index: 4;
+    top: 35px;
+    left: 35px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: var(--btn);
+}
+
+.friendStatus.online {
+    background-color: var(--btn);
+}
+
+.modalFriendProfile.offline {
+    img {
+        filter: grayscale(100%);
+    }
+    div{
+        background-color: var(--text-color);
+    }
+    transition: background-color 0.3s ease;
+}
+
+.buttonAddFriend.offline, .buttonAddFriend.occupied {
+    filter: grayscale(100%);
+}
+
+.friendStatus.occupied {
+    background-color: rgb(201, 197, 112);
+}
