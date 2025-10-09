@@ -1,6 +1,6 @@
 import { latesVideoIcons } from "../../../assets/data/Data";
 import duki from "../../../assets/images/yourChannel_media/thumbnails/duki.jpeg"
-import Container from "../../../hooks/Container";
+import Container from "../../common/Container";
 import Subtitle from "../../homePageComponents/Subtitle";
 
 function LatestVideo() {

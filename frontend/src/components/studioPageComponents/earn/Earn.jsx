@@ -1,5 +1,5 @@
 import EarnOption from "./EarnOption";
-import Container from "../../../hooks/Container";
+import Container from "../../common/Container";
 import NewButton from "../../homePageComponents/Button";
 import Title from "../../TrendingPageComponents/Title"
 import EarnRequeriments from "./EarnRequeriments";

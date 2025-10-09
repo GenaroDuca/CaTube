@@ -1,9 +1,9 @@
-import Sidebar from "../../hooks/Sidebar.jsx";
+import Sidebar from "../../components/common/Sidebar.jsx";
 import Sections from "../../components/homePageComponents/Sections.jsx";
 import { useRef } from 'react';
 import { educationshorts } from "../../assets/data/Data.jsx";
 import Title from "../../components/trendingPageComponents/Title.jsx";
-import Footer from "../../hooks/Footer.jsx";
+import Footer from "../../components/common/Footer.jsx";
 import Block from "../../components/trendingPageComponents/Block.jsx";
 import VideoCard from "../../components/trendingPageComponents/VideoCard";
 import Header from "../../components/common/header/Header.jsx";

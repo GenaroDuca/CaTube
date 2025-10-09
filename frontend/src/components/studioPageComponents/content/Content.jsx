@@ -1,5 +1,5 @@
 import Title from "../../trendingPageComponents/Title"
-import Container from "../../../hooks/Container"
+import Container from "../../common/Container"
 import FilterBar from "./FilterBar"
 import VideoContent from "./VideoContent";
 import { videosContent } from "../../../assets/data/Data";

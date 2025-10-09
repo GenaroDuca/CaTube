@@ -1,5 +1,5 @@
 import Title from "../../TrendingPageComponents/Title";
-import Container from "../../../hooks/Container";
+import Container from "../../common/Container";
 import CardCustomization from "./CardCustomization";
 import InfoContainer from "./InfoContainer";
 import angel from "../../../assets/images/profile/angel.jpg"

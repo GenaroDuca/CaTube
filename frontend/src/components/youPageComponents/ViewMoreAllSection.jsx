@@ -1,4 +1,4 @@
-import Container from "../../hooks/Container";
+import Container from "../common/Container";
 import Item from "./Item";
 
 function ViewMoreAllSection(props) {

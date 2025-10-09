@@ -1,4 +1,4 @@
-import Container from "../../hooks/Container";
+import Container from "../common/Container";
 import RowButtons from "./RowButtons";
 import PostVideoLink from "./PostVideoLink";
 import { postVideos} from "../../assets/data/Data";

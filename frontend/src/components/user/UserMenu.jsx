@@ -1,24 +1,29 @@
 import { useState, useRef, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faSignOut, faTv, faUserFriends, faMoon, faGear, faQuestionCircle, faComments} from '@fortawesome/free-solid-svg-icons';
+// Asegúrate de que los íconos de FontAwesome que quedan estén importados
+import { faUser, faSignOut, faTv, faUserFriends, faMoon, faGear, faQuestionCircle, faComments } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom'
 import { useModal } from '../common/modal/ModalContext';
-import './UserMenu.css';
+
+import { useSidebarToggle } from '../../hooks/useSidebarToggle.jsx';
 
 export function UserMenu() {
+    const {
+        toggleFriendMenu,
+        isUserMenuOpen,     // Estado del menú
+        toggleUserMenu,     // Toggle del menú
+        closeUserMenu       // Función para cerrar
+    } = useSidebarToggle();
+
     const { openModal } = useModal();
     const navigate = useNavigate();
-    //Start closed
-    const [isOpen, setIsOpen] = useState(false);
+
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState('');
-    //Detect cliks off menu
+    // Detect cliks off menu
     const menuRef = useRef(null);
 
-    //Toggle dropdown
-    const toggleMenu = () => setIsOpen(prev => !prev)
-
-    //Check login status on mount
+    // Check login status on mount
     useEffect(() => {
         const accessToken = localStorage.getItem('accessToken');
         const username = localStorage.getItem('username');
@@ -26,33 +31,33 @@ export function UserMenu() {
         setUsername(username || '');
     }, []);
 
-    //Close on outside click or Escape
-    useEffect(() => {
-        //Close with click off menu
-        const handleClickOutside = (e) => {
-            //If click off menu, it closes
-            if (menuRef.current && !menuRef.current.contains(e.target)) {
-                setIsOpen(false);
-            }
-        };
+    // 3. Modificamos useEffect para usar isUserMenuOpen y closeUserMenu
+    // useEffect(() => {
+    //     // Close with click off menu
+    //     const handleClickOutside = (e) => {
+    //         // Cierra si el menú está abierto y el clic está fuera del menú
+    //         if (isUserMenuOpen && menuRef.current && !menuRef.current.contains(e.target)) {
+    //             closeUserMenu();
+    //         }
+    //     };
 
-        //Close with esc
-        const handleEscape = (e) => {
-            if (e.key === 'Escape') {
-                setIsOpen(false);
-                document.activeElement.blur(); //Remove focus from button
-            }
-        };
+    //     // Close with esc
+    //     const handleEscape = (e) => {
+    //         if (e.key === 'Escape') {
+    //             closeUserMenu();
+    //             document.activeElement.blur(); // Remove focus from button
+    //         }
+    //     };
 
-        document.addEventListener('mousedown', handleClickOutside);
-        document.addEventListener('keydown', handleEscape);
+    //     document.addEventListener('mousedown', handleClickOutside);
+    //     document.addEventListener('keydown', handleEscape);
 
-        //Very important clear the eventListener
-        return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-        document.removeEventListener('keydown', handleEscape);
-        };
-    }, []);
+    //     // Dependencias actualizadas
+    //     return () => {
+    //         document.removeEventListener('mousedown', handleClickOutside);
+    //         document.removeEventListener('keydown', handleEscape);
+    //     };
+    // }, [isUserMenuOpen, closeUserMenu]); // Incluir dependencias
 
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
@@ -60,44 +65,101 @@ export function UserMenu() {
         localStorage.removeItem('username');
         setIsLoggedIn(false);
         setUsername('');
+        closeUserMenu(); // Cierra el menú al desloguearse
         navigate('/');
     };
 
     return (
-        <div className="user-menu" ref={menuRef}>
-                <button className="user-button" onClick={toggleMenu}>
-                    <FontAwesomeIcon icon={faUser} className={isLoggedIn ? 'logged-in-icon' : ''} />
-                </button>
-    
-            {isOpen && (
-                <div className="user-dropdown">
-                    <ul>
-                        <li className='menuUserButtonLi'>
+        <div className="user-menu-container" /*ref={menuRef}*/>
+            {/* El botón ahora usa toggleUserMenu */}
+            <button className="user-button" onClick={toggleUserMenu}>
+                <FontAwesomeIcon icon={faUser} className={isLoggedIn ? 'logged-in-icon' : ''} />
+            </button>
+
+            {/* 4. Renderizamos el menú SIEMPRE para permitir la transición CSS. 
+                La clase 'collapsed' lo ocultará (trasladará) si isUserMenuOpen es false. */}
+            <aside className={`ts-sidebar ${isUserMenuOpen ? '' : 'collapsed'}`}>
+                <nav className="ts-sidebar-nav">
+                    <ul className="ts-nav-list">
+                        {/* Log Out / Log In */}
+                        <li className="ts-nav-item">
                             {isLoggedIn ? (
-                                <button className='menuUserButton' onClick={handleLogout}><FontAwesomeIcon className='buttonIcon' icon={faSignOut} />Log Out</button>
+                                <button type="button" className="ts-nav-link" onClick={handleLogout}>
+                                    <span className="material-symbols-outlined">logout</span>
+                                    <span className="ts-nav-label">Log Out</span>
+                                </button>
                             ) : (
-                                <Link to="/register"><button className='menuUserButton'><FontAwesomeIcon className='buttonIcon' icon={faSignOut} />Log In</button></Link>
+                                // Usamos Link para navegar y también cerramos el menú
+                                <Link to="/register" className="ts-nav-link" onClick={closeUserMenu}>
+                                    <span className="material-symbols-outlined">login</span>
+                                    <span className="ts-nav-label">Log In</span>
+                                </Link>
                             )}
-                            <Link to="/yourchannel"><button className='menuUserButton'><FontAwesomeIcon className='buttonIcon' icon={faTv} />Your channel</button></Link>
-                            <button className='menuUserButton'><FontAwesomeIcon className='buttonIcon' icon={faUserFriends} />Friends</button>
-                            <Link to="/studio" ><button className='menuUserButton'>
-                                <svg className="StudioIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 99.3 58">
-                                    <path
-                                        className="st0"
-                                        d="M94.4,21.2c0,0,0-.1,0-.2l2.7-19.8c.1-.9-.9-1.6-1.7-1l-15.8,11.6c-8.3-3.3-18.7-5.2-30-5.2s-21.1,1.8-29.3,5L4.8.2c-.8-.6-1.8,0-1.7,1l2.6,19.1c-3.7,3.6-5.7,7.6-5.7,12,0,14.2,22.2,25.7,49.6,25.7s49.6-11.5,49.6-25.7-1.7-7.7-4.8-11.1ZM34.7,48.4h-9.5c-6.4,0-11.6-5.2-11.6-11.6h9.5c6.4,0,11.6,5.2,11.6,11.6h0ZM85.6,36.8c0,6.4-5.2,11.6-11.6,11.6h-9.5c0-6.4,5.2-11.6,11.6-11.6h9.5Z"
-                                        fill="currentColor"
-                                    />
-                                </svg>
-                                <span>Catube Studio</span></button>
+                        </li>
+
+                        {/* Your channel */}
+                        <li className="ts-nav-item">
+                            <Link to="/yourchannel" className="ts-nav-link" onClick={closeUserMenu}>
+                                <span className="material-symbols-outlined">account_box</span>
+                                <span className="ts-nav-label">Your channel</span>
                             </Link>
-                            <button className='menuUserButton'><FontAwesomeIcon className='buttonIcon' icon={faMoon} />Appearance</button>
-                            <button className='menuUserButton' onClick={() => openModal('settings')}><FontAwesomeIcon className='buttonIcon' icon={faGear} />Settings</button>
-                            <button className='menuUserButton' onClick={() => openModal('help')}><FontAwesomeIcon className='buttonIcon' icon={faQuestionCircle} />Help</button>
-                            <button className='menuUserButton' onClick={() => openModal('feedback')}><FontAwesomeIcon className='buttonIcon' icon={faComments} />Send feedback</button>
+                        </li>
+
+                        {/* Friends */}
+                        <li className="ts-nav-item">
+                            {/* toggleFriendMenu debería estar en el contexto. Después de esto, cerrar el menú de usuario. */}
+                            <button type="button" className="ts-nav-link friends-btn" onClick={() => { toggleFriendMenu()}}>
+                                <span className="material-symbols-outlined">diversity_4</span>
+                                <span className="ts-nav-label">Friends</span>
+                            </button>
+                        </li>
+
+                        {/* Catube Studio */}
+                        <li className="ts-nav-item">
+                            <Link to="/studio" className="ts-nav-link" onClick={closeUserMenu}>
+                                <span className="material-symbols-outlined">video_library</span>
+                                <span className="ts-nav-label">Catube Studio</span>
+                            </Link>
+                        </li>
+
+                        <li className="ts-nav-item"><hr /></li>
+
+                        {/* Appearance */}
+                        <li className="ts-nav-item">
+                            <button type="button" className="ts-nav-link soon" onClick={closeUserMenu}>
+                                <span className="material-symbols-outlined">mode_night</span>
+                                <span className="ts-nav-label">Appearance</span>
+                            </button>
+                        </li>
+
+                        <li className="ts-nav-item"><hr /></li>
+
+                        {/* Settings */}
+                        <li className="ts-nav-item">
+                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { openModal('settings'); closeUserMenu(); }}>
+                                <span className="material-symbols-outlined">settings</span>
+                                <span className="ts-nav-label">Settings</span>
+                            </button>
+                        </li>
+
+                        {/* Help */}
+                        <li className="ts-nav-item">
+                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { openModal('help'); closeUserMenu(); }}>
+                                <span className="material-symbols-outlined">help</span>
+                                <span className="ts-nav-label">Help</span>
+                            </button>
+                        </li>
+
+                        {/* Send feedback */}
+                        <li className="ts-nav-item">
+                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { openModal('feedback'); closeUserMenu(); }}>
+                                <span className="material-symbols-outlined">feedback</span>
+                                <span className="ts-nav-label">Send feedback</span>
+                            </button>
                         </li>
                     </ul>
-                </div>
-            )}
+                </nav>
+            </aside>
         </div>
     )
 }

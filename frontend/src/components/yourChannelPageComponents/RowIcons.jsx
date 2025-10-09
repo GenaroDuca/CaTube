@@ -1,4 +1,4 @@
-import Container from "../../hooks/Container";
+import Container from "../common/Container";
 import Icons from "./Icons";
 import { iconos } from "../../assets/data/Data";
 import RowButtons from "./RowButtons";

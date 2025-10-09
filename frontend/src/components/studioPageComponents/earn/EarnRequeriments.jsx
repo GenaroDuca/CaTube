@@ -1,4 +1,4 @@
-import Container from "../../../hooks/Container";
+import Container from "../../common/Container";
 
 function EarnRequeriments(props) {
     const percent = Math.min(100, (props.current / props.max) * 100);

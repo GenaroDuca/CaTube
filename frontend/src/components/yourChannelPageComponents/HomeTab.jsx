@@ -1,4 +1,4 @@
-import Container from "../../hooks/Container";
+import Container from "../common/Container";
 import ContainerChannel from "../../components/yourChannelPageComponents/ContainerChannel";
 import Sections from "../../components/homePageComponents/Sections"
 import { useRef } from "react";

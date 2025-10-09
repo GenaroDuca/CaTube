@@ -1,4 +1,4 @@
-import Container from "../../../hooks/Container";
+import Container from "../../common/Container";
 import NewButton from "../../homePageComponents/Button";
 import {lcacommunityData } from "../../../assets/data/Data";
 

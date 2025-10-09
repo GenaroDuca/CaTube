@@ -1,5 +1,5 @@
 import Button from "../homePageComponents/Button"
-import Container from "../../hooks/Container";
+import Container from "../common/Container";
 
 function RowButtons(props) {
     return (

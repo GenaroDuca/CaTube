@@ -1,7 +1,7 @@
 import LatestComments from "./LatestComments";
 import RecentCatscribers from "./RecentsCatscribers";
 import Title from "../../TrendingPageComponents/Title"
-import Container from "../../../hooks/Container";
+import Container from "../../common/Container";
 import LatestVideo from "./LatestVideo";
 
 function Dashboard() {

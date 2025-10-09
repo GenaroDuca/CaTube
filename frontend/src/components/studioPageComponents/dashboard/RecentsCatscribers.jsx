@@ -1,6 +1,6 @@
 import { recentSubscribers } from "../../../assets/data/Data";
 import Subtitle from "../../homePageComponents/Subtitle";
-import Container from "../../../hooks/Container";
+import Container from "../../common/Container";
 
 function RecentCatscribers(props) {
     return (

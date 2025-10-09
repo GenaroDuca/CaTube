@@ -1,8 +1,8 @@
 import './HomePage.css'
 import '../../styles/Global_components.css'
 import Ads from '../../components/homePageComponents/Ads.jsx'
-import Sidebar from "../../hooks/Sidebar";
-import Footer from "../../hooks/Footer.jsx";
+import Sidebar from "../../components/common/Sidebar";
+import Footer from "../../components/common/Footer.jsx";
 import Recommendations from '../../components/homePageComponents/Recommendations.jsx'
 import Sections from '../../components/homePageComponents/Sections.jsx'
 import Header from '../../components/common/header/Header.jsx'

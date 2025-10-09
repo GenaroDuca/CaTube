@@ -1,4 +1,4 @@
-import Container from "../../hooks/Container";
+import Container from "../common/Container";
 import Subtitle from "../homePageComponents/Subtitle";
 
 function Block(props){

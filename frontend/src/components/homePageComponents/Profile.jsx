@@ -1,6 +1,6 @@
 function Profile(props) {
     const BASE_URL = 'http://localhost:3000';
-    const avatarImagesPath = '/assets/media/profile/';
+    const avatarImagesPath = '/src/assets/images/profile/';
     const firstLetter = props.namechannel?.charAt(0).toUpperCase();
     const defaultAvatarSrc = `${avatarImagesPath}angel.jpg`;
 
@@ -12,7 +12,7 @@ function Profile(props) {
             // Map old default-avatar paths to new assets path
             const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
             const letter = letterMatch ? letterMatch[1] : 'A';
-            photoPath = `/assets/images/profile/${letter}.png`;
+            photoPath = `/src/assets/images/profile/${letter}.png`;
         }
         photoSrc = BASE_URL + photoPath;
     } else {

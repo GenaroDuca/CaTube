@@ -1,7 +1,7 @@
 import Profile from '../homePageComponents/Profile.jsx'
 import Video from '../homePageComponents/Video.jsx'
 import Short from '../homePageComponents/Short.jsx'
-import Container from '../../hooks/Container.jsx'
+import Container from '../common/Container.jsx'
 import Subtitle from '../homePageComponents/Subtitle.jsx'
 import ButtonCarousel from '../homePageComponents/ButtonCarousel.jsx'
 

@@ -1,5 +1,5 @@
 import Subtitle from "../homePageComponents/Subtitle";
-import Container from "../../hooks/Container";
+import Container from "../common/Container";
 import RowIcons from "./RowIcons";
 import ContainerButton from "./ContainerButton";
 import PublishedContent from "./PublishedContent";

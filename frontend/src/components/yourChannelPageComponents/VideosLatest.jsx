@@ -1,5 +1,5 @@
 import ButtonCarousel from "../homePageComponents/ButtonCarousel";
-import Container from "../../hooks/Container";
+import Container from "../common/Container";
 import Video from "../homePageComponents/Video";
 import Short from "../homePageComponents/Short";
 

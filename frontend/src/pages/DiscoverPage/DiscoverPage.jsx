@@ -3,8 +3,8 @@ import DiscoverHeader from '../../components/discoverPageComponents/DiscoverHead
 import RecommendationCard from '../../components/discoverPageComponents/RecommendationCard';
 import './discoverPage.css';
 import Header from '../../components/common/header/Header';
-import Sidebar from '../../hooks/Sidebar';
-import Footer from '../../hooks/Footer';
+import Sidebar from '../../components/common/Sidebar';
+import Footer from '../../components/common/Footer';
 import { discoverRecommendations } from '../../assets/data/Data';
 
 function DiscoverPage() {

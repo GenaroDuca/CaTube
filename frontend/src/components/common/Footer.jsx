@@ -1,8 +1,8 @@
-import FooterItem  from '../components/homePageComponents/FooterItem.jsx'
-import UlContainer from '../components/homePageComponents/UlContainer.jsx'
-import FooterText from '../components/homePageComponents/FooterText.jsx'
+import FooterItem  from '../homePageComponents/FooterItem.jsx'
+import UlContainer from '../homePageComponents/UlContainer.jsx'
+import FooterText from '../homePageComponents/FooterText.jsx'
 import Container from './Container.jsx'
-import { textfooter } from '../assets/data/Data.jsx';
+import { textfooter } from '../../assets/data/Data.jsx';
 
 function Footer(props) {
     return (

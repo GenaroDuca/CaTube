@@ -1,7 +1,7 @@
 import "../YourChannelPage/YourChannelPage.css";
 import "../Homepage/Homepage.css";
 import "../../styles/Global_components.css"
-import Sidebar from "../../hooks/Sidebar";
+import Sidebar from "../../components/common/Sidebar";
 import Banner from "../../components/yourChannelPageComponents/Banner.jsx";
 import Profile from "../../components/yourChannelPageComponents/Profile";
 import ContainerButton from "../../components/yourChannelPageComponents/ContainerButton";
@@ -11,7 +11,7 @@ import { useState } from "react";
 import ShortsTab from "../../components/yourChannelPageComponents/ShortsTab";
 import Playlists from "../../components/yourChannelPageComponents/Playlists";
 import PostsTab from "../../components/yourChannelPageComponents/PostsTab";
-import Footer from "../../hooks/Footer.jsx";
+import Footer from "../../components/common/Footer.jsx";
 import Header from "../../components/common/header/Header.jsx";
 
 function YourChannel() {

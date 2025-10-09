@@ -3,7 +3,7 @@ import "../HomePage/HomePage.css";
 import "../../styles/Global_components.css";
 import "../StudioPage/StudioPage.css";
 import SidebarStudio from "../../components/studioPageComponents/SidebarStudio.jsx";
-import Footer from "../../hooks/Footer.jsx";
+import Footer from "../../components/common/Footer.jsx";
 import Dashboard from "../../components/studioPageComponents/dashboard/Dashboard.jsx";
 import Content from "../../components/studioPageComponents/content/Content.jsx";
 import Analytics from "../../components/studioPageComponents/analytics/Analytics.jsx";

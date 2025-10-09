@@ -1,7 +1,7 @@
 import { latestCommentsData } from '../../../assets/data/Data'; 
 import Subtitle from '../../homePageComponents/Subtitle';
 import CommentItem from './CommentItem';
-import Container from "../../../hooks/Container";
+import Container from "../../common/Container";
 import NewButton from '../../homePageComponents/Button';
 import { Link } from 'react-router-dom'
 

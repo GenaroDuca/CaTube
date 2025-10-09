@@ -1,4 +1,4 @@
-import Container from "../../hooks/Container";
+import Container from "../common/Container";
 import VideosLatest from "./VideosLatest";
 import { playlists } from "../../assets/data/Data";
 import { useRef } from "react";
