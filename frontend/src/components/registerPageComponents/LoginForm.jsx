@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BsPersonFill } from "react-icons/bs";
+import { FaKey } from "react-icons/fa";
 
 const LoginForm = ({ togglePanel }) => {
   const navigate = useNavigate();
@@ -43,7 +45,7 @@ const LoginForm = ({ togglePanel }) => {
       <h1>Login</h1>
       <div className="input-group">
         <div className="input-row">
-          <div className="icon-circle"><i className="bi bi-person"></i></div>
+          <div className="icon-circle"><BsPersonFill size={25} color="#1a1a1b"/></div>
           <input
             type="text"
             placeholder="Username"
@@ -56,7 +58,7 @@ const LoginForm = ({ togglePanel }) => {
       </div>
       <div className="input-group">
         <div className="input-row">
-          <div className="icon-circle"><i className="bi bi-key"></i></div>
+          <div className="icon-circle"><FaKey size={20} color="#1a1a1b"/></div>
           <input
             type="password"
             placeholder="Password"

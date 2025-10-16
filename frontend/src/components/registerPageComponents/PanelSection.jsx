@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const PanelSection = ({ title, message, buttonText, onClick }) => (
   <div className="panel-section">
-    <a href="../index.html"><h1>{title}</h1></a>
+    <Link to={"/"} ><h1>{title}</h1> </Link>
     <p>{message}</p>
     <button type="button" className="register-btn outlined" onClick={onClick}>
       {buttonText}
