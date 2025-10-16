@@ -143,6 +143,9 @@
     npm install --save @fortawesome/free-solid-svg-icons
     npm install --save @fortawesome/react-fontawesome
     npm install react-router-dom
+    npm install react-icons
+    npm install react-toastify
+
 
 ## Crear proyecto React con Vite
     npm create vite@latest

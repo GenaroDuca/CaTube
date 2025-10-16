@@ -14,6 +14,7 @@ import ModalRenderer from './components/common/modal/ModalRenderer.jsx'
 import RegisterPage from './pages/RegisterPage/RegisterPage.jsx'
 import { SidebarProvider } from './hooks/useSidebarToggle.jsx';
 import { FriendMenu } from './components/common/friendMenu/friendMenu.jsx';
+import { NotificationManager } from './components/common/Toasts/NotificationManager.jsx';
 
 const mockFriends = [
   { userName: 'sheniDev', profile: '/src/assets/images/profile/gena.jpg' },
@@ -44,6 +45,7 @@ createRoot(document.getElementById('root')).render(
 
           <ModalRenderer />
           <FriendMenu friends={mockFriends} />
+          <NotificationManager />
 
         </ModalProvider>
       </SidebarProvider>

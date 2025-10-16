@@ -1402,6 +1402,11 @@ footer div {
     font-size: 20px;
 }
 
+/* Toasts */
+.Toastify__toast-container {
+    margin-top: 50px;
+}
+
 @media (max-width:768px) {
     .main-content {
         margin-left: 70px;
