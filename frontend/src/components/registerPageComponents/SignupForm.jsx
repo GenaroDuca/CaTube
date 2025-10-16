@@ -1,5 +1,5 @@
-import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useNotifications } from '../common/Toasts/useNotifications.jsx';
 
 import { BsPersonFill } from "react-icons/bs";
 import { FaKey } from "react-icons/fa";
@@ -54,7 +54,7 @@ const SignupForm = ({ togglePanel }) => {
     const [usernameExistsError, setUsernameExistsError] = useState(false);
     const [emailExistsError, setEmailExistsError] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    
+
     // Estado para rastrear si el usuario ha interactuado con los campos
     const [touched, setTouched] = useState({
         username: false,
@@ -66,6 +66,9 @@ const SignupForm = ({ togglePanel }) => {
     // Debounce: Usamos los valores debounced para enviar al servidor
     const debouncedUsername = useDebounce(username, 500);
     const debouncedEmail = useDebounce(email, 500);
+
+    //FeedbackToast
+    const { showSuccess, showError } = useNotifications();
 
     // =================================================================
     // 2. FUNCIONES DE VALIDACIÓN
@@ -99,13 +102,13 @@ const SignupForm = ({ togglePanel }) => {
     const handlePasswordChange = (e) => {
         const value = e.target.value;
         setPassword(value);
-        
+
         const validFormat = validatePassword(value);
         setPasswordValid(validFormat);
 
         // Revalidar la contraseña repetida usando el NUEVO 'value'
         const isRepeatValidNow = repeatPassword === value && validFormat;
-        setRepeatPasswordValid(isRepeatValidNow); 
+        setRepeatPasswordValid(isRepeatValidNow);
 
         if (!touched.password) setTouched(prev => ({ ...prev, password: true }));
     };
@@ -120,13 +123,13 @@ const SignupForm = ({ togglePanel }) => {
     // =================================================================
     // 4. LÓGICA DE UNICIDAD (usando useEffect y debouncing)
     // =================================================================
-    
+
     // 4.1. Chequeo de Unicidad de Username
     useEffect(() => {
         if (usernameValid === true && touched.username) {
             checkUniqueness('username', debouncedUsername);
         } else if (username === '' || usernameValid === false) {
-             setUsernameExistsError(false);
+            setUsernameExistsError(false);
         }
     }, [debouncedUsername, usernameValid, touched.username]);
 
@@ -135,13 +138,13 @@ const SignupForm = ({ togglePanel }) => {
         if (emailValid === true && touched.email) {
             checkUniqueness('email', debouncedEmail);
         } else if (email === '' || emailValid === false) {
-             setEmailExistsError(false);
+            setEmailExistsError(false);
         }
     }, [debouncedEmail, emailValid, touched.email]);
 
-    // Función genérica para chequear unicidad
+    // Función para chequear unicidad
     const checkUniqueness = async (field, value) => {
-        if (!value) return; 
+        if (!value) return;
 
         try {
             const response = await fetch(`http://localhost:3000/users/check/${field}?value=${value}`);
@@ -184,7 +187,7 @@ const SignupForm = ({ togglePanel }) => {
         setTouched({ username: true, email: true, password: true, repeatPassword: true });
 
         const formFormatValid = isUsernameValid && isEmailValid && isPasswordValid && isRepeatPasswordValid;
-        
+
         if (!formFormatValid || usernameExistsError || emailExistsError) {
             console.log('Error: Formato o unicidad fallida. No se envía al servidor.');
             return;
@@ -203,16 +206,18 @@ const SignupForm = ({ togglePanel }) => {
             const result = await response.json();
 
             if (response.ok) {
-                console.log('¡Registro exitoso! Redirigiendo...');
-                togglePanel(); 
+                showSuccess(`¡Successfully registered, Welcome ${username}!`); 
+                togglePanel();
             } else {
                 const errorMessage = result.message || 'Error desconocido';
+                showError(errorMessage);
                 console.error('Error al registrar (Servidor):', errorMessage);
                 if (errorMessage.includes('Username already exists')) setUsernameExistsError(true);
                 if (errorMessage.includes('Email already exists')) setEmailExistsError(true);
             }
         } catch (error) {
             console.error('Error de conexión/red:', error);
+            showError('Error de conexión o de red. Inténtalo de nuevo.');
         } finally {
             setIsSubmitting(false);
         }
@@ -230,19 +235,19 @@ const SignupForm = ({ togglePanel }) => {
                         : null;
 
         const isUniquenessError = (inputName === 'username' && usernameExistsError) || (inputName === 'email' && emailExistsError);
-        
+
         const inputValue = inputName === 'username' ? username : inputName === 'email' ? email : inputName === 'password' ? password : repeatPassword;
-        
+
         // El input está vacío
         const isEmpty = inputValue === '';
-        
+
         // Muestra feedback si ha sido tocado Y no está vacío, O si hay un error de unicidad.
         const shouldShowFeedback = (touched[inputName] && !isEmpty) || isUniquenessError;
 
         if (shouldShowFeedback) {
             // Muestra verde si el formato es válido Y NO hay error de unicidad
             if (isValid === true && !isUniquenessError) return 'input correct-input';
-            
+
             // Muestra rojo si es inválido O si hay error de unicidad
             if (isValid === false || isUniquenessError) return 'input incorrect-input';
         }
@@ -254,7 +259,7 @@ const SignupForm = ({ togglePanel }) => {
     const getLabelColor = (inputName) => {
         let hasError = false;
         let inputValue = '';
-        
+
         if (inputName === 'username') {
             hasError = usernameExistsError || (usernameValid === false && touched.username);
             inputValue = username;
@@ -279,22 +284,22 @@ const SignupForm = ({ togglePanel }) => {
     // 🎯 Lógica para el texto de las etiquetas de ayuda: Cambia solo por Unicidad.
     const getLabelText = (inputName) => {
         if (inputName === 'username') {
-            return usernameExistsError ? 
-                '¡Este usuario ya existe! Elige otro.' : // Texto de error de unicidad
-                'Mín 5, máx 20 caracteres (letras, números, _)'; // Texto por defecto
+            return usernameExistsError ?
+                '¡This username is already exists, try another!' : // Texto de error de unicidad
+                'Min 5, max 20 char (letters, numbers and _)'; // Texto por defecto
         }
         if (inputName === 'email') {
             return emailExistsError ?
-                '¡Este email ya está registrado!' : // Texto de error de unicidad
-                'Formato: example@domain.com'; // Texto por defecto
+                '¡This email is already exists, try another!' : // Texto de error de unicidad
+                'Format: example@domain.com'; // Texto por defecto
         }
         if (inputName === 'password') {
-             // Texto fijo para password
-             return 'Min 8 characters (at least 1 uppercase, 1 lowercase, 1 number)';
+            // Texto fijo para password
+            return 'Min 8 characters (at least 1 uppercase, 1 lowercase, 1 number)';
         }
         if (inputName === 'repeatPassword') {
             // Texto fijo para repeat password
-            return 'Confirma tu contraseña';
+            return 'Confirm your password';
         }
         return '';
     }
@@ -307,7 +312,7 @@ const SignupForm = ({ togglePanel }) => {
             validateEmail(email) &&
             validatePassword(password) &&
             validateRepeatPassword(repeatPassword) &&
-            !usernameExistsError && 
+            !usernameExistsError &&
             !emailExistsError &&
             !isSubmitting;
     }, [username, email, password, repeatPassword, isSubmitting, usernameExistsError, emailExistsError]);
@@ -315,7 +320,7 @@ const SignupForm = ({ togglePanel }) => {
     // =================================================================
     // 7. RENDERIZADO
     // =================================================================
-    
+
     return (
         <form className="form-section" autoComplete="off" onSubmit={handleSubmit}>
             <h1>Sign Up</h1>
@@ -336,17 +341,17 @@ const SignupForm = ({ togglePanel }) => {
                     />
                 </div>
             </div>
-            
+
             {/* FEEDBACK USERNAME (Texto cambia SOLO por unicidad, Color cambia por cualquier error) */}
-            <label 
-                htmlFor="text" 
-                style={{ 
+            <label
+                htmlFor="text"
+                style={{
                     color: getLabelColor('username'), // Color dinámico
-                    fontSize: '12px', 
-                    textAlign: 'center' 
+                    fontSize: '12px',
+                    textAlign: 'center'
                 }}
             >
-                {getLabelText('username')} 
+                {getLabelText('username')}
             </label>
 
             {/* CAMPO EMAIL */}
@@ -365,17 +370,17 @@ const SignupForm = ({ togglePanel }) => {
                     />
                 </div>
             </div>
-            
+
             {/* FEEDBACK EMAIL (Texto cambia SOLO por unicidad, Color cambia por cualquier error) */}
-            <label 
-                htmlFor="email" 
-                style={{ 
+            <label
+                htmlFor="email"
+                style={{
                     color: getLabelColor('email'), // Color dinámico
-                    fontSize: '12px', 
-                    textAlign: 'center' 
+                    fontSize: '12px',
+                    textAlign: 'center'
                 }}
             >
-                {getLabelText('email')} 
+                {getLabelText('email')}
             </label>
 
             {/* CAMPO PASSWORD */}
@@ -395,7 +400,7 @@ const SignupForm = ({ togglePanel }) => {
                     />
                 </div>
             </div>
-            
+
             {/* FEEDBACK PASSWORD (Texto fijo, Color cambia por cualquier error) */}
             <label
                 htmlFor="password"
@@ -405,7 +410,7 @@ const SignupForm = ({ togglePanel }) => {
                     textAlign: 'center'
                 }}
             >
-                {getLabelText('password')} 
+                {getLabelText('password')}
             </label>
 
             {/* CAMPO REPEAT PASSWORD */}
@@ -425,7 +430,7 @@ const SignupForm = ({ togglePanel }) => {
                     />
                 </div>
             </div>
-            
+
             {/* FEEDBACK REPEAT PASSWORD (Texto fijo, Color cambia por cualquier error) */}
             <label
                 htmlFor="repeat-password"
@@ -435,7 +440,7 @@ const SignupForm = ({ togglePanel }) => {
                     textAlign: 'center'
                 }}
             >
-                {getLabelText('repeatPassword')} 
+                {getLabelText('repeatPassword')}
             </label>
 
             <button type="submit" className="register-btn" disabled={!isFormValid}>
