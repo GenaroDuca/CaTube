@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { IoIosCloseCircle } from "react-icons/io";
 
 const AddProductModal = ({ onClose, onSubmit }) => {
   const [formData, setFormData] = useState({
@@ -29,7 +30,7 @@ const AddProductModal = ({ onClose, onSubmit }) => {
         <header>
           <h1>Add a new Product</h1>
           <button type="button" onClick={onClose} className="close-add-product-modal">
-            <span className="material-symbols-outlined">do_not_disturb_on</span>
+            <IoIosCloseCircle size={25} color="#1a1a1b" />
           </button>
         </header>
         <main>

@@ -48,6 +48,25 @@ import settings from "../images/studio_media/settings.png";
 import remera from "../images/studio_media/store/remera_ejemplo.jpg"
 import banner from "../images/studio_media/banner-pc.jpg"
 
+/*Icons*/
+import { MdSpaceDashboard } from "react-icons/md";
+import { BsCollectionPlayFill } from "react-icons/bs";
+import { SiGoogleanalytics } from "react-icons/si";
+import { HiMiniUserGroup } from "react-icons/hi2";
+import { IoStorefront } from "react-icons/io5";
+import { FaMoneyCheckDollar } from "react-icons/fa6";
+import { MdModeEditOutline } from "react-icons/md";
+import { IoHome } from "react-icons/io5";
+import { TbRadarFilled } from "react-icons/tb";
+import { IoSchool } from "react-icons/io5";
+import { FaCrown } from "react-icons/fa6";
+import { BsFillFilePlayFill } from "react-icons/bs";
+import { BsPersonFill } from "react-icons/bs";
+import { FaHistory } from "react-icons/fa";
+import { PiListHeartFill } from "react-icons/pi";
+import { FaClock } from "react-icons/fa6";
+import { FaHeart } from "react-icons/fa";
+import { BsFillPlayBtnFill } from "react-icons/bs";
 const popularChannels = [
     { name: "Angel", subs: "15k subs", photo: angelr },
     { name: "Thiago", subs: "20k subs", photo: thiagor },
@@ -1982,37 +2001,37 @@ const textfooter = [
 ];
 
 const leftMenu = [
-    { icon: "home", text: "Home", link: "/" },
+    { icon: <IoHome />, text: "Home", link: "/" },
 
     { divider: true },
 
-    { icon: "radar", text: "Discover", link: "/discover" },
-    { icon: "celebration", text: "CaTube Party", link: "/party" },
+    { icon: <TbRadarFilled />, text: "Discover", link: "/discover" },
+    // { icon: "celebration", text: "CaTube Party", link: "/party" },
     {
-        icon: "school",
+        icon: <IoSchool />,
         text: "CaTube Education",
         link: "/education",
     },
 
     { divider: true },
 
-    { icon: "auto_awesome_motion", text: "Shorts", link: "/shorts" },
-    { icon: "crown", text: "Trending", link: "/trending" },
+    { icon: <BsFillFilePlayFill />, text: "Shorts", link: "/shorts" },
+    { icon: <FaCrown />, text: "Trending", link: "/trending" },
     {
-        icon: "subscriptions",
+        icon: <BsCollectionPlayFill/>,
         text: "Catscribers",
         link: "/subscribers",
     },
 
     { divider: true },
 
-    { icon: "account_circle", text: "You", link: "/you" },
-    { icon: "history", text: "History", link: "/history", isSubmenu: true },
-    { icon: "playlist_play", text: "Playlist", link: "/playlist", isSubmenu: true },
-    { icon: "schedule", text: "View later", link: "/view-later", isSubmenu: true },
-    { icon: "favorite", text: "Liked", link: "/liked", isSubmenu: true },
+    { icon: <BsPersonFill size={25}/>, text: "You", link: "/you" },
+    { icon: <FaHistory />, text: "History", link: "/history", isSubmenu: true },
+    { icon: <PiListHeartFill />, text: "Playlist", link: "/playlist", isSubmenu: true },
+    { icon: <FaClock />, text: "View later", link: "/view-later", isSubmenu: true },
+    { icon: <FaHeart />, text: "Liked", link: "/liked", isSubmenu: true },
     {
-        icon: "smart_display",
+        icon: <BsFillPlayBtnFill />,
         text: "Your videos",
         link: "/studio?section=content",
     },
@@ -2027,37 +2046,38 @@ const latesVideoIcons = [
 const leftMenuStudio = [
     {
         id: "dashboard",
-        icon: "dashboard",
+        icon: <MdSpaceDashboard />,
         text: "Dashboard",
     },
     {
         id: "content",
-        icon: "slideshow",
+        icon: <BsCollectionPlayFill />,
         text: "Content",
     },
     {
         id: "analytics",
-        icon: "analytics",
+        icon: <SiGoogleanalytics />,
         text: "Analytics",
     },
     {
         id: "community",
-        icon: "groups",
+        icon: <HiMiniUserGroup />,
         text: "Community",
     },
     {
         id: "store",
-        icon: "store",
+        icon: <IoStorefront />,
         text: "Store",
     },
     {
         id: "earn",
-        icon: "payments",
+        icon: <FaMoneyCheckDollar />
+,
         text: "Earn",
     },
     {
         id: "customization",
-        icon: "colorize",
+        icon:<MdModeEditOutline />,
         text: "Customization",
     },
 ];
