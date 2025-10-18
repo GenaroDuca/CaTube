@@ -1,5 +1,6 @@
 import React from 'react';
 import '../../../../styles/modals.css';
+import { IoIosCloseCircle } from "react-icons/io";
 
 const FeedbackModal = ({ onClose }) => (
   <div className="right-menu-modal">
@@ -7,7 +8,7 @@ const FeedbackModal = ({ onClose }) => (
       <header>
         <h1>Feedback</h1>
         <button onClick={onClose} className="close-right-menu-modal">
-          <span className="material-symbols-outlined">do_not_disturb_on</span>
+          <IoIosCloseCircle size={25} color="#1a1a1b" />
         </button>
       </header>
 

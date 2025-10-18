@@ -3,8 +3,7 @@ import { useState } from 'react';
 import { useOverlay } from '../../../../../hooks/useOverlay';
 
 //styles
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { FaBell } from "react-icons/fa6";
 import './NotificationMenu.css';
 
 //images
@@ -68,7 +67,7 @@ export function NotificationMenu() {
     return (
         <div className="notification-menu" ref={NotificationMenuRef}>
             <button className="notification-button" onClick={toggleNotificationMenu}>
-                <FontAwesomeIcon icon={faBell} />
+                <FaBell size={25} />
                 {/* If there are notifications show the counter in a Badge */}
                 {notifications.length > 0 && (<span className="notification-badge">{notifications.length}</span>)}
             </button>

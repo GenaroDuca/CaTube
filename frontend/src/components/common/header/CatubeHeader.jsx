@@ -2,22 +2,25 @@
 import SearchBar from "./searchBar.jsx"
 import { NotificationMenu } from "../modal/headerModalsComponents/notificationsModal/NotificationMenu.jsx";
 import { UserMenu } from "../../user/UserMenu.jsx";
+import { useModal } from "../../common/modal/ModalContext"
 
 //Icons
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faMicrophone, faSearch} from '@fortawesome/free-solid-svg-icons';
+import { FaCirclePlus, FaMicrophone } from "react-icons/fa6";
+import { ImSearch } from "react-icons/im";
 
 import { Link } from 'react-router-dom';
 
-export function CatubeHeader({logo, searchQuery, setSearchQuery}) {
+export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
+    const { openModal } = useModal();
+
     return (
         <header className="sr-header">
             <div className="sr-header-logo">
-                <img className="sr-header-symbol" src={logo} alt={`Logo de Catube`}/>
+                <img className="sr-header-symbol" src={logo} alt={`Logo de Catube`} />
                 <span className="sr-header-title">CaTube</span>
             </div>
             <div className="sr-header-searchBar">
-                <button className="sr-header-micButton"><FontAwesomeIcon icon={faMicrophone}/></button>
+                <button className="sr-header-micButton"><FaMicrophone size={20} /></button>
                 <div className="sr-header-searchBarSection">
                     <SearchBar
                         className="sr-header-input"
@@ -25,20 +28,21 @@ export function CatubeHeader({logo, searchQuery, setSearchQuery}) {
                         setSearchQuery={setSearchQuery}
                     />
                     <Link to={`/`}>
-                        <button className="sr-header-searchButton"><FontAwesomeIcon icon={faSearch}/></button>
+                        <button className="sr-header-searchButton"><ImSearch size={20} /></button>
                     </Link>
                 </div>
             </div>
             <div className="sr-header-right">
-                <button className="sr-header-createButton">
-                    <span className="sr-header-createLabel">Create</span> 
-                    <FontAwesomeIcon className="plusIcon" icon={faPlus}/>
+                <button className="sr-header-createButton" onClick={() => openModal('createvideo')}>
+                    <span className="sr-header-createLabel">Create</span>
+                    <FaCirclePlus color={"#90B484"} size={28} />
+
                 </button>
                 <div className="sr-header-userActions">
                     <NotificationMenu />
                     <UserMenu />
                 </div>
             </div>
-        </header> 
+        </header>
     )
 }

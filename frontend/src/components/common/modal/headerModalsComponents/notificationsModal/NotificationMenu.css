@@ -28,6 +28,10 @@
     border-radius: 999px;
 }
 
+.notification-button:hover .notification-badge{
+    background-color: var(--btn-dark);
+}
+
 .notification-dropdown {
     position: absolute;
     top: 50px;

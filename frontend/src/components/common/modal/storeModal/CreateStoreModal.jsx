@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { IoIosCloseCircle } from "react-icons/io";
 
 const CreateStoreModal = ({ onClose, onCreate }) => {
   const [storeName, setStoreName] = useState('');
@@ -17,8 +18,7 @@ const CreateStoreModal = ({ onClose, onCreate }) => {
         <header>
           <h1>Create your store</h1>
           <button type="button" onClick={onClose} className="close-create-store-modal">
-            <span className="material-symbols-outlined">do_not_disturb_on</span>
-          </button>
+            <IoIosCloseCircle size={25} color="#1a1a1b" />          </button>
         </header>
         <main>
           <h2>Store name</h2>
