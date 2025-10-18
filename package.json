@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^7.1.0",
+    "@fortawesome/free-solid-svg-icons": "^7.1.0",
+    "@fortawesome/react-fontawesome": "^3.1.0",
+    "@nestjs/common": "^11.1.6",
+    "@nestjs/core": "^7.6.18",
+    "@nestjs/jwt": "^8.0.1",
+    "@nestjs/mapped-types": "^2.1.0",
+    "@nestjs/passport": "^8.2.2",
+    "@nestjs/platform-express": "^7.6.18",
+    "@nestjs/typeorm": "^7.1.5",
+    "bcrypt": "^6.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
+    "mysql2": "^3.15.2",
+    "passport": "^0.7.0",
+    "passport-jwt": "^4.0.1",
+    "react-icons": "^5.5.0",
+    "react-router-dom": "^7.9.4",
+    "react-toastify": "^11.0.5",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.27"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^6.0.0",
+    "@types/passport-jwt": "^4.0.1"
+  }
+}
