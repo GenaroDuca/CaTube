@@ -14,9 +14,9 @@ async function bootstrap() {
     prefix: '/uploads/',
   });
 
-  // Servir archivos estáticos desde la carpeta frontend/src/assets/media/profile para avatares por defecto
-  app.useStaticAssets(join(__dirname, '..', '..', 'frontend', 'src', 'assets', 'media', 'profile'), {
-    prefix: '/assets/media/profile/',
+  // Servir archivos estáticos desde la carpeta frontend/src/assets/images/profile para avatares por defecto
+  app.useStaticAssets(join(__dirname, '..', '..', 'frontend', 'src', 'assets', 'images', 'profile'), {
+    prefix: '/assets/images/profile/',
   });
 
   await app.listen(process.env.PORT ?? 3000);

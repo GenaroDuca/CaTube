@@ -66,10 +66,6 @@ export class UsersService {
 
             await this.channelsService.create(defaultChannelDto, savedUser);
 
-
-
-
-
             return savedUser;
         } catch (error) {
             // Capturamos el error de la base de datos (QueryFailedError)
