@@ -11,7 +11,7 @@
 
 @font-face {
     font-family: garet;
-    src: url('../assets/media/fonts/garet/Garet-Book.woff2');
+    src: url('../assets/fonts/garet/Garet-Book.woff2');
     font-weight: 400;
     font-style: normal
 }
@@ -184,16 +184,17 @@ button:hover {
     position: fixed;
     background-color: #1a1a1bee;
     box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493);
-    backdrop-filter: blur(10px)
+    backdrop-filter: blur(10px);
 }
 
 .sidebar {
-    margin: 15px 0 0 15px;
+    margin: 0px 0 0 15px;
     border-radius: 30px;
     height: calc(100vh - 32px);
     z-index: 2;
     overflow: hidden
 }
+
 
 .sidebar-header {
     position: relative;
@@ -325,6 +326,25 @@ button:hover {
     display: block
 }
 
+.user-button {
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: var(--border-radius);
+    color: var(--text);
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+
+.user-button:hover {
+    color: var(--btn);
+}
+
+.logged-in-icon {
+    color: var(--btn);
+}
+
 .ts-sidebar {
     top: 70px;
     right: 16px;
@@ -343,25 +363,12 @@ button:hover {
     height: 100vh
 }
 
+/* RIGHT MENU */
 .ts-sidebar.collapsed {
     transform: translateX(110%);
     pointer-events: none;
     background-color: var(--primary-color);
     box-shadow: none;
-}
-
-.ts-sidebar-header {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    padding: 16px
-}
-
-.ts-sidebar-close {
-    background: 0 0;
-    border: none;
-    color: var(--white-color);
-    cursor: pointer
 }
 
 .ts-sidebar-nav {
@@ -1393,6 +1400,11 @@ footer div {
     margin-top: 15px;
     margin-bottom: 20px;
     font-size: 20px;
+}
+
+/* Toasts */
+.Toastify__toast-container {
+    margin-top: 50px;
 }
 
 @media (max-width:768px) {

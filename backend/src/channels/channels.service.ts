@@ -25,7 +25,7 @@ constructor(
 
     // Asignar avatar por defecto basado en la primera letra del nombre del canal
     const firstLetter = newChannel.channel_name.charAt(0).toUpperCase();
-    newChannel.photoUrl = `/assets/media/profile/${firstLetter}.png`;
+    newChannel.photoUrl = `/assets/images/profile/${firstLetter}.png`;
 
     return this.channelRepository.save(newChannel);
 }
@@ -106,7 +106,7 @@ constructor(
         }
 
         // Si ya existe una foto previa que no sea la por defecto, eliminarla para ahorrar espacio
-        if (channel.photoUrl && !channel.photoUrl.startsWith('/assets/media/profile/')) {
+        if (channel.photoUrl && !channel.photoUrl.startsWith('/assets/images/profile/')) {
             const oldFilePath = path.join(__dirname, '..', '..', channel.photoUrl);
             if (fs.existsSync(oldFilePath)) {
                 fs.unlinkSync(oldFilePath);
@@ -128,7 +128,7 @@ constructor(
         const channel = await this.findOneById(id);
 
         const firstLetter = channel.channel_name.charAt(0).toUpperCase();
-        channel.photoUrl = `/assets/media/profile/${firstLetter}.png`;
+        channel.photoUrl = `/assets/images/profile/${firstLetter}.png`;
 
         return this.channelRepository.save(channel);
     }

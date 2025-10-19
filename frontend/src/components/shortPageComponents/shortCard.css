@@ -1,0 +1,59 @@
+.sr-shortCard {
+    display: flex;
+    color: var(--text);
+    font-size: .8rem;
+    gap: 20px;
+    flex-direction: column;
+    width: 240px;
+    overflow: hidden;
+}
+
+.sr-shortCard-thumbnail {
+    cursor: pointer;
+    width: auto;
+    height: 360px;
+    border-radius: 20px;
+}
+
+.sr-shortCard-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.sr-shortCard-infoShort {
+    display: flex;
+    flex-direction: column;
+}
+
+.sr-shortCard-info .sr-shortCard-title {
+    cursor: pointer;
+    font-size: large;
+    font-weight: 400;
+}
+
+.sr-shortCard-infoUser {
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+}
+
+.sr-shortCard-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sr-shortCard-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 1000px;
+}
+
+.sr-shortCard-infoUserName {
+    font-size: medium;
+    opacity: .6;
+}

@@ -1,10 +1,11 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, OneToOne, OneToMany } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, OneToOne, OneToMany, Unique } from 'typeorm';
 import { Channel } from 'src/channels/entities/channel.entity';
 import { Playlist } from 'src/playlist/entities/playlist.entity';
 import { Comment } from 'src/comments/entities/comment.entity';
 import { Like } from 'src/likes/entities/like.entity';
 import { Subscription } from 'src/subs/entities/sub.entity';
 
+@Unique(['username']) // Asegura que el username sea único a nivel de BD
 @Entity('users')
 export class User {
     @PrimaryGeneratedColumn("uuid")
@@ -13,7 +14,7 @@ export class User {
     @Column()
     username: string;
 
-    @Column({ unique: true })
+    @Column({ unique: true }) 
     email: string;
 
     @Column()
