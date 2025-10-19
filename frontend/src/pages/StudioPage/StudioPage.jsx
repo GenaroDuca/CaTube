@@ -12,8 +12,8 @@ import Store from "../../components/studioPageComponents/store/Store.jsx";
 import Earn from "../../components/studioPageComponents/earn/earn.jsx";
 import Customization from "../../components/studioPageComponents/customization/Customization.jsx";
 import RightMenu from "../../components/studioPageComponents/RightMenu.jsx";
-import { useMemo } from "react";
 import Header from "../../components/common/header/Header.jsx";
+import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 
 

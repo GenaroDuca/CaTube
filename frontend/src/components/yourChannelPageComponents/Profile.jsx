@@ -69,7 +69,7 @@ function Profile() {
                             // Map old default-avatar paths to new assets path
                             const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
                             const letter = letterMatch ? letterMatch[1] : 'A';
-                            photoPath = `/assets/media/profile/${letter}.png`;
+                            photoPath = `/assets/images/profile/${letter}.png`;
                         }
                         setUserPhoto(BASE_URL + photoPath);
                     }

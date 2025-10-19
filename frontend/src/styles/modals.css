@@ -642,7 +642,7 @@ input:checked+.slider:before {
 .add-product-content main,
 .create-store-content main {
     width: 100%;
-    padding: 0px 20px 20px 20px;
+    padding: 20px 20px 20px 20px;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
     background-color: var(--background-color);
@@ -671,6 +671,40 @@ input:checked+.slider:before {
     background-color: transparent;
     color: var(--text-color);
     box-sizing: border-box;
+}
+
+/* Estilos personalizados para input file */
+.edit-product-content main input[type="file"],
+.add-product-content main input[type="file"] {
+    cursor: pointer;
+    padding: 8px;
+    border: 1px solid var(--text-color);
+    border-radius: 30px;
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+/* Personalizar el texto del botón del input file */
+.edit-product-content main input[type="file"]::-webkit-file-upload-button,
+.add-product-content main input[type="file"]::-webkit-file-upload-button {
+    background-color: var(--btn);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-right: 10px;
+}
+
+.edit-product-content main input[type="file"]::-webkit-file-upload-button:hover,
+.add-product-content main input[type="file"]::-webkit-file-upload-button:hover {
+    background-color: var(--btn-dark);
+}
+
+.edit-product-content main input[type="file"]:hover,
+.add-product-content main input[type="file"]:hover {
+    border-color: var(--btn);
 }
 
 .edit-product-content main input:focus,
@@ -720,6 +754,37 @@ input:checked+.slider:before {
 .image-title {
     text-align: left;
     margin-left: 15px;
+}
+
+.confirm-buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.delete-confirm-btn{
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #b94c4a;
+    color: var(--primary-color);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 20px;
+}
+
+.delete-product-btn{
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #b94c4a;
+    color: var(--primary-color);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 20px;
 }
 
 .update-product-btn,

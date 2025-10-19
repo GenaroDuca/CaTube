@@ -485,6 +485,7 @@ body {
 .product-card img {
     filter: brightness(50%);
     width: 100%;
+    height: 200px;
     border-top-right-radius: var(--border-radius);
     border-top-left-radius: var(--border-radius);
 }
