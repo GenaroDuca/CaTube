@@ -18,6 +18,9 @@ export class Product {
     @Column()
     stock: number;
 
+    @Column({ nullable: true })
+    image_url: string;
+
     @ManyToOne(() => Store, (store) => store.products)
     @JoinColumn({ name: 'store_id' }) //clave foránea
     store: Store;

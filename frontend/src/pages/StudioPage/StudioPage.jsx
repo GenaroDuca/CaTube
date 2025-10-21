@@ -12,15 +12,15 @@ import Store from "../../components/studioPageComponents/store/Store.jsx";
 import Earn from "../../components/studioPageComponents/earn/earn.jsx";
 import Customization from "../../components/studioPageComponents/customization/Customization.jsx";
 import RightMenu from "../../components/studioPageComponents/RightMenu.jsx";
-import { useState } from "react";
 import Header from "../../components/common/header/Header.jsx";
+import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 
 
 function Studio() {
-    const [searchParams] = useSearchParams();
-    const section = searchParams.get('section');
-    const tabs = [
+    const [searchParams, setSearchParams] = useSearchParams();
+    const section = searchParams.get('section') || 'dashboard';
+    const tabs = useMemo(() => [
         { name: 'dashboard', component: <Dashboard /> },
         { name: 'content', component: <Content /> },
         { name: 'analytics', component: <Analytics /> },
@@ -28,20 +28,29 @@ function Studio() {
         { name: 'store', component: <Store /> },
         { name: 'earn', component: <Earn /> },
         { name: 'customization', component: <Customization /> }
-    ];
+    ], []);
 
-    // Encuentra el índice de la sección que está en la URL, si no, usa el 0
-    const initialTabIndex = tabs.findIndex(tab => tab.name === section) > -1 ? tabs.findIndex(tab => tab.name === section) : 0;
-    const [activeTab, setActiveTab] = useState(initialTabIndex);
+    // Find the index of the section in the URL, default to 0
+    const activeTabIndex = useMemo(() => {
+        const index = tabs.findIndex(tab => tab.name === section);
+        return index > -1 ? index : 0;
+    }, [section, tabs]);
+
+    const handleTabClick = (index) => {
+        const newSection = tabs[index].name;
+        setSearchParams({ section: newSection });
+    };
+
+    const ActiveComponent = tabs[activeTabIndex].component;
 
     return (
         <>
             <>
                 <main>
                     <Header></Header>
-                    <SidebarStudio activeTabIndex={activeTab} onTabClick={setActiveTab}></SidebarStudio>
+                    <SidebarStudio activeTabIndex={activeTabIndex} onTabClick={handleTabClick}></SidebarStudio>
                     <div className="container-studio">
-                        {tabs[activeTab].component}
+                        {ActiveComponent}
                         <Footer footer="footer-studio"></Footer>
                     </div>
                     <RightMenu></RightMenu>

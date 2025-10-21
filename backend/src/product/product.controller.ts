@@ -12,9 +12,9 @@ export class ProductController {
   @UseGuards(JwtAuthGuard)
   @Post()
   @UseInterceptors(FileInterceptor('image'))
-  create(@Body() createProductDto: CreateProductDto, @Request() req) {
+  create(@Body() createProductDto: CreateProductDto, @Request() req, @UploadedFile() file?: any) {
     const userId = req.user.userId; // obtenemos el userId del token
-    return this.productService.create(createProductDto, userId);
+    return this.productService.create(createProductDto, userId, file);
   }
 
   @Get()
@@ -38,9 +38,10 @@ export class ProductController {
 
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto, @Request() req) {
+  @UseInterceptors(FileInterceptor('image'))
+  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto, @Request() req, @UploadedFile() file?: any) {
     const userId = req.user.userId;
-    return this.productService.update(id, updateProductDto, userId);
+    return this.productService.update(id, updateProductDto, userId, file);
   }
 
   @UseGuards(JwtAuthGuard)
