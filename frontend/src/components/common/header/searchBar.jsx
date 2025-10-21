@@ -2,14 +2,16 @@ import logo from '../../../../public/catube_white.svg'
 import { CatubeHeader } from './CatubeHeader.jsx'
 import './CatubeHeader.css'
 
-function Header( { searchQuery, setSearchQuery}) {
+function SearchBar({ className, searchQuery, setSearchQuery }) {
     return (
-        <CatubeHeader
-        logo={logo}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
+        <input
+            type="text"
+            className={className}
+            placeholder="Buscar..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
         />
-    )
+    );
 }
 
-export default Header
+export default SearchBar;

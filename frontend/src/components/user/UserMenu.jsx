@@ -11,6 +11,7 @@ import { RiSettings2Fill } from "react-icons/ri";
 import { IoIosHelpCircle } from "react-icons/io";
 import { BsFillSendExclamationFill } from "react-icons/bs";
 import { FaThList } from "react-icons/fa";
+import { HiOutlineLogin } from "react-icons/hi";
 
 import { useSidebarToggle } from '../../hooks/useSidebarToggle.jsx';
 
@@ -98,7 +99,7 @@ export function UserMenu() {
                             ) : (
                                 // Usamos Link para navegar y también cerramos el menú
                                 <Link to="/register" className="ts-nav-link" onClick={closeUserMenu}>
-                                    <span className="material-symbols-outlined">login</span>
+                                    <HiOutlineLogin  size={30} />
                                     <span className="ts-nav-label">Log In</span>
                                 </Link>
                             )}

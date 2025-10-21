@@ -1,7 +1,66 @@
+/* ===TheatreMode/FullScreen=== */
+.vv-displayVideo-header.theater-mode {
+    width: 90vw;
+    height: 75vh;
+    display: block;
+    position: relative;
+    background-color: var(--primary-color);
+    border-radius: var(--border-radius);
+}
+
+.vv-displayVideo-header.full-screen {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.vv-displayVideo-header{
+    position: relative;
+}
 
 .vv-displayVideo {
     border-radius: var(--border-radius);
+    object-fit: contain;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
 }
+
+/* ===Controls=== */
+
+.vv-video-controls{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    color: var(--text-color);
+    button{
+        background: none;
+        border: none;
+        color: var(--text-color);
+        font-size: 1rem;
+        :hover{
+            color: var(--btn);
+            cursor: pointer;
+        }
+    }
+}
+
+.vv-video-leftControls,
+.vv-video-rightControls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+/* ===Video Info=== */
 
 .vv-displayVideo-description {
     background-color: var(--primary-color);
@@ -10,13 +69,13 @@
     border-radius: var(--border-radius);
 }
 
+/* ===Likes/Dislikes/Options=== */
+
 .vv-displayVideo-userActions {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
-
-/* ===Likes/Dislikes/Options=== */
 
 .vv-displayVideo-userActions section {
     display: flex;

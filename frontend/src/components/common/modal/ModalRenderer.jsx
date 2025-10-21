@@ -5,7 +5,7 @@ import HelpModal from '../modal/headerModalsComponents/HelpModal';
 import FeedbackModal from '../modal/headerModalsComponents/FeedbackModal'
 import EditProductModal from '../modal/storeModal/EditProductModal'
 import AddProductModal from '../modal/storeModal/AddProductModal'
-// import ModalDeleteAccount from '../modal/headerModalsComponents/';
+import ModalDeleteAccount from '../modal/headerModalsComponents/ModalDeleteAccount';
 import CreateVideoModal from '../modal/videoModalComponents/createVideoModal';
 import EditVideoModal from '../modal/videoModalComponents/editVideoModal';
 
