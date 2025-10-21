@@ -111,6 +111,13 @@
     gap: 8px;
 }
 
+/* === Botones de la derecha === */
+.sr-header-right.register {
+    opacity: 0;
+    pointer-events: none;
+}
+
+
 .sr-header-createButton,
 .sr-header-userActions {
     height: 40px;

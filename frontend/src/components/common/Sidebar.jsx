@@ -1,12 +1,18 @@
 import { useSidebarToggle } from '../../hooks/useSidebarToggle.jsx';
+import { useOverlay } from '../../hooks/useOverlay.jsx';
 import { leftMenu } from "../../assets/data/Data.jsx";
 import { Link } from 'react-router-dom';
 
 function Sidebar() {
-  const { isSidebarOpen, toggleSidebar } = useSidebarToggle();
+  const {
+    isOpen: isSidebarOpen,
+    toggle: toggleSidebar,
+    close: closeSidebar,
+    overlayRef: SidebarRef
+  } = useOverlay();
 
   return (
-    <aside className={`sidebar ${isSidebarOpen ? '' : 'collapsed'}`}>
+    <aside className={`sidebar ${isSidebarOpen ? '' : 'collapsed'}`} ref={SidebarRef}>
       <header className="sidebar-header">
         <button className="toggler sidebar-toggler" onClick={toggleSidebar}>
           <span className="material-symbols-outlined">chevron_left</span>

@@ -4,6 +4,7 @@ import Short from '../homePageComponents/Short.jsx'
 import Container from '../common/Container.jsx'
 import Subtitle from '../homePageComponents/Subtitle.jsx'
 import ButtonCarousel from '../homePageComponents/ButtonCarousel.jsx'
+import {Link} from 'react-router-dom'
 
 function Sections(props) {
     const renderItem = (item, index) => {
@@ -19,21 +20,25 @@ function Sections(props) {
                 );
             case 'video':
                 return (
+                    <Link to={`/watch/${item.id}`}>
                     <Video
                         key={index}
                         namevideo={item.namevideo}
                         videoviews={item.videoviews}
                         photo={item.photo}
                     />
+                    </Link>
                 );
             case 'short':
                 return (
+                    <Link to={`/short/${item.id}`}>
                     <Short
                         key={index}
                         nameshort={item.nameshort}
                         shortviews={item.shortviews}
                         photo={item.photo}
                     />
+                    </Link>
                 );
             default:
                 return null;

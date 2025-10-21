@@ -6,7 +6,7 @@ export const SidebarContext = createContext();
 // 2. Define the Provider Component
 export const SidebarProvider = ({ children }) => {
     // Estado para el sidebar principal
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     // Estado para el menú de amigos
     const [isFriendMenuOpen, setIsFriendMenuOpen] = useState(false);
     // Estado para el menú de usuario (el nuevo menú ts-sidebar)

@@ -836,6 +836,13 @@ input:checked+.slider:before {
     padding: 10px;
 }
 
+.notification-dropdown.collapsed {
+    transform: translateX(120%);
+    pointer-events: none;
+    background-color: var(--primary-color);
+    box-shadow: none;
+}
+
 .notification-item:hover {
     background-color: var(--primary-color);
     cursor: pointer;

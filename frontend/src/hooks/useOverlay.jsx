@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-export function useOverlay(initialState = false) {
+export function useOverlay(initialState = false, extraRefs = []) {
     const [isOpen, setIsOpen] = useState(initialState);
     const overlayRef = useRef(null);
 
@@ -9,25 +9,28 @@ export function useOverlay(initialState = false) {
     const toggle = () => setIsOpen(prev => !prev);
 
     useEffect(() => {
-        const handleClickOutside = (e) => {
-        if (overlayRef.current && !overlayRef.current.contains(e.target)) {
+    const handleClickOutside = (e) => {
+        const clickedOutsideOverlay = overlayRef.current && !overlayRef.current.contains(e.target);
+        const clickedInsideModal = e.target.closest('.modal-container');
+
+        if (clickedOutsideOverlay && !clickedInsideModal) {
             close();
-        }
+            }
         };
 
         const handleEscape = (e) => {
-        if (e.key === 'Escape') {
-            close();
-            document.activeElement.blur(); // remove focus from button/input
-        }
+            if (e.key === 'Escape') {
+                close();
+                document.activeElement.blur();
+            }
         };
 
         document.addEventListener('mousedown', handleClickOutside);
         document.addEventListener('keydown', handleEscape);
 
         return () => {
-        document.removeEventListener('mousedown', handleClickOutside);
-        document.removeEventListener('keydown', handleEscape);
+            document.removeEventListener('mousedown', handleClickOutside);
+            document.removeEventListener('keydown', handleEscape);
         };
     }, []);
 

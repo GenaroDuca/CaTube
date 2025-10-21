@@ -288,108 +288,131 @@ const videos = [
     },
 ];
 
+
+
 const recommendedVideos = [
     {
+        id:100,
         namevideorecommended: "Swap Challenge",
         videoviewsrecommended: "25k views • 2d ago",
         photorecommended: videorecommended,
     },
     {
+        id:101,
         namevideorecommended: "Dance Off",
         videoviewsrecommended: "30k views • 3d ago",
         photorecommended: videorecommended,
     },
     {
+        id:102,
         namevideorecommended: "Guinea Pigs Eating",
         videoviewsrecommended: "1k views • 10d ago",
         photorecommended: videorecommended,
     },
     {
+        id:103,
         namevideorecommended: "Frogs Jumping",
         videoviewsrecommended: "900 views • 11d ago",
         photorecommended: frogjumping,
     },
     {
+        id:104,
         namevideorecommended: "Rabbits Hopping",
         videoviewsrecommended: "4k views • 5d ago",
         photorecommended: rabbits,
     },
     {
+        id:105,
         namevideorecommended: "Parrots Talking",
         videoviewsrecommended: "12k views • 6d ago",
         photorecommended: parrotstalking,
     },
     {
+        id:106,
         namevideorecommended: "Kittens Purring",
         videoviewsrecommended: "15k views • 1d ago",
         photorecommended: videorecommended,
     },
     {
+        id:107,
         namevideorecommended: "Puppies Playing",
         videoviewsrecommended: "20k views • 4d ago",
         photorecommended: videorecommended,
     },
     {
+        id:108,
         namevideorecommended: "Wildlife Documentary",
         videoviewsrecommended: "50k views • 8d ago",
         photorecommended: videorecommended,
     },
     {
+        id:109,
         namevideorecommended: "Travel Guide",
         videoviewsrecommended: "18k views • 9d ago",
         photorecommended: videorecommended,
     },
     {
+        id:110,
         namevideorecommended: "Tech Unboxing",
         videoviewsrecommended: "22k views • 7d ago",
         photorecommended: videorecommended,
     },
     {
+        id:111,
         namevideorecommended: "Cooking Show",
         videoviewsrecommended: "16k views • 12d ago",
         photorecommended: cookingshow,
     },
     {
+        id:112,
         namevideorecommended: "Workout Routine",
         videoviewsrecommended: "14k views • 13d ago",
         photorecommended: videorecommended,
     },
     {
+        id:113,
         namevideorecommended: "Gaming Stream",
         videoviewsrecommended: "28k views • 14d ago",
         photorecommended: videorecommended,
     },
     {
+        id:114,
         namevideorecommended: "Music Video",
         videoviewsrecommended: "35k views • 15d ago",
         photorecommended: videorecommended,
     },
     {
+        id:115,
         namevideorecommended: "Art Process",
         videoviewsrecommended: "9k views • 16d ago",
         photorecommended: videorecommended,
     },
     {
+        id:116,
         namevideorecommended: "DIY Project",
         videoviewsrecommended: "11k views • 17d ago",
         photorecommended: videorecommended,
     },
     {
+        id:117,
         namevideorecommended: "Movie Trailer",
         videoviewsrecommended: "40k views • 18d ago",
         photorecommended: videorecommended,
     },
     {
+        id:118,
         namevideorecommended: "Book Review",
         videoviewsrecommended: "3k views • 19d ago",
         photorecommended: videorecommended,
     },
     {
+        id:119,
         namevideorecommended: "Science Experiment",
         videoviewsrecommended: "8k views • 20d ago",
         photorecommended: videorecommended,
     },
 ];
+
 
 const foryouvideos = [
     {
