@@ -15,6 +15,8 @@ import RegisterPage from './pages/RegisterPage/RegisterPage.jsx'
 import { SidebarProvider } from './hooks/useSidebarToggle.jsx';
 import { FriendMenu } from './components/common/friendMenu/friendMenu.jsx';
 import { NotificationManager } from './components/common/Toasts/NotificationManager.jsx';
+import ShortsPage from './pages/ShortPage/ShortsPage.jsx';
+import { VideoPage } from './pages/VideoPage/VideoPage.jsx'
 
 const mockFriends = [
   { userName: 'sheniDev', profile: '/src/assets/images/profile/gena.jpg' },
@@ -41,6 +43,9 @@ createRoot(document.getElementById('root')).render(
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/studio" element={<Studio />} />
             <Route path="/yourchannel" element={<YourChannel />} />
+            <Route path="/shorts" element={<ShortsPage />} />
+            <Route path='/watch/:id' element={<VideoPage />} />
+
           </Routes>
 
           <ModalRenderer />

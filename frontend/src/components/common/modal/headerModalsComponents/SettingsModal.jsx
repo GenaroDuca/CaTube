@@ -5,6 +5,7 @@ import PrivacySettings from './settingsModal/PrivacySettings';
 import PaymentHistory from './settingsModal/PaymentHistory';
 import AdvancedSettings from './settingsModal/AdvancedSettings';
 import '../../../../styles/modals.css';
+import { IoIosCloseCircle } from "react-icons/io";
 
 const SettingsModal = ({ onClose }) => {
   const [activeSection, setActiveSection] = useState('Account');
@@ -26,7 +27,7 @@ const SettingsModal = ({ onClose }) => {
         <header>
           <h1>Settings</h1>
           <button onClick={onClose} className="close-right-menu-modal">
-            <span className="material-symbols-outlined">do_not_disturb_on</span>
+            <IoIosCloseCircle size={25} color="#1a1a1b" />
           </button>
         </header>
         <div className="settings-main-content">

@@ -674,6 +674,10 @@ body {
     background: var(--btn);
 }
 
+.nav-link.active svg, .nav-link:hover svg {
+    color: var(--hover-color);
+}
+
 .sidebar-left-studio-nav .secondary-nav {
     position: absolute;
     bottom: 30px;
@@ -684,13 +688,16 @@ body {
 }
 
 /*Content modal */
-.edit-video-btn {
+.edit-video-btn-container button {
     width: 40px;
     height: 40px;
     background: var(--btn);
     border-radius: 30px;
     border: none;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .edit-video-btn:hover {

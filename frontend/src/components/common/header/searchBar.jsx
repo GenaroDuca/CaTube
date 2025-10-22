@@ -1,14 +1,16 @@
-export function SearchBar({ searchQuery, setSearchQuery}) {
+import logo from '../../../../public/catube_white.svg'
+import { CatubeHeader } from './CatubeHeader.jsx'
+import './CatubeHeader.css'
+
+function SearchBar({ className, searchQuery, setSearchQuery }) {
     return (
-        <div>
-            <input
+        <input
             type="text"
-            placeholder="Search"
+            className={className}
+            placeholder="Buscar..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="sr-header-input"
-            />
-        </div>
+        />
     );
 }
 

@@ -44,9 +44,12 @@ a {
     text-decoration: none
 }
 
-.title,
-.ts-nav-label {
+.title{
     font-weight: 500
+}
+
+.ts-nav-label{
+    font-size: var(--font-size);
 }
 
 #soon-modal {
@@ -266,6 +269,10 @@ button:hover {
     transform: rotate(180deg)
 }
 
+.sidebar-toggler span {
+    color: var(--primary-color);
+}
+
 .sidebar-nav .nav-list {
     list-style: none;
     display: flex;
@@ -345,6 +352,10 @@ button:hover {
     color: var(--btn);
 }
 
+.logged-in-icon:hover {
+    color: var(--btn-dark);
+}
+
 .ts-sidebar {
     top: 70px;
     right: 16px;
@@ -353,14 +364,6 @@ button:hover {
     overflow: hidden;
     display: flex;
     flex-direction: column
-}
-
-#soon-modal,
-.right-menu-modal {
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh
 }
 
 /* RIGHT MENU */
@@ -372,7 +375,7 @@ button:hover {
 }
 
 .ts-sidebar-nav {
-    padding: 20px
+    padding: 20px;
 }
 
 .ts-nav-list {
@@ -399,34 +402,6 @@ button:hover {
 .ts-nav-link:hover {
     background: var(--btn);
     color: var(--primary-color)
-}
-
-#soon-modal {
-    z-index: 1000;
-    width: 100vw;
-    background: rgba(0, 0, 0, .4);
-    align-items: center;
-    justify-content: center
-}
-
-.soon-modal-content {
-    background-color: var(--background-color);
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    max-width: 90vw;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, .2)
-}
-
-.soon-modal-content h2 {
-    margin: 30px
-}
-
-.soon-modal-content p {
-    margin-bottom: 24px
 }
 
 .close-soon-modal-container {
@@ -568,7 +543,6 @@ button:hover {
 }
 
 .frequently-asked-questions {
-    max-width: 600px;
     display: flex;
     flex-direction: column;
     padding: 20px;
@@ -860,6 +834,13 @@ input:checked+.slider:before {
     margin-bottom: 10px;
     border-radius: 30px;
     padding: 10px;
+}
+
+.notification-dropdown.collapsed {
+    transform: translateX(120%);
+    pointer-events: none;
+    background-color: var(--primary-color);
+    box-shadow: none;
 }
 
 .notification-item:hover {

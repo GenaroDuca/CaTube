@@ -1,5 +1,11 @@
+import NewButton from "../../homePageComponents/Button";
+import Container from "../../common/Container";
+import { MdModeEditOutline } from "react-icons/md";
+import { useModal } from "../../common/modal/ModalContext";
 
 function Tbody(props) {
+    const { openModal } = useModal();
+
     return (
         <tbody>
             {props.content.map((item, idx) => (
@@ -24,11 +30,17 @@ function Tbody(props) {
                     <td data-label="Like (%)">{item.like}</td>
                     {props.contentType !== 'Playlists' && (
                         <td>
-                            <button className="edit-video-btn">
+                            <Container className="edit-video-btn-container">
+                                <NewButton className="edit-video-btn" type="button" onClick={() => openModal('editvideo')}>
+                                    <MdModeEditOutline size={25} color="#1a1a1b" />
+                                </NewButton>
+                            </Container>
+
+                                {/* <button className="edit-video-btn">
                                 <span className="material-symbols-outlined">
                                     edit
                                 </span>
-                            </button>
+                            </button> */}
                         </td>
                     )}
                 </tr>

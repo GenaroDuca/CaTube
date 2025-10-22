@@ -45,14 +45,17 @@
 }
 
 .sr-header-micButton {
-    padding: 0.3rem 0.5rem;
-    font-size: 1.2rem;
+    height: 40px;
+    width: 40px;
     background-color: var(--primary-color);
     color: var(--text);
     border: none;
     border-radius: var(--border-radius);
     cursor: pointer;
     outline: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .sr-header-micButton:hover {
@@ -60,13 +63,15 @@
 }
 
 .sr-header-searchBarSection {
+    height: 40px;
     position: relative;
     display: flex;
     align-items: center;
     width: 400px;
     border-radius: 20px;
     overflow: hidden;
-    background-color: var(--primary-color);;
+    background-color: var(--primary-color);
+    ;
 }
 
 .sr-header-input {
@@ -106,14 +111,16 @@
     gap: 8px;
 }
 
-.plusIcon {
-    background-color: var(--btn);
-    padding: 2px;
-    border-radius: var(--border-radius);
-    color: var(--primary-color);
+/* === Botones de la derecha === */
+.sr-header-right.register {
+    opacity: 0;
+    pointer-events: none;
 }
 
-.sr-header-createButton, .sr-header-userActions{
+
+.sr-header-createButton,
+.sr-header-userActions {
+    height: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -125,12 +132,21 @@
     font-size: 1.2rem;
     gap: 10px;
 }
+
+.user-button,
+.notification-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
 .sr-header-createButton {
     cursor: pointer;
 }
 
 .sr-header-createButton:hover {
-    .sr-header-createLabel{
+    .sr-header-createLabel {
         color: var(--btn);
     }
 }
@@ -148,164 +164,149 @@
     color: var(--btn);
 }
 
-@media (max-width:768px){
+@media (max-width:768px) {
     /* Search bar */
 
     .sr-header-searchBarSection,
     .sr-header-title,
-/* === Header general === */
-.sr-header {
-    position: fixed;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-    width: 100%;
-    padding: 0 1rem;
-    margin-bottom: 1rem;
-    background-color: rgba(30, 30, 31, 0.85);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
-    z-index: 10;
-}
+    .sr-header-logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        color: var(--text);
+        font-weight: 500;
+        font-size: 1rem;
+    }
 
-/* === Logo === */
-.sr-header-logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    color: var(--text);
-    font-weight: 500;
-    font-size: 1rem;
-}
+    .sr-header-symbol {
+        width: 48px;
+        height: auto;
+    }
 
-.sr-header-symbol {
-    width: 48px;
-    height: auto;
-}
+    .sr-header-title {
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
 
-.sr-header-title {
-    font-weight: bold;
-    font-size: 1.5rem;
-}
+    /* === Search bar === */
+    .sr-header-searchBar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
 
-/* === Search bar === */
-.sr-header-searchBar {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+    .sr-header-micButton {
+        padding: 0.3rem 0.5rem;
+        font-size: 1.5rem;
+        background-color: var(--primary-color);
+        color: var(--text);
+        border: none;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        outline: none;
+    }
 
-.sr-header-micButton {
-    padding: 0.3rem 0.5rem;
-    font-size: 1.5rem;
-    background-color: var(--primary-color);
-    color: var(--text);
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    outline: none;
-}
-
-.sr-header-micButton:hover {
-    color: var(--btn);
-}
-
-.sr-header-searchBarSection {
-    position: relative;
-    display: flex;
-    align-items: center;
-    width: 400px;
-    border-radius: 20px;
-    overflow: hidden;
-    background-color: var(--primary-color);;
-}
-
-.sr-header-input {
-    flex: 1;
-    width: 100%;
-    padding: 8px 50px 8px 12px;
-    font-size: 0.95rem;
-    background: transparent;
-    border: none;
-    color: var(--text);
-    outline: none;
-}
-
-/* Botón dentro del input */
-.sr-header-searchButton {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
-    background: var(--btn);
-    border: none;
-    font-size: 1.2rem;
-    padding: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 1;
-    color: var(--primary-color);
-}
-
-/* === Botones de la derecha === */
-.sr-header-right {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
-.plusIcon {
-    font-size: 1rem;
-    background-color: var(--btn);
-    padding: 2px;
-    border-radius: var(--border-radius);
-    color: var(--primary-color);
-}
-
-.sr-header-createButton, .sr-header-userActions{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: none;
-    border-radius: var(--border-radius);
-    padding: 0.3rem 0.5rem;
-    background-color: var(--primary-color);
-    color: var(--text);
-    font-size: 1.5rem;
-    gap: 10px;
-}
-
-.sr-header-createLabel{
-    font-size: 1.2rem;
-}
-
-.sr-header-createButton {
-    cursor: pointer;
-}
-
-.sr-header-createButton:hover {
-    .sr-header-createLabel{
+    .sr-header-micButton:hover {
         color: var(--btn);
     }
-}
 
-.sr-header-button {
-    color: var(--text);
-    border: none;
-    background: none;
-    font-size: 1.2rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-}
+    .sr-header-searchBarSection {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 400px;
+        border-radius: 20px;
+        overflow: hidden;
+        background-color: var(--primary-color);
+        ;
+    }
 
-.sr-header-button:hover {
-    color: var(--btn);
-}
+    .sr-header-input {
+        flex: 1;
+        width: 100%;
+        padding: 8px 50px 8px 12px;
+        font-size: 0.95rem;
+        background: transparent;
+        border: none;
+        color: var(--text);
+        outline: none;
+    }
+
+    /* Botón dentro del input */
+    .sr-header-searchButton {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        transform: translateY(-50%);
+        background: var(--btn);
+        border: none;
+        font-size: 1.2rem;
+        padding: 10px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1;
+        color: var(--primary-color);
+    }
+
+    /* === Botones de la derecha === */
+    .sr-header-right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .plusIcon {
+        font-size: 1rem;
+        background-color: var(--btn);
+        padding: 2px;
+        border-radius: var(--border-radius);
+        color: var(--primary-color);
+    }
+
+    .sr-header-createButton,
+    .sr-header-userActions {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        border-radius: var(--border-radius);
+        padding: 0.3rem 0.5rem;
+        background-color: var(--primary-color);
+        color: var(--text);
+        font-size: 1.5rem;
+        gap: 10px;
+    }
+
+    .sr-header-createLabel {
+        font-size: 1.2rem;
+    }
+
+    .sr-header-createButton {
+        cursor: pointer;
+    }
+
+    .sr-header-createButton:hover {
+        .sr-header-createLabel {
+            color: var(--btn);
+        }
+    }
+
+    .sr-header-button {
+        color: var(--text);
+        border: none;
+        background: none;
+        font-size: 1.2rem;
+        border-radius: var(--border-radius);
+        cursor: pointer;
+    }
+
+    .sr-header-button:hover {
+        color: var(--btn);
+    }
 
     .sr-header-micButton {
         display: none;

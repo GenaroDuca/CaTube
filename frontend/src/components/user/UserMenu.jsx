@@ -1,9 +1,17 @@
 import { useState, useRef, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// Asegúrate de que los íconos de FontAwesome que quedan estén importados
-import { faUser, faSignOut, faTv, faUserFriends, faMoon, faGear, faQuestionCircle, faComments } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from 'react-router-dom'
 import { useModal } from '../common/modal/ModalContext';
+
+import { BsPersonFill } from "react-icons/bs";
+import { TbLogout } from "react-icons/tb";
+import { BiSolidUserRectangle } from "react-icons/bi";
+import { FaUserFriends } from "react-icons/fa";
+import { IoMoon } from "react-icons/io5";
+import { RiSettings2Fill } from "react-icons/ri";
+import { IoIosHelpCircle } from "react-icons/io";
+import { BsFillSendExclamationFill } from "react-icons/bs";
+import { FaThList } from "react-icons/fa";
+import { HiOutlineLogin } from "react-icons/hi";
 
 import { useSidebarToggle } from '../../hooks/useSidebarToggle.jsx';
 
@@ -73,7 +81,7 @@ export function UserMenu() {
         <div className="user-menu-container" /*ref={menuRef}*/>
             {/* El botón ahora usa toggleUserMenu */}
             <button className="user-button" onClick={toggleUserMenu}>
-                <FontAwesomeIcon icon={faUser} className={isLoggedIn ? 'logged-in-icon' : ''} />
+                <BsPersonFill size={30} className={isLoggedIn ? 'logged-in-icon' : ''} />
             </button>
 
             {/* 4. Renderizamos el menú SIEMPRE para permitir la transición CSS. 
@@ -85,13 +93,13 @@ export function UserMenu() {
                         <li className="ts-nav-item">
                             {isLoggedIn ? (
                                 <button type="button" className="ts-nav-link" onClick={handleLogout}>
-                                    <span className="material-symbols-outlined">logout</span>
+                                    <TbLogout size={30}/>
                                     <span className="ts-nav-label">Log Out</span>
                                 </button>
                             ) : (
                                 // Usamos Link para navegar y también cerramos el menú
                                 <Link to="/register" className="ts-nav-link" onClick={closeUserMenu}>
-                                    <span className="material-symbols-outlined">login</span>
+                                    <HiOutlineLogin  size={30} />
                                     <span className="ts-nav-label">Log In</span>
                                 </Link>
                             )}
@@ -100,7 +108,7 @@ export function UserMenu() {
                         {/* Your channel */}
                         <li className="ts-nav-item">
                             <Link to="/yourchannel" className="ts-nav-link" onClick={closeUserMenu}>
-                                <span className="material-symbols-outlined">account_box</span>
+                                <BiSolidUserRectangle  size={25} />
                                 <span className="ts-nav-label">Your channel</span>
                             </Link>
                         </li>
@@ -109,7 +117,7 @@ export function UserMenu() {
                         <li className="ts-nav-item">
                             {/* toggleFriendMenu debería estar en el contexto. Después de esto, cerrar el menú de usuario. */}
                             <button type="button" className="ts-nav-link friends-btn" onClick={() => { toggleFriendMenu()}}>
-                                <span className="material-symbols-outlined">diversity_4</span>
+                                <FaUserFriends size={25} />
                                 <span className="ts-nav-label">Friends</span>
                             </button>
                         </li>
@@ -117,7 +125,7 @@ export function UserMenu() {
                         {/* Catube Studio */}
                         <li className="ts-nav-item">
                             <Link to="/studio" className="ts-nav-link" onClick={closeUserMenu}>
-                                <span className="material-symbols-outlined">video_library</span>
+                                <FaThList size={22} />
                                 <span className="ts-nav-label">Catube Studio</span>
                             </Link>
                         </li>
@@ -127,7 +135,7 @@ export function UserMenu() {
                         {/* Appearance */}
                         <li className="ts-nav-item">
                             <button type="button" className="ts-nav-link soon" onClick={closeUserMenu}>
-                                <span className="material-symbols-outlined">mode_night</span>
+                                <IoMoon size={25} />
                                 <span className="ts-nav-label">Appearance</span>
                             </button>
                         </li>
@@ -137,7 +145,7 @@ export function UserMenu() {
                         {/* Settings */}
                         <li className="ts-nav-item">
                             <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { openModal('settings'); closeUserMenu(); }}>
-                                <span className="material-symbols-outlined">settings</span>
+                                <RiSettings2Fill  size={25} />
                                 <span className="ts-nav-label">Settings</span>
                             </button>
                         </li>
@@ -145,15 +153,14 @@ export function UserMenu() {
                         {/* Help */}
                         <li className="ts-nav-item">
                             <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { openModal('help'); closeUserMenu(); }}>
-                                <span className="material-symbols-outlined">help</span>
+                            <IoIosHelpCircle size={25} />
                                 <span className="ts-nav-label">Help</span>
                             </button>
                         </li>
-
                         {/* Send feedback */}
                         <li className="ts-nav-item">
                             <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { openModal('feedback'); closeUserMenu(); }}>
-                                <span className="material-symbols-outlined">feedback</span>
+                            <BsFillSendExclamationFill size={25} />
                                 <span className="ts-nav-label">Send feedback</span>
                             </button>
                         </li>

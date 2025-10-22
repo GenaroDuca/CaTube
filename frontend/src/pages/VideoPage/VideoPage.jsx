@@ -2,7 +2,7 @@ import {useState, useMemo, useEffect} from 'react'
 
 //Components
 import Header from '../../components/common/header/Header.jsx'
-import WatchVideo from '../../components/videoPageComponents/WawtchVideo.jsx';
+import WatchVideo from '../../components/videoPageComponents/WatchVideo.jsx';
 
 //Styles
 import './VideoPage.css';
@@ -10,7 +10,7 @@ import './VideoPage.css';
 //Assets
 import Yukki from '../../assets/images/profile/yukki.jpg'
 import Video from '../../assets/videos/channel-video-proof.mp4'
-import thumbnail from '../../assets/images/thumbnail/Pinterest Swap Challenge.jpg'
+import thumbnail from '../../assets/images/thumbnails/Pinterest_Swap_Challenge.jpg'
 import Gena from '../../assets/images/profile/gena.jpg'
 import Jere from '../../assets/images/profile/jere.jpg'
 import { VideoList } from '../../components/videoPageComponents/VideoList.jsx';

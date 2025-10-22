@@ -48,6 +48,25 @@ import settings from "../images/studio_media/settings.png";
 import remera from "../images/studio_media/store/remera_ejemplo.jpg"
 import banner from "../images/studio_media/banner-pc.jpg"
 
+/*Icons*/
+import { MdSpaceDashboard } from "react-icons/md";
+import { BsCollectionPlayFill } from "react-icons/bs";
+import { SiGoogleanalytics } from "react-icons/si";
+import { HiMiniUserGroup } from "react-icons/hi2";
+import { IoStorefront } from "react-icons/io5";
+import { FaMoneyCheckDollar } from "react-icons/fa6";
+import { MdModeEditOutline } from "react-icons/md";
+import { IoHome } from "react-icons/io5";
+import { TbRadarFilled } from "react-icons/tb";
+import { IoSchool } from "react-icons/io5";
+import { FaCrown } from "react-icons/fa6";
+import { BsFillFilePlayFill } from "react-icons/bs";
+import { BsPersonFill } from "react-icons/bs";
+import { FaHistory } from "react-icons/fa";
+import { PiListHeartFill } from "react-icons/pi";
+import { FaClock } from "react-icons/fa6";
+import { FaHeart } from "react-icons/fa";
+import { BsFillPlayBtnFill } from "react-icons/bs";
 const popularChannels = [
     { name: "Angel", subs: "15k subs", photo: angelr },
     { name: "Thiago", subs: "20k subs", photo: thiagor },
@@ -269,108 +288,131 @@ const videos = [
     },
 ];
 
+
+
 const recommendedVideos = [
     {
+        id:100,
         namevideorecommended: "Swap Challenge",
         videoviewsrecommended: "25k views • 2d ago",
         photorecommended: videorecommended,
     },
     {
+        id:101,
         namevideorecommended: "Dance Off",
         videoviewsrecommended: "30k views • 3d ago",
         photorecommended: videorecommended,
     },
     {
+        id:102,
         namevideorecommended: "Guinea Pigs Eating",
         videoviewsrecommended: "1k views • 10d ago",
         photorecommended: videorecommended,
     },
     {
+        id:103,
         namevideorecommended: "Frogs Jumping",
         videoviewsrecommended: "900 views • 11d ago",
         photorecommended: frogjumping,
     },
     {
+        id:104,
         namevideorecommended: "Rabbits Hopping",
         videoviewsrecommended: "4k views • 5d ago",
         photorecommended: rabbits,
     },
     {
+        id:105,
         namevideorecommended: "Parrots Talking",
         videoviewsrecommended: "12k views • 6d ago",
         photorecommended: parrotstalking,
     },
     {
+        id:106,
         namevideorecommended: "Kittens Purring",
         videoviewsrecommended: "15k views • 1d ago",
         photorecommended: videorecommended,
     },
     {
+        id:107,
         namevideorecommended: "Puppies Playing",
         videoviewsrecommended: "20k views • 4d ago",
         photorecommended: videorecommended,
     },
     {
+        id:108,
         namevideorecommended: "Wildlife Documentary",
         videoviewsrecommended: "50k views • 8d ago",
         photorecommended: videorecommended,
     },
     {
+        id:109,
         namevideorecommended: "Travel Guide",
         videoviewsrecommended: "18k views • 9d ago",
         photorecommended: videorecommended,
     },
     {
+        id:110,
         namevideorecommended: "Tech Unboxing",
         videoviewsrecommended: "22k views • 7d ago",
         photorecommended: videorecommended,
     },
     {
+        id:111,
         namevideorecommended: "Cooking Show",
         videoviewsrecommended: "16k views • 12d ago",
         photorecommended: cookingshow,
     },
     {
+        id:112,
         namevideorecommended: "Workout Routine",
         videoviewsrecommended: "14k views • 13d ago",
         photorecommended: videorecommended,
     },
     {
+        id:113,
         namevideorecommended: "Gaming Stream",
         videoviewsrecommended: "28k views • 14d ago",
         photorecommended: videorecommended,
     },
     {
+        id:114,
         namevideorecommended: "Music Video",
         videoviewsrecommended: "35k views • 15d ago",
         photorecommended: videorecommended,
     },
     {
+        id:115,
         namevideorecommended: "Art Process",
         videoviewsrecommended: "9k views • 16d ago",
         photorecommended: videorecommended,
     },
     {
+        id:116,
         namevideorecommended: "DIY Project",
         videoviewsrecommended: "11k views • 17d ago",
         photorecommended: videorecommended,
     },
     {
+        id:117,
         namevideorecommended: "Movie Trailer",
         videoviewsrecommended: "40k views • 18d ago",
         photorecommended: videorecommended,
     },
     {
+        id:118,
         namevideorecommended: "Book Review",
         videoviewsrecommended: "3k views • 19d ago",
         photorecommended: videorecommended,
     },
     {
+        id:119,
         namevideorecommended: "Science Experiment",
         videoviewsrecommended: "8k views • 20d ago",
         photorecommended: videorecommended,
     },
 ];
+
 
 const foryouvideos = [
     {
@@ -1982,37 +2024,37 @@ const textfooter = [
 ];
 
 const leftMenu = [
-    { icon: "home", text: "Home", link: "/" },
+    { icon: <IoHome />, text: "Home", link: "/" },
 
     { divider: true },
 
-    { icon: "radar", text: "Discover", link: "/discover" },
-    { icon: "celebration", text: "CaTube Party", link: "/party" },
+    { icon: <TbRadarFilled />, text: "Discover", link: "/discover" },
+    // { icon: "celebration", text: "CaTube Party", link: "/party" },
     {
-        icon: "school",
+        icon: <IoSchool />,
         text: "CaTube Education",
         link: "/education",
     },
 
     { divider: true },
 
-    { icon: "auto_awesome_motion", text: "Shorts", link: "/shorts" },
-    { icon: "crown", text: "Trending", link: "/trending" },
+    { icon: <BsFillFilePlayFill />, text: "Shorts", link: "/shorts" },
+    { icon: <FaCrown />, text: "Trending", link: "/trending" },
     {
-        icon: "subscriptions",
+        icon: <BsCollectionPlayFill/>,
         text: "Catscribers",
         link: "/subscribers",
     },
 
     { divider: true },
 
-    { icon: "account_circle", text: "You", link: "/you" },
-    { icon: "history", text: "History", link: "/history", isSubmenu: true },
-    { icon: "playlist_play", text: "Playlist", link: "/playlist", isSubmenu: true },
-    { icon: "schedule", text: "View later", link: "/view-later", isSubmenu: true },
-    { icon: "favorite", text: "Liked", link: "/liked", isSubmenu: true },
+    { icon: <BsPersonFill size={25}/>, text: "You", link: "/you" },
+    { icon: <FaHistory />, text: "History", link: "/history", isSubmenu: true },
+    { icon: <PiListHeartFill />, text: "Playlist", link: "/playlist", isSubmenu: true },
+    { icon: <FaClock />, text: "View later", link: "/view-later", isSubmenu: true },
+    { icon: <FaHeart />, text: "Liked", link: "/liked", isSubmenu: true },
     {
-        icon: "smart_display",
+        icon: <BsFillPlayBtnFill />,
         text: "Your videos",
         link: "/studio?section=content",
     },
@@ -2027,37 +2069,38 @@ const latesVideoIcons = [
 const leftMenuStudio = [
     {
         id: "dashboard",
-        icon: "dashboard",
+        icon: <MdSpaceDashboard />,
         text: "Dashboard",
     },
     {
         id: "content",
-        icon: "slideshow",
+        icon: <BsCollectionPlayFill />,
         text: "Content",
     },
     {
         id: "analytics",
-        icon: "analytics",
+        icon: <SiGoogleanalytics />,
         text: "Analytics",
     },
     {
         id: "community",
-        icon: "groups",
+        icon: <HiMiniUserGroup />,
         text: "Community",
     },
     {
         id: "store",
-        icon: "store",
+        icon: <IoStorefront />,
         text: "Store",
     },
     {
         id: "earn",
-        icon: "payments",
+        icon: <FaMoneyCheckDollar />
+,
         text: "Earn",
     },
     {
         id: "customization",
-        icon: "colorize",
+        icon:<MdModeEditOutline />,
         text: "Customization",
     },
 ];

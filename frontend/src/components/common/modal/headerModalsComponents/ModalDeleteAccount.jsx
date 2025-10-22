@@ -1,4 +1,6 @@
 
+import { IoIosCloseCircle } from "react-icons/io";
+
 const ModalDeleteAccount = ({ onClose }) => {
     async function handleDeleteAccount() {
         let userId = localStorage.getItem('userId');
@@ -35,7 +37,7 @@ const ModalDeleteAccount = ({ onClose }) => {
                 <header>
                     <h1>Delete account</h1>
                     <button type="button" onClick={onClose} className="close-create-store-modal">
-                        <span className="material-symbols-outlined">do_not_disturb_on</span>
+                        <IoIosCloseCircle size={25} color="#1a1a1b" />
                     </button>
                 </header>
                 <main>

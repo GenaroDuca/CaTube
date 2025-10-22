@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import apiService from "../../../studioPageComponents/store/apiService";
+import { useNotifications } from '../../../common/Toasts/useNotifications.jsx';
+import { IoIosCloseCircle } from "react-icons/io";
 
 const AddProductModal = ({ onClose }) => {
   const [formData, setFormData] = useState({
@@ -32,6 +34,9 @@ const AddProductModal = ({ onClose }) => {
     }));
   };
 
+  //FeedbackToast
+  const { showSuccess, showError } = useNotifications();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -39,14 +44,14 @@ const AddProductModal = ({ onClose }) => {
 
     // Validate price is not negative
     if (parseFloat(formData.price) < 0) {
-      setError("Price cannot be negative");
+      showError("Price cannot be negative");
       setLoading(false);
       return;
     }
 
     // Validate stock is not negative
     if (parseInt(formData.stock, 10) < 0) {
-      setError("Stock cannot be negative");
+      showError("Stock cannot be negative");
       setLoading(false);
       return;
     }
@@ -77,7 +82,7 @@ const AddProductModal = ({ onClose }) => {
       window.location.reload(); // Simple way to refresh, or use a callback if passed
       onClose();
     } else {
-      setError("Failed to add product");
+      showError("Failed to add product");
     }
     setLoading(false);
   };
@@ -88,7 +93,7 @@ const AddProductModal = ({ onClose }) => {
         <header>
           <h1>Add a new Product</h1>
           <button type="button" onClick={onClose} className="close-add-product-modal">
-            <span className="material-symbols-outlined">do_not_disturb_on</span>
+            <IoIosCloseCircle size={25} color="#1a1a1b" />
           </button>
         </header>
         <main>

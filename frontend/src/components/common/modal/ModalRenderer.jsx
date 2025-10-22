@@ -5,7 +5,9 @@ import HelpModal from '../modal/headerModalsComponents/HelpModal';
 import FeedbackModal from '../modal/headerModalsComponents/FeedbackModal'
 import EditProductModal from '../modal/storeModal/EditProductModal'
 import AddProductModal from '../modal/storeModal/AddProductModal'
-// import ModalDeleteAccount from '../modal/headerModalsComponents/';
+import ModalDeleteAccount from '../modal/headerModalsComponents/ModalDeleteAccount';
+import CreateVideoModal from '../modal/videoModalComponents/createVideoModal';
+import EditVideoModal from '../modal/videoModalComponents/editVideoModal';
 
 const ModalRenderer = () => {
     const { modalState, closeModal } = useModal();
@@ -25,6 +27,10 @@ const ModalRenderer = () => {
             return <AddProductModal onClose={closeModal} />;
         case 'delete':
             return <ModalDeleteAccount onClose={closeModal} />;
+        case 'createvideo':
+            return <CreateVideoModal onClose={closeModal} />;
+        case 'editvideo':
+            return <EditVideoModal onClose={closeModal} />;
         default:
             return null;
     }
