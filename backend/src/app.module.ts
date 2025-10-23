@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm'; 
-import { UsersModule } from './users/users.module'; 
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { UsersModule } from './users/users.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { User } from './users/entities/user.entity'; 
+import { User } from './users/entities/user.entity';
 import { Channel } from './channels/entities/channel.entity';
 import { ChannelsModule } from './channels/channels.module';
 import { AuthModule } from './auth/auth.module';
@@ -18,6 +18,7 @@ import { Like } from './likes/entities/like.entity';
 import { Subscription } from './subs/entities/sub.entity';
 import { PlaylistVideosModule } from './playlist_videos/playlist_videos.module';
 import { PlaylistVideo } from './playlist_videos/entities/playlist_video.entity';
+import { SubscriptionsModule } from './subs/subs.module';
 
 @Module({
   imports: [
@@ -25,11 +26,11 @@ import { PlaylistVideo } from './playlist_videos/entities/playlist_video.entity'
       type: 'mysql',
       host: 'localhost',
       port: 3306,
-      username: 'root',       
-      password: 'Colo123',   
+      username: 'root',
+      password: 'Colo123',
       database: 'catube_db',
-      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo],       
-      synchronize: true,      
+      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo],
+      synchronize: true,
     }),
 
     UsersModule,
@@ -43,6 +44,8 @@ import { PlaylistVideo } from './playlist_videos/entities/playlist_video.entity'
     StoreModule,
 
     PlaylistVideosModule,
+
+    SubscriptionsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

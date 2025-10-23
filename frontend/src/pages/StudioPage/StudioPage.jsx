@@ -13,13 +13,47 @@ import Earn from "../../components/studioPageComponents/earn/earn.jsx";
 import Customization from "../../components/studioPageComponents/customization/Customization.jsx";
 import RightMenu from "../../components/studioPageComponents/RightMenu.jsx";
 import Header from "../../components/common/header/Header.jsx";
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 
 
 function Studio() {
     const [searchParams, setSearchParams] = useSearchParams();
     const section = searchParams.get('section') || 'dashboard';
+
+    // Always load the user's own channel for studio
+    const accessToken = localStorage.getItem('accessToken');
+    const [userChannelId, setUserChannelId] = useState(null);
+
+    useEffect(() => {
+        async function loadUserChannel() {
+            if (!accessToken) {
+                setUserChannelId(null);
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/users/me', {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+                if (response.ok) {
+                    const userData = await response.json();
+                    if (userData.channel) {
+                        const channelId = userData.channel.channel_id;
+                        // Set the user's own channel in localStorage for studio components
+                        localStorage.setItem('channelId', channelId);
+                        setUserChannelId(channelId);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading user channel:', error);
+            }
+        }
+        loadUserChannel();
+    }, [accessToken]);
+
     const tabs = useMemo(() => [
         { name: 'dashboard', component: <Dashboard /> },
         { name: 'content', component: <Content /> },
@@ -43,6 +77,20 @@ function Studio() {
 
     const ActiveComponent = tabs[activeTabIndex].component;
 
+    // If not logged in, show access denied
+    if (!accessToken) {
+        return (
+            <div>
+                <Header></Header>
+                <SidebarStudio activeTabIndex={0} onTabClick={() => {}}></SidebarStudio>
+                <div className="container-studio">
+                    <h1>Access Denied</h1>
+                    <p>You must be logged in to access the studio.</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <>
             <>
@@ -53,7 +101,7 @@ function Studio() {
                         {ActiveComponent}
                         <Footer footer="footer-studio"></Footer>
                     </div>
-                    <RightMenu></RightMenu>
+                    <RightMenu channelId={userChannelId}></RightMenu>
                 </main>
             </>
         </>

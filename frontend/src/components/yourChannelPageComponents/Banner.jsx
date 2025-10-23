@@ -1,4 +1,4 @@
-import banner from '../../assets/images/yourChannel_media/thumbnails/banner-tv.jpg';
+import banner from '../../assets/images/studio_media/catube-pc.png';
 
 function Banner() {
     return (

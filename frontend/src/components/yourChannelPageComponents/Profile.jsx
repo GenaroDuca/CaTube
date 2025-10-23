@@ -2,6 +2,7 @@ import { profile } from "../../assets/data/Data"
 import { Link } from 'react-router-dom'
 import NewButton from "../homePageComponents/Button";
 import { useState, useEffect } from "react";
+import { useNotifications } from "../common/Toasts/useNotifications";
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -47,11 +48,45 @@ async function apiFetch(url, options = {}) {
 }
 
 function Profile() {
+    const { showError } = useNotifications();
     const [userPhoto, setUserPhoto] = useState(profile.src);
     const [channelName, setChannelName] = useState(profile.name);
     const [channelHandle, setChannelHandle] = useState(profile.handle);
     const [channelDescription, setChannelDescription] = useState(profile.description);
     const [channelSubs, setChannelSubs] = useState(profile.subs);
+    const [isOwner, setIsOwner] = useState(false);
+    const [isSubscribed, setIsSubscribed] = useState(false);
+
+    const handleSubscribe = async () => {
+        const accessToken = localStorage.getItem('accessToken');
+        if (!accessToken) {
+            showError('Please Log In to subscribe to channel');
+            return;
+        }
+
+        const channelId = localStorage.getItem('channelId');
+        if (isSubscribed) {
+            // Unsubscribe
+            const result = await apiFetch('/subscriptions', {
+                method: 'DELETE',
+                body: JSON.stringify({ channelId }),
+            });
+            if (result) {
+                setIsSubscribed(false);
+                setChannelSubs(prev => prev - 1);
+            }
+        } else {
+            // Subscribe
+            const result = await apiFetch('/subscriptions', {
+                method: 'POST',
+                body: JSON.stringify({ channelId }),
+            });
+            if (result) {
+                setIsSubscribed(true);
+                setChannelSubs(prev => prev + 1);
+            }
+        }
+    };
 
     useEffect(() => {
         async function loadChannelData() {
@@ -75,9 +110,27 @@ function Profile() {
                     }
                 }
             }
+
+            // Check if user is the owner and subscription status
+            const accessToken = localStorage.getItem('accessToken');
+            if (accessToken) {
+                const userData = await apiFetch('/users/me');
+                if (userData && userData.channel && userData.channel.channel_id === channelId) {
+                    setIsOwner(true);
+                    setIsSubscribed(false); // Owner can't subscribe to their own channel
+                } else {
+                    setIsOwner(false);
+                    // Check if user is subscribed to this channel
+                    const subscriptions = await apiFetch('/subscriptions/user/' + userData.user_id);
+                    setIsSubscribed(subscriptions ? subscriptions.some(sub => sub.channel_id === channelId) : false);
+                }
+            } else {
+                setIsOwner(false);
+                setIsSubscribed(false);
+            }
         }
         loadChannelData();
-    }, []);
+    }, []); // Keep empty to avoid infinite loop, but data will reload when component remounts with new key
 
     return (
     <div className="container-profile">
@@ -91,15 +144,22 @@ function Profile() {
                     <p className="space">{profile.videos} </p>
                 </div>
                 <p>{channelDescription} </p>
+                {!isOwner && (
+                    <NewButton btnclass="subscribe-btn" btntitle={isSubscribed ? "Subscribed" : "Subscribe"} onClick={handleSubscribe}></NewButton>
+                )}
             </div>
         </div>
         <div className="row">
-            <Link to="/studio/?section=customization" className="customize-btn-channel">
-            <NewButton btnclass="customize-btn-channel" btntitle="Customize channel"></NewButton>
-            </Link>
-            <Link to="/studio/?section=content">
-            <NewButton btnclass="manage-btn-videos" btntitle="Manage videos"></NewButton>
-            </Link>
+            {isOwner && (
+                <>
+                    <Link to="/studio/?section=customization" className="customize-btn-channel">
+                    <NewButton btnclass="customize-btn-channel" btntitle="Customize channel"></NewButton>
+                    </Link>
+                    <Link to="/studio/?section=content">
+                    <NewButton btnclass="manage-btn-videos" btntitle="Manage videos"></NewButton>
+                    </Link>
+                </>
+            )}
         </div>
     </div>
     );

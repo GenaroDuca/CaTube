@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import angel from "../../assets/images/profile/angel.jpg";
 
-function RightMenu() {
+function RightMenu({ channelId }) {
     const BASE_URL = 'http://localhost:3000';
     const [channel, setChannel] = useState(null);
 
@@ -22,7 +22,6 @@ function RightMenu() {
 
     useEffect(() => {
         const fetchChannel = async () => {
-            const channelId = localStorage.getItem('channelId');
             const accessToken = localStorage.getItem('accessToken');
             if (!channelId || !accessToken) {
                 console.warn('No channelId or accessToken found, skipping fetch');
@@ -47,7 +46,7 @@ function RightMenu() {
             }
         };
         fetchChannel();
-    }, []);
+    }, [channelId]);
 
     const photoSrc = channel ? getAvatar(channel) : angel;
     const channelName = channel ? channel.channel_name : 'Channel Name';
@@ -56,7 +55,7 @@ function RightMenu() {
         <div className="right-menu">
             <img src={photoSrc} alt={channelName} />
             <h1>{channelName}</h1>
-        </div>  
+        </div>
     );
 }
 

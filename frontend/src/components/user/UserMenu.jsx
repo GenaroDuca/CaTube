@@ -18,9 +18,9 @@ import { useSidebarToggle } from '../../hooks/useSidebarToggle.jsx';
 export function UserMenu() {
     const {
         toggleFriendMenu,
-        isUserMenuOpen,     // Estado del menú
-        toggleUserMenu,     // Toggle del menú
-        closeUserMenu       // Función para cerrar
+        isUserMenuOpen,     // Estado del menú
+        toggleUserMenu,     // Toggle del menú
+        closeUserMenu       // Función para cerrar
     } = useSidebarToggle();
 
     const { openModal } = useModal();
@@ -39,34 +39,6 @@ export function UserMenu() {
         setUsername(username || '');
     }, []);
 
-    // 3. Modificamos useEffect para usar isUserMenuOpen y closeUserMenu
-    // useEffect(() => {
-    //     // Close with click off menu
-    //     const handleClickOutside = (e) => {
-    //         // Cierra si el menú está abierto y el clic está fuera del menú
-    //         if (isUserMenuOpen && menuRef.current && !menuRef.current.contains(e.target)) {
-    //             closeUserMenu();
-    //         }
-    //     };
-
-    //     // Close with esc
-    //     const handleEscape = (e) => {
-    //         if (e.key === 'Escape') {
-    //             closeUserMenu();
-    //             document.activeElement.blur(); // Remove focus from button
-    //         }
-    //     };
-
-    //     document.addEventListener('mousedown', handleClickOutside);
-    //     document.addEventListener('keydown', handleEscape);
-
-    //     // Dependencias actualizadas
-    //     return () => {
-    //         document.removeEventListener('mousedown', handleClickOutside);
-    //         document.removeEventListener('keydown', handleEscape);
-    //     };
-    // }, [isUserMenuOpen, closeUserMenu]); // Incluir dependencias
-
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('channelId');
@@ -84,8 +56,8 @@ export function UserMenu() {
                 <BsPersonFill size={30} className={isLoggedIn ? 'logged-in-icon' : ''} />
             </button>
 
-            {/* 4. Renderizamos el menú SIEMPRE para permitir la transición CSS. 
-                La clase 'collapsed' lo ocultará (trasladará) si isUserMenuOpen es false. */}
+            {/* 4. Renderizamos el menú SIEMPRE para permitir la transición CSS.
+                La clase 'collapsed' lo ocultará (trasladará) si isUserMenuOpen es false. */}
             <aside className={`ts-sidebar ${isUserMenuOpen ? '' : 'collapsed'}`}>
                 <nav className="ts-sidebar-nav">
                     <ul className="ts-nav-list">

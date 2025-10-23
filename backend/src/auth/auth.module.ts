@@ -12,7 +12,7 @@ import { JwtStrategy } from './jwt.strategy';
     PassportModule,
     JwtModule.register({
       secret: 'angelgenajerethiagocatubeproyecto',
-      signOptions: { expiresIn: '1h' }, 
+      signOptions: {}, 
     }),
   ],
   providers: [AuthService, JwtStrategy], 

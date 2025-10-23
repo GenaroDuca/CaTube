@@ -44,7 +44,17 @@ constructor(
         if (!channel) {
             throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
         }
-        
+
+        return channel;
+    }
+
+    async findOneByUrl(url: string): Promise<Channel> {
+        const channel = await this.channelRepository.findOneBy({ url: url });
+
+        if (!channel) {
+            throw new NotFoundException(`Canal con URL @${url} no encontrado.`);
+        }
+
         return channel;
     }
 

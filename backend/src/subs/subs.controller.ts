@@ -11,21 +11,25 @@ export class SubscriptionsController {
   //Subscribe
   @Post()
   @UseGuards(AuthGuard('jwt'))
-  create(
+  async create(
     @Body() createSubscriptionDto: CreateSubscriptionDto,
     @Req() req: any,
   ) {
-    return this.subscriptionsService.subscribe(req.user, createSubscriptionDto.channelId);
+    const user = await this.subscriptionsService['usersRepository'].findOne({ where: { user_id: req.user.userId } });
+    if (!user) throw new Error('User not found');
+    return this.subscriptionsService.subscribe(user, createSubscriptionDto.channelId);
   }
 
   //Unsubscribe
   @Delete()
   @UseGuards(AuthGuard('jwt'))
-  remove(
+  async remove(
     @Body() deleteSubscriptionDto: DeleteSubscriptionDto,
     @Req() req: any,
   ) {
-    return this.subscriptionsService.unsubscribe(req.user, deleteSubscriptionDto.channelId);
+    const user = await this.subscriptionsService['usersRepository'].findOne({ where: { user_id: req.user.userId } });
+    if (!user) throw new Error('User not found');
+    return this.subscriptionsService.unsubscribe(user, deleteSubscriptionDto.channelId);
   }
 
   //Get all subscriptions
