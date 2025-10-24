@@ -1,8 +1,13 @@
 import { useSidebarToggle } from '../../../hooks/useSidebarToggle';
 import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faPlus, faMessage, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import SearchBar from '../../common/header/searchBar';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { FaCirclePlus } from "react-icons/fa6";
+import { IoChatbox } from "react-icons/io5";
+import { ImSearch } from "react-icons/im";
+
 import './friendMenu.css';
 
 export function FriendMenu({ friends }) {
@@ -16,16 +21,14 @@ export function FriendMenu({ friends }) {
     fr.userName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  if (!isFriendMenuOpen) return null;
-
   return (
-    <aside className='friends-sidebar'>
+    <aside className={`friends-sidebar ${isFriendMenuOpen ? '' : 'collapsed'}`}>
       <header className='friendSidebar-header'>
         {!isSearching ? (
           <div className='friendSidebar-headerOne'>
             <div><h2>Friends</h2></div>
             <div className='friendSidebar-status'>
-              <span>Your status</span>
+              {/* <span>Your status</span> */}
               <select value={userStatus} onChange={(e) => setUserStatus(e.target.value)}>
                 <option value="online">Online</option>
                 <option value="offline">Offline</option>
@@ -33,7 +36,7 @@ export function FriendMenu({ friends }) {
               </select>
             </div>
             <button className='openSearchFriend' onClick={() => setIsSearching(true)}>
-              <FontAwesomeIcon className='searchFriendIcon' icon={faSearch} />
+              <ImSearch size={18} color='#1a1a1bee'/>
             </button>
           </div>
         ) : (
@@ -48,7 +51,7 @@ export function FriendMenu({ friends }) {
           </div>
         )}
       </header>
-            <main>
+      <main>
         {friends.length === 0 ? (
           <p className='noFriendsMessage'>You have no friends added yet</p>
         ) : (
@@ -61,10 +64,11 @@ export function FriendMenu({ friends }) {
               </div>
               <div className='buttonsFriends'>
                 <button className={`buttonAddFriend ${userStatus}`}>
-                  <FontAwesomeIcon className="addFriendIcon" icon={faPlus} />
+                  <FaCirclePlus color={"#90B484"} size={25} />
                 </button>
                 <button className={`buttonChatFriend ${userStatus}`}>
-                  <FontAwesomeIcon className="messageIcon" icon={faMessage} />
+                  <IoChatbox color={"#90B484"} size={25} />
+
                 </button>
               </div>
             </div>

@@ -1,7 +1,7 @@
 .friends-sidebar {
     width: 300px;
     height: 350px;
-    background-color: rgba(30, 30, 31, 0.85);
+    background-color: #1a1a1bee;
     box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493);
     backdrop-filter: blur(10px);
     border-radius: 30px;
@@ -18,7 +18,6 @@
 .friendSidebar-headerOne {
     height: 75px;
     padding: 20px;
-    font-size: 1rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -38,17 +37,6 @@
     border-color: var(--btn);
 }
 
-/* .friendSidebar-status select option {
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    cursor: pointer;
-} */
-
-/* .friendSidebar-status select option:hover {
-    cursor: pointer;
-    background-color: var(--btn);
-} */
-
 .friendSidebar-status {
     display: flex;
     flex-direction: column;
@@ -59,21 +47,27 @@
 .friendSidebar-headerTwo {
     height: 75px;
     padding: 20px;
-    font-size: 1rem;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
+
     input {
-        background: var(--primary-color);
-        border: none;
-        padding: 0.5rem;
-        border-radius: var(--border-radius);
+        height: 100%;
+        border-radius: 30px;
+        background-color: transparent;
+        border: 1px solid var(--text-color);
+        padding-left: 10px;
         color: var(--text-color);
+        flex-grow: 1;
+        min-width: 0;
     }
+
     input:focus {
         outline: none;
     }
+
     button {
         background: var(--btn);
         border: none;
@@ -84,19 +78,29 @@
 }
 
 .openSearchFriend {
-    background: none;
+    background-color: var(--btn);
+    height: 100%;
+    aspect-ratio: 1/1;
+    border-radius: 30px;
     border: none;
     color: var(--text-color);
     cursor: pointer;
-    .searchFriendIcon {
-        font-size: 1.5rem;
-    }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.friendSidebar-headerTwo button:hover,
+.openSearchFriend:hover,
+.buttonAddFriend:hover,
+.buttonChatFriend:hover {
+    transform: scale(1.1);
 }
 
 
 .friends-sidebar main {
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 .modalFriendCard {
@@ -130,14 +134,16 @@
     gap: 10px;
 }
 
-.buttonAddFriend, .buttonChatFriend {
+.buttonAddFriend,
+.buttonChatFriend {
     background: none;
     background-color: transparent;
     border: none;
     cursor: pointer;
 }
 
-.messageIcon, .addFriendIcon {
+.messageIcon,
+.addFriendIcon {
     font-size: 20px;
 }
 
@@ -154,8 +160,8 @@
 .friendStatus {
     position: absolute;
     z-index: 4;
-    top: 35px;
-    left: 35px;
+    top: 45px;
+    left: 45px;
     width: 15px;
     height: 15px;
     border-radius: 50%;
@@ -170,17 +176,19 @@
     img {
         filter: grayscale(100%);
     }
-    div{
+
+    div {
         background-color: var(--text-color);
     }
+
     transition: background-color 0.3s ease;
 }
 
-.buttonAddFriend.offline, .buttonAddFriend.occupied {
+.buttonAddFriend.offline,
+.buttonAddFriend.occupied {
     filter: grayscale(100%);
 }
 
 .friendStatus.occupied {
     background-color: rgb(201, 197, 112);
 }
-

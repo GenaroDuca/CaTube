@@ -21,6 +21,58 @@
     justify-content: center;
 }
 
+.delete-account-modal {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    background: rgba(0, 0, 0, .4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-account-modal-content {
+    background-color: var(--background-color);
+    border-radius: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, .2);
+    display: flex;
+    flex-direction: column;
+    width: 50vh;
+    /* height: 50vh; */
+    text-align: center;
+}
+
+.delete-account-modal-content header {
+    display: flex;
+    background-color: #ff7676;
+    padding: 20px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    color: var(--primary-color);
+    justify-content: space-between;
+}
+
+
+.delete-account-modal-content main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.delete-account-modal-content main button {
+    margin-top: 20px;
+}
+
+.delete-account-modal-content main h4 {
+    margin-top: 5px;
+    color: #ff7676;
+}
+
 .right-menu-modal {
     top: 50%;
     left: 50%;
@@ -30,6 +82,7 @@
     padding: 20px;
     justify-content: center;
 }
+
 
 /* SELECTOR UNIFICADO PARA TAMAÑO Y CONTENIDO */
 .feedback-modal-content,
@@ -46,8 +99,6 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, .2);
     display: flex;
     flex-direction: column;
-
-    /* PROPIEDADES DE TAMAÑO FIJO Y UNIFICADO: */
     width: 800px;
     max-width: 90vw;
     height: 80vh;
@@ -71,31 +122,6 @@
     box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .25);
     width: 100%;
     flex-shrink: 0;
-}
-
-.create-delete-content header {
-    display: flex;
-    justify-content: space-between;
-    background-color: #ff7676;
-    padding: 20px;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    color: var(--primary-color);
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .25);
-    width: 100%;
-    flex-shrink: 0;
-}
-
-.create-delete-content main {
-    margin-top: 15px;
-    display:flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.create-delete-content main h1 {
-    margin-top: 15px;
 }
 
 /* Botones de cerrar en headers */
@@ -756,14 +782,14 @@ input:checked+.slider:before {
     margin-left: 15px;
 }
 
-.confirm-buttons{
+.confirm-buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     gap: 20px;
 }
 
-.delete-confirm-btn{
+.delete-confirm-btn {
     width: 100%;
     padding: 12px 20px;
     background-color: #b94c4a;
@@ -775,7 +801,7 @@ input:checked+.slider:before {
     margin-top: 20px;
 }
 
-.delete-product-btn{
+.delete-product-btn {
     width: 100%;
     padding: 12px 20px;
     background-color: #b94c4a;
@@ -943,5 +969,13 @@ input:checked+.slider:before {
 
     .price-stock-container {
         flex-direction: column;
+    }
+
+    .delete-account-modal-content {
+        width: 40vh;
+    }
+
+    .delete-account-modal-content header h1{
+        font-size: 25px;
     }
 }
