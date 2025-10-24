@@ -15,37 +15,62 @@ const LoginForm = ({ togglePanel }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const loginData = { username, password };
+    
     try {
       const response = await fetch('http://localhost:3000/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(loginData),
       });
+      
       const result = await response.json();
-      // console.log('Respuesta del backend en el LOGIN:', result);
+      
       if (response.ok) {
+        // --- 1. LOGIN SUCCESS ---
         showSuccess(`¡Successfully logged in, Welcome ${username}!`);
         localStorage.setItem('accessToken', result.access_token);
+        
+        // Save user/channel data
         if (result.user && result.user.channel && result.user.channel.channel_id) {
           localStorage.setItem('channelId', result.user.channel.channel_id);
           localStorage.setItem('username', result.user.username);
           localStorage.setItem('userId', result.user.user_id);
           navigate('/');
         } else {
-          // console.error('La respuesta del login no contiene \'user.channel.channel_id\'.');
           showError('Login successful, but there was an issue retrieving your channel data.');
         }
+      
       } else {
+        // --- 2. LOGIN FAILED (Response Not OK) ---
         const errorMessage = result.message || 'Unknown error';
-        showError('Login failed, ' + errorMessage);
+
+        // 🔥 CRITICAL: Check for the specific verification message from the backend
+        if (errorMessage.includes('Please verify your email address to log in.')) {
+            
+            // Show a custom toast with a call to action
+            showError("Unverified user, please verify your email!");
+            
+            // OPTIONAL: Navigate user to a page explaining the verification process
+            // navigate('/pending-verification');
+
+        } else if (typeof errorMessage === 'string') {
+            // General login error (e.g., "Invalid credentials" or "User not found")
+            showError('Login failed: ' + errorMessage);
+        } else {
+            // Error with validation array (NestJS default for DTO validation)
+            showError('Login failed. Please check your inputs.');
+        }
       }
+
     } catch (error) {
+      // --- 3. NETWORK ERROR ---
       showError('Can not connect to server: ' + error.message);
     }
   };
 
   return (
     <form className="form-section" onSubmit={handleSubmit}>
+      {/* ... (Rest of the form JSX remains the same) */}
       <h1>Login</h1>
       <div className="input-group">
         <div className="input-row">

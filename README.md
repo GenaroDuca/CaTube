@@ -145,8 +145,9 @@
     npm install react-router-dom
     npm install react-icons
     npm install react-toastify
-
-
+    npm install nodemailer
+    npm install @nestjs/config
+    
 ## Crear proyecto React con Vite
     npm create vite@latest
 

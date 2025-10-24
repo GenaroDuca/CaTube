@@ -17,6 +17,8 @@ import { FriendMenu } from './components/common/friendMenu/friendMenu.jsx';
 import { NotificationManager } from './components/common/Toasts/NotificationManager.jsx';
 import ShortsPage from './pages/ShortPage/ShortsPage.jsx';
 import { VideoPage } from './pages/VideoPage/VideoPage.jsx'
+import  SuccessPage  from "./pages/VerificationEmailPage/SuccessPage.jsx"
+import  ErrorPage  from './pages/VerificationEmailPage/ErrorPage.jsx';
 
 const mockFriends = [
   { userName: 'sheniDev', profile: '/src/assets/images/profile/gena.jpg' },
@@ -45,6 +47,9 @@ createRoot(document.getElementById('root')).render(
             <Route path="/yourchannel" element={<YourChannel />} />
             <Route path="/shorts" element={<ShortsPage />} />
             <Route path='/watch/:id' element={<VideoPage />} />
+
+            <Route path="/verification-successful" element={<SuccessPage />} />
+            <Route path="/verification-error" element={<ErrorPage />} />
 
           </Routes>
 

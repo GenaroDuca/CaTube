@@ -14,7 +14,7 @@ export class User {
     @Column()
     username: string;
 
-    @Column({ unique: true }) 
+    @Column({ unique: true })
     email: string;
 
     @Column()
@@ -26,13 +26,34 @@ export class User {
     @Column({ name: 'user_type', default: 'client' })
     user_type: string;
 
+    // --- CAMPOS AGREGADOS PARA LA VERIFICACIÓN DE EMAIL ---
+
+    @Column({ name: 'is_verified', default: false })
+    is_verified: boolean;
+
+    @Column({
+        name: 'verification_token',
+        nullable: true,
+        unique: true,
+        type: 'varchar',
+        length: 255      
+    })
+    
+    verification_token: string | null;
+
+    @Column({ name: 'token_expiry', type: 'timestamp', nullable: true })
+    token_expiry: Date | null;
+
+    // -------------------------------------------------------
+
     @OneToOne(() => Channel, (channel) => channel.user)
     channel: Channel;
 
     // Este método se llama automáticamente cuando se serializa el objeto a JSON.
     // Excluye la contraseña del objeto resultante.
     toJSON() {
-        const { password, ...result } = this;
+        const { password, verification_token, token_expiry, ...result } = this;
+        // También excluimos el token y su caducidad por seguridad
         return result;
     }
 

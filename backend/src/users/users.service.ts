@@ -1,13 +1,20 @@
-import { Injectable, Inject, forwardRef, ConflictException } from '@nestjs/common';
+import { Injectable, Inject, forwardRef, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, QueryFailedError } from 'typeorm'; // Importamos QueryFailedError
+import { Repository, QueryFailedError } from 'typeorm';
 import { CreateUserDto } from './dto-users/create-user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import * as crypto from "crypto";
 import { ChannelsService } from 'src/channels/channels.service';
+import { ConfigService } from '@nestjs/config';
+import * as nodemailer from 'nodemailer';
+import { HttpCode, HttpStatus } from '@nestjs/common';
+
 
 @Injectable()
 export class UsersService {
+
+    private transporter: nodemailer.Transporter;
 
     constructor(
         @InjectRepository(User)
@@ -15,83 +22,132 @@ export class UsersService {
 
         @Inject(forwardRef(() => ChannelsService))
         private channelsService: ChannelsService,
-    ) { }
+
+        private readonly configService: ConfigService
+
+    ) {
+        this.initializeTransporter();
+    }
+
+    // =================================================================
+    // MODO LECTURA: Método de creación de usuario
+    // =================================================================
 
     async create(createUserDto: CreateUserDto): Promise<User> {
         const capitalizedUsername = createUserDto.username.charAt(0).toUpperCase() + createUserDto.username.slice(1);
 
-        // =================================================================
-        // 1. VALIDACIÓN DE UNICIDAD DEL USERNAME (Previa a la inserción)
-        // =================================================================
-        const existingUserByUsername = await this.usersRepository.findOne({
-            where: { username: capitalizedUsername },
-        });
+        // 1 & 2. VALIDACIÓN DE UNICIDAD (Username y Email)
+        const existingUserByUsername = await this.usersRepository.findOne({ where: { username: capitalizedUsername } });
         if (existingUserByUsername) {
-            throw new ConflictException('Username already exists'); 
+            throw new ConflictException('Username already exists');
         }
 
-        // =================================================================
-        // 2. VALIDACIÓN DE UNICIDAD DEL EMAIL (¡CORRECCIÓN CLAVE!)
-        // =================================================================
-        const existingUserByEmail = await this.usersRepository.findOne({
-            where: { email: createUserDto.email },
-        });
+        const existingUserByEmail = await this.usersRepository.findOne({ where: { email: createUserDto.email } });
         if (existingUserByEmail) {
-            // Lanzp el mensaje exacto que el frontend espera
-            throw new ConflictException('Email already exists'); 
+            throw new ConflictException('Email already exists');
         }
 
-        // 3. HASHEO Y CREACIÓN DEL OBJETO
+        // 3. HASHEO Y GENERACIÓN DE TOKEN
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
+
+        const token = crypto.randomBytes(32).toString('hex');
+        const expiry = new Date(Date.now() + 24 * 3600 * 1000); // Caducidad: 24 horas
 
         const newUser = this.usersRepository.create({
             username: capitalizedUsername,
             email: createUserDto.email,
             password: hashedPassword,
+            // ASIGNACIÓN DE CAMPOS DE VERIFICACIÓN
+            is_verified: false,
+            verification_token: token,
+            token_expiry: expiry,
         });
-        
-        // =================================================================
-        // 4. INSERCIÓN EN BD Y MANEJO DE ERRORES (¡CAPA DE SEGURIDAD!)
-        // =================================================================
-        try {
-            const savedUser = await this.usersRepository.save(newUser);
 
-            // Crea el canal si la inserción fue exitosa
+        // 4. INSERCIÓN EN BD Y MANEJO DE ERRORES
+        try {
+            const savedUser = await this.usersRepository.save(newUser); // Guarda el usuario con token
+
+            // 5. PREPARACIÓN Y ENVÍO DEL EMAIL
+            // Usamos la URL base de verificación configurada + el token
+            const BASE_VERIFY_URL = this.configService.get<string>('BACKEND_VERIFY_URL');
+            // Construye la URL completa que el usuario clickeará
+            const verificationUrl = `${BASE_VERIFY_URL}?token=${token}`;
+
+            await this.sendVerificationEmail(savedUser.email, verificationUrl);
+
+            // 6. CREACIÓN DEL CANAL
             const defaultChannelDto = {
                 channel_name: savedUser.username,
                 description: `Bienvenido al canal de ${savedUser.username}`,
                 url: savedUser.username.toLowerCase(),
             };
-
             await this.channelsService.create(defaultChannelDto, savedUser);
-
-
-
-
 
             return savedUser;
         } catch (error) {
-            // Capturamos el error de la base de datos (QueryFailedError)
-            // Esto maneja errores de restricción única en caso de race conditions.
-            const uniqueViolationCode = '23505'; // Código común de PostgreSQL
-      
+            // Manejo de errores de TypeORM/DB
+            const uniqueViolationCode = '23505';
             if (error instanceof QueryFailedError && (error as any).code === uniqueViolationCode) {
                 const detail = (error as any).detail || error.message;
-
-                // Relanza la excepción con el mensaje que React puede interpretar
                 if (detail.includes('username')) {
-                    throw new ConflictException('Username already exists'); 
+                    throw new ConflictException('Username already exists');
                 }
                 if (detail.includes('email')) {
                     throw new ConflictException('Email already exists');
                 }
             }
-            
-            // Si es un error diferente, lo relanzamos.
+
+            // Manejo de error de email
+            if (error instanceof Error && error.message.includes('transporter')) {
+                console.error('Error al enviar el correo:', error);
+                // Opcional: Podrías eliminar el usuario si el correo es crítico, o dejarlo y marcar que el envío falló.
+            }
             throw error;
         }
     }
+
+    // =================================================================
+    // Lógica de Verificación del Token
+    // =================================================================
+
+    /**
+     * Valida el token recibido y verifica la cuenta del usuario.
+     * @param token El token único de la URL.
+     * @returns El usuario verificado.
+     */
+    async verifyEmail(token: string): Promise<User> {
+        // 1. Buscar el usuario por el token
+        const user = await this.usersRepository.findOne({
+            where: { verification_token: token }
+        });
+
+        if (!user) {
+            throw new NotFoundException('Token de verificación inválido o ya utilizado.');
+        }
+
+        // 2. Comprobar si ya está verificado
+        if (user.is_verified) {
+            // Ya está verificado, no hace falta reprocesar.
+            return user;
+        }
+
+        // 3. Comprobar la caducidad
+        if (user.token_expiry && user.token_expiry < new Date()) {
+            throw new ConflictException('El token de verificación ha caducado. Por favor, solicite un nuevo enlace.');
+        }
+
+        // 4. Verificación exitosa: Actualizar el usuario
+        user.is_verified = true;
+        user.verification_token = null; // Limpia el token
+        user.token_expiry = null;       // Limpia la caducidad
+
+        return this.usersRepository.save(user);
+    }
+
+    // =================================================================
+    // MODO LECTURA: Métodos Existentes
+    // =================================================================
 
     findAll(): Promise<User[]> {
         return this.usersRepository.find();
@@ -107,7 +163,7 @@ export class UsersService {
     findOneById(id: string): Promise<User | null> {
         return this.usersRepository.findOne({
             where: { user_id: id },
-            relations: ['channel'], 
+            relations: ['channel'],
         });
     }
 
@@ -131,5 +187,69 @@ export class UsersService {
             console.error('Error deleting user:', error);
             throw error;
         }
+    }
+
+    // =================================================================
+    // MODO LECTURA: Métodos de Email
+    // =================================================================
+
+    private async initializeTransporter() {
+        const user = this.configService.get<string>('SMTP_USER');
+        const pass = this.configService.get<string>('SMTP_PASS');
+
+        if (!user || !pass) {
+            console.error('🔴 ERROR: SMTP_USER o SMTP_PASS no están cargados. Revisa config.env y la ruta en AppModule.');
+            return;
+        }
+
+        this.transporter = nodemailer.createTransport({
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
+            auth: {
+                user: user,
+                pass: pass,
+            },
+        });
+
+        try {
+            await this.transporter.verify();
+            console.log('📬 UserService: Nodemailer Ready to send mails.');
+        } catch (error) {
+            console.error('🔴 UserService: Error al verificar la conexión SMTP:', error.message);
+        }
+    }
+
+    async sendVerificationEmail(newUserEmail: string, verificationLink: string) { // Se tipó verificationLink a string
+        if (!this.transporter) {
+            console.error('📧 El transporter no se inicializó. No se puede enviar el correo.');
+            return;
+        }
+
+        try {
+            await this.transporter.sendMail({
+                from: '"CaTube Team" <catubeapp@gmail.com>',
+                to: newUserEmail,
+                subject: "Verify your user",
+                html: `
+                    <p>Welcome to CaTube! Please click the button below to verify your account:</p>
+                    <table cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td align="center" bgcolor="#90b484" style="border-radius: 30px;">
+                                <a href="${verificationLink}" target="_blank" style="padding: 10px 20px; border: 1px solid #90b484; border-radius: 30px; color: #1a1a1b; text-decoration: none; display: inline-block; font-weight: bold;">
+                                    Verify
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                    <p>If the button doesn't work, copy and paste this link into your browser: <a href="${verificationLink}">${verificationLink}</a></p>
+                `,
+            });
+        } catch (error) {
+            console.error('Error enviando el email de verificación a ' + newUserEmail, error);
+            // Considera si este error debe ser fatal o solo logueado.
+            throw new Error('Email sending failed.');
+        }
+
     }
 }
