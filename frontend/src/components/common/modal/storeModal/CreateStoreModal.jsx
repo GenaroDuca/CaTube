@@ -1,12 +1,66 @@
 import React, { useState } from 'react';
 import { IoIosCloseCircle } from "react-icons/io";
-import apiService from "../../../studioPageComponents/store/apiServiceStore";
+// import apiService from "../../../studioPageComponents/store/apiServiceStore"; // ELIMINADO
+
+// ----------------------------------------------------------------------
+// FUNCIONES DE FETCH (INTEGRADAS EN EL ARCHIVO)
+// ----------------------------------------------------------------------
+
+const BASE_URL = 'http://localhost:3000';
+
+/**
+ * Realiza el fetch para crear una nueva tienda.
+ * @param {object} storeData - Datos de la tienda (store_name, description).
+ * @returns {Promise<object|null>} El objeto de la tienda creada o null si falla.
+ */
+async function createStoreSolo(storeData) {
+    const accessToken = localStorage.getItem('accessToken');
+    const url = `${BASE_URL}/store`;
+
+    const headers = {
+        'Content-Type': 'application/json',
+    };
+    if (accessToken) {
+        headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(storeData),
+        });
+
+        if (response.status === 201) {
+            // Creado exitosamente
+            return await response.json();
+        }
+
+        // Manejo de errores (p.ej., 409 Conflict si ya existe, 400 Bad Request)
+        let errorBody = null;
+        if (response.headers.get("content-type")?.includes("application/json")) {
+            errorBody = await response.json().catch(() => ({}));
+        }
+
+        const errorMessage = errorBody?.message || response.statusText;
+        console.error("Store creation failed:", errorMessage);
+        
+        // Lanzamos una excepción para que el handleSubmit la capture
+        throw new Error(errorMessage || "Failed to create store on the server.");
+
+    } catch (error) {
+        console.error("Network or parsing error during store creation:", error);
+        throw new Error(error.message || "A network error occurred.");
+    }
+}
+
+// ----------------------------------------------------------------------
 
 /**
  * Modal para la creación de una nueva tienda.
  * @param {object} props - Propiedades del componente.
  * @param {function} props.onClose - Función para cerrar el modal.
- * @param {function} props.onCreate - Función callback a ejecutar tras la creación exitosa (e.g., para recargar la lista de tiendas).
+ * @param {function} props.onCreate - Función callback a ejecutar tras la creación exitosa.
  */
 const CreateStoreModal = ({ onClose, onCreate }) => {
     // Estado para los campos del formulario
@@ -22,7 +76,6 @@ const CreateStoreModal = ({ onClose, onCreate }) => {
      * @param {Event} e - Evento de envío del formulario.
      */
     const handleSubmit = async (e) => {
-        // Prevenir el comportamiento por defecto de submit, que recargaría la página
         e.preventDefault(); 
         
         const trimmedName = storeName.trim();
@@ -42,28 +95,24 @@ const CreateStoreModal = ({ onClose, onCreate }) => {
             description: storeDescription.trim(),
         };
 
-        // 3. Llamada a la API y manejo de respuesta
+        // 3. Llamada a la API usando la función local
         try {
-            const response = await apiService.createStore(storeData);
+            const response = await createStoreSolo(storeData);
             
-            if (response) {
-                // Éxito (201 Created)
-                console.log('Store created successfully:', response);
-                
-                // 4. Notificar al padre y cerrar
-                if (onCreate) {
-                    // Llama al callback (ej: fetchProducts) para actualizar la vista
-                    onCreate(); 
-                }
-                onClose();
-            } else {
-                // Fallo (Error 4xx o 5xx manejado por apiService, que devuelve null)
-                // Se establece un mensaje de error genérico para el usuario
-                setErrorMessage('Failed to create store. It may already exist or there was a server error.');
+            // Éxito (createStoreSolo retorna el objeto si status 201)
+            console.log('Store created successfully:', response);
+            
+            // 4. Notificar al padre y cerrar
+            if (onCreate) {
+                // Llama al callback (ej: fetchProducts) para actualizar la vista
+                onCreate(); 
             }
+            onClose();
+            
         } catch (error) {
-            // Error de red (catch del try/finally en apiService)
-             setErrorMessage('Connection error. Could not reach the server.');
+            // Fallo capturado por createStoreSolo (incluye errores de servidor 4xx/5xx y errores de red)
+            setErrorMessage(error.message || 'An unexpected error occurred while creating the store.');
+            
         } finally {
             setLoading(false);
         }
@@ -81,14 +130,13 @@ const CreateStoreModal = ({ onClose, onCreate }) => {
                         type="button" 
                         onClick={onClose} 
                         className="close-create-store-modal" 
-                        disabled={loading} // Deshabilita el cierre durante la carga
+                        disabled={loading}
                         aria-label="Close modal"
                     >
                         <IoIosCloseCircle size={25} color="#1a1a1b" />
                     </button>
                 </header>
                 
-                {/* Usamos <form> y handleSubmit para una mejor accesibilidad y manejo del evento */}
                 <form onSubmit={handleSubmit}>
                     <main>
                         {/* Mensaje de Error */}
@@ -118,7 +166,7 @@ const CreateStoreModal = ({ onClose, onCreate }) => {
 
                         {/* Botón de Envío */}
                         <button 
-                            type="submit" // Cambiado a type="submit" para usar el evento form onSubmit
+                            type="submit"
                             className="create-store-btn" 
                             disabled={isSubmitDisabled}
                         >

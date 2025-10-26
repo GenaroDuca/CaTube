@@ -144,7 +144,7 @@ export function UserMenu() {
 
                         {/* Settings */}
                         <li className="ts-nav-item">
-                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { openModal('settings'); closeUserMenu(); }}>
+                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { openModal('settings'); }}>
                                 <RiSettings2Fill  size={25} />
                                 <span className="ts-nav-label">Settings</span>
                             </button>
@@ -152,14 +152,14 @@ export function UserMenu() {
 
                         {/* Help */}
                         <li className="ts-nav-item">
-                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { openModal('help'); closeUserMenu(); }}>
+                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { openModal('help'); }}>
                             <IoIosHelpCircle size={25} />
                                 <span className="ts-nav-label">Help</span>
                             </button>
                         </li>
                         {/* Send feedback */}
                         <li className="ts-nav-item">
-                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { openModal('feedback'); closeUserMenu(); }}>
+                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { openModal('feedback'); }}>
                             <BsFillSendExclamationFill size={25} />
                                 <span className="ts-nav-label">Send feedback</span>
                             </button>

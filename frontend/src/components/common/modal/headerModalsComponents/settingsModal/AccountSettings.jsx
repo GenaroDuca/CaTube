@@ -22,7 +22,7 @@ const AccountSettings = () => {
 
     <div className="setting-section-btn-container">
       <button type="button" className="disable-account-btn soon">Disable Account</button>
-      <button type="button" className="delete-account-btn soon" onClick={() => openModal('delete')}>Delete Account</button>
+      <button type="button" className="delete-account-btn soon" onClick={() => openModal('deleteaccount')}>Delete Account</button>
     </div>
   </section>
 );

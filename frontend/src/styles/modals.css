@@ -801,11 +801,6 @@ input:checked+.slider:before {
     margin-top: 20px;
 }
 
-.delete-product-btn {
-    padding-top: 4px;
-    margin-top: 20px;
-}
-
 .update-product-btn,
 .create-product-btn,
 .create-store-btn {
