@@ -17,7 +17,7 @@ const [activeContent, setActiveContent] = useState('Videos');
             <FilterBar activeFilter={activeContent} onFilterChange={setActiveContent} ></FilterBar>
             {activeContent === 'Videos' && <VideoContent content={videosContent} contentType={activeContent}/>}
             {activeContent === 'Shorts' && <VideoContent content={shortsContent} contentType={activeContent} />}
-            {activeContent === 'Playlists' && <VideoContent content={playlistsContent} contentType={activeContent} />}
+            {/* {activeContent === 'Playlists' && <VideoContent content={playlistsContent} contentType={activeContent} />} */}
             </Container>
     </>
     );

@@ -2,6 +2,7 @@
 import SearchBar from "./searchBar.jsx"
 import { NotificationMenu } from "../modal/headerModalsComponents/notificationsModal/NotificationMenu.jsx";
 import { UserMenu } from "../../user/UserMenu.jsx";
+import { useModal } from '../../common/modal/ModalContext';
 
 //Icons
 import { FaCirclePlus, FaMicrophone } from "react-icons/fa6";
@@ -20,6 +21,8 @@ export function CatubeHeader({logo, searchQuery, setSearchQuery}) {
         : 'sr-header-right';
 
     const showSearchBar = !isRegisterPage;
+
+    const { openModal } = useModal();
 
     return (
         <header className="sr-header">
@@ -47,7 +50,7 @@ export function CatubeHeader({logo, searchQuery, setSearchQuery}) {
             )}
 
             <div className={cardClassName}>
-                <button className="sr-header-createButton">
+                <button className="sr-header-createButton" onClick={() => { openModal('createvideo'); closeUserMenu(); }}>
                     <span className="sr-header-createLabel">Create</span>
                     <FaCirclePlus color={"#90B484"} size={28} />
                 </button>

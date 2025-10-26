@@ -2077,11 +2077,11 @@ const leftMenuStudio = [
         icon: <BsCollectionPlayFill />,
         text: "Content",
     },
-    {
-        id: "analytics",
-        icon: <SiGoogleanalytics />,
-        text: "Analytics",
-    },
+    // {
+    //     id: "analytics",
+    //     icon: <SiGoogleanalytics />,
+    //     text: "Analytics",
+    // },
     {
         id: "community",
         icon: <HiMiniUserGroup />,
@@ -2092,12 +2092,12 @@ const leftMenuStudio = [
         icon: <IoStorefront />,
         text: "Store",
     },
-    {
-        id: "earn",
-        icon: <FaMoneyCheckDollar />
-,
-        text: "Earn",
-    },
+//     {
+//         id: "earn",
+//         icon: <FaMoneyCheckDollar />
+// ,
+//         text: "Earn",
+//     },
     {
         id: "customization",
         icon:<MdModeEditOutline />,

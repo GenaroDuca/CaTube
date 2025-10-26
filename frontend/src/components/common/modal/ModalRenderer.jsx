@@ -8,6 +8,8 @@ import AddProductModal from '../modal/storeModal/AddProductModal'
 import ModalDeleteAccount from '../modal/headerModalsComponents/ModalDeleteAccount';
 import CreateVideoModal from '../modal/videoModalComponents/createVideoModal';
 import EditVideoModal from '../modal/videoModalComponents/editVideoModal';
+import CreateStoreModal from '../modal/storeModal/CreateStoreModal';
+
 
 const ModalRenderer = () => {
     const { modalState, closeModal } = useModal();
@@ -21,6 +23,8 @@ const ModalRenderer = () => {
             return <HelpModal onClose={closeModal} />;
         case 'feedback':
             return <FeedbackModal onClose={closeModal} />;
+        case 'createstore':
+            return <CreateStoreModal onClose={closeModal} />;
         case 'editproduct':
             return <EditProductModal onClose={closeModal} />;
         case 'addproduct':

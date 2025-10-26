@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import apiService from '../../../studioPageComponents/store/apiService';
+import apiService from '../../../studioPageComponents/store/apiServiceStore';
 import { IoIosCloseCircle } from "react-icons/io";
 
 const EditProductModal = ({ onClose }) => {

@@ -6,10 +6,10 @@ import SidebarStudio from "../../components/studioPageComponents/SidebarStudio.j
 import Footer from "../../components/common/Footer.jsx";
 import Dashboard from "../../components/studioPageComponents/dashboard/Dashboard.jsx";
 import Content from "../../components/studioPageComponents/content/Content.jsx";
-import Analytics from "../../components/studioPageComponents/analytics/Analytics.jsx";
+// import Analytics from "../../components/studioPageComponents/analytics/Analytics.jsx";
 import Community from "../../components/studioPageComponents/community/Community.jsx";
 import Store from "../../components/studioPageComponents/store/Store.jsx";
-import Earn from "../../components/studioPageComponents/earn/earn.jsx";
+// import Earn from "../../components/studioPageComponents/earn/earn.jsx";
 import Customization from "../../components/studioPageComponents/customization/Customization.jsx";
 import RightMenu from "../../components/studioPageComponents/RightMenu.jsx";
 import Header from "../../components/common/header/Header.jsx";
@@ -23,10 +23,10 @@ function Studio() {
     const tabs = useMemo(() => [
         { name: 'dashboard', component: <Dashboard /> },
         { name: 'content', component: <Content /> },
-        { name: 'analytics', component: <Analytics /> },
+        // { name: 'analytics', component: <Analytics /> },
         { name: 'community', component: <Community /> },
         { name: 'store', component: <Store /> },
-        { name: 'earn', component: <Earn /> },
+        // { name: 'earn', component: <Earn /> },
         { name: 'customization', component: <Customization /> }
     ], []);
 

@@ -11,7 +11,7 @@ export class StoreController {
   @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() createStoreDto: CreateStoreDto, @Request() req) {
-    const userId = req.user.userId; // Tomamos el ID del usuario desde el token
+    const userId = req.user.userId; 
     return this.storeService.create(createStoreDto, userId);
   }
 

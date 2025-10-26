@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import apiService from "../../../studioPageComponents/store/apiService";
+import apiService from "../../../studioPageComponents/store/apiServiceStore";
 import { useNotifications } from '../../../common/Toasts/useNotifications.jsx';
 import { IoIosCloseCircle } from "react-icons/io";
 
