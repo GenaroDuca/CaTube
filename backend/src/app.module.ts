@@ -19,6 +19,7 @@ import { Subscription } from './subs/entities/sub.entity';
 import { PlaylistVideosModule } from './playlist_videos/playlist_videos.module';
 import { PlaylistVideo } from './playlist_videos/entities/playlist_video.entity';
 import { ConfigModule } from '@nestjs/config';
+import { Friendship } from './friendships/entities/friendship.entity';
 import * as path from 'path';
 
 @Module({
@@ -30,7 +31,7 @@ import * as path from 'path';
       username: 'root',
       password: 'geniducv1',
       database: 'catube_db',
-      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo],
+      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo, Friendship],
       synchronize: true,
     }),
 
@@ -50,7 +51,7 @@ import * as path from 'path';
     StoreModule,
 
     PlaylistVideosModule,
-  ],
+    ],
   controllers: [AppController],
   providers: [AppService],
 })

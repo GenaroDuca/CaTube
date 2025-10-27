@@ -1,6 +1,13 @@
+// src/auth/jwt.strategy.ts
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+
+// Define la interfaz del payload (para seguridad de tipos)
+interface JwtPayload {
+  username: string;
+  sub: number; // user_id
+}
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -8,13 +15,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: 'angelgenajerethiagocatubeproyecto', // ¡IMPORTANTE! Usa la misma clave secreta que en auth.module.ts
+      secretOrKey: 'angelgenajerethiagocatubeproyecto',
     });
   }
 
-  async validate(payload: any) {
-    // El payload es lo que pusimos en el método login(): { username: '...', sub: ... }
-    // Passport lo adjuntará a request.user
-    return { userId: payload.sub, username: payload.username };
+  async validate(payload: JwtPayload) {
+    return { id: payload.sub };
   }
 }

@@ -114,13 +114,13 @@ export function UserMenu() {
                         </li>
 
                         {/* Friends */}
-                        <li className="ts-nav-item">
+                        {/* <li className="ts-nav-item"> */}
                             {/* toggleFriendMenu debería estar en el contexto. Después de esto, cerrar el menú de usuario. */}
-                            <button type="button" className="ts-nav-link friends-btn" onClick={() => { toggleFriendMenu()}}>
+                            {/* <button type="button" className="ts-nav-link friends-btn" onClick={() => { toggleFriendMenu()}}>
                                 <FaUserFriends size={25} />
                                 <span className="ts-nav-label">Friends</span>
                             </button>
-                        </li>
+                        </li> */}
 
                         {/* Catube Studio */}
                         <li className="ts-nav-item">

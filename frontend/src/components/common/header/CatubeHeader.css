@@ -5,9 +5,9 @@
     align-items: center;
     height: 56px;
     padding: 0 1rem;
-    background-color: rgba(30, 30, 31, .85);
+    background-color: #1e1e1fd9;
     backdrop-filter: blur(10px);
-    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .25);
+    box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493) !important;
     gap: 1rem;
     flex-wrap: wrap;
     position: fixed;
@@ -360,25 +360,6 @@
         margin: 0 -10px
     }
 
-    /* .notifications-sidebar {
-        width: 290px;
-        margin-right: 20px;
-    }
-
-    .notifications-sidebar.collapsed {
-        width: 290px;
-    }
-
-    .friends-sidebar {
-        z-index: 10;
-        top: 250px;
-        margin-right: 50px;
-    }
-
-    .friends-sidebar.collapsed {
-        width: 300px;
-        height: 0px;
-    } */
 
     .create-thumbnail {
         justify-content: center;

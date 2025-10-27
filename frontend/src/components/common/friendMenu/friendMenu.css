@@ -1,4 +1,428 @@
-.friends-sidebar {
+/* --- ESTILOS PRINCIPALES DEL MENÚ --- */
+.friends-menu {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    width: 400PX;
+    height: 70vh;
+    border-radius: 30px;
+    background-color: #1e1e1fd9;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    box-sizing: border-box;
+    transition: width 0.3s ease-in-out, height 0.3s ease-in-out, border-radius 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+@media (max-width: 450px) {
+    .friends-menu {
+        width: 90vw;
+    }
+}
+
+.friend-menu-content {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+
+.friends-menu.collapsed {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #1e1e1fd9;
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 0;
+}
+
+.openFriendMenu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.friends-menu.collapsed .openFriendMenu {
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+}
+
+.friends-menu.collapsed .friend-menu-content {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    max-height: 0;
+    padding: 0;
+    margin: 0;
+    transition: opacity 0.1s ease-out, max-height 0.1s ease-out, padding 0.1s ease-out;
+}
+
+.friends-menu header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    /* Asegura que el header no se comprima */
+}
+
+.friends-menu header button {
+    background-color: transparent;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.friends-menu-search-bar {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-shrink: 0;
+    /* Asegura que la barra no se comprima */
+}
+
+/* --- ESTILOS DE BARRA DE BÚSQUEDA Y SELECT --- */
+
+.friends-menu-search-bar input {
+    flex: 1;
+    width: 100%;
+    padding: 8px 12px;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    outline: none;
+    background-color: var(--primary-color);
+    border-radius: 30px 0px 0px 30px;
+}
+
+.friends-menu-search-bar button {
+    background: var(--btn);
+    width: 40px;
+    border: none;
+    cursor: pointer;
+    border-radius: 0px 30px 30px 0px;
+    margin-right: 10px;
+}
+
+/* Custom Select */
+.custom-status-select {
+    position: relative;
+    width: 100px;
+    z-index: 10;
+}
+
+.custom-status-select .select-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 8px 10px;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    color: var(--text);
+}
+
+.custom-status-select .dropdown-icon {
+    transition: transform 0.3s ease;
+}
+
+.custom-status-select.open .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+.custom-status-select .select-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0 0;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease-in-out, opacity 0.3s ease;
+}
+
+.custom-status-select.open .select-options {
+    max-height: 200px;
+    opacity: 1;
+}
+
+.custom-status-select .select-options li button {
+    width: 100%;
+    text-align: center;
+    padding: 8px 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-status-select .select-options li button:hover {
+    color: var(--btn);
+}
+
+.custom-status-select .select-options li.selected button {
+    border-radius: 15px;
+    color: var(--btn);
+}
+
+
+/* --- ESTILOS DE LISTA DE AMIGOS (FRIEND LIST) --- */
+
+.friend-list-container {
+    overflow-y:auto;
+    flex-grow: 1;
+    padding-bottom: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent
+}
+
+.friend-list-containet::-webkit-scrollbar {
+    width: 6px;
+}
+
+.friend-list-container::-webkit-scrollbar-thumb {
+    background: var(--btn);
+    border-radius: 8px;
+}
+
+.friend-list-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.friend-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: var(--primary-color);
+    border-radius: 30px;
+}
+
+.friend-info {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.avatar-container {
+    position: relative;
+    margin-right: 15px;
+}
+
+.friend-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.status-indicator {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-radius: 50%;
+}
+
+.friend-username {
+    color: var(--text);
+}
+
+.friend-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.friend-actions button svg path:hover {
+    color: var(--btn-dark);
+}
+
+.action-button {
+    background-color: transparent !important;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- ESTILOS DE VISTAS DINÁMICAS (PERFIL/CHAT) --- */
+
+/* CLAVE 3: La vista dinámica debe crecer y ser un contenedor flex columna */
+.dynamic-view {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+}
+
+.back-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #90b484;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding: 0;
+    font-size: 16px;
+    transition: color 0.2s;
+    justify-content: flex-start;
+    /* Alinea el botón a la izquierda */
+    flex-shrink: 0;
+}
+
+.profile-large-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 20px auto 20px;
+    flex-shrink: 0;
+}
+
+.profile-bio {
+    padding: 0 10px;
+    margin-bottom: 25px;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    flex-shrink: 0;
+}
+
+/* Contenedor de acciones del perfil */
+.profile-actions-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+
+    /* CLAVE 4: Empuja el contenedor al final del espacio libre */
+    margin-top: auto;
+    padding-bottom: 10px;
+    flex-shrink: 0;
+}
+
+.profile-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 75px;
+    border: none;
+    border-radius: 30px;
+    background-color: var(--primary-color);
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s ease;
+    color: var(--text);
+}
+
+.profile-action-btn:hover {
+    transform: scale(1.05);
+}
+
+.profile-action-btn svg {
+    margin-bottom: 5px;
+    color: #90b484;
+}
+
+.profile-action-btn.remove-btn:hover,
+.profile-action-btn.block-btn:hover {
+    color: #ff4d4d;
+}
+
+.profile-action-btn.remove-btn:hover svg,
+.profile-action-btn.block-btn:hover svg {
+    color: #ff4d4d;
+}
+
+
+/* Estilos de Chat */
+.chat-window {
+    background-color: var(--primary-color);
+    padding: 20px;
+    border-radius: 30px;
+    min-height: 200px;
+    margin-top: 20px;
+    text-align: left;
+    flex-grow: 1;
+    overflow-y: auto;
+    color: var(--text);
+}
+
+.chat-profile-link {
+    background: none;
+    border: none;
+    color: var(--btn);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 0;
+    margin-left: 5px;
+    transition: color 0.2s;
+}
+
+.chat-profile-link:hover {
+    color: var(--btn-dark);
+}
+
+.friend-card.offline-friend {
+    opacity: 0.6;
+    color: #999;
+}
+
+/* Asegura que los botones y la imagen mantengan una apariencia atenuada */
+.friend-card.offline-friend .friend-info {
+    filter: grayscale(100%);
+}
+
+
+/* Colores específicos para acciones críticas o de chat */
+
+/* .friends-sidebar {
     width: 300px;
     height: 350px;
     background-color: #1a1a1bee;
@@ -14,7 +438,7 @@
     flex-direction: column;
     overflow: hidden;
 }
-
+/*
 .friendSidebar-headerOne {
     height: 75px;
     padding: 20px;
@@ -191,4 +615,4 @@
 
 .friendStatus.occupied {
     background-color: rgb(201, 197, 112);
-}
+} */

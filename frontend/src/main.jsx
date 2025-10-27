@@ -20,12 +20,6 @@ import { VideoPage } from './pages/VideoPage/VideoPage.jsx'
 import  SuccessPage  from "./pages/VerificationEmailPage/SuccessPage.jsx"
 import  ErrorPage  from './pages/VerificationEmailPage/ErrorPage.jsx';
 
-const mockFriends = [
-  { userName: 'sheniDev', profile: '/src/assets/images/profile/gena.jpg' },
-  { userName: 'colo', profile: '/src/assets/images/profile/angel.jpg' },
-  { userName: 'jere', profile: '/src/assets/images/profile/jere.jpg' },
-]
-
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Router>
@@ -54,7 +48,7 @@ createRoot(document.getElementById('root')).render(
           </Routes>
 
           <ModalRenderer />
-          <FriendMenu friends={mockFriends} />
+          <FriendMenu/>
           <NotificationManager />
 
         </ModalProvider>

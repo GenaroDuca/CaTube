@@ -186,7 +186,7 @@ button:hover {
 .ts-sidebar {
     width: 270px;
     position: fixed;
-    background-color: #1a1a1bee;
+    background-color: #1e1e1fd9;
     box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493);
     backdrop-filter: blur(10px);
 }
@@ -203,6 +203,7 @@ button:hover {
 .sidebar.collapsed {
     width: 85px;
     background-color: var(--primary-color);
+    box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493) !important;
     box-shadow: none;
     overflow: visible;
 }
@@ -226,8 +227,10 @@ button:hover {
 }
 
 .sidebar.collapsed .sidebar-nav {
-    overflow-x: visible; /* CRÍTICO: Permite que el tooltip salga */
-    overflow-y: visible; /* Opcional, pero más seguro para asegurar que nada recorte */
+    overflow-x: visible;
+    /* CRÍTICO: Permite que el tooltip salga */
+    overflow-y: visible;
+    /* Opcional, pero más seguro para asegurar que nada recorte */
 }
 
 .sidebar-nav::after {
@@ -811,7 +814,7 @@ input:checked+.slider:before {
 .notifications-sidebar {
     width: 400px;
     height: 400px;
-    background-color: #1a1a1bee;
+    background-color: #1e1e1fd9;
     box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493);
     backdrop-filter: blur(10px);
     border-radius: 30px;
@@ -896,229 +899,6 @@ input:checked+.slider:before {
 
 .notifications-sidebar main::-webkit-scrollbar-track {
     background: transparent;
-}
-
-/* Friends menu */
-.friends-sidebar {
-    width: 300px;
-    height: 350px;
-    background-color: #1a1a1bee;
-    box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493);
-    backdrop-filter: blur(10px);
-    border-radius: 30px;
-    position: fixed;
-    z-index: 3;
-    right: 0;
-    top: 195px;
-    margin-right: 300px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.friends-sidebar.collapsed {
-    width: 0;
-    box-shadow: none;
-}
-
-.friends-header-one {
-    height: 75px;
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    opacity: 1;
-    visibility: visible;
-}
-
-.friends-sidebar.collapsed .friends-header-one {
-    opacity: 0;
-    visibility: hidden;
-    padding: 0;
-    height: 0;
-}
-
-.friends-header-one div {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.friends-header-one select {
-    border-radius: 30px;
-    background-color: transparent;
-    border: 1px solid var(--text-color);
-    color: var(--text-color);
-    cursor: pointer;
-}
-
-.friends-header-one select:focus {
-    outline: none;
-    border-color: var(--btn);
-}
-
-.friends-header-one select option {
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    cursor: pointer;
-}
-
-.friends-header-one select option:hover {
-    cursor: pointer;
-    background-color: var(--btn);
-}
-
-.friends-header-two {
-    height: 75px;
-    padding: 20px;
-    flex-shrink: 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    opacity: 1;
-    visibility: visible;
-}
-
-.friends-sidebar.collapsed .friends-header-two {
-    opacity: 0;
-    visibility: hidden;
-    padding: 0;
-    height: 0;
-}
-
-.friends-header-two input {
-    height: 30px;
-    border-radius: 30px 0 0 30px;
-    background-color: transparent;
-    border: 1px solid var(--text-color);
-    padding-left: 10px;
-    color: var(--text-color);
-    flex-grow: 1;
-    min-width: 0;
-}
-
-.friends-header-two button {
-    width: 30px;
-    height: 30px;
-    border-radius: 0 30px 30px 0;
-    background-color: var(--btn);
-    border: none;
-    margin-right: 5px;
-    color: var(--primary-color);
-    flex-shrink: 0;
-}
-
-.back-to-friends-header-one {
-    border-radius: 30px !important;
-    margin-right: 10px !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.friends-header-two input:focus {
-    outline: none;
-    border-color: var(--btn);
-}
-
-.open-search-friend-btn {
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    border: none;
-    width: 30px;
-    height: 30px;
-    border-radius: 30px;
-    flex-shrink: 0;
-}
-
-.open-search-friend-btn:hover {
-    color: var(--btn);
-}
-
-.friends-sidebar main {
-    width: 100%;
-    flex: 1 1 auto;
-    overflow-y: auto;
-    padding: 0 20px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--btn) transparent;
-    opacity: 1;
-}
-
-.friends-sidebar.collapsed main {
-    overflow-y: hidden;
-    padding: 0;
-    opacity: 0;
-}
-
-.friend-card {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-
-.friends-sidebar main div img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-}
-
-.friend-card div {
-    width: 15px;
-    height: 15px;
-    border-radius: 50%;
-    margin-top: 30px;
-    margin-left: -25px;
-    z-index: 2;
-}
-
-.online-friend div {
-    background-color: rgb(146, 231, 172);
-}
-
-.offline-friend div {
-    background-color: rgb(126, 126, 126);
-}
-
-.occupied-friend div {
-    background-color: rgb(228, 89, 70);
-}
-
-.gray {
-    filter: grayscale(100%);
-}
-
-.invite-friend-btn {
-    background-color: var(--btn);
-    color: var(--primary-color);
-    border: none;
-    width: 24px;
-    height: 24px;
-    border-radius: 30px;
-    cursor: pointer;
-}
-
-.invite-friend-btn:hover,
-.back-to-friends-header-one:hover {
-    background-color: var(--btn-dark);
-}
-
-.chat-friend-btn:hover {
-    transform: scale(1.1);
-}
-
-.chat-friend-btn {
-    color: var(--btn);
-    background-color: transparent;
-    border: none;
-    width: 24px;
-    height: 24px;
-    border-radius: 30px;
-    cursor: pointer;
 }
 
 /* Create Video Modal */

@@ -4,6 +4,8 @@ import { Playlist } from 'src/playlist/entities/playlist.entity';
 import { Comment } from 'src/comments/entities/comment.entity';
 import { Like } from 'src/likes/entities/like.entity';
 import { Subscription } from 'src/subs/entities/sub.entity';
+import { Friendship } from 'src/friendships/entities/friendship.entity';
+
 
 @Unique(['username']) // Asegura que el username sea único a nivel de BD
 @Entity('users')
@@ -36,9 +38,9 @@ export class User {
         nullable: true,
         unique: true,
         type: 'varchar',
-        length: 255      
+        length: 255
     })
-    
+
     verification_token: string | null;
 
     @Column({ name: 'token_expiry', type: 'timestamp', nullable: true })
@@ -68,4 +70,11 @@ export class User {
 
     @OneToMany(() => Subscription, subs => subs.user)
     subscriptions: Subscription[];
+
+    // RELACIONES DE AMISTAD (Las que TypeORM estaba buscando)
+    @OneToMany(() => Friendship, friendship => friendship.sender)
+    sentFriendships: Friendship[];
+
+    @OneToMany(() => Friendship, friendship => friendship.receiver)
+    receivedFriendships: Friendship[];
 }

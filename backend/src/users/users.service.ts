@@ -1,6 +1,6 @@
 import { Injectable, Inject, forwardRef, ConflictException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, QueryFailedError } from 'typeorm';
+import { Repository, QueryFailedError, Like } from 'typeorm';
 import { CreateUserDto } from './dto-users/create-user.dto';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
@@ -25,8 +25,10 @@ export class UsersService {
 
         private readonly configService: ConfigService
 
+
     ) {
         this.initializeTransporter();
+        this.findAll();
     }
 
     // =================================================================
@@ -160,6 +162,28 @@ export class UsersService {
         });
     }
 
+    /**
+   * Busca usuarios por nombre de usuario que contenga la cadena de búsqueda.
+   * @param query - El término de búsqueda.
+   * @returns Promesa que resuelve a una lista de entidades User.
+   */
+    async searchUsers(query: string): Promise<Partial<User>[]> {
+        const users = await this.usersRepository.find({
+            // Usamos el operador 'Like' para buscar coincidencias parciales (case-insensitive en algunos BD)
+            where: {
+                username: Like(`%${query}%`),
+            },
+            // Excluye el campo 'password' para no enviarlo al frontend
+            select: ['user_id', 'username', 'email'],
+        });
+
+        // Filtramos información sensible si el 'select' de TypeORM no es suficiente
+        return users.map(user => ({
+            user_id: user.user_id,
+            username: user.username,
+        }));
+    }
+
     findOneById(id: string): Promise<User | null> {
         return this.usersRepository.findOne({
             where: { user_id: id },
@@ -188,10 +212,6 @@ export class UsersService {
             throw error;
         }
     }
-
-    // =================================================================
-    // MODO LECTURA: Métodos de Email
-    // =================================================================
 
     private async initializeTransporter() {
         const user = this.configService.get<string>('SMTP_USER');

@@ -37,7 +37,8 @@ const LoginForm = ({ togglePanel }) => {
           localStorage.setItem('userId', result.user.user_id);
           navigate('/');
         } else {
-          showError('Login successful, but there was an issue retrieving your channel data.');
+          showError('Login successful, but there was an issue retrieving your channel data.')
+          console.log(result);
         }
       
       } else {

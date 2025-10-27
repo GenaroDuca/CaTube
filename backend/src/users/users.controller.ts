@@ -16,11 +16,6 @@ export class UsersController {
         return this.usersService.create(createUserDto);
     }
 
-    /**
-     * Endpoint al que el usuario es dirigido desde el correo electrónico.
-     * Recibe el token como parámetro de consulta (query).
-     * El servidor valida el token y redirige al frontend.
-     */
     @Get('verify-email')
     async verifyEmail(@Query('token') token: string, @Res() res: Response) {
         // 1. Definir las URLs de redirección del frontend (desde .env)
@@ -35,17 +30,17 @@ export class UsersController {
         try {
             // 2. Llamar a la lógica de verificación del Service
             await this.usersService.verifyEmail(token);
-            
+
             // 3. Verificación exitosa: Redirigir al frontend a la página de éxito
             return res.redirect(SUCCESS_URL);
 
         } catch (error) {
             let reason = 'internal_error';
-            
+
             // 4. Manejo de errores específicos del Service
             if (error instanceof NotFoundException) {
                 // Token no encontrado o ya usado
-                reason = 'invalid_token'; 
+                reason = 'invalid_token';
             } else if (error instanceof ConflictException) {
                 // Token caducado
                 reason = 'expired';
@@ -58,9 +53,14 @@ export class UsersController {
         }
     }
 
-    @Get()
-    findAll() {
-        return this.usersService.findAll();
+    @Get('search')
+    async searchUsers(@Query('q') query: string) {
+        if (!query || query.length < 2) {
+            return [];
+        }
+
+        // 💡 Llama al servicio para realizar la búsqueda en la BD
+        return this.usersService.searchUsers(query);
     }
 
     @Delete(':id')
