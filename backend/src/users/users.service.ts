@@ -1,4 +1,4 @@
-import { Injectable, Inject, forwardRef, ConflictException, NotFoundException } from '@nestjs/common';
+import { Injectable, Inject, forwardRef, ConflictException, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, QueryFailedError, Like } from 'typeorm';
 import { CreateUserDto } from './dto-users/create-user.dto';
@@ -8,7 +8,7 @@ import * as crypto from "crypto";
 import { ChannelsService } from 'src/channels/channels.service';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
-import { HttpCode, HttpStatus } from '@nestjs/common';
+import { UpdateUserDto } from './dto-users/update-user.dto';
 
 
 @Injectable()
@@ -189,6 +189,97 @@ export class UsersService {
             where: { user_id: id },
             relations: ['channel'],
         });
+    }
+
+    /**
+     * Obtiene los detalles del usuario autenticado por su ID.
+     * @param userId El ID del usuario autenticado (extraído del JWT payload).
+     * @returns Datos del usuario.
+     */
+    async findMe(userId: string): Promise<Partial<User>> {
+        const user = await this.usersRepository.findOne({
+            where: { user_id: userId },
+            select: [
+                'user_id', 
+                'username', 
+                'email', 
+                'avatarUrl', 
+                'description', 
+                'is_verified'
+            ],
+        });
+
+        if (!user) {
+            throw new NotFoundException('User not found.');
+        }
+
+        return user;
+    }
+
+    /**
+     * Actualiza el perfil del usuario autenticado (username y/o description).
+     * @param userId El ID del usuario autenticado (extraído del JWT payload).
+     * @param updateData Los datos a actualizar (UpdateUserDto).
+     * @returns El usuario actualizado.
+     */
+    async updateMe(userId: string, updateData: UpdateUserDto): Promise<Partial<User>> {
+        // 1. Obtener el usuario
+        const user = await this.usersRepository.findOneBy({ user_id: userId });
+
+        if (!user) {
+            throw new NotFoundException('User not found.');
+        }
+
+        // 2. Validar y actualizar username
+        if (updateData.username && updateData.username !== user.username) {
+            const capitalizedUsername = updateData.username.charAt(0).toUpperCase() + updateData.username.slice(1);
+            
+            // Verificar unicidad
+            const existingUser = await this.usersRepository.findOne({ 
+                where: { username: capitalizedUsername } 
+            });
+
+            if (existingUser) {
+                throw new ConflictException('This username is already in use.');
+            }
+            
+            user.username = capitalizedUsername;
+        }
+        
+        // 3. Actualizar description
+        if (updateData.description !== undefined) {
+            user.description = updateData.description;
+        }
+        
+        // 4. Actualizar avatarUrl
+        if (updateData.avatarUrl !== undefined) {
+            user.avatarUrl = updateData.avatarUrl;
+        }
+
+        // 5. Comprobación de cambios
+        if (!updateData.username && updateData.description === undefined && updateData.avatarUrl === undefined) {
+             throw new BadRequestException('No update fields provided or values are the same.');
+        }
+
+
+        try {
+            // 6. Guardar cambios
+            const savedUser = await this.usersRepository.save(user);
+            
+            // 7. Devolver solo campos seguros
+            const { password, ...result } = savedUser;
+            return {
+                user_id: result.user_id,
+                username: result.username,
+                email: result.email,
+                avatarUrl: result.avatarUrl,
+                description: result.description,
+            }; 
+
+        } catch (error) {
+            console.error('Error al guardar la actualización del usuario:', error);
+            throw new Error('Failed to save user updates.');
+        }
     }
 
     async remove(id: string): Promise<void> {

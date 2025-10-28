@@ -1,14 +1,48 @@
 /* ==================================== */
-/* 7. MODALS & Overlays Styles */
+/* 1. ESTILOS BASE */
 /* ==================================== */
 
-/* SELECTOR UNIFICADO PARA OVERLAYS Y POSICIONAMIENTO CENTRAL */
+body {
+    background-color: var(--background-color);
+    transition: margin-left 0.3s;
+}
+
+/* ==================================== */
+/* 2. TOAST/NOTIFICACIONES */
+/* ==================================== */
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--btn);
+    color: var(--background-color);
+    padding: 10px 20px;
+    border-radius: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 1001;
+}
+
+.toast.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ==================================== */
+/* 3. MODALS & Overlays Styles */
+/* ==================================== */
+
+/* SELECTOR UNIFICADO PARA OVERLAYS Y POSICIONAMIENTO CENTRAL (TODOS LOS MODALES) */
 .right-menu-modal,
 #soon-modal,
 .create-video-modal,
 .create-store-modal,
 .add-product-modal,
-.edit-product-modal {
+.edit-product-modal,
+.universal-modal-overlay {
     position: fixed;
     left: 0;
     top: 0;
@@ -19,72 +53,18 @@
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-.delete-account-modal {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1000;
-    background: rgba(0, 0, 0, .4);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.delete-account-modal-content {
-    background-color: var(--background-color);
-    border-radius: 30px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, .2);
-    display: flex;
-    flex-direction: column;
-    width: 50vh;
-    /* height: 50vh; */
-    text-align: center;
-}
-
-.delete-account-modal-content header {
-    display: flex;
-    background-color: #ff7676;
-    padding: 20px;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-    color: var(--primary-color);
-    justify-content: space-between;
-}
-
-
-.delete-account-modal-content main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.delete-account-modal-content main button {
-    margin-top: 20px;
-}
-
-.delete-account-modal-content main h4 {
-    margin-top: 5px;
-    color: #ff7676;
-}
-
-.right-menu-modal {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     backdrop-filter: blur(2px);
-    overflow: auto;
-    padding: 20px;
-    justify-content: center;
 }
 
+/* El .right-menu-modal original tenía estilos duplicados/incorrectos para el overlay */
+/* Se unifica con el selector superior, pero se elimina el display:none que impedía su visualización */
+.right-menu-modal {
+    /* La línea de arriba es suficiente para el overlay. */
+    /* Se elimina la posición absoluta y transform antigua del final del archivo */
+    /* Si necesita un posicionamiento diferente al de pantalla completa, debe usar otra clase. */
+}
 
-/* SELECTOR UNIFICADO PARA TAMAÑO Y CONTENIDO */
+/* SELECTOR UNIFICADO PARA TAMAÑO Y CONTENIDO DE MODALES GRANDES */
 .feedback-modal-content,
 .help-modal-content,
 .settings-modal-content,
@@ -92,8 +72,7 @@
 .create-video-content,
 .edit-product-content,
 .add-product-content,
-.create-store-content,
-.create-delete-content {
+.create-store-content {
     background-color: var(--background-color);
     border-radius: 30px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, .2);
@@ -103,10 +82,10 @@
     max-width: 90vw;
     height: 80vh;
     max-height: 90vh;
-    overflow: auto;
+    overflow: hidden;
 }
 
-/* Encabezados de todos los modales */
+/* Encabezados de todos los modales (Grandes) */
 .right-menu-modal header,
 .create-video-modal header,
 .edit-product-content header,
@@ -124,8 +103,8 @@
     flex-shrink: 0;
 }
 
-/* Botones de cerrar en headers */
-.right-menu-modal button,
+/* Botones de cerrar en headers (Grandes) */
+.right-menu-modal header button,
 .create-video-modal header button,
 .close-edit-product-modal,
 .close-add-product-modal,
@@ -136,7 +115,8 @@
     background-color: transparent;
     border: none;
     cursor: pointer;
-    float: none;
+    padding: 0;
+    /* Asegura que no tenga padding extra */
 }
 
 .right-menu-modal header button:hover,
@@ -147,93 +127,125 @@
     transform: scale(1.1)
 }
 
-#soon-modal {
-    display: none;
+/* ------------------------------------ */
+/* ESTILOS DEL MODAL DE CONFIRMACIÓN UNIVERSAL (ConfirmModal) */
+.universal-modal-content {
+    background-color: var(--background-color);
+    border-radius: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, .2);
+    display: flex;
+    flex-direction: column;
+    width: 50vh;
+    max-width: 90vw;
+    text-align: center;
 }
 
-.soon-modal-content {
-    text-align: center;
+.universal-modal-content header {
+    display: flex;
+    background-color: #ff7676;
+    padding: 20px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    color: var(--primary-color);
+    justify-content: space-between;
     align-items: center;
 }
 
-.soon-modal-content h2 {
-    margin: 30px;
+.universal-modal-content header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.universal-modal-content main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.universal-modal-content main h3 {
+    margin-bottom: 20px;
     color: var(--text-color);
 }
 
-.soon-modal-content p {
-    margin-bottom: 24px
-}
-
-.close-soon-modal-container {
-    width: 100%;
-    padding: 20px;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    background-color: #90b484;
-    margin-bottom: -32px
-}
-
-#close-soon-modal {
-    width: 100px;
-    padding: 8px 15px;
-    border: none;
+.universal-modal-content main button {
+    margin-top: 20px;
+    width: 80%;
+    padding: 12px 20px;
     border-radius: 30px;
-    background-color: transparent;
+    border: none;
     cursor: pointer;
-    border: 1px solid var(--primary-color)
+    font-size: 1rem;
+    transition: background-color 0.2s;
 }
 
-#close-soon-modal:hover {
-    background: var(--primary-color);
-    color: var(--btn)
+.universal-modal-content main h4 {
+    margin-top: 10px;
+    color: #ff7676;
+    font-size: 0.9em;
 }
 
-.play-modal-btn,
-.return-btn-soon {
-    width: 100px;
-    padding: 8px 15px;
+.universal-modal-content .close-modal-btn {
+    background-color: transparent;
     border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.universal-modal-content .close-modal-btn:hover {
+    transform: scale(1.1);
+}
+
+/* ==================================== */
+/* 4. ESTILOS DE FORMULARIO COMUNES */
+/* ==================================== */
+
+/* Inputs y Textareas Comunes (Feedback, Change Password) */
+.feedback-modal-content form input[type=email],
+.feedback-modal-content form textarea,
+.change-password-form input[type=password] {
     border-radius: 30px;
-    margin-bottom: 20px;
-    background-color: var(--btn)
+    padding: 12px 20px;
+    background-color: transparent;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+    width: 100%;
+    /* Asegura que tomen el ancho completo */
+    box-sizing: border-box;
+    /* Incluye padding/border en el ancho */
 }
 
-.return-btn-soon {
-    margin: 0
+.feedback-modal-content form textarea {
+    height: 100px;
+    resize: none;
+    padding: 20px;
+    /* Feedback/Textarea tiene más padding */
 }
 
-.play-modal-btn:hover,
-.return-btn-soon:hover {
-    background-color: var(--btn-dark)
+.feedback-modal-content form input:focus,
+.feedback-modal-content form textarea:focus,
+.change-password-form input:focus {
+    outline: none;
+    border-color: var(--btn);
 }
 
+/* Labels de Formularios */
+.change-password-form label,
+.feedback-modal-content label {
+    margin-bottom: -10px;
+}
+
+/* ==================================== */
+/* 5. ESTILOS ESPECÍFICOS DE FEEDBACK MODAL */
+/* ==================================== */
 
 .feedback-modal-content form {
     display: flex;
     flex-direction: column;
     padding: 20px;
     gap: 20px
-}
-
-.feedback-modal-content label {
-    margin-bottom: -10px
-}
-
-.feedback-modal-content form input[type=email],
-.feedback-modal-content form textarea {
-    border-radius: 30px;
-    padding: 20px;
-    background-color: transparent;
-    border: 1px solid var(--text-color);
-    resize: none;
-    color: var(--text-color)
-}
-
-.feedback-modal-content form input:focus,
-.feedback-modal-content form textarea:focus {
-    outline: none;
-    border-color: var(--btn)
 }
 
 .feedback-modal-content form input[type=file] {
@@ -253,6 +265,7 @@
     border: 1px solid var(--btn)
 }
 
+/* Botón de Enviar Feedback */
 .feedback-modal-content form button {
     background-color: var(--btn);
     color: var(--primary-color);
@@ -260,7 +273,7 @@
     padding: 12px 20px;
     border-radius: 30px;
     cursor: pointer;
-    margin-top: 10px
+    margin-top: 10px;
 }
 
 .feedback-modal-content form button:hover {
@@ -274,6 +287,16 @@
     gap: 20px;
 }
 
+/* ==================================== */
+/* 6. ESTILOS ESPECÍFICOS DE SETTINGS MODAL */
+/* ==================================== */
+
+.settings-modal-content {
+    background-color: var(--primary-color);
+    width: 850px;
+    height: 600px;
+}
+
 .settings-main-content {
     display: flex;
     flex-grow: 1;
@@ -281,6 +304,7 @@
 }
 
 .settings-main-content nav {
+    background-color: var(--primary-color);
     padding: 20px;
     border-bottom-left-radius: 30px;
     width: 25%;
@@ -335,23 +359,13 @@
     gap: 20px;
 }
 
-.change-password-form label {
-    margin-bottom: -10px;
-}
-
-.change-password-form input[type=password] {
-    border-radius: 30px;
-    padding: 12px 20px;
-    background-color: transparent;
-    border: 1px solid var(--text-color);
+.setting-section h2 {
+    margin: 0 0 10px 0;
+    padding-bottom: 10px;
     color: var(--text-color);
 }
 
-.change-password-form input:focus {
-    outline: none;
-    border-color: var(--btn);
-}
-
+/* Estilos de botones de formulario (Change Password) */
 .change-password-form button {
     background-color: var(--btn);
     color: var(--primary-color);
@@ -406,6 +420,7 @@
     background-color: #575757 !important;
 }
 
+/* Toggle Switch */
 .setting-item {
     display: flex;
     justify-content: space-between;
@@ -457,6 +472,7 @@ input:checked+.slider:before {
     transform: translateX(26px);
 }
 
+/* Payment History Table */
 .payment-history {
     width: 100%;
     margin-top: 10px;
@@ -482,6 +498,7 @@ input:checked+.slider:before {
     border-bottom: 1px solid var(--btn);
 }
 
+/* Select Box */
 .settings-select {
     border-radius: 30px;
     padding: 12px 20px;
@@ -501,17 +518,16 @@ input:checked+.slider:before {
     color: var(--text-color);
 }
 
+/* ==================================== */
+/* 7. ESTILOS ESPECÍFICOS DE CREATE VIDEO MODAL */
+/* ==================================== */
 
 .create-video-modal {
     display: none;
     flex-direction: column;
 }
 
-.create-video-modal header {
-    color: var(--primary-color);
-}
-
-.create-video-modal main {
+.create-video-content main {
     width: 100%;
     padding: 0px 20px 20px 20px;
     border-bottom-left-radius: 30px;
@@ -522,7 +538,7 @@ input:checked+.slider:before {
 }
 
 .create-video-content main h2 {
-    margin: 20px 0 10px;
+    margin: 0px 0px 10px;
 }
 
 .create-video-content main input[type="text"],
@@ -663,33 +679,61 @@ input:checked+.slider:before {
     background-color: #b94c4a !important
 }
 
+/* ==================================== */
+/* 8. ESTILOS ESPECÍFICOS DE PRODUCTO/TIENDA MODAL */
+/* ==================================== */
+
 /* Contenido Principal de Modales de Tienda/Producto */
-.edit-product-content main,
-.add-product-content main,
-.create-store-content main {
+.edit-product-content form,
+.add-product-content form,
+.create-store-content form {
     width: 100%;
-    padding: 20px 20px 20px 20px;
+    height: 100%;
+    padding: 20px;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
     background-color: var(--background-color);
     flex-grow: 1;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
+
+.edit-product-content main {
+    height: 100%;
+}
+
+.add-product-content main {
+    height: 100%;
+}
+
+.add-product-buttons {
+    display: flex;
+    justify-content: center;
+}
+
 
 .edit-product-content main h2,
 .add-product-content main h2,
-.create-store-content main h2 {
-    margin: 20px 0 10px;
+.create-store-content form h2 {
+    margin: 0px 0px 10px;
+}
+
+.create-store-content main {
+    height: 100%;
+}
+
+.create-store-content form div {
+    width: 100%;
 }
 
 /* Estilos de Input (Texto, Número y File) */
 .edit-product-content main input[type="number"],
 .edit-product-content main input[type="text"],
-.edit-product-content main input[type="file"],
-.add-product-content main input[type="file"],
 .add-product-content main input[type="number"],
 .add-product-content main input[type="text"],
-.create-store-content main input[type="text"] {
+.create-store-content form input[type="text"] {
     width: 100%;
     padding: 12px 20px;
     border: 1px solid var(--text-color);
@@ -697,11 +741,13 @@ input:checked+.slider:before {
     background-color: transparent;
     color: var(--text-color);
     box-sizing: border-box;
+    margin-bottom: 20px;
 }
 
 /* Estilos personalizados para input file */
 .edit-product-content main input[type="file"],
 .add-product-content main input[type="file"] {
+    width: 100%;
     cursor: pointer;
     padding: 8px;
     border: 1px solid var(--text-color);
@@ -735,7 +781,7 @@ input:checked+.slider:before {
 
 .edit-product-content main input:focus,
 .add-product-content main input:focus,
-.create-store-content main input[type="text"]:focus {
+.create-store-content form input[type="text"]:focus {
     outline: none;
     border: 1px solid var(--btn);
 }
@@ -743,7 +789,7 @@ input:checked+.slider:before {
 /* Estilos de Textarea */
 .edit-product-content main textarea,
 .add-product-content main textarea,
-.create-store-content main textarea {
+.create-store-content form textarea {
     width: 100%;
     height: 100px;
     padding: 12px 20px;
@@ -752,17 +798,19 @@ input:checked+.slider:before {
     background-color: transparent;
     color: var(--text-color);
     resize: none;
+    margin-bottom: 20px;
 }
 
 .edit-product-content main textarea:focus,
 .add-product-content main textarea:focus,
-.create-store-content main textarea:focus {
+.create-store-content form textarea:focus {
     outline: none;
     border: 1px solid var(--btn);
 }
 
 /* Estructura y Botones Específicos de Producto */
 .price-stock-container {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     gap: 20px;
@@ -774,7 +822,6 @@ input:checked+.slider:before {
 
 .price-stock-container .form-group h2 {
     text-align: left;
-    margin-left: 15px;
 }
 
 .image-title {
@@ -787,6 +834,9 @@ input:checked+.slider:before {
     flex-direction: row;
     justify-content: space-between;
     gap: 20px;
+    /* Nuevo contenedor para botones de producto/tienda */
+    width: 100%;
+    margin-top: 20px;
 }
 
 .delete-confirm-btn {
@@ -798,13 +848,12 @@ input:checked+.slider:before {
     border-radius: 30px;
     cursor: pointer;
     font-size: 1rem;
-    margin-top: 20px;
 }
 
+/* Botones principales de acción (Update, Create Product/Store) */
 .update-product-btn,
 .create-product-btn,
 .create-store-btn {
-    width: 100%;
     padding: 12px 20px;
     background-color: var(--btn);
     color: var(--primary-color);
@@ -812,86 +861,15 @@ input:checked+.slider:before {
     border-radius: 30px;
     cursor: pointer;
     font-size: 1rem;
+    text-align: center;
     margin-top: 20px;
 }
 
+/* ==================================== */
+/* 9. MEDIA QUERIES & RESPONSIVENESS */
+/* ==================================== */
+
 @media (max-width:768px) {
-    .main-content {
-        margin-left: 70px;
-    }
-
-    footer {
-        margin-left: 70px
-    }
-
-    .sidebar {
-        width: 200px;
-        margin: 0;
-        border-radius: 0
-    }
-
-    .sidebar-header {
-        padding: 60px 0 0 76px
-    }
-
-    .sidebar.collapsed {
-        width: 70px
-    }
-
-    .sidebar-nav .nav-list {
-        padding: 0 5px
-    }
-
-    .bar-section,
-    .title,
-    .mic-section {
-        display: none;
-    }
-
-    .bar-section.active,
-    .mic-section.active {
-        display: flex;
-    }
-
-    .search-btn-responsive {
-        display: flex;
-    }
-
-    .search-section {
-        display: flex;
-        justify-content: end;
-        gap: 5px;
-    }
-
-    .header.search-active .bar-section {
-        display: flex;
-        flex-grow: 1;
-        background-color: #1a1a1b;
-        border-radius: 20px;
-        overflow: hidden;
-        margin: 0 .5rem
-    }
-
-    .header.search-active .search-section input[type=text] {
-        display: block;
-        flex-grow: 1;
-        min-width: 10px
-    }
-
-    .header.search-active .search-btn {
-        background-color: #90b484;
-        color: #1f1f20;
-        border-radius: 0 20px 20px 0;
-        width: auto;
-        height: 100%;
-        padding: 8px 12px;
-        font-size: 1rem
-    }
-
-    .header.search-active .search-btn:hover {
-        background-color: #749269
-    }
-
     .create-video-btn {
         margin: 0 -10px
     }
@@ -959,11 +937,12 @@ input:checked+.slider:before {
         flex-direction: column;
     }
 
-    .delete-account-modal-content {
+    /* MODALES: AJUSTE RESPONSIVE para el nuevo modal universal */
+    .universal-modal-content {
         width: 40vh;
     }
 
-    .delete-account-modal-content header h1{
+    .universal-modal-content header h1 {
         font-size: 25px;
     }
 }

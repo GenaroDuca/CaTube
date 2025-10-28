@@ -1,8 +1,10 @@
 import { Body, Controller, Get, Post, Delete, Param, Query, Res, ConflictException, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto-users/create-user.dto';
 import { UsersService } from './users.service';
-import { Response } from 'express'; // Importamos Response de Express
+import { Response } from 'express'; 
 import { ConfigService } from '@nestjs/config';
+import { UseGuards, Req } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard'; 
 
 @Controller('users')
 export class UsersController {
@@ -14,6 +16,14 @@ export class UsersController {
     @Post()
     create(@Body() createUserDto: CreateUserDto) {
         return this.usersService.create(createUserDto);
+    }
+
+    @UseGuards(JwtAuthGuard) 
+    @Get('me')
+    async getMe(@Req() req) {
+        const userId = req.user.id;
+
+        return this.usersService.findMe(userId);
     }
 
     @Get('verify-email')
@@ -53,13 +63,18 @@ export class UsersController {
         }
     }
 
+    @Get("all")
+    async getAllUsers() {
+        return this.usersService.findAll();
+    }
+
+
     @Get('search')
     async searchUsers(@Query('q') query: string) {
         if (!query || query.length < 2) {
             return [];
         }
 
-        // 💡 Llama al servicio para realizar la búsqueda en la BD
         return this.usersService.searchUsers(query);
     }
 

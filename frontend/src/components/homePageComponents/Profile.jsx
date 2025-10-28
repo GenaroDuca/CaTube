@@ -1,8 +1,8 @@
+import { Link } from 'react-router-dom';
+
 function Profile(props) {
     const BASE_URL = 'http://localhost:3000';
-    const avatarImagesPath = '/src/assets/images/profile/';
     const firstLetter = props.namechannel?.charAt(0).toUpperCase();
-    const defaultAvatarSrc = `${avatarImagesPath}angel.jpg`;
 
     // Mostrar la foto asignada al usuario si existe, sino la que se pasa por props, sino la por defecto
     let photoSrc;
@@ -12,11 +12,11 @@ function Profile(props) {
             // Map old default-avatar paths to new assets path
             const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
             const letter = letterMatch ? letterMatch[1] : 'A';
-            photoPath = `/assets/images/profile/${letter}.png`;
+            photoPath = `/assets/images/profile/${letter}`.png;
         }
         photoSrc = BASE_URL + photoPath;
     } else {
-        photoSrc = props.userPhoto && props.userPhoto.trim() !== '' ? props.userPhoto : defaultAvatarSrc;
+        photoSrc = props.userPhoto && props.userPhoto.trim() !== '' ? props.userPhoto : `${BASE_URL}/assets/images/profile/${firstLetter}.png`;
     }
 
     return (
@@ -27,4 +27,4 @@ function Profile(props) {
         </div>
     );
 }
-export default Profile;
+export default Profile;

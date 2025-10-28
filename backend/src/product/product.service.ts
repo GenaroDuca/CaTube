@@ -5,7 +5,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
 import { Store } from 'src/store/entities/store.entity';
-import { Express } from 'express';
 import * as fs from 'fs';
 import * as path from 'path';
 

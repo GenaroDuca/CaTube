@@ -131,5 +131,5 @@ constructor(
         channel.photoUrl = `/assets/images/profile/${firstLetter}.png`;
 
         return this.channelRepository.save(channel);
-    }
+    }
 }

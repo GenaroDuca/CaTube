@@ -57,14 +57,10 @@ const { showSuccess, showError } = useNotifications();
  */
 const ProductDeleteConfirmModal = ({ onClose, onProductDeleted, productName, productId }) => {
 
-    // 💡 FUNCIÓN DE CONFIRMACIÓN: Ejecuta la eliminación y luego el refresh.
     const handleConfirm = async () => {
-
-        // 🚨 PASO CLAVE: Ejecuta la llamada a la API usando el productId
         const success = await deleteProduct(productId);
 
         if (success) {
-            // Llama al refresh de la lista de productos si la eliminación fue exitosa
             if (onProductDeleted) {
                 onProductDeleted();
             }

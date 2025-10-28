@@ -36,6 +36,14 @@ body {
     height: 100vh;
 }
 
+.store-content button {
+    background-color: var(--btn);
+    border: none;
+    border-radius: 30px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
 .store-content button:hover {
     background-color: var(--btn-dark);
 }
@@ -174,6 +182,10 @@ body {
     border: none;
 }
 
+.add-product-btn {
+    margin-left: 30px !important;
+}
+
 .btn-container,
 .filter-bar {
     border-radius: var(--border-radius);
@@ -237,6 +249,8 @@ body {
     height: 100%;
     border-bottom-right-radius: var(--border-radius);
     border-top-right-radius: var(--border-radius);
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
 }
 
 .product-card-actions {
@@ -609,6 +623,13 @@ body {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    align-items: center;
+}
+
+.info-customization-container span {
+    align-self: flex-start;
+    font-weight: bold;
+    font-size: 1.5rem;
 }
 
 .custom-file-label {
@@ -617,6 +638,7 @@ body {
     background-color: var(--btn);
     color: var(--hover-color);
     border-radius: 30px;
+    border: none;
 }
 
 .custom-file-label:hover {

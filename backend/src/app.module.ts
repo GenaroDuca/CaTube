@@ -20,6 +20,7 @@ import { PlaylistVideosModule } from './playlist_videos/playlist_videos.module';
 import { PlaylistVideo } from './playlist_videos/entities/playlist_video.entity';
 import { ConfigModule } from '@nestjs/config';
 import { Friendship } from './friendships/entities/friendship.entity';
+import { FriendshipsModule } from './friendships/friendships.module';
 import * as path from 'path';
 
 @Module({
@@ -31,12 +32,13 @@ import * as path from 'path';
       username: 'root',
       password: 'geniducv1',
       database: 'catube_db',
+      // logging: true,
       entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo, Friendship],
       synchronize: true,
     }),
 
     ConfigModule.forRoot({
-      envFilePath: path.resolve(__dirname, '..', '..', 'backend', 'config.env'), 
+      envFilePath: ['config.env'],
       isGlobal: true,
     }),
 
@@ -51,7 +53,9 @@ import * as path from 'path';
     StoreModule,
 
     PlaylistVideosModule,
-    ],
+
+    FriendshipsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

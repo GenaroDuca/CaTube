@@ -5,6 +5,7 @@ import { Comment } from 'src/comments/entities/comment.entity';
 import { Like } from 'src/likes/entities/like.entity';
 import { Subscription } from 'src/subs/entities/sub.entity';
 import { Friendship } from 'src/friendships/entities/friendship.entity';
+import { Exclude } from 'class-transformer';
 
 
 @Unique(['username']) // Asegura que el username sea único a nivel de BD
@@ -71,10 +72,29 @@ export class User {
     @OneToMany(() => Subscription, subs => subs.user)
     subscriptions: Subscription[];
 
-    // RELACIONES DE AMISTAD (Las que TypeORM estaba buscando)
+    @Column({
+        name: 'avatar_url',
+        type: 'varchar', 
+        length: 255,
+        nullable: true,
+        default: null
+    })
+    avatarUrl: string | null;
+
+    @Column({
+        name: 'description',
+        type: 'varchar', 
+        nullable: true,
+        default: 'Hello, I am a new user on this platform!' 
+    })
+    description: string | null;
+
+    // RELACIONES DE AMISTAD
+    @Exclude() // 💡 SOLUCIÓN: Excluye esta propiedad de la serialización
     @OneToMany(() => Friendship, friendship => friendship.sender)
     sentFriendships: Friendship[];
 
+    @Exclude() // 💡 SOLUCIÓN: Excluye esta propiedad de la serialización
     @OneToMany(() => Friendship, friendship => friendship.receiver)
     receivedFriendships: Friendship[];
 }

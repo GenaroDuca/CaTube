@@ -5,11 +5,10 @@ import HelpModal from '../modal/headerModalsComponents/HelpModal';
 import FeedbackModal from '../modal/headerModalsComponents/FeedbackModal'
 import EditProductModal from '../modal/storeModal/EditProductModal'
 import AddProductModal from '../modal/storeModal/AddProductModal'
-import ModalDeleteAccount from '../modal/headerModalsComponents/ModalDeleteAccount';
+import CreateStoreModal from '../modal/storeModal/CreateStoreModal';
 import CreateVideoModal from '../modal/videoModalComponents/createVideoModal';
 import EditVideoModal from '../modal/videoModalComponents/editVideoModal';
-import CreateStoreModal from '../modal/storeModal/CreateStoreModal';
-import ProductDeleteConfirmModal from "../modal/storeModal/ProductDeleteConfirmModal"
+import ConfirmModal from '../modal/ConfirmModal';
 
 const ModalRenderer = () => {
     const { modalState, closeModal } = useModal();
@@ -28,20 +27,18 @@ const ModalRenderer = () => {
             return renderModal(HelpModal);
         case 'feedback':
             return renderModal(FeedbackModal);
-        case 'createstore':
-            return renderModal(CreateStoreModal);
         case 'editproduct':
             return renderModal(EditProductModal);
         case 'addproduct':
             return renderModal(AddProductModal);
-        case 'deleteaccount':
-            return renderModal(ModalDeleteAccount);
+        case 'createstore':
+            return renderModal(CreateStoreModal);
         case 'createvideo':
             return renderModal(CreateVideoModal);
         case 'editvideo':
             return renderModal(EditVideoModal);
-        case 'deleteproductconfirm':
-            return renderModal(ProductDeleteConfirmModal);
+        case 'confirm':
+            return renderModal(ConfirmModal);
         default:
             return null;
     }

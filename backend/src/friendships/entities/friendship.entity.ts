@@ -23,18 +23,18 @@ export class Friendship {
     // --- Relación con el Usuario que ENVÍA (SENDER) ---
     @Column({ name: 'user_id_sender', type: 'uuid' }) 
     userIdSender: string;
-
-    // Mapea a User.sentFriendships y usa 'user_id' como columna referenciada
-    @ManyToOne(() => User, user => user.sentFriendships) 
+    @ManyToOne(() => User, user => user.sentFriendships, { 
+        onDelete: 'CASCADE', 
+    }) 
     @JoinColumn({ name: 'user_id_sender', referencedColumnName: 'user_id' }) 
     sender: User;
 
     // --- Relación con el Usuario que RECIBE (RECEIVER) ---
     @Column({ name: 'user_id_receiver', type: 'uuid' }) 
-    userIdReceiver: string;
-
-    // Mapea a User.receivedFriendships y usa 'user_id' como columna referenciada
-    @ManyToOne(() => User, user => user.receivedFriendships) 
+    userIdReceiver: string; // Se eliminó 'ON DELETE CASCADE' de aquí
+    @ManyToOne(() => User, user => user.receivedFriendships, { 
+        onDelete: 'CASCADE', 
+    }) 
     @JoinColumn({ name: 'user_id_receiver', referencedColumnName: 'user_id' }) 
     receiver: User;
 

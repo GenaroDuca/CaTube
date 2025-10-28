@@ -201,7 +201,7 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
         if (onProductUpdated) onProductUpdated();
         else window.location.reload();
         onClose();
-        showSuccess ("Product edited successfully!")
+        showSuccess("Product edited successfully!")
       }
     } catch (err) {
       setError(err.message || "Failed to update product");
@@ -287,62 +287,64 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
           {!(showDuplicateConfirm || showDeleteConfirm) && (
             <form onSubmit={handleSubmit}>
               {/* Los placeholders y valores ahora usan 'product' o 'formData' */}
-              <h2>Product Name</h2>
-              <input
-                type="text"
-                name="product_name"
-                placeholder={product?.product_name || "Enter product name"}
-                required
-                value={formData.product_name}
-                onChange={handleChange}
-                disabled={loading}
-              />
+              <div>
+                <h2>Product Name</h2>
+                <input
+                  type="text"
+                  name="product_name"
+                  placeholder={product?.product_name || "Enter product name"}
+                  required
+                  value={formData.product_name}
+                  onChange={handleChange}
+                  disabled={loading}
+                />
 
-              <h2>Description</h2>
-              <textarea
-                name="description"
-                placeholder={product?.description || "Enter product description"}
-                value={formData.description}
-                onChange={handleChange}
-                disabled={loading}
-              />
+                <h2>Description</h2>
+                <textarea
+                  name="description"
+                  placeholder={product?.description || "Enter product description"}
+                  value={formData.description}
+                  onChange={handleChange}
+                  disabled={loading}
+                />
 
-              <div className="price-stock-container">
-                <div className="form-group">
-                  <h2>Price</h2>
-                  <input
-                    type="number"
-                    name="price"
-                    placeholder={product?.price?.toString() || "9.99"}
-                    step="0.01"
-                    required
-                    value={formData.price}
-                    onChange={handleChange}
-                    disabled={loading}
-                  />
+                <div className="price-stock-container">
+                  <div className="form-group">
+                    <h2>Price</h2>
+                    <input
+                      type="number"
+                      name="price"
+                      placeholder={product?.price?.toString() || "9.99"}
+                      step="0.01"
+                      required
+                      value={formData.price}
+                      onChange={handleChange}
+                      disabled={loading}
+                    />
+                  </div>
+                  <div className="form-group">
+                    <h2>Stock</h2>
+                    <input
+                      type="number"
+                      name="stock"
+                      placeholder={product?.stock?.toString() || "100"}
+                      required
+                      value={formData.stock}
+                      onChange={handleChange}
+                      disabled={loading}
+                    />
+                  </div>
                 </div>
-                <div className="form-group">
-                  <h2>Stock</h2>
-                  <input
-                    type="number"
-                    name="stock"
-                    placeholder={product?.stock?.toString() || "100"}
-                    required
-                    value={formData.stock}
-                    onChange={handleChange}
-                    disabled={loading}
-                  />
-                </div>
+
+                <h2 className="image-title">Image</h2>
+                <input
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  onChange={handleChange}
+                  disabled={loading}
+                />
               </div>
-
-              <h2 className="image-title">Image</h2>
-              <input
-                type="file"
-                name="image"
-                accept="image/*"
-                onChange={handleChange}
-                disabled={loading}
-              />
 
               <div className="add-product-buttons">
                 <button type="submit" className="update-product-btn" disabled={loading}>

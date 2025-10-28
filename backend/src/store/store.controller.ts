@@ -6,19 +6,19 @@ import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 @Controller('store')
 export class StoreController {
-  constructor(private readonly storeService: StoreService) {}
+  constructor(private readonly storeService: StoreService) { }
 
   @UseGuards(JwtAuthGuard)
   @Post()
   create(@Body() createStoreDto: CreateStoreDto, @Request() req) {
-    const userId = req.user.userId; 
+    const userId = req.user.id;
     return this.storeService.create(createStoreDto, userId);
   }
 
   @UseGuards(JwtAuthGuard)
   @Get('my-store')
   findMyStore(@Request() req) {
-    const userId = req.user.userId;
+    const userId = req.user.id;
     return this.storeService.findStoreByUserId(userId);
   }
 

@@ -1,3 +1,4 @@
+// src/auth/auth.service.ts
 import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
@@ -24,12 +25,11 @@ export class AuthService {
 
                 // VERIFICACIÓN DE CORREO ELECTRÓNICO
                 if (!user.is_verified) {
-                    // Si el usuario existe y la contraseña es correcta, pero is_verified es FALSE,
-                    // lanza una excepción 401 que NestJS maneja.
                     throw new UnauthorizedException('Please verify your email address to log in.');
                 }
 
-                // 4. Si todo es válido, devolvemos el usuario (excluyendo la contraseña para el token JWT)
+                // 4. Si todo es válido, devolvemos el usuario (excluyendo la contraseña)
+                // Usamos 'user_id' como identificador, que se mapea a 'sub' en el payload.
                 const { password, ...result } = user;
                 return result;
             }
@@ -38,7 +38,9 @@ export class AuthService {
     }
 
     async login(user: any) {
-        const payload = { username: user.username, sub: user.user_id };
+        const payload = { username: user.username, sub: user.user_id, id: user.user_id };
+
+        // Retorna el token y el objeto de usuario (sin password)
         return {
             access_token: this.jwtService.sign(payload),
             user: user

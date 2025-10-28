@@ -13,7 +13,7 @@ export class ProductController {
   @Post()
   @UseInterceptors(FileInterceptor('image'))
   create(@Body() createProductDto: CreateProductDto, @Request() req, @UploadedFile() file?: any) {
-    const userId = req.user.userId; // obtenemos el userId del token
+    const userId = req.user.id; // obtenemos el userId del token
     return this.productService.create(createProductDto, userId, file);
   }
 
@@ -25,14 +25,14 @@ export class ProductController {
   @UseGuards(JwtAuthGuard)
   @Get('my-products')
   findMyProducts(@Request() req) {
-    const userId = req.user.userId;
+    const userId = req.user.id;
     return this.productService.findMyProducts(userId);
   }
   
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string, @Request() req) {
-    const userId = req.user.userId;
+    const userId = req.user.id;
     return this.productService.findOne(id, userId);
   }
 
@@ -40,14 +40,14 @@ export class ProductController {
   @Patch(':id')
   @UseInterceptors(FileInterceptor('image'))
   update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto, @Request() req, @UploadedFile() file?: any) {
-    const userId = req.user.userId;
+    const userId = req.user.id;
     return this.productService.update(id, updateProductDto, userId, file);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id') id: string, @Request() req) {
-    const userId = req.user.userId;
+    const userId = req.user.id;
     return this.productService.removeProductAsOwner(id, userId);
   }
 }

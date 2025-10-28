@@ -13,13 +13,20 @@ import Store from "../../components/studioPageComponents/store/Store.jsx";
 import Customization from "../../components/studioPageComponents/customization/Customization.jsx";
 import RightMenu from "../../components/studioPageComponents/RightMenu.jsx";
 import Header from "../../components/common/header/Header.jsx";
-import { useMemo } from "react";
+import React, { useMemo } from "react"; 
 import { useSearchParams } from "react-router-dom";
-
 
 function Studio() {
     const [searchParams, setSearchParams] = useSearchParams();
     const section = searchParams.get('section') || 'dashboard';
+    
+    //Leer el token de acceso aquí.
+    const accessToken = localStorage.getItem('accessToken'); 
+
+    // Esto asegura que cada componente se considera "nuevo" si el token cambia.
+    // Además, incluimos el 'name' de la sección para reiniciarlo al cambiar de pestaña.
+    const componentKey = `${section}-${accessToken}`; 
+
     const tabs = useMemo(() => [
         { name: 'dashboard', component: <Dashboard /> },
         { name: 'content', component: <Content /> },
@@ -50,7 +57,9 @@ function Studio() {
                     <Header></Header>
                     <SidebarStudio activeTabIndex={activeTabIndex} onTabClick={handleTabClick}></SidebarStudio>
                     <div className="container-studio">
-                        {ActiveComponent}
+                        {/* 💡 PASO 3: Aplicar la propiedad 'key' al componente activo */}
+                        {React.cloneElement(ActiveComponent, { key: componentKey })}
+                        
                         <Footer footer="footer-studio"></Footer>
                     </div>
                     <RightMenu></RightMenu>

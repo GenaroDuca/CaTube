@@ -145,14 +145,14 @@ const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProduct
 
             if (result) {
                 showSuccess(`Product "${result.product_name}" added successfully!`);
-                
+
                 // NOTA IMPORTANTE: Usar el callback para refrescar la lista en el componente padre
                 if (onProductAdded) {
                     onProductAdded();
                 } else {
                     window.location.reload(); // Fallback si no hay callback
                 }
-                
+
                 onClose();
             } else {
                 // Esto solo debería pasar si createProductSolo falla pero no lanza error, lo cual es raro
@@ -169,7 +169,7 @@ const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProduct
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         // Check for duplicate product name (case-insensitive)
         const isDuplicate = existingProducts.some(
             (product) => product.product_name.toLowerCase() === formData.product_name.toLowerCase()
@@ -179,7 +179,7 @@ const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProduct
             setShowDuplicateConfirm(true);
             return;
         }
-        
+
         // Si no es duplicado O ya se confirmó el duplicado, procedemos.
         await handleSubmissionLogic();
     };
@@ -188,7 +188,7 @@ const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProduct
     // para que la llamada sea limpia y no dependa de un evento falso.
     const handleConfirmDuplicate = () => {
         // Seteamos la bandera a false y luego llamamos a la lógica principal
-        setShowDuplicateConfirm(false); 
+        setShowDuplicateConfirm(false);
         handleSubmissionLogic();
     };
 
@@ -217,68 +217,70 @@ const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProduct
                             </div>
                         </div>
                     )}
-                    
+
                     {/* El formulario solo es visible si no estamos en el paso de confirmación duplicada */}
                     {!showDuplicateConfirm && (
                         <form onSubmit={handleSubmit}>
-                            {/* ... (Toda la estructura del formulario permanece igual) ... */}
-                            <h2>Product Name</h2>
-                            <input
-                                type="text"
-                                name="product_name"
-                                placeholder="Enter product name"
-                                required
-                                value={formData.product_name}
-                                onChange={handleChange}
-                                disabled={loading}
-                            />
+                            <div>
+                                {/* ... (Toda la estructura del formulario permanece igual) ... */}
 
-                            <h2>Description</h2>
-                            <textarea
-                                name="description"
-                                placeholder="Enter product description"
-                                value={formData.description}
-                                onChange={handleChange}
-                                disabled={loading}
-                            />
+                                <h2>Product Name</h2>
+                                <input
+                                    type="text"
+                                    name="product_name"
+                                    placeholder="Enter product name"
+                                    required
+                                    value={formData.product_name}
+                                    onChange={handleChange}
+                                    disabled={loading}
+                                />
 
-                            <div className="price-stock-container">
-                                <div className="form-group">
-                                    <h2>Price</h2>
-                                    <input
-                                        type="number"
-                                        name="price"
-                                        placeholder="9.99"
-                                        step="0.01"
-                                        required
-                                        value={formData.price}
-                                        onChange={handleChange}
-                                        disabled={loading}
-                                    />
+                                <h2>Description</h2>
+                                <textarea
+                                    name="description"
+                                    placeholder="Enter product description"
+                                    value={formData.description}
+                                    onChange={handleChange}
+                                    disabled={loading}
+                                />
+
+                                <div className="price-stock-container">
+                                    <div className="form-group">
+                                        <h2>Price</h2>
+                                        <input
+                                            type="number"
+                                            name="price"
+                                            placeholder="9.99"
+                                            step="0.01"
+                                            required
+                                            value={formData.price}
+                                            onChange={handleChange}
+                                            disabled={loading}
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <h2>Stock</h2>
+                                        <input
+                                            type="number"
+                                            name="stock"
+                                            placeholder="100"
+                                            required
+                                            value={formData.stock}
+                                            onChange={handleChange}
+                                            disabled={loading}
+                                        />
+                                    </div>
                                 </div>
-                                <div className="form-group">
-                                    <h2>Stock</h2>
-                                    <input
-                                        type="number"
-                                        name="stock"
-                                        placeholder="100"
-                                        required
-                                        value={formData.stock}
-                                        onChange={handleChange}
-                                        disabled={loading}
-                                    />
-                                </div>
+
+                                <h2 className="image-title">Image</h2>
+                                <input
+                                    type="file"
+                                    name="image"
+                                    accept="image/*"
+                                    onChange={handleChange}
+                                    disabled={loading}
+                                />
                             </div>
-
-                            <h2 className="image-title">Image</h2>
-                            <input
-                                type="file"
-                                name="image"
-                                accept="image/*"
-                                onChange={handleChange}
-                                disabled={loading}
-                            />
-
                             <div className="add-product-buttons">
                                 <button type="submit" className="create-product-btn" disabled={loading}>
                                     {loading ? "Adding..." : "Add Product"}

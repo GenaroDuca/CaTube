@@ -24,7 +24,7 @@ export class VideosController {
   @Post()
   @UseGuards(AuthGuard('jwt'))
   create(@Body() createVideoDto: CreateVideoDto, @Req() req: any) {
-    const channel = req.user.channel as Channel; // Asegurate de que el usuario tenga un canal cargado en el JWT
+    const channel = req.user.channel as Channel; 
     return this.videosService.create(createVideoDto, channel);
   }
 

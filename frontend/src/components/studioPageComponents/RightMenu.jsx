@@ -12,7 +12,8 @@ function RightMenu() {
                 // Map old default-avatar paths to new assets path
                 const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
                 const letter = letterMatch ? letterMatch[1] : 'A';
-                photoPath = `/assets/media/profile/${letter}.png`;
+                photoPath = `/assets/images/profile/${letter}.png`;
+                console.log('Mapped default avatar path to:', photoPath);
             }
             return BASE_URL + photoPath;
         } else {

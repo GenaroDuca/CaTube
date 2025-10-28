@@ -69,7 +69,7 @@ function Profile() {
                             // Map old default-avatar paths to new assets path
                             const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
                             const letter = letterMatch ? letterMatch[1] : 'A';
-                            photoPath = `/assets/media/profile/${letter}.png`;
+                            photoPath = `/assets/images/profile/${letter}.png`;
                         }
                         setUserPhoto(BASE_URL + photoPath);
                     }
@@ -80,28 +80,28 @@ function Profile() {
     }, []);
 
     return (
-    <div className="container-profile">
-        <div className="first-part-profile">
-            <img className="channel-photo" src={userPhoto} alt={channelName} />
-            <div className="text-channel">
-                <h2>{channelName} </h2>
-                <div className="row-info">
-                    <p className="space">{channelHandle} </p>
-                    <p className="space">{channelSubs} Catscribers </p>
-                    <p className="space">{profile.videos} </p>
+        <div className="container-profile">
+            <div className="first-part-profile">
+                <img className="channel-photo" src={userPhoto} alt={channelName} />
+                <div className="text-channel">
+                    <h2>{channelName} </h2>
+                    <div className="row-info">
+                        <p className="space">{channelHandle} </p>
+                        <p className="space">{channelSubs} Catscribers </p>
+                        <p className="space">{profile.videos} </p>
+                    </div>
+                    <p>{channelDescription} </p>
                 </div>
-                <p>{channelDescription} </p>
+            </div>
+            <div className="row">
+                <Link to="/studio/?section=customization" className="customize-btn-channel">
+                    <NewButton btnclass="customize-btn-channel" btntitle="Customize channel"></NewButton>
+                </Link>
+                <Link to="/studio/?section=content">
+                    <NewButton btnclass="manage-btn-videos" btntitle="Manage videos"></NewButton>
+                </Link>
             </div>
         </div>
-        <div className="row">
-            <Link to="/studio/?section=customization" className="customize-btn-channel">
-            <NewButton btnclass="customize-btn-channel" btntitle="Customize channel"></NewButton>
-            </Link>
-            <Link to="/studio/?section=content">
-            <NewButton btnclass="manage-btn-videos" btntitle="Manage videos"></NewButton>
-            </Link>
-        </div>
-    </div>
     );
 }
 
