@@ -114,7 +114,7 @@ function YourChannel() {
                 <Sidebar>
                 </Sidebar>
                 <main className="main-content">
-                    <Banner></Banner>
+                    <Banner channelId={channelId}></Banner>
                     <Profile key={channelId}></Profile>
                     <ContainerButton containerName="container-button" tabs={tabLabels} activeTabIndex={activeTab} onTabClick={setActiveTab} buttonClass="nav-btn" ></ContainerButton>
 

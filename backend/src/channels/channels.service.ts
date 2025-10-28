@@ -91,13 +91,21 @@ constructor(
             fs.mkdirSync(uploadDir, { recursive: true });
         }
 
+        // Si ya existe un banner previo que no sea el por defecto, eliminarlo para ahorrar espacio
+        if (channel.bannerUrl && !channel.bannerUrl.startsWith('/assets/images/studio_media/')) {
+            const oldFilePath = path.join(__dirname, '..', '..', channel.bannerUrl);
+            if (fs.existsSync(oldFilePath)) {
+                fs.unlinkSync(oldFilePath);
+            }
+        }
+
         const filename = `${id}_${Date.now()}_${file.originalname}`;
         const filepath = path.join(uploadDir, filename);
 
         fs.writeFileSync(filepath, file.buffer);
 
-        // Actualizar la entidad con la ruta o URL de la foto
-        channel.photoUrl = `/uploads/banners/${filename}`;
+        // Actualizar la entidad con la ruta o URL del banner
+        channel.bannerUrl = `/uploads/banners/${filename}`;
 
         return this.channelRepository.save(channel);
     }
@@ -139,6 +147,14 @@ constructor(
 
         const firstLetter = channel.channel_name.charAt(0).toUpperCase();
         channel.photoUrl = `/assets/images/profile/${firstLetter}.png`;
+
+        return this.channelRepository.save(channel);
+    }
+
+    async setDefaultBanner(id: string): Promise<Channel> {
+        const channel = await this.findOneById(id);
+
+        channel.bannerUrl = `/assets/images/studio_media/catube-pc.png`;
 
         return this.channelRepository.save(channel);
     }

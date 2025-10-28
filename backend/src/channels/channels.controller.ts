@@ -47,4 +47,10 @@ export class ChannelsController {
     uploadPhoto(@Param('id') id: string, @UploadedFile() file: any) {
         return this.channelsService.uploadPhoto(id, file);
     }
+
+    @Post(':id/banner')
+    @UseInterceptors(FileInterceptor('banner'))
+    uploadBanner(@Param('id') id: string, @UploadedFile() file: any) {
+        return this.channelsService.uploadBanner(id, file);
+    }
 }

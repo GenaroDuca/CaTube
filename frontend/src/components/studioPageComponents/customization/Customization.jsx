@@ -51,6 +51,7 @@ async function apiFetch(url, options = {}) {
 
 function Customization() {
     const [photoPreview, setPhotoPreview] = useState("");
+    const [bannerPreview, setBannerPreview] = useState("");
 
     const getAvatar = (channel) => {
         if (channel.photoUrl) {
@@ -67,6 +68,15 @@ function Customization() {
         }
     };
 
+    const getBanner = (channel) => {
+        if (channel.bannerUrl) {
+            let bannerPath = channel.bannerUrl;
+            return BASE_URL + bannerPath;
+        } else {
+            return banner;
+        }
+    };
+
     useEffect(() => {
         async function loadChannelData() {
             const channelId = localStorage.getItem('channelId');
@@ -74,6 +84,7 @@ function Customization() {
             if (!channelId || !accessToken) {
                 console.warn('No channelId or accessToken found, skipping loadChannelData');
                 setPhotoPreview(angel);
+                setBannerPreview(banner);
                 return;
             }
             try {
@@ -85,6 +96,7 @@ function Customization() {
                 });
                 if (channelData) {
                     setPhotoPreview(getAvatar(channelData));
+                    setBannerPreview(getBanner(channelData));
                 }
             } catch (error) {
                 console.error('Error displaying channel data:', error);
@@ -116,13 +128,36 @@ function Customization() {
         }
     };
 
+    const handleBannerChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setBannerPreview(URL.createObjectURL(file));
+
+            const channelId = localStorage.getItem('channelId');
+            if (!channelId) {
+                alert('Error: No se pudo identificar el canal. Por favor, inicia sesión de nuevo.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('banner', file);
+            const bannerResult = await apiFetch(`/channels/${channelId}/banner`, {
+                method: 'POST',
+                body: formData,
+            });
+            if (bannerResult && bannerResult.bannerUrl) {
+                setBannerPreview(BASE_URL + bannerResult.bannerUrl);
+            }
+        }
+    };
+
     return (
         <>
             <Title title="Customization"></Title>
             <hr></hr>
             <Container className="content">
                 <Container className="cards-customization-container">
-                    <CardCustomization title="Banner image" imageClass="photo-card-banner" src={banner} alt="Banner" for="banner-upload"></CardCustomization>
+                    <CardCustomization title="Banner image" imageClass="photo-card-banner" src={bannerPreview || banner} alt="Banner" for="banner-upload" onChange={handleBannerChange}></CardCustomization>
                     <CardCustomization title="Picture" imageClass="photo-card" src={photoPreview || angel} alt="angel" for="picture-upload" onChange={handlePhotoChange}></CardCustomization>
                 </Container >
                 <InfoContainer></InfoContainer>
