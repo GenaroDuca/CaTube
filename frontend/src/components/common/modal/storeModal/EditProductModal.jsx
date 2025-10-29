@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { IoIosCloseCircle } from "react-icons/io";
-import { useNotifications } from '../../../common/Toasts/useNotifications.jsx';
+import { useToast } from '../../../../hooks/useToast.jsx';
 
 // ----------------------------------------------------------------------
 // FUNCIONES DE FETCH
@@ -98,7 +98,7 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   // FeedbackToast
-  const { showSuccess, showError } = useNotifications();
+  const { showSuccess, showError } = useToast();
   // --- EFECTOS ---
   useEffect(() => {
 

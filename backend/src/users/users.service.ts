@@ -222,7 +222,7 @@ export class UsersService {
      * @param updateData Los datos a actualizar (UpdateUserDto).
      * @returns El usuario actualizado.
      */
-    async updateMe(userId: string, updateData: UpdateUserDto): Promise<Partial<User>> {
+    async updateUser(userId: string, updateData: UpdateUserDto): Promise<Partial<User>> {
         // 1. Obtener el usuario
         const user = await this.usersRepository.findOneBy({ user_id: userId });
 

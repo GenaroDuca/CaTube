@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { BsPersonFill } from "react-icons/bs";
 import { FaKey } from "react-icons/fa";
-import { useNotifications } from '../common/Toasts/useNotifications.jsx';
+import { useToast } from '../../hooks/useToast.jsx';
 
 const LoginForm = ({ togglePanel }) => {
   const navigate = useNavigate();
@@ -10,7 +10,7 @@ const LoginForm = ({ togglePanel }) => {
   const [password, setPassword] = useState('');
 
   //FeedbackToast
-  const { showSuccess, showError } = useNotifications();
+  const { showSuccess, showError } = useToast();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

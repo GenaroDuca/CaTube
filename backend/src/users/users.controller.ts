@@ -1,10 +1,11 @@
-import { Body, Controller, Get, Post, Delete, Param, Query, Res, ConflictException, NotFoundException } from '@nestjs/common';
+import { Body, Controller, Get, Post, Delete, Param, Query, Res, ConflictException, NotFoundException, Patch } from '@nestjs/common';
 import { CreateUserDto } from './dto-users/create-user.dto';
 import { UsersService } from './users.service';
 import { Response } from 'express'; 
 import { ConfigService } from '@nestjs/config';
 import { UseGuards, Req } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard'; 
+import { UpdateUserDto } from './dto-users/update-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -81,5 +82,12 @@ export class UsersController {
     @Delete(':id')
     remove(@Param('id') id: string) {
         return this.usersService.remove(id);
+    }
+
+    @UseGuards(JwtAuthGuard) 
+    @Patch(`me`)
+    async updateMe(@Req() req, @Body() updateUserDto: UpdateUserDto) {
+        const userId = req.user.id;
+        return this.usersService.updateUser(userId, updateUserDto);
     }
 }

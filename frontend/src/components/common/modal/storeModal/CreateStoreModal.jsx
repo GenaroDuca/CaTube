@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IoIosCloseCircle } from "react-icons/io";
-import { useNotifications } from '../../Toasts/useNotifications';
+import { useToast } from '../../../../hooks/useToast';
 
 // ----------------------------------------------------------------------
 // FUNCIONES DE FETCH (INTEGRADAS EN EL ARCHIVO)
@@ -72,7 +72,7 @@ const CreateStoreModal = ({ onClose, onCreate }) => {
     const [errorMessage, setErrorMessage] = useState('');
 
     // FeedbackToast y Modal Context
-    const { showSuccess, showError } = useNotifications();
+    const { showSuccess, showError } = useToast();
     /**
      * Maneja el envío del formulario para crear la tienda.
      * @param {Event} e - Evento de envío del formulario.

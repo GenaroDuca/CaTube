@@ -6,7 +6,7 @@
     height: 56px;
     padding: 0 1rem;
     background-color: #1e1e1fd9;
-    backdrop-filter: blur(10px);
+    /* backdrop-filter: blur(10px); */
     box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493) !important;
     gap: 1rem;
     flex-wrap: wrap;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { useNotifications } from '../../../common/Toasts/useNotifications.jsx';
+import { useToast } from '../../../../hooks/useToast.jsx';
 import { IoIosCloseCircle } from "react-icons/io";
 
 // ----------------------------------------------------------------------
@@ -92,7 +92,7 @@ const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProduct
     const [showDuplicateConfirm, setShowDuplicateConfirm] = useState(false);
 
     // FeedbackToast
-    const { showSuccess, showError } = useNotifications();
+    const { showSuccess, showError } = useToast();
 
     // Función para cargar productos existentes (usando la función interna)
     useEffect(() => {

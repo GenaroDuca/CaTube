@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useNotifications } from '../common/Toasts/useNotifications.jsx';
+import { useToast } from '../../hooks/useToast.jsx';
 
 import { BsPersonFill } from "react-icons/bs";
 import { FaKey } from "react-icons/fa";
@@ -52,7 +52,7 @@ const SignupForm = ({ togglePanel }) => {
     // Las variables debouncedUsername y debouncedEmail se han eliminado.
 
     // Feedback Toast
-    const { showSuccess, showError } = useNotifications();
+    const { showSuccess, showError } = useToast();
 
     // =================================================================
     // 2. FUNCIONES DE VALIDACIÓN

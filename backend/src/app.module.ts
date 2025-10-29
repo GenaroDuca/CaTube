@@ -21,7 +21,6 @@ import { PlaylistVideo } from './playlist_videos/entities/playlist_video.entity'
 import { ConfigModule } from '@nestjs/config';
 import { Friendship } from './friendships/entities/friendship.entity';
 import { FriendshipsModule } from './friendships/friendships.module';
-import * as path from 'path';
 
 @Module({
   imports: [

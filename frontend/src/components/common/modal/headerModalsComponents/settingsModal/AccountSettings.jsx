@@ -1,10 +1,10 @@
 import { useModal } from "../../ModalContext";
-import { useNotifications } from '../../../Toasts/useNotifications';
+import { useToast } from '../../../../../hooks/useToast';
 
 const AccountSettings = () => {
   const { openModal } = useModal();
   // FeedbackToast y Modal Context
-  const { showSuccess, showError } = useNotifications();
+  const { showSuccess, showError } = useToast();
 
   // 1. Mover la lógica de borrado de cuenta del modal viejo aquí
   const deleteUserAccount = async () => {

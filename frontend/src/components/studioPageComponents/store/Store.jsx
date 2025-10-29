@@ -5,7 +5,7 @@ import NewButton from "../../homePageComponents/Button";
 import { useModal } from "../../common/modal/ModalContext";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import ProductCard from './ProductCard';
-import { useNotifications } from '../../common/Toasts/useNotifications';
+import { useToast } from '../../../hooks/useToast';
 
 // ----------------------------------------------------------------------
 // CONFIGURACIÓN BASE
@@ -133,7 +133,7 @@ function Store() {
     const [error, setError] = useState(null);
 
     // FeedbackToast y Modal Context
-    const { showSuccess, showError } = useNotifications();
+    const { showSuccess, showError } = useToast();
 
     // Almacena los datos de la tienda
     const [storeData, setStoreData] = useState(null);

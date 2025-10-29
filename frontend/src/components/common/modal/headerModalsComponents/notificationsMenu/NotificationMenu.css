@@ -28,10 +28,10 @@
     border-radius: 999px;
 }
 
-.notification-dropdown {
+.notifications-sidebar {
     width: 400px;
     height: 400px;
-    background-color: #1a1a1bee;
+    background-color: #1e1e1fd9;
     box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493);
     backdrop-filter: blur(10px);
     border-radius: 30px;
@@ -43,6 +43,32 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+}
+
+.notifications-sidebar main div {
+    display: flex;
+    max-width: 100%;
+}
+
+.notifications-container {
+    margin-bottom: 10px;
+}
+
+
+.notifications-sidebar main {
+    padding: 0px 20px 0px 20px;
+}
+
+.notifications-sidebar.collapsed {
+    width: 400px;
+    height: 0;
+    box-shadow: none;
+}
+
+.notifications-sidebar header {
+    padding: 20px;
+    flex-shrink: 0;
+    display: flex;
 }
 
 .notification-dropdown::-webkit-scrollbar {
@@ -70,29 +96,44 @@
 }
 
 .notification-item {
-    border-radius: 10px;
-    padding: 10px;
+    width: auto;
+    padding: 10px 0px 10px 20px;
     color: var(--text);
-    font-size: 1rem;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: space-between;
     align-items: center;
-    border-radius: 30px;
+    border-radius: 30px 0px 0px 30px;
+    background-color: var(--primary-color);
 }
 
-.notification-item:hover {
-    background-color: var(--primary-color);
-    cursor: pointer;
+.notification-content {
+    display: flex;
+    flex-direction: column;
+    text-align: end;
+    font-size: 12px;
 }
+
+.notification-text {
+    font-size: 14px;
+}
+
+.notification-item button {
+    width: 20px;
+}
+
+.notification-content span {
+    color: var(--btn);
+}
+
 
 
 .notification-item:last-child {
     border-bottom: none;
 }
 
-.notification-item.read {
+.read {
     opacity: 0.6;
 }
 
@@ -100,3 +141,29 @@
     filter: grayscale(100%);
 }
 
+.btn-link {
+    background: none;
+    border: none;
+    color: var(--btn);
+    cursor: pointer;
+    width: 40px;
+    background-color: var(--primary-color);
+}
+
+.btn-link:hover {
+    color: var(--btn-dark);
+}
+
+.delete-notification-button {
+    background-color: #e96765;
+    width: 40px;
+    border: none;
+    border-radius: 0px 30px 30px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.delete-notification-button:hover {
+    background-color: #b94c4a;
+}

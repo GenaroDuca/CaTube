@@ -11,8 +11,7 @@ import { JwtStrategy } from './jwt.strategy';
     UsersModule, 
     PassportModule,
     JwtModule.register({
-      secret: 'angelgenajerethiagocatubeproyecto',
-      signOptions: { expiresIn: '1h' }, 
+      secret: 'angelgenajerethiagocatubeproyecto'
     }),
   ],
   providers: [AuthService, JwtStrategy], 
