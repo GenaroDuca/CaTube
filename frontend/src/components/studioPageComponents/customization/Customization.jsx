@@ -1,4 +1,4 @@
-import Title from "../../TrendingPageComponents/Title";
+import Title from "../../trendingPageComponents/Title";
 import Container from "../../common/Container";
 import CardCustomization from "./CardCustomization";
 import InfoContainer from "./InfoContainer";

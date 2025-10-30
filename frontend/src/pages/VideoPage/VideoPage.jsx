@@ -10,7 +10,7 @@ import './VideoPage.css';
 //Assets
 import Yukki from '../../assets/images/profile/yukki.jpg'
 import Video from '../../assets/videos/channel-video-proof.mp4'
-import thumbnail from '../../assets/images/thumbnails/Pinterest_Swap_Challenge.jpg'
+import thumbnail from '../../assets/images/thumbnails/pinterest_swap_challenge.jpg'
 import Gena from '../../assets/images/profile/gena.jpg'
 import Jere from '../../assets/images/profile/jere.jpg'
 import { VideoList } from '../../components/videoPageComponents/VideoList.jsx';

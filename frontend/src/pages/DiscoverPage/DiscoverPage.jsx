@@ -1,7 +1,7 @@
 import React from 'react';
 import DiscoverHeader from '../../components/discoverPageComponents/DiscoverHeader';
 import RecommendationCard from '../../components/discoverPageComponents/RecommendationCard';
-import './discoverPage.css';
+import './DiscoverPage.css';
 import Header from '../../components/common/header/Header';
 import Sidebar from '../../components/common/Sidebar';
 import Footer from '../../components/common/Footer';

@@ -29,7 +29,7 @@ import * as path from 'path';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'geniducv1',
+      password: 'Milaneso23',
       database: 'catube_db',
       entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo, Friendship],
       synchronize: true,
