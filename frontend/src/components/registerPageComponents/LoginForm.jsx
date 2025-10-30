@@ -68,7 +68,6 @@ const LoginForm = ({ togglePanel }) => {
       }
 
     } catch (error) {
-      // --- 3. NETWORK ERROR ---
       showError('Can not connect to server: ' + error.message);
     }
   };
@@ -88,6 +87,8 @@ const LoginForm = ({ togglePanel }) => {
             required
           />
         </div>
+        <p>I forgot my password</p>
+
       </div>
       <div className="input-group">
         <div className="input-row">
@@ -101,6 +102,8 @@ const LoginForm = ({ togglePanel }) => {
             required
           />
         </div>
+        <p>I forgot my username</p>
+
       </div>
       <button type="submit" className="register-btn">Login</button>
       {/* Puedes añadir aquí el botón para togglePanel si es necesario */}

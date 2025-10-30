@@ -12,6 +12,7 @@ import { Like } from './src/likes/entities/like.entity';
 import { Subscription } from './src/subs/entities/sub.entity';
 import { PlaylistVideo } from './src/playlist_videos/entities/playlist_video.entity';
 import { Friendship } from './src/friendships/entities/friendship.entity';
+import { Notification } from './src/notifications/entities/notification.entity';
 
 export const AppDataSource = new DataSource({
     type: 'mysql',
@@ -23,7 +24,7 @@ export const AppDataSource = new DataSource({
     
     entities: [
         User, Channel, Store, Product, Playlist, Video, 
-        Comment, Like, Subscription, PlaylistVideo, Friendship
+        Comment, Like, Subscription, PlaylistVideo, Friendship, Notification
     ],
     
     migrations: [path.join(__dirname, 'src', 'migrations', '*.ts')],

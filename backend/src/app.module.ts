@@ -21,6 +21,8 @@ import { PlaylistVideo } from './playlist_videos/entities/playlist_video.entity'
 import { ConfigModule } from '@nestjs/config';
 import { Friendship } from './friendships/entities/friendship.entity';
 import { FriendshipsModule } from './friendships/friendships.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { Notification } from './notifications/entities/notification.entity';
 
 @Module({
   imports: [
@@ -32,7 +34,7 @@ import { FriendshipsModule } from './friendships/friendships.module';
       password: 'geniducv1',
       database: 'catube_db',
       // logging: true,
-      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo, Friendship],
+      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo, Friendship, Notification],
       synchronize: true,
     }),
 
@@ -54,6 +56,8 @@ import { FriendshipsModule } from './friendships/friendships.module';
     PlaylistVideosModule,
 
     FriendshipsModule,
+
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

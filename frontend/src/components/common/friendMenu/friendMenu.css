@@ -110,7 +110,7 @@
     margin-bottom: 20px;
     display: flex;
     flex-shrink: 0;
-    /* Asegura que la barra no se comprima */
+    gap: 10px;
 }
 
 /* --- ESTILOS DE BARRA DE BÚSQUEDA Y SELECT --- */

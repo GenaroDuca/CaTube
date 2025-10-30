@@ -372,8 +372,6 @@ const SignupForm = ({ togglePanel }) => {
                 htmlFor="text"
                 style={{
                     color: getLabelColor('username'), // Color dinámico (rojo si hay error)
-                    fontSize: '12px',
-                    textAlign: 'center'
                 }}
             >
                 {getLabelText('username')}
@@ -401,8 +399,6 @@ const SignupForm = ({ togglePanel }) => {
                 htmlFor="email"
                 style={{
                     color: getLabelColor('email'), // Color dinámico (rojo si hay error)
-                    fontSize: '12px',
-                    textAlign: 'center'
                 }}
             >
                 {getLabelText('email')}
@@ -432,8 +428,6 @@ const SignupForm = ({ togglePanel }) => {
                 htmlFor="password"
                 style={{
                     color: getLabelColor('password'), // Color dinámico (rojo si hay error)
-                    fontSize: '12px',
-                    textAlign: 'center'
                 }}
             >
                 {getLabelText('password')}
@@ -463,8 +457,6 @@ const SignupForm = ({ togglePanel }) => {
                 htmlFor="repeat-password"
                 style={{
                     color: getLabelColor('repeatPassword'), // Color dinámico (rojo si hay error)
-                    fontSize: '12px',
-                    textAlign: 'center'
                 }}
             >
                 {getLabelText('repeatPassword')}

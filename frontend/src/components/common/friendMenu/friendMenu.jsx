@@ -544,15 +544,6 @@ export function FriendMenu() {
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
                     {/* INDICADOR DE BÚSQUEDA EN TIEMPO REAL */}
-                    {isSearchLoading ? ( // <-- CORREGIDO: Usar isSearchLoading
-                        <div className="search-status-icon loading-spinner">
-                            ...
-                        </div>
-                    ) : (
-                        <div className="search-status-icon">
-                            <ImSearch size={18} color='#1a1a1bee' />
-                        </div>
-                    )}
 
                     {!isSearching && (
                         <div

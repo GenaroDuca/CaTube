@@ -5,6 +5,7 @@ import { Comment } from 'src/comments/entities/comment.entity';
 import { Like } from 'src/likes/entities/like.entity';
 import { Subscription } from 'src/subs/entities/sub.entity';
 import { Friendship } from 'src/friendships/entities/friendship.entity';
+import { Notification } from 'src/notifications/entities/notification.entity';
 import { Exclude } from 'class-transformer';
 
 
@@ -74,7 +75,7 @@ export class User {
 
     @Column({
         name: 'avatar_url',
-        type: 'varchar', 
+        type: 'varchar',
         length: 255,
         nullable: true,
         default: null
@@ -83,18 +84,24 @@ export class User {
 
     @Column({
         name: 'description',
-        type: 'varchar', 
+        type: 'varchar',
         nullable: true,
-        default: 'Hello, I am a new user on this platform!' 
+        default: 'Hello, I am a new user on this platform!'
     })
     description: string | null;
 
     // RELACIONES DE AMISTAD
-    @Exclude() // 💡 SOLUCIÓN: Excluye esta propiedad de la serialización
+    @Exclude()
     @OneToMany(() => Friendship, friendship => friendship.sender)
     sentFriendships: Friendship[];
 
-    @Exclude() // 💡 SOLUCIÓN: Excluye esta propiedad de la serialización
+    @Exclude()
     @OneToMany(() => Friendship, friendship => friendship.receiver)
     receivedFriendships: Friendship[];
+
+    @OneToMany(() => Notification, notification => notification.receiver)
+    receivedNotifications: Notification[];
+
+    @OneToMany(() => Notification, notification => notification.sender)
+    sentNotifications: Notification[];
 }
