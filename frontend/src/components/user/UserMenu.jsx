@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import { useModal } from '../common/modal/ModalContext';
+import { useTheme } from '../context/themeContext.jsx';
 
 import { BsPersonFill } from "react-icons/bs";
 import { TbLogout } from "react-icons/tb";
@@ -14,6 +15,7 @@ import { FaThList } from "react-icons/fa";
 import { HiOutlineLogin } from "react-icons/hi";
 
 import { useSidebarToggle } from '../../hooks/useSidebarToggle.jsx';
+import { IoSunny } from "react-icons/io5";
 
 export function UserMenu() {
     const {
@@ -75,7 +77,9 @@ export function UserMenu() {
         setUsername('');
         closeUserMenu(); // Cierra el menú al desloguearse
         navigate('/');
-    };
+    }; 
+
+    const { isDarkMode, toggleTheme } = useTheme();
 
     return (
         <div className="user-menu-container" /*ref={menuRef}*/>
@@ -134,8 +138,8 @@ export function UserMenu() {
 
                         {/* Appearance */}
                         <li className="ts-nav-item">
-                            <button type="button" className="ts-nav-link soon" onClick={closeUserMenu}>
-                                <IoMoon size={25} />
+                            <button type="button" className="ts-nav-link soon" onClick={() => {toggleTheme(); closeUserMenu(); }} >
+                                {isDarkMode ? <IoSunny size={25} /> : <IoMoon size={25} />}
                                 <span className="ts-nav-label">Appearance</span>
                             </button>
                         </li>

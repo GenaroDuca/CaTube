@@ -9,6 +9,86 @@
     --font-size: clamp(0.5rem, 3vw, 1rem)
 }
 
+/* ===== MODO CLARO ===== */
+body.light-mode {
+  --primary-color: #ffffff;
+  --background-color: #f8f9fa;
+  --hover-color: #e9ecef;
+  --btn: #90B484;
+  --btn-dark: #749269;
+  --text-color: #333333;
+}
+
+/* Reset global forzado */
+body.light-mode,
+body.light-mode * {
+  background-color: inherit !important;
+  color: inherit !important;
+}
+
+/* Capas base */
+body.light-mode {
+  background-color: var(--background-color) !important;
+  color: var(--text-color) !important;
+}
+
+/* Elementos estructurales comunes */
+body.light-mode header,
+body.light-mode nav,
+body.light-mode .header,
+body.light-mode [class*="header"],
+body.light-mode .navbar,
+body.light-mode [class*="nav"] {
+  background-color: var(--primary-color) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Contenidos y cards */
+body.light-mode main,
+body.light-mode section,
+body.light-mode article,
+body.light-mode .card,
+body.light-mode [class*="card"],
+body.light-mode .container,
+body.light-mode [class*="container"] {
+  background-color: var(--background-color) !important;
+}
+
+/* Textos en todos los elementos */
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode h3,
+body.light-mode h4,
+body.light-mode h5,
+body.light-mode h6,
+body.light-mode p,
+body.light-mode span,
+body.light-mode div {
+  color: var(--text-color) !important;
+}
+
+/* Bordes */
+body.light-mode {
+  border-color: var(--border-color) !important;
+}
+
+body.light-mode * {
+  border-color: inherit !important;
+}
+
+/* Transición suave */
+* {
+  transition: all 0.3s ease !important;
+}
+
+/* Transición suave para todos los elementos */
+* {
+  transition: background-color 0.3s ease, 
+              color 0.3s ease, 
+              border-color 0.3s ease,
+              box-shadow 0.3s ease;
+}
+
 @font-face {
     font-family: garet;
     src: url('../assets/fonts/garet/Garet-Book.woff2');

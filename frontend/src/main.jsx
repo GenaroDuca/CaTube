@@ -19,9 +19,11 @@ import ShortsPage from './pages/ShortPage/ShortsPage.jsx';
 import { VideoPage } from './pages/VideoPage/VideoPage.jsx'
 import  SuccessPage  from "./pages/VerificationEmailPage/SuccessPage.jsx"
 import  ErrorPage  from './pages/VerificationEmailPage/ErrorPage.jsx';
+import { ThemeProvider } from './components/context/themeContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
+    <ThemeProvider>
     <Router>
       <SidebarProvider>
         <ModalProvider>
@@ -54,5 +56,6 @@ createRoot(document.getElementById('root')).render(
         </ModalProvider>
       </SidebarProvider>
     </Router>
+    </ThemeProvider>
   </StrictMode>
 );
