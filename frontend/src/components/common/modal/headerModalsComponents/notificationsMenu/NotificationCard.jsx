@@ -23,14 +23,14 @@ const formatNotificationTime = (timestamp) => {
 };
 
 // Se añade la prop 'onDelete' a la desestructuración
-export function NotificationCard({ notification, onMarkAsRead, onDelete }) { 
+export function NotificationCard({ notification, onMarkAsRead, onDelete }) {
     // Se añade 'onDelete' a las props
     const { id, type, userName, senderAvatar, read, timestamp, linkAction } = notification;
-    
-    // ... (El resto de tu código getMessage se mantiene igual)
+
     const getMessage = (type, userName) => {
         const templates = {
-            'friend-request': `${userName} has sent you a friend request`, // Nuevo tipo
+            'friend-request': `${userName} has sent you a friend request`,
+            'chat-message': `${userName} sent you a message`,
             // ... (Otros tipos de notificación)
         };
         return templates[type] || `${userName} did something`;
@@ -38,25 +38,21 @@ export function NotificationCard({ notification, onMarkAsRead, onDelete }) {
 
     const handleNotificationClick = () => {
         // Marcamos como leído solo si la acción principal se ejecuta.
-        onMarkAsRead(id); 
+        onMarkAsRead(id);
 
         switch (linkAction) {
             case 'openFriendMenu':
-                console.log('Action: Open Friend Menu for:', userName);
-                // Aquí deberías llamar a tu función real (e.g., openFriendMenu())
-                alert(`Opening friend menu to see request from ${userName}`);
+                //logica para abrir menu de amigos (falta)
                 break;
-            case 'goToVideo':
-                console.log('Action: Go to Video');
-                // Aquí deberías llamar a tu función real (e.g., navigate('/video/id'))
-                alert(`Going to video from ${userName}`);
+            case 'openChat':
+                //logica para abrir abrir chat (falta)
                 break;
             default:
                 console.log('Default action for notification:', notification);
                 break;
         }
     };
-    
+
     // NUEVA FUNCIÓN para manejar la eliminación
     const handleDeleteClick = () => {
         if (onDelete) {
@@ -89,7 +85,7 @@ export function NotificationCard({ notification, onMarkAsRead, onDelete }) {
             <button className="btn-link" onClick={handleNotificationClick}>
                 Ir
             </button>
-            
+
             {/* BOTÓN DE BORRAR IMPLEMENTADO */}
             <button
                 onClick={handleDeleteClick} // Llama a la nueva función

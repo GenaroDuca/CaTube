@@ -11,7 +11,7 @@ import { UpdateUserDto } from './dto-users/update-user.dto';
 export class UsersController {
     constructor(
         private readonly usersService: UsersService,
-        private readonly configService: ConfigService // Inyectamos ConfigService para obtener URLs
+        private readonly configService: ConfigService 
     ) { }
 
     @Post()

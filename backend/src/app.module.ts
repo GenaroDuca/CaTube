@@ -23,6 +23,12 @@ import { Friendship } from './friendships/entities/friendship.entity';
 import { FriendshipsModule } from './friendships/friendships.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { Notification } from './notifications/entities/notification.entity';
+import { Message } from './messages/entities/message.entity';
+import { Room } from './rooms/entities/room.entity';
+import { MessagesModule } from './messages/messages.module';
+import { RoomsModule } from './rooms/rooms.module';
+import { ChatGateway } from './chat/chat.gateway';
+
 
 @Module({
   imports: [
@@ -34,7 +40,7 @@ import { Notification } from './notifications/entities/notification.entity';
       password: 'geniducv1',
       database: 'catube_db',
       // logging: true,
-      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo, Friendship, Notification],
+      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo, Friendship, Notification, Message, Room],
       synchronize: true,
     }),
 
@@ -58,8 +64,12 @@ import { Notification } from './notifications/entities/notification.entity';
     FriendshipsModule,
 
     NotificationsModule,
+
+    MessagesModule,
+
+    RoomsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ChatGateway],
 })
 export class AppModule { }

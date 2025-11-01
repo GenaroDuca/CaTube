@@ -7,7 +7,6 @@ import { useModal } from '../../common/Modal/ModalContext';
 // Importaciones de iconos
 import { IoArrowBackCircle } from "react-icons/io5";
 import { IoIosCloseCircle } from "react-icons/io";
-import { ImSearch } from "react-icons/im";
 import { FaUserFriends, FaChevronDown, FaCircle } from "react-icons/fa";
 
 // Importaciones de tus nuevos componentes
@@ -30,7 +29,7 @@ import {
 } from './friendShipApi';
 
 // Importaciones de constantes y utilidades
-import { DEFAULT_AVATAR } from './Constants';
+import { DEFAULT_AVATAR } from './constants';
 import { getAuthToken } from '../../../utils/auth';
 import { useNotification } from '../../../hooks/useNotification';
 
@@ -43,7 +42,6 @@ export function FriendMenu() {
 
     const { isFriendMenuOpen, toggleFriendMenu, openFriendMenu } = useSidebarToggle();
     const collapsedClass = !isFriendMenuOpen ? 'collapsed' : '';
-
     // --- ESTADOS DE LA VISTA Y DATOS ---
     const [userStatus, setUserStatus] = useState('online');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -631,8 +629,8 @@ export function FriendMenu() {
                 <div className='friend-menu-content'>
                     <header>
                         <h2>
-                            {currentView !== 'list' && selectedFriend ? selectedFriend.userName :
-                                currentView === 'my_profile' ? 'My Profile' : 'CaTube Social'}
+                            {currentView !== 'list' && selectedFriend ? selectedFriend.userName+ " Profile" :
+                                currentView === 'my_profile' ? 'Your Profile' : 'CaTube Social'}
                         </h2>
                         <div className='header-divider-social-menu'>
                             {/* BOTÓN "MI PERFIL" (SOLO EN LA VISTA DE LISTA) */}

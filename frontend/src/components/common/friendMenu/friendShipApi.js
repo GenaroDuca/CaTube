@@ -1,5 +1,5 @@
 // src/api/friendshipApi.js
-import { API_BASE_URL, DEFAULT_AVATAR } from './Constants';
+import { API_BASE_URL, DEFAULT_AVATAR } from './constants';
 import { getAuthToken } from '../../../utils/auth'; 
 
 /**

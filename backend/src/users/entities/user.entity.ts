@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, OneToOne, OneToMany, Unique } from 'typeorm';
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, OneToOne, OneToMany, Unique, ManyToMany } from 'typeorm';
 import { Channel } from 'src/channels/entities/channel.entity';
 import { Playlist } from 'src/playlist/entities/playlist.entity';
 import { Comment } from 'src/comments/entities/comment.entity';
@@ -7,6 +7,8 @@ import { Subscription } from 'src/subs/entities/sub.entity';
 import { Friendship } from 'src/friendships/entities/friendship.entity';
 import { Notification } from 'src/notifications/entities/notification.entity';
 import { Exclude } from 'class-transformer';
+import { Room } from 'src/rooms/entities/room.entity';
+import { Message } from 'src/messages/entities/message.entity';
 
 
 @Unique(['username']) // Asegura que el username sea único a nivel de BD
@@ -104,4 +106,10 @@ export class User {
 
     @OneToMany(() => Notification, notification => notification.sender)
     sentNotifications: Notification[];
+
+    @ManyToMany(() => Room, room => room.participants)
+    rooms: Room[];
+
+    @OneToMany(() => Message, message => message.sender)
+    messages: Message[];
 }

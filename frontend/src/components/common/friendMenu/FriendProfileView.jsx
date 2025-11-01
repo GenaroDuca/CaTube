@@ -2,7 +2,7 @@
 import { IoChatbox, IoPersonCircle, IoArrowBackCircle } from "react-icons/io5";
 import { ImBlocked } from "react-icons/im";
 import { MdDelete } from "react-icons/md";
-import { DEFAULT_AVATAR } from './Constants'; // Importar de constantes
+import { DEFAULT_AVATAR } from './constants'; // Importar de constantes
 
 const FriendProfileView = ({ friend, onBack, onGoToChat, onDeleteFriend, onBlockFriend }) => {
     const goToChannel = () => {

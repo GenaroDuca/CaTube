@@ -101,7 +101,7 @@
     align-items: center;
 }
 
-.friends-menu header button svg path:hover{
+.friends-menu header button svg path:hover {
     color: var(--btn-dark);
 }
 
@@ -253,7 +253,6 @@
 
 .friend-card.clickable:hover {
     cursor: pointer;
-    transform: scale(0.96);
 }
 
 .friend-info {
@@ -405,7 +404,7 @@
 /* Estilos de Chat */
 .chat-window {
     background-color: var(--primary-color);
-    padding: 20px;
+    padding: 10px 20px 10px 20px;
     border-radius: 30px;
     min-height: 200px;
     margin-top: 20px;
@@ -413,6 +412,19 @@
     flex-grow: 1;
     overflow-y: auto;
     color: var(--text);
+}
+
+.chat-window::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-window::-webkit-scrollbar-thumb {
+    background: var(--btn);
+    border-radius: 8px;
+}
+
+.chat-window::-webkit-scrollbar-track {
+    background: transparent;
 }
 
 .chat-profile-link {
@@ -527,5 +539,185 @@
 }
 
 .profile-save-btn:hover {
+    background-color: var(--btn-dark);
+}
+
+/* Chat */
+
+.my-message {
+    text-align: right;
+}
+
+.message {
+    margin-top: 10px;
+}
+
+.message-sender {
+    color: var(--btn);
+}
+
+.message-time {
+    font-size: 12px;
+}
+
+.message div {
+    background-color: #1e1e1f;
+    border-radius: 15px;
+    padding: 5px 10px;
+}
+
+.message-bubble-content-div {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    padding: 0px !important;
+}
+
+.message-actions {
+    padding: 0px !important;
+    display: flex;
+    gap: 10px;
+}
+
+.message-actions button {
+    background: none;
+    border: none;
+    color: var(--text-color);
+}
+
+.message-actions button:hover {
+    color: var(--btn);
+}
+
+.chat-input-form {
+    display: flex;
+    border-radius: 0px 0px 30px 30px;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.chat-input-form input {
+    height: 40px;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #1a1a1b;
+    border-radius: 30px;
+    border: none;
+    color: var(--text-color);
+}
+
+.chat-input-form button {
+    background-color: var(--btn);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 30px;
+    color: #1a1a1b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.chat-input-form button:hover {
+    background-color: var(--btn-dark);
+}
+
+.chat-input-form input:focus {
+    outline: none;
+}
+
+.chat-header-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.clear-chat-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer
+}
+
+.clear-chat-button {
+    margin-left: auto;
+    position: absolute;
+    right: 15px;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.empty-chat-message {
+    text-align: center !important;
+}
+
+.edit-form {
+    display: flex;
+    /* flex-direction: column; */
+    gap: 5px;
+    justify-content: end;
+}
+
+.edit-form input {
+    height: 40px;
+    width: auto;
+    background-color: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+    border-radius: 30px;
+    font-size: 16px;
+    padding-left: 15px;
+}
+
+.edit-form input:focus {
+    outline: none
+}
+
+.edit-form button[type="submit"] {
+    height: 40px;
+    background-color: var(--btn);
+    color: var(--primary-color);
+    border-radius: 30px;
+    aspect-ratio: 1/1;
+    border: none;
+    cursor: pointer; 
+    text-align: center; 
+    line-height: 40px; 
+    padding: 0;
+}
+
+.edit-form button[type="submit"] svg {
+    vertical-align: middle;
+}
+
+.edit-form button:hover {
+    background-color: var(--btn-dark);
+}
+
+.load-more-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.load-more-button {
+    width: 40px;
+    height: 40px;
+    background-color: var(--btn);
+    border: none;
+    color: var(--primary-color);
+    font-size: 40px;
+    border-radius: 30px;
+    display: flex ;
+    justify-content: center;
+    align-items: center;
+}
+
+.load-more-button:hover {
     background-color: var(--btn-dark);
 }

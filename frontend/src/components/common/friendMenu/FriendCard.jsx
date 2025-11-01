@@ -1,7 +1,7 @@
 // src/components/FriendMenu/FriendCard.jsx
 import { IoChatbox, IoPersonCircle } from "react-icons/io5";
 import { FaUserPlus, FaCircle } from "react-icons/fa";
-import { DEFAULT_AVATAR } from './Constants'; // Importar de constantes
+import { DEFAULT_AVATAR } from './constants'; 
 
 const FriendCard = ({ user, isFriend, onGoToProfile, onGoToChat, onAddFriend }) => {
     const statusColor = user.status === 'online' ? '#90b484' : '#8c8c8c';
