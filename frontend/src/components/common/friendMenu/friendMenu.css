@@ -294,13 +294,14 @@
     color: var(--btn-dark);
 }
 
-.action-button {
-    background-color: transparent !important;
+.friend-action-button {
+    background-color: transparent;
     border: none;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-left: 10px;
 }
 
 .reject-button:hover svg path {

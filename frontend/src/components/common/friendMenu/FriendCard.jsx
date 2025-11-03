@@ -56,7 +56,7 @@ const FriendCard = ({ user, isFriend, onGoToProfile, onGoToChat, onAddFriend }) 
                         <button
                             onClick={handleGoToProfileButton}
                             title="Go to profile"
-                            className="action-button profile-button"
+                            className="friend-action-button profile-button"
                         >
                             <IoPersonCircle size={30} color="#90b484" />
                         </button>
@@ -64,7 +64,7 @@ const FriendCard = ({ user, isFriend, onGoToProfile, onGoToChat, onAddFriend }) 
                         <button
                             onClick={(e) => handleActionClick(e, onGoToChat)}
                             title="Send message"
-                            className="action-button chat-button"
+                            className="friend-action-button chat-button"
                         >
                             <IoChatbox size={30} color="#90b484" />
                         </button>
@@ -73,7 +73,7 @@ const FriendCard = ({ user, isFriend, onGoToProfile, onGoToChat, onAddFriend }) 
                     <button
                         onClick={handleAddFriend}
                         title={`Add ${user.userName}`}
-                        className="action-button add-friend-button"
+                        className="friend-action-button add-friend-button"
                     >
                         <FaUserPlus size={30} color="#90b484" />
                     </button>

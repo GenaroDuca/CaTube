@@ -1,8 +1,8 @@
 // src/components/FriendMenu/FriendRequestCard.jsx
-import { FaUserPlus} from "react-icons/fa6"; // Importar iconos de la misma librería
+import { FaUserPlus} from "react-icons/fa6";
 import { MdDelete } from "react-icons/md";
 
-import { DEFAULT_AVATAR } from './Constants'; // Importar de constantes
+import { DEFAULT_AVATAR } from './constants'; 
 
 
 const FriendRequestCard = ({ request, onAccept, onReject }) => {
@@ -21,14 +21,14 @@ const FriendRequestCard = ({ request, onAccept, onReject }) => {
                 <button
                     onClick={() => onAccept(request.id)}
                     title="Accept Friend Request"
-                    className="action-button accept-button"
+                    className="friend-action-button accept-button"
                 >
                     <FaUserPlus size={24} color="#90b484" />
                 </button>
                 <button
                     onClick={() => onReject(request.id)}
                     title="Reject Friend Request"
-                    className="action-button reject-button"
+                    className="friend-action-button reject-button"
                 >
                     <MdDelete size={24} color="#e96765" />
                 </button>
