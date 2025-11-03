@@ -12,7 +12,6 @@ import {
   getOrCreatePrivateRoom,
   editMessage,
   deleteMessage,
-  clearChatHistory
 } from './chatApi';
 import { getMyUserId } from '../../../utils/auth';
 
@@ -83,19 +82,6 @@ const FriendChatView = ({ friend, onBack, onGoToProfile }) => {
     setInput('');
   };
 
-  const handleClearChat = async () => {
-    if (!roomId) return;
-
-    try {
-      await clearChatHistory(roomId);
-      setMessages([]);
-    } catch (error) {
-      console.error("Error al eliminar el historial de chat:", error);
-    }
-    closeModal();
-    showSuccess("Chat history cleared successfully!");
-  };
-
   useEffect(() => {
     const loadChatData = async () => {
       setIsLoading(true);
@@ -122,7 +108,7 @@ const FriendChatView = ({ friend, onBack, onGoToProfile }) => {
           isEdited: msg.isEdited || false,
         }));
 
-        setMessages(mappedHistory);
+        setMessages(mappedHistory.reverse());
         scrollToBottom();
 
       } catch (error) {
@@ -230,20 +216,7 @@ const FriendChatView = ({ friend, onBack, onGoToProfile }) => {
             {userName}
           </button>
         </h2>
-        {roomId && (
-          <button
-            onClick={() => openModal('confirm', {
-              title: "Clear Chat History",
-              message: `Are you sure you want to clear your chat?`,
-              confirmText: "Clear",
-              onConfirm: () => handleClearChat(),
-            })}
-            className="clear-chat-button"
-            title="Clear chat history"
-          >
-            <MdDelete size={25} color='#777878' />
-          </button>
-        )}
+
       </div>
 
       <div className="chat-window" ref={chatWindowRef}>

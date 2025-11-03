@@ -146,29 +146,3 @@ export const deleteMessage = (messageId) => {
     }
 };
 
-/**
- * Envía una solicitud HTTP DELETE para borrar todo el historial de una sala.
- * @param {string} roomId - ID de la sala de chat a vaciar.
- * @returns {Promise<void>}
- */
-export const clearChatHistory = async (roomId) => {
-    const token = getAuthToken();
-    if (!token || !roomId)
-        throw new Error("Datos insuficientes para eliminar el historial.");
-
-    const url = `${API_BASE_URL}/messages/history/user/${roomId}`;
-
-    const response = await fetch(url, {
-        method: 'DELETE',
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || 'Fallo al ocultar el historial de chat.');
-    }
-
-    return;
-};

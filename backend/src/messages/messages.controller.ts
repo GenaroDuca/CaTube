@@ -87,21 +87,4 @@ export class MessagesController {
     return this.messagesService.findRoomHistory(roomId);
   }
 
-  @Delete('history/:roomId')
-  @HttpCode(HttpStatus.NO_CONTENT)
-  async clearChatHistory(
-    @Param('roomId') roomId: string,
-    @Req() req
-  ) {
-    const userId = req.user.id;
-
-    if (!userId) {
-      throw new UnauthorizedException('Usuario no autenticado.');
-    }
-
-    // Ejecuta la eliminación masiva
-    const deletedCount = await this.messagesService.clearRoomHistory(roomId);
-
-    console.log(`Usuario ${userId} eliminó ${deletedCount} mensajes de la sala ${roomId}.`);
-  }
 }

@@ -87,14 +87,4 @@ export class MessagesService {
         });
     }
 
-    async clearRoomHistory(roomId: string): Promise<number> {
-        const result = await this.messageRepository
-            .createQueryBuilder()
-            .delete()
-            .from(Message)
-            .where("roomId = :roomId", { roomId })
-            .execute();
-
-        return result.affected ?? 0;
-    }
 }
