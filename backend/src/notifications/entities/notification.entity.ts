@@ -7,7 +7,6 @@ export enum NotificationType {
     FRIEND_REQUEST = 'friend_request',
     FRIEND_ACCEPTED = 'friend_accepted',
     NEW_MESSAGE = 'new_message',
-    // Puedes agregar BLOCKED, MENTION, etc.
 }
 
 @Entity('notifications')

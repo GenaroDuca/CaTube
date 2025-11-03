@@ -100,7 +100,9 @@ export function FriendMenu() {
         try {
             const friendData = await fetchFriendsAndRequests();
 
-            // === Lógica de Notificación de Nuevas Solicitudes (Se mantiene) ===
+            const visibleRequests = friendData.pendingRequests;
+            setPendingRequests(visibleRequests);
+
             const currentRequestIds = new Set(friendData.pendingRequests.map(req => req.id));
 
             const newRequests = friendData.pendingRequests.filter(
@@ -425,14 +427,6 @@ export function FriendMenu() {
         }
     }, [showSuccess, showError, setPendingRequests]);
 
-    const handleBlockFriend = useCallback((friendshipId, userName) => {
-        if (window.confirm(`¿Estás seguro de que quieres bloquear a ${userName}?`)) {
-            showSuccess(`User ${userName} blocked successfully!`);
-            setFriends(prevFriends => prevFriends.filter(f => String(f.friendshipId) !== String(friendshipId)));
-            goBackToList();
-        }
-    }, [showSuccess, setFriends]);
-
     // ***************************************************************
     // --- LÓGICA DE EDICIÓN DE MI PERFIL ---
     // ***************************************************************
@@ -517,7 +511,6 @@ export function FriendMenu() {
                     onBack={goBackToList}
                     onGoToChat={goToFriendChat}
                     onDeleteFriend={handleDeleteFriendship}
-                    onBlockFriend={handleBlockFriend}
                 />
             );
         }
@@ -543,7 +536,7 @@ export function FriendMenu() {
                     />
                     {/* INDICADOR DE BÚSQUEDA EN TIEMPO REAL */}
 
-                    {!isSearching && (
+                    {/* {!isSearching && (
                         <div
                             className={`custom-status-select ${isDropdownOpen ? 'open' : ''}`}
                             onBlur={() => setTimeout(() => setIsDropdownOpen(false), 100)}
@@ -564,7 +557,7 @@ export function FriendMenu() {
                                 ))}
                             </ul>
                         </div>
-                    )}
+                    )} */}
                 </div>
                 {/* FIN BARRA DE BÚSQUEDA Y STATUS */}
 
@@ -629,7 +622,7 @@ export function FriendMenu() {
                 <div className='friend-menu-content'>
                     <header>
                         <h2>
-                            {currentView !== 'list' && selectedFriend ? selectedFriend.userName+ " Profile" :
+                            {currentView !== 'list' && selectedFriend ? selectedFriend.userName + " Profile" :
                                 currentView === 'my_profile' ? 'Your Profile' : 'CaTube Social'}
                         </h2>
                         <div className='header-divider-social-menu'>

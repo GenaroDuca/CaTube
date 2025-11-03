@@ -81,7 +81,7 @@ export const fetchMessageHistory = async (roomId, limit = 20, offset = 0) => {
             timestamp: msg.timestamp,
             senderId: msg.senderId,
             senderName: msg.sender.username,
-            senderAvatar: msg.sender.avatar || '/default-avatar.png', 
+            senderAvatar: msg.sender.avatar || '/default-avatar.png',
             isEdited: msg.is_edited || false,
         }));
     } catch (error) {
@@ -153,9 +153,10 @@ export const deleteMessage = (messageId) => {
  */
 export const clearChatHistory = async (roomId) => {
     const token = getAuthToken();
-    if (!token || !roomId) throw new Error("Datos insuficientes para eliminar el historial.");
+    if (!token || !roomId)
+        throw new Error("Datos insuficientes para eliminar el historial.");
 
-    const url = `${API_BASE_URL}/messages/history/${roomId}`;
+    const url = `${API_BASE_URL}/messages/history/user/${roomId}`;
 
     const response = await fetch(url, {
         method: 'DELETE',
@@ -166,7 +167,7 @@ export const clearChatHistory = async (roomId) => {
 
     if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || 'Fallo al eliminar el historial de chat.');
+        throw new Error(errorData.message || 'Fallo al ocultar el historial de chat.');
     }
 
     return;

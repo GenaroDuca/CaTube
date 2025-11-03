@@ -1,10 +1,9 @@
 // src/components/FriendMenu/FriendProfileView.jsx
 import { IoChatbox, IoPersonCircle, IoArrowBackCircle } from "react-icons/io5";
-import { ImBlocked } from "react-icons/im";
 import { MdDelete } from "react-icons/md";
 import { DEFAULT_AVATAR } from './constants'; // Importar de constantes
 
-const FriendProfileView = ({ friend, onBack, onGoToChat, onDeleteFriend, onBlockFriend }) => {
+const FriendProfileView = ({ friend, onBack, onGoToChat, onDeleteFriend }) => {
     const goToChannel = () => {
         alert(`Navegando al canal de ${friend.userName}... (Simulado)`);
     };
@@ -48,13 +47,6 @@ const FriendProfileView = ({ friend, onBack, onGoToChat, onDeleteFriend, onBlock
                     title="Delete friend"
                 >
                     <MdDelete size={30} color='#e96765' />
-                </button>
-                <button
-                    onClick={() => onBlockFriend(friend.friendshipId, friend.userName)}
-                    className="profile-action-btn block-btn"
-                    title="Block friend"
-                >
-                    <ImBlocked size={30} color='#e96765' />
                 </button>
             </div>
         </div>

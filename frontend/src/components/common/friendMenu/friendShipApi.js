@@ -1,6 +1,6 @@
 // src/api/friendshipApi.js
 import { API_BASE_URL, DEFAULT_AVATAR } from './constants';
-import { getAuthToken } from '../../../utils/auth'; 
+import { getAuthToken } from '../../../utils/auth';
 
 /**
  * Realiza una búsqueda de usuarios en el backend por nombre de usuario.
@@ -86,7 +86,7 @@ export const fetchFriendsAndRequests = async () => {
                 avatarUrl: req.sender.avatarUrl || DEFAULT_AVATAR,
             }
         }));
-        
+
         return {
             friends: mappedFriends,
             pendingRequests: mappedRequests,
@@ -252,29 +252,4 @@ export const rejectFriendRequest = async (friendshipId) => {
     await deleteFriendship(friendshipId);
 };
 
-/**
- * Bloquea un usuario.
- * @param {string} userIdToBlock - ID del usuario a bloquear.
- */
-export const blockUser = async (userIdToBlock) => {
-    const token = getAuthToken();
-    if (!token) throw new Error('User not authenticated!');
 
-    const url = `${API_BASE_URL}/blocks`; 
-
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ userIdToBlock })
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || 'Failed to block the user!');
-    }
-    
-    return response.json(); 
-};
