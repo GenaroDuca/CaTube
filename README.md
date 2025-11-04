@@ -151,6 +151,7 @@
     npm install @nestjs/websockets
     npm install socket.io-client
     npm install jwt-decode
+    npm install --save-dev @types/multer
     
 ## Crear proyecto React con Vite
     npm create vite@latest

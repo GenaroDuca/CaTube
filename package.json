@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",
+    "@types/multer": "^2.0.0",
     "@types/passport-jwt": "^4.0.1"
   }
 }

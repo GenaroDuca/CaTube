@@ -29,6 +29,7 @@ import { MessagesModule } from './messages/messages.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { ChatGateway } from './chat/chat.gateway';
 import { SubscriptionsModule } from './subs/subs.module';
+import { VideosModule } from './videos/videos.module';
 
 
 @Module({
@@ -71,6 +72,8 @@ import { SubscriptionsModule } from './subs/subs.module';
     RoomsModule,
     
     SubscriptionsModule,
+
+    VideosModule
   ],
   controllers: [AppController],
   providers: [AppService, ChatGateway],

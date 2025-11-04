@@ -190,7 +190,7 @@ const SignupForm = ({ togglePanel }) => {
                 body: JSON.stringify(userData),
             });
 
-            const result = await response.json();
+            const result = await response.json(); 
 
             if (response.ok) {
                 showSuccess(`Successfully registered, now verify your mail!`);
