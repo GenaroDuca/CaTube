@@ -15,7 +15,7 @@ function Sections(props) {
                         key={index}
                         namechannel={item.name}
                         subschannel={item.subs}
-                        photo={item.photo}
+                        thumbnail={item.photo}
                         url={item.url}
                     />
                 );
@@ -24,9 +24,9 @@ function Sections(props) {
                     <Link to={`/watch/${item.id}`}>
                     <Video
                         key={index}
-                        namevideo={item.namevideo}
-                        videoviews={item.videoviews}
-                        photo={item.photo}
+                        namevideo={item.title}
+                        videoviews={item.views}
+                        thumbnail={item.thumbnail}
                     />
                     </Link>
                 );
@@ -37,7 +37,7 @@ function Sections(props) {
                         key={index}
                         nameshort={item.nameshort}
                         shortviews={item.shortviews}
-                        photo={item.photo}
+                        thumbnail={item.photo}
                     />
                     </Link>
                 );

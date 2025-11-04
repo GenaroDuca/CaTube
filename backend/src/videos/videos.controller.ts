@@ -54,6 +54,14 @@ export class VideosController {
     return this.videosService.findAll();
   }
 
+  //Get all videos de canal especificico
+  @Get('my-videos')
+  findAllByChannel(@Req() req) {
+    const userId = req.user.id;
+    return this.videosService.findAllByChannel(userId);
+  }
+
+
   // Update a video by its ID
   @Patch(':id')
   update(

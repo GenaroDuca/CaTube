@@ -43,7 +43,6 @@ function YourChannel() {
                 });
                 if (response.ok) {
                     const channel = await response.json();
-                    console.log('Loaded channel:', channel); // Debug log
                     localStorage.setItem('channelId', channel.channel_id);
                     setChannelId(channel.channel_id); // Update state to force re-render
                     setActiveTab(0); // Reset to first tab
