@@ -47,4 +47,20 @@ export class SubscriptionsController {
   ) {
     return this.subscriptionsService.getChannelSubscribers(channelId);
   }
+
+  //Get recent subscribers
+  @Get('channel/:channelId/recent')
+  findRecentSubscribersByChannel(
+    @Param('channelId', ParseUUIDPipe) channelId: string,
+  ) {
+    return this.subscriptionsService.getRecentSubscribers(channelId);
+  }
+
+  //Get recent subscribers for logged-in user
+  @Get('me/recent')
+  @UseGuards(AuthGuard('jwt'))
+  findRecentSubscribersForMe(@Req() req: any) {
+    const userId = req.user.userId;
+    return this.subscriptionsService.getRecentSubscribersForLoggedUser(userId);
+  }
 }

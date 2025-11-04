@@ -1,5 +1,5 @@
 
-import {useState, useMemo} from 'react'
+import {useState, useMemo, useEffect} from 'react'
 
 //Components
 import { ChannelList } from '../../components/user/ChannelList.jsx'
@@ -9,20 +9,27 @@ import Header from '../../components/common/header/Header.jsx'
 import Catbot from '../../components/catbot/catbot.jsx'
 
 //Styles
-import './Search.css';
+import './SearchPage.css';
 
 //Assets
 import Angel from '../../assets/images/profile/angel.jpg'
 import Yukki from '../../assets/images/profile/yukki.jpg'
 import Gena from '../../assets/images/profile/gena.jpg'
 import Jere from '../../assets/images/profile/jere.jpg'
-import thumbnail from '../../assets/images/thumbnail/Pinterest Swap Challenge.jpg'
-import shortThumbnail from '../../assets/images/thumbnail/Shorts.jpg'
-import shortCats from '../../assets/images/thumbnail/catsShort.jpg'
+import thumbnail from '../../assets/images/thumbnails/pinterest_swap_challenge.jpg'
+import shortThumbnail from '../../assets/images/thumbnails/shorts.jpg'
+import shortCats from '../../assets/images/thumbnails/funnycats.jpg'
 
 export function Search() {
   const [searchQuery, setSearchQuery] = useState('');
 
+  useEffect(() => {
+    const searchTerm = sessionStorage.getItem('voiceSearchTerm');
+    if (searchTerm) {
+      sessionStorage.removeItem('voiceSearchTerm');
+      setSearchQuery(searchTerm);
+    }
+  }, []);
 
   //esto se reemplaza
   const channels = useMemo(

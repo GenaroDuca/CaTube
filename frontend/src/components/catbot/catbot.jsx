@@ -1,5 +1,5 @@
 //assets
-import CatbotLogo from '../../assets/logo/catbot_black.svg'
+import CatbotLogo from '../../../public/catube_white.svg'
 
 //style
 import './catbot.css'

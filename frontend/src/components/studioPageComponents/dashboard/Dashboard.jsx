@@ -14,7 +14,7 @@ function Dashboard() {
                     <Container className="three-cards">
                         <LatestVideo></LatestVideo>
                         <LatestComments></LatestComments>
-                        <RecentCatscribers totalsubs="105.000"></RecentCatscribers>
+                        <RecentCatscribers></RecentCatscribers>
                     </Container>
                 </Container>
             </Container>

@@ -89,4 +89,44 @@ export class SubscriptionsService {
 
     return channel.subscribers.map((sub) => sub.user);
   }
+
+  //Get recent subscribers with their channel data
+  async getRecentSubscribers(channelId: string, limit: number = 10) {
+    const channel = await this.channelsRepository.findOne({
+      where: { channel_id: channelId },
+    });
+
+    if (!channel) throw new NotFoundException('Channel not found');
+
+    const recentSubs = await this.subscriptionsRepository.find({
+      where: { channel: { channel_id: channelId } },
+      relations: ['user', 'user.channel'],
+      order: { createdAt: 'DESC' },
+      take: limit,
+    });
+
+    return recentSubs.map((sub) => ({
+      id: sub.user.user_id,
+      username: sub.user.username,
+      channel: sub.user.channel ? {
+        channel_id: sub.user.channel.channel_id,
+        channel_name: sub.user.channel.channel_name,
+        photoUrl: sub.user.channel.photoUrl,
+        subscriberCount: sub.user.channel.subscriberCount,
+      } : null,
+      subscribedAt: sub.createdAt,
+    }));
+  }
+
+  //Get recent subscribers of the logged-in user's channel
+  async getRecentSubscribersForLoggedUser(userId: string, limit: number = 10) {
+    const user = await this.usersRepository.findOne({
+      where: { user_id: userId },
+      relations: ['channel'],
+    });
+
+    if (!user || !user.channel) throw new NotFoundException('User or channel not found');
+
+    return this.getRecentSubscribers(user.channel.channel_id, limit);
+  }
 }

@@ -17,6 +17,7 @@ import { FriendMenu } from './components/common/friendMenu/friendMenu.jsx';
 import { NotificationManager } from './components/common/Toasts/NotificationManager.jsx';
 import ShortsPage from './pages/ShortPage/ShortsPage.jsx';
 import { VideoPage } from './pages/VideoPage/VideoPage.jsx'
+import { Search } from './pages/SearchPage/SearchPage.jsx'
 
 const mockFriends = [
   { userName: 'sheniDev', profile: '/src/assets/images/profile/gena.jpg' },
@@ -45,6 +46,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/yourchannel/:url?" element={<YourChannel />} />
             <Route path="/shorts" element={<ShortsPage />} />
             <Route path='/watch/:id' element={<VideoPage />} />
+            <Route path='/Search' element={<Search />} />
 
           </Routes>
 
