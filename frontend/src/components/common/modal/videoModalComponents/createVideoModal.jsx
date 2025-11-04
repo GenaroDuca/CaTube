@@ -1,51 +1,109 @@
 import React, { useState } from "react";
 import './videoModal.css';
 import { IoIosCloseCircle } from "react-icons/io";
+import { useToast } from "../../../../hooks/useToast.jsx";
+import { getAuthToken } from "../../../../utils/auth.js";
+
+
+const { showSuccess, showError } = useToast();
+// Función para crear el video
+/**
+@param {FormData} videoData - Datos del video, incluyendo el archivo de imagen.
+@returns {Promise<object|null>} El producto creado o null si falla.*/
+
+async function CreateVideoFetch(videoData) {
+    const token = getAuthToken();
+
+    try {
+        const res = await fetch('http://localhost:3000/videos/create', {
+            method: 'POST',
+            body: videoData,
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        if (res.status === 201) {
+            showSuccess(`Video created successfully!`)
+            return await res.json();
+        }
+
+
+
+        if (res.ok) {
+            return await res.json();
+        } else {
+            console.error('Error del backend:', res);
+            showError('Error creating video: ' + (res.message || 'Server error'));
+        }
+    } catch (err) {
+        console.error('The video was not created correctly', err);
+        showError('Network error or unexpected failure.');
+    }
+};
+
 
 const CreateVideoModal = ({ onClose, onSubmit }) => {
-    const [formData, setFormData] = useState({
-        title: '',
-        description: '',
-        tags: '', 
-        videoFile: null, 
-        thumbnail: null, 
-    });
+    const [videoName, setVideoName] = useState('');
+    const [videoDescription, setVideoDescription] = useState('');
+    const [videoFile, setVideoFile] = useState('');
+    const [videoThumbnail, setVideoThumbnail] = useState('');
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: value,
-        }));
+    const handleVideoFileChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            setVideoFile(e.target.files[0]);
+        }
     };
 
-    const handleFileChange = (e) => {
-        const { name, files } = e.target;
-        setFormData(prevData => ({
-            ...prevData,
-            [name]: files[0], 
-        }));
+    const handleThumbnailFileChange = (e) => {
+        if (e.target.files && e.target.files[0]) {
+            setVideoThumbnail(e.target.files[0]);
+        }
     };
 
-    const handleTagChange = (e) => {
-        const selectedOptions = Array.from(e.target.selectedOptions, option => option.value);
-        setFormData(prevData => ({
-            ...prevData,
-            tags: selectedOptions, 
-        }));
-    };
+    const videoPreviewUrl = videoFile
+        ? URL.createObjectURL(videoFile)
+        : "/assets/videos/video-prueba2.mp4";
 
-    const handleSubmit = (e) => {
+    const thumbnailPreviewUrl = videoThumbnail
+        ? URL.createObjectURL(videoThumbnail)
+        : "/assets/example1.jpg";
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        if (onSubmit) onSubmit(formData);
-        onClose();
+
+        // 🚨 VALIDACIÓN DE LOS 4 CAMPOS OBLIGATORIOS 🚨
+        const missingFields = [];
+
+        if (!videoName) missingFields.push('Title');
+        if (!videoDescription) missingFields.push('Description');
+        if (!videoFile) missingFields.push('Video file');
+        if (!videoThumbnail) missingFields.push('Thumbnail image');
+
+        if (missingFields.length > 0) {
+            showError(`The following fields are required: ${missingFields.join(', ')}`);
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append('title', videoName);
+        formData.append('description', videoDescription);
+        formData.append('video', videoFile);
+        formData.append('thumbnail', videoThumbnail);
+
+        try {
+            const response = await CreateVideoFetch(formData);
+
+            if (response) {
+                if (onSubmit) onSubmit(response);
+                onClose();
+            }
+
+        } catch (error) {
+            console.error(error.message);
+            showError('An unexpected error occurred.');
+        }
     };
-
-    const { title, description, videoFile, thumbnail } = formData;
-
-    const videoPreviewUrl = videoFile ? URL.createObjectURL(videoFile) : "/media/sample-video.mp4";
-    const thumbnailPreviewUrl = thumbnail ? URL.createObjectURL(thumbnail) : "@latest/public/example1.jpg";
 
     return (
         <div className="create-video-modal" onClick={onClose}>
@@ -67,19 +125,18 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                             type="text"
                             placeholder="Enter video title"
                             // Use formData.title OR destructure it (as done above)
-                            value={title}
+                            value={videoName}
                             name="title" // Add name attribute
                             // Use the handleChange function
-                            onChange={handleChange}
-                            required
+                            onChange={(e) => setVideoName(e.target.value)}
                         />
 
                         <h2>Description</h2>
                         <textarea
                             placeholder="Describe your video"
-                            value={description}
-                            name="description" 
-                            onChange={handleChange}
+                            value={videoDescription}
+                            name="description"
+                            onChange={(e) => setVideoDescription(e.target.value)}
                         />
 
                         <h2>Video</h2>
@@ -94,7 +151,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                                 name="videoFile" // Add name attribute matching state field
                                 accept="video/mp4"
                                 // Use the handleFileChange function
-                                onChange={handleFileChange}
+                                onChange={handleVideoFileChange}
                                 style={{ display: "none" }}
                             />
                         </div>
@@ -108,9 +165,9 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                             <input
                                 type="file"
                                 id="upload-thumbnail"
-                                name="thumbnail" 
+                                name="thumbnail"
                                 accept="image/*"
-                                onChange={handleFileChange}
+                                onChange={handleThumbnailFileChange}
                                 style={{ display: "none" }}
                             />
                         </div>

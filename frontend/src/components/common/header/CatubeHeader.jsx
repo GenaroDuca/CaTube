@@ -50,7 +50,7 @@ export function CatubeHeader({logo, searchQuery, setSearchQuery}) {
             )}
 
             <div className={cardClassName}>
-                <button className="sr-header-createButton" onClick={() => { openModal('createvideo'); }}>
+                <button className="sr-header-createButton" onClick={() => openModal('createvideo')}>
                     <span className="sr-header-createLabel">Create</span>
                     <FaCirclePlus color={"#90B484"} size={28} />
                 </button>

@@ -23,8 +23,13 @@ export class Video {
   @Column({ nullable: true })
   description: string;
 
+  @Column({ nullable: true})
+  thumbnail: string;
+
   @Column('simple-array', { nullable: true })
   tags: string[];
+
+  
 
   @Column()
   url: string;
