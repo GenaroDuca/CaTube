@@ -1,4 +1,5 @@
 :root {
+    /* ===== MODO OSCURO ===== */
     --primary-color: #1a1a1b;
     --background-color: #1F1F20;
     --hover-color: #232324;
@@ -6,55 +7,143 @@
     --btn-dark: #749269;
     --text-color: #777878;
     --border-radius: 30px;
-    --font-size: clamp(0.5rem, 3vw, 1rem)
+    --font-size: clamp(0.5rem, 3vw, 1rem);
+    
+    /* Variables adicionales para consistencia */
+    --border-color: #2d2d2e;
+    --card-bg: #252526;
+    --accent-color: #90b484;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --input-bg: #2a2a2b;
 }
 
 /* ===== MODO CLARO ===== */
 body.light-mode {
-  --primary-color: #ffffff;
-  --background-color: #f8f9fa;
-  --hover-color: #e9ecef;
-  --btn: #90B484;
-  --btn-dark: #749269;
-  --text-color: #333333;
+    --primary-color: #ffffff;
+    --background-color: #f1f1f1;
+    --hover-color: #e9ecef;
+    --text-color: #333333;
+    --border-color: #d0d0d0;
+    --card-bg: #f1f1f1;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --input-bg: #ffffff;
+    /* --btn y --btn-dark se mantienen igual */
 }
 
-/* Reset global forzado */
-body.light-mode,
-body.light-mode * {
-  background-color: inherit !important;
-  color: inherit !important;
-}
-
-/* Capas base */
+/* ===== ESTILOS BASE ===== */
 body.light-mode {
-  background-color: var(--background-color) !important;
-  color: var(--text-color) !important;
+    background-color: var(--background-color) !important;
+    color: var(--text-color) !important;
 }
 
-/* Elementos estructurales comunes */
+/* ===== ESTRUCTURA PRINCIPAL ===== */
 body.light-mode header,
 body.light-mode nav,
 body.light-mode .header,
-body.light-mode [class*="header"],
 body.light-mode .navbar,
-body.light-mode [class*="nav"] {
-  background-color: var(--primary-color) !important;
-  border-color: var(--border-color) !important;
-}
-
-/* Contenidos y cards */
+body.light-mode [class*="nav"],
 body.light-mode main,
 body.light-mode section,
-body.light-mode article,
-body.light-mode .card,
-body.light-mode [class*="card"],
-body.light-mode .container,
-body.light-mode [class*="container"] {
-  background-color: var(--background-color) !important;
+body.light-mode article {
+    background-color: var(--primary-color) !important;
+    border-color: var(--border-color) !important;
 }
 
-/* Textos en todos los elementos */
+body.light-mode main,
+body.light-mode section,
+body.light-mode article {
+    background-color: var(--card-bg) !important;
+}
+
+/* ===== COMPONENTES ESPECÍFICOS ===== */
+/* Header actions */
+body.light-mode .sr-header-right > div.sr-header-userActions {
+    background-color: var(--btn) !important;
+}
+
+/* Botones */
+body.light-mode .btn,
+body.light-mode button,
+body.light-mode [class*="btn"],
+body.light-mode .button,
+body.light-mode [class*="button"] {
+    background-color: var(--btn) !important;
+}
+
+body.light-mode .btn:hover,
+body.light-mode button:hover,
+body.light-mode [class*="btn"]:hover {
+    background-color: var(--btn-dark) !important;
+    box-shadow: 0 4px 8px var(--shadow-color) !important;
+}
+
+/* Iconos del header */
+body.light-mode #root > header > div.sr-header-right > div > div.user-menu-container > button > svg > path,
+body.light-mode #root > header > div.sr-header-right > div > div.notification-menu > button > svg > path,
+body.light-mode #root > header > div.sr-header-right > button > span,
+body.light-mode #root > header > div.sr-header-searchBar > button > svg > path {
+    color: var(--text-color) !important;
+    fill: currentColor !important;
+}
+
+body.light-mode #root > header > div.sr-header-right > div > div.user-menu-container > button:hover > svg > path,
+body.light-mode #root > header > div.sr-header-right > div > div.notification-menu > button:hover > svg > path {
+    color: var(--hover-color) !important;
+}
+
+/* Logo */
+body.light-mode #root > header > a > div > img:nth-child(1) {
+    filter: brightness(0.6) !important;
+}
+
+/* ===== NAVEGACIÓN LATERAL ===== */
+
+body.light-mode #root > aside.collapsed > header {
+    /* border-radius: var(--border-radius) !important; */
+    border-radius: 30px !important;
+    overflow: hidden !important;
+    border-bottom-left-radius: 0px !important;
+    border-bottom-right-radius: 0px !important;
+}
+
+body.light-mode #root > aside > nav > ul > li > a.nav-link,
+body.light-mode #root > aside > nav > ul > li > a.nav-link * {
+    background-color: transparent !important;
+    color: var(--text-color) !important;
+    fill: currentColor !important;
+}
+
+body.light-mode #root > aside > nav > ul > li > a.nav-link:hover,
+body.light-mode #root > aside > nav > ul > li > a.nav-link:hover * {
+    background-color: var(--btn) !important;
+}
+
+/* Tooltips */
+body.light-mode .nav-tooltip {
+    background-color: var(--btn) !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* ===== FORMULARIOS ===== */
+body.light-mode input,
+body.light-mode textarea,
+body.light-mode select,
+body.light-mode [class*="input"],
+body.light-mode [class*="form-control"] {
+    background-color: var(--input-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
+}
+
+body.light-mode input:focus,
+body.light-mode textarea:focus,
+body.light-mode select:focus {
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 0 0 2px rgba(144, 180, 132, 0.2) !important;
+}
+
+/* ===== TIPOGRAFÍA Y COLORES DE TEXTO ===== */
 body.light-mode h1,
 body.light-mode h2,
 body.light-mode h3,
@@ -63,30 +152,52 @@ body.light-mode h5,
 body.light-mode h6,
 body.light-mode p,
 body.light-mode span,
-body.light-mode div {
-  color: var(--text-color) !important;
+body.light-mode div,
+body.light-mode label,
+body.light-mode a:not([class*="btn"]),
+body.light-mode svg,
+body.light-mode [class*="icon"] {
+    color: var(--text-color) !important;
 }
 
-/* Bordes */
-body.light-mode {
-  border-color: var(--border-color) !important;
-}
-
+/* ===== BORDES Y SEPARADORES ===== */
+body.light-mode,
 body.light-mode * {
-  border-color: inherit !important;
+    border-color: var(--border-color) !important;
 }
 
-/* Transición suave */
-* {
-  transition: all 0.3s ease !important;
+body.light-mode hr,
+body.light-mode [class*="border"],
+body.light-mode [class*="separator"] {
+    border-color: var(--border-color) !important;
+    background-color: var(--border-color) !important;
 }
 
-/* Transición suave para todos los elementos */
+/* ===== TRANSICIONES ===== */
+body.light-mode #root > aside > nav > ul > li > a.nav-link,
+body.light-mode #root > aside > nav > ul > li > a.nav-link * {
+    transition: all 0.3s ease !important;
+}
+
 * {
-  transition: background-color 0.3s ease, 
-              color 0.3s ease, 
-              border-color 0.3s ease,
-              box-shadow 0.3s ease;
+    transition: background-color 0.3s ease, 
+                color 0.3s ease, 
+                border-color 0.3s ease,
+                box-shadow 0.3s ease,
+                transform 0.2s ease !important;
+}
+
+/* ===== SCROLLBAR ===== */
+body.light-mode::-webkit-scrollbar-track {
+    background: var(--background-color) !important;
+}
+
+body.light-mode::-webkit-scrollbar-thumb {
+    background: var(--border-color) !important;
+}
+
+body.light-mode::-webkit-scrollbar-thumb:hover {
+    background: var(--hover-color) !important;
 }
 
 @font-face {
