@@ -6,23 +6,22 @@ import SidebarStudio from "../../components/studioPageComponents/SidebarStudio.j
 import Footer from "../../components/common/Footer.jsx";
 import Dashboard from "../../components/studioPageComponents/dashboard/Dashboard.jsx";
 import Content from "../../components/studioPageComponents/content/Content.jsx";
-import Analytics from "../../components/studioPageComponents/analytics/Analytics.jsx";
+// import Analytics from "../../components/studioPageComponents/analytics/Analytics.jsx";
 import Community from "../../components/studioPageComponents/community/Community.jsx";
 import Store from "../../components/studioPageComponents/store/Store.jsx";
-import Earn from "../../components/studioPageComponents/earn/earn.jsx";
+// import Earn from "../../components/studioPageComponents/earn/earn.jsx";
 import Customization from "../../components/studioPageComponents/customization/Customization.jsx";
 import RightMenu from "../../components/studioPageComponents/RightMenu.jsx";
 import Header from "../../components/common/header/Header.jsx";
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
-
+import React from "react";
 
 function Studio() {
     const [searchParams, setSearchParams] = useSearchParams();
     const section = searchParams.get('section') || 'dashboard';
-
-    // Always load the user's own channel for studio
     const accessToken = localStorage.getItem('accessToken');
+    const componentKey = `${section}-${accessToken}`;
     const [userChannelId, setUserChannelId] = useState(null);
 
     useEffect(() => {
@@ -57,10 +56,10 @@ function Studio() {
     const tabs = useMemo(() => [
         { name: 'dashboard', component: <Dashboard /> },
         { name: 'content', component: <Content /> },
-        { name: 'analytics', component: <Analytics /> },
+        // { name: 'analytics', component: <Analytics /> },
         { name: 'community', component: <Community /> },
         { name: 'store', component: <Store /> },
-        { name: 'earn', component: <Earn /> },
+        // { name: 'earn', component: <Earn /> },
         { name: 'customization', component: <Customization /> }
     ], []);
 
@@ -77,12 +76,11 @@ function Studio() {
 
     const ActiveComponent = tabs[activeTabIndex].component;
 
-    // If not logged in, show access denied
     if (!accessToken) {
         return (
             <div>
                 <Header></Header>
-                <SidebarStudio activeTabIndex={0} onTabClick={() => {}}></SidebarStudio>
+                <SidebarStudio activeTabIndex={0} onTabClick={() => { }}></SidebarStudio>
                 <div className="container-studio">
                     <h1>Access Denied</h1>
                     <p>You must be logged in to access the studio.</p>
@@ -98,7 +96,7 @@ function Studio() {
                     <Header></Header>
                     <SidebarStudio activeTabIndex={activeTabIndex} onTabClick={handleTabClick}></SidebarStudio>
                     <div className="container-studio">
-                        {ActiveComponent}
+                        {React.cloneElement(ActiveComponent, { key: componentKey })}
                         <Footer footer="footer-studio"></Footer>
                     </div>
                     <RightMenu channelId={userChannelId}></RightMenu>

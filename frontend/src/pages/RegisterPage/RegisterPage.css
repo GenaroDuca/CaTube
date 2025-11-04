@@ -52,9 +52,11 @@ a {
 .auth-box-login,
 .auth-box-signup {
     /* Estilos compartidos para las cajas principales */
-    background-color: #1a1a1b; /* Fondo oscuro de la caja */
+    background-color: #1a1a1b;
+    /* Fondo oscuro de la caja */
     border-radius: 30px;
-    box-shadow: 0 0 10px rgba(144, 180, 132, 0.21); /* Sombra sutil verde */
+    box-shadow: 0 0 10px rgba(144, 180, 132, 0.21);
+    /* Sombra sutil verde */
     display: flex;
     overflow: hidden;
     width: 600px;
@@ -82,18 +84,19 @@ a {
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 50px;
+    padding: 50px 20px 50px 20px;
     text-align: center;
 }
 
 .form-section h1 {
-    /* Color de encabezado (verde agradable) */
     color: #90b484;
 }
 
 .form-section label {
-    /* Ajuste de posicionamiento para las etiquetas */
-    margin: -35px 0 -35px 25px;
+    width: 100%;
+    margin: -55px 20px -35px 0px;
+    text-align: right;
+    font-size: 12px;
 }
 
 /*
@@ -104,8 +107,8 @@ a {
 
 .panel-section {
     width: 250px;
-    background-color: #90b484; /* Fondo verde */
-    color: #1a1a1b; /* Color de texto oscuro */
+    background-color: #90b484;
+    color: #1a1a1b;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -135,15 +138,21 @@ a {
  * ----------------------------------------
  */
 
+.input-group p {
+    width: 100%;
+    font-size: 12px;
+    cursor: pointer;
+    margin-top: -3px;
+    text-align: right;
+}
+
+.input-group p:HOVER {
+    color: #90b484;
+}
+
 .input-group div {
-    /* Contenedor para el icono y el input */
     display: flex;
-
     align-items: center;
-
-
-
-
 }
 
 .icon-circle {
@@ -158,7 +167,8 @@ a {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1; /* Asegurar que el icono esté encima del solapamiento del input */
+    z-index: 1;
+    /* Asegurar que el icono esté encima del solapamiento del input */
 }
 
 .input {
@@ -180,21 +190,11 @@ a {
 }
 
 .input:-webkit-autofill,
-.input:-webkit-autofill:hover, 
-.input:-webkit-autofill:focus, 
+.input:-webkit-autofill:hover,
+.input:-webkit-autofill:focus,
 .input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0px 1000px #d9dee7 inset;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 /* Estilos de Feedback de Validación */
@@ -206,12 +206,14 @@ a {
 
 
 .incorrect-input {
-    background-color: #fcc4c4; /* Rojo claro para error */
+    background-color: #fcc4c4;
+    /* Rojo claro para error */
 
 }
 
 .correct-input {
-    background-color: #e0ffe0; /* Verde claro para éxito */
+    background-color: #e0ffe0;
+    /* Verde claro para éxito */
 
 }
 
@@ -232,14 +234,17 @@ a {
     border-radius: 25px;
     background-color: #90b484;
     border: none;
-
-
-
 }
 
 .register-btn:hover {
     cursor: pointer;
-    background-color: #749269; /* Verde más oscuro al pasar el ratón */
+    background-color: #749269;
+    /* Verde más oscuro al pasar el ratón */
+}
+
+.register-btn:disabled:hover {
+    background-color: #90b484;
+    cursor: default;
 }
 
 .register-btn.outlined {
@@ -269,7 +274,8 @@ a {
         /* Apilar las secciones verticalmente en pantallas pequeñas */
         flex-direction: column;
         width: 350px;
-        height: auto; /* Permitir que la altura se ajuste */
+        height: auto;
+        /* Permitir que la altura se ajuste */
     }
 
     .input-group {

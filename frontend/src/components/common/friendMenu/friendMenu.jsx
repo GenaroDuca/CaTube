@@ -1,76 +1,653 @@
-import { useSidebarToggle } from '../../../hooks/useSidebarToggle';
-import { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faPlus, faMessage, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
-import SearchBar from '../../common/header/searchBar';
-import './friendMenu.css';
+import React from 'react';
+import { useSidebarToggle } from '../../../hooks/useSidebarToggleFriends';
+import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
+import { useToast } from '../../../hooks/useToast';
+import { useModal } from '../../common/Modal/ModalContext';
 
-export function FriendMenu({ friends }) {
-  const { isFriendMenuOpen, closeFriendMenu } = useSidebarToggle();
+// Importaciones de iconos
+import { IoArrowBackCircle } from "react-icons/io5";
+import { IoIosCloseCircle } from "react-icons/io";
+import { FaUserFriends, FaChevronDown, FaCircle } from "react-icons/fa";
 
-  const [userStatus, setUserStatus] = useState('online');
-  const [isSearching, setIsSearching] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
+// Importaciones de tus nuevos componentes
+import FriendProfileView from './FriendProfileView';
+import FriendChatView from './FriendChatView';
+import MyProfileView from './MyProfileView';
+import FriendCard from './FriendCard';
+import FriendRequestCard from './FriendRequestCard';
 
-  const filteredFriends = friends.filter((fr) =>
-    fr.userName.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+// Importaciones de tus funciones de API
+import {
+    fetchUsers,
+    fetchFriendsAndRequests,
+    sendFriendRequest,
+    fetchMyProfile,
+    updateMyProfile,
+    deleteFriendship,
+    acceptFriendRequest,
+    rejectFriendRequest,
+} from './friendShipApi';
 
-  if (!isFriendMenuOpen) return null;
+// Importaciones de constantes y utilidades
+import { DEFAULT_AVATAR } from './constants';
+import { getAuthToken } from '../../../utils/auth';
+import { useNotification } from '../../../hooks/useNotification';
 
-  return (
-    <aside className='friends-sidebar'>
-      <header className='friendSidebar-header'>
-        {!isSearching ? (
-          <div className='friendSidebar-headerOne'>
-            <div><h2>Friends</h2></div>
-            <div className='friendSidebar-status'>
-              <span>Your status</span>
-              <select value={userStatus} onChange={(e) => setUserStatus(e.target.value)}>
-                <option value="online">Online</option>
-                <option value="offline">Offline</option>
-                <option value="occupied">Occupied</option>
-              </select>
-            </div>
-            <button className='openSearchFriend' onClick={() => setIsSearching(true)}>
-              <FontAwesomeIcon className='searchFriendIcon' icon={faSearch} />
+import './FriendMenu.css';
+
+export function FriendMenu() {
+    // 💡 VERIFICACIÓN DE AUTENTICACIÓN AL INICIO
+    const isAuthenticated = !!getAuthToken();
+    if (!isAuthenticated) return null;
+
+    const { isFriendMenuOpen, toggleFriendMenu, openFriendMenu } = useSidebarToggle();
+    const collapsedClass = !isFriendMenuOpen ? 'collapsed' : '';
+    // --- ESTADOS DE LA VISTA Y DATOS ---
+    const [userStatus, setUserStatus] = useState('online');
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [currentView, setCurrentView] = useState('list');
+    const [selectedFriend, setSelectedFriend] = useState(null);
+
+    // ESTADOS CENTRALES DE AMISTAD
+    const [friends, setFriends] = useState([]);
+    const [pendingRequests, setPendingRequests] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isSearchLoading, setIsSearchLoading] = useState(false); // ESTADO ESPECÍFICO DE BÚSQUEDA
+
+    // ESTADO PARA MI PERFIL
+    const [myProfile, setMyProfile] = useState(null);
+
+    // Referencia para guardar las IDs de solicitudes pendientes de la última carga
+    const previousPendingRequestIds = useRef(new Set());
+
+    const lastSearchQueryRef = useRef('');
+
+    // REFERENCIA PARA ACCEDER A LOS DATOS DE AMISTAD EN CALLBACKS
+    const friendDataRef = useRef({ friends: [], pendingRequests: [] });
+
+    // FeedbackToast y Modal Context y Notificaciones
+    const { showSuccess, showError } = useToast();
+    const { openModal, closeModal } = useModal();
+    const { addNotification } = useNotification();
+
+    // Referencia para almacenar las funciones de hook (para estabilizar loadData)
+    const hookFuncsRef = useRef({ addNotification, showError });
+
+    // Actualizamos el ref en cada renderizado.
+    useEffect(() => {
+        hookFuncsRef.current.addNotification = addNotification;
+        hookFuncsRef.current.showError = showError;
+    });
+
+    useEffect(() => {
+        friendDataRef.current.friends = friends;
+        friendDataRef.current.pendingRequests = pendingRequests;
+    }, [friends, pendingRequests]);
+
+    // Derivados de estado
+    const friendIds = useMemo(() => new Set(friends.map(f => f.id)), [friends]);
+    const isSearching = searchQuery.length > 0;
+
+    // --- LÓGICA DE CARGA DE AMIGOS/SOLICITUDES (FUNCIÓN ESTABLE) ---
+    const loadFriendsAndRequests = useCallback(async () => {
+        const { addNotification: currentAddNotification, showError: currentShowError } = hookFuncsRef.current;
+
+        const token = getAuthToken();
+        if (!token) return;
+
+        try {
+            const friendData = await fetchFriendsAndRequests();
+
+            const visibleRequests = friendData.pendingRequests;
+            setPendingRequests(visibleRequests);
+
+            const currentRequestIds = new Set(friendData.pendingRequests.map(req => req.id));
+
+            const newRequests = friendData.pendingRequests.filter(
+                req => !previousPendingRequestIds.current.has(req.id)
+            );
+
+            newRequests.forEach(request => {
+                currentAddNotification({
+                    senderId: request.sender.id,
+                    type: 'friend-request',
+                    userName: request.sender.userName,
+                    senderAvatar: request.sender.avatarUrl || DEFAULT_AVATAR,
+                    linkAction: 'openFriendMenu'
+                });
+            });
+
+            previousPendingRequestIds.current = currentRequestIds;
+            // Estabilizar Friends
+            setFriends(prevFriends => {
+                if (prevFriends.length !== friendData.friends.length) return friendData.friends;
+
+                // Comprobación de igualdad de IDs (asumiendo orden estable de la API)
+                const isSame = prevFriends.every((f, i) => String(f.id) === String(friendData.friends[i].id));
+
+                return isSame ? prevFriends : friendData.friends;
+            });
+
+            // Estabilizar PendingRequests
+            setPendingRequests(prevRequests => {
+                if (prevRequests.length !== friendData.pendingRequests.length) return friendData.pendingRequests;
+
+                const isSame = prevRequests.every((req, i) => String(req.id) === String(friendData.pendingRequests[i].id));
+
+                return isSame ? prevRequests : friendData.pendingRequests;
+            });
+
+
+        } catch (error) {
+            console.error("Error al cargar datos de amistad:", error);
+            currentShowError("Failed to load friend data.");
+        }
+    }, [setFriends, setPendingRequests]); // Los setters son estables
+
+    // --- LÓGICA DE CARGA DE MI PERFIL (UNA SOLA VEZ) ---
+    useEffect(() => {
+        let isMounted = true;
+        const token = getAuthToken();
+        if (!token || !isAuthenticated) return;
+
+        const loadProfile = async () => {
+            // Seteamos isLoading *antes* de la primera carga para mostrar un estado inicial
+            setIsLoading(true);
+            try {
+                const profileData = await fetchMyProfile();
+                if (isMounted) setMyProfile(profileData);
+            } catch (error) {
+                console.warn("Could not load user profile details.", error.message);
+                if (isMounted) setMyProfile({ userName: "Guest", description: "Profile not loaded", avatarUrl: DEFAULT_AVATAR });
+            } finally {
+                if (isMounted) setIsLoading(false);
+            }
+        };
+
+        loadProfile();
+
+        return () => {
+            isMounted = false;
+        };
+    }, [isAuthenticated, setMyProfile, setIsLoading]); // Dependencias estables.
+
+    // --- EFECTO DE CARGA INICIAL Y INTERVALO (USA loadFriendsAndRequests) ---
+    useEffect(() => {
+        let isMounted = true;
+
+        // Función de carga completa que solo llama a la API de Amigos/Solicitudes
+        const initialAndIntervalLoad = async () => {
+            if (isMounted && isAuthenticated) {
+                await loadFriendsAndRequests();
+            }
+        };
+
+        // Primera carga inmediata
+        initialAndIntervalLoad();
+
+        // Intervalo para refrescar
+        const intervalId = setInterval(initialAndIntervalLoad, 15000); // 15 segundos
+
+        return () => {
+            isMounted = false;
+            clearInterval(intervalId); // Limpia el intervalo al desmontar el componente
+        };
+    }, [loadFriendsAndRequests, isAuthenticated]); // Dependencias: loadFriendsAndRequests es estable.
+
+
+    // ***************************************************************
+    // --- LÓGICA DE BÚSQUEDA EN TIEMPO REAL (DEBOUNCING) ---
+    // ***************************************************************
+
+    // Función que llama a la API de búsqueda
+    const executeSearch = useCallback(async (query) => {
+        const trimmedQuery = query.trim();
+
+        if (trimmedQuery.length < 2) {
+            setSearchResults([]);
+            setIsSearchLoading(false);
+            return;
+        }
+
+        setIsSearchLoading(true); // <--- INICIA CARGA DE BÚSQUEDA
+
+        try {
+            const results = await fetchUsers(trimmedQuery);
+
+            // LEEMOS LOS DATOS DE AMISTAD DESDE LA REFERENCIA ESTABLE
+            const currentFriends = friendDataRef.current.friends;
+            const currentPendingRequests = friendDataRef.current.pendingRequests;
+
+            // Filtrar resultados
+            const existingIds = new Set([
+                ...currentFriends.map(f => f.id),
+                ...currentPendingRequests.map(req => req.sender.id)
+            ]);
+            const myId = myProfile?.id;
+
+            const filteredResults = results.filter(user =>
+                !existingIds.has(user.id) && user.id !== myId
+            );
+
+            // Estabilización: solo actualiza si los resultados son REALMENTE diferentes
+            setSearchResults(prev => {
+                if (prev.length !== filteredResults.length) {
+                    return filteredResults;
+                }
+                if (prev.length === 0) {
+                    return prev;
+                }
+                const isSame = prev.every((item, index) => String(item.id) === String(filteredResults[index].id));
+
+                return isSame ? prev : filteredResults;
+            });
+
+            // ⭐ ACTUALIZAMOS LA REFERENCIA DE LA ÚLTIMA BÚSQUEDA EXITOSA
+            lastSearchQueryRef.current = trimmedQuery;
+
+        } catch (error) {
+            console.error("Error al buscar usuarios:", error);
+            if (trimmedQuery.length > 0) {
+                showError("Failed to search users.");
+            }
+            setSearchResults([]);
+        } finally {
+            setIsSearchLoading(false);
+        }
+        // DEPENDENCIAS ESTABLES: friendDataRef (que contiene los arrays) no está aquí
+    }, [showError, myProfile, setIsSearchLoading, setSearchResults]);
+
+    // useEffect para manejar el retardo (Debounce)
+    useEffect(() => {
+        const trimmedQuery = searchQuery.trim();
+
+        if (trimmedQuery.length < 2) {
+            setSearchResults(prev => {
+                if (prev.length > 0) {
+                    return [];
+                }
+                return prev;
+            });
+            setIsSearchLoading(false);
+            lastSearchQueryRef.current = ''; // ⭐ Limpiamos la referencia
+            return;
+        }
+
+        // ⭐ 6. ANTI-BUCLE: Si la query es la misma que la última exitosa, no hagas nada
+        if (trimmedQuery === lastSearchQueryRef.current) {
+            setIsSearchLoading(false); // Aseguramos que el estado de carga es false
+            return;
+        }
+
+        // Si es nueva, disparamos el debounce
+        const delaySearch = setTimeout(() => {
+            executeSearch(trimmedQuery);
+        }, 300); // 300ms para un buen UX
+
+        return () => {
+            clearTimeout(delaySearch);
+        };
+
+        // Este useEffect ahora es estable porque executeSearch es estable.
+    }, [searchQuery, executeSearch, setSearchResults, setIsSearchLoading]);
+
+    // --- MANEJADORES DE BÚSQUEDA Y NAVEGACIÓN ---
+    const goToFriendProfile = (friend) => {
+        setSelectedFriend(friend);
+        setCurrentView('profile');
+    };
+
+    const goToFriendChat = (friend) => {
+        setSelectedFriend(friend);
+        setCurrentView('chat');
+    };
+
+    // Navegar a mi perfil
+    const goToMyProfile = useCallback(async () => {
+        if (!myProfile || myProfile.userName === "Guest") {
+            try {
+                const profileData = await fetchMyProfile();
+                setMyProfile(profileData);
+            } catch (error) {
+                showError("Could not load your profile details. (404 likely)");
+            }
+        }
+        setCurrentView('my_profile');
+    }, [myProfile, showError, setMyProfile]); // Dependencias: setMyProfile es estable.
+
+    const goBackToList = () => {
+        setSelectedFriend(null);
+        setCurrentView('list');
+        setSearchResults([]);
+        setSearchQuery('');
+    };
+
+    // ... (El resto de las funciones de navegación y estado son correctas)
+
+    const handleStatusChange = (newStatus) => {
+        setUserStatus(newStatus);
+        setIsDropdownOpen(false);
+    };
+
+    const toggleDropdown = () => {
+        setIsDropdownOpen(prev => !prev);
+    };
+
+    // ***************************************************************
+    // --- LÓGICA DE ACCIONES DE AMISTAD (DELETE/ACCEPT/REJECT/ADD) ---
+    // ***************************************************************
+
+    const handleDeleteFriendship = useCallback((friendshipId, userName) => {
+        const actionFunction = async () => {
+            try {
+                await deleteFriendship(friendshipId);
+                showSuccess(`Friend ${userName} successfully deleted!`);
+                setFriends(prevFriends => prevFriends.filter(f => String(f.friendshipId) !== String(friendshipId)));
+                goBackToList();
+            } catch (error) {
+                console.error("Error de red al eliminar amistad:", error);
+                showError(error.message || 'Fallo al eliminar amistad.');
+            } finally {
+                closeModal();
+            }
+        };
+
+        openModal('confirm', {
+            title: "Delete Friend",
+            message: `Are you sure you want to remove ${userName} from your friends?`,
+            confirmText: "Delete",
+            onConfirm: actionFunction,
+        });
+    }, [showSuccess, showError, closeModal, openModal, setFriends]);
+
+    const handleAddFriend = useCallback(async (user) => {
+        try {
+            await sendFriendRequest(user.id);
+            showSuccess(`Friend request sent to ${user.userName}!`);
+
+            await loadFriendsAndRequests();
+
+            setSearchQuery('');
+            setSearchResults([]);
+
+        } catch (error) {
+            console.error("Fallo al enviar solicitud:", error);
+            showError(error.message || 'Fallo al enviar la solicitud de amistad.');
+        }
+    }, [showSuccess, showError, loadFriendsAndRequests]);
+
+    const handleAcceptRequest = useCallback(async (friendshipId) => {
+        try {
+            const acceptedFriendship = await acceptFriendRequest(friendshipId);
+
+            previousPendingRequestIds.current.delete(friendshipId);
+
+            const acceptedRequest = pendingRequests.find(req => String(req.id) === String(friendshipId));
+
+            if (!acceptedRequest) {
+                showSuccess("Request accepted. Loading updated list...");
+                await loadFriendsAndRequests();
+                return;
+            }
+
+            const newFriend = {
+                id: String(acceptedRequest.sender.id),
+                userName: acceptedRequest.sender.userName,
+                avatarUrl: acceptedRequest.sender.avatarUrl,
+                status: 'online',
+                friendshipId: acceptedFriendship.id || friendshipId,
+            };
+
+            setPendingRequests(prev => prev.filter(req => String(req.id) !== String(friendshipId)));
+            setFriends(prev => [...prev, newFriend]);
+
+            showSuccess(`${newFriend.userName} is your new CaFriend!`);
+
+        } catch (error) {
+            console.error("Fallo al aceptar solicitud:", error);
+            showError(error.message || "Failed to accept friend request.");
+        }
+    }, [pendingRequests, loadFriendsAndRequests, showSuccess, showError, setPendingRequests, setFriends]);
+
+    const handleRejectRequest = useCallback(async (friendshipId) => {
+        try {
+            await rejectFriendRequest(friendshipId);
+
+            previousPendingRequestIds.current.delete(friendshipId);
+
+            setPendingRequests(prev => prev.filter(req => String(req.id) !== String(friendshipId)));
+
+            showSuccess(`Friend request rejected successfully!`);
+
+        } catch (error) {
+            console.error("Fallo al rechazar solicitud:", error);
+            showError(error.message || "Failed to reject friend request.");
+        }
+    }, [showSuccess, showError, setPendingRequests]);
+
+    // ***************************************************************
+    // --- LÓGICA DE EDICIÓN DE MI PERFIL ---
+    // ***************************************************************
+
+    const handleSaveMyProfile = useCallback(async (updateData) => {
+        setIsLoading(true);
+        try {
+            const updatedProfile = await updateMyProfile(updateData);
+            setMyProfile(updatedProfile);
+            showSuccess('Profile successfully updated!');
+        } catch (error) {
+            console.error("Fallo al guardar perfil:", error);
+            showError(error.message || "Failed to save profile changes.");
+        } finally {
+            setIsLoading(false);
+        }
+    }, [showSuccess, showError, setMyProfile, setIsLoading]);
+
+
+    // --- LÓGICA DE FILTRADO Y VISUALIZACIÓN ---
+    const getFilteredUsers = useCallback(() => {
+        if (isSearching) {
+            return searchResults;
+        } else {
+            const allFriends = friends;
+
+            const sortedFriends = [...allFriends].sort((a, b) => {
+                const statusA = a.status === 'online' ? 1 : 0;
+                const statusB = b.status === 'online' ? 1 : 0;
+
+                if (statusB !== statusA) {
+                    return statusB - statusA;
+                }
+
+                return a.userName.localeCompare(b.userName);
+            });
+
+            return sortedFriends;
+        }
+    }, [isSearching, searchResults, friends]);
+
+    const displayedUsers = getFilteredUsers();
+
+    // --- RENDERIZADO DEL CONTENIDO DINÁMICO ---
+    const statusOptions = [
+        { value: 'online', label: 'Online' },
+        { value: 'offline', label: 'Offline' },
+    ];
+
+    const renderContent = () => {
+        if (currentView === 'my_profile') {
+            if (!myProfile || myProfile.userName === "Guest") {
+                return (
+                    <div className="dynamic-view profile-view">
+                        <button onClick={goBackToList} className="back-button">
+                            <IoArrowBackCircle size={28} color="#90b484" />
+                            <h4>Return to Friends</h4>
+                        </button>
+                        <h2 style={{ color: '#e96765' }}>⚠️ Error</h2>
+                        <p style={{ textAlign: 'center' }}>
+                            Could not load your profile details. Please verify that the
+                            **GET /users/me** endpoint is correctly implemented and accessible on the server.
+                        </p>
+                    </div>
+                );
+            }
+
+            return (
+                <MyProfileView
+                    myUser={myProfile}
+                    onBack={goBackToList}
+                    onSaveProfile={handleSaveMyProfile}
+                    isLoading={isLoading}
+                />
+            );
+        }
+
+        if (currentView === 'profile' && selectedFriend) {
+            return (
+                <FriendProfileView
+                    friend={selectedFriend}
+                    onBack={goBackToList}
+                    onGoToChat={goToFriendChat}
+                    onDeleteFriend={handleDeleteFriendship}
+                />
+            );
+        }
+        if (currentView === 'chat' && selectedFriend) {
+            return (
+                <FriendChatView
+                    friend={selectedFriend}
+                    onBack={goBackToList}
+                    onGoToProfile={goToFriendProfile}
+                />
+            );
+        }
+
+        return (
+            <>
+                {/* BARRA DE BÚSQUEDA Y STATUS */}
+                <div className='friends-menu-search-bar'>
+                    <input
+                        type="text"
+                        placeholder="Search user..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                    {/* INDICADOR DE BÚSQUEDA EN TIEMPO REAL */}
+
+                    {/* {!isSearching && (
+                        <div
+                            className={`custom-status-select ${isDropdownOpen ? 'open' : ''}`}
+                            onBlur={() => setTimeout(() => setIsDropdownOpen(false), 100)}
+                            tabIndex={0}
+                        >
+                            <button className='select-display' onClick={toggleDropdown} aria-expanded={isDropdownOpen}>
+                                {statusOptions.find(opt => opt.value === userStatus)?.label}
+                                <FaChevronDown size={12} className='dropdown-icon' />
+                            </button>
+                            <ul className='select-options'>
+                                {statusOptions.map((option) => (
+                                    <li key={option.value} className={option.value === userStatus ? 'selected' : ''}>
+                                        <button onClick={() => handleStatusChange(option.value)} aria-pressed={option.value === userStatus}>
+                                            {option.label}
+                                            <FaCircle size={18} style={{ marginLeft: '8px', color: option.value === 'online' ? '#90b484' : '#8c8c8c' }} />
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )} */}
+                </div>
+                {/* FIN BARRA DE BÚSQUEDA Y STATUS */}
+
+                {/* LISTA DE AMIGOS / RESULTADOS DE BÚSQUEDA */}
+                <div className="friend-list-container">
+
+                    {/* SECCIÓN DE SOLICITUDES PENDIENTES */}
+                    {pendingRequests.length > 0 && !isSearching && (
+                        <div className="pending-requests-section">
+                            <h3 className="list-title">Friend Requests ({pendingRequests.length})</h3>
+                            {pendingRequests.map(request => (
+                                <FriendRequestCard
+                                    key={request.id}
+                                    request={request}
+                                    onAccept={handleAcceptRequest}
+                                    onReject={handleRejectRequest}
+                                />
+                            ))}
+                        </div>
+                    )}
+
+                    {/* TÍTULO CONDICIONAL DE LA LISTA PRINCIPAL */}
+                    {!isSearching && <h3 className="list-title">My Friends ({friends.length})</h3>}
+                    {isSearching && <h3 className="list-title">Search Results ({searchResults.length})</h3>}
+
+                    {isSearchLoading ? (
+                        <p className="no-friends-message">Searching users...</p>
+                    ) : displayedUsers.length > 0 ? (
+                        displayedUsers.map(user => (
+                            <FriendCard
+                                key={user.id}
+                                user={user}
+                                isFriend={friendIds.has(user.id)}
+                                onGoToProfile={goToFriendProfile}
+                                onGoToChat={goToFriendChat}
+                                onAddFriend={handleAddFriend}
+                            />
+                        ))
+                    ) : (
+                        <p className="no-friends-message">
+                            {isSearching ? 'Users not found.' : 'Don\'t have friends yet.'}
+                        </p>
+                    )}
+                </div>
+            </>
+        );
+    };
+
+
+    return (
+        <div className={`friends-menu ${collapsedClass}`} >
+            <button
+                onClick={toggleFriendMenu}
+                aria-expanded={isFriendMenuOpen}
+                aria-controls="friend-list-content"
+                className='openFriendMenu'
+            >
+                <FaUserFriends size={30} color="#90b484" />
             </button>
-          </div>
-        ) : (
-          <div className='friendSidebar-headerTwo'>
-            <button className='back' onClick={() => {
-              setIsSearching(false);
-              setSearchQuery('');
-            }}>
-              <FontAwesomeIcon className='searchFriendIcon' icon={faChevronLeft} />
-            </button>
-            <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
-          </div>
-        )}
-      </header>
-            <main>
-        {friends.length === 0 ? (
-          <p className='noFriendsMessage'>You have no friends added yet</p>
-        ) : (
-          filteredFriends.map((friend, index) => (
-            <div key={index} className='modalFriendCard'>
-              <div className={`modalFriendProfile ${userStatus}`}>
-                <img src={friend.profile} alt={`${friend.userName}'s profile`} className='FriendImg' />
-                <div className={`friendStatus ${userStatus}`}></div>
-                <p>{friend.userName}</p>
-              </div>
-              <div className='buttonsFriends'>
-                <button className={`buttonAddFriend ${userStatus}`}>
-                  <FontAwesomeIcon className="addFriendIcon" icon={faPlus} />
-                </button>
-                <button className={`buttonChatFriend ${userStatus}`}>
-                  <FontAwesomeIcon className="messageIcon" icon={faMessage} />
-                </button>
-              </div>
-            </div>
-          ))
-        )}
-      </main>
-    </aside>
-  );
-}
+
+            {isFriendMenuOpen && (
+                <div className='friend-menu-content'>
+                    <header>
+                        <h2>
+                            {currentView !== 'list' && selectedFriend ? selectedFriend.userName + " Profile" :
+                                currentView === 'my_profile' ? 'Your Profile' : 'CaTube Social'}
+                        </h2>
+                        <div className='header-divider-social-menu'>
+                            {/* BOTÓN "MI PERFIL" (SOLO EN LA VISTA DE LISTA) */}
+                            {currentView !== 'my_profile' && (
+                                <button
+                                    onClick={goToMyProfile}
+                                    className="my-profile-button"
+                                    title="View and edit my profile"
+                                    disabled={isLoading}
+                                >
+                                    Your profile
+                                </button>
+                            )}
+
+                            <button onClick={toggleFriendMenu}>
+                                <IoIosCloseCircle size={30} color="#90b484" />
+                            </button>
+                        </div>
+
+                    </header>
+
+                    {renderContent()}
+                </div>
+            )}
+        </div>
+    );
+} 

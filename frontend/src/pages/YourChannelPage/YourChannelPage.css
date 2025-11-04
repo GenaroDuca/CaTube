@@ -99,13 +99,13 @@ body {
     color: var(--btn);
 }
 
-.subscribe-btn{
+.subscribe-btn {
     background: var(--btn);
     border-radius: 25px;
     margin-top: 5px;
     height: 40px;
     width: 120px;
-    border: none; 
+    border: none;
 }
 
 .content-ul {
@@ -169,7 +169,7 @@ body {
     scrollbar-width: none;
 }
 
-.shorts-container{
+.shorts-container {
     display: grid;
     grid-template-rows: repeat(6, auto);
     grid-auto-flow: column;

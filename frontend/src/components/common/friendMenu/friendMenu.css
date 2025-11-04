@@ -1,186 +1,724 @@
-.friends-sidebar {
-    width: 300px;
-    height: 350px;
-    background-color: rgba(30, 30, 31, 0.85);
-    box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493);
-    backdrop-filter: blur(10px);
-    border-radius: 30px;
+/* --- ESTILOS PRINCIPALES DEL MENÚ --- */
+.friends-menu {
     position: fixed;
-    z-index: 3;
-    right: 0;
-    top: 195px;
-    margin-right: 300px;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-}
-
-.friendSidebar-headerOne {
-    height: 75px;
-    padding: 20px;
-    font-size: 1rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.friendSidebar-status select {
+    bottom: 20px;
+    right: 20px;
+    z-index: 10;
+    width: 400px;
+    height: 70vh;
     border-radius: 30px;
-    background-color: transparent;
-    border: 1px solid var(--text-color);
-    color: (var(--text-color));
-    cursor: pointer;
-}
-
-.friendSidebar-status select:focus {
-    outline: none;
-    border-color: var(--btn);
-}
-
-/* .friendSidebar-status select option {
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    cursor: pointer;
-} */
-
-/* .friendSidebar-status select option:hover {
-    cursor: pointer;
-    background-color: var(--btn);
-} */
-
-.friendSidebar-status {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-}
-
-.friendSidebar-headerTwo {
-    height: 75px;
+    background-color: #1e1e1fd9;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
     padding: 20px;
-    font-size: 1rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    input {
-        background: var(--primary-color);
-        border: none;
-        padding: 0.5rem;
-        border-radius: var(--border-radius);
-        color: var(--text-color);
-    }
-    input:focus {
-        outline: none;
-    }
-    button {
-        background: var(--btn);
-        border: none;
-        padding: 0.5rem;
-        border-radius: var(--border-radius);
-        cursor: pointer;
+    box-sizing: border-box;
+    transition: width 0.3s ease-in-out, height 0.3s ease-in-out, border-radius 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+@media (max-width: 450px) {
+    .friends-menu {
+        width: 90vw;
     }
 }
 
-.openSearchFriend {
-    background: none;
-    border: none;
-    color: var(--text-color);
-    cursor: pointer;
-    .searchFriendIcon {
-        font-size: 1.5rem;
-    }
-}
-
-
-.friends-sidebar main {
+.friend-menu-content {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
-.modalFriendCard {
+
+.friends-menu.collapsed {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #1e1e1fd9;
+    backdrop-filter: blur(10px);
     display: flex;
-    flex-direction: row;
-    gap: 8px;
-    padding-top: 10px;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: 0;
+}
+
+.openFriendMenu {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease-in-out;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+}
+
+.friends-menu.collapsed .openFriendMenu {
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+}
+
+.friends-menu.collapsed .friend-menu-content {
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    max-height: 0;
+    padding: 0;
+    margin: 0;
+    transition: opacity 0.1s ease-out, max-height 0.1s ease-out, padding 0.1s ease-out;
+}
+
+.friends-menu header {
+    display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-shrink: 0;
 }
 
-.modalFriendProfile {
+.header-divider-social-menu {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    position: relative;
-    gap: 8px;
-}
-
-.FriendImg {
-    width: 48px;
-    height: 48px;
-    border-radius: var(--border-radius);
-}
-
-.buttonsFriends {
-    display: flex;
-    justify-content: flex-end;
-    background-color: transparent;
-    background: none;
     gap: 10px;
 }
 
-.buttonAddFriend, .buttonChatFriend {
-    background: none;
+.friends-menu header button {
     background-color: transparent;
     border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.friends-menu header button svg path:hover {
+    color: var(--btn-dark);
+}
+
+.friends-menu-search-bar {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-shrink: 0;
+    gap: 10px;
+}
+
+/* --- ESTILOS DE BARRA DE BÚSQUEDA Y SELECT --- */
+
+.friends-menu-search-bar input {
+    flex: 1;
+    width: 100%;
+    padding: 8px 12px;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    outline: none;
+    background-color: var(--primary-color);
+    border-radius: 30px;
+}
+
+.friends-menu-search-bar button {
+    background: var(--btn);
+    width: 40px;
+    border: none;
     cursor: pointer;
+    border-radius: 0px 30px 30px 0px;
+    margin-right: 10px;
 }
 
-.messageIcon, .addFriendIcon {
-    font-size: 20px;
+.friends-menu-search-bar button:hover {
+    background: var(--btn-dark);
 }
 
-.messageIcon {
+/* Custom Select */
+.custom-status-select {
+    position: relative;
+    width: 100px;
+    z-index: 10;
+}
+
+.custom-status-select .select-display {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 8px 10px;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    color: var(--text);
+}
+
+.select-display:hover {
+    background-color: var(--primary-color) !important;
+}
+
+.custom-status-select.open .dropdown-icon {
+    transform: rotate(180deg);
+}
+
+.custom-status-select .select-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 4px 0 0 0;
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.4s ease-in-out, opacity 0.3s ease;
+}
+
+.custom-status-select.open .select-options {
+    max-height: 200px;
+    opacity: 1;
+}
+
+.custom-status-select .select-options li button {
+    width: 100%;
+    text-align: center;
+    padding: 8px 10px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.custom-status-select .select-options li button:hover {
     color: var(--btn);
 }
 
-.addFriendIcon {
-    background-color: var(--btn);
-    border-radius: 50%;
-    padding: .1rem .03rem;
+.custom-status-select .select-options li.selected button {
+    border-radius: 15px;
+    color: var(--btn);
 }
 
-.friendStatus {
+
+/* --- ESTILOS DE LISTA DE AMIGOS (FRIEND LIST) --- */
+
+.friend-list-container {
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex-grow: 1;
+    padding-bottom: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent
+}
+
+.friend-list-containet::-webkit-scrollbar,
+.profile-edit-group textarea::-webkit-scrollbar {
+    width: 6px;
+}
+
+.friend-list-container::-webkit-scrollbar-thumb,
+.profile-edit-group textarea::-webkit-scrollbar-thumb {
+    background: var(--btn);
+    border-radius: 8px;
+}
+
+.friend-list-container::-webkit-scrollbar-track,
+.profile-edit-group textarea::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.friend-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: var(--primary-color);
+    border-radius: 30px;
+}
+
+.friend-card.clickable:hover {
+    cursor: pointer;
+}
+
+.friend-info {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.avatar-container {
+    position: relative;
+    margin-right: 15px;
+}
+
+.friend-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.status-indicator {
     position: absolute;
-    z-index: 4;
-    top: 35px;
-    left: 35px;
-    width: 15px;
-    height: 15px;
+    bottom: 0;
+    right: 0;
     border-radius: 50%;
+}
+
+.friend-username {
+    color: var(--text);
+}
+
+.friend-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.friend-actions button svg path:hover {
+    color: var(--btn-dark);
+}
+
+.friend-action-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.reject-button:hover svg path {
+    color: #b94c4a !important;
+}
+
+/* --- ESTILOS DE VISTAS DINÁMICAS (PERFIL/CHAT) --- */
+
+/* CLAVE 3: La vista dinámica debe crecer y ser un contenedor flex columna */
+.dynamic-view {
+    text-align: center;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+    height: 100%;
+}
+
+.back-button {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #90b484;
+    font-weight: 600;
+    margin-bottom: 20px;
+    padding: 0;
+    font-size: 16px;
+    transition: color 0.2s;
+    justify-content: flex-start;
+    /* Alinea el botón a la izquierda */
+    flex-shrink: 0;
+}
+
+.profile-large-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 20px auto 20px;
+    flex-shrink: 0;
+}
+
+.profile-bio {
+    padding: 0 10px;
+    margin-bottom: 25px;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    flex-shrink: 0;
+}
+
+/* Contenedor de acciones del perfil */
+.profile-actions-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: auto;
+    flex-shrink: 0;
+}
+
+.profile-action-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80px;
+    height: 75px;
+    border: none;
+    border-radius: 30px;
+    background-color: var(--primary-color);
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.2s ease;
+    color: var(--text);
+}
+
+.profile-action-btn:hover {
+    transform: scale(1.05);
+}
+
+.profile-action-btn svg {
+    color: #90b484;
+}
+
+.profile-action-btn.remove-btn:hover,
+.profile-action-btn.block-btn:hover {
+    color: #ff4d4d;
+}
+
+.profile-action-btn.remove-btn:hover svg,
+.profile-action-btn.block-btn:hover svg {
+    color: #ff4d4d;
+}
+
+
+/* Estilos de Chat */
+.chat-window {
+    background-color: var(--primary-color);
+    padding: 10px 20px 10px 20px;
+    border-radius: 30px;
+    min-height: 200px;
+    margin-top: 20px;
+    text-align: left;
+    flex-grow: 1;
+    overflow-y: auto;
+    color: var(--text);
+}
+
+.chat-window::-webkit-scrollbar {
+    width: 6px;
+}
+
+.chat-window::-webkit-scrollbar-thumb {
+    background: var(--btn);
+    border-radius: 8px;
+}
+
+.chat-window::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.chat-profile-link {
+    background: none;
+    border: none;
+    color: var(--btn);
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 0;
+    margin-left: 5px;
+    transition: color 0.2s;
+}
+
+.chat-profile-link:hover {
+    color: var(--btn-dark);
+}
+
+.friend-card.offline-friend {
+    opacity: 0.6;
+    color: #999;
+}
+
+.pending-request-card {
+    margin-bottom: 20px;
+}
+
+/* Estilo para el botón de Mi Perfil */
+.my-profile-button {
+    padding: 0px 10px 0px 10px;
+    height: 24px;
+    color: var(--primary-color);
+    background-color: var(--btn) !important;
+    border-radius: 30px;
+}
+
+.my-profile-button:hover {
+    background-color: var(--btn-dark) !important;
+}
+
+.my-profile-button svg {
+    margin-right: 8px;
+}
+
+/* Estilos de la vista de Mi Perfil */
+.my-profile-view div {
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent;
+}
+
+
+.my-profile-view::-webkit-scrollbar {
+    width: 6px;
+}
+
+.my-profile-view::-webkit-scrollbar-thumb {
+    background: var(--btn);
+    border-radius: 8px;
+}
+
+.my-profile-view::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.my-profile-view .profile-large-avatar {
+    margin: 10px auto 20px auto;
+    width: 100px;
+    height: 100px;
+}
+
+.profile-edit-group label {
+    display: block;
+    color: var(--btn);
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.profile-edit-group input,
+.profile-edit-group textarea {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid var(--text-color);
+    border-radius: 30px;
+    background-color: transparent;
+    color: var(--text-color);
+    margin-bottom: 20px;
+    resize: none;
+}
+
+.profile-edit-group input:focus,
+.profile-edit-group textarea:focus {
+    border-color: var(--btn);
+    outline: none;
+}
+
+.profile-edit-group textarea {
+    resize: none;
+    min-height: 120px;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent
+}
+
+.profile-save-btn {
     background-color: var(--btn);
+    color: #1a1a1b;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 30px;
+    cursor: pointer;
 }
 
-.friendStatus.online {
+.profile-save-btn:hover {
+    background-color: var(--btn-dark);
+}
+
+/* Chat */
+
+.my-message {
+    text-align: right;
+}
+
+.message {
+    margin-top: 10px;
+}
+
+.message-sender {
+    color: var(--btn);
+}
+
+.message-time {
+    font-size: 12px;
+}
+
+.message div {
+    background-color: #1e1e1f;
+    border-radius: 15px;
+    padding: 5px 10px;
+}
+
+.message-bubble-content-div {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    padding: 0px !important;
+}
+
+.message-actions {
+    padding: 0px !important;
+    display: flex;
+    gap: 10px;
+}
+
+.message-actions button {
+    background: none;
+    border: none;
+    color: var(--text-color);
+}
+
+.message-actions button:hover {
+    color: var(--btn);
+}
+
+.chat-input-form {
+    display: flex;
+    border-radius: 0px 0px 30px 30px;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.chat-input-form input {
+    height: 40px;
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #1a1a1b;
+    border-radius: 30px;
+    border: none;
+    color: var(--text-color);
+}
+
+.chat-input-form button {
     background-color: var(--btn);
+    border: none;
+    padding: 5px 10px;
+    border-radius: 30px;
+    color: #1a1a1b;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.modalFriendProfile.offline {
-    img {
-        filter: grayscale(100%);
-    }
-    div{
-        background-color: var(--text-color);
-    }
-    transition: background-color 0.3s ease;
+
+.chat-input-form button:hover {
+    background-color: var(--btn-dark);
 }
 
-.buttonAddFriend.offline, .buttonAddFriend.occupied {
-    filter: grayscale(100%);
+.chat-input-form input:focus {
+    outline: none;
 }
 
-.friendStatus.occupied {
-    background-color: rgb(201, 197, 112);
+.chat-header-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
 }
 
+.clear-chat-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer
+}
+
+.clear-chat-button {
+    margin-left: auto;
+    position: absolute;
+    right: 15px;
+
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.empty-chat-message {
+    text-align: center !important;
+}
+
+.edit-form {
+    display: flex;
+    /* flex-direction: column; */
+    gap: 5px;
+    justify-content: end;
+}
+
+.edit-form input {
+    height: 40px;
+    width: auto;
+    background-color: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+    border-radius: 30px;
+    font-size: 16px;
+    padding-left: 15px;
+}
+
+.edit-form input:focus {
+    outline: none
+}
+
+.edit-form button[type="submit"] {
+    height: 40px;
+    background-color: var(--btn);
+    color: var(--primary-color);
+    border-radius: 30px;
+    aspect-ratio: 1/1;
+    border: none;
+    cursor: pointer; 
+    text-align: center; 
+    line-height: 40px; 
+    padding: 0;
+}
+
+.edit-form button[type="submit"] svg {
+    vertical-align: middle;
+}
+
+.edit-form button:hover {
+    background-color: var(--btn-dark);
+}
+
+.load-more-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.load-more-button {
+    width: 40px;
+    height: 40px;
+    background-color: var(--btn);
+    border: none;
+    color: var(--primary-color);
+    font-size: 40px;
+    border-radius: 30px;
+    display: flex ;
+    justify-content: center;
+    align-items: center;
+}
+
+.load-more-button:hover {
+    background-color: var(--btn-dark);
+}

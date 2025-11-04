@@ -1,23 +1,15 @@
-function SearchBar({ className, searchQuery, setSearchQuery, placeholder = "Buscar..." }) {
-    const handleKeyDown = (e) => {
-        if (e.key === 'Enter' && e.target.value && e.target.value.trim()) {
-            // Navigate to search page with the query
-            const searchPagePath = '/Search';
-            if (window.location.pathname !== searchPagePath) {
-                sessionStorage.setItem('voiceSearchTerm', e.target.value.trim());
-                window.location.href = searchPagePath;
-            }
-        }
-    };
+import logo from '../../../../public/catube_white.svg'
+import { CatubeHeader } from './CatubeHeader.jsx'
+import './CatubeHeader.css'
 
+function SearchBar({ className, searchQuery, setSearchQuery }) {
     return (
         <input
             type="text"
             className={className}
-            placeholder={placeholder}
+            placeholder="Search..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
         />
     );
 }

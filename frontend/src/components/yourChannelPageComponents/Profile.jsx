@@ -2,7 +2,7 @@ import { profile } from "../../assets/data/Data"
 import { Link } from 'react-router-dom'
 import NewButton from "../homePageComponents/Button";
 import { useState, useEffect } from "react";
-import { useNotifications } from "../common/Toasts/useNotifications";
+import { useNotification } from "../../hooks/UseNotification";
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -48,7 +48,7 @@ async function apiFetch(url, options = {}) {
 }
 
 function Profile() {
-    const { showError } = useNotifications();
+    const { showError } = useNotification();
     const [userPhoto, setUserPhoto] = useState(profile.src);
     const [channelName, setChannelName] = useState(profile.name);
     const [channelHandle, setChannelHandle] = useState(profile.handle);

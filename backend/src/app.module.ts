@@ -18,7 +18,19 @@ import { Like } from './likes/entities/like.entity';
 import { Subscription } from './subs/entities/sub.entity';
 import { PlaylistVideosModule } from './playlist_videos/playlist_videos.module';
 import { PlaylistVideo } from './playlist_videos/entities/playlist_video.entity';
+import { ConfigModule } from '@nestjs/config';
+import { Friendship } from './friendships/entities/friendship.entity';
+import { FriendshipsModule } from './friendships/friendships.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { Notification } from './notifications/entities/notification.entity';
+import { Message } from './messages/entities/message.entity';
+import { Room } from './rooms/entities/room.entity';
+import { MessagesModule } from './messages/messages.module';
+import { RoomsModule } from './rooms/rooms.module';
+import { ChatGateway } from './chat/chat.gateway';
 import { SubscriptionsModule } from './subs/subs.module';
+import { VideosModule } from './videos/videos.module';
+
 
 @Module({
   imports: [
@@ -27,10 +39,16 @@ import { SubscriptionsModule } from './subs/subs.module';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'Colo123',
+      password: 'geniducv1',
       database: 'catube_db',
-      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo],
+      // logging: true,
+      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo, Friendship, Notification, Message, Room],
       synchronize: true,
+    }),
+
+    ConfigModule.forRoot({
+      envFilePath: ['config.env'],
+      isGlobal: true,
     }),
 
     UsersModule,
@@ -45,9 +63,19 @@ import { SubscriptionsModule } from './subs/subs.module';
 
     PlaylistVideosModule,
 
+    FriendshipsModule,
+
+    NotificationsModule,
+
+    MessagesModule,
+
+    RoomsModule,
+    
     SubscriptionsModule,
+
+    VideosModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ChatGateway],
 })
-export class AppModule {}
+export class AppModule { }

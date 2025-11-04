@@ -145,8 +145,14 @@
     npm install react-router-dom
     npm install react-icons
     npm install react-toastify
-
-
+    npm install nodemailer
+    npm install @nestjs/config
+    npm install express socket.io sequelize
+    npm install @nestjs/websockets
+    npm install socket.io-client
+    npm install jwt-decode
+    npm install --save-dev @types/multer
+    
 ## Crear proyecto React con Vite
     npm create vite@latest
 

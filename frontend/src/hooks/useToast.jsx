@@ -1,7 +1,7 @@
 import { toast, Bounce } from "react-toastify";
-import { NOTIFICATION_TYPES, NOTIFICATION_CONFIG } from "./notificationConfig"; // Ajusta tu ruta
+import { NOTIFICATION_TYPES, NOTIFICATION_CONFIG } from "../components/common/toast/ToastConfig";
 
-export const useNotifications = () => {
+export const useToast = () => {
 
     /**
      @param {string} type - Uno de los tipos definidos en NOTIFICATION_TYPES.

@@ -5,32 +5,40 @@ import HelpModal from '../modal/headerModalsComponents/HelpModal';
 import FeedbackModal from '../modal/headerModalsComponents/FeedbackModal'
 import EditProductModal from '../modal/storeModal/EditProductModal'
 import AddProductModal from '../modal/storeModal/AddProductModal'
-import ModalDeleteAccount from '../modal/headerModalsComponents/ModalDeleteAccount';
+import CreateStoreModal from '../modal/storeModal/CreateStoreModal';
 import CreateVideoModal from '../modal/videoModalComponents/createVideoModal';
 import EditVideoModal from '../modal/videoModalComponents/editVideoModal';
+import ConfirmModal from '../modal/ConfirmModal';
 
 const ModalRenderer = () => {
     const { modalState, closeModal } = useModal();
+    const { isOpen, modalType, modalProps } = modalState;
 
-    if (!modalState.isOpen) return null;
+    if (!isOpen) return null;
 
-    switch (modalState.modalType) {
+    const renderModal = (Component) => {
+        return <Component onClose={closeModal} {...modalProps} />;
+    };
+
+    switch (modalType) {
         case 'settings':
-            return <SettingsModal onClose={closeModal} />;
+            return renderModal(SettingsModal);
         case 'help':
-            return <HelpModal onClose={closeModal} />;
+            return renderModal(HelpModal);
         case 'feedback':
-            return <FeedbackModal onClose={closeModal} />;
+            return renderModal(FeedbackModal);
         case 'editproduct':
-            return <EditProductModal onClose={closeModal} />;
+            return renderModal(EditProductModal);
         case 'addproduct':
-            return <AddProductModal onClose={closeModal} />;
-        case 'delete':
-            return <ModalDeleteAccount onClose={closeModal} />;
+            return renderModal(AddProductModal);
+        case 'createstore':
+            return renderModal(CreateStoreModal);
         case 'createvideo':
-            return <CreateVideoModal onClose={closeModal} />;
+            return renderModal(CreateVideoModal);
         case 'editvideo':
-            return <EditVideoModal onClose={closeModal} />;
+            return renderModal(EditVideoModal);
+        case 'confirm':
+            return renderModal(ConfirmModal);
         default:
             return null;
     }

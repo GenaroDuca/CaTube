@@ -6,15 +6,18 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.enableCors(); // Permitir peticiones desde otros dominios (liveserver)
-  app.useGlobalPipes(new ValidationPipe());
+  app.enableCors({
+    origin: true, 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  }); app.useGlobalPipes(new ValidationPipe());
 
   // Servir archivos estáticos desde la carpeta uploads
   app.useStaticAssets(join(__dirname, '..', 'uploads'), {
     prefix: '/uploads/',
   });
 
-  // Servir archivos estáticos desde la carpeta frontend/src/assets/images/profile para avatares por defecto
+// Servir archivos estáticos desde la carpeta frontend/src/assets/images/profile para avatares por defecto
   app.useStaticAssets(join(__dirname, '..', '..', 'frontend', 'src', 'assets', 'images', 'profile'), {
     prefix: '/assets/images/profile/',
   });

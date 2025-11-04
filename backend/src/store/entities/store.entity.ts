@@ -22,7 +22,7 @@ export class Store {
 
   @OneToOne(() => Channel, channel => channel.store, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'channel_id' })
-//   @Column({ unique: true }) // Esto asegura que no haya dos tiendas con el mismo channel_id
+  // @Column({ unique: true })
   channel: Channel;
 
   @OneToMany(() => Product, product => product.store)

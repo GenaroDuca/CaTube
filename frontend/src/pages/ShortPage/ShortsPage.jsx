@@ -16,7 +16,10 @@ const exampleShorts = [
     description: 'Funny cars crossing bollard',
     title: 'Funny Cars Crossing Bollard',
     isOwner: false,
-    isSubscribed: false
+    isSubscribed: false,
+    likes: 100,
+    comments: 5,
+    dislikes: 23,
   },
 ]
 
@@ -31,7 +34,7 @@ export default function ShortPage() {
     <>
       <Header></Header>
       <Sidebar></Sidebar>
-      <main className="main-content" style={{ padding: 20 }}>
+      <main className="main-content">
         <div className="container-short-principal" aria-live="polite">
           {exampleShorts.map((s) => (
             <ShortCard

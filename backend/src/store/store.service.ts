@@ -16,7 +16,7 @@ export class StoreService {
   ) {}
 
   async create(createStoreDto: CreateStoreDto, userId: string): Promise<Store> {
-    const user = await this.usersService.findOneById(userId); // Necesitarás crear este método en UsersService
+    const user = await this.usersService.findOneById(userId);
     if (!user) {
       throw new NotFoundException(`Usuario con ID ${userId} no encontrado`);
     }

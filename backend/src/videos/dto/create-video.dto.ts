@@ -11,17 +11,26 @@ export class CreateVideoDto {
     @MaxLength(500)
     description: string;
 
-    @IsOptional()
-    @IsString()
-    @MaxLength(100)
-    tags?: string[];
+    // @IsOptional()
+    // @IsString()
+    // @MaxLength(100)
+    // tags?: string[];
 
     // @IsString()
     // @IsUUID()
     // thumbnailId?: string;
 
-    @IsNotEmpty()
+    //los obtiene de la bd
+    // @IsOptional()
+    // @IsString()
+    // @IsUUID()
+    // channelId?: string;
+
+    @IsOptional()
     @IsString()
-    @IsUUID()
-    channelId: string;
+    url?: string;
+
+    @IsOptional()
+    @IsString()
+    thumbnail?: string;
 }

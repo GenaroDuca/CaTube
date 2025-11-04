@@ -43,7 +43,6 @@ function YourChannel() {
                 });
                 if (response.ok) {
                     const channel = await response.json();
-                    console.log('Loaded channel:', channel); // Debug log
                     localStorage.setItem('channelId', channel.channel_id);
                     setChannelId(channel.channel_id); // Update state to force re-render
                     setActiveTab(0); // Reset to first tab
@@ -110,19 +109,19 @@ function YourChannel() {
     return (
 
         <>
-                <Header></Header>
-                <Sidebar>
-                </Sidebar>
-                <main className="main-content">
-                    <Banner channelId={channelId}></Banner>
-                    <Profile key={channelId}></Profile>
-                    <ContainerButton containerName="container-button" tabs={tabLabels} activeTabIndex={activeTab} onTabClick={setActiveTab} buttonClass="nav-btn" ></ContainerButton>
+            <Header></Header>
+            <Sidebar>
+            </Sidebar>
+            <main className="main-content">
+                <Banner channelId={channelId}></Banner>
+                <Profile key={channelId}></Profile>
+                <ContainerButton containerName="container-button" tabs={tabLabels} activeTabIndex={activeTab} onTabClick={setActiveTab} buttonClass="nav-btn" ></ContainerButton>
 
-                    <div className="tab-content-container">
-                        {tabContents[activeTab]}
-                    </div>
-                    <Footer footer="footer"></Footer>
-                </main>
+                <div className="tab-content-container">
+                    {tabContents[activeTab]}
+                </div>
+                <Footer footer="footer"></Footer>
+            </main>
         </>
     );
 }

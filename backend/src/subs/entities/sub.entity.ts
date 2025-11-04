@@ -16,4 +16,3 @@ export class Subscription {
     @CreateDateColumn()
     createdAt: Date;
 }
-

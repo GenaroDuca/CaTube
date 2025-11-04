@@ -1,7 +1,7 @@
 import { ToastContainer, Bounce } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const NotificationManager = () => {
+export const ToastManager = () => {
   return (
     <ToastContainer
       position="top-right"

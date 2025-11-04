@@ -12,7 +12,7 @@ export class PlaylistController {
    @UseGuards(JwtAuthGuard)
     @Post()
     create(@Body() createPlaylistDto: CreatePlaylistDto, @Request() req) {
-      const userId = req.user.userId; // Tomamos el ID del usuario desde el token
+      const userId = req.user.id; // Tomamos el ID del usuario desde el token
       return this.playlistService.create(createPlaylistDto, userId);
     }
 

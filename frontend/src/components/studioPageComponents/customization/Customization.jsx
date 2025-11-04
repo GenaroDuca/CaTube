@@ -128,7 +128,7 @@ function Customization() {
         }
     };
 
-    const handleBannerChange = async (e) => {
+     const handleBannerChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
             setBannerPreview(URL.createObjectURL(file));
