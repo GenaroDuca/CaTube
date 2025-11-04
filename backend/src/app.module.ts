@@ -28,6 +28,7 @@ import { Room } from './rooms/entities/room.entity';
 import { MessagesModule } from './messages/messages.module';
 import { RoomsModule } from './rooms/rooms.module';
 import { ChatGateway } from './chat/chat.gateway';
+import { SubscriptionsModule } from './subs/subs.module';
 
 
 @Module({
@@ -68,6 +69,8 @@ import { ChatGateway } from './chat/chat.gateway';
     MessagesModule,
 
     RoomsModule,
+    
+    SubscriptionsModule,
   ],
   controllers: [AppController],
   providers: [AppService, ChatGateway],

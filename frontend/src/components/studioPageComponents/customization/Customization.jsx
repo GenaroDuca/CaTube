@@ -116,13 +116,36 @@ function Customization() {
         }
     };
 
+     const handleBannerChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setBannerPreview(URL.createObjectURL(file));
+
+            const channelId = localStorage.getItem('channelId');
+            if (!channelId) {
+                alert('Error: No se pudo identificar el canal. Por favor, inicia sesión de nuevo.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('banner', file);
+            const bannerResult = await apiFetch(`/channels/${channelId}/banner`, {
+                method: 'POST',
+                body: formData,
+            });
+            if (bannerResult && bannerResult.bannerUrl) {
+                setBannerPreview(BASE_URL + bannerResult.bannerUrl);
+            }
+        }
+    };
+
     return (
         <>
             <Title title="Customization"></Title>
             <hr></hr>
             <Container className="content">
                 <Container className="cards-customization-container">
-                    <CardCustomization title="Banner image" imageClass="photo-card-banner" src={banner} alt="Banner" for="banner-upload"></CardCustomization>
+                    <CardCustomization title="Banner image" imageClass="photo-card-banner" src={bannerPreview || banner} alt="Banner" for="banner-upload" onChange={handleBannerChange}></CardCustomization>
                     <CardCustomization title="Picture" imageClass="photo-card" src={photoPreview || angel} alt="angel" for="picture-upload" onChange={handlePhotoChange}></CardCustomization>
                 </Container >
                 <InfoContainer></InfoContainer>

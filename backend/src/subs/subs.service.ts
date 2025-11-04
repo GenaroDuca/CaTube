@@ -1,3 +1,4 @@
+
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -41,8 +42,7 @@ export class SubscriptionsService {
     await this.subscriptionsRepository.save(subscription);
 
     // Increment subscriber count
-    channel.subscriberCount += 1;
-    await this.channelsRepository.save(channel);
+    await this.channelsRepository.increment({ channel_id: channelId }, 'subscriberCount', 1);
 
     return subscription;
   }
@@ -64,24 +64,19 @@ export class SubscriptionsService {
     await this.subscriptionsRepository.remove(subscription);
 
     // Decrement subscriber count
-    if (channel.subscriberCount > 0) {
-      channel.subscriberCount -= 1;
-      await this.channelsRepository.save(channel);
-    }
+    await this.channelsRepository.decrement({ channel_id: channelId }, 'subscriberCount', 1);
 
     return subscription;
   }
 
   //Get all subscriptions
   async getUserSubscriptions(userId: string) {
-    const user = await this.usersRepository.findOne({
-      where: { user_id: userId },
-      relations: ['subscriptions', 'subscriptions.channel'],
+    const subscriptions = await this.subscriptionsRepository.find({
+      where: { user: { user_id: userId } },
+      relations: ['channel'],
     });
 
-    if (!user) throw new NotFoundException('User not found');
-
-    return user.subscriptions.map((sub) => sub.channel);
+    return subscriptions.map((sub) => sub.channel);
   }
 
   //Get all subscribers

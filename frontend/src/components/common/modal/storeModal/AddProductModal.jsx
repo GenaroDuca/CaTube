@@ -42,10 +42,12 @@ async function createProductSolo(formDataToSend) {
     const accessToken = localStorage.getItem('accessToken');
     const url = `${BASE_URL}/product`;
 
+    for (const [key, value] of formDataToSend.entries()) {
+        console.log(key, value);
+    }
+
     const headers = {};
     if (accessToken) {
-        // Nota: NO establecemos 'Content-Type': 'application/json' 
-        // porque estamos enviando FormData (con un archivo). El navegador lo maneja.
         headers['Authorization'] = `Bearer ${accessToken}`;
     }
 

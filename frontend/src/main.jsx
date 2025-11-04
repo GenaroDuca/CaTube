@@ -44,7 +44,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/liked" element={<You />} />
               <Route path="/register" element={<RegisterPage />} />
               <Route path="/studio" element={<Studio />} />
-              <Route path="/yourchannel" element={<YourChannel />} />
+              <Route path="/yourchannel/:url?" element={<YourChannel />} />
               <Route path="/shorts" element={<ShortsPage />} />
               <Route path='/watch/:id' element={<VideoPage />} />
               <Route path="/verification-successful" element={<SuccessPage />} />

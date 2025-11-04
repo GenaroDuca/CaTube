@@ -16,6 +16,7 @@ function Sections(props) {
                         namechannel={item.name}
                         subschannel={item.subs}
                         photo={item.photo}
+                        url={item.url}
                     />
                 );
             case 'video':

@@ -7,13 +7,12 @@ export class Subscription {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @ManyToOne(() => User, user => user.subscriptions, { eager: true }) //
+    @ManyToOne(() => User, user => user.subscriptions) 
     user: User;
 
-    @ManyToOne(() => Channel, channel => channel.subscribers, { eager: true })
+    @ManyToOne(() => Channel, channel => channel.subscribers)
     channel: Channel;
 
     @CreateDateColumn()
     createdAt: Date;
 }
-

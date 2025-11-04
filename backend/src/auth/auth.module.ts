@@ -12,11 +12,11 @@ import { ConfigModule, ConfigService } from '@nestjs/config'; // 💡 NUEVAS IMP
     UsersModule,
     PassportModule,
     JwtModule.registerAsync({
-      imports: [ConfigModule], // Importar ConfigModule para acceder a variables de entorno
+      imports: [ConfigModule], 
       useFactory: async (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
       }),
-      inject: [ConfigService], // Asegura que el servicio de configuración esté disponible
+      inject: [ConfigService], 
     }),
   ],
   providers: [AuthService, JwtStrategy],

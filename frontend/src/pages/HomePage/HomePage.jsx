@@ -6,9 +6,8 @@ import Footer from "../../components/common/Footer.jsx";
 import Recommendations from '../../components/homePageComponents/Recommendations.jsx'
 import Sections from '../../components/homePageComponents/Sections.jsx'
 import Header from '../../components/common/header/Header.jsx'
-import { popularChannels, shorts, videos } from '../../assets/data/Data.jsx';
+import {shorts, videos } from '../../assets/data/Data.jsx';
 import { useRef, useState, useEffect } from 'react';
-import axios from 'axios';
 
 function Home() {
   const [channels, setChannels] = useState([]);
@@ -22,13 +21,21 @@ function Home() {
   useEffect(() => {
     const fetchChannels = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/channels');
+        const response = await fetch('http://localhost:3000/channels');
+        if (!response.ok) {
+          throw new Error('Failed to fetch channels');
+        }
+        const data = await response.json();
         // Transform channels to match Profile component props
-        const transformedChannels = response.data.map(channel => ({
+        const transformedChannels = data.map(channel => ({
           name: channel.channel_name,
           subs: channel.subscriberCount,
-          photo: channel.photoUrl || '', // Use photoUrl if available
+          photo: channel.photoUrl || '',
+          url: channel.url,
+          handle: '@' + channel.url,
         }));
+        // Sort channels by subscriber count in descending order
+        transformedChannels.sort((a, b) => b.subs - a.subs);
         setChannels(transformedChannels);
       } catch (err) {
         setError(err);
@@ -38,6 +45,11 @@ function Home() {
     };
 
     fetchChannels();
+
+    // Refresh channels every 5 seconds to reflect updates
+    const interval = setInterval(fetchChannels, 5000);
+
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) {

@@ -12,7 +12,7 @@ function Profile(props) {
             // Map old default-avatar paths to new assets path
             const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
             const letter = letterMatch ? letterMatch[1] : 'A';
-            photoPath = `/assets/images/profile/${letter}`.png;
+            photoPath = `/assets/images/profile/${letter}.png`;
         }
         photoSrc = BASE_URL + photoPath;
     } else {
@@ -20,11 +20,13 @@ function Profile(props) {
     }
 
     return (
-        <div className="profile">
-            <img className="profile-photo" src={photoSrc} alt={props.namechannel} />
-            <p className="name-channel">{props.namechannel}</p>
-            <p className="subs-channel">{props.subschannel} Cats</p>
-        </div>
+        <Link to={`/yourchannel/${props.url}`}>
+            <div className="profile">
+                <img className="profile-photo" src={photoSrc} alt={props.namechannel} />
+                <p className="name-channel">{props.namechannel}</p>
+                <p className="subs-channel">{props.subschannel} Cats</p>
+            </div>
+        </Link>
     );
 }
-export default Profile;
+export default Profile;

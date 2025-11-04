@@ -1,17 +1,18 @@
 import { Body, Controller, Get, Post, Delete, Param, Query, Res, ConflictException, NotFoundException, Patch } from '@nestjs/common';
 import { CreateUserDto } from './dto-users/create-user.dto';
 import { UsersService } from './users.service';
-import { Response } from 'express'; 
+import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { UseGuards, Req } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard'; 
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UpdateUserDto } from './dto-users/update-user.dto';
 
+@UseGuards(JwtAuthGuard)
 @Controller('users')
 export class UsersController {
     constructor(
         private readonly usersService: UsersService,
-        private readonly configService: ConfigService 
+        private readonly configService: ConfigService
     ) { }
 
     @Post()
@@ -19,12 +20,16 @@ export class UsersController {
         return this.usersService.create(createUserDto);
     }
 
-    @UseGuards(JwtAuthGuard) 
     @Get('me')
     async getMe(@Req() req) {
         const userId = req.user.id;
-
         return this.usersService.findMe(userId);
+    }
+
+    @Get('me')
+    async me(@Req() req) {
+        const user = await this.usersService.findOneByUsername(req.user.username);
+        return user;
     }
 
     @Get('verify-email')
@@ -84,7 +89,6 @@ export class UsersController {
         return this.usersService.remove(id);
     }
 
-    @UseGuards(JwtAuthGuard) 
     @Patch(`me`)
     async updateMe(@Req() req, @Body() updateUserDto: UpdateUserDto) {
         const userId = req.user.id;

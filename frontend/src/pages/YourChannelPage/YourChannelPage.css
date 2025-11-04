@@ -99,6 +99,15 @@ body {
     color: var(--btn);
 }
 
+.subscribe-btn {
+    background: var(--btn);
+    border-radius: 25px;
+    margin-top: 5px;
+    height: 40px;
+    width: 120px;
+    border: none;
+}
+
 .content-ul {
     display: flex;
     gap: 1rem;
@@ -160,7 +169,7 @@ body {
     scrollbar-width: none;
 }
 
-.shorts-container{
+.shorts-container {
     display: grid;
     grid-template-rows: repeat(6, auto);
     grid-auto-flow: column;
@@ -191,6 +200,12 @@ body {
     display: flex;
     flex-direction: row;
     gap: 30px;
+}
+
+.text-channel{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .text-channel p {

@@ -13,19 +13,46 @@ import Store from "../../components/studioPageComponents/store/Store.jsx";
 import Customization from "../../components/studioPageComponents/customization/Customization.jsx";
 import RightMenu from "../../components/studioPageComponents/RightMenu.jsx";
 import Header from "../../components/common/header/Header.jsx";
-import React, { useMemo } from "react"; 
+import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
+import React from "react";
 
 function Studio() {
     const [searchParams, setSearchParams] = useSearchParams();
     const section = searchParams.get('section') || 'dashboard';
-    
-    //Leer el token de acceso aquí.
-    const accessToken = localStorage.getItem('accessToken'); 
+    const accessToken = localStorage.getItem('accessToken');
+    const componentKey = `${section}-${accessToken}`;
+    const [userChannelId, setUserChannelId] = useState(null);
 
-    // Esto asegura que cada componente se considera "nuevo" si el token cambia.
-    // Además, incluimos el 'name' de la sección para reiniciarlo al cambiar de pestaña.
-    const componentKey = `${section}-${accessToken}`; 
+    useEffect(() => {
+        async function loadUserChannel() {
+            if (!accessToken) {
+                setUserChannelId(null);
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:3000/users/me', {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                    },
+                });
+                if (response.ok) {
+                    const userData = await response.json();
+                    if (userData.channel) {
+                        const channelId = userData.channel.channel_id;
+                        // Set the user's own channel in localStorage for studio components
+                        localStorage.setItem('channelId', channelId);
+                        setUserChannelId(channelId);
+                    }
+                }
+            } catch (error) {
+                console.error('Error loading user channel:', error);
+            }
+        }
+        loadUserChannel();
+    }, [accessToken]);
+
 
     const tabs = useMemo(() => [
         { name: 'dashboard', component: <Dashboard /> },
@@ -50,6 +77,19 @@ function Studio() {
 
     const ActiveComponent = tabs[activeTabIndex].component;
 
+    if (!accessToken) {
+        return (
+            <div>
+                <Header></Header>
+                <SidebarStudio activeTabIndex={0} onTabClick={() => { }}></SidebarStudio>
+                <div className="container-studio">
+                    <h1>Access Denied</h1>
+                    <p>You must be logged in to access the studio.</p>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <>
             <>
@@ -57,12 +97,10 @@ function Studio() {
                     <Header></Header>
                     <SidebarStudio activeTabIndex={activeTabIndex} onTabClick={handleTabClick}></SidebarStudio>
                     <div className="container-studio">
-                        {/* 💡 PASO 3: Aplicar la propiedad 'key' al componente activo */}
                         {React.cloneElement(ActiveComponent, { key: componentKey })}
-                        
                         <Footer footer="footer-studio"></Footer>
                     </div>
-                    <RightMenu></RightMenu>
+                    <RightMenu channelId={userChannelId}></RightMenu>
                 </main>
             </>
         </>
