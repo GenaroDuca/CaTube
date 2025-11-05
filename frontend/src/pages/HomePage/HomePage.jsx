@@ -6,11 +6,12 @@ import Footer from "../../components/common/Footer.jsx";
 import Recommendations from '../../components/homePageComponents/Recommendations.jsx'
 import Sections from '../../components/homePageComponents/Sections.jsx'
 import Header from '../../components/common/header/Header.jsx'
-import {shorts, videos } from '../../assets/data/Data.jsx';
+import { shorts } from '../../assets/data/Data.jsx';
 import { useRef, useState, useEffect } from 'react';
 
 function Home() {
   const [channels, setChannels] = useState([]);
+  const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -44,12 +45,39 @@ function Home() {
       }
     };
 
+    const fetchVideos = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/videos');
+        if (!response.ok) {
+          throw new Error('Failed to fetch videos');
+        }
+        const data = await response.json();
+        // Transform videos to match Video component props
+        const transformedVideos = data.map(video => ({
+          id: video.id,
+          namevideo: video.title,
+          videoviews: `${video.views || 0} views`,
+          thumbnail: video.thumbnail,
+          channel_name: video.channel?.channel_name || 'Unknown'
+        }));
+        setVideos(transformedVideos);
+      } catch (err) {
+        console.error('Error fetching videos:', err);
+        setVideos([]); // Si hay error, usar array vacío para no romper la UI
+      }
+    };
+
     fetchChannels();
+    fetchVideos();
 
-    // Refresh channels every 5 seconds to reflect updates
-    const interval = setInterval(fetchChannels, 5000);
+    // Refresh data every 5 seconds
+    const channelsInterval = setInterval(fetchChannels, 5000);
+    const videosInterval = setInterval(fetchVideos, 5000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(channelsInterval);
+      clearInterval(videosInterval);
+    };
   }, []);
 
   if (loading) {

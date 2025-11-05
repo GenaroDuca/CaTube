@@ -12,7 +12,7 @@ function Dashboard({ channelId }) {
             <Container className="content">
                 <Container className="cards-container">
                     <Container className="three-cards">
-                        <LatestVideo></LatestVideo>
+                        <LatestVideo channelId={channelId}></LatestVideo>
                         <LatestComments></LatestComments>
                         <RecentCatscribers channelId={channelId}></RecentCatscribers>
                     </Container>

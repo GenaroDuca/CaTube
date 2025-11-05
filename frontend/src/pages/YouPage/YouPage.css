@@ -30,6 +30,7 @@ body {
 
 .video-thumbnail {
     width: 285px;
+    height: 180px;
     border-radius: 30px;
 }
 

@@ -8,7 +8,10 @@ import {
   Param,
   ParseUUIDPipe,
   Patch,
-  Delete
+  Delete,
+  ForbiddenException,
+  NotFoundException,
+  InternalServerErrorException
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoDto } from './dto/create-video.dto';
@@ -18,14 +21,17 @@ import { Channel } from '../channels/entities/channel.entity';
 import { UseInterceptors, UploadedFiles } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import * as multer from 'multer';
+import * as fs from 'fs';
+import * as path from 'path';
+import { getUploadsPath } from '../utils/uploads-path';
 
-@UseGuards(AuthGuard('jwt'))
 @Controller('videos')
 export class VideosController {
   constructor(private readonly videosService: VideosService) { }
 
   // Create a new video
   @Post('create')
+  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(FileFieldsInterceptor([
     { name: 'thumbnail', maxCount: 1 },
     { name: 'video', maxCount: 1 },
@@ -54,33 +60,95 @@ export class VideosController {
     return this.videosService.findAll();
   }
 
-  //Get all videos de canal especificico
+  //Get all videos for logged-in user's channel
   @Get('my-videos')
+  @UseGuards(AuthGuard('jwt'))
   findAllByChannel(@Req() req) {
     const userId = req.user.id;
-    return this.videosService.findAllByChannel(userId);
+    return this.videosService.findAllByChannel(userId.toString());
+  }
+
+  // Get single video by id (public)
+  @Get(':id')
+  findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.videosService.findOneById(id);
   }
 
   // Get all videos by channel ID
   @Get('channel/:channelId')
-  findAllByChannelId(@Param('channelId') channelId: string) {
+  findAllByChannelId(@Param('channelId', ParseUUIDPipe) channelId: string) {
     return this.videosService.findAllByChannelId(channelId);
   }
 
 
   // Update a video by its ID
   @Patch(':id')
-  update(
+  @UseGuards(AuthGuard('jwt'))
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'thumbnail', maxCount: 1 }
+  ], {
+    storage: multer.memoryStorage()
+  }))
+  async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateVideoDto: UpdateVideoDto,
+    @UploadedFiles() files: { thumbnail?: Express.Multer.File[] },
     @Req() req: any
   ) {
-    const channel = req.user.channel as Channel;
-    return this.videosService.update(id, updateVideoDto, channel);
+    try {
+      if (!req.user || !req.user.id) {
+        throw new ForbiddenException('Usuario no autenticado');
+      }
+
+      console.log('Update video request:', {
+        id,
+        dto: updateVideoDto,
+        userId: req.user.id,
+        hasFiles: !!files?.thumbnail?.length,
+        fileInfo: files?.thumbnail?.[0] ? {
+          fieldname: files.thumbnail[0].fieldname,
+          originalname: files.thumbnail[0].originalname,
+          mimetype: files.thumbnail[0].mimetype,
+          size: files.thumbnail[0].size
+        } : null
+      });
+
+      // Obtener el video con todas las relaciones y validar propiedad
+      const video = await this.videosService.findOneById(id);
+      
+      // Verificar que el usuario actual es el propietario
+      if (video.channel.user.user_id !== req.user.id) {
+        throw new ForbiddenException('No tienes permiso para actualizar este video');
+      }
+
+      // Proceder con la actualización
+      const thumbnailFiles = files?.thumbnail || [];
+      const result = await this.videosService.update(id, updateVideoDto, thumbnailFiles);
+
+      console.log('Video actualizado exitosamente:', {
+        id: result.id,
+        title: result.title,
+        thumbnail: result.thumbnail
+      });
+
+      return result;
+
+    } catch (error) {
+      // Log detallado del error
+      console.error('Error updating video:', {
+        error: error.message,
+        stack: error.stack,
+        details: error
+      });
+
+      // Re-throw para que NestJS maneje la respuesta de error
+      throw error;
+    }
   }
 
   // Delete a video by its ID
   @Delete(':id')
+  @UseGuards(AuthGuard('jwt'))
   remove(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
     const channel = req.user.channel as Channel;
     return this.videosService.remove(id, channel);

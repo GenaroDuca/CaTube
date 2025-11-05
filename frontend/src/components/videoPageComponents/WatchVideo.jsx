@@ -23,7 +23,7 @@ import Gena from '../../assets/images/profile/gena.jpg'
 import Jere from '../../assets/images/profile/jere.jpg'
 import Yukki from '../../assets/images/profile/yukki.jpg'
 
-export function WatchVideo ({url, title, avatar, userName, description, onTheaterToggle}) {
+export function WatchVideo ({url, title, avatar, userName, description, subscriptions, channelId, onTheaterToggle}) {
     const videoRef = useRef(null);
     const {
         isPlaying,
@@ -78,7 +78,7 @@ export function WatchVideo ({url, title, avatar, userName, description, onTheate
             <div>
                 <h1 className='vv-displayVideo-title'>{title}</h1>
                 <div className="vv-displayVideo-userActions">
-                    <CatubeSubsCard avatar={avatar} userName={userName} subscriptions='2.7M' />
+                    <CatubeSubsCard avatar={avatar} userName={userName} subscriptions={subscriptions} channelId={channelId} />
                     <section>
                         <button className="like-btn"><FontAwesomeIcon className="like-btn-icon" icon={faThumbsUp}></FontAwesomeIcon></button>
                         <button className="dislike-btn"><FontAwesomeIcon className="dislike-btn-icon" icon={faThumbsDown}></FontAwesomeIcon></button>

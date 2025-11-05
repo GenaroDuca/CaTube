@@ -39,24 +39,26 @@ constructor(
         await this.channelRepository.delete(id);
     }
 
-    async findOneById(id: string): Promise<Channel> {
+    async findOneById(id: string): Promise<Channel & { videoCount: number }> {
         const channel = await this.channelRepository.findOneBy({ channel_id: id });
 
         if (!channel) {
             throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
         }
 
-        return channel;
+        const videoCount = await this.getVideoCount(id);
+        return { ...channel, videoCount };
     }
 
-    async findOneByUrl(url: string): Promise<Channel> {
+    async findOneByUrl(url: string): Promise<Channel & { videoCount: number }> {
         const channel = await this.channelRepository.findOneBy({ url: url });
 
         if (!channel) {
             throw new NotFoundException(`Canal con URL @${url} no encontrado.`);
         }
 
-        return channel;
+        const videoCount = await this.getVideoCount(channel.channel_id);
+        return { ...channel, videoCount };
     }
 
     async update(id: string, updateChannelDto: CreateChannelDto): Promise<Channel> {

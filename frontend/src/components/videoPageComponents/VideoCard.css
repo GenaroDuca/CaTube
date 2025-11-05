@@ -11,7 +11,7 @@
 .ct-videoCard-thumbnail {
     cursor: pointer;
     width: 360px;
-    height: auto;
+    height: 200px;
     border-radius: 20px;
 }
 

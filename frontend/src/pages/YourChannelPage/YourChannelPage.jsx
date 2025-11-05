@@ -22,7 +22,7 @@ function YourChannel() {
     const [activeTab, setActiveTab] = useState(0);
     const [channelId, setChannelId] = useState(null);
     const tabContents = [
-        <HomeTab key={`home-${channelId}`} />,
+        <HomeTab key={`home-${channelId}`} channelId={channelId} />,
         <VideosTab key={`videos-${channelId}`} />,
         <ShortsTab key={`shorts-${channelId}`} />,
         <Playlists key={`playlists-${channelId}`} />,

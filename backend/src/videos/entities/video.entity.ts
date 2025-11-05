@@ -29,7 +29,11 @@ export class Video {
   @Column('simple-array', { nullable: true })
   tags: string[];
 
-  
+  @Column({ default: 'Public' })
+  visibility: string;
+
+  @Column({ default: 'None' })
+  restrictions: string;
 
   @Column()
   url: string;

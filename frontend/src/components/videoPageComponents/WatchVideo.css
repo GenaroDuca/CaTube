@@ -1,3 +1,28 @@
+/* ===Layout=== */
+.watch-page-layout {
+    display: flex;
+    gap: 24px;
+    max-width: 1850px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.vv-displayVideo-container {
+    flex: 1;
+    min-width: 640px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Theater mode adjustments for related videos */
+.theater-active {
+    width: 100%;
+}
+
+.theater-active + .related-videos {
+    display: none;
+}
+
 /* ===TheatreMode/FullScreen=== */
 .vv-displayVideo-header.theater-mode {
     width: 90vw;

@@ -114,19 +114,116 @@ export class VideosService {
   }
 
   // Update a video by its ID
-  async update(id: string, updateVideoDto: UpdateVideoDto, channel: Channel) {
-    const video = await this.videoRepository.findOne({
-      where: { id },
-      relations: ['channel', 'channel.user'], //Cargar también el user del canal
-    });
-    if (!video) throw new NotFoundException('Video not found');
+  async update(id: string, updateVideoDto: UpdateVideoDto, files?: Express.Multer.File[]) {
+    try {
+      console.log('Starting video update:', { 
+        id, 
+        updateVideoDto,
+        hasFiles: !!files?.length
+      });
 
-    if (video.channel.user.user_id !== channel.user.user_id) {
-      throw new ForbiddenException('You cannot edit this video');
+      const video = await this.videoRepository.findOne({
+        where: { id },
+        relations: ['channel', 'channel.user'],
+      });
+      
+      if (!video) {
+        console.log('Video not found:', id);
+        throw new NotFoundException('Video not found');
+      }
+
+      console.log('Found video to update:', {
+        id: video.id,
+        currentTitle: video.title,
+        currentDescription: video.description,
+        currentThumbnail: video.thumbnail,
+        channelId: video.channel?.channel_id
+      });
+
+      // Actualizar solo los campos proporcionados
+      const updates: any = {};
+      if (updateVideoDto.title !== undefined) {
+        updates.title = updateVideoDto.title;
+      }
+      if (updateVideoDto.description !== undefined) {
+        updates.description = updateVideoDto.description;
+      }
+
+      // Procesar el archivo de miniatura si se proporciona
+      if (files && files.length > 0) {
+        const thumbnailFile = files[0];
+        
+        if (!thumbnailFile.mimetype.startsWith('image/')) {
+          throw new Error('El archivo debe ser una imagen');
+        }
+
+        try {
+          const uploadDir = getUploadsPath('videos');
+          if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir, { recursive: true });
+          }
+
+          const safeName = thumbnailFile.originalname.replace(/\s+/g, '_');
+          const fileName = `${video.id}_${Date.now()}_${safeName}`;
+          const filePath = path.join(uploadDir, fileName);
+
+          // Escribir el nuevo archivo
+          await fs.promises.writeFile(filePath, thumbnailFile.buffer);
+
+          // Actualizar la ruta de la miniatura
+          updates.thumbnail = `/uploads/videos/${fileName}`;
+
+          // Eliminar la miniatura anterior si existe
+          if (video.thumbnail) {
+            const oldThumbnailPath = path.join(process.cwd(), video.thumbnail.replace(/^\//, ''));
+            if (fs.existsSync(oldThumbnailPath)) {
+              await fs.promises.unlink(oldThumbnailPath);
+            }
+          }
+
+          console.log('Thumbnail updated successfully:', {
+            newPath: updates.thumbnail,
+            oldPath: video.thumbnail
+          });
+        } catch (fileError) {
+          console.error('Error processing thumbnail:', fileError);
+          throw new Error('Error al procesar la miniatura: ' + fileError.message);
+        }
+      }
+
+      if (Object.keys(updates).length === 0) {
+        throw new Error('No se proporcionaron cambios para actualizar');
+      }
+
+      console.log('Applying updates:', updates);
+
+      // Aplicar las actualizaciones
+      Object.assign(video, updates);
+
+      // Guardar los cambios
+      const updatedVideo = await this.videoRepository.save(video);
+      console.log('Video updated successfully:', {
+        id: updatedVideo.id,
+        newTitle: updatedVideo.title,
+        newDescription: updatedVideo.description,
+        newThumbnail: updatedVideo.thumbnail
+      });
+      
+      return {
+        id: updatedVideo.id,
+        title: updatedVideo.title,
+        description: updatedVideo.description,
+        thumbnail: updatedVideo.thumbnail,
+        url: updatedVideo.url
+      };
+    } catch (error) {
+      console.error('Error in video update:', {
+        error: error.message,
+        stack: error.stack,
+        details: error
+      });
+      throw error;
     }
-
-    Object.assign(video, updateVideoDto);
-    return await this.videoRepository.save(video);
   }
 
   // Delete a video by its ID
@@ -154,5 +251,27 @@ export class VideosService {
     });
 
     return videos;
+  }
+
+  async findOneById(id: string) {
+    const video = await this.videoRepository.findOne({
+      where: { id },
+      relations: ['channel', 'channel.user'],
+    });
+
+    if (!video) {
+      throw new NotFoundException('Video not found');
+    }
+
+    if (!video.channel || !video.channel.user) {
+      console.error('Video found but missing channel or user information:', {
+        videoId: video.id,
+        hasChannel: !!video.channel,
+        hasUser: !!video.channel?.user
+      });
+      throw new ForbiddenException('Video no tiene información de canal o usuario asociada');
+    }
+
+    return video;
   }
 }

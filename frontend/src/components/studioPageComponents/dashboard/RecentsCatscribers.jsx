@@ -1,6 +1,7 @@
 import Subtitle from "../../homePageComponents/Subtitle";
 import Container from "../../common/Container";
 import { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
 
 
 const BASE_URL = 'http://localhost:3000';
@@ -67,6 +68,28 @@ function RecentCatscribers() {
                 if (subscribersResponse.ok) {
                     const subscribersData = await subscribersResponse.json();
                     setRecentSubscribers(subscribersData);
+
+                    // Pre-fetch channel URLs for subscribers that include channel_id
+                    try {
+                        const channelIds = Array.from(new Set(subscribersData
+                            .map(s => s.channel && s.channel.channel_id)
+                            .filter(Boolean)));
+
+                        if (channelIds.length > 0) {
+                            const channelPromises = channelIds.map(id => fetch(`${BASE_URL}/channels/${id}`));
+                            const channelResponses = await Promise.all(channelPromises);
+                            const channelJsons = await Promise.all(channelResponses.map(r => r.ok ? r.json() : null));
+                            const map = {};
+                            channelJsons.forEach(ch => {
+                                if (ch && ch.channel_id) map[ch.channel_id] = ch.url; // store slug
+                            });
+                            // Store in local state for rendering
+                            // merge into recentSubscribers map by mapping ids to urls
+                            setRecentSubscribers(prev => prev.map(s => ({ ...s, channelUrl: s.channel?.channel_id ? map[s.channel.channel_id] : undefined })));
+                        }
+                    } catch (err) {
+                        console.error('Error prefetching subscriber channels:', err);
+                    }
                 } else {
                     setError('Failed to fetch recent subscribers');
                 }
@@ -143,22 +166,28 @@ function RecentCatscribers() {
             <Subtitle subtitle="Recent Catscribers"></Subtitle>
             <Container className="recent-cats-container">
                 {recentSubscribers.length > 0 ? (
-                    recentSubscribers.map(subscriber => (
-                        <Container key={subscriber.id} className="recent-cats">
-                            <img
-                                className="userphoto-recent-cats"
-                                src={getProfileImageSrc(subscriber.channel?.photoUrl, subscriber.username)}
-                                alt={subscriber.username}
-                                onError={(e) => {
-                                    e.target.src = getDefaultAvatar(subscriber.username);
-                                }}
-                            />
-                            <Container>
-                                <p>{subscriber.channel?.channel_name || subscriber.username}</p>
-                                <p>{subscriber.channel?.subscriberCount ? `${subscriber.channel.subscriberCount} Catscribers` : '0 Catscribers'}</p>
-                            </Container>
-                        </Container>
-                    ))
+                    recentSubscribers.map(subscriber => {
+                        const channelSlug = subscriber.channelUrl || subscriber.channel?.url || null;
+                        const to = channelSlug ? `/yourchannel/${channelSlug}` : '#';
+                        return (
+                            <Link key={subscriber.id} to={to} style={{ textDecoration: 'none', color: 'inherit' }}>
+                                <Container className="recent-cats">
+                                    <img
+                                        className="userphoto-recent-cats"
+                                        src={getProfileImageSrc(subscriber.channel?.photoUrl, subscriber.username)}
+                                        alt={subscriber.username}
+                                        onError={(e) => {
+                                            e.target.src = getDefaultAvatar(subscriber.username);
+                                        }}
+                                    />
+                                    <Container>
+                                        <p>{subscriber.channel?.channel_name || subscriber.username}</p>
+                                        <p>{subscriber.channel?.subscriberCount ? `${subscriber.channel.subscriberCount} Catscribers` : '0 Catscribers'}</p>
+                                    </Container>
+                                </Container>
+                            </Link>
+                        );
+                    })
                 ) : (
                     <p>No recent subscribers</p>
                 )}

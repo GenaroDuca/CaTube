@@ -33,6 +33,9 @@ export function Search() {
   // Fetch channels from API
   const [channels, setChannels] = useState([]);
   const [loadingChannels, setLoadingChannels] = useState(true);
+  const [videos, setVideos] = useState([]);
+  const [shorts, setShorts] = useState([]);
+  const [loadingVideos, setLoadingVideos] = useState(true);
 
   useEffect(() => {
     const fetchChannels = async () => {
@@ -68,7 +71,7 @@ export function Search() {
               id: channel.channel_id,
               avatar,
               userName: channel.channel_name,
-              subscriptions: `${channel.subscriberCount || 0} subs`
+              subscriptions: channel.subscriberCount || 0
             };
           });
           setChannels(transformedChannels);
@@ -83,47 +86,60 @@ export function Search() {
     fetchChannels();
   }, []);
 
-  const videos = useMemo(
-    () => [
-      { id: 1, thumbnail, avatar: Yukki, title: 'Pinterest Swap Challenge', userName: "Yukki", description: "esto es una descripcion de prueba. repito esto es una descripcion de prueba" },
-      { id: 2, thumbnail, avatar: Gena, title: 'title 2', userName: "Sheni", description: "esto es una descripcion de prueba. repito esto es una descripcion de prueba" },
-      { id: 3, thumbnail, avatar: Jere, title: 'title 3', userName: "Gazzard", description: "esto es una descripcion de prueba. repito esto es una descripcion de prueba" },
-      { id: 4, thumbnail, avatar: Yukki, title: 'Pinterest Swap Challenge', userName: "Yukki", description: "esto es una descripcion de prueba. repito esto es una descripcion de prueba" },
-      { id: 5, thumbnail, avatar: Gena, title: 'title 2', userName: "Sheni", description: "esto es una descripcion de prueba. repito esto es una descripcion de prueba" },
-      { id: 6, thumbnail, avatar: Jere, title: '¿Qué pasa si mezclás esto?', userName: "Gazzard", description: "esto es una descripcion de prueba. repito esto es una descripcion de prueba" },
-      { id: 7, thumbnail, avatar: Yukki, title: 'Mini vlog: 1 día en Buenos Aires', userName: "Yukki", description: "esto es una descripcion de prueba. repito esto es una descripcion de prueba" },
-      { id: 8, thumbnail, avatar: Gena, title: 'Cómo se ve el código detrás', userName: "Sheni", description: "esto es una descripcion de prueba. repito esto es una descripcion de prueba" },
-      { id: 9, thumbnail, avatar: Jere, title: 'Este sonido me persigue', userName: "Gazzard", description: "esto es una descripcion de prueba. repito esto es una descripcion de prueba" },
-    ],
-    []
-  );
+  useEffect(() => {
+    const fetchVideos = async () => {
+      setLoadingVideos(true);
+      try {
+        const res = await fetch('http://localhost:3000/videos');
+        if (!res.ok) throw new Error('Failed to fetch videos');
+        const data = await res.json();
 
-  const shorts = useMemo(
-    () => [
-      { id: 1, thumbnail: shortCats, avatar: Yukki, title: '¿Sabías esto sobre los gatos?', userName: "Yukki" },
-      { id: 2, thumbnail: shortThumbnail, avatar: Gena, title: '1 truco para editar más rápido', userName: "Sheni" },
-      { id: 3, thumbnail: shortThumbnail, avatar: Jere, title: 'Mi reacción al nuevo trailer', userName: "Gazzard" },
-      { id: 4, thumbnail: shortThumbnail, avatar: Yukki, title: 'Lo que nadie te cuenta del café', userName: "Yukki" },
-      { id: 5, thumbnail: shortThumbnail, avatar: Gena, title: 'Top 3 apps que uso diario', userName: "Sheni" },
-      { id: 6, thumbnail: shortThumbnail, avatar: Jere, title: '¿Qué pasa si mezclás esto?', userName: "Gazzard" },
-      { id: 7, thumbnail: shortThumbnail, avatar: Yukki, title: 'Mini vlog: 1 día en Buenos Aires', userName: "Yukki" },
-      { id: 8, thumbnail: shortThumbnail, avatar: Gena, title: 'Cómo se ve el código detrás', userName: "Sheni" },
-      { id: 9, thumbnail: shortThumbnail, avatar: Jere, title: 'Este sonido me persigue', userName: "Gazzard" },
-    ],
-    []
-  );
+        const mapped = data.map(v => {
+          const thumbnail = v.thumbnail && v.thumbnail.startsWith('/') ? `http://localhost:3000${v.thumbnail}` : (v.thumbnail || '');
+          const avatar = v.channel?.photoUrl
+            ? (v.channel.photoUrl.startsWith('/uploads/') ? `http://localhost:3000${v.channel.photoUrl}` : v.channel.photoUrl)
+            : '/assets/images/profile/A.png';
+          return {
+            id: v.id,
+            thumbnail,
+            avatar,
+            title: v.title,
+            userName: v.channel?.channel_name || 'Unknown',
+            description: v.description || '',
+            type: v.type || 'video'
+          };
+        });
+
+        setVideos(mapped.filter(x => x.type === 'video' || !x.type));
+        setShorts(mapped.filter(x => x.type === 'short'));
+      } catch (err) {
+        console.error('Error fetching videos:', err);
+        setVideos([]);
+        setShorts([]);
+      } finally {
+        setLoadingVideos(false);
+      }
+    };
+
+    fetchVideos();
+  }, []);
+
+  // use videos/shorts state fetched from backend
+
+  // shorts state comes from backend fetch
 
   //filtros
-  const filteredChannels = channels.filter((ch) => ch.userName.toLowerCase().includes(searchQuery.toLowerCase()));
+  const lower = searchQuery.toLowerCase();
+  const filteredChannels = channels.filter((ch) => ch.userName.toLowerCase().includes(lower));
 
   const filteredVideos = videos.filter((vd) =>
-    vd.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    vd.userName.toLowerCase().includes((searchQuery.toLowerCase()))
+    vd.title.toLowerCase().includes(lower) ||
+    vd.userName.toLowerCase().includes(lower)
   );
 
   const filteredShorts = shorts.filter((short) =>
-    short.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    short.userName.toLowerCase().includes((searchQuery.toLowerCase()))
+    short.title.toLowerCase().includes(lower) ||
+    short.userName.toLowerCase().includes(lower)
   );
 
 

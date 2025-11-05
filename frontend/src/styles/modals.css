@@ -58,11 +58,6 @@ body {
 
 /* El .right-menu-modal original tenía estilos duplicados/incorrectos para el overlay */
 /* Se unifica con el selector superior, pero se elimina el display:none que impedía su visualización */
-.right-menu-modal {
-    /* La línea de arriba es suficiente para el overlay. */
-    /* Se elimina la posición absoluta y transform antigua del final del archivo */
-    /* Si necesita un posicionamiento diferente al de pantalla completa, debe usar otra clase. */
-}
 
 /* SELECTOR UNIFICADO PARA TAMAÑO Y CONTENIDO DE MODALES GRANDES */
 .feedback-modal-content,

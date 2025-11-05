@@ -1,21 +1,107 @@
 import React, { useState } from "react";
 import './videoModal.css';
 import { IoIosCloseCircle } from "react-icons/io";
+import { useToast } from "../../../../hooks/useToast.jsx";
 
+const BASE_URL = 'http://localhost:3000';
 
-function EditVideoModal({ onClose, onSubmit }) {
+function EditVideoModal({ onClose, videoId, title: initialTitle, description: initialDescription, thumbnail }) {
+    const { showSuccess, showError } = useToast();
     const [formData, setFormData] = useState({
-        title: '',
-        description: '',
-        tags: '',
-        videoFile: '',
-        thumbnail: '',
+        title: initialTitle || '',
+        description: initialDescription || ''
     });
+    const [thumbnailFile, setThumbnailFile] = useState(null);
+    const [thumbnailPreview, setThumbnailPreview] = useState(thumbnail || null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-    const handleSubmit = (e) => {
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+    };
+
+    const handleThumbnailChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            if (!file.type.startsWith('image/')) {
+                setError('Please select a valid image file');
+                return;
+            }
+
+            setThumbnailFile(file);
+            setThumbnailPreview(URL.createObjectURL(file));
+        }
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (onSubmit) onSubmit(formData);
-        onClose();
+        setLoading(true);
+        setError(null);
+
+        try {
+            const accessToken = localStorage.getItem('accessToken');
+            if (!accessToken) {
+                throw new Error('You are not authenticated');
+            }
+
+            const formDataToSend = new FormData();
+            formDataToSend.append('title', formData.title);
+            formDataToSend.append('description', formData.description);
+            
+            if (thumbnailFile) {
+                formDataToSend.append('thumbnail', thumbnailFile);
+            }
+
+            console.log('Enviando actualización:', {
+                videoId,
+                title: formData.title,
+                description: formData.description,
+                hasThumbnail: !!thumbnailFile
+            });
+
+            const response = await fetch(`${BASE_URL}/videos/${videoId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Authorization': `Bearer ${accessToken}`,
+                    // No incluir Content-Type cuando se envía FormData
+                },
+                body: formDataToSend
+            });
+
+            if (!response.ok) {
+                const text = await response.text();
+                let errorMessage;
+                try {
+                    const data = JSON.parse(text);
+                    errorMessage = data.message;
+                } catch (e) {
+                    errorMessage = text;
+                }
+                console.error('Error response:', {
+                    status: response.status,
+                    text: text
+                });
+                showError(errorMessage || 'Error updating video');
+                throw new Error(errorMessage || 'Error updating video');
+            }
+
+            const data = await response.json();
+            console.log('Actualización exitosa:', data);
+            showSuccess('Video updated successfully');
+            setTimeout(() => {
+                onClose();
+                window.location.reload(); // Reload page to see changes
+            }, 1500); // Wait 1.5 seconds so user can see success message
+            onClose();
+        } catch (err) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -28,82 +114,85 @@ function EditVideoModal({ onClose, onSubmit }) {
                     </button>
                 </header>
                 <main>
-                    <h2>Video title</h2>
-                    <div>
-                        <input
-                            type="text"
-                            id="video-title"
-                            placeholder="current title current title current title"
-                            defaultValue="current title current title current title"
-                        />
-                    </div>
+                    <form onSubmit={handleSubmit}>
+                        <h2>Video Title</h2>
+                        <div>
+                            <input
+                                type="text"
+                                id="title"
+                                name="title"
+                                value={formData.title}
+                                onChange={handleChange}
+                                placeholder="Enter video title"
+                                required
+                            />
+                        </div>
 
-                    <h2>Video description</h2>
-                    <div>
-                        <textarea
-                            id="video-description"
-                            placeholder="Video description"
-                            defaultValue="Video description Video description Video description"
-                        ></textarea>
-                    </div>
+                        <h2>Video Description</h2>
+                        <div>
+                            <textarea
+                                id="description"
+                                name="description"
+                                value={formData.description}
+                                onChange={handleChange}
+                                placeholder="Enter video description"
+                            ></textarea>
+                        </div>
 
-                    <h2>Video thumbnail</h2>
-                    <div className="create-thumbnail">
-                        <img
-                            src="/media/sample-thumbnail.jpg"
-                            alt="Thumbnail"
-                        />
-                        <label htmlFor="edit-thumbnail">Upload</label>
-                        <input
-                            type="file"
-                            id="edit-thumbnail"
-                            accept="image/*"
-                            style={{ display: 'none' }}
-                        />
-                    </div>
-
-                    {/* <h2>Video tags</h2>
-                    <div className="create-video-tags-container">
-                        <section>
-                            <select id="video-tags" name="video-tags" multiple>
-                                <option value="music">#music</option>
-                                <option value="vlog">#vlog</option>
-                                <option value="cooking">#cooking</option>
-                                <option value="nashe">#nashe</option>
-                                <option value="idooo">#idooo</option>
-                            </select>
-                        </section>
-
-                        <section className="tag-input-container">
-                            <span>Create your own tag</span>
-                            <div>
-                                <input type="text" id="custom-tag" placeholder="Enter your tag" />
-                                <button type="button" className="soon">
-                                    <i className="fas fa-plus"></i>
-                                </button>
+                        <h2>Video Thumbnail</h2>
+                        <div className="create-thumbnail">
+                            {thumbnailPreview && (
+                                <img
+                                    src={thumbnailPreview}
+                                    alt="Thumbnail"
+                                    style={{ maxWidth: '300px', height: '200px', marginBottom: '20px', borderRadius: '15px' }}
+                                />
+                            )}
+                            <div className="thumbnail-upload">
+                                <input
+                                    type="file"
+                                    id="thumbnail"
+                                    accept="image/*"
+                                    onChange={handleThumbnailChange}
+                                    style={{ display: 'none' }}
+                                />
+                                <label 
+                                    htmlFor="thumbnail" 
+                                    className="apply-changes-create-video"
+                                    style={{
+                                        display: 'inline-block',
+                                        padding: '0px 0px',
+                                        cursor: 'pointer',
+                                        border: 'none',
+                                        borderRadius: '25px',
+                                        fontWeight: 'bold'
+                                    }}
+                                >
+                                    {thumbnailPreview ? 'Change Thumbnail' : 'Upload Thumbnail'}
+                                </label>
                             </div>
-                        </section>
+                        </div>
 
-                        <section>
-                            <select id="video-tags" name="video-tags" multiple>
-                                <option value="music">#music</option>
-                                <option value="vlog">#vlog</option>
-                                <option value="cooking">#cooking</option>
-                                <option value="nashe">#nashe</option>
-                                <option value="idooo">#idooo</option>
-                            </select>
-                        </section>
-                    </div> */}
+                        {error && (
+                            <div className="error-message" style={{ color: 'red', marginTop: '10px' }}>
+                                {error}
+                            </div>
+                        )}
 
-                    <div className="create-video-buttons">
-                        <button type="button" className="discard-changes-create-video">
-                            Discard changes
-                        </button>
+                        <div className="create-video-buttons">
+                            <button type="button" className="discard-changes-create-video" onClick={onClose}>
+                                Discard Changes
+                            </button>
 
-                        <button type="button" className="apply-changes-create-video">
-                            Apply changes
-                        </button>
-                    </div>
+                            <button 
+                                type="submit" 
+                                className="apply-changes-create-video"
+                                disabled={loading}
+                            >
+                                {loading ? 'Saving...' : 'Save Changes'}
+                            </button>
+                        </div>
+                    </form>
                 </main>
             </div>
         </div>

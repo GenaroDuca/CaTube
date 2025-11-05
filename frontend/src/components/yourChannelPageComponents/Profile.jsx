@@ -146,8 +146,8 @@ function Profile() {
                 setChannelName(channelData.channel_name || profile.name);
                 setChannelHandle(channelData.url ? '@' + channelData.url : profile.handle);
                 setChannelDescription(channelData.description || profile.description);
-                setChannelSubs(channelData.subscriberCount || 0)
-                setChannelVideos(profile.videos);
+                setChannelSubs(channelData.subscriberCount || 0);
+                setChannelVideos(channelData.videoCount ? `${channelData.videoCount} videos` : '0 videos');
                 let photoSrc;
                 if (channelData.photoUrl && channelData.photoUrl.trim() !== '') {
                     let photoPath = channelData.photoUrl;

@@ -5,10 +5,9 @@ import './VideoCard.css'
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
-export function CatubeVideoCard ({id, thumbnail, avatar, userName, title, description}) {
+export function CatubeVideoCard({ id, thumbnail, avatar, userName, title, description }) {
     const { pathname } = useLocation();
     const isVideoPage = pathname.includes('/watch')
-    
     //Conditional classes and text
     const cardClassName = isVideoPage
         ? 'ct-videoCard-description watch'
