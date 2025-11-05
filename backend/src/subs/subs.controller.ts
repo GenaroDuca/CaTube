@@ -15,7 +15,7 @@ export class SubscriptionsController {
     @Body() createSubscriptionDto: CreateSubscriptionDto,
     @Req() req: any,
   ) {
-    const user = await this.subscriptionsService['usersRepository'].findOne({ where: { user_id: req.user.userId } });
+    const user = await this.subscriptionsService['usersRepository'].findOne({ where: { user_id: req.user.id } });
     if (!user) throw new Error('User not found');
     return this.subscriptionsService.subscribe(user, createSubscriptionDto.channelId);
   }
@@ -27,7 +27,7 @@ export class SubscriptionsController {
     @Body() deleteSubscriptionDto: DeleteSubscriptionDto,
     @Req() req: any,
   ) {
-    const user = await this.subscriptionsService['usersRepository'].findOne({ where: { user_id: req.user.userId } });
+    const user = await this.subscriptionsService['usersRepository'].findOne({ where: { user_id: req.user.id } });
     if (!user) throw new Error('User not found');
     return this.subscriptionsService.unsubscribe(user, deleteSubscriptionDto.channelId);
   }
@@ -46,5 +46,21 @@ export class SubscriptionsController {
     @Param('channelId', ParseUUIDPipe) channelId: string,
   ) {
     return this.subscriptionsService.getChannelSubscribers(channelId);
+  }
+
+  //Get recent subscribers
+  @Get('channel/:channelId/recent')
+  findRecentSubscribersByChannel(
+    @Param('channelId', ParseUUIDPipe) channelId: string,
+  ) {
+    return this.subscriptionsService.getRecentSubscribers(channelId);
+  }
+
+  //Get recent subscribers for logged-in user
+  @Get('me/recent')
+  @UseGuards(AuthGuard('jwt'))
+  findRecentSubscribersForMe(@Req() req: any) {
+    const userId = req.user.id;
+    return this.subscriptionsService.getRecentSubscribersForLoggedUser(userId);
   }
 }

@@ -24,6 +24,11 @@ export class ChannelsController {
         return this.channelsService.findOneById(id);
     }
 
+    @Get(':id/video-count')
+    getVideoCount(@Param('id') id: string) {
+        return this.channelsService.getVideoCount(id);
+    }
+
     @Get('url/:url')
     findOneByUrl(@Param('url') url: string) {
         return this.channelsService.findOneByUrl(url);

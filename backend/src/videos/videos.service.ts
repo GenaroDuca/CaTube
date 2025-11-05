@@ -143,4 +143,15 @@ export class VideosService {
     await this.videoRepository.remove(video);
     return { message: 'Video deleted successfully' };
   }
+
+  async findAllByChannelId(channelId: string) {
+    // Buscar todos los videos que pertenecen a ese canal
+    const videos = await this.videoRepository.find({
+      where: { channel: { channel_id: channelId } },
+      relations: ['channel'],
+      order: { createdAt: 'DESC' },
+    });
+
+    return videos;
+  }
 }

@@ -3,7 +3,7 @@ import './CatubeSubsCard.css'
 
 export function CatubeSubsCard({ avatar, userName, subscriptions, isFollowing: initialIsFollowing }) {
     const [isFollowing, setIsFollowing] = useState(initialIsFollowing);
-    
+
     const text = isFollowing ? 'Subscribed' : 'Subscribe';
     const buttonClassName = isFollowing
         ? 'ct-subsCard-button is-following'

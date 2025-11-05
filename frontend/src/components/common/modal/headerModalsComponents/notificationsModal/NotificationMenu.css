@@ -45,11 +45,15 @@
     overflow: hidden;
 }
 
-.notification-dropdown::-webkit-scrollbar {
+.notification-dropdown.collapsed {
     display: none;
 }
 
-.notification-dropdown::-webkit-scrollbar-thumb {
+.notifications-sidebar::-webkit-scrollbar {
+    display: none;
+}
+
+.notifications-sidebar::-webkit-scrollbar-thumb {
     background-color: var(--btn);
     border-radius: var(--border-radius);
 }

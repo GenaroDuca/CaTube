@@ -70,16 +70,30 @@ function Youprofile() {
                         setChannelHandle(channelData.url ? '@' + channelData.url : youProfile.handle);
                         setChannelDescription(channelData.description || youProfile.description);
                         setChannelSubs(channelData.subscriberCount || 0)
-                        if (channelData.photoUrl) {
+                        let photoSrc;
+                        if (channelData.photoUrl && channelData.photoUrl.trim() !== '') {
                             let photoPath = channelData.photoUrl;
-                            if (photoPath.startsWith('/default-avatar/')) {
+                            if (photoPath.startsWith('/uploads/')) {
+                                // Imagen subida por el usuario
+                                photoSrc = BASE_URL + photoPath;
+                            } else if (photoPath.startsWith('/assets/images/profile/')) {
+                                // Imagen predeterminada ya mapeada
+                                photoSrc = photoPath;
+                            } else if (photoPath.startsWith('/default-avatar/')) {
                                 // Map old default-avatar paths to new assets path
                                 const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
                                 const letter = letterMatch ? letterMatch[1] : 'A';
-                                photoPath = `/assets/images/profile/${letter}.png`;
+                                photoSrc = `/assets/images/profile/${letter}.png`;
+                            } else {
+                                // Otro tipo de ruta, asumir que es subida
+                                photoSrc = BASE_URL + photoPath;
                             }
-                            setUserPhoto(BASE_URL + photoPath);
+                        } else {
+                            // Set default avatar based on first letter of channel name
+                            const firstLetter = channelData.channel_name?.charAt(0).toUpperCase() || 'A';
+                            photoSrc = `/assets/images/profile/${firstLetter}.png`;
                         }
+                        setUserPhoto(photoSrc);
                     }
                 }
             } catch (error) {

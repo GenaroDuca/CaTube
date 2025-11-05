@@ -2,11 +2,46 @@ import Subtitle from "../../homePageComponents/Subtitle";
 import Container from "../../common/Container";
 import { useState, useEffect } from "react";
 
+
+const BASE_URL = 'http://localhost:3000';
+
+// Helper function to get profile image source
+function getProfileImageSrc(photoUrl, username) {
+    if (photoUrl && photoUrl.trim() !== '') {
+        let photoPath = photoUrl;
+        if (photoPath.startsWith('/uploads/')) {
+            // Imagen subida por el usuario
+            return BASE_URL + photoPath;
+        } else if (photoPath.startsWith('/assets/images/profile/')) {
+            // Imagen predeterminada ya mapeada
+            return photoPath;
+        } else if (photoPath.startsWith('/default-avatar/')) {
+            // Map old default-avatar paths to new assets path
+            const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
+            const letter = letterMatch ? letterMatch[1] : 'A';
+            return `/assets/images/profile/${letter}.png`;
+        } else {
+            // Otro tipo de ruta, asumir que es subida
+            return BASE_URL + photoPath;
+        }
+    } else {
+        // Set default avatar based on first letter of username
+        return getDefaultAvatar(username);
+    }
+}
+
+// Helper function to get default avatar based on username
+function getDefaultAvatar(username) {
+    const firstLetter = username?.charAt(0).toUpperCase() || 'A';
+    return `/assets/images/profile/${firstLetter}.png`;
+}
+
 function RecentCatscribers() {
     const [recentSubscribers, setRecentSubscribers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [totalSubs, setTotalSubs] = useState("Loading...");
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -16,8 +51,10 @@ function RecentCatscribers() {
                 return;
             }
 
+
             try {
                 const accessToken = localStorage.getItem('accessToken');
+
 
                 // Fetch recent subscribers
                 const subscribersResponse = await fetch(`http://localhost:3000/subscriptions/me/recent`, {
@@ -26,6 +63,7 @@ function RecentCatscribers() {
                     },
                 });
 
+
                 if (subscribersResponse.ok) {
                     const subscribersData = await subscribersResponse.json();
                     setRecentSubscribers(subscribersData);
@@ -33,12 +71,14 @@ function RecentCatscribers() {
                     setError('Failed to fetch recent subscribers');
                 }
 
+
                 // Fetch total subscribers count from logged-in user's channel
                 const userResponse = await fetch(`http://localhost:3000/users/me`, {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                     },
                 });
+
 
                 if (userResponse.ok) {
                     const userData = await userResponse.json();
@@ -49,6 +89,7 @@ function RecentCatscribers() {
                                 'Authorization': `Bearer ${accessToken}`,
                             },
                         });
+
 
                         if (channelResponse.ok) {
                             const channelData = await channelResponse.json();
@@ -64,8 +105,10 @@ function RecentCatscribers() {
             }
         };
 
+
         fetchData();
     }, []);
+
 
     if (loading) {
         return (
@@ -80,6 +123,7 @@ function RecentCatscribers() {
         );
     }
 
+
     if (error) {
         return (
             <Container className="dashboard-card">
@@ -93,6 +137,7 @@ function RecentCatscribers() {
         );
     }
 
+
     return (
         <Container className="dashboard-card">
             <Subtitle subtitle="Recent Catscribers"></Subtitle>
@@ -102,8 +147,11 @@ function RecentCatscribers() {
                         <Container key={subscriber.id} className="recent-cats">
                             <img
                                 className="userphoto-recent-cats"
-                                src={subscriber.channel?.photoUrl ? `http://localhost:3000${subscriber.channel.photoUrl}` : '/assets/images/profile/default.png'}
+                                src={getProfileImageSrc(subscriber.channel?.photoUrl, subscriber.username)}
                                 alt={subscriber.username}
+                                onError={(e) => {
+                                    e.target.src = getDefaultAvatar(subscriber.username);
+                                }}
                             />
                             <Container>
                                 <p>{subscriber.channel?.channel_name || subscriber.username}</p>

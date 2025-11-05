@@ -1,6 +1,6 @@
     import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm/repository/Repository';
+import { Repository } from 'typeorm';
 import { CreateChannelDto } from './dto-channels/create-channel.dto';
 import { Channel } from './entities/channel.entity';
 import { User } from 'src/users/entities/user.entity';
@@ -157,5 +157,16 @@ constructor(
         channel.bannerUrl = `/assets/images/studio_media/catube-pc.png`;
 
         return this.channelRepository.save(channel);
+    }
+
+    async getVideoCount(channelId: string): Promise<number> {
+        const result = await this.channelRepository
+            .createQueryBuilder('channel')
+            .leftJoin('channel.videos', 'video')
+            .where('channel.channel_id = :channelId', { channelId })
+            .select('COUNT(video.id)', 'count')
+            .getRawOne();
+
+        return parseInt(result.count);
     }
 }

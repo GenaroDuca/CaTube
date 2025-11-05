@@ -63,7 +63,7 @@ export function NotificationMenu() {
                 )}
             </button>
 
-            <aside className={`notifications-sidebar ${isNotificationMenuOpen ? '' : 'collapsed'}`}>
+            <aside className={`notification-dropdown ${isNotificationMenuOpen ? '' : 'collapsed'}`}>
                 <header>
                     <h2>Notifications</h2>
                 </header>

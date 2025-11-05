@@ -39,7 +39,7 @@ import { VideosModule } from './videos/videos.module';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'geniducv1',
+      password: 'Colo123',
       database: 'catube_db',
       // logging: true,
       entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo, Friendship, Notification, Message, Room],

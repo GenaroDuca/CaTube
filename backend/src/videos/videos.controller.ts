@@ -61,6 +61,12 @@ export class VideosController {
     return this.videosService.findAllByChannel(userId);
   }
 
+  // Get all videos by channel ID
+  @Get('channel/:channelId')
+  findAllByChannelId(@Param('channelId') channelId: string) {
+    return this.videosService.findAllByChannelId(channelId);
+  }
+
 
   // Update a video by its ID
   @Patch(':id')

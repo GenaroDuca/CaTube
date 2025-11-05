@@ -16,6 +16,7 @@ import ShortsPage from './pages/ShortPage/ShortsPage.jsx'
 import { VideoPage } from './pages/VideoPage/VideoPage.jsx'
 import SuccessPage from "./pages/VerificationEmailPage/SuccessPage.jsx"
 import ErrorPage from './pages/VerificationEmailPage/ErrorPage.jsx';
+import { Search } from './pages/SearchPage/SearchPage.jsx'
 
 // Providers y Componentes Globales
 import { ModalProvider } from './components/common/modal/ModalContext.jsx'
@@ -49,6 +50,7 @@ createRoot(document.getElementById('root')).render(
               <Route path='/watch/:id' element={<VideoPage />} />
               <Route path="/verification-successful" element={<SuccessPage />} />
               <Route path="/verification-error" element={<ErrorPage />} />
+              <Route path='/Search' element={<Search />} />
             </Routes>
 
             <ModalRenderer />

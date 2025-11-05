@@ -46,10 +46,9 @@ const apiService = {
         }
     },
 
-    getChannelData() {
-        const channelId = localStorage.getItem('channelId');
+    getChannelData(channelId) {
         if (!channelId) {
-            console.error('No se encontró channelId en localStorage.');
+            console.error('No se encontró channelId.');
             return Promise.resolve(null);
         }
         return this._fetch(`/channels/${channelId}`);

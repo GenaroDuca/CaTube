@@ -4,7 +4,7 @@ import Title from "../../TrendingPageComponents/Title"
 import Container from "../../common/Container";
 import LatestVideo from "./LatestVideo";
 
-function Dashboard() {
+function Dashboard({ channelId }) {
     return (
         <>
             <Title title="Dashboard"></Title>
@@ -14,7 +14,7 @@ function Dashboard() {
                     <Container className="three-cards">
                         <LatestVideo></LatestVideo>
                         <LatestComments></LatestComments>
-                        <RecentCatscribers></RecentCatscribers>
+                        <RecentCatscribers channelId={channelId}></RecentCatscribers>
                     </Container>
                 </Container>
             </Container>

@@ -21,8 +21,8 @@ function Studio() {
     const [searchParams, setSearchParams] = useSearchParams();
     const section = searchParams.get('section') || 'dashboard';
     const accessToken = localStorage.getItem('accessToken');
-    const componentKey = `${section}-${accessToken}`;
     const [userChannelId, setUserChannelId] = useState(null);
+    const componentKey = `${section}-${accessToken}-${userChannelId}`;
 
     useEffect(() => {
         async function loadUserChannel() {
@@ -54,14 +54,14 @@ function Studio() {
     }, [accessToken]);
 
     const tabs = useMemo(() => [
-        { name: 'dashboard', component: <Dashboard /> },
+        { name: 'dashboard', component: <Dashboard channelId={userChannelId} /> },
         { name: 'content', component: <Content /> },
         // { name: 'analytics', component: <Analytics /> },
         { name: 'community', component: <Community /> },
         { name: 'store', component: <Store /> },
         // { name: 'earn', component: <Earn /> },
-        { name: 'customization', component: <Customization /> }
-    ], []);
+        { name: 'customization', component: <Customization channelId={userChannelId} /> }
+    ], [userChannelId]);
 
     // Find the index of the section in the URL, default to 0
     const activeTabIndex = useMemo(() => {

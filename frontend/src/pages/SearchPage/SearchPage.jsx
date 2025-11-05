@@ -1,5 +1,4 @@
-
-import { useState, useMemo } from 'react'
+import {useState, useMemo, useEffect} from 'react'
 
 //Components
 import { ChannelList } from '../../components/user/ChannelList.jsx'
@@ -31,21 +30,58 @@ export function Search() {
     }
   }, []);
 
-  //esto se reemplaza
-  const channels = useMemo(
-    () => [
-      { id: 1, avatar: Angel, userName: "Colithoxz", subscriptions: "3.4M subs" },
-      { id: 2, avatar: Gena, userName: "Sheni", subscriptions: "4K subs" },
-      { id: 3, avatar: Jere, userName: "Gazzard", subscriptions: "3.4K subs" },
-      { id: 4, avatar: Yukki, userName: "yukki", subscriptions: "2 subs" },
-      { id: 5, avatar: Angel, userName: "Colithoxz", subscriptions: "3.4M subs" },
-      { id: 6, avatar: Gena, userName: "Sheni", subscriptions: "4K subs" },
-      { id: 7, avatar: Jere, userName: "Gazzard", subscriptions: "3.4K subs" },
-      { id: 8, avatar: Yukki, userName: "yukki", subscriptions: "2 subs" },
-      { id: 9, avatar: Jere, userName: "Gazzard", subscriptions: "3.4K subs" }
-    ],
-    []
-  );
+  // Fetch channels from API
+  const [channels, setChannels] = useState([]);
+  const [loadingChannels, setLoadingChannels] = useState(true);
+
+  useEffect(() => {
+    const fetchChannels = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/channels');
+        if (response.ok) {
+          const data = await response.json();
+          const transformedChannels = data.map(channel => {
+            let avatar = Angel; // default fallback
+            if (channel.photoUrl) {
+              if (channel.photoUrl.startsWith('/uploads/')) {
+                // Uploaded image
+                avatar = `http://localhost:3000${channel.photoUrl}`;
+              } else if (channel.photoUrl.startsWith('/assets/images/profile/')) {
+                // Default image
+                avatar = channel.photoUrl;
+              } else if (channel.photoUrl.startsWith('/default-avatar/')) {
+                // Old default avatar path
+                const letterMatch = channel.photoUrl.match(/\/default-avatar\/([A-Z])\.png/);
+                const letter = letterMatch ? letterMatch[1] : 'A';
+                avatar = `/assets/images/profile/${letter}.png`;
+              } else {
+                // Other uploaded path
+                avatar = `http://localhost:3000${channel.photoUrl}`;
+              }
+            } else {
+              // No photoUrl, use first letter of channel name
+              const firstLetter = channel.channel_name?.charAt(0).toUpperCase() || 'A';
+              avatar = `/assets/images/profile/${firstLetter}.png`;
+            }
+
+            return {
+              id: channel.channel_id,
+              avatar,
+              userName: channel.channel_name,
+              subscriptions: `${channel.subscriberCount || 0} subs`
+            };
+          });
+          setChannels(transformedChannels);
+        }
+      } catch (error) {
+        console.error('Error fetching channels:', error);
+      } finally {
+        setLoadingChannels(false);
+      }
+    };
+
+    fetchChannels();
+  }, []);
 
   const videos = useMemo(
     () => [

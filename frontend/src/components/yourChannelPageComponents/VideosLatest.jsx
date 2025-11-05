@@ -10,9 +10,9 @@ function VideosLatest(props){
                 return (
                     <Video
                         key={index}
-                        namevideo={item.namevideo}
-                        videoviews={item.videoviews}
-                        photo={item.photo}
+                        namevideo={item.title}
+                        videoviews={`${item.views} views • ${new Date(item.createdAt).toLocaleDateString()}`}
+                        thumbnail={item.thumbnail}
                     />
                 );
             case 'shorts':

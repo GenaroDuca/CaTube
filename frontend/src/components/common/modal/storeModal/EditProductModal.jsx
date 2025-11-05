@@ -95,13 +95,6 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
   const [existingProducts, setExistingProducts] = useState([]);
   const [showDuplicateConfirm, setShowDuplicateConfirm] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-  const [product, setProduct] = useState(null);
-
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [existingProducts, setExistingProducts] = useState([]);
-  const [showDuplicateConfirm, setShowDuplicateConfirm] = useState(false);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   // FeedbackToast
   const { showSuccess, showError } = useToast();

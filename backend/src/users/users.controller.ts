@@ -26,13 +26,6 @@ export class UsersController {
         return this.usersService.findMe(userId);
     }
 
-    @UseGuards(JwtAuthGuard)
-    @Get('me')
-    async me(@Req() req) {
-        const user = await this.usersService.findOneByUsername(req.user.username);
-        return user;
-    }
-
     @Get('verify-email')
     async verifyEmail(@Query('token') token: string, @Res() res: Response) {
         // 1. Definir las URLs de redirección del frontend (desde .env)

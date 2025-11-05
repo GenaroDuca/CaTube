@@ -1,9 +1,9 @@
 import ContainerButton from "./ContainerButton"
 import VideosLatest from "./VideosLatest";
 import Container from "../common/Container";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRef } from "react";
-import { videoLatest, videoOldest, videoPopular } from "../../assets/data/Data";
+import { getAuthToken } from "../../utils/auth.js";
 
 function VideosTab() {
     const tabvs = ['Latest', 'Popular', 'Oldest'];
@@ -11,17 +11,61 @@ function VideosTab() {
     const videosLatestRef = useRef(null);
     const videosPopularRef = useRef(null);
     const videosOldestRef = useRef(null);
+    const [videos, setVideos] = useState({ latest: [], popular: [], oldest: [] });
+    const [loading, setLoading] = useState(true);
+
+    const token = getAuthToken();
+
+    const [channelId, setChannelId] = useState(localStorage.getItem('channelId'));
+
+    useEffect(() => {
+        async function fetchVideos() {
+            if (!channelId) return;
+
+            try {
+                const res = await fetch(`http://localhost:3000/videos/channel/${channelId}`, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                if (!res.ok) throw new Error("Error al obtener los videos");
+                const data = await res.json();
+
+                // Separar por tipo, si los videos tienen un campo "type"
+                const allVideos = data.filter(v => v.type === "video" || !v.type);
+
+                // Ordenar por latest, popular, oldest
+                const latest = [...allVideos].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                const popular = [...allVideos].sort((a, b) => b.views - a.views);
+                const oldest = [...allVideos].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+                setVideos({ latest, popular, oldest });
+            } catch (error) {
+                console.error("Error fetching videos:", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchVideos();
+    }, [channelId]);
+
+    if (loading) {
+        return <Container className="video-main-content"><p>Loading videos...</p></Container>;
+    }
 
     const tabContents = [
-        <VideosLatest render= {videoLatest} id="latestSection" className="content-table-videos" container="latest-container" ref={videosLatestRef} type="videos"/>,
-        <VideosLatest render= {videoPopular} id="popularSection" className="content-table-videos" container="latest-container" ref={videosPopularRef} type="videos"/>,
-        <VideosLatest render= {videoOldest} id="oldestSection" className="content-table-videos" container="latest-container" ref={videosOldestRef} type="videos"/>
+        <VideosLatest render={videos.latest} id="latestSection" className="content-table-videos" container="latest-container" ref={videosLatestRef} type="videos"/>,
+        <VideosLatest render={videos.popular} id="popularSection" className="content-table-videos" container="latest-container" ref={videosPopularRef} type="videos"/>,
+        <VideosLatest render={videos.oldest} id="oldestSection" className="content-table-videos" container="latest-container" ref={videosOldestRef} type="videos"/>
     ];
+
     return (
         <>
         <Container className="video-main-content">
         <ContainerButton tabs={tabvs} activeTabIndex={activeTab} onTabClick={setActiveTab} buttonClass="nav-btn-videos" ></ContainerButton>
-        
+
         <div className="tab-content-container">
                         {tabContents[activeTab]}
         </div>
