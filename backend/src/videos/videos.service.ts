@@ -8,6 +8,7 @@ import { Channel } from '../channels/entities/channel.entity';
 import { UsersService } from 'src/users/users.service';
 import * as path from 'path';
 import * as fs from 'fs';
+import { getUploadsPath } from 'src/utils/uploads-path';
 
 @Injectable()
 export class VideosService {
@@ -37,8 +38,8 @@ export class VideosService {
         channel: channel,
       });
 
-      // Crear la carpeta de destino si no existe
-      const uploadDir = path.join(__dirname, '..', '..', 'uploads', 'videos');
+      // Crear la carpeta de destino si no existe (ruta normalizada)
+      const uploadDir = getUploadsPath('videos');
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
       }

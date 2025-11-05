@@ -7,6 +7,7 @@ import { Repository } from 'typeorm';
 import { Store } from 'src/store/entities/store.entity';
 import * as fs from 'fs';
 import * as path from 'path';
+import { getUploadsPath } from 'src/utils/uploads-path';
 
 @Injectable()
 export class ProductService {
@@ -35,7 +36,7 @@ export class ProductService {
 
     // 4. Si hay un archivo de imagen, guardarlo y asignar la ruta
     if (file) {
-      const uploadDir = path.join(__dirname, '..', '..', 'uploads', 'store', 'products');
+      const uploadDir = getUploadsPath('store', 'products');
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
       }
@@ -100,7 +101,7 @@ export class ProductService {
     // Si hay un archivo de imagen, guardarlo y actualizar la ruta de la imagen
     if (file) {
       // Guardar archivo en carpeta uploads del backend
-      const uploadDir = path.join(__dirname, '..', '..', 'uploads', 'store', 'products');
+      const uploadDir = getUploadsPath('store', 'products');
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
       }

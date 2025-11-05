@@ -6,6 +6,7 @@ import { Channel } from './entities/channel.entity';
 import { User } from 'src/users/entities/user.entity';
 import * as fs from 'fs';
 import * as path from 'path';
+import { getUploadsPath } from 'src/utils/uploads-path';
 
 @Injectable()
 export class ChannelsService {
@@ -85,8 +86,8 @@ constructor(
             throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
         }
 
-        // Guardar archivo en carpeta uploads del backend
-        const uploadDir = path.join(__dirname, '..', '..', 'uploads', 'banners');
+        // Guardar archivo en carpeta uploads del backend (ruta normalizada)
+        const uploadDir = getUploadsPath('banners');
         if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir, { recursive: true });
         }
@@ -117,8 +118,8 @@ constructor(
             throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
         }
 
-        // Guardar archivo en carpeta uploads del backend
-        const uploadDir = path.join(__dirname, '..', '..', 'uploads', 'profile');
+        // Guardar archivo en carpeta uploads del backend (ruta normalizada)
+        const uploadDir = getUploadsPath('profile');
         if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir, { recursive: true });
         }
