@@ -114,17 +114,6 @@ export function VideoPage() {
         fetchVideo();
     }, [id]);
 
-    const recomendedVideos = useMemo(
-        () => [
-            { id: 1, thumbnail, avatar: Yukki, title:'Pinterest Swap Challenge', userName: "Yukki", description: "esto es una descripcion de prueba. repito esto es una descripcion de prueba" },
-            { id: 2, thumbnail, avatar: Jere, title:'¿Qué pasa si mezclás esto?', userName: "Gazzard", description: "esto es una descripcion de prueba. repito esto es una descripcion de prueba" },
-            { id: 3, thumbnail, avatar: Yukki, title:'Mini vlog: 1 día en Buenos Aires', userName: "Yukki", description: "esto es una descripcion de prueba. repito esto es una descripcion de prueba" },
-            { id: 4, thumbnail, avatar: Gena, title:'Cómo se ve el código detrás', userName: "Sheni", description: "esto es una descripcion de prueba. repito esto es una descripcion de prueba" },
-            { id: 5, thumbnail, avatar: Jere, title:'Este sonido me persigue', userName: "Gazzard", description: "esto es una descripcion de prueba. repito esto es una descripcion de prueba" },
-            ],
-            []
-        );
-
     return (
         <div className="video-page">
             <Header
@@ -133,8 +122,7 @@ export function VideoPage() {
             />
             <main className="main-content-video">
                 {loading ? <p>Loading video...</p> : <WatchVideo {...video} />}
-                <VideoList videos={recomendedVideos} />
-                {/* <RecomendedVideos videos={recomendedVideos} */}
+                <VideoList currentVideoId={id} />
             </main>
         </div>
     );
