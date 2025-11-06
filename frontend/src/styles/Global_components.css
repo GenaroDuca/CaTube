@@ -8,8 +8,7 @@
     --text-color: #777878;
     --border-radius: 30px;
     --font-size: clamp(0.5rem, 3vw, 1rem);
-    
-    /* Variables adicionales para consistencia */
+
     --border-color: #2d2d2e;
     --card-bg: #252526;
     --accent-color: #90b484;
@@ -27,7 +26,6 @@ body.light-mode {
     --card-bg: #f1f1f1;
     --shadow-color: rgba(0, 0, 0, 0.1);
     --input-bg: #ffffff;
-    /* --btn y --btn-dark se mantienen igual */
 }
 
 /* ===== ESTILOS BASE ===== */
@@ -61,18 +59,49 @@ body.light-mode .sr-header-right > div.sr-header-userActions {
     background-color: var(--btn) !important;
 }
 
+body.light-mode [class="friends-menu "] {
+    background-color: #ffffffd9  !important;
+}
+
+body.light-mode [class="friend-menu-header"] {
+    background-color: transparent !important;
+}
+
 /* Botones */
 body.light-mode .btn,
 body.light-mode button,
 body.light-mode [class*="btn"],
-body.light-mode .button,
-body.light-mode [class*="button"] {
+body.light-mode .button {
     background-color: var(--btn) !important;
 }
 
+body.light-mode [class="discard-changes-create-video"],
+body.light-mode #root > div.right-menu-modal > div > div > section > div > button.delete-account-btn.soon {
+    background-color: #e96765 !important;
+    color: var(--primary-color) !important;
+}
+
+body.light-mode [class="discard-changes-create-video"]:hover {
+    background-color: #b94c4a !important;
+}
+
+body.light-mode #root > div.right-menu-modal > div > div > section > div > button.disable-account-btn.soon {
+    background-color: #696969 !important;
+    color: var(--primary-color) !important;
+}
+
+body.light-mode #root > div.create-video-modal > div > header > button,
+body.light-mode #root > div.right-menu-modal > div > div > section > div,
+body.light-mode #root > div > div > header > button,
+body.light-mode [class*="action-button chat-button"],
+body.light-mode [class*="action-button profile-button"] {
+    background-color: transparent !important;
+}
+
 body.light-mode .btn:hover,
-body.light-mode button:hover,
-body.light-mode [class*="btn"]:hover {
+body.light-mode #root > aside > header > button:hover,
+body.light-mode [class*="btn"]:hover,
+body.light-mode [class="custom-file-label"]:hover {
     background-color: var(--btn-dark) !important;
     box-shadow: 0 4px 8px var(--shadow-color) !important;
 }
@@ -81,25 +110,29 @@ body.light-mode [class*="btn"]:hover {
 body.light-mode #root > header > div.sr-header-right > div > div.user-menu-container > button > svg > path,
 body.light-mode #root > header > div.sr-header-right > div > div.notification-menu > button > svg > path,
 body.light-mode #root > header > div.sr-header-right > button > span,
-body.light-mode #root > header > div.sr-header-searchBar > button > svg > path {
+body.light-mode #root > header > div.sr-header-searchBar > button > svg > path,
+body.light-mode #root > header > div.sr-header-right > button > span{
     color: var(--text-color) !important;
     fill: currentColor !important;
 }
 
 body.light-mode #root > header > div.sr-header-right > div > div.user-menu-container > button:hover > svg > path,
-body.light-mode #root > header > div.sr-header-right > div > div.notification-menu > button:hover > svg > path {
+body.light-mode #root > header > div.sr-header-right > div > div.notification-menu > button:hover > svg > path,
+body.light-mode #root > header > div.sr-header-right > button > span:hover,
+body.light-mode #root > header > div.sr-header-searchBar > button > svg > path:hover {
     color: var(--hover-color) !important;
+    fill: currentColor !important;
 }
 
 /* Logo */
-body.light-mode #root > header > a > div > img:nth-child(1) {
-    filter: brightness(0.6) !important;
+body.light-mode #root > header > a > div > img {    
+ filter: brightness(0.6) !important;
 }
 
-/* ===== NAVEGACIÓN LATERAL ===== */
+/* ===== NAVEGACIÓN LATERAL (left) ===== */
+
 
 body.light-mode #root > aside.collapsed > header {
-    /* border-radius: var(--border-radius) !important; */
     border-radius: 30px !important;
     overflow: hidden !important;
     border-bottom-left-radius: 0px !important;
@@ -108,14 +141,70 @@ body.light-mode #root > aside.collapsed > header {
 
 body.light-mode #root > aside > nav > ul > li > a.nav-link,
 body.light-mode #root > aside > nav > ul > li > a.nav-link * {
-    background-color: transparent !important;
+    background-color: var(--primary-color) !important;
     color: var(--text-color) !important;
     fill: currentColor !important;
 }
 
 body.light-mode #root > aside > nav > ul > li > a.nav-link:hover,
-body.light-mode #root > aside > nav > ul > li > a.nav-link:hover * {
+body.light-mode #root > aside > nav > ul > li > a.nav-link:hover *,
+body.light-mode #root > main > div.left-menu > aside > nav > ul.nav-list.secondary-nav > li > button:hover {
     background-color: var(--btn) !important;
+}
+
+body.light-mode [class="nav-link active"] {
+    background-color: var(--btn) !important;
+}
+
+body.light-mode #root > main > div.left-menu > aside > nav > ul.nav-list.primary-nav > li:nth-child(1) > button > span,
+body.light-mode #root > main > div.left-menu > aside > nav > ul.nav-list.primary-nav > li:nth-child(2) > button > span,
+body.light-mode #root > main > div.left-menu > aside > nav > ul.nav-list.primary-nav > li:nth-child(3) > button > span,
+body.light-mode #root > main > div.left-menu > aside > nav > ul.nav-list.primary-nav > li:nth-child(4) > button > span,
+body.light-mode #root > main > div.left-menu > aside > nav > ul.nav-list.primary-nav > li:nth-child(5) > button > span,
+body.light-mode #root > main > div.left-menu > aside > nav > ul.nav-list.secondary-nav > li > button > span.nav-label {
+    background-color: transparent !important;
+}
+
+body.light-mode #root > main > div.left-menu > aside > nav > ul.nav-list.primary-nav > li:nth-child(1) > button:hover,
+body.light-mode #root > main > div.left-menu > aside > nav > ul.nav-list.primary-nav > li:nth-child(2) > button:hover,
+body.light-mode #root > main > div.left-menu > aside > nav > ul.nav-list.primary-nav > li:nth-child(3) > button:hover,
+body.light-mode #root > main > div.left-menu > aside > nav > ul.nav-list.primary-nav > li:nth-child(4) > button:hover,
+body.light-mode #root > main > div.left-menu > aside > nav > ul.nav-list.primary-nav > li:nth-child(5) > button:hover {
+    background-color: var(--btn) !important;
+}
+
+/* ===== NAVEGACIÓN LATERAL (rigth) ===== */
+
+body.light-mode [class*="ts-nav-link right-menu-modal-btn"], 
+body.light-mode [class*="ts-nav-link soon"] *,
+body.light-mode [class*="ts-nav-link"] {
+    background-color: var(--primary-color) !important;
+    color: var(--text-color) !important;
+    fill: currentColor !important;
+}
+
+body.light-mode [class*="ts-nav-link right-menu-modal-btn"]:hover,
+body.light-mode [class*="ts-nav-link soon"]:hover *,
+body.light-mode [class*="ts-nav-link"]:hover {
+    background-color: var(--btn) !important;
+}
+
+body.light-mode [class="customize-btn-channel"],
+body.light-mode [class="manage-btn-videos"] {
+    color: var(--text-color);
+}
+
+body.light-mode [class="ts-nav-label"] {
+    background-color: transparent !important;
+}
+
+body.light-mode #root > header > div.sr-header-right > div > div.user-menu-container > aside > nav > ul > li:nth-child(5) > button > span,
+body.light-mode #root > main > div:nth-child(2) > div.container-btn-option,
+body.light-mode #root > main > div:nth-child(3) > div.container-btn-option,
+body.light-mode #root > main > div:nth-child(4) > div.container-btn-option,
+body.light-mode #root > main > div:nth-child(5) > div.container-btn-option {
+    background-color: transparent !important;
+    box-shadow: none !important;
 }
 
 /* Tooltips */
@@ -154,10 +243,16 @@ body.light-mode p,
 body.light-mode span,
 body.light-mode div,
 body.light-mode label,
+body.light-mode #publish-changes-btn,
 body.light-mode a:not([class*="btn"]),
 body.light-mode svg,
 body.light-mode [class*="icon"] {
     color: var(--text-color) !important;
+}
+
+body.light-mode #root > main > div.container-short-principal > div > div.title-bar-short > p,
+body.light-mode #short-actions-container > div.channel-info > p {
+    color: var(--primary-color) !important;
 }
 
 /* ===== BORDES Y SEPARADORES ===== */
@@ -176,15 +271,23 @@ body.light-mode [class*="separator"] {
 /* ===== TRANSICIONES ===== */
 body.light-mode #root > aside > nav > ul > li > a.nav-link,
 body.light-mode #root > aside > nav > ul > li > a.nav-link * {
-    transition: all 0.3s ease !important;
+    transition: all 0.1s ease !important;
 }
 
-* {
-    transition: background-color 0.3s ease, 
-                color 0.3s ease, 
-                border-color 0.3s ease,
-                box-shadow 0.3s ease,
-                transform 0.2s ease !important;
+body.light-mode #root > main > div.container-studio > div.content > div.scroll-table-container > table > thead > tr {
+    background-color: var(--accent-color);
+}
+
+body.light-mode #root > main > div.container-studio > div.content > div.scroll-table-container > table > tbody > tr:nth-child(1) > td:nth-child(8) > div,
+body.light-mode #root > main > div.container-studio > div.content > div.scroll-table-container > table > tbody > tr:nth-child(2) > td:nth-child(8) > div,
+body.light-mode #root > main > div.container-studio > div.content > div.scroll-table-container > table > tbody > tr:nth-child(3) > td:nth-child(8) > div,
+body.light-mode #root > main > div.container-studio > div.content > div.scroll-table-container > table > tbody > tr:nth-child(4) > td:nth-child(8) > div,
+body.light-mode #root > main > div.container-studio > div.content > div.scroll-table-container > table > tbody > tr:nth-child(5) > td:nth-child(8) > div,
+body.light-mode #root > main > div.container-studio > div.content > div.scroll-table-container > table > tbody > tr:nth-child(6) > td:nth-child(8) > div,
+body.light-mode #root > main > div.container-studio > div.content > div.scroll-table-container > table > tbody > tr:nth-child(7) > td:nth-child(8) > div,
+body.light-mode #root > main > div.container-studio > div.content > div.scroll-table-container > table > tbody > tr:nth-child(8) > td:nth-child(8) > div {
+    background-color: var(--primary-color) !important;
+    box-shadow: none !important;
 }
 
 /* ===== SCROLLBAR ===== */
@@ -194,6 +297,10 @@ body.light-mode::-webkit-scrollbar-track {
 
 body.light-mode::-webkit-scrollbar-thumb {
     background: var(--border-color) !important;
+}
+
+#root > main > div.container-studio > div.content > div.scroll-table-container {
+    scrollbar-color: var(--btn) var(--primary-color) !important;
 }
 
 body.light-mode::-webkit-scrollbar-thumb:hover {

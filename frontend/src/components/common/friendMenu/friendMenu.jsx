@@ -454,7 +454,7 @@ export function FriendMenu({ }) {
 
             {isFriendMenuOpen && (
                 <div className='friend-menu-content'>
-                    <header>
+                    <header className='friend-menu-header'>
                         <h2>
                             {currentView !== 'list' && selectedFriend ? selectedFriend.userName : 'Friends Menu'}
                         </h2>
