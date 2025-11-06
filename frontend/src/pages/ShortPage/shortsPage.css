@@ -221,14 +221,8 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
 }
 
-.action-button:hover svg path {
-    color: var(--btn-dark);
-    fill: var(--btn-dark);
-    stroke: var(--btn-dark);
-}
-
-.action-button svg:hover {
-    color: var(--btn-dark);
+.action-button:hover {
+    background-color: #313133d9;
 }
 
 /* Barra de título */
@@ -292,10 +286,6 @@
 .fullscreen-short-container.maximized ~ .footer,
 .footer {
     display: none !important;
-}
-
-.main-content {
-    margin-top: 20px;
 }
 
 /* Media Query para pantallas pequeñas */
