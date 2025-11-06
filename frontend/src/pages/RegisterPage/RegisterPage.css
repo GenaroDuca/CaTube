@@ -4,11 +4,6 @@
  * ----------------------------------------
  */
 
-body {
-    /* Fondo oscuro para toda la página */
-    background-color: #1f1f20;
-}
-
 a {
     /* Eliminar el subrayado de todos los enlaces */
     text-decoration: none;

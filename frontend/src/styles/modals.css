@@ -2,11 +2,6 @@
 /* 1. ESTILOS BASE */
 /* ==================================== */
 
-body {
-    background-color: var(--background-color);
-    transition: margin-left 0.3s;
-}
-
 /* ==================================== */
 /* 2. TOAST/NOTIFICACIONES */
 /* ==================================== */

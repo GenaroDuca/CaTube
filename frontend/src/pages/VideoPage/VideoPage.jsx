@@ -1,9 +1,10 @@
-import {useState, useMemo, useEffect} from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 //Components
 import Header from '../../components/common/header/Header.jsx'
 import WatchVideo from '../../components/videoPageComponents/WatchVideo.jsx';
+import Sidebar from '../../components/common/Sidebar.jsx';
 
 //Styles
 import './VideoPage.css';
@@ -80,23 +81,23 @@ export function VideoPage() {
                     channelPhotoUrl = `/assets/images/profile/${firstLetter}.png`;
                 }
 
-                    // Formatear el número de suscriptores
-                    const formatSubscriptions = (count) => {
-                        if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
-                        if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
-                        return count.toString();
-                    };
+                // Formatear el número de suscriptores
+                const formatSubscriptions = (count) => {
+                    if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
+                    if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
+                    return count.toString();
+                };
 
-                    setVideo({
-                        url: fileUrl,
-                        title: data.title,
-                        avatar: channelPhotoUrl || Yukki,
-                        userName: data.channel?.channel_name || 'Unknown',
-                        description: data.description || '',
-                        // Enviamos tanto el id del canal como el número crudo de suscriptores
-                        channelId: data.channel?.channel_id,
-                        subscriptions: data.channel?.subscriberCount || 0,
-                    });
+                setVideo({
+                    url: fileUrl,
+                    title: data.title,
+                    avatar: channelPhotoUrl || Yukki,
+                    userName: data.channel?.channel_name || 'Unknown',
+                    description: data.description || '',
+                    // Enviamos tanto el id del canal como el número crudo de suscriptores
+                    channelId: data.channel?.channel_id,
+                    subscriptions: data.channel?.subscriberCount || 0,
+                });
             } catch (err) {
                 console.error('Error fetching video:', err);
                 setVideo({
@@ -115,15 +116,22 @@ export function VideoPage() {
     }, [id]);
 
     return (
-        <div className="video-page">
+        <>
             <Header
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
             />
-            <main className="main-content-video">
-                {loading ? <p>Loading video...</p> : <WatchVideo {...video} />}
-                <VideoList currentVideoId={id} />
+            <Sidebar>
+            </Sidebar>
+            <main className="main-content">
+
+
+                <div className="container-all">
+                    {loading ? <p>Loading video...</p> : <WatchVideo {...video} />}
+                    <VideoList currentVideoId={id} />
+                </div>
             </main>
-        </div>
+        </>
+
     );
 }

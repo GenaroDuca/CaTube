@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaCirclePause } from "react-icons/fa6";
-import { FcLike } from "react-icons/fc";
+import { FaHeart } from "react-icons/fa";
 import { FaComments } from "react-icons/fa6";
 import { IoHeartDislike } from "react-icons/io5";
 import { FaShare } from "react-icons/fa";
@@ -164,7 +164,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
 
             </div>
             <div className="action-buttons">
-              <button type="button" className="action-button"><FcLike size={25} /></button>
+              <button type="button" className="action-button"><FaHeart color=' rgb(144, 180, 132' size={25} /></button>
               <span>{short.likes}</span>
               <button type="button" className="action-button"><IoHeartDislike color=' rgb(144, 180, 132' size={25} /></button>
               <span>{short.dislikes}</span>
