@@ -124,11 +124,6 @@ body.light-mode #root > header > div.sr-header-searchBar > button > svg > path:h
     fill: currentColor !important;
 }
 
-/* Logo */
-body.light-mode #root > header > a > div > img {    
- filter: brightness(0.6) !important;
-}
-
 /* ===== NAVEGACIÓN LATERAL (left) ===== */
 
 
@@ -214,6 +209,17 @@ body.light-mode .nav-tooltip {
     border-color: var(--border-color) !important;
 }
 
+/* ===== Login y Sign Up ===== */
+body.light-mode #root > aside > div > form {
+    background-color: #56724c !important;
+}
+
+body.light-mode [class="sr-auth-input"] {
+    background-color: var(--input-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
+}, /* esa coma sostiene todo asi que no se puede borrar */
+
 /* ===== FORMULARIOS ===== */
 body.light-mode input,
 body.light-mode textarea,
@@ -223,6 +229,10 @@ body.light-mode [class*="form-control"] {
     background-color: var(--input-bg) !important;
     color: var(--text-color) !important;
     border-color: var(--border-color) !important;
+}
+
+body.light-mode [class="register-btn"] {
+    color: var(--primary-color) !important;
 }
 
 body.light-mode input:focus,
