@@ -41,6 +41,9 @@ export class Video {
   @Column({ default: 0 })
   views: number;
 
+  @Column({ default: 'video' })
+  type: string; // 'video' or 'short'
+
   //Relación con canal
   @ManyToOne(() => Channel, channel => channel.videos, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'channel_id' })

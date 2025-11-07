@@ -8,7 +8,14 @@ import { Channel } from '../channels/entities/channel.entity';
 import { UsersService } from 'src/users/users.service';
 import * as path from 'path';
 import * as fs from 'fs';
+import * as ffmpeg from 'fluent-ffmpeg';
+import * as ffmpegStatic from 'ffmpeg-static';
+import * as ffprobeStatic from 'ffprobe-static';
 import { getUploadsPath } from 'src/utils/uploads-path';
+
+// Set the path to ffmpeg binary
+ffmpeg.setFfmpegPath(ffmpegStatic as any);
+ffmpeg.setFfprobePath(ffprobeStatic.path);
 
 @Injectable()
 export class VideosService {
@@ -74,10 +81,21 @@ export class VideosService {
         throw new Error('Video file is required but was not uploaded.');
       }
 
+      // Obtener duración del video y determinar tipo
+      const videoPath = path.join(process.cwd(), newVideo.url);
+      const duration = await this.getVideoDuration(videoPath);
+      newVideo.type = duration <= 60 ? 'short' : 'video';
+
       // Guardar el video en la base de datos
       await this.videoRepository.save(newVideo);
 
-      return newVideo;
+      // Generar link basado en el tipo
+      const link = newVideo.type === 'short' ? `/shorts/${newVideo.id}` : `/watch/${newVideo.id}`;
+
+      return {
+        ...newVideo,
+        link,
+      };
 
     } catch (err) {
       console.error(' Error creating video:', err);
@@ -88,6 +106,15 @@ export class VideosService {
   // Get all videos
   async findAll() {
     return this.videoRepository.find({
+      relations: ['channel'],
+      order: { createdAt: 'DESC' },
+    });
+  }
+
+  // Get all shorts
+  async findAllShorts() {
+    return this.videoRepository.find({
+      where: { type: 'short' },
       relations: ['channel'],
       order: { createdAt: 'DESC' },
     });
@@ -273,5 +300,19 @@ export class VideosService {
     }
 
     return video;
+  }
+
+  private async getVideoDuration(videoPath: string): Promise<number> {
+    return new Promise((resolve, reject) => {
+      ffmpeg.ffprobe(videoPath, (err, metadata) => {
+        if (err) {
+          console.error('Error getting video duration:', err);
+          reject(err);
+        } else {
+          const duration = metadata.format.duration || 0;
+          resolve(duration);
+        }
+      });
+    });
   }
 }
