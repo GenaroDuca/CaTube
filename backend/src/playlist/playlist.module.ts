@@ -6,7 +6,7 @@ import { PlaylistController } from './playlist.controller';
 import { User } from '../users/entities/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Playlist])],
+  imports: [TypeOrmModule.forFeature([Playlist, User])],
   controllers: [PlaylistController],
   providers: [PlaylistService],
   exports: [PlaylistService],

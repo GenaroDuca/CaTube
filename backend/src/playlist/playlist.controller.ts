@@ -4,35 +4,42 @@ import { CreatePlaylistDto } from './dto/create-playlist.dto';
 import { UpdatePlaylistDto } from './dto/update-playlist.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
-@Controller('playlist')
+@Controller('playlists')
 @UseGuards(JwtAuthGuard)
 export class PlaylistController {
   constructor(private readonly playlistService: PlaylistService) {}
 
-   @UseGuards(JwtAuthGuard)
-    @Post()
-    create(@Body() createPlaylistDto: CreatePlaylistDto, @Request() req) {
-      const userId = req.user.userId; // Tomamos el ID del usuario desde el token
-      return this.playlistService.create(createPlaylistDto, userId);
-    }
+  @Post()
+  create(@Body() createPlaylistDto: CreatePlaylistDto, @Request() req) {
+    const userId = req.user.userId;
+    return this.playlistService.create(createPlaylistDto, userId);
+  }
 
-  // @Get()
-  // findAll(@Request() req){
-  //   return this.playlistService.findAll(req.user.id);
-  // }
+  @Get()
+  findAll(@Request() req) {
+    const userId = req.user.userId;
+    return this.playlistService.findAllByUser(userId);
+  }
 
-  // @Get(':id')
-  // findOne(@Request() req, @Param('id') id: number) {
-  //   return this.playlistService.findOne(id, req.user.id);
-  // }
+  @Get(':id')
+  findOne(@Request() req, @Param('id') id: string) {
+    const userId = req.user.userId;
+    return this.playlistService.findOne(id, userId);
+  }
 
-  // @Patch(':id')
-  // update(@Request() req, @Param('id') id: number, @Body() updatePlaylistDto: UpdatePlaylistDto) {
-  //   return this.playlistService.update(id, req.user.id, updatePlaylistDto);
-  // }
+  @Patch(':id')
+  update(
+    @Request() req, 
+    @Param('id') id: string,
+    @Body() updatePlaylistDto: UpdatePlaylistDto
+  ) {
+    const userId = req.user.userId;
+    return this.playlistService.update(id, userId, updatePlaylistDto);
+  }
 
-  // @Delete(':id')
-  // remove(@Request() req, @Param('id') id: number) {
-  //   return this.playlistService.remove(id, req.user.id);
-  // }
+  @Delete(':id')
+  remove(@Request() req, @Param('id') id: string) {
+    const userId = req.user.userId;
+    return this.playlistService.remove(id, userId);
+  }
 }
