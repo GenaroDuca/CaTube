@@ -11,7 +11,7 @@ function Recommendations() {
         let mounted = true;
         async function fetchRecommended() {
             try {
-                const res = await fetch('http://localhost:3000/videos');
+                const res = await fetch('http://localhost:3000/videos/videos-only');
                 if (!res.ok) {
                     setRecommended([]);
                     return;

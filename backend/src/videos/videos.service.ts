@@ -120,6 +120,15 @@ export class VideosService {
     });
   }
 
+  // Get all videos only (excluding shorts)
+  async findAllVideosOnly() {
+    return this.videoRepository.find({
+      where: { type: 'video' },
+      relations: ['channel'],
+      order: { createdAt: 'DESC' },
+    });
+  }
+
   async findAllByChannel(userId: string) {
     const user = await this.userService.findOneById(userId);
     if (!user) {

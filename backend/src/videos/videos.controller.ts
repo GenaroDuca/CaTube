@@ -66,6 +66,12 @@ export class VideosController {
     return this.videosService.findAllShorts();
   }
 
+  // Get all videos only (excluding shorts)
+  @Get('videos-only')
+  findAllVideosOnly() {
+    return this.videosService.findAllVideosOnly();
+  }
+
   //Get all videos for logged-in user's channel
   @Get('my-videos')
   @UseGuards(AuthGuard('jwt'))
