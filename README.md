@@ -152,6 +152,9 @@
     npm install socket.io-client
     npm install jwt-decode
     npm install --save-dev @types/multer
+    npm install fluent-ffmpeg @types/fluent-ffmpeg
+    npm install ffmpeg-static
+    npm install ffprobe-static
     
 ## Crear proyecto React con Vite
     npm create vite@latest

@@ -24,8 +24,10 @@ async function CreateVideoFetch(videoData) {
         });
 
         if (res.status === 201) {
-            showSuccess(`Video created successfully!`)
-            return await res.json();
+            const videoData = await res.json();
+            const videoType = videoData.type === 'short' ? 'Short' : 'Video';
+            showSuccess(`${videoType} created successfully!`)
+            return videoData;
         }
 
 

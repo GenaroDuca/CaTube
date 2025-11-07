@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import NewButton from "../homePageComponents/Button";
 import { useState, useEffect } from "react";
 import { useNotification } from "../../hooks/UseNotification";
+import { useToast } from '../../hooks/useToast';
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -49,6 +50,7 @@ async function apiFetch(url, options = {}) {
 
 function Profile() {
     const { showError } = useNotification();
+    const { showSuccess } = useToast();
     const [userPhoto, setUserPhoto] = useState(profile.src);
     const [channelName, setChannelName] = useState(profile.name);
     const [channelHandle, setChannelHandle] = useState(profile.handle);
@@ -107,6 +109,7 @@ function Profile() {
             if (result) {
                 setIsSubscribed(false);
                 setChannelSubs(prev => prev - 1);
+                showSuccess(`Unsubscribed from ${channelName}`);
             }
         } else {
             // Subscribe
@@ -118,12 +121,14 @@ function Profile() {
                 if (result) {
                     setIsSubscribed(true);
                     setChannelSubs(prev => prev + 1);
+                    showSuccess(`Subscribed to ${channelName}!`);
                 }
             } catch (error) {
                 // If already subscribed, just update the state
                 if (error.message && error.message.includes('already subscribed')) {
                     setIsSubscribed(true);
                     setChannelSubs(prev => prev + 1);
+                    showSuccess(`Subscribed to ${channelName}!`);
                 }
             }
         }

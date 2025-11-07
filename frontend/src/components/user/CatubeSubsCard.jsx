@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
+import { useToast } from '../../hooks/useToast';
 import './CatubeSubsCard.css'
 
-export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isFollowing: initialIsFollowing }) {
+export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isFollowing: initialIsFollowing, channelUrl }) {
+    const { showSuccess, showError } = useToast();
     const [isFollowing, setIsFollowing] = useState(initialIsFollowing || false);
     const [loading, setLoading] = useState(false);
     const [subsCount, setSubsCount] = useState(typeof subscriptions === 'number' ? subscriptions : (parseInt(subscriptions) || 0));
@@ -59,6 +62,7 @@ export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isF
                 if (!res.ok) throw new Error('Failed to subscribe');
                 setIsFollowing(true);
                 setSubsCount(prev => prev + 1);
+                showSuccess(`Subscribed to ${userName}!`);
             } else {
                 // Unsubscribe
                 const res = await fetch('http://localhost:3000/subscriptions', {
@@ -72,10 +76,11 @@ export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isF
                 if (!res.ok) throw new Error('Failed to unsubscribe');
                 setIsFollowing(false);
                 setSubsCount(prev => Math.max(0, prev - 1));
+                showSuccess(`Unsubscribed from ${userName}`);
             }
         } catch (err) {
             console.error(err);
-            alert('An error occurred while updating subscription');
+            showError('An error occurred while updating subscription');
         } finally {
             setLoading(false);
         }
@@ -86,10 +91,16 @@ export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isF
         ? 'ct-subsCard-button is-following'
         : 'ct-subsCard-button';
 
-    return (
+    const content = (
         <article className="ct-subsCard">
             <header className="ct-subsCard-header">
-                <img className="ct-subsCard-avatar" src={avatar} alt={`Avatar de ${userName}`}/>
+                {channelUrl ? (
+                    <Link to={channelUrl}>
+                        <img className="ct-subsCard-avatar" src={avatar} alt={`Avatar de ${userName}`}/>
+                    </Link>
+                ) : (
+                    <img className="ct-subsCard-avatar" src={avatar} alt={`Avatar de ${userName}`}/>
+                )}
                 <div className="ct-subsCard-info">
                 <span className="ct-subsCard-userName">{userName}</span>
                 <span className="ct-subsCard-infoUserName">{formatSubscriptions(subsCount)} Catscribers</span>
@@ -104,4 +115,6 @@ export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isF
             </aside>
         </article>
     );
+
+    return content;
 }

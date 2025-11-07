@@ -30,7 +30,7 @@ import Jere from '../../assets/images/profile/jere.jpg'
 import Yukki from '../../assets/images/profile/yukki.jpg'
 import video from "../../assets/videos/channel-video-proof.mp4"
 
-export function WatchVideo({ url, title, avatar, userName, description, subscriptions, channelId, onTheaterToggle }) {
+export function WatchVideo({ url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle }) {
     const videoRef = useRef(null);
     const {
         isPlaying,
@@ -89,7 +89,7 @@ export function WatchVideo({ url, title, avatar, userName, description, subscrip
             <div>
                 <h3 className='vv-displayVideo-title'>{title}</h3>
                 <div className="vv-displayVideo-userActions">
-                    <CatubeSubsCard avatar={avatar} userName={userName} subscriptions={subscriptions} channelId={channelId} />
+                    <CatubeSubsCard avatar={avatar} userName={userName} subscriptions={subscriptions} channelId={channelId} channelUrl={channelUrl ? `/yourchannel/${channelUrl}` : undefined} />
                     <section>
                         <button className="like-btn"><FaHeart  color='#777878' size={22}  /></button>
                         <button className="dislike-btn"><IoHeartDislike color=' #777878' size={25} /></button>

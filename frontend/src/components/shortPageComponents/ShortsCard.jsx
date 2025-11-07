@@ -10,6 +10,8 @@ import { ImVolumeMedium } from "react-icons/im";
 import { ImVolumeMute2 } from "react-icons/im";
 import { FiMinimize2 } from "react-icons/fi";
 import { FiMaximize2 } from "react-icons/fi";
+import { Link } from 'react-router-dom';
+import { useToast } from '../../hooks/useToast';
 
 export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
   const videoRef = useRef(null)
@@ -17,6 +19,8 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
   const [muted, setMuted] = useState(true)
   const [volume, setVolume] = useState(1)
   const [sliderVisible, setSliderVisible] = useState(false)
+  const [isSubscribed, setIsSubscribed] = useState(false)
+  const { showSuccess, showError } = useToast()
 
   useEffect(() => {
     const v = videoRef.current
@@ -25,6 +29,79 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
       v.volume = volume
     }
   }, [])
+
+  useEffect(() => {
+    const checkSubscription = async () => {
+      const token = localStorage.getItem('accessToken');
+      const userId = localStorage.getItem('userId');
+      if (!token || !userId || !short.channelId) return;
+
+      try {
+        const res = await fetch(`http://localhost:3000/subscriptions/user/${userId}`, {
+          headers: { 'Authorization': `Bearer ${token}` },
+        });
+        if (!res.ok) return;
+        const channels = await res.json();
+        const subscribed = channels.some(c => c.channel_id === short.channelId || c.channel_id === String(short.channelId));
+        setIsSubscribed(subscribed);
+      } catch (err) {
+        console.error('Error checking subscription:', err);
+      }
+    };
+
+    checkSubscription();
+  }, [short.channelId])
+
+  async function handleSubscribe(short) {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+      alert('Please Log In to subscribe to channel');
+      return;
+    }
+
+    if (isSubscribed) {
+      // Unsubscribe
+      const response = await fetch('http://localhost:3000/subscriptions', {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ channelId: short.channelId })
+      });
+
+      if (response.ok) {
+        setIsSubscribed(false);
+        showSuccess('Unsubscribed successfully');
+      } else {
+        const error = await response.json();
+        showError(`Error: ${error.message}`);
+      }
+    } else {
+      // Subscribe
+      try {
+        const response = await fetch('http://localhost:3000/subscriptions', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ channelId: short.channelId })
+        });
+
+        if (response.ok) {
+          setIsSubscribed(true);
+          showSuccess('Subscribed successfully');
+        } else {
+          const error = await response.json();
+          showError(`Error: ${error.message}`);
+        }
+      } catch (error) {
+        console.error('Subscription error:', error);
+        alert('An error occurred while processing your subscription');
+      }
+    }
+  }
 
   function togglePlay() {
     const v = videoRef.current
@@ -80,20 +157,20 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
       <div className={`fullscreen-short-container ${isMaximized ? 'maximized' : ''}`}>
 
         <div className="short-channel-info short-container" id="short-actions-container">
-          <div className="short-channel-avatar">
+          <Link to={short.channelUrl ? `/yourchannel/${short.channelUrl}` : '#'} className="short-channel-avatar">
             <img src={short.channelAvatar} alt={short.channelName} />
-          </div>
+          </Link>
           <div className="channel-info">
             <p>{short.channelName}</p>
           </div>
-          <a
-            href={short.isOwner ? '#' : '/register/register.html'}
+          <button
             type="button"
             className="subscribe-button short-action-subscribe"
             style={{ display: short.isOwner ? 'none' : 'inline-block' }}
+            onClick={() => handleSubscribe(short)}
           >
-            {short.isSubscribed ? 'Unsubscribe' : short.channelName ? 'Subscribe' : 'Log in to Subscribe'}
-          </a>
+            {isSubscribed ? 'Subscribed' : 'Subscribe'}
+          </button>
 
           <button
             type="button"

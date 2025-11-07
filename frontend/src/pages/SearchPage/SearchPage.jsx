@@ -67,6 +67,11 @@ export function Search() {
               avatar = `/assets/images/profile/${firstLetter}.png`;
             }
 
+            // If avatar is a default path like /assets/images/profile/X.png, ensure it's served correctly
+            if (avatar.startsWith('/assets/')) {
+              avatar = avatar; // Already correct
+            }
+
             return {
               id: channel.channel_id,
               avatar,
@@ -96,9 +101,23 @@ export function Search() {
 
         const mapped = data.map(v => {
           const thumbnail = v.thumbnail && v.thumbnail.startsWith('/') ? `http://localhost:3000${v.thumbnail}` : (v.thumbnail || '');
-          const avatar = v.channel?.photoUrl
-            ? (v.channel.photoUrl.startsWith('/uploads/') ? `http://localhost:3000${v.channel.photoUrl}` : v.channel.photoUrl)
-            : '/assets/images/profile/A.png';
+          let avatar = '/assets/images/profile/A.png'; // default
+          if (v.channel?.photoUrl) {
+            if (v.channel.photoUrl.startsWith('/uploads/')) {
+              avatar = `http://localhost:3000${v.channel.photoUrl}`;
+            } else if (v.channel.photoUrl.startsWith('/assets/images/profile/')) {
+              avatar = v.channel.photoUrl;
+            } else if (v.channel.photoUrl.startsWith('/default-avatar/')) {
+              const letterMatch = v.channel.photoUrl.match(/\/default-avatar\/([A-Z])\.png/);
+              const letter = letterMatch ? letterMatch[1] : 'A';
+              avatar = `/assets/images/profile/${letter}.png`;
+            } else {
+              avatar = `http://localhost:3000${v.channel.photoUrl}`;
+            }
+          } else {
+            // No photoUrl, use default image
+            avatar = '/assets/images/profile/yukki.jpg';
+          }
           return {
             id: v.id,
             thumbnail,

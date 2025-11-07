@@ -26,11 +26,18 @@ function HomeTab({ channelId }) {
                     const data = await videosRes.json();
                     // Separate by type
                     const allVideos = data.filter(v => v.type === "video" || !v.type).map(video => ({
-                        ...video,
-                        views: video.views || 0, // Aseguramos que todos los videos tengan un conteo de vistas
-                        createdAt: video.createdAt || new Date().toISOString() // Aseguramos que todos tengan fecha
+                        id: video.id,
+                        namevideo: video.title,
+                        videoviews: `${video.views || 0} views`,
+                        thumbnail: `http://localhost:3000${video.thumbnail}`,
+                        channel_name: video.channel?.channel_name || 'Unknown'
                     }));
-                    const allShorts = data.filter(v => v.type === "short");
+                    const allShorts = data.filter(v => v.type === "short").map(short => ({
+                        id: short.id,
+                        nameshort: short.title,
+                        shortviews: `${short.views || 0} views`,
+                        photo: `http://localhost:3000${short.thumbnail}`,
+                    }));
 
                     setVideos(allVideos);
                     setShorts(allShorts);

@@ -32,12 +32,12 @@ function Sections(props) {
                 );
             case 'short':
                 return (
-                    <Link to={`/short/${item.id}`}>
+                    <Link to={`/shorts/${item.id}`}>
                     <Short
                         key={index}
                         nameshort={item.nameshort}
                         shortviews={item.shortviews}
-                        thumbnail={item.photo}
+                        photo={item.photo}
                     />
                     </Link>
                 );
