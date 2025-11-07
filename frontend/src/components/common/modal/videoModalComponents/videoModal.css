@@ -8,17 +8,6 @@
     --font-size: clamp(0.5rem, 3vw, 1rem);
 }
 
-@font-face {
-  font-family: 'garet';
-  src: url('../assets/Garet-Book.woff2') format('woff2');
-  font-weight: normal;
-  font-style: normal;
-}
-
-* {
-    font-family: 'garet', sans-serif;
-}
-
 .material-symbols-outlined {
     font-family: 'Material Symbols Outlined';
     cursor: pointer;

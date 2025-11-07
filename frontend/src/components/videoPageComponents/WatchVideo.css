@@ -36,17 +36,161 @@
 }
 
 .vv-displayVideo-header.full-screen {
-    width: 100vw;
-    height: 100vh;
+    position: fixed !important;
     top: 0;
     left: 0;
+    width: 100vw !important;
+    height: 100vh !important;
     z-index: 9999;
+    background-color: #000;
+    border-radius: 0 !important;
+}
+
+.vv-progress-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0px 20px 80px 20px;
+}
+
+.vv-progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0px 20px 80px 20px;
+  width: calc(100% - 40px);
+  height: 6px;
+  appearance: none;
+  background: #2c2c2c;
+  border-radius: 4px;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Barra del progreso (relleno) */
+.vv-progress-bar::-webkit-slider-thumb {
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: transparent;
+
+}
+
+.vv-progress-bar::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+/* Color de la barra que ya se ha reproducido */
+.vv-progress-bar::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 4px;
+  background: linear-gradient(
+    to right,
+    rgb(144, 180, 132) var(--progress, 0%),
+    #3a3a3a var(--progress, 0%)
+  );
+}
+
+/* Firefox */
+.vv-progress-bar::-moz-range-track {
+  height: 6px;
+  border-radius: 4px;
+  background: #3a3a3a;
+}
+
+.vv-progress-bar::-moz-range-progress {
+  height: 6px;
+  border-radius: 4px;
+  background: rgb(144, 180, 132);
+}
+
+.vv-progress-bar::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: rgb(180, 132, 132);
+  border: none;
+  cursor: pointer;
+}
+
+.volume-control {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    position: relative;
+}
+
+.volume-control input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 80px;
+    transform: rotate(-90deg);
+    background: transparent;
+    position: absolute;
+    bottom: 250%;
+    margin-bottom: 8px;
+    z-index: 10;
+}
+
+/* --- TRACK (la barra) --- */
+.volume-control input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 6px;
+    background: var(--btn);
+    border-radius: var(--border-radius);
+}
+
+.volume-control input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 6px;
+    background: var(--btn);
+    border-radius: var(--border-radius);
+}
+
+/* --- THUMB (el círculo que se mueve) --- */
+.volume-control input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--btn);
+    cursor: pointer;
+    margin-top: -4px; /* centra el thumb */
+}
+
+.volume-control input[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--btn);
+    cursor: pointer;
+}
+
+/* --- Hover y active --- */
+.volume-control input[type="range"]::-webkit-slider-thumb:hover {
+    background: var(--btn-dark);
+}
+
+.volume-control input[type="range"]:active::-webkit-slider-thumb {
+    transform: scale(1.1);
+}
+
+.vv-displayVideo-header.full-screen .vv-displayVideo {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
 }
 
 .vv-displayVideo-header {
     position: relative;
+    width: 100%;
+    height: auto;
+    transition: all 0.3s ease;
 }
-
 .vv-displayVideo {
     border-radius: var(--border-radius);
     object-fit: contain;
@@ -65,7 +209,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    padding: 0px 20px 20px 20px;
     color: var(--text-color);
 
     button {
@@ -88,7 +232,6 @@
     justify-content: center;
     gap: 20px;
 }
-
 .vv-video-leftControls button,
 .vv-video-rightControls button {
     width: 50px;
@@ -109,6 +252,20 @@
     background-color: #313133d9;
 }
 
+.vv-time-display {
+    height: 50px;
+    padding: 10px;
+    border-radius: 30px;
+    background-color: #1e1e1fd9;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1e1e1fd9;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    color: var(--btn);
+}
 
 /* ===Video Info=== */
 

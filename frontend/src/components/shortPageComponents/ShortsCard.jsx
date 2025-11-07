@@ -201,7 +201,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
                 onPlay={handlePlayPauseChange}
                 onPause={handlePlayPauseChange}
                 onVolumeChange={handlePlayPauseChange}
-                style={{ width: '100%', height: '100%', objectFit: isMaximized ? 'contain' : 'cover' }}
+                style={{ width: '100%', objectFit: isMaximized ? 'contain' : 'cover' }}
               />
             </div>
           </div>
