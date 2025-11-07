@@ -30,7 +30,7 @@ import Jere from '../../assets/images/profile/jere.jpg'
 import Yukki from '../../assets/images/profile/yukki.jpg'
 import video from "../../assets/videos/channel-video-proof.mp4"
 
-export function WatchVideo({ url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle }) {
+export function WatchVideo({ url, title, avatar, userName, description, subscriptions, channelId, onTheaterToggle }) {
     const videoRef = useRef(null);
     const {
         isPlaying,
@@ -58,7 +58,7 @@ export function WatchVideo({ url, title, avatar, userName, description, subscrip
     return (
         <article className={`vv-displayVideo-container ${isTheaterMode ? 'theater-active' : ''}`}>
             <header className={`vv-displayVideo-header ${isTheaterMode ? 'theater-mode' : ''} ${isFullScreen ? 'full-screen' : ''}`}>
-                <video className='vv-displayVideo' src={url} ref={videoRef} onClick={togglePlayPause} />
+                <video className='vv-displayVideo' src={video} ref={videoRef} onClick={togglePlayPause} />
                 <div className="vv-video-controls">
                     <div className="vv-video-leftControls">
                         <button onClick={() => skipTime(-10)}>
