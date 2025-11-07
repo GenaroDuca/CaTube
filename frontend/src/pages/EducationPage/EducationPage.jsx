@@ -21,7 +21,7 @@ function Education() {
                 <main className="main-content">
                     <Title class="title-trending-container" title="Education"></Title>
                     <Block section="trending-videos" subtitle="Education Videos">
-                        <VideoCard></VideoCard>
+                        <VideoCard video={educationshorts[0]}></VideoCard> {/* falta poner los videos son los  que tengan #education*/}
                     </Block>
                     <Sections section="trending-shorts" subtitle="Education Shorts" ref={shortsRef} render={educationshorts} type="short" cts="carousel-ctshorts"></Sections>
                     <Footer footer="footer"></Footer>

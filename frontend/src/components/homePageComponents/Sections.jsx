@@ -6,6 +6,8 @@ import Subtitle from '../homePageComponents/Subtitle.jsx'
 import ButtonCarousel from '../homePageComponents/ButtonCarousel.jsx'
 import {Link} from 'react-router-dom'
 
+import './Sections.css';
+
 function Sections(props) {
     const renderItem = (item, index) => {
         switch (props.type) {

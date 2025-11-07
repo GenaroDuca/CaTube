@@ -14,7 +14,6 @@ import { SlOptionsVertical } from "react-icons/sl";
 import { CatubeSubsCard } from "../../components/user/CatubeSubsCard.jsx"
 
 //styles
-import './WatchShort.css'
 import '../../components/user/CatubeSubsCard.css'
 
 export function WatchShort({ url, title, avatar, userName, description, subscriptions, channelId }) {

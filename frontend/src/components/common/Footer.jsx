@@ -3,6 +3,7 @@ import UlContainer from '../homePageComponents/UlContainer.jsx'
 import FooterText from '../homePageComponents/FooterText.jsx'
 import Container from './Container.jsx'
 import { textfooter } from '../../assets/data/Data.jsx';
+import './Footer.css';
 
 function Footer(props) {
     return (

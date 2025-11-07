@@ -1,6 +1,7 @@
 import Container from "../../common/Container";
 import NewButton from "../../homePageComponents/Button";
 import {lcacommunityData } from "../../../assets/data/Data";
+import './LcaCommunity.css';
 
 function LcaCommunity() {
     return (

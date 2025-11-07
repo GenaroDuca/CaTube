@@ -1,4 +1,5 @@
 import React from 'react';
+import './VideoActivityCard.css';
 
 function VideoActivityCard({ thumbnail, title, timeAgo, views, description }) {
   return (

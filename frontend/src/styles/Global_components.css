@@ -33,12 +33,6 @@ body {
     color: var(--text-color)
 }
 
-.sidebar.collapsed .sidebar-nav .nav-link .nav-label {
-    opacity: 0;
-    pointer-events: none;
-}
-
-/* Las reglas de ocultamiento del tooltip han sido movidas a la sección principal del tooltip para mayor claridad. */
 
 .ts-nav-link,
 a {
@@ -57,7 +51,6 @@ a {
     display: none
 }
 
-.feedback-modal-content form input[type=file],
 .hide {
     display: none !important;
 }
@@ -87,27 +80,6 @@ button:hover {
     cursor: pointer
 }
 
-.sr-header-userActions {
-    display: flex;
-    align-items: center;
-    gap: .05rem
-}
-
-.menu-btn,
-.mic-btn,
-.notify-btn,
-.user-btn {
-    background: 0 0;
-    border: none;
-    color: #777878;
-    cursor: pointer;
-    font-size: 1.2rem;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    justify-content: center;
-    align-items: center
-}
 
 .user-btn.logged-in {
     color: var(--btn);
@@ -151,12 +123,12 @@ button:hover {
     cursor: pointer;
     border: none
 }
-
+/* 
 .sr-header-createButton i,
 .sidebar-header {
     display: flex;
     align-items: center
-}
+} */
 
 .sr-header-createButton i {
     color: var(--primary-color);
@@ -186,174 +158,7 @@ button:hover {
     backdrop-filter: blur(10px);
 }
 
-.sidebar {
-    margin: 0 0 0 15px;
-    border-radius: 30px;
-    height: calc(100vh - 32px);
-    z-index: 2;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
 
-.sidebar.collapsed {
-    width: 85px;
-    background-color: var(--primary-color);
-    box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493) !important;
-    box-shadow: none;
-    overflow: visible;
-}
-
-
-
-.sidebar-header {
-    position: relative;
-    padding: 20px 20px 50px;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-}
-
-.sidebar-nav {
-    height: calc(100vh - 32px - 90px);
-    overflow-y: auto;
-    overflow-x: hidden;
-    scrollbar-width: thin;
-    scrollbar-color: var(--btn) transparent
-}
-
-.sidebar.collapsed .sidebar-nav {
-    overflow-x: visible;
-    /* CRÍTICO: Permite que el tooltip salga */
-    overflow-y: visible;
-    /* Opcional, pero más seguro para asegurar que nada recorte */
-}
-
-.sidebar-nav::after {
-    content: "";
-    display: block;
-    height: 50px
-}
-
-.sidebar-nav::-webkit-scrollbar {
-    width: 6px
-}
-
-.sidebar-nav::-webkit-scrollbar-thumb {
-    background: var(--btn);
-    border-radius: 8px
-}
-
-.sidebar-nav::-webkit-scrollbar-track {
-    background: 0 0
-}
-
-.sidebar-header .toggler {
-    position: absolute;
-    right: 20px;
-    height: 35px;
-    bottom: 10px;
-    width: 35px;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    border-radius: 30px;
-    background: var(--btn);
-    color: var(--hover-color)
-}
-
-.sidebar-header .sidebar-toggler {
-    position: absolute;
-    right: 25px
-}
-
-.sidebar-header .toggler:hover {
-    background: var(--btn-dark)
-}
-
-.sidebar.collapsed .sidebar-header .sidebar-toggler span {
-    transform: rotate(180deg)
-}
-
-.sidebar-toggler span {
-    color: var(--primary-color);
-}
-
-.sidebar-nav .nav-list {
-    list-style: none;
-    display: flex;
-    gap: 5px;
-    padding: 0 15px;
-    flex-direction: column;
-    transform: translateY(10px)
-}
-
-.sidebar.collapsed .sidebar-nav .primary-nav {
-    transform: translateY(30px)
-}
-
-.sidebar-nav .nav-link {
-    color: var(--text-color);
-    display: flex;
-    gap: 12px;
-    white-space: nowrap;
-    border-radius: 30px;
-    align-items: center;
-    padding: 12px 16px;
-    text-decoration: none
-}
-
-.sidebar-nav .nav-link:hover {
-    color: var(--hover-color);
-    background-color: var(--btn)
-}
-
-.sidebar-nav .nav-item,
-.ts-nav-item {
-    position: relative
-}
-
-/* --- TOOLTIP --- */
-
-.nav-tooltip {
-    /* Estilos visuales y posicionamiento */
-    position: absolute;
-    color: var(--primary-color);
-    padding: 6px 12px;
-    border-radius: 30px;
-    background: var(--btn);
-    white-space: nowrap;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
-    /* Añadido para mejor flotabilidad */
-
-    /* Posicionamiento inicial */
-    top: 50%;
-    left: calc(100% + 15px);
-    transform: translateY(-50%) translateX(-5px);
-    z-index: 99999;
-    /* Z-index muy alto */
-
-    /* Ocultamiento por defecto (NECESARIO) */
-    opacity: 0;
-    visibility: hidden;
-    /* Oculta completamente */
-    pointer-events: none;
-
-    /* Animación */
-    transition: opacity .3s, transform .3s;
-}
-
-.sidebar.collapsed .nav-item:hover .nav-tooltip {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-    /* Mueve a la posición final (efecto de deslizamiento) */
-    transform: translateY(-50%) translateX(0);
-}
-
-
-/* --- TOOLTIP --- */
 
 .user-button {
     background-color: var(--primary-color);
@@ -419,8 +224,6 @@ button:hover {
     border: none
 }
 
-.settings-option-btn.active,
-.settings-option-btn:hover,
 .ts-nav-link:hover {
     background: var(--btn);
     color: var(--primary-color)
@@ -465,7 +268,6 @@ button:hover {
 }
 
 .change-password-form button:hover,
-.feedback-modal-content form button:hover,
 .play-modal-btn:hover,
 .return-btn-soon:hover {
     background-color: var(--btn-dark)
@@ -473,290 +275,6 @@ button:hover {
 
 .search-friend-btn:hover {
     background-color: var(--btn-dark);
-}
-
-/* Create Video Modal */
-.create-video-modal {
-    display: none;
-    position: fixed;
-    z-index: 999;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, .2);
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.create-video-content {
-    border-radius: 30px;
-    min-width: 320px;
-    max-width: 90vw;
-    width: 60vw;
-    height: 80vh;
-    min-height: 120px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, .2);
-    overflow-y: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: var(--btn) transparent;
-    background-color: var(--background-color);
-}
-
-.create-video-modal header {
-    width: 100%;
-    background-color: var(--btn);
-    color: var(--primary-color);
-    padding: 20px;
-    display: flex;
-    justify-content: space-between;
-    border-top-left-radius: 30px;
-    border-top-right-radius: 30px;
-}
-
-.create-video-modal header button {
-    background: none;
-    border: none;
-    cursor: pointer;
-}
-
-.create-video-modal header button:hover {
-    transform: scale(1.1);
-}
-
-.create-video-modal main {
-    width: 100%;
-    padding: 0 20px 20px 20px;
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-    background-color: var(--background-color);
-}
-
-
-.create-video-content main input[type="text"] {
-    width: 100%;
-    padding: 12px 20px;
-    border: 1px solid var(--text-color);
-    border-radius: 30px;
-    background-color: transparent;
-    color: var(--text-color);
-}
-
-.create-video-content main textarea {
-    width: 100%;
-    height: 100px;
-    padding: 12px 20px;
-    border: 1px solid var(--text-color);
-    border-radius: 30px;
-    background-color: transparent;
-    color: var(--text-color);
-    resize: none;
-}
-
-.create-video-content main input[type="text"]:focus,
-.create-video-content main textarea:focus {
-    outline: none;
-    border: 1px solid var(--btn);
-}
-
-.create-thumbnail {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    background-color: var(--primary-color);
-    padding: 20px;
-    border-radius: 30px;
-}
-
-.create-thumbnail img {
-    width: 300px;
-    border-radius: 15px;
-}
-
-.create-thumbnail input[type="file"] {
-    display: none;
-}
-
-.create-thumbnail label {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100px;
-    height: 50px;
-    text-align: center;
-    padding: 10px;
-    background-color: var(--btn);
-    color: var(--primary-color);
-    border-radius: 30px;
-    cursor: pointer;
-}
-
-.create-thumbnail label:hover {
-    background-color: var(--btn-dark);
-}
-
-.create-video-tags-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 20px;
-}
-
-.create-video-tags-container section {
-    width: 48%;
-    display: flex;
-    flex-direction: column;
-}
-
-.create-video-tags-container section select {
-    padding: 20px;
-    height: auto;
-    border-radius: 30px;
-    background-color: var(--primary-color);
-    color: var(--text-color);
-    border: none;
-    scrollbar-width: thin;
-    scrollbar-color: var(--btn) transparent;
-}
-
-.create-video-tags-container section :focus {
-    outline: none;
-}
-
-.create-video-buttons {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    gap: 20px;
-}
-
-.tag-input-container div {
-    display: flex;
-    flex-direction: row;
-}
-
-.tag-input-container div button {
-    background: var(--btn);
-    color: var(--primary-color);
-    border: none;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-.tag-input-container div button:hover {
-    background: var(--btn-dark);
-}
-
-.tag-input-container div input {
-    border-bottom-right-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-}
-
-.create-video-buttons button {
-    padding: 12px 20px;
-    background-color: var(--btn);
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-}
-
-.create-video-buttons button:hover {
-    background-color: var(--btn-dark);
-}
-
-.discard-changes-create-video {
-    background-color: #e96765 !important;
-    color: var(--primary-color);
-}
-
-.discard-changes-create-video:hover {
-    background-color: #b94c4a !important
-}
-
-/* footer */
-footer {
-    margin-left: 100px;
-    margin-top: 1rem;
-}
-
-footer div {
-    background-color: var(--primary-color);
-    width: 95%;
-    height: auto;
-    padding: 1rem 2rem;
-    margin: 1rem auto;
-    border-radius: 30px;
-}
-
-.menu-elem {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 25px 20px;
-    justify-items: center;
-    width: 85%;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0;
-    margin-top: 20px;
-}
-
-.menu-item {
-    list-style: none;
-}
-
-.menu-item a {
-    text-decoration: none;
-    color: var(--text-color);
-    opacity: 0.8;
-    transition: opacity 0.3s;
-}
-
-.menu-item a:hover {
-    opacity: 1;
-}
-
-.social-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    margin: 10px 5px;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.icon-elem {
-    list-style: none;
-}
-
-.icon {
-    color: var(--text-color);
-    font-size: 32px;
-    display: inline-block;
-    margin: 0 10px;
-    transition: color 0.5s ease;
-}
-
-.icon:hover {
-    transform: translateY(-5px);
-}
-
-.footer-text {
-    color: var(--text-color);
-    text-align: center;
-    margin-top: 15px;
-    margin-bottom: 20px;
-    font-size: 20px;
-}
-
-/* Toasts */
-.Toastify__toast-container {
-    margin-top: 50px;
 }
 
 @media (max-width:768px) {
@@ -791,44 +309,4 @@ footer div {
         padding: 6px 10px
     }
 
-    .sidebar {
-        width: 200px;
-        margin: 0;
-        border-radius: 0
-    }
-
-    .sidebar-header {
-        padding: 60px 0 0 76px
-    }
-
-    .sidebar.collapsed {
-        width: 70px
-    }
-
-    .sidebar-nav .nav-list {
-        padding: 0 5px
-    }
-
-    /* footer */
-    .menu-elem {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 30px 10px;
-    }
-
-    .icon {
-        font-size: 28px;
-        margin: 0 6px;
-    }
-
-    .footer-text {
-        font-size: 16px;
-    }
-
-    footer div {
-        padding: 10px 20px;
-    }
-
-    footer {
-        margin-left: 70px
-    }
 }

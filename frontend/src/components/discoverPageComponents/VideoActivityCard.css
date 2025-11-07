@@ -1,0 +1,19 @@
+.video-activity-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+}
+
+.video-activity-thumbnail {
+    width: 160px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.video-activity-info {
+    flex: 1;
+}

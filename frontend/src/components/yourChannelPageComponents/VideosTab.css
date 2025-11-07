@@ -1,0 +1,32 @@
+.videos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.video-item {
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.video-thumbnail {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.video-details {
+    padding: 1rem;
+}
+
+.video-title {
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.video-meta {
+    color: var(--text-color);
+    font-size: 0.9rem;
+}

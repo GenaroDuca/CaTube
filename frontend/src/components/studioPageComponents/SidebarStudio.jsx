@@ -1,6 +1,8 @@
 import UlContainer from "../homePageComponents/UlContainer";
 import { leftMenuStudio } from "../../assets/data/Data";
 
+import './SidebarStudio.css';
+
 function SidebarStudio(props) {
     return (
         <div className="left-menu">

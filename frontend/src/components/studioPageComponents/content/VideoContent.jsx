@@ -1,5 +1,6 @@
 import Tbody from "./Tbody";
 import Thead from "./Thead";
+import './VideoContent.css';
 
 
 function VideoContent(props) {

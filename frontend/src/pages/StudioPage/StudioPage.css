@@ -341,6 +341,34 @@
     margin-top: 20px;
 }
 
+/* Make the scroll-table-container's scrollbar match the unified modal scrollbar style */
+.scroll-table-container {
+    /* Firefox */
+    scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent;
+}
+
+/* WebKit (Chrome, Edge, Safari) */
+.scroll-table-container ::-webkit-scrollbar {
+    height: 10px; /* horizontal scrollbar height */
+    width: 10px;  /* vertical scrollbar width if needed */
+}
+
+.scroll-table-container ::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+.scroll-table-container ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--btn), var(--btn-dark));
+    border-radius: 10px;
+    border: 2px solid transparent;
+}
+
+.scroll-table-container ::-webkit-scrollbar-thumb:hover {
+    background: var(--btn-dark);
+}
+
 .analytics-table,
 .content-tabled {
     width: 100%;
@@ -970,8 +998,6 @@
     border-bottom-right-radius: 0px !important;
     border-top-right-radius: 0px !important;
 }
-
-/*footer */
 
 @media (max-width: 1024px) {
     .sidebar-left-studio {

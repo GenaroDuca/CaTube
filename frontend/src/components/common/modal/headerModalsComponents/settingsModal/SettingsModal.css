@@ -1,0 +1,28 @@
+.settings-modal {
+    max-width: 600px;
+    width: 100%;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+}
+
+.settings-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.settings-tab {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+}
+
+.settings-tab.active {
+    background-color: var(--btn);
+    color: white;
+}
+
+.settings-content {
+    padding: 1rem 0;
+}

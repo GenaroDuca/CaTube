@@ -1,3 +1,4 @@
+
 function Short(props) {
         // Handle photo URL properly
         let photoSrc = props.photo || '';

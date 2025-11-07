@@ -1,0 +1,19 @@
+.discover-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+}
+
+.discover-title {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.discover-actions {
+    display: flex;
+    gap: 1rem;
+}

@@ -1,3 +1,5 @@
+import './Video.css';
+
 function Video(props) {
         // Handle thumbnail URL properly
         let thumbnailSrc = props.thumbnail || props.photo || '';

@@ -1,4 +1,5 @@
 import React from 'react';
+import './modals.css';
 import { useModal } from './ModalContext'; // Importa el hook desde el archivo de contexto
 import SettingsModal from '../modal/headerModalsComponents/SettingsModal';
 import HelpModal from '../modal/headerModalsComponents/HelpModal';

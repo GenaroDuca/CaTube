@@ -20,8 +20,7 @@ a {
 .popular-channels,
 .trending,
 .subscriptions,
-.recommendations,
-.footer {
+.recommendations {
   background-color: var(--primary-color);
   width: 95%;
   height: auto;
