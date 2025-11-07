@@ -96,7 +96,6 @@ export function VideoPage() {
                     description: data.description || '',
                     // Enviamos tanto el id del canal como el número crudo de suscriptores
                     channelId: data.channel?.channel_id,
-                    channelUrl: data.channel?.url,
                     subscriptions: data.channel?.subscriberCount || 0,
                 });
             } catch (err) {
