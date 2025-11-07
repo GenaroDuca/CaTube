@@ -15,7 +15,7 @@ import Gena from '../../assets/images/profile/gena.jpg';
 import Jere from '../../assets/images/profile/jere.jpg';
 import Yukki from '../../assets/images/profile/yukki.jpg';
 
-export function WatchVideo({ url, title, avatar, userName, description, subscriptions, channelId, onTheaterToggle }) {
+export function WatchVideo({ url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle }) {
     const videoRef = useRef(null);
     const {
         isPlaying,
