@@ -7,10 +7,15 @@ export class Subscription {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @ManyToOne(() => User, user => user.subscriptions) 
+    @ManyToOne(() => User, user => user.subscriptions, {
+        onDelete: 'CASCADE',
+    })
     user: User;
 
-    @ManyToOne(() => Channel, channel => channel.subscribers)
+    @ManyToOne(() => Channel, channel => channel.subscribers, {
+        onDelete: 'CASCADE',
+    })
+    
     channel: Channel;
 
     @CreateDateColumn()

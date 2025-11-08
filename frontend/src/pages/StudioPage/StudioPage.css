@@ -341,7 +341,6 @@
     margin-top: 20px;
 }
 
-/* Make the scroll-table-container's scrollbar match the unified modal scrollbar style */
 .scroll-table-container {
     /* Firefox */
     scrollbar-width: thin;
@@ -350,8 +349,8 @@
 
 /* WebKit (Chrome, Edge, Safari) */
 .scroll-table-container ::-webkit-scrollbar {
-    height: 10px; /* horizontal scrollbar height */
-    width: 10px;  /* vertical scrollbar width if needed */
+    height: 10px;
+    width: 10px;  
 }
 
 .scroll-table-container ::-webkit-scrollbar-track {

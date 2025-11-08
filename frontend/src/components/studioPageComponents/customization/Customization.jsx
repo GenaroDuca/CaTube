@@ -127,7 +127,7 @@ function Customization({ channelId }) {
             });
             if (photoResult && photoResult.photoUrl) {
                 setPhotoPreview(BASE_URL + photoResult.photoUrl);
-                showSuccess('Logo updated');
+                showSuccess('Logo updated!');
             }
         }
     };

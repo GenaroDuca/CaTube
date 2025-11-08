@@ -49,7 +49,7 @@ function Catscribers(){
                 <main className="main-content">
                     <Sections section="trending-shorts" subtitle="Shorts" ref={shortsRef} render={shorts} type="short" cts="carousel-ctshorts"></Sections>
                     <Recommendations />
-                    <Ads/>
+                    {/* <Ads/> */}
                     <Footer footer="footer"></Footer>
                 </main>
         </>

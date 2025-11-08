@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { BsPersonFill } from "react-icons/bs";
 import { FaKey } from "react-icons/fa";
 import { useToast } from '../../hooks/useToast.jsx';
+import { useModal } from '../common/Modal/ModalContext';
 
 const LoginForm = ({ togglePanel }) => {
   const navigate = useNavigate();
@@ -10,7 +11,9 @@ const LoginForm = ({ togglePanel }) => {
   const [password, setPassword] = useState('');
 
   //FeedbackToast
-  const { showSuccess, showError } = useToast();
+  const { showSuccess, showError } = useToast()
+
+  const { openModal, closeModal } = useModal();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -87,7 +90,6 @@ const LoginForm = ({ togglePanel }) => {
             required
           />
         </div>
-        <p>I forgot my password</p>
 
       </div>
       <div className="input-group">
@@ -102,7 +104,9 @@ const LoginForm = ({ togglePanel }) => {
             required
           />
         </div>
-        <p>I forgot my username</p>
+        <button type="button" onClick={() => openModal("reset-password")}>
+          I forgot my password
+        </button>
 
       </div>
       <button type="submit" className="register-btn">Login</button>

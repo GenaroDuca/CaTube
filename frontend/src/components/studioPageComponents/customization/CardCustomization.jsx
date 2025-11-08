@@ -1,5 +1,3 @@
-import './CardCustomization.css';
-
 function CardCustomization(props){
     return(
         <div className="card-customization">

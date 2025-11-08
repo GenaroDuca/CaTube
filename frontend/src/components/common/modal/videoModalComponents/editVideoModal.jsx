@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import './videoModal.css';
 import { IoIosCloseCircle } from "react-icons/io";
 import { useToast } from "../../../../hooks/useToast.jsx";
 
@@ -105,7 +104,7 @@ function EditVideoModal({ onClose, videoId, title: initialTitle, description: in
     };
 
     return (
-        <div className="create-video-modal">
+        <div className="right-menu-modal">
             <div className="create-video-content edit-mode">
                 <header>
                     <h1>Edit Video</h1>
@@ -159,16 +158,8 @@ function EditVideoModal({ onClose, videoId, title: initialTitle, description: in
                                 <label 
                                     htmlFor="thumbnail" 
                                     className="apply-changes-create-video"
-                                    style={{
-                                        display: 'inline-block',
-                                        padding: '0px 0px',
-                                        cursor: 'pointer',
-                                        border: 'none',
-                                        borderRadius: '25px',
-                                        fontWeight: 'bold'
-                                    }}
                                 >
-                                    {thumbnailPreview ? 'Change Thumbnail' : 'Upload Thumbnail'}
+                                    {thumbnailPreview ? 'Change' : 'Upload'}
                                 </label>
                             </div>
                         </div>

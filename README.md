@@ -155,7 +155,8 @@
     npm install fluent-ffmpeg @types/fluent-ffmpeg
     npm install ffmpeg-static
     npm install ffprobe-static
-    
+    npm install date-fns
+
 ## Crear proyecto React con Vite
     npm create vite@latest
 

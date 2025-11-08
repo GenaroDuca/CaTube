@@ -234,24 +234,24 @@ export class UsersService {
         // 2. Validar y actualizar username
         if (updateData.username && updateData.username !== user.username) {
             const capitalizedUsername = updateData.username.charAt(0).toUpperCase() + updateData.username.slice(1);
-            
+
             // Verificar unicidad
-            const existingUser = await this.usersRepository.findOne({ 
-                where: { username: capitalizedUsername } 
+            const existingUser = await this.usersRepository.findOne({
+                where: { username: capitalizedUsername }
             });
 
             if (existingUser) {
                 throw new ConflictException('This username is already in use.');
             }
-            
+
             user.username = capitalizedUsername;
         }
-        
+
         // 3. Actualizar description
         if (updateData.description !== undefined) {
             user.description = updateData.description;
         }
-        
+
         // 4. Actualizar avatarUrl
         if (updateData.avatarUrl !== undefined) {
             user.avatarUrl = updateData.avatarUrl;
@@ -259,14 +259,14 @@ export class UsersService {
 
         // 5. Comprobación de cambios
         if (!updateData.username && updateData.description === undefined && updateData.avatarUrl === undefined) {
-             throw new BadRequestException('No update fields provided or values are the same.');
+            throw new BadRequestException('No update fields provided or values are the same.');
         }
 
 
         try {
             // 6. Guardar cambios
             const savedUser = await this.usersRepository.save(user);
-            
+
             // 7. Devolver solo campos seguros
             const { password, ...result } = savedUser;
             return {
@@ -275,7 +275,7 @@ export class UsersService {
                 email: result.email,
                 avatarUrl: result.avatarUrl,
                 description: result.description,
-            }; 
+            };
 
         } catch (error) {
             console.error('Error al guardar la actualización del usuario:', error);
@@ -304,6 +304,8 @@ export class UsersService {
             throw error;
         }
     }
+
+    // Verificacion de mail
 
     private async initializeTransporter() {
         const user = this.configService.get<string>('SMTP_USER');
@@ -344,17 +346,18 @@ export class UsersService {
                 to: newUserEmail,
                 subject: "Verify your user",
                 html: `
-                    <p>Welcome to CaTube! Please click the button below to verify your account:</p>
-                    <table cellspacing="0" cellpadding="0">
-                        <tr>
-                            <td align="center" bgcolor="#90b484" style="border-radius: 30px;">
-                                <a href="${verificationLink}" target="_blank" style="padding: 10px 20px; border: 1px solid #90b484; border-radius: 30px; color: #1a1a1b; text-decoration: none; display: inline-block; font-weight: bold;">
-                                    Verify
-                                </a>
-                            </td>
-                        </tr>
-                    </table>
-                    <p>If the button doesn't work, copy and paste this link into your browser: <a href="${verificationLink}">${verificationLink}</a></p>
+                <p>Welcome to CaTube! </p>
+                <p>Please click the button below to verify your account:</p>
+                <table cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td align="center" bgcolor="#90b484" style="border-radius: 30px;">
+                            <a href="${verificationLink}" target="_blank" style="padding: 10px 20px; border: 1px solid #90b484; border-radius: 30px; color: #1a1a1b; text-decoration: none; display: inline-block; font-weight: bold;">
+                                Verify
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+                <p>If the button doesn't work, copy and paste this link into your browser: <a href="${verificationLink}">${verificationLink}</a></p>
                 `,
             });
         } catch (error) {
@@ -363,5 +366,142 @@ export class UsersService {
             throw new Error('Email sending failed.');
         }
 
+    }
+
+    // Resetear contraseña
+
+    // Buscar por email
+    async findByEmail(email: string): Promise<User | null> {
+        return this.usersRepository.findOne({ where: { email } });
+    }
+
+    // Actualizar datos del usuario
+    async update(id: string, data: Partial<User>): Promise<User | null> {
+        await this.usersRepository.update(id, data);
+        return this.usersRepository.findOne({ where: { user_id: id } });
+    }
+
+    // Buscar usuario por token de reseteo
+    async findOneByResetToken(token: string): Promise<User | null> {
+        const users = await this.usersRepository.find();
+
+        for (const user of users) {
+            if (!user.reset_password_token) continue;
+            const isMatch = await bcrypt.compare(token, user.reset_password_token);
+            if (isMatch) return user;
+        }
+
+        return null;
+    }
+
+    /**
+     * Paso 1: Enviar correo con link de restablecimiento
+     */
+    async sendPasswordResetEmail(email: string): Promise<void> {
+        // Buscar usuario
+        const user = await this.usersRepository.findOne({ where: { email } });
+        if (!user) {
+            // Por seguridad, no revelar si existe o no
+            return;
+        }
+
+        // Generar token único
+        const resetToken = crypto.randomBytes(32).toString('hex');
+        const expiry = new Date(Date.now() + 15 * 60 * 1000); // 15 minutos
+
+        // Guardar token y expiración
+        user.reset_password_token = resetToken;
+        user.reset_token_expiry = expiry;
+        await this.usersRepository.save(user);
+
+        // Construir la URL del enlace (configurable desde .env)
+        const BASE_RESET_URL = this.configService.get<string>('BACKEND_RESET_URL');
+        const resetUrl = `${BASE_RESET_URL}?token=${resetToken}`;
+
+        // Enviar correo
+        await this.sendResetPasswordEmail(user.email, resetUrl);
+    }
+
+    /**
+     * Paso 2: Validar token (usado cuando el usuario abre el link)
+     */
+    async validateResetToken(token: string): Promise<User> {
+        const user = await this.usersRepository.findOne({
+            where: { reset_password_token: token },
+        });
+
+        if (!user) {
+            throw new NotFoundException('Token inválido o ya utilizado.');
+        }
+
+        if (user.reset_token_expiry && user.reset_token_expiry < new Date()) {
+            throw new ConflictException('El token ha expirado.');
+        }
+
+        return user;
+    }
+
+    /**
+     * Paso 3: Restablecer la contraseña
+     */
+    async resetPassword(token: string, newPassword: string): Promise<User> {
+        const user = await this.usersRepository.findOne({
+            where: { reset_password_token: token },
+        });
+
+        if (!user) {
+            throw new NotFoundException('Token inválido o ya utilizado.');
+        }
+
+        if (user.reset_token_expiry && user.reset_token_expiry < new Date()) {
+            throw new ConflictException('El token ha expirado.');
+        }
+
+        // Hashear la nueva contraseña
+        const salt = await bcrypt.genSalt();
+        user.password = await bcrypt.hash(newPassword, salt);
+
+        // Limpiar campos del token
+        user.reset_password_token = null;
+        user.reset_token_expiry = null;
+
+        return this.usersRepository.save(user);
+    }
+
+    /**
+     * Enviar correo de restablecimiento
+     */
+    async sendResetPasswordEmail(userEmail: string, resetLink: string) {
+        if (!this.transporter) {
+            console.error(' Transporter no inicializado. No se puede enviar el correo.');
+            return;
+        }
+
+        try {
+            await this.transporter.sendMail({
+                from: '"CaTube Team" <catubeapp@gmail.com>',
+                to: userEmail,
+                subject: "Reset your password",
+                html: `
+                <p>Forgot your password?</p>
+                <p>Please click the button below to reset your password:</p>
+                <table cellspacing="0" cellpadding="0">
+                    <tr>
+                        <td align="center" bgcolor="#90b484" style="border-radius: 30px;">
+                            <a href="${resetLink}" target="_blank" style="padding: 10px 20px; border: 1px solid #90b484; border-radius: 30px; color: #1a1a1b; text-decoration: none; display: inline-block; font-weight: bold;">
+                                Reset password
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+                <p>If the button doesn't work, copy and paste this link into your browser: <a href="${resetLink}">${resetLink}</a></p>
+                <p>This link will expire in 15 minutes.</p>
+                <p>If you did not request a password reset, please ignore this email.</p>
+            `,
+            });
+        } catch (error) {
+            console.error('Error enviando el email de restablecimiento a ' + userEmail, error);
+            throw new Error('Error al enviar el email de restablecimiento.');
+        }
     }
 }

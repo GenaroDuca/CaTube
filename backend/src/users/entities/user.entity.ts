@@ -50,6 +50,12 @@ export class User {
     @Column({ name: 'token_expiry', type: 'timestamp', nullable: true })
     token_expiry: Date | null;
 
+    @Column({ type: 'varchar', nullable: true })
+    reset_password_token: string | null;
+
+    @Column({ type: 'timestamp', nullable: true })
+    reset_token_expiry: Date | null;
+
     // -------------------------------------------------------
 
     @OneToOne(() => Channel, (channel) => channel.user)

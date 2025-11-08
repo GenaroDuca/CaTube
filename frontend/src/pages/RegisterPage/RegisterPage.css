@@ -133,15 +133,19 @@ a {
  * ----------------------------------------
  */
 
-.input-group p {
+.input-group button {
     width: 100%;
     font-size: 12px;
     cursor: pointer;
     margin-top: -3px;
     text-align: right;
+    background-color: transparent;
+    color: var(--text);
+    border: none;
+
 }
 
-.input-group p:HOVER {
+.input-group button:HOVER {
     color: #90b484;
 }
 

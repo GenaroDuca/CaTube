@@ -10,6 +10,8 @@ import CreateStoreModal from '../modal/storeModal/CreateStoreModal';
 import CreateVideoModal from '../modal/videoModalComponents/createVideoModal';
 import EditVideoModal from '../modal/videoModalComponents/editVideoModal';
 import ConfirmModal from '../modal/ConfirmModal';
+import ResetPasswordModal from '../modal/ResetPasswordModal';
+
 
 const ModalRenderer = () => {
     const { modalState, closeModal } = useModal();
@@ -40,6 +42,8 @@ const ModalRenderer = () => {
             return renderModal(EditVideoModal);
         case 'confirm':
             return renderModal(ConfirmModal);
+        case 'reset-password':
+            return renderModal(ResetPasswordModal);
         default:
             return null;
     }

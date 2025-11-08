@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import './videoModal.css';
 import { IoIosCloseCircle } from "react-icons/io";
 import { useToast } from "../../../../hooks/useToast.jsx";
 import { getAuthToken } from "../../../../utils/auth.js";
@@ -108,7 +107,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     };
 
     return (
-        <div className="create-video-modal" onClick={onClose}>
+        <div className="right-menu-modal" onClick={onClose}>
             <div
                 className="create-video-content"
                 onClick={(e) => e.stopPropagation()}

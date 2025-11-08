@@ -97,7 +97,7 @@ function Studio() {
                     <SidebarStudio activeTabIndex={activeTabIndex} onTabClick={handleTabClick}></SidebarStudio>
                     <div className="container-studio">
                         {React.cloneElement(ActiveComponent, { key: componentKey })}
-                        <Footer footer="footer-studio"></Footer>
+                        {/* <Footer footer="footer-studio"></Footer> */}
                     </div>
                     <RightMenu channelId={userChannelId}></RightMenu>
                 </main>
