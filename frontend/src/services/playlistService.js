@@ -1,10 +1,9 @@
-const API_BASE = "http://localhost:5173/api"; // Cambiar según la configuración del backend
+const API_BASE = 'http://localhost:3000';
 
-// Helper para headers con autenticación
 const getAuthHeaders = () => {
   const token = localStorage.getItem('accessToken');
   if (!token) {
-    console.warn('No JWT token found in localStorage');
+    console.warn('No accessToken found in localStorage');
     throw new Error('No authentication token found');
   }
   return {
@@ -29,7 +28,8 @@ export const getPlaylists = async () => {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
 
-    return await response.json();
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error('Error getting playlists:', error);
     throw error;

@@ -7,21 +7,23 @@ import {
     deletePlaylist 
 } from "../services/playlistService";
 
-export const usePlaylist = () => {
+export const usePlaylists = () => {
     const [playlists, setPlaylists] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
      // Cargar todas las playlists
   const loadPlaylists = async () => {
+    console.log("🔄 Iniciando carga de playlists..."); // ← DEBUG
     setLoading(true);
     setError(null);
     try {
       const data = await getPlaylists();
+      console.log("✅ Playlists cargadas:", data); // ← DEBUG
       setPlaylists(data);
     } catch (err) {
+      console.log("❌ Error cargando playlists:", err); // ← DEBUG
       setError(err.message);
-      console.error('Error loading playlists:', err);
     } finally {
       setLoading(false);
     }

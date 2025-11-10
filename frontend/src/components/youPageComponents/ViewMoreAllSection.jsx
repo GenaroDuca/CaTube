@@ -1,19 +1,11 @@
 import Container from "../common/Container";
 import Item from "./Item";
-import { usePlaylist } from "../../hooks/usePlaylists";
+import { usePlaylists } from "../../hooks/usePlaylists";
 
 function ViewMoreAllSection() {
-    const { playlists, loading, error } = usePlaylist();
-    const transformedPlaylists = playlists.map(playlist => ({
-        id: playlist.playlist.id,
-        thumbnail: playlist.thumbnail,
-        videoCount: playlist.videoCount,
-        name: playlist.playlist_title,
-        visibility: playlist.isPublic ? "Public" : "Private",
-        url: `/playlist/${playlist.playlist_id}`,
-    }));
+    const { playlists, loading, error } = usePlaylists();
 
-     if (loading) {
+    if (loading) {
         return (
             <Container className="playlistSection">
                 <div>Cargando playlists...</div>
@@ -28,6 +20,31 @@ function ViewMoreAllSection() {
             </Container>
         );
     }
+
+const transformedPlaylists = playlists.map(playlist => {
+    if (!playlist) return null;
+    
+    // Thumbnail más específico según el tipo de playlist
+    const getDefaultThumbnail = () => {
+        if (playlist.playlistVideos?.length > 0) {
+            return playlist.playlistVideos[0].thumbnail; // Primer video
+        }
+        return playlist.isPublic 
+            ? '../../assets/images/thumbnails/amazingdogs.jpg'
+            : '../../assets/images/thumbnails/amazingdogs.jpg';
+    };
+    
+    return {
+        id: playlist.playlist_id,
+        thumbnail: playlist.thumbnail || getDefaultThumbnail(),
+        name: playlist.playlist_title,
+        videoCount: playlist.playlistVideos?.length || 0,
+        visibility: playlist.isPublic ? 'Pública' : 'Privada',
+        url: `/playlist/${playlist.playlist_id}`,
+        description: playlist.playlist_description,
+        createdAt: playlist.createdAt
+    };
+}).filter(Boolean); // ← Filtrar cualquier null
 
     return (
         <Container className="playlistSection">
