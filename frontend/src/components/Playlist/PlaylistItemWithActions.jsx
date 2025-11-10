@@ -14,11 +14,12 @@ const PlaylistItemWithActions = ({
     onEditDescriptionChange,
     onEditIsPublicChange,
     onSaveEdit,
-    onCancelEdit
+    onCancelEdit,
+    showActions = true
 }) => {
-    const [showActions, setShowActions] = useState(false);
+    const [showActionsOverlay, setShowActionsOverlay] = useState(false);
 
-    // Si está en modo edición, mostrar formulario
+    // Si está en modo edición, muestra el formulario
     if (isEditing) {
         return (
             <div className="playlist-item-wrapper editing">
@@ -71,7 +72,7 @@ const PlaylistItemWithActions = ({
             onMouseEnter={() => setShowActions(true)}
             onMouseLeave={() => setShowActions(false)}
         >
-            {/* ✅ CONTENIDO CLICKEABLE */}
+            {/* CONTENIDO CLICKEABLE */}
             <div 
                 className="playlist-content"
                 onClick={() => onPlaylistClick(playlist)}
@@ -94,8 +95,8 @@ const PlaylistItemWithActions = ({
                 </div>
             </div>
 
-            {/* ✅ BOTONES DE ACCIÓN (aparecen al hover) */}
-            {showActions && (
+            {/* BOTONES DE ACCIÓN (aparecen al hover) */}
+            {showActions && showActionsOverlay && (
                 <div className="playlist-actions-overlay">
                     <button 
                         className="btn-action btn-edit"
@@ -105,7 +106,7 @@ const PlaylistItemWithActions = ({
                         }}
                         title="Editar playlist"
                     >
-                        ✏️ Editar
+                        Editar
                     </button>
                     <button 
                         className="btn-action btn-delete"
@@ -115,7 +116,7 @@ const PlaylistItemWithActions = ({
                         }}
                         title="Eliminar playlist"
                     >
-                        🗑️ Eliminar
+                        Eliminar
                     </button>
                 </div>
             )}

@@ -2,7 +2,7 @@ const API_BASE = 'http://localhost:3000';
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('accessToken');
-  console.log("🔐 Token en localStorage:", token);
+  console.log("Token en localStorage:", token);
   
   const headers = {
     'Content-Type': 'application/json',
@@ -10,9 +10,9 @@ const getAuthHeaders = () => {
   
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
-    console.log("🔐 Headers con autorización:", headers);
+    console.log("Headers con autorización:", headers);
   } else {
-    console.warn('⚠️ No accessToken found in localStorage - proceeding without auth');
+    console.warn('No accessToken found in localStorage - proceeding without auth');
   }
   
   return headers;
@@ -21,9 +21,9 @@ const getAuthHeaders = () => {
 // GET - Obtener todas las playlists del usuario
 export const getPlaylists = async () => {
   try {
-    console.log('🔄 getPlaylists: Iniciando request...');
+    console.log('getPlaylists: Iniciando request...');
     const url = `${API_BASE}/playlists`;
-    console.log('📡 URL:', url);
+    console.log('URL:', url);
     
     const response = await fetch(url, {
       method: 'GET',
@@ -34,24 +34,24 @@ export const getPlaylists = async () => {
     console.log('📡 getPlaylists Response ok:', response.ok);
 
     if (response.status === 401) {
-      console.warn('⚠️ 401 Unauthorized');
+      console.warn('401 Unauthorized');
       return [];
     }
 
     if (!response.ok) {
-      console.error('❌ HTTP Error:', response.status, response.statusText);
+      console.error('HTTP Error:', response.status, response.statusText);
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
 
     const data = await response.json();
-    console.log('✅ getPlaylists: Datos parseados:', data);
+    console.log('getPlaylists: Datos parseados:', data);
     return data;
 
   } catch (error) {
-    console.error('🚨 Error en getPlaylists:', error);
+    console.error('Error en getPlaylists:', error);
     
     if (error.name === 'TypeError' || error.message.includes('Failed to fetch')) {
-      console.warn('📡 Network error - returning empty array');
+      console.warn('Network error - returning empty array');
       return [];
     }
     

@@ -14,7 +14,7 @@ function Playlists() {
     const [editIsPublic, setEditIsPublic] = useState(false);
     const navigate = useNavigate();
 
-    console.log("🎬 Playlists component - Estado actual:", {
+    console.log("Playlists component - Estado actual:", {
         playlistsCount: playlists?.length,
         loading,
         error,
@@ -22,7 +22,7 @@ function Playlists() {
     });
 
     const startEditing = (playlist) => {
-        console.log("✏️ Iniciando edición de:", playlist);
+        console.log("Iniciando edición de:", playlist);
         setEditingId(playlist.id);
         setEditTitle(playlist.name);
         setEditDescription(playlist.description || '');
@@ -30,7 +30,7 @@ function Playlists() {
     };
 
     const cancelEditing = () => {
-        console.log("❌ Cancelando edición");
+        console.log("Cancelando edición");
         setEditingId(null);
         setEditTitle('');
         setEditDescription('');
@@ -39,7 +39,7 @@ function Playlists() {
 
     const saveEdit = async (playlistId) => {
         try {
-            console.log("💾 Guardando edición para:", playlistId);
+            console.log("Guardando edición para:", playlistId);
             await editPlaylist(playlistId, {
                 playlist_title: editTitle,
                 playlist_description: editDescription,
@@ -62,12 +62,12 @@ function Playlists() {
     };
 
     const handlePlaylistClick = (playlist) => {
-        console.log("🎯 Navegando a playlist:", playlist.id);
+        console.log("Navegando a playlist:", playlist.id);
         navigate(`/playlist/${playlist.id}`);
     };
 
     if (loading) {
-        console.log("⏳ Playlists: Mostrando estado loading");
+        console.log("Playlists: Mostrando estado loading");
         return (
             <Container className="video-main-content">
                 <div className="loading">Cargando playlists...</div>
@@ -76,7 +76,7 @@ function Playlists() {
     }
 
     if (error) {
-        console.log("❌ Playlists: Mostrando estado error:", error);
+        console.log("Playlists: Mostrando estado error:", error);
         return (
             <Container className="video-main-content">
                 <div className="error">Error: {error}</div>
@@ -87,17 +87,17 @@ function Playlists() {
     console.log("🔄 Transformando playlists...", playlists);
     const transformedPlaylists = playlists.map(playlist => {
         if (!playlist) {
-            console.log("⚠️ Playlist nula encontrada");
+            console.log("Playlist nula encontrada");
             return null;
         }
         
-        console.log("📝 Procesando playlist:", playlist);
+        console.log("Procesando playlist:", playlist);
         
         const getDefaultThumbnail = () => {
             if (playlist.playlistVideos?.length > 0) {
                 return playlist.playlistVideos[0].thumbnail;
             }
-            return '../../assets/images/thumbnails/amazingdogs.jpg';
+            return '../../assets/images/thumbnails/funnycats.jpg';
         };
         
         const transformed = {
@@ -110,11 +110,11 @@ function Playlists() {
             originalData: playlist
         };
         
-        console.log("✅ Playlist transformada:", transformed);
+        console.log("Playlist transformada:", transformed);
         return transformed;
     }).filter(Boolean);
 
-    console.log("✅ Playlists finales a renderizar:", transformedPlaylists);
+    console.log("Playlists finales a renderizar:", transformedPlaylists);
 
     return (
         <Container className="video-main-content">

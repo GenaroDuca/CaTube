@@ -14,27 +14,27 @@ export const usePlaylists = () => {
 
     // Cargar todas las playlists
     const loadPlaylists = async () => {
-        console.log("🔄 usePlaylists: Iniciando carga de playlists...");
+        console.log("usePlaylists: Iniciando carga de playlists...");
         setLoading(true);
         setError(null);
         try {
             const data = await getPlaylists();
-            console.log("✅ usePlaylists: Datos recibidos del servicio:", data);
+            console.log("usePlaylists: Datos recibidos del servicio:", data);
             
-            // ✅ Asegurar que siempre sea un array
+            // Asegura que siempre sea un array
             const playlistsArray = Array.isArray(data) ? data : [];
-            console.log("✅ usePlaylists: Playlists array procesado:", playlistsArray);
+            console.log("usePlaylists: Playlists array procesado:", playlistsArray);
             
             setPlaylists(playlistsArray);
             
         } catch (err) {
-            console.log("❌ usePlaylists: Error completo:", err);
+            console.log("usePlaylists: Error completo:", err);
             setError(err.message);
-            // ✅ En caso de error, establecer array vacío
+            // En caso de error, establece array vacío
             setPlaylists([]);
         } finally {
             setLoading(false);
-            console.log("🔄 usePlaylists: Loading finalizado");
+            console.log("usePlaylists: Loading finalizado");
         }
     };
 
@@ -98,7 +98,7 @@ export const usePlaylists = () => {
             await deletePlaylist(playlistId);
             setPlaylists(prev => prev.filter(p => p.playlist_id !== playlistId));
         } catch (err) {
-            console.error("❌ Error eliminando playlist:", err);
+            console.error("Error eliminando playlist:", err);
             setError(err.message);
             throw err;
         } finally {
@@ -108,7 +108,7 @@ export const usePlaylists = () => {
 
     // Cargar playlists al montar el componente
     useEffect(() => {
-        console.log("🎯 usePlaylists: useEffect ejecutado - Montando componente");
+        console.log("usePlaylists: useEffect ejecutado - Montando componente");
         loadPlaylists();
     }, []);
 

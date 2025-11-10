@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { usePlaylists } from '../../hooks/usePlaylists';
-import "../Playlist/CreatePLaylistButton.css";
+import "../Playlist/CreatePlaylistButton.css";
 
 const CreatePlaylistButton = () => {
     const [isOpen, setIsOpen] = useState(false);
