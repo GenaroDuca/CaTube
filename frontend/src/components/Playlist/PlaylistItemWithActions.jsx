@@ -1,9 +1,70 @@
-// components/Playlist/PlaylistItemWithActions.jsx
 import { useState } from 'react';
+import "../Playlist/PlaylistActions.css";
 
-const PlaylistItemWithActions = ({ playlist, onEdit, onDelete, onPlaylistClick }) => {
+const PlaylistItemWithActions = ({ 
+    playlist, 
+    onEdit, 
+    onDelete, 
+    onPlaylistClick,
+    isEditing = false,
+    editTitle = "",
+    editDescription = "",
+    editIsPublic = false,
+    onEditTitleChange,
+    onEditDescriptionChange,
+    onEditIsPublicChange,
+    onSaveEdit,
+    onCancelEdit
+}) => {
     const [showActions, setShowActions] = useState(false);
 
+    // Si está en modo edición, mostrar formulario
+    if (isEditing) {
+        return (
+            <div className="playlist-item-wrapper editing">
+                <div className="playlist-edit-form">
+                    <h4>Editar Playlist</h4>
+                    <input
+                        type="text"
+                        value={editTitle}
+                        onChange={(e) => onEditTitleChange(e.target.value)}
+                        placeholder="Título de la playlist"
+                        className="edit-input"
+                    />
+                    <textarea
+                        value={editDescription}
+                        onChange={(e) => onEditDescriptionChange(e.target.value)}
+                        placeholder="Descripción"
+                        className="edit-textarea"
+                    />
+                    <label className="checkbox-label">
+                        <input
+                            type="checkbox"
+                            checked={editIsPublic}
+                            onChange={(e) => onEditIsPublicChange(e.target.checked)}
+                        />
+                        Playlist pública
+                    </label>
+                    <div className="edit-actions">
+                        <button 
+                            onClick={() => onSaveEdit(playlist.id)}
+                            className="btn-save"
+                        >
+                            Guardar
+                        </button>
+                        <button 
+                            onClick={onCancelEdit}
+                            className="btn-cancel"
+                        >
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    // Modo visualización normal
     return (
         <div 
             className="playlist-item-wrapper"
@@ -40,7 +101,7 @@ const PlaylistItemWithActions = ({ playlist, onEdit, onDelete, onPlaylistClick }
                         className="btn-action btn-edit"
                         onClick={(e) => {
                             e.stopPropagation();
-                            onEdit(playlist.originalData);
+                            onEdit(playlist);
                         }}
                         title="Editar playlist"
                     >

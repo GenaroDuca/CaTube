@@ -1,9 +1,9 @@
 import Container from "../common/Container";
-import VideosLatest from "./VideosLatest";
 import { usePlaylists } from "../../hooks/usePlaylists";
 import { useRef, useState } from "react";
 import CreatePlaylistButton from "../Playlist/CreatePlaylistButton";
 import { useNavigate } from "react-router-dom";
+import PlaylistItemWithActions from "../Playlist/PlaylistItemWithActions";
 
 function Playlists() {
     const playlistsRef = useRef(null);
@@ -14,14 +14,23 @@ function Playlists() {
     const [editIsPublic, setEditIsPublic] = useState(false);
     const navigate = useNavigate();
 
+    console.log("🎬 Playlists component - Estado actual:", {
+        playlistsCount: playlists?.length,
+        loading,
+        error,
+        playlists: playlists
+    });
+
     const startEditing = (playlist) => {
-        setEditingId(playlist.playlist_id);
-        setEditTitle(playlist.playlist_title);
-        setEditDescription(playlist.playlist_description || '');
-        setEditIsPublic(playlist.isPublic);
+        console.log("✏️ Iniciando edición de:", playlist);
+        setEditingId(playlist.id);
+        setEditTitle(playlist.name);
+        setEditDescription(playlist.description || '');
+        setEditIsPublic(playlist.visibility === 'Pública');
     };
 
     const cancelEditing = () => {
+        console.log("❌ Cancelando edición");
         setEditingId(null);
         setEditTitle('');
         setEditDescription('');
@@ -30,6 +39,7 @@ function Playlists() {
 
     const saveEdit = async (playlistId) => {
         try {
+            console.log("💾 Guardando edición para:", playlistId);
             await editPlaylist(playlistId, {
                 playlist_title: editTitle,
                 playlist_description: editDescription,
@@ -51,82 +61,94 @@ function Playlists() {
         }
     };
 
+    const handlePlaylistClick = (playlist) => {
+        console.log("🎯 Navegando a playlist:", playlist.id);
+        navigate(`/playlist/${playlist.id}`);
+    };
+
     if (loading) {
+        console.log("⏳ Playlists: Mostrando estado loading");
         return (
             <Container className="video-main-content">
-                <div>Cargando playlists...</div>
+                <div className="loading">Cargando playlists...</div>
             </Container>
         );
     }
 
     if (error) {
+        console.log("❌ Playlists: Mostrando estado error:", error);
         return (
             <Container className="video-main-content">
-                <div>Error: {error}</div>
+                <div className="error">Error: {error}</div>
             </Container>
         );
     }
 
-    const handlePlaylistClick = (playlist) => {
-        // Navegar a la página de detalles de la playlist
-        navigate(`/playlist/${playlist.id}`);
-    };
-
-const transformedPlaylists = playlists.map(playlist => {
-    if (!playlist) return null;
-    
-    // Thumbnail más específico según el tipo de playlist
-    const getDefaultThumbnail = () => {
-        if (playlist.playlistVideos?.length > 0) {
-            return playlist.playlistVideos[0].thumbnail; // Primer video
+    console.log("🔄 Transformando playlists...", playlists);
+    const transformedPlaylists = playlists.map(playlist => {
+        if (!playlist) {
+            console.log("⚠️ Playlist nula encontrada");
+            return null;
         }
-        return playlist.isPublic 
-            ? '../../assets/images/thumbnails/amazingdogs.jpg'
-            : '../../assets/images/thumbnails/amazingdogs.jpg';
-    };
-    
-    return {
-        id: playlist.playlist_id,
-        thumbnail: playlist.thumbnail || getDefaultThumbnail(),
-        name: playlist.playlist_title,
-        videoCount: playlist.playlistVideos?.length || 0,
-        visibility: playlist.isPublic ? 'Pública' : 'Privada',
-        url: `/playlist/${playlist.playlist_id}`,
-        description: playlist.playlist_description,
-        createdAt: playlist.createdAt,
-        originalData: playlist,
-        clickable: true,
-        onClick: () => handlePlaylistClick(playlist)
+        
+        console.log("📝 Procesando playlist:", playlist);
+        
+        const getDefaultThumbnail = () => {
+            if (playlist.playlistVideos?.length > 0) {
+                return playlist.playlistVideos[0].thumbnail;
+            }
+            return '../../assets/images/thumbnails/amazingdogs.jpg';
+        };
+        
+        const transformed = {
+            id: playlist.playlist_id,
+            thumbnail: playlist.thumbnail || getDefaultThumbnail(),
+            name: playlist.playlist_title,
+            videoCount: playlist.playlistVideos?.length || 0,
+            visibility: playlist.isPublic ? 'Pública' : 'Privada',
+            description: playlist.playlist_description,
+            originalData: playlist
+        };
+        
+        console.log("✅ Playlist transformada:", transformed);
+        return transformed;
+    }).filter(Boolean);
 
-    };
-}).filter(Boolean); // ← Filtrar cualquier null
+    console.log("✅ Playlists finales a renderizar:", transformedPlaylists);
 
-return (
+    return (
         <Container className="video-main-content">
-            {/* ✅ NUEVO: Botón crear playlist */}
             <div className="playlist-actions-header">
                 <CreatePlaylistButton />
             </div>
 
-            <VideosLatest 
-                render={transformedPlaylists} 
-                id="playlistsSection" 
-                className="content-table" 
-                container="latest-container" 
-                ref={playlistsRef} 
-                type="videos"
-                onEdit={startEditing}
-                onDelete={handleDelete}
-                editingId={editingId}
-                editTitle={editTitle}
-                editDescription={editDescription}
-                editIsPublic={editIsPublic}
-                onEditTitleChange={setEditTitle}
-                onEditDescriptionChange={setEditDescription}
-                onEditIsPublicChange={setEditIsPublic}
-                onSaveEdit={saveEdit}
-                onCancelEdit={cancelEditing}
-            />
+            <div className="playlists-grid">
+                {transformedPlaylists.length > 0 ? (
+                    transformedPlaylists.map(playlist => (
+                        <PlaylistItemWithActions 
+                            key={playlist.id}
+                            playlist={playlist}
+                            onEdit={startEditing}
+                            onDelete={handleDelete}
+                            onPlaylistClick={handlePlaylistClick}
+                            isEditing={editingId === playlist.id}
+                            editTitle={editTitle}
+                            editDescription={editDescription}
+                            editIsPublic={editIsPublic}
+                            onEditTitleChange={setEditTitle}
+                            onEditDescriptionChange={setEditDescription}
+                            onEditIsPublicChange={setEditIsPublic}
+                            onSaveEdit={saveEdit}
+                            onCancelEdit={cancelEditing}
+                        />
+                    ))
+                ) : (
+                    <div className="no-playlists">
+                        <p>No tienes playlists creadas aún.</p>
+                        <p>¡Crea tu primera playlist usando el botón arriba!</p>
+                    </div>
+                )}
+            </div>
         </Container>
     );
 }

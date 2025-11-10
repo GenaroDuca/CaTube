@@ -1,7 +1,6 @@
-// components/Playlist/CreatePlaylistButton.jsx
 import { useState } from 'react';
 import { usePlaylists } from '../../hooks/usePlaylists';
-// import './CreatePlaylistButton.css'; // Estilos opcionales
+import "../Playlist/CreatePLaylistButton.css";
 
 const CreatePlaylistButton = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -35,7 +34,7 @@ const CreatePlaylistButton = () => {
                 onClick={() => setIsOpen(true)}
                 className="btn-create-playlist"
             >
-                ➕ Crear Nueva Playlist
+                Crear Nueva Playlist
             </button>
 
             {isOpen && (
@@ -71,9 +70,9 @@ const CreatePlaylistButton = () => {
                                         checked={isPublic}
                                         onChange={(e) => setIsPublic(e.target.checked)}
                                     />
-                                    🌐 Playlist pública
+                                    Playlist pública:
                                 </label>
-                                <small>Los demás usuarios podrán ver esta playlist</small>
+                                <small> (Los demás usuarios podrán ver esta playlist) </small>
                             </div>
                             
                             <div className="modal-actions">

@@ -2,36 +2,59 @@ const API_BASE = 'http://localhost:3000';
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('accessToken');
-  if (!token) {
-    console.warn('No accessToken found in localStorage');
-    throw new Error('No authentication token found');
-  }
-  return {
+  console.log("🔐 Token en localStorage:", token);
+  
+  const headers = {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`,
   };
+  
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+    console.log("🔐 Headers con autorización:", headers);
+  } else {
+    console.warn('⚠️ No accessToken found in localStorage - proceeding without auth');
+  }
+  
+  return headers;
 };
 
 // GET - Obtener todas las playlists del usuario
 export const getPlaylists = async () => {
   try {
-    const response = await fetch(`${API_BASE}/playlists`, {
+    console.log('🔄 getPlaylists: Iniciando request...');
+    const url = `${API_BASE}/playlists`;
+    console.log('📡 URL:', url);
+    
+    const response = await fetch(url, {
       method: 'GET',
       headers: getAuthHeaders(),
     });
 
+    console.log('📡 getPlaylists Response status:', response.status);
+    console.log('📡 getPlaylists Response ok:', response.ok);
+
     if (response.status === 401) {
-      throw new Error('No autorizado - Inicia sesión nuevamente');
+      console.warn('⚠️ 401 Unauthorized');
+      return [];
     }
 
     if (!response.ok) {
+      console.error('❌ HTTP Error:', response.status, response.statusText);
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
 
     const data = await response.json();
+    console.log('✅ getPlaylists: Datos parseados:', data);
     return data;
+
   } catch (error) {
-    console.error('Error getting playlists:', error);
+    console.error('🚨 Error en getPlaylists:', error);
+    
+    if (error.name === 'TypeError' || error.message.includes('Failed to fetch')) {
+      console.warn('📡 Network error - returning empty array');
+      return [];
+    }
+    
     throw error;
   }
 };
@@ -103,11 +126,29 @@ export const deletePlaylist = async (id) => {
       headers: getAuthHeaders(),
     });
 
+    console.log('DELETE Response status:', response.status); // Debug
+
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
 
-    return await response.json();
+    // Manejar respuesta vacía (204 No Content)
+    if (response.status === 204) {
+      console.log('DELETE: 204 No Content - respuesta exitosa sin cuerpo');
+      return { success: true, message: 'Playlist eliminada exitosamente' };
+    }
+
+    // Verificar si hay contenido antes de parsear JSON
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      const data = await response.json();
+      return data;
+    } else {
+      // Si no hay JSON pero la respuesta es exitosa
+      console.log('DELETE: Respuesta exitosa sin JSON');
+      return { success: true, message: 'Playlist eliminada exitosamente' };
+    }
+
   } catch (error) {
     console.error('Error deleting playlist:', error);
     throw error;
