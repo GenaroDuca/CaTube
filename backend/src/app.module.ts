@@ -20,6 +20,7 @@ import { PlaylistVideosModule } from './playlist_videos/playlist_videos.module';
 import { PlaylistVideo } from './playlist_videos/entities/playlist_video.entity';
 import { ConfigModule } from '@nestjs/config';
 import { Friendship } from './friendships/entities/friendship.entity';
+import { PlaylistModule } from './playlist/playlist.module';
 import * as path from 'path';
 
 @Module({
@@ -49,6 +50,8 @@ import * as path from 'path';
     ProductModule,
 
     StoreModule,
+
+    PlaylistModule,
 
     PlaylistVideosModule,
     ],

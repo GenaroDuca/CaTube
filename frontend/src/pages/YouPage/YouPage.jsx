@@ -29,7 +29,7 @@ function You() {
                 <main className="main-content">
                     <Youprofile></Youprofile>
                     <Sectionyou btnclass="btn-trash" section="trending" subtitle="History" ref={HistoryRef} render={historyvideo} startExpanded={true} cts="carousel-ctsvideos" ><img src={deleted} alt="Delete history"/> </Sectionyou>
-                    <Sectionyou btnclass="btn-viewall-playlists" btntitle="View more" section="trending" subtitle="Playlists" ref={PlaylistRef} render={playlistvideo} expandedContent={<ViewMoreAllSection render={myPlaylistsData}/>} cts="carousel-ctsvideos" >   </Sectionyou>
+                    <Sectionyou btnclass="btn-viewall-playlists" btntitle="View more" section="trending" subtitle="Playlists" ref={PlaylistRef} render={[]} expandedContent={<ViewMoreAllSection/>} cts="carousel-ctsvideos" > </Sectionyou>
                     <Sectionyou btnclass="btn-viewall-playlists" btntitle="View all" section="trending" subtitle="View Later" ref={ViewLaterRef} render={viewlatervideo} expandedContent={<ViewMoreAllSection render={ViewLaterData} />} cts="carousel-ctsvideos" > </Sectionyou>
                     <Sections section="trending" subtitle="Liked" ref={LikedRef} render={likedvideo} type="video" cts="carousel-ctsvideos" ></Sections>
                     <Footer footer="footer"></Footer>
