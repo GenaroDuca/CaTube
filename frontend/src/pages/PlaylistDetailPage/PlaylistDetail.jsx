@@ -23,7 +23,7 @@ function PlaylistDetail() {
             <Header />
             <Sidebar />
             <div className="page-container">
-            <main className="main-content"> 
+            <main className="mainB-content"> 
                 <Container className="video-main-content">
                     <div className="loading">Cargando playlist...</div>
                 </Container>
@@ -38,7 +38,7 @@ function PlaylistDetail() {
             <Header />
             <Sidebar />
             <div className="page-container">
-            <main className="main-content"> 
+            <main className="mainB-content"> 
                 <Container className="video-main-content">
                     <div className="error">Error: {error}</div>
                 </Container>
@@ -53,7 +53,7 @@ function PlaylistDetail() {
             <Header />
             <Sidebar />
             <div className="page-container">
-            <main className="main-content"> 
+            <main className="mainB-content"> 
                 <Container className="video-main-content">
                     <div className="error">Playlist no encontrada</div>
                 </Container>
@@ -68,7 +68,7 @@ function PlaylistDetail() {
             <Header />
             <Sidebar />
             <div className="page-container">
-            <main className="main-content"> 
+            <main className="mainB-content"> 
                 <Container className="video-main-content">
                     <div className="playlist-detail-header">
                         <h1>{playlist.playlist_title}</h1>
