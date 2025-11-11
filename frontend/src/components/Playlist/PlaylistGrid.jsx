@@ -1,4 +1,3 @@
-// components/PlaylistGrid.jsx
 import PlaylistItemWithActions from "../Playlist/PlaylistItemWithActions";
 
 const PlaylistGrid = ({ 

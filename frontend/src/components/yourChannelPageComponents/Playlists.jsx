@@ -4,6 +4,9 @@ import { useRef, useState } from "react";
 import CreatePlaylistButton from "../Playlist/CreatePlaylistButton";
 import { useNavigate } from "react-router-dom";
 import PlaylistItemWithActions from "../Playlist/PlaylistItemWithActions";
+import "../Playlist/PlaylistActions.css" ;
+import "../../styles/Global_components.css"; 
+import "../../pages/YourChannelPage/YourChannelPage.css"; 
 
 function Playlists() {
     const playlistsRef = useRef(null);
@@ -64,6 +67,7 @@ function Playlists() {
     const handlePlaylistClick = (playlist) => {
         console.log("Navegando a playlist:", playlist.id);
         navigate(`/playlist/${playlist.id}`);
+        //  window.location.href = `/playlist/${playlist.id}`;
     };
 
     if (loading) {
@@ -140,6 +144,7 @@ function Playlists() {
                             onEditIsPublicChange={setEditIsPublic}
                             onSaveEdit={saveEdit}
                             onCancelEdit={cancelEditing}
+                            showActions={true}
                         />
                     ))
                 ) : (

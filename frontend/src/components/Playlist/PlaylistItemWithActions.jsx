@@ -15,11 +15,11 @@ const PlaylistItemWithActions = ({
     onEditIsPublicChange,
     onSaveEdit,
     onCancelEdit,
-    showActions = true
+    showActions = true 
 }) => {
-    const [showActionsOverlay, setShowActionsOverlay] = useState(false);
+    const [showActionsOverlay, setShowActionsOverlay] = useState(false); // ✅ Cambiado el nombre
 
-    // Si está en modo edición, muestra el formulario
+    // Si está en modo edición, mostrar formulario
     if (isEditing) {
         return (
             <div className="playlist-item-wrapper editing">
@@ -69,8 +69,8 @@ const PlaylistItemWithActions = ({
     return (
         <div 
             className="playlist-item-wrapper"
-            onMouseEnter={() => setShowActions(true)}
-            onMouseLeave={() => setShowActions(false)}
+            onMouseEnter={() => setShowActionsOverlay(true)}
+            onMouseLeave={() => setShowActionsOverlay(false)}
         >
             {/* CONTENIDO CLICKEABLE */}
             <div 
@@ -95,7 +95,7 @@ const PlaylistItemWithActions = ({
                 </div>
             </div>
 
-            {/* BOTONES DE ACCIÓN (aparecen al hover) */}
+            {/* BOTONES DE ACCIÓN (aparecen al hover) - SOLO SI showActions ES true */}
             {showActions && showActionsOverlay && (
                 <div className="playlist-actions-overlay">
                     <button 

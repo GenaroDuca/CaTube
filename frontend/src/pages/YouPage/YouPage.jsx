@@ -14,6 +14,7 @@ import '../../styles/Global_components.css'
 import '../HomePage/HomePage.css'
 import '../YourChannelPage/YourChannelPage.css'
 import '../YouPage/YouPage.css'
+import '../../components/Playlist/PlaylistActions.css'
 
 function You() {
     const HistoryRef = useRef(null);
@@ -118,7 +119,7 @@ function You() {
                 onEditIsPublicChange={setEditIsPublic}
                 onSaveEdit={saveEdit}
                 onCancelEdit={cancelEditing}
-                showActions={true}
+                showActions={false}
             />
         );
     };

@@ -20,6 +20,7 @@ import { VideoPage } from './pages/VideoPage/VideoPage.jsx'
 import  SuccessPage  from "./pages/VerificationEmailPage/SuccessPage.jsx"
 import  ErrorPage  from './pages/VerificationEmailPage/ErrorPage.jsx';
 import { ThemeProvider } from './components/context/themeContext.jsx';
+import PlaylistDetail from './pages/PlaylistDetailPage/PlaylistDetail.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -36,6 +37,7 @@ createRoot(document.getElementById('root')).render(
             <Route path="/you" element={<You />} />
             <Route path="/history" element={<You />} />
             <Route path="/playlist" element={<You />} />
+            <Route path="/playlist/:id" element={<PlaylistDetail />} />
             <Route path="/view-later" element={<You />} />
             <Route path="/liked" element={<You />} />
             <Route path="/register" element={<RegisterPage />} />
