@@ -69,8 +69,6 @@ const AccountSettings = () => {
       </form>
 
       <div className="setting-section-btn-container">
-        <button type="button" className="disable-account-btn soon">Disable Account</button>
-
         {/* Usar la nueva función handleDeleteClick que abre el modal universal */}
         <button
           type="button"

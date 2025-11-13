@@ -30,6 +30,8 @@ import { RoomsModule } from './rooms/rooms.module';
 import { ChatGateway } from './chat/chat.gateway';
 import { SubscriptionsModule } from './subs/subs.module';
 import { VideosModule } from './videos/videos.module';
+import { TagsModule } from './tags/tags.module';
+import { Tag } from './tags/entities/tag.entity';
 
 
 @Module({
@@ -42,7 +44,7 @@ import { VideosModule } from './videos/videos.module';
       password: 'geniducv1',
       database: 'catube_db',
       // logging: true,
-      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo, Friendship, Notification, Message, Room],
+      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo, Friendship, Notification, Message, Room, Tag],
       synchronize: true,
     }),
 
@@ -73,7 +75,9 @@ import { VideosModule } from './videos/videos.module';
     
     SubscriptionsModule,
 
-    VideosModule
+    VideosModule,
+
+    TagsModule
   ],
   controllers: [AppController],
   providers: [AppService, ChatGateway],

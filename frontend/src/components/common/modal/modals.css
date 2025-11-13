@@ -71,31 +71,6 @@
     animation: fadeIn 0.3s ease-in-out;
 }
 
-/* El .right-menu-modal original tenía estilos duplicados/incorrectos para el overlay */
-/* Se unifica con el selector superior, pero se elimina el display:none que impedía su visualización */
-
-/* SELECTOR UNIFICADO PARA TAMAÑO Y CONTENIDO DE MODALES GRANDES */
-.feedback-modal-content,
-.help-modal-content,
-.settings-modal-content,
-.soon-modal-content,
-.create-video-content,
-.edit-product-content,
-.add-product-content,
-.create-store-content,
-.reset-modal-content {
-    background-color: var(--background-color);
-    border-radius: 30px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, .2);
-    display: flex;
-    flex-direction: column;
-    width: auto;
-    max-width: 90vw;
-    height: auto;
-    max-height: 90vh;
-    overflow: hidden;
-}
-
 /* Encabezados de todos los modales (Grandes) */
 .right-menu-modal header,
 .create-video-modal header,
@@ -353,11 +328,14 @@
 /* 5. ESTILOS ESPECÍFICOS DE FEEDBACK MODAL */
 /* ==================================== */
 
-.feedback-modal-content form, .reset-modal-content form {
+.feedback-modal-content form,
+.reset-modal-content form {
     display: flex;
     flex-direction: column;
     padding: 20px;
-    gap: 20px
+    gap: 20px;
+    background-color: var(--background-color);
+    border-radius: 0px 0px 30px 30px;
 }
 
 .feedback-modal-content form input[type=file] {
@@ -397,6 +375,9 @@
     flex-direction: column;
     padding: 20px;
     gap: 20px;
+    background-color: #1F1F20;
+    border-radius: 0px 0px 30px 30px;
+
 }
 
 .frequently-asked-questions summary,
@@ -409,23 +390,19 @@ button:hover {
 /* 6. ESTILOS ESPECÍFICOS DE SETTINGS MODAL */
 /* ==================================== */
 
-.settings-modal-content {
-    background-color: var(--primary-color);
-    width: 850px;
-    height: 600px;
-}
-
 .settings-main-content {
     display: flex;
     flex-grow: 1;
     overflow: hidden;
+    background-color: var(--primary-color);
+    border-radius: 0px 0px 30px 30px;
+
 }
 
 .settings-main-content nav {
     background-color: var(--primary-color);
     padding: 20px;
     border-bottom-left-radius: 30px;
-    width: 25%;
     flex-shrink: 0;
 }
 
@@ -447,7 +424,7 @@ button:hover {
     cursor: pointer;
     text-align: start;
     color: var(--text-color);
-    font-size: 1em;
+
     transition: background-color 0.2s;
 }
 
@@ -459,12 +436,12 @@ button:hover {
 
 .setting-section {
     padding: 20px 40px;
-    width: 75%;
     display: flex;
     flex-direction: column;
     gap: 25px;
     overflow-y: auto;
     height: 100%;
+    background-color: #1F1F20;
 }
 
 .setting-section.hide {
@@ -475,12 +452,6 @@ button:hover {
     display: flex;
     flex-direction: column;
     gap: 20px;
-}
-
-.setting-section h2 {
-    margin: 0 0 10px 0;
-    padding-bottom: 10px;
-    color: var(--text-color);
 }
 
 /* Estilos de botones de formulario (Change Password) */
@@ -506,20 +477,17 @@ button:hover {
 
 .setting-section-btn-container {
     display: flex;
-    gap: 10px;
     align-items: center;
-    justify-content: center;
-    margin-top: 20px;
+    justify-content: space-between;
 }
 
-.delete-account-btn,
-.disable-account-btn,
-.generic-btn {
+.delete-account-btn {
+    width: 100%;
+    color: var(--primary-color);
+    border: none;
     padding: 12px 20px;
     border-radius: 30px;
-    border: none;
     cursor: pointer;
-    color: var(--primary-color);
 }
 
 .delete-account-btn {
@@ -530,13 +498,6 @@ button:hover {
     background-color: #b94c4a !important;
 }
 
-.disable-account-btn {
-    background-color: #696969 !important;
-}
-
-.disable-account-btn:hover {
-    background-color: #575757 !important;
-}
 
 /* Toggle Switch */
 .setting-item {
@@ -694,11 +655,13 @@ input:checked+.slider:before {
 
 .create-thumbnail video {
     width: 300px;
+    aspect-ratio: 16/9;
     border-radius: 15px;
 }
 
 .create-thumbnail img {
     width: 300px;
+    aspect-ratio: 16/9;
     border-radius: 15px;
 }
 
@@ -756,6 +719,11 @@ input:checked+.slider:before {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    gap: 20px;
+}
+
+.create-video-media-input {
+    display: flex;
     gap: 20px;
 }
 

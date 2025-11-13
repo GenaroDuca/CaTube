@@ -49,6 +49,8 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     const [videoDescription, setVideoDescription] = useState('');
     const [videoFile, setVideoFile] = useState('');
     const [videoThumbnail, setVideoThumbnail] = useState('');
+    const [selectedTags, setSelectedTags] = useState([]);
+    const [customTagInput, setCustomTagInput] = useState('');
 
     const handleVideoFileChange = (e) => {
         if (e.target.files && e.target.files[0]) {
@@ -62,13 +64,46 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
         }
     };
 
+    const handleAddCustomTag = async () => {
+        const tag = customTagInput.trim().toLowerCase();
+        if (!tag || selectedTags.includes(tag)) return;
+
+        try {
+            const res = await fetch('http://localhost:3000/tags', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${getAuthToken()}`
+                },
+                body: JSON.stringify({ name: tag, type: 'custom' })
+            });
+
+            if (res.ok) {
+                setSelectedTags((prev) => [...prev, tag]);
+                setCustomTagInput('');
+                showSuccess(`Tag #${tag} created`);
+            } else {
+                showError('Could not create tag');
+            }
+        } catch (err) {
+            showError('Network error while creating tag');
+        }
+    };
+
+    const handleTagChange = (e) => {
+        const options = Array.from(e.target.selectedOptions);
+        const values = options.map((opt) => opt.value);
+        setSelectedTags(values);
+    };
+
+
     const videoPreviewUrl = videoFile
         ? URL.createObjectURL(videoFile)
-        : "/assets/videos/video-prueba2.mp4";
+        : "/assets/videos/";
 
     const thumbnailPreviewUrl = videoThumbnail
         ? URL.createObjectURL(videoThumbnail)
-        : "/assets/example1.jpg";
+        : "/src/assets/images/thumbnails/cooking.jpg";
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -104,6 +139,21 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
             console.error(error.message);
             showError('An unexpected error occurred.');
         }
+
+        if (response?.id) {
+            await fetch('http://localhost:3000/tags/assign', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${getAuthToken()}`
+                },
+                body: JSON.stringify({
+                    videoId: response.id,
+                    tagNames: selectedTags
+                })
+            });
+        }
+
     };
 
     return (
@@ -125,10 +175,8 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                         <input
                             type="text"
                             placeholder="Enter video title"
-                            // Use formData.title OR destructure it (as done above)
                             value={videoName}
-                            name="title" // Add name attribute
-                            // Use the handleChange function
+                            name="title"
                             onChange={(e) => setVideoName(e.target.value)}
                         />
 
@@ -139,51 +187,50 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                             name="description"
                             onChange={(e) => setVideoDescription(e.target.value)}
                         />
+                        <div className="create-video-media-input">
+                            <div>
+                                <h2>Video</h2>
+                                <div className="create-thumbnail">
+                                    <video width="300" controls src={videoPreviewUrl}>
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    <label htmlFor="upload-video">Upload</label>
+                                    <input
+                                        type="file"
+                                        id="upload-video"
+                                        name="videoFile"
+                                        accept="video/mp4"
+                                        onChange={handleVideoFileChange}
+                                        style={{ display: "none" }}
+                                    />
+                                </div>
+                            </div>
 
-                        <h2>Video</h2>
-                        <div className="create-thumbnail">
-                            <video width="300" controls src={videoPreviewUrl}>
-                                Your browser does not support the video tag.
-                            </video>
-                            <label htmlFor="upload-video">Upload</label>
-                            <input
-                                type="file"
-                                id="upload-video"
-                                name="videoFile" // Add name attribute matching state field
-                                accept="video/mp4"
-                                // Use the handleFileChange function
-                                onChange={handleVideoFileChange}
-                                style={{ display: "none" }}
-                            />
+                            <div>
+                                <h2>Video thumbnail</h2>
+                                <div className="create-thumbnail">
+                                    <img src={thumbnailPreviewUrl} alt="Thumbnail preview" />
+                                    <label htmlFor="upload-thumbnail">Upload</label>
+                                    <input
+                                        type="file"
+                                        id="upload-thumbnail"
+                                        name="thumbnail"
+                                        accept="image/*"
+                                        onChange={handleThumbnailFileChange}
+                                        style={{ display: "none" }}
+                                    />
+                                </div>
+                            </div>
                         </div>
-
-                        {/* Updated Thumbnail upload section */}
-                        <h2>Video thumbnail</h2>
-                        <div className="create-thumbnail">
-                            {/* Use the dynamically created URL if a file is selected */}
-                            <img src={thumbnailPreviewUrl} alt="Thumbnail preview" />
-                            <label htmlFor="upload-thumbnail">Upload</label>
-                            <input
-                                type="file"
-                                id="upload-thumbnail"
-                                name="thumbnail"
-                                accept="image/*"
-                                onChange={handleThumbnailFileChange}
-                                style={{ display: "none" }}
-                            />
-                        </div>
-
-                        {/* <h2>Video tags</h2>
+                        <h2>Video tags</h2>
                         <div className="create-video-tags-container">
                             <section>
-                                <select 
-                                    id="video-tags" 
-                                    name="tags" // Add name attribute
+                                <select
+                                    id="video-tags"
+                                    name="tags"
                                     multiple
-                                    // Handle change using the dedicated function
                                     onChange={handleTagChange}
-                                    // Set value based on what's in formData.tags (assumed to be an array)
-                                    value={Array.isArray(formData.tags) ? formData.tags : []}
+                                    value={selectedTags}
                                 >
                                     <option value="music">#music</option>
                                     <option value="vlog">#vlog</option>
@@ -200,15 +247,15 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                                         type="text"
                                         id="custom-tag"
                                         placeholder="Enter your tag"
+                                        value={customTagInput}
+                                        onChange={(e) => setCustomTagInput(e.target.value)}
                                     />
-                                    <button type="button" className="soon">
+                                    <button type="button" onClick={handleAddCustomTag}>
                                         <i className="fas fa-plus"></i>
                                     </button>
                                 </div>
                             </section>
-                                                        
-                        </div> */}
-
+                        </div>
                         <div className="create-video-buttons">
                             <button type="button" className="discard-changes-create-video" onClick={onClose}>
                                 Discard

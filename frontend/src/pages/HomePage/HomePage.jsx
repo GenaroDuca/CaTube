@@ -120,7 +120,7 @@ function Home() {
         <Sidebar />
         <main className="main-content">
           {/* <Ads /> */}
-          <Sections section="popular-channels" subtitle="Popular Channels" ref={popularChannelsRef} render={channels} type="profile" cts="carousel-cts" ></Sections>
+          <Sections section="popular-channels" subtitle="Recent Channels" ref={popularChannelsRef} render={channels} type="profile" cts="carousel-cts" ></Sections>
           <Sections section="trending" subtitle="Shorts" ref={shortsRef} render={shorts} type="short" cts="carousel-ctshorts"></Sections>
           <Sections section="subscriptions" subtitle="Catscribers" ref={catsRef} render={videos} type="video" cts="carousel-ctsvideos"></Sections>
 

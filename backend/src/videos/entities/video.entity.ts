@@ -5,12 +5,15 @@ import {
   ManyToOne,
   OneToMany,
   JoinColumn,
-  CreateDateColumn
+  CreateDateColumn,
+  ManyToMany,
+  JoinTable
 } from 'typeorm';
 import { Channel } from '../../channels/entities/channel.entity';
 import { Comment } from 'src/comments/entities/comment.entity';
 import { Like } from 'src/likes/entities/like.entity';
 import { PlaylistVideo } from '../../playlist_videos/entities/playlist_video.entity';
+import { Tag } from '../../tags/entities/tag.entity';
 
 @Entity('videos')
 export class Video {
@@ -23,11 +26,8 @@ export class Video {
   @Column({ nullable: true })
   description: string;
 
-  @Column({ nullable: true})
+  @Column({ nullable: true })
   thumbnail: string;
-
-  @Column('simple-array', { nullable: true })
-  tags: string[];
 
   @Column({ default: 'Public' })
   visibility: string;
@@ -63,4 +63,9 @@ export class Video {
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @ManyToMany(() => Tag, (tag) => tag.videos, { cascade: true, onDelete: 'CASCADE' })
+  @JoinTable()
+  tags: Tag[];
+
 }
