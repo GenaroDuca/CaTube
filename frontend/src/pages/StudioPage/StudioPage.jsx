@@ -41,7 +41,6 @@ function Studio() {
                     const userData = await response.json();
                     if (userData.channel) {
                         const channelId = userData.channel.channel_id;
-                        // Set the user's own channel in localStorage for studio components
                         localStorage.setItem('channelId', channelId);
                         setUserChannelId(channelId);
                     }
