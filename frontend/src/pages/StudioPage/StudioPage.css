@@ -394,7 +394,7 @@
 .video-content {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 20px;
 }
 
 .video-content img {

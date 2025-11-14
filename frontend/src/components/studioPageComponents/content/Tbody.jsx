@@ -13,7 +13,6 @@ function Tbody(props) {
                 <tr key={idx}>
                     <td data-label="Video">
                         <div className="video-content">
-                            <input type="checkbox" />
                             <Link to={`/watch/${item.id}`}>
                                 <img src={item.src} alt={item.alt}></img>
                             </Link>
@@ -39,7 +38,8 @@ function Tbody(props) {
                                         videoId: item.id,
                                         title: item.title,
                                         description: item.description,
-                                        thumbnail: item.src
+                                        thumbnail: item.src,
+                                        initialTags: item.tags
                                     })}
                                 >
                                     <MdModeEditOutline size={25} color="#1a1a1b" />

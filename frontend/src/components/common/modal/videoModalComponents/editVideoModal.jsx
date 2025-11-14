@@ -144,7 +144,6 @@ function EditVideoModal({ onClose, videoId, title: initialTitle, description: in
                                 <img
                                     src={thumbnailPreview}
                                     alt="Thumbnail"
-                                    style={{ maxWidth: '300px', height: '200px', marginBottom: '20px', borderRadius: '15px' }}
                                 />
                             )}
                             <div className="thumbnail-upload">

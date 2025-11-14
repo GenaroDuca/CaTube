@@ -37,6 +37,7 @@ function Content() {
                     comments: v.comments?.length ?? 0,
                     like: v.likes?.length ?? 0,
                     type: v.type || 'video',
+                    tags: v.tags?.map(t => t.name) || []
                 };
             });
 
