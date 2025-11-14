@@ -6,6 +6,8 @@ import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
 import { Channel } from '../channels/entities/channel.entity';
 import { UsersService } from 'src/users/users.service';
+import { Tag } from 'src/tags/entities/tag.entity';
+
 import * as path from 'path';
 import * as fs from 'fs';
 import * as ffmpeg from 'fluent-ffmpeg';
@@ -25,7 +27,11 @@ export class VideosService {
     private userService: UsersService,
   ) { }
 
-  async create(createVideoDto: CreateVideoDto, userId: string, files: Express.Multer.File[]) {
+  async create(
+    createVideoDto: CreateVideoDto,
+    userId: string,
+    files: Express.Multer.File[]
+  ) {
     try {
       // Buscar usuario
       const user = await this.userService.findOneById(userId);
@@ -45,7 +51,7 @@ export class VideosService {
         channel: channel,
       });
 
-      // Crear la carpeta de destino si no existe (ruta normalizada)
+      // Crear la carpeta de destino si no existe
       const uploadDir = getUploadsPath('videos');
       if (!fs.existsSync(uploadDir)) {
         fs.mkdirSync(uploadDir, { recursive: true });
@@ -58,7 +64,6 @@ export class VideosService {
 
       // Procesar archivos
       for (const file of files) {
-        // Asegurar que newVideo tenga un id (si usas uuid generado por DB, lo generamos temporalmente)
         const videoId = newVideo.id ?? Date.now().toString();
 
         const safeName = file.originalname.replace(/\s+/g, '_');
@@ -96,9 +101,8 @@ export class VideosService {
         ...newVideo,
         link,
       };
-
     } catch (err) {
-      console.error(' Error creating video:', err);
+      console.error('Error creating video:', err);
       throw new Error(`Failed to create video: ${err.message}`);
     }
   }
@@ -152,8 +156,8 @@ export class VideosService {
   // Update a video by its ID
   async update(id: string, updateVideoDto: UpdateVideoDto, files?: Express.Multer.File[]) {
     try {
-      console.log('Starting video update:', { 
-        id, 
+      console.log('Starting video update:', {
+        id,
         updateVideoDto,
         hasFiles: !!files?.length
       });
@@ -162,19 +166,19 @@ export class VideosService {
         where: { id },
         relations: ['channel', 'channel.user'],
       });
-      
+
       if (!video) {
         console.log('Video not found:', id);
         throw new NotFoundException('Video not found');
       }
 
-      console.log('Found video to update:', {
-        id: video.id,
-        currentTitle: video.title,
-        currentDescription: video.description,
-        currentThumbnail: video.thumbnail,
-        channelId: video.channel?.channel_id
-      });
+      // console.log('Found video to update:', {
+      //   id: video.id,
+      //   currentTitle: video.title,
+      //   currentDescription: video.description,
+      //   currentThumbnail: video.thumbnail,
+      //   channelId: video.channel?.channel_id
+      // });
 
       // Actualizar solo los campos proporcionados
       const updates: any = {};
@@ -188,7 +192,7 @@ export class VideosService {
       // Procesar el archivo de miniatura si se proporciona
       if (files && files.length > 0) {
         const thumbnailFile = files[0];
-        
+
         if (!thumbnailFile.mimetype.startsWith('image/')) {
           throw new Error('El archivo debe ser una imagen');
         }
@@ -244,7 +248,7 @@ export class VideosService {
         newDescription: updatedVideo.description,
         newThumbnail: updatedVideo.thumbnail
       });
-      
+
       return {
         id: updatedVideo.id,
         title: updatedVideo.title,
@@ -292,7 +296,7 @@ export class VideosService {
   async findOneById(id: string) {
     const video = await this.videoRepository.findOne({
       where: { id },
-      relations: ['channel', 'channel.user'],
+      relations: ['channel', 'channel.user', 'tags'], // <-- agregamos tags
     });
 
     if (!video) {

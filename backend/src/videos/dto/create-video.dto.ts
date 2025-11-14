@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsOptional, IsString, IsUUID, MaxLength } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, MaxLength, IsArray } from 'class-validator';
 
 export class CreateVideoDto {
     @IsNotEmpty()
@@ -11,20 +11,10 @@ export class CreateVideoDto {
     @MaxLength(500)
     description: string;
 
-    // @IsOptional()
-    // @IsString()
-    // @MaxLength(100)
-    // tags?: string[];
-
-    // @IsString()
-    // @IsUUID()
-    // thumbnailId?: string;
-
-    //los obtiene de la bd
-    // @IsOptional()
-    // @IsString()
-    // @IsUUID()
-    // channelId?: string;
+    @IsOptional()
+    @IsArray()
+    @IsString({ each: true })
+    tag?: string[]; 
 
     @IsOptional()
     @IsString()

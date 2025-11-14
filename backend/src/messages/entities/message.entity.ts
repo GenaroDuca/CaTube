@@ -14,17 +14,26 @@ export class Message {
     timestamp: Date;
 
     @Column({ type: 'boolean', default: false, name: 'is_edited' })
-    is_edited: boolean; 
+    is_edited: boolean;
 
-    @ManyToOne(() => User, user => user.messages)
+    // --- ORDEN CORRECTO ---
+    @Column('uuid')
+    senderId: string;
+
+    @ManyToOne(() => User, user => user.messages, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'senderId' })
     sender: User;
-    @Column('uuid')
-    senderId: string; // Clave foránea
 
-    @ManyToOne(() => Room, room => room.messages)
+    @ManyToOne(() => User, user => user.receivedMessages, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'receiver_id' })
+    receiver: User;
+
+
+    // --- ORDEN CORRECTO ---
+    @Column('varchar', { length: 75 })
+    roomId: string;
+
+    @ManyToOne(() => Room, room => room.messages, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'roomId' })
     room: Room;
-    @Column('varchar', { length: 75 }) 
-    roomId: string; // Clave foránea 
 }

@@ -94,10 +94,11 @@ export function VideoPage() {
                     avatar: channelPhotoUrl || Yukki,
                     userName: data.channel?.channel_name || 'Unknown',
                     description: data.description || '',
-                    // Enviamos tanto el id del canal como el número crudo de suscriptores
                     channelId: data.channel?.channel_id,
                     subscriptions: data.channel?.subscriberCount || 0,
+                    tags: data.tags
                 });
+
             } catch (err) {
                 console.error('Error fetching video:', err);
                 setVideo({

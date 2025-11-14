@@ -5,16 +5,18 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Video } from './entities/video.entity';
 import { UsersModule } from '../users/users.module';
 import { MulterModule } from '@nestjs/platform-express';
+import { Tag } from 'src/tags/entities/tag.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Video]),
+    TypeOrmModule.forFeature([Video, Tag]),
     UsersModule,
     MulterModule.register({
-      dest:'./uploads'
+      dest: './uploads'
     })
   ],
   controllers: [VideosController],
   providers: [VideosService],
+  exports: [VideosService]
 })
-export class VideosModule {}
+export class VideosModule { }

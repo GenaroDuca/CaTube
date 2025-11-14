@@ -15,7 +15,7 @@ import Gena from '../../assets/images/profile/gena.jpg';
 import Jere from '../../assets/images/profile/jere.jpg';
 import Yukki from '../../assets/images/profile/yukki.jpg';
 
-export function WatchVideo({ url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle }) {
+export function WatchVideo({ url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags }) {
     const videoRef = useRef(null);
     const {
         isPlaying,
@@ -125,8 +125,19 @@ export function WatchVideo({ url, title, avatar, userName, description, subscrip
             </div>
 
             <div className="vv-displayVideo-description">
-                <h3>Video Description</h3>
-                <p>{description}</p>
+                <div>
+                    <h3>Video Description</h3>
+                    <p>{description}</p>
+                </div>
+
+                <div className="vv-displayVideo-description-tags">
+                    <h4>Video Tags</h4>
+                    <div>
+                        {tags.map(tags => (
+                            <p>#{tags.name}</p>
+                        ))}
+                    </div>
+                </div>
             </div>
 
             <div className="vv-displayVideo-comments">

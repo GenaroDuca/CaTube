@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { Video } from '../../videos/entities/video.entity';
 export enum TagType {
-  PREDEFINED = 'predefined',
+  PREDEFINED = 'default',
   CUSTOM = 'custom',
 }
 
@@ -19,8 +19,13 @@ export class Tag {
   @Column({ unique: true })
   name: string;
 
-  @Column({ type: 'enum', enum: TagType, default: TagType.CUSTOM })
+  @Column({
+    type: 'enum',
+    enum: TagType,
+    default: TagType.CUSTOM
+  })
   type: TagType;
+
 
   @Column({ default: 0 })
   usageCount: number;

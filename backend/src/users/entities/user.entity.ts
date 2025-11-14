@@ -10,8 +10,7 @@ import { Exclude } from 'class-transformer';
 import { Room } from 'src/rooms/entities/room.entity';
 import { Message } from 'src/messages/entities/message.entity';
 
-
-@Unique(['username']) // Asegura que el username sea único a nivel de BD
+@Unique(['username'])
 @Entity('users')
 export class User {
     @PrimaryGeneratedColumn("uuid")
@@ -32,19 +31,10 @@ export class User {
     @Column({ name: 'user_type', default: 'client' })
     user_type: string;
 
-    // --- CAMPOS AGREGADOS PARA LA VERIFICACIÓN DE EMAIL ---
-
     @Column({ name: 'is_verified', default: false })
     is_verified: boolean;
 
-    @Column({
-        name: 'verification_token',
-        nullable: true,
-        unique: true,
-        type: 'varchar',
-        length: 255
-    })
-
+    @Column({ name: 'verification_token', nullable: true, unique: true, type: 'varchar', length: 255 })
     verification_token: string | null;
 
     @Column({ name: 'token_expiry', type: 'timestamp', nullable: true })
@@ -57,19 +47,10 @@ export class User {
     reset_token_expiry: Date | null;
 
     // -------------------------------------------------------
-
-    @OneToOne(() => Channel, (channel) => channel.user)
+    @OneToOne(() => Channel, (channel) => channel.user, { onDelete: 'CASCADE' })
     channel: Channel;
 
-    // Este método se llama automáticamente cuando se serializa el objeto a JSON.
-    // Excluye la contraseña del objeto resultante.
-    toJSON() {
-        const { password, verification_token, token_expiry, ...result } = this;
-        // También excluimos el token y su caducidad por seguridad
-        return result;
-    }
-
-    @OneToMany(() => Playlist, (playlist) => playlist.user)
+    @OneToMany(() => Playlist, (playlist) => playlist.user, { onDelete: 'CASCADE' })
     playlists: Playlist[];
 
     @OneToMany(() => Comment, (comment) => comment.user, { onDelete: 'CASCADE' })
@@ -78,44 +59,47 @@ export class User {
     @OneToMany(() => Like, (like) => like.user, { onDelete: 'CASCADE' })
     likes: Like[];
 
-    @OneToMany(() => Subscription, subs => subs.user)
+    @OneToMany(() => Subscription, subs => subs.user, { onDelete: 'CASCADE' })
     subscriptions: Subscription[];
 
-    @Column({
-        name: 'avatar_url',
-        type: 'varchar',
-        length: 255,
-        nullable: true,
-        default: null
-    })
+    @Column({ name: 'avatar_url', type: 'varchar', length: 255, nullable: true, default: null })
     avatarUrl: string | null;
 
-    @Column({
-        name: 'description',
-        type: 'varchar',
-        nullable: true,
-        default: 'Hello, I am a new user on this platform!'
-    })
+    @Column({ name: 'description', type: 'varchar', nullable: true, default: 'Hello, I am a new user on this platform!' })
     description: string | null;
 
     // RELACIONES DE AMISTAD
     @Exclude()
-    @OneToMany(() => Friendship, friendship => friendship.sender)
+    @OneToMany(() => Friendship, friendship => friendship.sender, { onDelete: 'CASCADE' })
     sentFriendships: Friendship[];
 
     @Exclude()
-    @OneToMany(() => Friendship, friendship => friendship.receiver)
+    @OneToMany(() => Friendship, friendship => friendship.receiver, { onDelete: 'CASCADE' })
     receivedFriendships: Friendship[];
 
-    @OneToMany(() => Notification, notification => notification.receiver)
+    @OneToMany(() => Notification, notification => notification.receiver, { onDelete: 'CASCADE' })
     receivedNotifications: Notification[];
 
-    @OneToMany(() => Notification, notification => notification.sender)
+    @OneToMany(() => Notification, notification => notification.sender, { onDelete: 'CASCADE' })
     sentNotifications: Notification[];
 
-    @ManyToMany(() => Room, room => room.participants)
-    rooms: Room[];
+    // Relación con rooms
+    @OneToMany(() => Room, room => room.user1)
+    roomsAsUser1: Room[];
 
-    @OneToMany(() => Message, message => message.sender)
+    @OneToMany(() => Room, room => room.user2)
+    roomsAsUser2: Room[];
+    
+    @OneToMany(() => Message, message => message.sender, { onDelete: 'CASCADE' })
     messages: Message[];
+
+    @OneToMany(() => Message, message => message.receiver)
+    receivedMessages: Message[];
+
+
+    // Excluye campos sensibles al serializar
+    toJSON() {
+        const { password, verification_token, token_expiry, reset_password_token, reset_token_expiry, ...result } = this;
+        return result;
+    }
 }

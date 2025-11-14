@@ -39,13 +39,13 @@ const FriendCard = ({ user, isFriend, onGoToProfile, onGoToChat, onAddFriend }) 
             <div className="friend-info">
                 <div className="avatar-container">
                     <img src={user.avatarUrl || DEFAULT_AVATAR} alt={user.userName} className="friend-avatar" />
-                    {isFriend && (
+                    {/* {isFriend && (
                         <FaCircle
                             className="status-indicator"
                             size={12}
                             style={{ color: statusColor }}
                         />
-                    )}
+                    )} */}
                 </div>
                 <span className="friend-username">{user.userName}</span>
             </div>

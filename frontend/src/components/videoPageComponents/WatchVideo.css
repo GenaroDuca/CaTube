@@ -280,6 +280,16 @@
     border-radius: var(--border-radius);
 }
 
+.vv-displayVideo-description-tags {
+    margin-top: 20px;
+}
+
+.vv-displayVideo-description-tags div{
+    display: flex;
+    gap: 10px;
+    color: var(--btn);
+}
+
 /* ===Likes/Dislikes/Options=== */
 
 .vv-displayVideo-userActions {

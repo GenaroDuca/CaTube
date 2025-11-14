@@ -9,7 +9,8 @@ import { ChannelsService } from 'src/channels/channels.service';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 import { UpdateUserDto } from './dto-users/update-user.dto';
-
+import { DataSource } from 'typeorm';
+import { Room } from 'src/rooms/entities/room.entity';
 
 @Injectable()
 export class UsersService {
@@ -23,7 +24,9 @@ export class UsersService {
         @Inject(forwardRef(() => ChannelsService))
         private channelsService: ChannelsService,
 
-        private readonly configService: ConfigService
+        private readonly configService: ConfigService,
+        private readonly dataSource: DataSource,
+
 
 
     ) {
@@ -283,26 +286,48 @@ export class UsersService {
         }
     }
 
+
+
     async remove(id: string): Promise<void> {
-        try {
-            const user = await this.usersRepository.findOne({
+        await this.dataSource.transaction(async manager => {
+            // 1️⃣ Traer usuario con todas las relaciones necesarias
+            const user = await manager.findOne(User, {
                 where: { user_id: id },
-                relations: ['channel'],
+                relations: [
+                    'channel',
+                    'playlists',
+                    'comments',
+                    'likes',
+                    'subscriptions',
+                    'sentFriendships',
+                    'receivedFriendships',
+                    'sentNotifications',
+                    'receivedNotifications',
+                    'messages',
+                    'roomsAsUser1',
+                    'roomsAsUser2',
+                ],
             });
 
-            if (!user) {
-                throw new Error('User not found');
+            if (!user) throw new NotFoundException('User not found');
+
+            console.log('Rooms como user1:', user.roomsAsUser1.map(r => r.room_id));
+            console.log('Rooms como user2:', user.roomsAsUser2.map(r => r.room_id));
+
+            // Eliminar todas las rooms donde el usuario es user1 o user2
+            const roomsToDelete = [...user.roomsAsUser1, ...user.roomsAsUser2];
+            if (roomsToDelete.length > 0) {
+                await manager.remove(Room, roomsToDelete);
             }
 
+            // Eliminar canal si existe
             if (user.channel) {
                 await this.channelsService.remove(user.channel.channel_id);
             }
 
-            await this.usersRepository.delete(id);
-        } catch (error) {
-            console.error('Error deleting user:', error);
-            throw error;
-        }
+            // Eliminar usuario (cascade elimina mensajes enviados, playlists, comentarios, etc.)
+            await manager.remove(User, user);
+        });
     }
 
     // Verificacion de mail
