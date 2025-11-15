@@ -2,7 +2,7 @@ const API_BASE = 'http://localhost:3000';
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem('accessToken');
-  console.log("Token en localStorage:", token);
+  // console.log("Token en localStorage:", token);
   
   const headers = {
     'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ const getAuthHeaders = () => {
     headers['Authorization'] = `Bearer ${token}`;
     console.log("Headers con autorización:", headers);
   } else {
-    console.warn('No accessToken found in localStorage - proceeding without auth');
+    // console.warn('No accessToken found in localStorage - proceeding without auth');
   }
   
   return headers;
@@ -21,37 +21,37 @@ const getAuthHeaders = () => {
 // GET - Obtener todas las playlists del usuario
 export const getPlaylists = async () => {
   try {
-    console.log('getPlaylists: Iniciando request...');
+    // console.log('getPlaylists: Iniciando request...');
     const url = `${API_BASE}/playlists`;
-    console.log('URL:', url);
+    // console.log('URL:', url);
     
     const response = await fetch(url, {
       method: 'GET',
       headers: getAuthHeaders(),
     });
 
-    console.log('📡 getPlaylists Response status:', response.status);
-    console.log('📡 getPlaylists Response ok:', response.ok);
+    // console.log('📡 getPlaylists Response status:', response.status);
+    // console.log('📡 getPlaylists Response ok:', response.ok);
 
     if (response.status === 401) {
-      console.warn('401 Unauthorized');
+      // console.warn('401 Unauthorized');
       return [];
     }
 
     if (!response.ok) {
-      console.error('HTTP Error:', response.status, response.statusText);
+      // console.error('HTTP Error:', response.status, response.statusText);
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
 
     const data = await response.json();
-    console.log('getPlaylists: Datos parseados:', data);
+    // console.log('getPlaylists: Datos parseados:', data);
     return data;
 
   } catch (error) {
-    console.error('Error en getPlaylists:', error);
+    // console.error('Error en getPlaylists:', error);
     
     if (error.name === 'TypeError' || error.message.includes('Failed to fetch')) {
-      console.warn('Network error - returning empty array');
+      // console.warn('Network error - returning empty array');
       return [];
     }
     
@@ -73,7 +73,7 @@ export const getPlaylistById = async (id) => {
 
     return await response.json();
   } catch (error) {
-    console.error('Error getting playlist:', error);
+    // console.error('Error getting playlist:', error);
     throw error;
   }
 };
@@ -93,7 +93,7 @@ export const createPlaylist = async (playlistData) => {
 
     return await response.json();
   } catch (error) {
-    console.error('Error creating playlist:', error);
+    // console.error('Error creating playlist:', error);
     throw error;
   }
 };
@@ -113,7 +113,7 @@ export const updatePlaylist = async (id, playlistData) => {
 
     return await response.json();
   } catch (error) {
-    console.error('Error updating playlist:', error);
+    // console.error('Error updating playlist:', error);
     throw error;
   }
 };
@@ -126,7 +126,7 @@ export const deletePlaylist = async (id) => {
       headers: getAuthHeaders(),
     });
 
-    console.log('DELETE Response status:', response.status); // Debug
+    // console.log('DELETE Response status:', response.status); // Debug
 
     if (!response.ok) {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
@@ -134,7 +134,7 @@ export const deletePlaylist = async (id) => {
 
     // Manejar respuesta vacía (204 No Content)
     if (response.status === 204) {
-      console.log('DELETE: 204 No Content - respuesta exitosa sin cuerpo');
+      // console.log('DELETE: 204 No Content - respuesta exitosa sin cuerpo');
       return { success: true, message: 'Playlist eliminada exitosamente' };
     }
 
@@ -145,12 +145,12 @@ export const deletePlaylist = async (id) => {
       return data;
     } else {
       // Si no hay JSON pero la respuesta es exitosa
-      console.log('DELETE: Respuesta exitosa sin JSON');
+      // console.log('DELETE: Respuesta exitosa sin JSON');
       return { success: true, message: 'Playlist eliminada exitosamente' };
     }
 
   } catch (error) {
-    console.error('Error deleting playlist:', error);
+    // console.error('Error deleting playlist:', error);
     throw error;
   }
 };
