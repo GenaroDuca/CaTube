@@ -46,7 +46,7 @@ const CreatePlaylistButton = () => {
                                 <label>Título *</label>
                                 <input
                                     type="text"
-                                    placeholder="Mi playlist increíble"
+                                    placeholder="Mi playlist favorita"
                                     value={title}
                                     onChange={(e) => setTitle(e.target.value)}
                                     required

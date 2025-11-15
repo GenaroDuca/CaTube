@@ -10,13 +10,16 @@ import "../../components/Playlist/PlaylistActions.css";
 import "./PlaylistDetails.css";              
 import "../../styles/Global_components.css";       
 import "../../components/Playlist/PlaylistActions.css"; 
-import "../HomePage/HomePage.css";                 
+import "../HomePage/HomePage.css"; 
+import playlistThumbnails from "../../assets/images/thumbnails/rabbits.jpg";                
 
 function PlaylistDetail() {
     const { id } = useParams();
     const { playlists, loading, error } = usePlaylists();
-    
     const playlist = playlists.find(p => p.playlist_id === id);
+    const getVideoThumbnail = (video) => {
+    return video.thumbnail || playlistThumbnails;
+};
     
     if (loading) return (
         <>
@@ -87,7 +90,7 @@ function PlaylistDetail() {
                         {playlist.playlistVideos?.length > 0 ? (
                             playlist.playlistVideos.map(video => (
                                 <div key={video.video_id} className="video-item">
-                                    <img src={video.thumbnail} alt={video.title} />
+                                    <img src={getVideoThumbnail.thumbnail} alt={video.title} />
                                     <div className="video-info">
                                         <h3>{video.title}</h3>
                                         <p>{video.description}</p>

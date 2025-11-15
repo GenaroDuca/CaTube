@@ -7,6 +7,8 @@ import PlaylistItemWithActions from "../Playlist/PlaylistItemWithActions";
 import "../Playlist/PlaylistActions.css" ;
 import "../../styles/Global_components.css"; 
 import "../../pages/YourChannelPage/YourChannelPage.css"; 
+import playlistThumbnails from "../../assets/images/thumbnails/rabbits.jpg";                 
+
 
 function Playlists() {
     const playlistsRef = useRef(null);
@@ -88,7 +90,7 @@ function Playlists() {
         );
     }
 
-    console.log("🔄 Transformando playlists...", playlists);
+    console.log("Transformando playlists...", playlists);
     const transformedPlaylists = playlists.map(playlist => {
         if (!playlist) {
             console.log("Playlist nula encontrada");
@@ -98,15 +100,12 @@ function Playlists() {
         console.log("Procesando playlist:", playlist);
         
         const getDefaultThumbnail = () => {
-            if (playlist.playlistVideos?.length > 0) {
-                return playlist.playlistVideos[0].thumbnail;
-            }
-            return '../../assets/images/thumbnails/funnycats.jpg';
+            return playlistThumbnails;
         };
         
         const transformed = {
             id: playlist.playlist_id,
-            thumbnail: playlist.thumbnail || getDefaultThumbnail(),
+            thumbnail: getDefaultThumbnail(),
             name: playlist.playlist_title,
             videoCount: playlist.playlistVideos?.length || 0,
             visibility: playlist.isPublic ? 'Pública' : 'Privada',

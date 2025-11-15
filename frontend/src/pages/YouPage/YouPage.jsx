@@ -10,11 +10,12 @@ import { historyvideo, playlistvideo, viewlatervideo, likedvideo, ViewLaterData,
 import { useRef, useState } from "react";
 import { usePlaylists } from "../../hooks/usePlaylists";
 import PlaylistGrid from "../../components//Playlist/PlaylistGrid.jsx";
-import '../../styles/Global_components.css'
-import '../HomePage/HomePage.css'
-import '../YourChannelPage/YourChannelPage.css'
-import '../YouPage/YouPage.css'
-import '../../components/Playlist/PlaylistActions.css'
+import '../../styles/Global_components.css';
+import '../HomePage/HomePage.css';
+import '../YourChannelPage/YourChannelPage.css';
+import '../YouPage/YouPage.css';
+import '../../components/Playlist/PlaylistActions.css';
+import playlistThumbnails from "../../assets/images/thumbnails/rabbits.jpg";                 
 
 function You() {
     const HistoryRef = useRef(null);
@@ -77,15 +78,12 @@ function You() {
         if (!playlist) return null;
         
         const getDefaultThumbnail = () => {
-            if (playlist.playlistVideos?.length > 0) {
-                return playlist.playlistVideos[0].thumbnail;
-            }
-            return '../../assets/images/thumbnails/amazingdogs.jpg';
+            return playlistThumbnails;
         };
         
         return {
             id: playlist.playlist_id,
-            thumbnail: playlist.thumbnail || getDefaultThumbnail(),
+            thumbnail: getDefaultThumbnail(),
             name: playlist.playlist_title,
             videoCount: playlist.playlistVideos?.length || 0,
             visibility: playlist.isPublic ? 'Pública' : 'Privada',
