@@ -4,6 +4,7 @@ import {
   Body,
   Get,
   UseGuards,
+  Param,
 } from '@nestjs/common';
 import { TagService } from './tags.service';
 import { CreateTagDto } from './dto/create-tag.dto';
@@ -13,7 +14,7 @@ import { VideosService } from 'src/videos/videos.service';
 
 @Controller('tags')
 export class TagController {
-  constructor(private readonly tagService: TagService, 
+  constructor(private readonly tagService: TagService,
     private readonly videosService: VideosService,
   ) { }
 
@@ -26,6 +27,7 @@ export class TagController {
   getAllTags() {
     return this.tagService.getAllTags();
   }
+
 
   @Post('assign')
   @UseGuards(AuthGuard('jwt'))

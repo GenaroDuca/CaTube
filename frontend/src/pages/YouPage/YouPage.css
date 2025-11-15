@@ -26,12 +26,6 @@
     margin-bottom: 10px
 }
 
-.video-thumbnail {
-    width: 285px;
-    height: 180px;
-    border-radius: 30px;
-}
-
 .video-thumbnail img {
     width: 100%;
     height: auto;

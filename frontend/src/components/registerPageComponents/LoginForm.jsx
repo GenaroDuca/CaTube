@@ -45,7 +45,7 @@ const LoginForm = ({ togglePanel }) => {
           window.location.reload();
         } else {
           showError('Login successful, but there was an issue retrieving your channel data.')
-          console.log("Login result:", result);
+          // console.log("Login result:", result);
         }
 
       } else {

@@ -55,12 +55,12 @@ function EditVideoModal({ onClose, videoId, title: initialTitle, description: in
                 formDataToSend.append('thumbnail', thumbnailFile);
             }
 
-            console.log('Enviando actualización:', {
-                videoId,
-                title: formData.title,
-                description: formData.description,
-                hasThumbnail: !!thumbnailFile
-            });
+            // console.log('Enviando actualización:', {
+            //     videoId,
+            //     title: formData.title,
+            //     description: formData.description,
+            //     hasThumbnail: !!thumbnailFile
+            // });
 
             const response = await fetch(`${BASE_URL}/videos/${videoId}`, {
                 method: 'PATCH',
@@ -89,7 +89,7 @@ function EditVideoModal({ onClose, videoId, title: initialTitle, description: in
             }
 
             const data = await response.json();
-            console.log('Actualización exitosa:', data);
+            // console.log('Actualización exitosa:', data);
             showSuccess('Video updated successfully');
             setTimeout(() => {
                 onClose();

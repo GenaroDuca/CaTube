@@ -282,12 +282,20 @@
 
 .vv-displayVideo-description-tags {
     margin-top: 20px;
+    
 }
 
 .vv-displayVideo-description-tags div{
     display: flex;
     gap: 10px;
+}
+
+.vv-displayVideo-description-tags div a{
     color: var(--btn);
+}
+
+.vv-displayVideo-description-tags div a:hover{
+    color: var(--btn-dark);
 }
 
 /* ===Likes/Dislikes/Options=== */

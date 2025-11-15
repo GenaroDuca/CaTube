@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import Container from "../common/Container";
 import ContainerChannel from "../../components/yourChannelPageComponents/ContainerChannel";
-import Sections from "../../components/homePageComponents/Sections";
+import SectionsCarousel from "../homePageComponents/SectionsCarousel";
 import { getAuthToken } from "../../utils/auth.js";
 
 function HomeTab({ channelId }) {
@@ -71,7 +71,7 @@ function HomeTab({ channelId }) {
             </Container>
 
             {recentVideos.length > 0 && (
-                <Sections
+                <SectionsCarousel
                     section="subscriptions"
                     subtitle="Recent Videos"
                     ref={foryouRef}
@@ -82,7 +82,7 @@ function HomeTab({ channelId }) {
             )}
 
             {popularVideos.length > 0 && (
-                <Sections
+                <SectionsCarousel
                     section="subscriptions"
                     subtitle="Most Popular"
                     ref={videosRef}
@@ -93,7 +93,7 @@ function HomeTab({ channelId }) {
             )}
 
             {shorts.length > 0 && (
-                <Sections
+                <SectionsCarousel
                     section="subscriptions"
                     subtitle="Shorts"
                     ref={shortsRef}

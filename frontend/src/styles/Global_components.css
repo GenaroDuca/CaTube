@@ -277,6 +277,11 @@ button:hover {
     background-color: var(--btn-dark);
 }
 
+.title-container {
+    width: 95% !important;
+    margin: 1rem auto;
+}
+
 @media (max-width:768px) {
     .main-content {
         margin-left: 70px;

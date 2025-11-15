@@ -21,17 +21,14 @@ import { Channel } from '../channels/entities/channel.entity';
 import { UseInterceptors, UploadedFiles } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import * as multer from 'multer';
-import * as fs from 'fs';
-import * as path from 'path';
-import { getUploadsPath } from '../utils/uploads-path';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('videos')
 export class VideosController {
   constructor(private readonly videosService: VideosService) { }
 
   // Create a new video
   @Post('create')
-  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(FileFieldsInterceptor([
     { name: 'thumbnail', maxCount: 1 },
     { name: 'video', maxCount: 1 },
@@ -60,6 +57,11 @@ export class VideosController {
     return this.videosService.findAll();
   }
 
+  @Get('by-tag/:tag')
+  async getVideosByTag(@Param('tag') tag: string) {
+    return this.videosService.getVideosByTag(tag);
+  }
+
   // Get all shorts
   @Get('shorts')
   findAllShorts() {
@@ -80,6 +82,12 @@ export class VideosController {
     return this.videosService.findAllByChannel(userId.toString());
   }
 
+
+  @Get('education')
+  findEducationalVideos() {
+    return this.videosService.findEducationalVideos();
+  }
+
   // Get single video by id (public)
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
@@ -91,6 +99,7 @@ export class VideosController {
   findAllByChannelId(@Param('channelId', ParseUUIDPipe) channelId: string) {
     return this.videosService.findAllByChannelId(channelId);
   }
+
 
 
   // Update a video by its ID
@@ -112,22 +121,22 @@ export class VideosController {
         throw new ForbiddenException('Usuario no autenticado');
       }
 
-      console.log('Update video request:', {
-        id,
-        dto: updateVideoDto,
-        userId: req.user.id,
-        hasFiles: !!files?.thumbnail?.length,
-        fileInfo: files?.thumbnail?.[0] ? {
-          fieldname: files.thumbnail[0].fieldname,
-          originalname: files.thumbnail[0].originalname,
-          mimetype: files.thumbnail[0].mimetype,
-          size: files.thumbnail[0].size
-        } : null
-      });
+      // console.log('Update video request:', {
+      //   id,
+      //   dto: updateVideoDto,
+      //   userId: req.user.id,
+      //   hasFiles: !!files?.thumbnail?.length,
+      //   fileInfo: files?.thumbnail?.[0] ? {
+      //     fieldname: files.thumbnail[0].fieldname,
+      //     originalname: files.thumbnail[0].originalname,
+      //     mimetype: files.thumbnail[0].mimetype,
+      //     size: files.thumbnail[0].size
+      //   } : null
+      // });
 
       // Obtener el video con todas las relaciones y validar propiedad
       const video = await this.videosService.findOneById(id);
-      
+
       // Verificar que el usuario actual es el propietario
       if (video.channel.user.user_id !== req.user.id) {
         throw new ForbiddenException('No tienes permiso para actualizar este video');

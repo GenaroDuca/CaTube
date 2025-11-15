@@ -119,6 +119,17 @@ export class VideosService {
     });
   }
 
+  async findEducationalVideos() {
+    return this.videoRepository
+      .createQueryBuilder('video')
+      .leftJoinAndSelect('video.channel', 'channel')
+      .leftJoinAndSelect('channel.user', 'user')
+      .leftJoinAndSelect('video.tags', 'tag')
+      .where('tag.name = :tagName', { tagName: 'education' }) // filtra por tag educativo
+      .orderBy('video.createdAt', 'DESC')
+      .getMany();
+  }
+
   async findAllByChannel(userId: string) {
     const user = await this.userService.findOneById(userId);
     if (!user) throw new NotFoundException(`User with ${userId} not found`);
@@ -131,6 +142,19 @@ export class VideosService {
       relations: ['channel', 'tags'],
       order: { createdAt: 'DESC' },
     });
+  }
+
+  async getVideosByTag(tag: string) {
+    const videos = await this.videoRepository.find({
+      where: {
+        tags: {
+          name: tag
+        }
+      },
+      relations: ['tags']
+    });
+
+    return videos;
   }
 
   // ======================================================

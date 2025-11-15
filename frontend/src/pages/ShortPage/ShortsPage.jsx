@@ -4,17 +4,25 @@ import './shortsPage.css'
 import Header from '../../components/common/header/Header';
 import Sidebar from '../../components/common/Sidebar';
 import Footer from '../../components/common/Footer';
+import { getAuthToken } from '../../utils/auth.js';
 
 export default function ShortPage() {
   const [shorts, setShorts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [maximizedId, setMaximizedId] = useState(null)
+  const token = getAuthToken();
 
   useEffect(() => {
     const fetchShorts = async () => {
       try {
-        const response = await fetch('http://localhost:3000/videos/shorts');
+        const response = await fetch('http://localhost:3000/videos/shorts', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch shorts');
         }

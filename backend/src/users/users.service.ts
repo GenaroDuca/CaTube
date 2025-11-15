@@ -311,8 +311,8 @@ export class UsersService {
 
             if (!user) throw new NotFoundException('User not found');
 
-            console.log('Rooms como user1:', user.roomsAsUser1.map(r => r.room_id));
-            console.log('Rooms como user2:', user.roomsAsUser2.map(r => r.room_id));
+            // console.log('Rooms como user1:', user.roomsAsUser1.map(r => r.room_id));
+            // console.log('Rooms como user2:', user.roomsAsUser2.map(r => r.room_id));
 
             // Eliminar todas las rooms donde el usuario es user1 o user2
             const roomsToDelete = [...user.roomsAsUser1, ...user.roomsAsUser2];

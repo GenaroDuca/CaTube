@@ -35,8 +35,8 @@ export class TagService {
       where: { tag_id: In(tagIds) },
     });
 
-    console.log(video);
-    console.log(tags);
+    // console.log(video);
+    // console.log(tags);
 
     video.tags = [...new Set([...video.tags, ...tags])];
     return this.videoRepo.save(video);

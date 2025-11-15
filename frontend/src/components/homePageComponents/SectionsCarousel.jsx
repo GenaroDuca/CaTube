@@ -1,14 +1,15 @@
-import Profile from '../homePageComponents/Profile.jsx'
-import Video from '../homePageComponents/Video.jsx'
-import Short from '../homePageComponents/Short.jsx'
+import Profile from './Profile.jsx'
+import Video from './Video.jsx'
+import Short from './Short.jsx'
 import Container from '../common/Container.jsx'
-import Subtitle from '../homePageComponents/Subtitle.jsx'
-import ButtonCarousel from '../homePageComponents/ButtonCarousel.jsx'
+import Subtitle from './Subtitle.jsx'
+import ButtonCarousel from './ButtonCarousel.jsx'
 import {Link} from 'react-router-dom'
+import { getAuthToken } from '../../utils/auth.js'
 
 import './Sections.css';
 
-function Sections(props) {
+function SectionsCarousel(props) {
     const renderItem = (item, index) => {
         switch (props.type) {
             case 'profile':
@@ -61,4 +62,4 @@ function Sections(props) {
     );
 }
 
-export default Sections;
+export default SectionsCarousel;

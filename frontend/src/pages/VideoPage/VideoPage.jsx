@@ -16,10 +16,11 @@ import thumbnail from '../../assets/images/thumbnails/Pinterest_Swap_Challenge.j
 import Gena from '../../assets/images/profile/gena.jpg'
 import Jere from '../../assets/images/profile/jere.jpg'
 import { VideoList } from '../../components/videoPageComponents/VideoList.jsx';
-
+import { getAuthToken } from '../../utils/auth.js';
 
 export function VideoPage() {
     const [searchQuery, setSearchQuery] = useState('');
+    const token = getAuthToken();
 
     useEffect(() => {
         window.scrollTo({ top: 0 });
@@ -46,7 +47,13 @@ export function VideoPage() {
 
             setLoading(true);
             try {
-                const res = await fetch(`http://localhost:3000/videos/${id}`);
+                const res = await fetch(`http://localhost:3000/videos/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
                 if (!res.ok) throw new Error('Video not found');
                 const data = await res.json();
 

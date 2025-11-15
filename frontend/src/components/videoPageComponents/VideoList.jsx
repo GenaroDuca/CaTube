@@ -8,15 +8,25 @@ import { CatubeVideoCard } from './CatubeVideoCard.jsx'
 //Styles
 import './VideoList.css'
 
-export function VideoList({ currentVideoId }) { 
-    const [videos, setVideos] = useState([]); 
+import { getAuthToken } from '../../utils/auth.js';
+
+export function VideoList({ currentVideoId }) {
+    const [videos, setVideos] = useState([]);
     const { pathname } = useLocation();
     const isVideoPage = pathname.includes('/watch')
-    
+    const token = getAuthToken();
+
     useEffect(() => {
         const fetchVideos = async () => {
             try {
-                const response = await fetch('http://localhost:3000/videos');
+                const response = await fetch('http://localhost:3000/videos', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
+                
                 if (response.ok) {
                     const data = await response.json();
                     const filteredVideos = data.filter(video => video.id !== currentVideoId);
@@ -37,9 +47,9 @@ export function VideoList({ currentVideoId }) {
     return (
         <div className={cardClassName}>
             {videos.map((video) => (
-                <CatubeVideoCard 
+                <CatubeVideoCard
                     key={video.id}
-                    video={video} 
+                    video={video}
                 />
             ))}
         </div>

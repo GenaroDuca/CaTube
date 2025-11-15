@@ -1,24 +1,32 @@
 import Sidebar from "../../components/common/Sidebar.jsx";
-import Sections from "../../components/homePageComponents/Sections.jsx";
+import SectionsCarousel from "../../components/homePageComponents/SectionsCarousel.jsx";
 import { useRef, useState, useEffect } from 'react';
-import Recommendations from "../../components/homePageComponents/Recommendations.jsx"
+import VideosContainer from "../../components/homePageComponents/VideosContainer.jsx"
 import Ads from "../../components/homePageComponents/Ads.jsx"
 import Footer from "../../components/common/Footer.jsx";
 import '../../styles/Global_components.css'
 import '../HomePage/HomePage.css'
 import '../TrendingPage/TrendingPage.css'
 import Header from "../../components/common/header/Header.jsx";
+import { getAuthToken } from '../../utils/auth.js';
 
-function Catscribers(){
+function Catscribers() {
     const shortsRef = useRef(null);
     const [shorts, setShorts] = useState([]);
     const [loading, setLoading] = useState(true);
+    const token = getAuthToken();
 
     useEffect(() => {
         async function fetchShorts() {
             try {
                 setLoading(true);
-                const response = await fetch('http://localhost:3000/videos/shorts');
+                const response = await fetch('http://localhost:3000/videos/shorts', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
                 if (response.ok) {
                     const data = await response.json();
                     const formattedShorts = data.map(short => ({
@@ -39,19 +47,19 @@ function Catscribers(){
         fetchShorts();
     }, []);
 
-    return(
+    return (
         <>
             <Header></Header>
 
-                <Sidebar>
-                </Sidebar>
+            <Sidebar>
+            </Sidebar>
 
-                <main className="main-content">
-                    <Sections section="trending-shorts" subtitle="Shorts" ref={shortsRef} render={shorts} type="short" cts="carousel-ctshorts"></Sections>
-                    <Recommendations />
-                    {/* <Ads/> */}
-                    <Footer footer="footer"></Footer>
-                </main>
+            <main className="main-content">
+                <SectionsCarousel section="trending-shorts" subtitle="Shorts" ref={shortsRef} render={shorts} type="short" cts="carousel-ctshorts"></SectionsCarousel>
+                <VideosContainer />
+                {/* <Ads/> */}
+                <Footer footer="footer"></Footer>
+            </main>
         </>
     );
 }

@@ -14,6 +14,7 @@ import Angel from '../../assets/images/profile/angel.jpg';
 import Gena from '../../assets/images/profile/gena.jpg';
 import Jere from '../../assets/images/profile/jere.jpg';
 import Yukki from '../../assets/images/profile/yukki.jpg';
+import { Link } from "react-router-dom";
 
 export function WatchVideo({ url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags }) {
     const videoRef = useRef(null);
@@ -133,9 +134,16 @@ export function WatchVideo({ url, title, avatar, userName, description, subscrip
                 <div className="vv-displayVideo-description-tags">
                     <h4>Video Tags</h4>
                     <div>
-                        {tags.map(tags => (
-                            <p>#{tags.name}</p>
+                        {tags.map(tag => (
+                            <Link
+                                key={tag.name}
+                                to={`/discover?tag=${encodeURIComponent(tag.name)}`}
+                                className="tag-link"
+                            >
+                                #{tag.name}
+                            </Link>
                         ))}
+
                     </div>
                 </div>
             </div>
