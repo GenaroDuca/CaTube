@@ -1,0 +1,24 @@
+.sidebar-studio {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    background-color: var(--background-color);
+    padding: 1rem;
+}
+
+.sidebar-studio-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-studio-item {
+    padding: 0.5rem 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+}
+
+.sidebar-studio-item:hover {
+    background-color: var(--hover-color);
+}

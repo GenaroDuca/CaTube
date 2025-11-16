@@ -1,0 +1,11 @@
+.lca-community {
+    /* Estilos específicos para el componente LcaCommunity */
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.btn-community {
+    /* Estilos específicos para el botón de comunidad */
+    align-self: flex-end;
+}

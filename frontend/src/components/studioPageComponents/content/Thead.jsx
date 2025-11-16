@@ -4,7 +4,6 @@ function Thead(props) {
             <tr>
                 <th>
                     <div className="header-video">
-                        <input type="checkbox" className="checkbox" />
                         <span>Video</span>
                     </div>
                 </th>

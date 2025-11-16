@@ -1,0 +1,25 @@
+.channel-tabs {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    border-bottom: 1px solid var(--text-color);
+    padding-bottom: 1rem;
+}
+
+.tab-button {
+    padding: 0.5rem 1rem;
+    border: none;
+    background: none;
+    color: var(--text-color);
+    cursor: pointer;
+    font-size: var(--font-size);
+}
+
+.tab-button.active {
+    color: var(--btn);
+    border-bottom: 2px solid var(--btn);
+}
+
+.tab-content {
+    padding: 1rem 0;
+}

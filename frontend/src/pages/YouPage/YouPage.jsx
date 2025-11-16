@@ -1,6 +1,6 @@
 import Sidebar from "../../components/common/Sidebar.jsx";
 import Youprofile from "../../components/youPageComponents/Youprofile.jsx";
-import Sections from "../../components/homePageComponents/Sections.jsx";
+import SectionsCarousel from "../../components/homePageComponents/SectionsCarousel.jsx";
 import Footer from "../../components/common/Footer.jsx";
 import Sectionyou from "../../components/youPageComponents/Sectionyou.jsx";
 import deleted from "../../assets/images/yourChannel_media/Delete.png"
@@ -168,14 +168,14 @@ function You() {
                 />
                 
                 {/* Liked */}
-                <Sections 
+                <SectionsCarousel 
                     section="trending" 
                     subtitle="Liked" 
                     ref={LikedRef} 
                     render={likedvideo} 
                     type="video" 
-                    cts="carousel-ctsvideos" 
-                />
+                    cts="carousel-ctsvideos" >
+                </SectionsCarousel>
                 
                 <Footer footer="footer" />
             </main>

@@ -1,11 +1,12 @@
     import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm/repository/Repository';
+import { Repository } from 'typeorm';
 import { CreateChannelDto } from './dto-channels/create-channel.dto';
 import { Channel } from './entities/channel.entity';
 import { User } from 'src/users/entities/user.entity';
 import * as fs from 'fs';
 import * as path from 'path';
+import { getUploadsPath } from 'src/utils/uploads-path';
 
 @Injectable()
 export class ChannelsService {
@@ -38,14 +39,26 @@ constructor(
         await this.channelRepository.delete(id);
     }
 
-    async findOneById(id: string): Promise<Channel> {
+    async findOneById(id: string): Promise<Channel & { videoCount: number }> {
         const channel = await this.channelRepository.findOneBy({ channel_id: id });
 
         if (!channel) {
             throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
         }
-        
-        return channel;
+
+        const videoCount = await this.getVideoCount(id);
+        return { ...channel, videoCount };
+    }
+
+    async findOneByUrl(url: string): Promise<Channel & { videoCount: number }> {
+        const channel = await this.channelRepository.findOneBy({ url: url });
+
+        if (!channel) {
+            throw new NotFoundException(`Canal con URL @${url} no encontrado.`);
+        }
+
+        const videoCount = await this.getVideoCount(channel.channel_id);
+        return { ...channel, videoCount };
     }
 
     async update(id: string, updateChannelDto: CreateChannelDto): Promise<Channel> {
@@ -75,10 +88,18 @@ constructor(
             throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
         }
 
-        // Guardar archivo en carpeta uploads del backend
-        const uploadDir = path.join(__dirname, '..', '..', 'uploads', 'banners');
+        // Guardar archivo en carpeta uploads del backend (ruta normalizada)
+        const uploadDir = getUploadsPath('banners');
         if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir, { recursive: true });
+        }
+
+        // Si ya existe un banner previo que no sea el por defecto, eliminarlo para ahorrar espacio
+        if (channel.bannerUrl && !channel.bannerUrl.startsWith('/assets/images/studio_media/')) {
+            const oldFilePath = path.join(__dirname, '..', '..', channel.bannerUrl);
+            if (fs.existsSync(oldFilePath)) {
+                fs.unlinkSync(oldFilePath);
+            }
         }
 
         const filename = `${id}_${Date.now()}_${file.originalname}`;
@@ -86,8 +107,8 @@ constructor(
 
         fs.writeFileSync(filepath, file.buffer);
 
-        // Actualizar la entidad con la ruta o URL de la foto
-        channel.photoUrl = `/uploads/banners/${filename}`;
+        // Actualizar la entidad con la ruta o URL del banner
+        channel.bannerUrl = `/uploads/banners/${filename}`;
 
         return this.channelRepository.save(channel);
     }
@@ -99,8 +120,8 @@ constructor(
             throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
         }
 
-        // Guardar archivo en carpeta uploads del backend
-        const uploadDir = path.join(__dirname, '..', '..', 'uploads', 'profile');
+        // Guardar archivo en carpeta uploads del backend (ruta normalizada)
+        const uploadDir = getUploadsPath('profile');
         if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir, { recursive: true });
         }
@@ -131,5 +152,24 @@ constructor(
         channel.photoUrl = `/assets/images/profile/${firstLetter}.png`;
 
         return this.channelRepository.save(channel);
+    }
+
+    async setDefaultBanner(id: string): Promise<Channel> {
+        const channel = await this.findOneById(id);
+
+        channel.bannerUrl = `/assets/images/studio_media/catube-pc.png`;
+
+        return this.channelRepository.save(channel);
+    }
+
+    async getVideoCount(channelId: string): Promise<number> {
+        const result = await this.channelRepository
+            .createQueryBuilder('channel')
+            .leftJoin('channel.videos', 'video')
+            .where('channel.channel_id = :channelId', { channelId })
+            .select('COUNT(video.id)', 'count')
+            .getRawOne();
+
+        return parseInt(result.count);
     }
 }

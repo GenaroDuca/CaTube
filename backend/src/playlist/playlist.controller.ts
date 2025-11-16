@@ -9,11 +9,12 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 export class PlaylistController {
   constructor(private readonly playlistService: PlaylistService) {}
 
-  @Post()
-  create(@Body() createPlaylistDto: CreatePlaylistDto, @Request() req) {
-    const userId = req.user.userId;
-    return this.playlistService.create(createPlaylistDto, userId);
-  }
+   @UseGuards(JwtAuthGuard)
+    @Post()
+    create(@Body() createPlaylistDto: CreatePlaylistDto, @Request() req) {
+      const userId = req.user.id; // Tomamos el ID del usuario desde el token
+      return this.playlistService.create(createPlaylistDto, userId);
+    }
 
   @Get()
   findAll(@Request() req) {

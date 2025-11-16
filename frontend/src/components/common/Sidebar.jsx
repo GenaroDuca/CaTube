@@ -1,7 +1,7 @@
-import { useSidebarToggle } from '../../hooks/useSidebarToggle.jsx';
 import { useOverlay } from '../../hooks/useOverlay.jsx';
 import { leftMenu } from "../../assets/data/Data.jsx";
 import { Link } from 'react-router-dom';
+import './Sidebar.css';
 
 function Sidebar() {
   const {

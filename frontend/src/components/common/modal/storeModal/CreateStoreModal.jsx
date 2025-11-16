@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { IoIosCloseCircle } from "react-icons/io";
-// import apiService from "../../../studioPageComponents/store/apiServiceStore"; // ELIMINADO
+import { useToast } from '../../../../hooks/useToast';
 
 // ----------------------------------------------------------------------
 // FUNCIONES DE FETCH (INTEGRADAS EN EL ARCHIVO)
@@ -44,7 +44,7 @@ async function createStoreSolo(storeData) {
 
         const errorMessage = errorBody?.message || response.statusText;
         console.error("Store creation failed:", errorMessage);
-        
+
         // Lanzamos una excepción para que el handleSubmit la capture
         throw new Error(errorMessage || "Failed to create store on the server.");
 
@@ -66,18 +66,20 @@ const CreateStoreModal = ({ onClose, onCreate }) => {
     // Estado para los campos del formulario
     const [storeName, setStoreName] = useState('');
     const [storeDescription, setStoreDescription] = useState('');
-    
+
     // Estado para la UI: carga y errores
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
 
+    // FeedbackToast y Modal Context
+    const { showSuccess, showError } = useToast();
     /**
      * Maneja el envío del formulario para crear la tienda.
      * @param {Event} e - Evento de envío del formulario.
      */
     const handleSubmit = async (e) => {
-        e.preventDefault(); 
-        
+        e.preventDefault();
+
         const trimmedName = storeName.trim();
 
         // 1. Validación de cliente
@@ -98,21 +100,18 @@ const CreateStoreModal = ({ onClose, onCreate }) => {
         // 3. Llamada a la API usando la función local
         try {
             const response = await createStoreSolo(storeData);
-            
+
             // Éxito (createStoreSolo retorna el objeto si status 201)
-            console.log('Store created successfully:', response);
-            
+            showSuccess('Store created successfully!');
+
             // 4. Notificar al padre y cerrar
-            if (onCreate) {
-                // Llama al callback (ej: fetchProducts) para actualizar la vista
-                onCreate(); 
-            }
+            window.location.reload();
             onClose();
-            
+
         } catch (error) {
             // Fallo capturado por createStoreSolo (incluye errores de servidor 4xx/5xx y errores de red)
             setErrorMessage(error.message || 'An unexpected error occurred while creating the store.');
-            
+
         } finally {
             setLoading(false);
         }
@@ -126,56 +125,59 @@ const CreateStoreModal = ({ onClose, onCreate }) => {
             <div className="create-store-content">
                 <header>
                     <h1>Create Your Store</h1>
-                    <button 
-                        type="button" 
-                        onClick={onClose} 
-                        className="close-create-store-modal" 
+                    <button
+                        type="button"
+                        onClick={onClose}
+                        className="close-create-store-modal"
                         disabled={loading}
                         aria-label="Close modal"
                     >
                         <IoIosCloseCircle size={25} color="#1a1a1b" />
                     </button>
                 </header>
-                
-                <form onSubmit={handleSubmit}>
-                    <main>
-                        {/* Mensaje de Error */}
-                        {errorMessage && <p className="error-message" style={{ color: 'red' }}>{errorMessage}</p>}
 
-                        {/* Campo de Nombre */}
-                        <label htmlFor="store-name-input">Store Name</label>
-                        <input
-                            id="store-name-input"
-                            type="text"
-                            placeholder="Enter your store name (Required)"
-                            value={storeName}
-                            onChange={(e) => setStoreName(e.target.value)}
-                            disabled={loading}
-                            required
-                        />
+                <main>
 
-                        {/* Campo de Descripción */}
-                        <label htmlFor="store-description-input">Store Description</label>
-                        <textarea
-                            id="store-description-input"
-                            placeholder="Enter your store description (Optional)"
-                            value={storeDescription}
-                            onChange={(e) => setStoreDescription(e.target.value)}
-                            disabled={loading}
-                        />
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            {/* Mensaje de Error */}
+                            {errorMessage && <p className="error-message" style={{ color: 'red' }}>{errorMessage}</p>}
 
-                        {/* Botón de Envío */}
-                        <button 
+                            {/* Campo de Nombre */}
+                            <label htmlFor="store-name-input"><h2>Store Name</h2></label>
+                            <input
+                                id="store-name-input"
+                                type="text"
+                                placeholder="Enter your store name (Required)"
+                                value={storeName}
+                                onChange={(e) => setStoreName(e.target.value)}
+                                disabled={loading}
+                                required
+                            />
+
+                            {/* Campo de Descripción */}
+                            <label htmlFor="store-description-input"><h2>Store Description</h2></label>
+                            <textarea
+                                id="store-description-input"
+                                placeholder="Enter your store description (Optional)"
+                                value={storeDescription}
+                                onChange={(e) => setStoreDescription(e.target.value)}
+                                disabled={loading}
+                            />
+
+                            {/* Botón de Envío */}
+                        </div>
+                        <button
                             type="submit"
-                            className="create-store-btn" 
+                            className="create-store-btn"
                             disabled={isSubmitDisabled}
                         >
                             {loading ? 'Creating...' : 'Create Store'}
                         </button>
-                    </main>
-                </form>
+                    </form>
+                </main>
             </div>
-        </div>
+        </div >
     );
 };
 

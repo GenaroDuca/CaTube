@@ -1,0 +1,1129 @@
+/* ==================================== */
+/* 1. ESTILOS BASE */
+/* ==================================== */
+
+/* ==================================== */
+/* 2. TOAST/NOTIFICACIONES */
+/* ==================================== */
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: var(--btn);
+    color: var(--background-color);
+    padding: 10px 20px;
+    border-radius: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
+    z-index: 1001;
+}
+
+.toast.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ==================================== */
+/* 3. MODALS & Overlays Styles */
+/* ==================================== */
+/* Animación de aparición del fondo */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0);
+    }
+
+    to {
+        opacity: 1;
+        backdrop-filter: blur(2px);
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* SELECTOR UNIFICADO PARA OVERLAYS Y POSICIONAMIENTO CENTRAL (TODOS LOS MODALES) */
+.right-menu-modal,
+.universal-modal-overlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(2px);
+    animation: fadeIn 0.3s ease-in-out;
+    padding: 20px;
+}
+
+/* Encabezados de todos los modales (Grandes) */
+.right-menu-modal header,
+.create-video-modal header,
+.edit-product-content header,
+.add-product-content header,
+.create-store-content header {
+    display: flex;
+    justify-content: space-between;
+    background-color: var(--btn);
+    padding: 20px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    color: var(--primary-color);
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .25);
+    width: 100%;
+    flex-shrink: 0;
+    gap: 20px;
+}
+
+/* Botones de cerrar en headers (Grandes) */
+.right-menu-modal header button,
+.create-video-modal header button,
+.close-edit-product-modal,
+.close-add-product-modal,
+.close-create-store-modal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    /* Asegura que no tenga padding extra */
+}
+
+.right-menu-modal header button:hover,
+.create-video-modal header button:hover,
+.close-edit-product-modal:hover,
+.close-add-product-modal:hover,
+.close-create-store-modal:hover {
+    transform: scale(1.1)
+}
+
+/* ==================================== */
+/* 3.b UNIFIED SCROLLBAR FOR ALL MODALS */
+/* Applies a consistent thin scrollbar design to all modal scrollable areas */
+/* Supports WebKit browsers and Firefox (where possible) */
+/* ==================================== */
+
+/* Firefox */
+.feedback-modal-content,
+.reset-modal-content,
+.help-modal-content,
+.settings-modal-content,
+.soon-modal-content,
+.create-video-content,
+.edit-product-content,
+.add-product-content,
+.create-store-content,
+.universal-modal-content,
+.setting-section,
+.edit-product-content form,
+.add-product-content form,
+.create-video-content main,
+.create-store-content form {
+    scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent;
+}
+
+/* WebKit-based browsers */
+.feedback-modal-content ::-webkit-scrollbar,
+.help-modal-content ::-webkit-scrollbar,
+.settings-modal-content ::-webkit-scrollbar,
+.soon-modal-content ::-webkit-scrollbar,
+.create-video-content ::-webkit-scrollbar,
+.edit-product-content ::-webkit-scrollbar,
+.add-product-content ::-webkit-scrollbar,
+.create-store-content ::-webkit-scrollbar,
+.universal-modal-content ::-webkit-scrollbar,
+.setting-section ::-webkit-scrollbar,
+.create-video-content main ::-webkit-scrollbar,
+.create-store-content form ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+.feedback-modal-content ::-webkit-scrollbar-track,
+.help-modal-content ::-webkit-scrollbar-track,
+.settings-modal-content ::-webkit-scrollbar-track,
+.soon-modal-content ::-webkit-scrollbar-track,
+.create-video-content ::-webkit-scrollbar-track,
+.edit-product-content ::-webkit-scrollbar-track,
+.add-product-content ::-webkit-scrollbar-track,
+.create-store-content ::-webkit-scrollbar-track,
+.universal-modal-content ::-webkit-scrollbar-track,
+.setting-section ::-webkit-scrollbar-track,
+.create-video-content main ::-webkit-scrollbar-track,
+.create-store-content form ::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+}
+
+.feedback-modal-content ::-webkit-scrollbar-thumb,
+.help-modal-content ::-webkit-scrollbar-thumb,
+.settings-modal-content ::-webkit-scrollbar-thumb,
+.soon-modal-content ::-webkit-scrollbar-thumb,
+.create-video-content ::-webkit-scrollbar-thumb,
+.edit-product-content ::-webkit-scrollbar-thumb,
+.add-product-content ::-webkit-scrollbar-thumb,
+.create-store-content ::-webkit-scrollbar-thumb,
+.universal-modal-content ::-webkit-scrollbar-thumb,
+.setting-section ::-webkit-scrollbar-thumb,
+.create-video-content main ::-webkit-scrollbar-thumb,
+.create-store-content form ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--btn), var(--btn-dark));
+    border-radius: 10px;
+    border: 2px solid transparent;
+}
+
+.feedback-modal-content ::-webkit-scrollbar-thumb:hover,
+.help-modal-content ::-webkit-scrollbar-thumb:hover,
+.settings-modal-content ::-webkit-scrollbar-thumb:hover,
+.soon-modal-content ::-webkit-scrollbar-thumb:hover,
+.create-video-content ::-webkit-scrollbar-thumb:hover,
+.edit-product-content ::-webkit-scrollbar-thumb:hover,
+.add-product-content ::-webkit-scrollbar-thumb:hover,
+.create-store-content ::-webkit-scrollbar-thumb:hover,
+.universal-modal-content ::-webkit-scrollbar-thumb:hover,
+.setting-section ::-webkit-scrollbar-thumb:hover,
+.create-video-content main ::-webkit-scrollbar-thumb:hover,
+.create-store-content form ::-webkit-scrollbar-thumb:hover {
+    background: var(--btn-dark);
+}
+
+/* Optional: ensure selects inside modals follow the same styling in Firefox */
+.create-video-tags-container section select,
+.create-store-content select,
+.edit-product-content select,
+.add-product-content select {
+    scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent;
+}
+
+
+/* ------------------------------------ */
+/* ESTILOS DEL MODAL DE CONFIRMACIÓN UNIVERSAL (ConfirmModal) */
+.universal-modal-content {
+    background-color: var(--background-color);
+    border-radius: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, .2);
+    display: flex;
+    flex-direction: column;
+    width: 50vh;
+    max-width: 90vw;
+    text-align: center;
+}
+
+.universal-modal-content header {
+    display: flex;
+    background-color: #ff7676;
+    padding: 20px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    color: var(--primary-color);
+    justify-content: space-between;
+    align-items: center;
+}
+
+.universal-modal-content header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.universal-modal-content main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.universal-modal-content main h3 {
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.universal-modal-content main button {
+    margin-top: 20px;
+    width: 80%;
+    padding: 12px 20px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.universal-modal-content main h4 {
+    margin-top: 10px;
+    color: #ff7676;
+    font-size: 0.9em;
+}
+
+.universal-modal-content .close-modal-btn {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+}
+
+.universal-modal-content .close-modal-btn:hover {
+    transform: scale(1.1);
+}
+
+/* ==================================== */
+/* 4. ESTILOS DE FORMULARIO COMUNES */
+/* ==================================== */
+
+/* Inputs y Textareas Comunes (Feedback, Change Password) */
+.feedback-modal-content form input[type=email],
+.feedback-modal-content form textarea,
+.change-password-form input[type=password] {
+    border-radius: 30px;
+    padding: 12px 20px;
+    background-color: transparent;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+    /* Asegura que tomen el ancho completo */
+    box-sizing: border-box;
+    /* Incluye padding/border en el ancho */
+}
+
+.feedback-modal-content form textarea {
+    height: 100px;
+    resize: none;
+    padding: 20px;
+    /* Feedback/Textarea tiene más padding */
+}
+
+.feedback-modal-content form input:focus,
+.feedback-modal-content form textarea:focus,
+.change-password-form input:focus {
+    outline: none;
+    border-color: var(--btn);
+}
+
+/* Labels de Formularios */
+.change-password-form label,
+.feedback-modal-content label {
+    margin-bottom: -10px;
+}
+
+/* ==================================== */
+/* 5. ESTILOS ESPECÍFICOS DE FEEDBACK MODAL */
+/* ==================================== */
+
+.feedback-modal-content form,
+.reset-modal-content form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    background-color: var(--background-color);
+    border-radius: 0px 0px 30px 30px;
+}
+
+.feedback-modal-content form input[type=file] {
+    display: none !important;
+}
+
+.feedback-modal-content form label[for=feedback-file] {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 30px;
+    text-align: center;
+    border: 1px solid var(--text-color);
+    cursor: pointer
+}
+
+.feedback-modal-content form label[for=feedback-file]:hover {
+    border: 1px solid var(--btn)
+}
+
+/* Botón de Enviar Feedback */
+.feedback-modal-content form button {
+    background-color: var(--btn);
+    color: var(--primary-color);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.feedback-modal-content form button:hover {
+    background-color: var(--btn-dark);
+}
+
+.frequently-asked-questions {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 20px;
+    background-color: #1F1F20;
+    border-radius: 0px 0px 30px 30px;
+
+}
+
+.frequently-asked-questions summary,
+button:hover {
+    cursor: pointer
+}
+
+
+/* ==================================== */
+/* 6. ESTILOS ESPECÍFICOS DE SETTINGS MODAL */
+/* ==================================== */
+
+.settings-main-content {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+    background-color: var(--primary-color);
+    border-radius: 0px 0px 30px 30px;
+
+}
+
+.settings-main-content nav {
+    background-color: var(--primary-color);
+    padding: 20px;
+    border-bottom-left-radius: 30px;
+    flex-shrink: 0;
+}
+
+.settings-main-content nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.settings-option-btn {
+    width: 100%;
+    background: var(--primary-color);
+    border: none;
+    border-radius: 20px;
+    padding: 12px 20px;
+    cursor: pointer;
+    text-align: start;
+    color: var(--text-color);
+
+    transition: background-color 0.2s;
+}
+
+.settings-option-btn.active,
+.settings-option-btn:hover {
+    background: var(--btn);
+    color: var(--primary-color)
+}
+
+.setting-section {
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    overflow-y: auto;
+    height: 100%;
+    background-color: #1F1F20;
+}
+
+.setting-section.hide {
+    display: none;
+}
+
+.setting-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Estilos de botones de formulario (Change Password) */
+.change-password-form button {
+    background-color: var(--btn);
+    color: var(--primary-color);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.change-password-form button:hover {
+    background-color: var(--btn-dark);
+}
+
+.change-password-form a,
+.change-password-form p {
+    margin-top: -15px;
+    margin-left: 10px;
+    font-size: 0.8em;
+}
+
+.setting-section-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.delete-account-btn {
+    width: 100%;
+    color: var(--primary-color);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.delete-account-btn {
+    background-color: #e96765 !important;
+}
+
+.delete-account-btn:hover {
+    background-color: #b94c4a !important;
+}
+
+
+/* Toggle Switch */
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #696969;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked+.slider {
+    background-color: var(--btn);
+}
+
+input:checked+.slider:before {
+    transform: translateX(26px);
+}
+
+/* Payment History Table */
+.payment-history {
+    width: 100%;
+    margin-top: 10px;
+    border-spacing: 0;
+    border: 1px solid var(--btn);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.payment-history th,
+.payment-history td {
+    padding: 8px 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--btn);
+}
+
+.payment-history tr:last-child td {
+    border-bottom: none;
+}
+
+.payment-history th {
+    background-color: #ffffff1a;
+    border-bottom: 1px solid var(--btn);
+}
+
+/* Select Box */
+.settings-select {
+    border-radius: 30px;
+    padding: 12px 20px;
+    background-color: transparent;
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
+    width: 200px;
+}
+
+.settings-select:focus {
+    outline: none;
+    border: 1px solid var(--btn);
+}
+
+.settings-select option {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+}
+
+/* ==================================== */
+/* 7. ESTILOS ESPECÍFICOS DE CREATE VIDEO MODAL */
+/* ==================================== */
+.create-video-content {
+    height: 90vh;
+}
+
+.create-video-content main {
+    width: 100%;
+    height: 90%;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    background-color: var(--background-color);
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.create-video-content main h2 {
+    margin: 0px 0px 10px;
+}
+
+.create-video-content main input[type="text"],
+.create-video-content main textarea {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: transparent;
+    border: 1px solid var(--text-color);
+    border-radius: 30px;
+    color: var(--text-color);
+    margin-bottom: 20px;
+}
+
+.create-video-content main textarea {
+    height: 100px;
+    resize: none;
+}
+
+.create-video-content main input[type="text"]:focus,
+.create-video-content main textarea:focus {
+    outline: none;
+    border: 1px solid var(--btn);
+}
+
+.create-thumbnail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: var(--primary-color);
+    padding: 20px;
+    border-radius: 30px;
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.create-thumbnail video {
+    width: 300px;
+    aspect-ratio: 16/9;
+    border-radius: 15px;
+}
+
+.create-thumbnail img {
+    width: 300px;
+    aspect-ratio: 16/9;
+    border-radius: 15px;
+}
+
+.create-thumbnail input[type="file"] {
+    display: none;
+}
+
+.create-thumbnail label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 50px;
+    text-align: center;
+    padding: 10px;
+    background-color: var(--btn);
+    color: var(--primary-color);
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.create-thumbnail label:hover {
+    background-color: var(--btn-dark);
+}
+
+.create-video-tags-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.create-video-tags-container section {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+}
+
+.create-video-tags-container section ul {
+    height: 200px;
+    overflow-y: auto;
+    background-color: var(--primary-color);
+    padding: 20px;
+    border-radius: 30px;
+}
+
+.create-video-tags-container section ul li {
+    list-style: none;
+}
+
+.create-video-tags-container section ul li button {
+    background-color: transparent;
+    color: var(--text-color);
+    border: none;
+    padding: 5px 0px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+
+.create-video-tags-container section ul li button:hover {
+    color: var(--btn);
+}
+
+
+.create-video-tags-container section select {
+    padding: 20px;
+    height: auto;
+    border-radius: 30px;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent;
+}
+
+.create-video-tags-container section :focus {
+    outline: none;
+}
+
+.create-video-buttons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    gap: 20px;
+}
+
+.create-video-media-input {
+    display: flex;
+    gap: 20px;
+}
+
+.tag-input-container div {
+    display: flex;
+    flex-direction: row;
+}
+
+.tag-input-container p {
+    width: 100%;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+}
+
+.no-tags-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.no-tags-message {
+    text-align: center;
+}
+
+.tag-selected {
+    color: var(--btn) !important;                   
+}
+
+.create-tag-btn {
+    background-color: var(--btn);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.create-tag-btn:hover {
+    background-color: var(--btn-dark);
+}
+
+
+.create-video-buttons button {
+    padding: 12px 20px;
+    background-color: var(--btn);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.create-video-buttons button:hover {
+    background-color: var(--btn-dark);
+}
+
+.discard-changes-create-video {
+    background-color: #e96765 !important;
+    color: var(--primary-color);
+}
+
+.discard-changes-create-video:hover {
+    background-color: #b94c4a !important
+}
+
+/* ==================================== */
+/* 8. ESTILOS ESPECÍFICOS DE PRODUCTO/TIENDA MODAL */
+/* ==================================== */
+
+/* Contenido Principal de Modales de Tienda/Producto */
+.edit-product-content form,
+.add-product-content form,
+.create-store-content form {
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    background-color: var(--background-color);
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.edit-product-content main {
+    height: 100%;
+}
+
+.add-product-content main {
+    height: 100%;
+}
+
+.add-product-buttons {
+    display: flex;
+    justify-content: center;
+}
+
+
+.edit-product-content main h2,
+.add-product-content main h2,
+.create-store-content form h2 {
+    margin: 0px 0px 10px;
+}
+
+.create-store-content main {
+    height: 100%;
+}
+
+.create-store-content form div {
+    width: 100%;
+}
+
+/* Estilos de Input (Texto, Número y File) */
+.edit-product-content main input[type="number"],
+.edit-product-content main input[type="text"],
+.add-product-content main input[type="number"],
+.add-product-content main input[type="text"],
+.create-store-content form input[type="text"] {
+    width: 100%;
+    padding: 12px 20px;
+    border: 1px solid var(--text-color);
+    border-radius: 30px;
+    background-color: transparent;
+    color: var(--text-color);
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+/* Estilos personalizados para input file */
+.edit-product-content main input[type="file"],
+.add-product-content main input[type="file"] {
+    width: 100%;
+    cursor: pointer;
+    padding: 8px;
+    border: 1px solid var(--text-color);
+    border-radius: 30px;
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+/* Personalizar el texto del botón del input file */
+.edit-product-content main input[type="file"]::-webkit-file-upload-button,
+.add-product-content main input[type="file"]::-webkit-file-upload-button {
+    background-color: var(--btn);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-right: 10px;
+}
+
+.edit-product-content main input[type="file"]::-webkit-file-upload-button:hover,
+.add-product-content main input[type="file"]::-webkit-file-upload-button:hover {
+    background-color: var(--btn-dark);
+}
+
+.edit-product-content main input[type="file"]:hover,
+.add-product-content main input[type="file"]:hover {
+    border-color: var(--btn);
+}
+
+/* Estilos personalizados para input file */
+.edit-product-content main input[type="file"],
+.add-product-content main input[type="file"] {
+    cursor: pointer;
+    padding: 8px;
+    border: 1px solid var(--text-color);
+    border-radius: 30px;
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+/* Personalizar el texto del botón del input file */
+.edit-product-content main input[type="file"]::-webkit-file-upload-button,
+.add-product-content main input[type="file"]::-webkit-file-upload-button {
+    background-color: var(--btn);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-right: 10px;
+}
+
+.edit-product-content main input[type="file"]::-webkit-file-upload-button:hover,
+.add-product-content main input[type="file"]::-webkit-file-upload-button:hover {
+    background-color: var(--btn-dark);
+}
+
+.edit-product-content main input[type="file"]:hover,
+.add-product-content main input[type="file"]:hover {
+    border-color: var(--btn);
+}
+
+.edit-product-content main input:focus,
+.add-product-content main input:focus,
+.create-store-content form input[type="text"]:focus {
+    outline: none;
+    border: 1px solid var(--btn);
+}
+
+/* Estilos de Textarea */
+.edit-product-content main textarea,
+.add-product-content main textarea,
+.create-store-content form textarea {
+    width: 100%;
+    height: 100px;
+    padding: 12px 20px;
+    border: 1px solid var(--text-color);
+    border-radius: 30px;
+    background-color: transparent;
+    color: var(--text-color);
+    resize: none;
+    margin-bottom: 20px;
+}
+
+.edit-product-content main textarea:focus,
+.add-product-content main textarea:focus,
+.create-store-content form textarea:focus {
+    outline: none;
+    border: 1px solid var(--btn);
+}
+
+/* Estructura y Botones Específicos de Producto */
+.price-stock-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.price-stock-container .form-group {
+    flex: 1;
+}
+
+.price-stock-container .form-group h2 {
+    text-align: left;
+}
+
+.image-title {
+    text-align: left;
+    margin-left: 15px;
+}
+
+.confirm-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 20px;
+    /* Nuevo contenedor para botones de producto/tienda */
+    width: 100%;
+    margin-top: 20px;
+}
+
+.delete-confirm-btn {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: #b94c4a;
+    color: var(--primary-color);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+/* Botones principales de acción (Update, Create Product/Store) */
+.update-product-btn,
+.create-product-btn,
+.create-store-btn {
+    padding: 12px 20px;
+    background-color: var(--btn);
+    color: var(--primary-color);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Toasts */
+.Toastify__toast-container {
+    margin-top: 50px;
+}
+
+/* ==================================== */
+/* 9. MEDIA QUERIES & RESPONSIVENESS */
+/* ==================================== */
+
+@media (max-width:768px) {
+    .create-video-btn {
+        margin: 0 -10px
+    }
+
+    .settings-main-content {
+        flex-direction: column
+    }
+
+    .settings-main-content nav {
+        width: 100%;
+        border-bottom-left-radius: 0
+    }
+
+    .settings-main-content nav ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center
+    }
+
+    .setting-section {
+        padding: 20px;
+        width: 100%
+    }
+
+    .change-password-form button,
+    .delete-account-btn,
+    .disable-account-btn,
+    .settings-option-btn {
+        padding: 6px 10px
+    }
+
+    .notifications-sidebar.collapsed {
+        width: 290px;
+    }
+
+    .create-thumbnail {
+        justify-content: center;
+    }
+
+    .create-thumbnail img {
+        margin-bottom: 20px;
+        width: 100%;
+    }
+
+    .create-video-tags-container section:nth-child(1) {
+        order: 1;
+        width: 45%;
+    }
+
+    .create-video-tags-container section:nth-child(2) {
+        order: 2;
+        width: 100%
+    }
+
+    .create-video-tags-container section:nth-child(3) {
+        order: 1;
+        width: 45%;
+    }
+
+    .create-video-tags-container {
+        flex-wrap: wrap;
+    }
+
+    .price-stock-container {
+        flex-direction: column;
+    }
+
+    .create-video-media-input {
+        flex-direction: column;
+    }
+
+    /* MODALES: AJUSTE RESPONSIVE para el nuevo modal universal */
+    .universal-modal-content {
+        width: 40vh;
+    }
+
+    .universal-modal-content header h1 {
+        font-size: 25px;
+    }
+}

@@ -33,6 +33,9 @@ export class Channel {
     @Column({ nullable: true })
     photoUrl: string;
 
+    @Column({ nullable: true })
+    bannerUrl: string;
+
     @Column({ default: 0 })
     subscriberCount: number;
 

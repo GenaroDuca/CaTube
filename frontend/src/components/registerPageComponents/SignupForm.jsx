@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useNotifications } from '../common/Toasts/useNotifications.jsx';
+import { useToast } from '../../hooks/useToast.jsx';
 
 import { BsPersonFill } from "react-icons/bs";
 import { FaKey } from "react-icons/fa";
@@ -52,7 +52,7 @@ const SignupForm = ({ togglePanel }) => {
     // Las variables debouncedUsername y debouncedEmail se han eliminado.
 
     // Feedback Toast
-    const { showSuccess, showError } = useNotifications();
+    const { showSuccess, showError } = useToast();
 
     // =================================================================
     // 2. FUNCIONES DE VALIDACIÓN
@@ -190,7 +190,7 @@ const SignupForm = ({ togglePanel }) => {
                 body: JSON.stringify(userData),
             });
 
-            const result = await response.json();
+            const result = await response.json(); 
 
             if (response.ok) {
                 showSuccess(`Successfully registered, now verify your mail!`);
@@ -372,8 +372,6 @@ const SignupForm = ({ togglePanel }) => {
                 htmlFor="text"
                 style={{
                     color: getLabelColor('username'), // Color dinámico (rojo si hay error)
-                    fontSize: '12px',
-                    textAlign: 'center'
                 }}
             >
                 {getLabelText('username')}
@@ -401,8 +399,6 @@ const SignupForm = ({ togglePanel }) => {
                 htmlFor="email"
                 style={{
                     color: getLabelColor('email'), // Color dinámico (rojo si hay error)
-                    fontSize: '12px',
-                    textAlign: 'center'
                 }}
             >
                 {getLabelText('email')}
@@ -432,8 +428,6 @@ const SignupForm = ({ togglePanel }) => {
                 htmlFor="password"
                 style={{
                     color: getLabelColor('password'), // Color dinámico (rojo si hay error)
-                    fontSize: '12px',
-                    textAlign: 'center'
                 }}
             >
                 {getLabelText('password')}
@@ -463,8 +457,6 @@ const SignupForm = ({ togglePanel }) => {
                 htmlFor="repeat-password"
                 style={{
                     color: getLabelColor('repeatPassword'), // Color dinámico (rojo si hay error)
-                    fontSize: '12px',
-                    textAlign: 'center'
                 }}
             >
                 {getLabelText('repeatPassword')}

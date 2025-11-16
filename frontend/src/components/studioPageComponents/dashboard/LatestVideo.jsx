@@ -1,26 +1,84 @@
-import { latesVideoIcons } from "../../../assets/data/Data";
-import duki from "../../../assets/images/yourChannel_media/thumbnails/duki.jpeg"
+import { useEffect, useState } from 'react';
 import Container from "../../common/Container";
 import Subtitle from "../../homePageComponents/Subtitle";
 
-function LatestVideo() {
+function LatestVideo({ channelId }) {
+    const [latest, setLatest] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchLatest() {
+            setLoading(true);
+            try {
+                if (!channelId) {
+                    setLatest(null);
+                    setLoading(false);
+                    return;
+                }
+
+                const res = await fetch(`http://localhost:3000/videos/channel/${channelId}`);
+                if (!res.ok) {
+                    setLatest(null);
+                    setLoading(false);
+                    return;
+                }
+
+                const data = await res.json();
+                if (!Array.isArray(data) || data.length === 0) {
+                    setLatest(null);
+                    setLoading(false);
+                    return;
+                }
+
+                // pick the most recent by createdAt
+                const sorted = data.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+                const v = sorted[0];
+
+                const thumbnail = v.thumbnail && v.thumbnail.startsWith('/') ? `http://localhost:3000${v.thumbnail}` : (v.thumbnail || '');
+                setLatest({
+                    id: v.id,
+                    title: v.title,
+                    thumbnail,
+                    views: v.views || 0,
+                    createdAt: v.createdAt,
+                });
+            } catch (err) {
+                console.error('Error loading latest video:', err);
+                setLatest(null);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchLatest();
+    }, [channelId]);
+
+    const formatDate = (iso) => {
+        if (!iso) return '';
+        const d = new Date(iso);
+        return d.toLocaleDateString();
+    };
+
     return (
-        <>
-            <Container className="dashboard-card">
-                <Subtitle subtitle="Latest Video performance"></Subtitle>
-                <img className="latest-video" src={duki}
-                    alt="video"></img>
-                <Container className="lca-dashboard">
-                    {latesVideoIcons.map((item) => (
-                        <Container key={item.id}>
-                            <img src={item.icon} alt={item.alt}></img>
-                            <div id="likeCount">{item.count}</div>
-                        </Container>
-                    ))
-                    }
-                </Container>
-            </Container >
-        </>
+        <Container className="dashboard-card">
+            <Subtitle subtitle="Latest Video performance"></Subtitle>
+            {loading ? (
+                <p>Loading latest video...</p>
+            ) : latest ? (
+                <>
+                    <img className="latest-video" src={latest.thumbnail || '/assets/images/thumbnails/pinterest_swap_challenge.jpg'} alt={latest.title}></img>
+                    <Container className="lca-dashboard">
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                            <strong>{latest.title}</strong>
+                            <span>{latest.views} views</span>
+                            <span>Uploaded: {formatDate(latest.createdAt)}</span>
+                        </div>
+                    </Container>
+                </>
+            ) : (
+                <p>No videos uploaded yet.</p>
+            )}
+        </Container>
     );
 }
 

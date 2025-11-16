@@ -1,6 +1,4 @@
-body {
-  background-color: #1f1f20;
-}
+
 .container-profile {
     display: flex;
     width: 95%;
@@ -26,10 +24,6 @@ body {
     text-wrap: nowrap;
     margin-top: 10px;
     margin-bottom: 10px
-}
-
-.video-thumbnail {
-    width: 285px;
 }
 
 .video-thumbnail img {

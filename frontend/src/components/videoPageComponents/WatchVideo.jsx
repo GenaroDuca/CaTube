@@ -1,29 +1,22 @@
-//react
-import { useMemo } from "react"
-import { useRef } from "react";
-
-//components
-import { CatubeSubsCard } from "../user/CatubeSubsCard.jsx"
+import { useMemo, useRef } from "react";
+import { CatubeSubsCard } from "../../components/user/CatubeSubsCard.jsx";
 import { useVideoControl } from "../../hooks/useVideoControl.jsx";
-import { VolumeControl } from "./volumeControl.jsx";
+import { VolumeControl } from "../../components/videoPageComponents/volumeControl.jsx";
+import './WatchVideo.css';
+import '../user/CatubeSubsCard.css';
+import { FaCirclePlay, FaCirclePause, FaHeart, FaShare } from "react-icons/fa6";
+import { IoHeartDislike } from "react-icons/io5";
+import { FiMinimize2, FiMaximize2 } from "react-icons/fi";
+import { SlOptionsVertical } from "react-icons/sl";
+import { BsSkipStartFill, BsSkipEndFill } from "react-icons/bs";
+import { TbLayoutSidebarRightCollapseFilled, TbLayoutSidebarRightExpandFilled } from "react-icons/tb";
+import Angel from '../../assets/images/profile/angel.jpg';
+import Gena from '../../assets/images/profile/gena.jpg';
+import Jere from '../../assets/images/profile/jere.jpg';
+import Yukki from '../../assets/images/profile/yukki.jpg';
+import { Link } from "react-router-dom";
 
-//styles
-import './WatchVideo.css'
-import '../user/CatubeSubsCard.css'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faThumbsUp, faThumbsDown, faEllipsisV } from '@fortawesome/free-solid-svg-icons';
-import { TbRectangleFilled, TbRectangle } from "react-icons/tb";
-import { RiFullscreenLine, RiFullscreenExitLine } from "react-icons/ri";
-import { IoPlaySkipForward, IoPlaySkipBack } from "react-icons/io5";
-import { FaPlay, FaPause } from "react-icons/fa";
-
-//assets
-import Angel from '../../assets/images/profile/angel.jpg'
-import Gena from '../../assets/images/profile/gena.jpg'
-import Jere from '../../assets/images/profile/jere.jpg'
-import Yukki from '../../assets/images/profile/yukki.jpg'
-
-export function WatchVideo ({url, title, avatar, userName, description, onTheaterToggle}) {
+export function WatchVideo({ url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags }) {
     const videoRef = useRef(null);
     const {
         isPlaying,
@@ -31,64 +24,130 @@ export function WatchVideo ({url, title, avatar, userName, description, onTheate
         isMuted,
         isTheaterMode,
         isFullScreen,
+        progress,
+        duration,
         togglePlayPause,
         changeVolume,
         skipTime,
         toggleTheaterMode,
-        toggleFullScreen
+        toggleFullScreen,
+        handleSeek
     } = useVideoControl(videoRef, onTheaterToggle);
 
-    const comments = useMemo(
-        () => [
-            { id: 1, avatar: Angel, userName: "Colithoxz", content: "Muy buen video" },
-            { id: 2, avatar: Gena, userName: "Sheni", content: "Primeroooooo!" },
-            { id: 3, avatar: Jere, userName: "Gazzard", content: "Mandame un saludo plssss" },
-            { id: 4, avatar: Yukki, userName: "Yukki", content: "Goddddd" },
-            ],
-            []
-        );
+    const comments = useMemo(() => [
+        { id: 1, avatar: Angel, userName: "Colithoxz", content: "Muy buen video" },
+        { id: 2, avatar: Gena, userName: "Sheni", content: "Primeroooooo!" },
+        { id: 3, avatar: Jere, userName: "Gazzard", content: "Mandame un saludo plssss" },
+        { id: 4, avatar: Yukki, userName: "Yukki", content: "Goddddd" },
+    ], []);
+
+    // 🔹 Formatear tiempo (segundos → mm:ss)
+    const formatTime = (seconds) => {
+        if (isNaN(seconds)) return "0:00";
+        const minutes = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    };
 
     return (
         <article className={`vv-displayVideo-container ${isTheaterMode ? 'theater-active' : ''}`}>
-            <header className={`vv-displayVideo-header ${isTheaterMode ? 'theater-mode' : ''} ${isFullScreen ? 'full-screen' : ''}`}> 
-                <video className='vv-displayVideo' src={url} ref={videoRef} onClick={togglePlayPause} />
+            <header className={`vv-displayVideo-header ${isTheaterMode ? 'theater-mode' : ''} ${isFullScreen ? 'full-screen' : ''}`}>
+                <video
+                    className='vv-displayVideo'
+                    src={url}
+                    ref={videoRef}
+                    onClick={togglePlayPause}
+                />
+
+                {/* Barra de progreso */}
+                <input
+                    type="range"
+                    className="vv-progress-bar"
+                    min="0"
+                    max={duration}
+                    value={progress}
+                    onChange={handleSeek}
+                    style={{ "--progress": `${(progress / duration) * 100}%` }}
+                />
+
                 <div className="vv-video-controls">
                     <div className="vv-video-leftControls">
                         <button onClick={() => skipTime(-10)}>
-                            <IoPlaySkipBack />
+                            <BsSkipStartFill color='rgb(144, 180, 132)' size={25} />
                         </button>
                         <button onClick={togglePlayPause}>
-                            {isPlaying ? <FaPause /> : <FaPlay />}
+                            {isPlaying
+                                ? <FaCirclePause color='rgb(144, 180, 132)' size={25} />
+                                : <FaCirclePlay color='rgb(144, 180, 132)' size={25} />}
                         </button>
                         <button onClick={() => skipTime(10)}>
-                            <IoPlaySkipForward />
+                            <BsSkipEndFill color='rgb(144, 180, 132)' size={25} />
                         </button>
+
+                        {/* 🔹 Tiempo actual y duración */}
+                        <span className="vv-time-display">
+                            {formatTime(progress)} / {formatTime(duration)}
+                        </span>
                     </div>
+
                     <div className="vv-video-rightControls">
                         <VolumeControl volume={volume} isMuted={isMuted} changeVolume={changeVolume} />
                         <button onClick={toggleTheaterMode}>
-                            {isTheaterMode ? <TbRectangle /> : <TbRectangleFilled />}
+                            {isTheaterMode
+                                ? <TbLayoutSidebarRightExpandFilled color='rgb(144, 180, 132)' size={25} />
+                                : <TbLayoutSidebarRightCollapseFilled color='rgb(144, 180, 132)' size={25} />}
                         </button>
                         <button onClick={toggleFullScreen}>
-                            {isFullScreen ? <RiFullscreenExitLine /> : <RiFullscreenLine />}
+                            {isFullScreen
+                                ? <FiMinimize2 color='rgb(144, 180, 132)' size={25} />
+                                : <FiMaximize2 color='rgb(144, 180, 132)' size={25} />}
                         </button>
                     </div>
                 </div>
             </header>
+
             <div>
-                <h1 className='vv-displayVideo-title'>{title}</h1>
+                <h3 className='vv-displayVideo-title'>{title}</h3>
                 <div className="vv-displayVideo-userActions">
-                    <CatubeSubsCard avatar={avatar} userName={userName} subscriptions='2.7M' />
+                    <CatubeSubsCard
+                        avatar={avatar}
+                        userName={userName}
+                        subscriptions={subscriptions}
+                        channelId={channelId}
+                        channelUrl={channelUrl ? `/yourchannel/${channelUrl}` : undefined}
+                    />
                     <section>
-                        <button className="like-btn"><FontAwesomeIcon className="like-btn-icon" icon={faThumbsUp}></FontAwesomeIcon></button>
-                        <button className="dislike-btn"><FontAwesomeIcon className="dislike-btn-icon" icon={faThumbsDown}></FontAwesomeIcon></button>
-                        <button className="options-btn"><FontAwesomeIcon className="options-btn-icon" icon={faEllipsisV}></FontAwesomeIcon></button>
+                        <button className="like-btn"><FaHeart color='#777878' size={22} /></button>
+                        <button className="dislike-btn"><IoHeartDislike color='#777878' size={25} /></button>
+                        <button className="share-btn"><FaShare color='#777878' size={25} /></button>
+                        <button className="options-btn"><SlOptionsVertical color='#777878' size={20} /></button>
                     </section>
                 </div>
             </div>
+
             <div className="vv-displayVideo-description">
-                <p>{description}</p>
+                <div>
+                    <h3>Video Description</h3>
+                    <p>{description}</p>
+                </div>
+
+                <div className="vv-displayVideo-description-tags">
+                    <h4>Video Tags</h4>
+                    <div>
+                        {tags.map(tag => (
+                            <Link
+                                key={tag.name}
+                                to={`/discover?tag=${encodeURIComponent(tag.name)}`}
+                                className="tag-link"
+                            >
+                                #{tag.name}
+                            </Link>
+                        ))}
+
+                    </div>
+                </div>
             </div>
+
             <div className="vv-displayVideo-comments">
                 <h2>Comments</h2>
                 {comments.map(comment => (
@@ -99,13 +158,13 @@ export function WatchVideo ({url, title, avatar, userName, description, onTheate
                         </div>
                         <div>
                             <p className="comment-content">{comment.content}</p>
-                            <input className='comment-input' type="text" placeholder="reply comment"/>
+                            <input className='comment-input' type="text" placeholder="reply comment" />
                         </div>
                     </div>
                 ))}
             </div>
         </article>
-    )
+    );
 }
 
 export default WatchVideo;

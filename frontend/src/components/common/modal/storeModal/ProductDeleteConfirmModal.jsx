@@ -1,6 +1,6 @@
 import React from 'react';
 import { IoIosCloseCircle } from "react-icons/io";
-import { useNotifications } from '../../../common/Toasts/useNotifications.jsx';
+import { useToast } from '../../../../hooks/useToast.jsx';
 
 // ----------------------------------------------------------------------
 // 💡 FUNCIÓN DE SERVICIO DE ELIMINACIÓN (AHORA DENTRO O IMPORTADA POR EL MODAL)
@@ -47,7 +47,7 @@ async function deleteProduct(productId) {
 // ----------------------------------------------------------------------
 
 // FeedbackToast
-const { showSuccess, showError } = useNotifications();
+const { showSuccess, showError } = useToast();
 
 /**
  * @param {function} onClose - Función para cerrar el modal.
@@ -57,14 +57,10 @@ const { showSuccess, showError } = useNotifications();
  */
 const ProductDeleteConfirmModal = ({ onClose, onProductDeleted, productName, productId }) => {
 
-    // 💡 FUNCIÓN DE CONFIRMACIÓN: Ejecuta la eliminación y luego el refresh.
     const handleConfirm = async () => {
-
-        // 🚨 PASO CLAVE: Ejecuta la llamada a la API usando el productId
         const success = await deleteProduct(productId);
 
         if (success) {
-            // Llama al refresh de la lista de productos si la eliminación fue exitosa
             if (onProductDeleted) {
                 onProductDeleted();
             }

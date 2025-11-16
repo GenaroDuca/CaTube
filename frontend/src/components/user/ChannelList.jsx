@@ -7,6 +7,7 @@ export function ChannelList ({channels}){
             {channels.map((channel) => (
                 <CatubeSubsCard
                 key={channel.id}
+                channelId={channel.id}
                 userName={channel.userName}
                 avatar={channel.avatar}
                 subscriptions={channel.subscriptions}

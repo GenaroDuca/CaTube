@@ -21,7 +21,19 @@ import { PlaylistVideo } from './playlist_videos/entities/playlist_video.entity'
 import { ConfigModule } from '@nestjs/config';
 import { Friendship } from './friendships/entities/friendship.entity';
 import { PlaylistModule } from './playlist/playlist.module';
-import * as path from 'path';
+import { FriendshipsModule } from './friendships/friendships.module';
+import { NotificationsModule } from './notifications/notifications.module';
+import { Notification } from './notifications/entities/notification.entity';
+import { Message } from './messages/entities/message.entity';
+import { Room } from './rooms/entities/room.entity';
+import { MessagesModule } from './messages/messages.module';
+import { RoomsModule } from './rooms/rooms.module';
+import { ChatGateway } from './chat/chat.gateway';
+import { SubscriptionsModule } from './subs/subs.module';
+import { VideosModule } from './videos/videos.module';
+import { TagsModule } from './tags/tags.module';
+import { Tag } from './tags/entities/tag.entity';
+
 
 @Module({
   imports: [
@@ -32,12 +44,13 @@ import * as path from 'path';
       username: 'root',
       password: 'Milaneso23',
       database: 'catube_db',
-      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo, Friendship],
+      // logging: true,
+      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo, Friendship, Notification, Message, Room, Tag],
       synchronize: true,
     }),
 
     ConfigModule.forRoot({
-      envFilePath: path.resolve(__dirname, '..', '..', 'backend', 'config.env'), 
+      envFilePath: ['config.env'],
       isGlobal: true,
     }),
 
@@ -54,8 +67,22 @@ import * as path from 'path';
     PlaylistModule,
 
     PlaylistVideosModule,
-    ],
+
+    FriendshipsModule,
+
+    NotificationsModule,
+
+    MessagesModule,
+
+    RoomsModule,
+    
+    SubscriptionsModule,
+
+    VideosModule,
+
+    TagsModule
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ChatGateway],
 })
 export class AppModule { }

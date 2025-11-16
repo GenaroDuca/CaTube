@@ -1,14 +1,19 @@
 import { useState } from 'react';
-import { FaVolumeMute, FaVolumeDown, FaVolumeUp } from 'react-icons/fa';
+import { ImVolumeMedium } from "react-icons/im";
+import { ImVolumeMute2 } from "react-icons/im";
+import { ImVolumeHigh } from "react-icons/im";
+import { ImVolumeLow } from "react-icons/im";
+
 import './volumeControl.css';
 
 export function VolumeControl({ volume, isMuted, changeVolume }) {
     const [showSlider, setShowSlider] = useState(false);
 
     const getIcon = () => {
-        if (isMuted || volume === 0) return <FaVolumeMute />;
-        if (volume < 0.5) return <FaVolumeDown />;
-        return <FaVolumeUp />;
+        if (isMuted || volume === 0) return <ImVolumeMute2 color=' rgb(144, 180, 132' size={25} />;
+        if (volume === 1) return <ImVolumeHigh color=' rgb(144, 180, 132' size={25} />;
+        if (volume < 0.5) return <ImVolumeLow color=' rgb(144, 180, 132' size={25} />;
+        return <ImVolumeMedium color=' rgb(144, 180, 132' size={25} />;
     };
 
     return (

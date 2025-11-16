@@ -32,8 +32,8 @@ const ModalDeleteAccount = ({ onClose }) => {
     }
 
     return (
-        <div className="delete-account-modal">
-            <div className="delete-account-modal-content">
+        <div className="create-store-modal">
+            <div className="create-delete-content">
                 <header>
                     <h1>Delete account</h1>
                     <button type="button" onClick={onClose} className="close-create-store-modal">
@@ -41,9 +41,8 @@ const ModalDeleteAccount = ({ onClose }) => {
                     </button>
                 </header>
                 <main>
-                    <h3>Are you sure you want to delete your account?</h3>
-                    <button className="delete-account-btn" onClick={handleDeleteAccount}>Permanently Delete</button>
-                    <h4>This action is irreversible</h4>
+                    <h1>Are you sure you want to delete your account?</h1>
+                    <button className="delete-account" onClick={handleDeleteAccount}>Permanently Delete</button>
                 </main>
             </div>
         </div>

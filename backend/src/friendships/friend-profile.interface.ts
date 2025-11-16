@@ -1,4 +1,6 @@
 export interface FriendProfile {
-  id: number;
+  id: string; 
   username: string;
+  status?: 'online' | 'offline';
+  avatarUrl?: string; 
 }

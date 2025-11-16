@@ -1,5 +1,5 @@
 import React from 'react';
-import '../../../../styles/modals.css';
+import '../modals.css';
 import { IoIosCloseCircle } from "react-icons/io";
 
 const HelpModal = ({ onClose }) => (

@@ -2,6 +2,7 @@ import NewButton from "../../homePageComponents/Button";
 import Container from "../../common/Container";
 import { MdModeEditOutline } from "react-icons/md";
 import { useModal } from "../../common/modal/ModalContext";
+import { Link } from 'react-router-dom';
 
 function Tbody(props) {
     const { openModal } = useModal();
@@ -12,10 +13,9 @@ function Tbody(props) {
                 <tr key={idx}>
                     <td data-label="Video">
                         <div className="video-content">
-                            <input type="checkbox" />
-                            <a href="/watch_videos/watch_videos.html">
+                            <Link to={`/watch/${item.id}`}>
                                 <img src={item.src} alt={item.alt}></img>
-                            </a>
+                            </Link>
                             <div className="video-text">
                                 <p className="video-title">{item.title}</p>
                                 <p className="video-description">{item.description}</p>
@@ -31,16 +31,20 @@ function Tbody(props) {
                     {props.contentType !== 'Playlists' && (
                         <td>
                             <Container className="edit-video-btn-container">
-                                <NewButton className="edit-video-btn" type="button" onClick={() => openModal('editvideo')}>
+                                <NewButton 
+                                    className="edit-video-btn" 
+                                    type="button" 
+                                    onClick={() => openModal('editvideo', {
+                                        videoId: item.id,
+                                        title: item.title,
+                                        description: item.description,
+                                        thumbnail: item.src,
+                                        initialTags: item.tags
+                                    })}
+                                >
                                     <MdModeEditOutline size={25} color="#1a1a1b" />
                                 </NewButton>
                             </Container>
-
-                                {/* <button className="edit-video-btn">
-                                <span className="material-symbols-outlined">
-                                    edit
-                                </span>
-                            </button> */}
                         </td>
                     )}
                 </tr>

@@ -1,19 +1,29 @@
-import { Body, Controller, Get, Post, Delete, Param, Query, Res, ConflictException, NotFoundException } from '@nestjs/common';
+import { Body, Controller, Get, Post, Delete, Param, Query, Res, ConflictException, NotFoundException, Patch } from '@nestjs/common';
 import { CreateUserDto } from './dto-users/create-user.dto';
 import { UsersService } from './users.service';
-import { Response } from 'express'; // Importamos Response de Express
+import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
+import { UseGuards, Req } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { UpdateUserDto } from './dto-users/update-user.dto';
 
 @Controller('users')
 export class UsersController {
     constructor(
         private readonly usersService: UsersService,
-        private readonly configService: ConfigService // Inyectamos ConfigService para obtener URLs
+        private readonly configService: ConfigService
     ) { }
 
     @Post()
     create(@Body() createUserDto: CreateUserDto) {
         return this.usersService.create(createUserDto);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('me')
+    async getMe(@Req() req) {
+        const userId = req.user.id;
+        return this.usersService.findMe(userId);
     }
 
     @Get('verify-email')
@@ -53,18 +63,32 @@ export class UsersController {
         }
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Get("all")
+    async getAllUsers() {
+        return this.usersService.findAll();
+    }
+
+    @UseGuards(JwtAuthGuard)
     @Get('search')
     async searchUsers(@Query('q') query: string) {
         if (!query || query.length < 2) {
             return [];
         }
 
-        // 💡 Llama al servicio para realizar la búsqueda en la BD
         return this.usersService.searchUsers(query);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     remove(@Param('id') id: string) {
         return this.usersService.remove(id);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Patch(`me`)
+    async updateMe(@Req() req, @Body() updateUserDto: UpdateUserDto) {
+        const userId = req.user.id;
+        return this.usersService.updateUser(userId, updateUserDto);
     }
 }

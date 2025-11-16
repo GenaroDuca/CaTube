@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import NewButton from "../../homePageComponents/Button";
+import { useToast } from "../../../hooks/useToast";
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -44,7 +45,8 @@ async function apiFetch(url, options = {}) {
     }
 }
 
-function InfoContainer() {
+function InfoContainer({ channelId }) {
+    const { showSuccess, showError } = useToast();
     const [name, setName] = useState("");
     const [handle, setHandle] = useState("");
     const [description, setDescription] = useState("");
@@ -52,7 +54,7 @@ function InfoContainer() {
     useEffect(() => {
         async function loadChannelData() {
             try {
-                const channelData = await apiFetch('/channels/' + localStorage.getItem('channelId'));
+                const channelData = await apiFetch('/channels/' + channelId);
                 if (channelData) {
                     setName(channelData.channel_name || "");
                     setHandle(channelData.url || "");
@@ -63,11 +65,9 @@ function InfoContainer() {
             }
         }
         loadChannelData();
-    }, []);
+    }, [channelId]);
 
     const handlePublish = async () => {
-        const channelId = localStorage.getItem('channelId');
-
         if (!channelId) {
             alert('Error: No se pudo identificar el canal. Por favor, inicia sesión de nuevo.');
             return;
@@ -97,13 +97,13 @@ function InfoContainer() {
             });
 
             if (result) {
-                alert('¡Canal actualizado con éxito!');
+                showSuccess('¡Channel successfully updated!');
                 if (result.channel_name) setName(result.channel_name);
                 if (result.url) setHandle(result.url);
                 if (result.description) setDescription(result.description);
             } else {
                 const errorMessage = (result && result.message) || 'Ocurrió un error desconocido.';
-                alert('Error al actualizar: ' + JSON.stringify(errorMessage));
+                showError('Error al actualizar: ' + JSON.stringify(errorMessage));
             }
 
         } catch (error) {

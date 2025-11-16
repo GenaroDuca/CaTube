@@ -1,3 +1,5 @@
+import './ButtonCarousel.css';
+
 function ButtonCarousel({ direction, carouselRef }) {
   const icon = direction === "left" ? "❮" : "❯";
   const label = direction === "left" ? "Previous channels" : "Next channels";

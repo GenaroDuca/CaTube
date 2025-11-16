@@ -24,6 +24,16 @@ export class ChannelsController {
         return this.channelsService.findOneById(id);
     }
 
+    @Get(':id/video-count')
+    getVideoCount(@Param('id') id: string) {
+        return this.channelsService.getVideoCount(id);
+    }
+
+    @Get('url/:url')
+    findOneByUrl(@Param('url') url: string) {
+        return this.channelsService.findOneByUrl(url);
+    }
+
     @Delete(':id')
     remove(@Param('id') id: string) {
         return this.channelsService.remove(id);
@@ -41,5 +51,11 @@ export class ChannelsController {
     @UseInterceptors(FileInterceptor('photo'))
     uploadPhoto(@Param('id') id: string, @UploadedFile() file: any) {
         return this.channelsService.uploadPhoto(id, file);
+    }
+
+    @Post(':id/banner')
+    @UseInterceptors(FileInterceptor('banner'))
+    uploadBanner(@Param('id') id: string, @UploadedFile() file: any) {
+        return this.channelsService.uploadBanner(id, file);
     }
 }

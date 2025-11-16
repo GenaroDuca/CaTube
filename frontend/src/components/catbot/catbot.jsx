@@ -1,5 +1,5 @@
 //assets
-import CatbotLogo from '../../assets/logo/catbot_black.svg'
+import CatbotLogo from '../../../public/catube_white.svg'
 
 //style
 import './catbot.css'
@@ -22,7 +22,7 @@ export default function Catbot() {
     const sendMessage = async () => {
         if (!input.trim()) return;
 
-        console.log("Enviando mensaje:", input);
+        // console.log("Enviando mensaje:", input);
         const newMessages = [...messages, { sender: "user", text: input }];
         setMessages(newMessages);
         setInput("");

@@ -2,9 +2,10 @@ import Title from "../../trendingPageComponents/Title";
 import Container from "../../common/Container";
 import CardCustomization from "./CardCustomization";
 import InfoContainer from "./InfoContainer";
-import angel from "../../../assets/images/profile/angel.jpg"
+
 import banner from "../../../assets/images/studio_media/banner-customization.png"
 import { useState, useEffect } from "react";
+import { useToast } from "../../../hooks/useToast";
 
 const BASE_URL = 'http://localhost:3000';
 
@@ -49,56 +50,70 @@ async function apiFetch(url, options = {}) {
     }
 }
 
-function Customization() {
+function Customization({ channelId }) {
+    const { showSuccess, showError } = useToast();
     const [photoPreview, setPhotoPreview] = useState("");
+    const [bannerPreview, setBannerPreview] = useState("");
 
     const getAvatar = (channel) => {
-        if (channel.photoUrl) {
+        if (channel.photoUrl && channel.photoUrl.trim() !== '') {
             let photoPath = channel.photoUrl;
-            if (photoPath.startsWith('/default-avatar/')) {
+            if (photoPath.startsWith('/uploads/')) {
+                // Imagen subida por el usuario
+                return BASE_URL + photoPath;
+            } else if (photoPath.startsWith('/assets/images/profile/')) {
+                // Imagen predeterminada ya mapeada
+                return photoPath;
+            } else if (photoPath.startsWith('/default-avatar/')) {
                 // Map old default-avatar paths to new assets path
                 const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
                 const letter = letterMatch ? letterMatch[1] : 'A';
-                photoPath = `/assets/media/profile/${letter}.png`;
+                return `/assets/images/profile/${letter}.png`;
+            } else {
+                // Otro tipo de ruta, asumir que es subida
+                return BASE_URL + photoPath;
             }
-            return BASE_URL + photoPath;
         } else {
-            return angel;
+            // Set default avatar based on first letter of channel name
+            const firstLetter = channel.channel_name?.charAt(0).toUpperCase() || 'A';
+            return `/assets/images/profile/${firstLetter}.png`;
+        }
+    };
+
+    const getBanner = (channel) => {
+        if (channel.bannerUrl) {
+            let bannerPath = channel.bannerUrl;
+            return BASE_URL + bannerPath;
+        } else {
+            return banner;
         }
     };
 
     useEffect(() => {
         async function loadChannelData() {
-            const channelId = localStorage.getItem('channelId');
-            const accessToken = localStorage.getItem('accessToken');
-            if (!channelId || !accessToken) {
-                console.warn('No channelId or accessToken found, skipping loadChannelData');
-                setPhotoPreview(angel);
+            if (!channelId) {
+                setPhotoPreview('/assets/images/profile/A.png');
+                setBannerPreview(banner);
                 return;
             }
             try {
-                const channelData = await apiFetch('/channels/' + channelId, {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
+                const channelData = await apiFetch('/channels/' + channelId);
                 if (channelData) {
                     setPhotoPreview(getAvatar(channelData));
+                    setBannerPreview(getBanner(channelData));
                 }
             } catch (error) {
                 console.error('Error displaying channel data:', error);
             }
         }
         loadChannelData();
-    }, []);
+    }, [channelId]);
 
     const handlePhotoChange = async (e) => {
         const file = e.target.files[0];
         if (file) {
             setPhotoPreview(URL.createObjectURL(file));
 
-            const channelId = localStorage.getItem('channelId');
             if (!channelId) {
                 alert('Error: No se pudo identificar el canal. Por favor, inicia sesión de nuevo.');
                 return;
@@ -112,6 +127,30 @@ function Customization() {
             });
             if (photoResult && photoResult.photoUrl) {
                 setPhotoPreview(BASE_URL + photoResult.photoUrl);
+                showSuccess('Logo updated!');
+            }
+        }
+    };
+
+    const handleBannerChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setBannerPreview(URL.createObjectURL(file));
+
+            if (!channelId) {
+                alert('Error: No se pudo identificar el canal. Por favor, inicia sesión de nuevo.');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('banner', file);
+            const bannerResult = await apiFetch(`/channels/${channelId}/banner`, {
+                method: 'POST',
+                body: formData,
+            });
+            if (bannerResult && bannerResult.bannerUrl) {
+                setBannerPreview(BASE_URL + bannerResult.bannerUrl);
+                showSuccess('Banner updated');
             }
         }
     };
@@ -122,10 +161,10 @@ function Customization() {
             <hr></hr>
             <Container className="content">
                 <Container className="cards-customization-container">
-                    <CardCustomization title="Banner image" imageClass="photo-card-banner" src={banner} alt="Banner" for="banner-upload"></CardCustomization>
-                    <CardCustomization title="Picture" imageClass="photo-card" src={photoPreview || angel} alt="angel" for="picture-upload" onChange={handlePhotoChange}></CardCustomization>
+                    <CardCustomization title="Banner image" imageClass="photo-card-banner" src={bannerPreview || banner} alt="Banner" for="banner-upload" onChange={handleBannerChange}></CardCustomization>
+                    <CardCustomization title="Picture" imageClass="photo-card" src={photoPreview || '/assets/images/profile/A.png'} alt="angel" for="picture-upload" onChange={handlePhotoChange}></CardCustomization>
                 </Container >
-                <InfoContainer></InfoContainer>
+                <InfoContainer channelId={channelId}></InfoContainer>
             </Container >
         </>
     );

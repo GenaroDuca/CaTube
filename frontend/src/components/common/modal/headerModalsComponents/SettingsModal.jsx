@@ -4,7 +4,7 @@ import NotificationSettings from './settingsModal/NotificationSettings';
 import PrivacySettings from './settingsModal/PrivacySettings';
 import PaymentHistory from './settingsModal/PaymentHistory';
 import AdvancedSettings from './settingsModal/AdvancedSettings';
-import '../../../../styles/modals.css';
+import '../modals.css';
 import { IoIosCloseCircle } from "react-icons/io";
 
 const SettingsModal = ({ onClose }) => {

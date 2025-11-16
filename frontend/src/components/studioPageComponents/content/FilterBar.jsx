@@ -3,6 +3,8 @@ import UlContainer from "../../homePageComponents/UlContainer";
 import NewButton from "../../homePageComponents/Button";
 
 
+import './FilterBar.css';
+
 function FilterBar(props) {
     return (
         <div className="filter-bar">
