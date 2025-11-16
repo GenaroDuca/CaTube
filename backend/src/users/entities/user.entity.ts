@@ -59,7 +59,7 @@ export class User {
         return result;
     }
 
-    @OneToMany(() => Playlist, (playlist) => playlist.user)
+    @OneToMany(() => Playlist, (playlist) => playlist.user, { onDelete: 'CASCADE' })
     playlists: Playlist[];
 
     @OneToMany(() => Comment, (comment) => comment.user, { onDelete: 'CASCADE' })
@@ -68,7 +68,7 @@ export class User {
     @OneToMany(() => Like, (like) => like.user, { onDelete: 'CASCADE' })
     likes: Like[];
 
-    @OneToMany(() => Subscription, subs => subs.user)
+    @OneToMany(() => Subscription, subs => subs.user, { onDelete: 'CASCADE' })
     subscriptions: Subscription[];
 
     // RELACIONES DE AMISTAD (Las que TypeORM estaba buscando)
