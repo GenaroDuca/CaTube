@@ -15,6 +15,7 @@ import Gena from '../../assets/images/profile/gena.jpg';
 import Jere from '../../assets/images/profile/jere.jpg';
 import Yukki from '../../assets/images/profile/yukki.jpg';
 import { Link } from "react-router-dom";
+import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
 
 export function WatchVideo({ url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags }) {
     const videoRef = useRef(null);
@@ -47,6 +48,11 @@ export function WatchVideo({ url, title, avatar, userName, description, subscrip
         const minutes = Math.floor(seconds / 60);
         const secs = Math.floor(seconds % 60);
         return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    };
+    
+    const handleShareToFriend = (friend, link) => {
+        console.log("Compartiendo a:", friend);
+        console.log("Link:", link);
     };
 
     return (
@@ -119,7 +125,7 @@ export function WatchVideo({ url, title, avatar, userName, description, subscrip
                     <section>
                         <button className="like-btn"><FaHeart color='#777878' size={22} /></button>
                         <button className="dislike-btn"><IoHeartDislike color='#777878' size={25} /></button>
-                        <button className="share-btn"><FaShare color='#777878' size={25} /></button>
+                        <ShareMenu videoUrl={url} videoTitle={title}  onShareToFriend={handleShareToFriend} />
                         <button className="options-btn"><SlOptionsVertical color='#777878' size={20} /></button>
                     </section>
                 </div>

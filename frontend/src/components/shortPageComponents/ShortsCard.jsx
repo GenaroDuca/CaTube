@@ -12,6 +12,7 @@ import { FiMinimize2 } from "react-icons/fi";
 import { FiMaximize2 } from "react-icons/fi";
 import { Link } from 'react-router-dom';
 import { useToast } from '../../hooks/useToast';
+import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
 
 export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
   const videoRef = useRef(null)
@@ -144,6 +145,12 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
     slider.style.background = `linear-gradient(to right, rgb(144, 180, 132) ${percent}%, #1a1a1b ${percent}%)`
   }
 
+  const handleShareToFriend = (friend, link) => {
+    short
+    console.log("Compartiendo a:", friend);
+    console.log("Link:", link);
+  };
+
 
   function onVideoClick(e) {
     const target = e.target
@@ -163,6 +170,9 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
           <div className="channel-info">
             <p>{short.channelName}</p>
           </div>
+
+
+
           <button
             type="button"
             className="subscribe-button short-action-subscribe"
@@ -182,6 +192,22 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
           </button>
 
           <p>{short.title}</p>
+          <p>{short.description}</p>
+          <div className="vv-displayVideo-description-tags">
+            <h4>Video Tags</h4>
+            <div>
+              {short.tags.map(tag => (
+                <Link
+                  key={tag.name}
+                  to={`/discover?tag=${encodeURIComponent(tag.name)}`}
+                  className="tag-link"
+                >
+                  #{tag.name}
+                </Link>
+              ))}
+
+            </div>
+          </div>
 
 
 
@@ -249,7 +275,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
               <button type="button" className="action-button"><FaComments color=' rgb(144, 180, 132' size={25} /></button>
               <span>{short.comments}</span>
 
-              <button type="button" className="action-button"><FaShare color=' rgb(144, 180, 132' size={25} /></button>
+              <ShareMenu videoUrl={short.url} videoTitle={short.title} onShareToFriend={handleShareToFriend} />
 
               <button type="button" className="action-button"><RiSettings2Fill color=' rgb(144, 180, 132' size={25} /></button>
 

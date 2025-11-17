@@ -13,7 +13,6 @@ import YourChannel from './pages/YourChannelPage/YourChannelPage.jsx'
 import DiscoverPage from './pages/DiscoverPage/DiscoverPage.jsx'
 import RegisterPage from './pages/RegisterPage/RegisterPage.jsx'
 import ShortsPage from './pages/ShortPage/ShortsPage.jsx'
-import ShortWatchPage from './pages/ShortWatchPage/ShortWatchPage.jsx'
 import { VideoPage } from './pages/VideoPage/VideoPage.jsx'
 import SuccessPage from "./pages/VerificationEmailPage/SuccessPage.jsx"
 import ErrorPage from './pages/VerificationEmailPage/ErrorPage.jsx';
@@ -49,7 +48,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/studio" element={<Studio />} />
               <Route path="/yourchannel/:url?" element={<YourChannel />} />
               <Route path="/shorts" element={<ShortsPage />} />
-              <Route path="/shorts/:id" element={<ShortWatchPage />} />
+              <Route path="/shorts/:shortId" element={<ShortsPage />} />              
               <Route path='/watch/:id' element={<VideoPage />} />
               <Route path="/verification-successful" element={<SuccessPage />} />
               <Route path="/verification-error" element={<ErrorPage />} />

@@ -327,12 +327,14 @@
     cursor: pointer;
 }
 
-.like-btn:hover {
-
-    .like-btn svg path {
-        color: var(--btn);
-    }
+.like-btn:hover svg path,
+.dislike-btn:hover svg path,
+.options-btn:hover svg path,
+.share-btn:hover svg path {
+    fill: var(--btn);
+    stroke: var(--btn);
 }
+
 
 /* ===Comments=== */
 
