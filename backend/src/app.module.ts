@@ -32,6 +32,8 @@ import { SubscriptionsModule } from './subs/subs.module';
 import { VideosModule } from './videos/videos.module';
 import { TagsModule } from './tags/tags.module';
 import { Tag } from './tags/entities/tag.entity';
+import { Post } from './posts/entities/post.entity';
+import { PostsModule } from './posts/posts.module';
 
 
 @Module({
@@ -41,10 +43,10 @@ import { Tag } from './tags/entities/tag.entity';
       host: 'localhost',
       port: 3306,
       username: 'root',
-      password: 'geniducv1',
+      password: 'Colo123',
       database: 'catube_db',
       // logging: true,
-      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo, Friendship, Notification, Message, Room, Tag],
+      entities: [User, Channel, Store, Product, Playlist, Video, Comment, Like, Subscription, PlaylistVideo, Friendship, Notification, Message, Room, Tag, Post],
       synchronize: true,
     }),
 
@@ -72,12 +74,14 @@ import { Tag } from './tags/entities/tag.entity';
     MessagesModule,
 
     RoomsModule,
-    
+
     SubscriptionsModule,
 
     VideosModule,
 
-    TagsModule
+    TagsModule,
+
+    PostsModule
   ],
   controllers: [AppController],
   providers: [AppService, ChatGateway],

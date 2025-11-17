@@ -1257,13 +1257,6 @@ const playlists = [
     },
 ];
 
-const iconos = [
-    { name: "Poll", src: poll },
-    { name: "Quiz", src: quiz },
-    { name: "Video", src: videoIcon },
-    { name: "Image", src: imageIcon },
-];
-
 const postVideos = [
     {
         id: "rust-solo",
@@ -2122,7 +2115,6 @@ export {
     shortsPopular,
     shortsOldest,
     playlists,
-    iconos,
     postVideos,
     unpublishedVideos,
     trending,

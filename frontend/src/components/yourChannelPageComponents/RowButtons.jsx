@@ -1,15 +1,14 @@
-import Button from "../homePageComponents/Button"
 import Container from "../common/Container";
+import NewButton from "../homePageComponents/Button";
 
-function RowButtons(props) {
+function RowButtons({ btntitle, name, src, onClick, disabled }) {
     return (
-        <Container className="container-row-buttons">
-            <Button btnclass="btn-channel" btntitle={props.btntitle} > </Button>
-            <Button btnclass="btn-trash">  
-                <img src={props.src} alt={props.name} />
-            </Button>
+        <Container className="row-buttons">
+            <NewButton name={name} src={src} onClick={onClick} disabled={disabled}>
+                {btntitle}
+            </NewButton>
         </Container>
     );
 }
 
-export default RowButtons
+export default RowButtons;

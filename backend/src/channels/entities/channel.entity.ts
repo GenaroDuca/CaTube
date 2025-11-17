@@ -12,6 +12,7 @@ import { Store } from "src/store/entities/store.entity";
 import { Playlist } from "src/playlist/entities/playlist.entity";
 import { Subscription } from "src/subs/entities/sub.entity";
 import { Video } from "src/videos/entities/video.entity";
+import { Post } from "src/posts/entities/post.entity";
 
 @Entity('channels')
 export class Channel {
@@ -56,4 +57,7 @@ export class Channel {
 
     @OneToMany(() => Video, video => video.channel, { onDelete: 'CASCADE' })
     videos: Video[];
+
+    @OneToMany(() => Post, post => post.channel, { onDelete: 'CASCADE' })
+    posts: Post[];
 }

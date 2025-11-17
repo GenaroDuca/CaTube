@@ -13,6 +13,7 @@ import { Subscription } from './src/subs/entities/sub.entity';
 import { PlaylistVideo } from './src/playlist_videos/entities/playlist_video.entity';
 import { Friendship } from './src/friendships/entities/friendship.entity';
 import { Notification } from './src/notifications/entities/notification.entity';
+import { Post } from './src/posts/entities/post.entity';
 
 export const AppDataSource = new DataSource({
     type: 'mysql',
@@ -23,12 +24,12 @@ export const AppDataSource = new DataSource({
     database: 'catube_db',
     
     entities: [
-        User, Channel, Store, Product, Playlist, Video, 
-        Comment, Like, Subscription, PlaylistVideo, Friendship, Notification
+        User, Channel, Store, Product, Playlist, Video,
+        Comment, Like, Subscription, PlaylistVideo, Friendship, Notification, Post
     ],
     
     migrations: [path.join(__dirname, 'src', 'migrations', '*.ts')],
     
-    synchronize: false, 
+    synchronize: false,
     logging: true,
 });
