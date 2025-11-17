@@ -48,7 +48,7 @@ createRoot(document.getElementById('root')).render(
               <Route path="/studio" element={<Studio />} />
               <Route path="/yourchannel/:url?" element={<YourChannel />} />
               <Route path="/shorts" element={<ShortsPage />} />
-              <Route path="/shorts/:shortId" element={<ShortsPage />} />              
+              <Route path="/shorts/:id" element={<ShortsPage />} />              
               <Route path='/watch/:id' element={<VideoPage />} />
               <Route path="/verification-successful" element={<SuccessPage />} />
               <Route path="/verification-error" element={<ErrorPage />} />

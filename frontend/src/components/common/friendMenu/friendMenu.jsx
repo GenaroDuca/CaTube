@@ -211,7 +211,7 @@ export function FriendMenu() {
             return;
         }
 
-        setIsSearchLoading(true); // <--- INICIA CARGA DE BÚSQUEDA
+        setIsSearchLoading(true);
 
         try {
             const results = await fetchUsers(trimmedQuery);

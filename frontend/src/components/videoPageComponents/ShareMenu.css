@@ -94,12 +94,21 @@
   border: none;
   background: var(--btn);
   border-radius: 30px;
-  color: var(--primary-color);
   display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
 }
+
+.share-option svg path {
+  color: var(--primary-color) !important;
+}
+
+.close-btn svg path {
+  color: var(--text-color) !important;
+}
+
+
 
 .share-option:hover {
   background: var(--btn-dark);
@@ -111,14 +120,19 @@
   padding: 8px;
   margin-top: 10px;
 
-  background: #2c2c2c;
-  border-radius: 10px;
+  background-color: var(--primary-color);
+  border-radius: 30px;
+  color: var(--text-color);
   border: none;
 
   display: flex;
   align-items: center;
   gap: 10px;
   cursor: pointer;
+}
+
+.friend-item:hover {
+  color: var(--btn);
 }
 
 .friend-item img {

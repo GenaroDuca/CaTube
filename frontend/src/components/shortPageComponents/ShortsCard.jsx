@@ -31,6 +31,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
     }
   }, [])
 
+
   useEffect(() => {
     const checkSubscription = async () => {
       const token = localStorage.getItem('accessToken');
@@ -145,13 +146,6 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
     slider.style.background = `linear-gradient(to right, rgb(144, 180, 132) ${percent}%, #1a1a1b ${percent}%)`
   }
 
-  const handleShareToFriend = (friend, link) => {
-    short
-    console.log("Compartiendo a:", friend);
-    console.log("Link:", link);
-  };
-
-
   function onVideoClick(e) {
     const target = e.target
     if (target.tagName.toLowerCase() === 'video' || target.classList.contains('video-placeholder')) {
@@ -168,10 +162,8 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
             <img src={short.channelAvatar} alt={short.channelName} />
           </Link>
           <div className="channel-info">
-            <p>{short.channelName}</p>
+            <h2>{short.channelName}</h2>
           </div>
-
-
 
           <button
             type="button"
@@ -191,23 +183,26 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
             Promote short
           </button>
 
-          <p>{short.title}</p>
-          <p>{short.description}</p>
-          <div className="vv-displayVideo-description-tags">
-            <h4>Video Tags</h4>
-            <div>
-              {short.tags.map(tag => (
-                <Link
-                  key={tag.name}
-                  to={`/discover?tag=${encodeURIComponent(tag.name)}`}
-                  className="tag-link"
-                >
-                  #{tag.name}
-                </Link>
-              ))}
-
+          <div style={{ width: "100%", textAlign: "justify" }}>
+            <h3 style={{textAlign: "center"}}>{short.title}</h3>
+            <h3 style={{marginTop: "20px"}}>Video Description</h3>
+            <p>{short.description}</p>
+            <div className="vv-displayVideo-description-tags">
+              <h4 style={{marginTop: "20px"}}>Video Tags</h4>
+              <div>
+                {short.tags.map(tag => (
+                  <Link
+                    key={tag.name}
+                    to={`/discover?tag=${encodeURIComponent(tag.name)}`}
+                    className="tag-link"
+                  >
+                    #{tag.name}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
+
 
 
 
@@ -235,8 +230,8 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
           <div className='short-action-buttons-container'>
 
             <div className="container-play-vol">
-              <button type="button" id="maximize" className="action-button" onClick={(e) => { e.stopPropagation(); onToggleMaximize(); }}>
-                {isMaximized ? <FiMinimize2 color=' rgb(144, 180, 132' size={25} /> : <FiMaximize2 color=' rgb(144, 180, 132' size={25} />}
+              <button type="button" id="maximize" className="action-button btn-maximize" onClick={(e) => { e.stopPropagation(); onToggleMaximize(); }}>
+                {isMaximized ? <FiMinimize2 size={25} /> : <FiMaximize2 size={25} />}
               </button>
               <button
                 type="button"
@@ -245,12 +240,12 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
                 onClick={togglePlay}
                 aria-label={paused ? 'Play' : 'Pause'}
               >
-                {paused ? <FaCirclePlay color=' rgb(144, 180, 132' size={25} /> : <FaCirclePause color=' rgb(144, 180, 132' size={25} />}
+                {paused ? <FaCirclePlay size={25} /> : <FaCirclePause size={25} />}
               </button>
 
               <div className="volume-control-container">
                 <button type="button" id="soundMuteBtn" className="action-button btn-sound" onClick={toggleMute}>
-                  {muted ? <ImVolumeMute2 color=' rgb(144, 180, 132' size={25} /> : <ImVolumeMedium color=' rgb(144, 180, 132' size={25} />}
+                  {muted ? <ImVolumeMute2 size={25} /> : <ImVolumeMedium size={25} />}
                 </button>
                 <input
                   type="range"
@@ -267,17 +262,17 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
 
             </div>
             <div className="action-buttons">
-              <button type="button" className="action-button"><FaHeart color=' rgb(144, 180, 132' size={25} /></button>
+              <button type="button" className="action-button"><FaHeart size={25} /></button>
               <span>{short.likes}</span>
-              <button type="button" className="action-button"><IoHeartDislike color=' rgb(144, 180, 132' size={25} /></button>
+              <button type="button" className="action-button"><IoHeartDislike size={25} /></button>
               <span>{short.dislikes}</span>
 
-              <button type="button" className="action-button"><FaComments color=' rgb(144, 180, 132' size={25} /></button>
+              <button type="button" className="action-button"><FaComments size={25} /></button>
               <span>{short.comments}</span>
 
-              <ShareMenu videoUrl={short.url} videoTitle={short.title} onShareToFriend={handleShareToFriend} />
+              <button type="button" className="action-button"><ShareMenu videoUrl={short.url} videoTitle={short.title} /></button>
 
-              <button type="button" className="action-button"><RiSettings2Fill color=' rgb(144, 180, 132' size={25} /></button>
+              <button type="button" className="action-button"><RiSettings2Fill size={25} /></button>
 
             </div>
           </div>

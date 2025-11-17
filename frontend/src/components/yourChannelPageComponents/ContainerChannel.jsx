@@ -1,14 +1,20 @@
 import { useState, useEffect } from 'react';
+import { getAuthToken } from '../../utils/auth';
 
 function ContainerChannel({ channelId }) {
     const [featuredVideo, setFeaturedVideo] = useState(null);
+    const token = getAuthToken();
 
     useEffect(() => {
         async function fetchFeaturedVideo() {
             if (!channelId) return;
 
             try {
-                const response = await fetch(`http://localhost:3000/videos/channel/${channelId}`);
+                const response = await fetch(`http://localhost:3000/videos/channel/${channelId}`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
                 if (response.ok) {
                     const videos = await response.json();
                     // Por ahora usamos el video más reciente como video principal

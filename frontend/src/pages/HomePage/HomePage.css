@@ -29,6 +29,10 @@ a {
   border-radius: 30px;
 }
 
+.short-card {
+  width: 200px;
+}
+
 /*carruseles*/
 .carousel-container {
   display: flex;
@@ -131,9 +135,9 @@ a {
 }
 
 .short {
-  width: 170px;
-  height: 245px;
-  border-radius: 20px;
+  width: 100%;
+  aspect-ratio: 9/16;
+  border-radius: 30px;
 }
 
 /*miniaturas*/

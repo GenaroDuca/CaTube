@@ -21,7 +21,9 @@ function HomeTab({ channelId }) {
                 if (!channelId) return;
 
                 // Fetch videos for this channel
-                const videosRes = await fetch(`http://localhost:3000/videos/channel/${channelId}`);
+                const videosRes = await fetch(`http://localhost:3000/videos/channel/${channelId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                });
                 if (videosRes.ok) {
                     const data = await videosRes.json();
                     // Separate by type

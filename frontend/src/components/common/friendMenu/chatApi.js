@@ -45,13 +45,16 @@ export const getSocket = () => {
  * @param {string} toUserId - ID del usuario receptor.
  * @param {string} content - Contenido del mensaje.
  */
-export const sendMessage = (toUserId, content) => {
-    const s = getSocket();
-    if (s && s.connected) {
-        s.emit('chat message', { toUserId, content });
-    } else {
-        console.error("No se pudo enviar el mensaje: Socket no conectado.");
+export const sendMessage = async (toUserId, content) => {
+    let s = getSocket();
+    if (!s) throw new Error("No se pudo inicializar el socket");
+    if (!s.connected) {
+        await new Promise((resolve, reject) => {
+            s.once("connect", resolve);
+            setTimeout(() => reject(new Error("Socket no conectado después de 5s")), 5000);
+        });
     }
+    s.emit('chat message', { toUserId, content });
 };
 
 /**

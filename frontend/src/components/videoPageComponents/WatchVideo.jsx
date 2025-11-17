@@ -50,11 +50,6 @@ export function WatchVideo({ url, title, avatar, userName, description, subscrip
         return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
     };
     
-    const handleShareToFriend = (friend, link) => {
-        console.log("Compartiendo a:", friend);
-        console.log("Link:", link);
-    };
-
     return (
         <article className={`vv-displayVideo-container ${isTheaterMode ? 'theater-active' : ''}`}>
             <header className={`vv-displayVideo-header ${isTheaterMode ? 'theater-mode' : ''} ${isFullScreen ? 'full-screen' : ''}`}>
@@ -125,7 +120,7 @@ export function WatchVideo({ url, title, avatar, userName, description, subscrip
                     <section>
                         <button className="like-btn"><FaHeart color='#777878' size={22} /></button>
                         <button className="dislike-btn"><IoHeartDislike color='#777878' size={25} /></button>
-                        <ShareMenu videoUrl={url} videoTitle={title}  onShareToFriend={handleShareToFriend} />
+                        <ShareMenu videoUrl={url} videoTitle={title} />
                         <button className="options-btn"><SlOptionsVertical color='#777878' size={20} /></button>
                     </section>
                 </div>

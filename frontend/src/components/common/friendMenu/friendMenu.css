@@ -411,7 +411,7 @@
     margin-top: 20px;
     text-align: left;
     flex-grow: 1;
-    overflow-y: auto;
+    overflow-y: none;
     color: var(--text);
 }
 
@@ -551,7 +551,11 @@
 
 .message {
     margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
+
 
 .message-sender {
     color: var(--btn);
@@ -566,6 +570,16 @@
     border-radius: 15px;
     padding: 5px 10px;
 }
+
+.message div,
+.message-content,
+.message-bubble-content p {
+    max-width: 100%;       /* Nunca excede el ancho del contenedor */
+    word-wrap: break-word; /* Rompe palabras largas si es necesario */
+    white-space: pre-wrap; /* Mantiene saltos de línea */
+    overflow-wrap: break-word; /* Compatibilidad adicional para romper palabras largas */
+}
+
 
 .message-bubble-content-div {
     display: flex;

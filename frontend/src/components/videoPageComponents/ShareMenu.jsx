@@ -1,14 +1,21 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { FaShare, FaCopy, FaDownload } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { useToast } from "../../hooks/useToast";
+import { fetchFriendsAndRequests } from "../common/friendMenu/friendShipApi.js";
+import { DEFAULT_AVATAR } from "../common/friendMenu/constants.js";
+import { getAuthToken } from "../../utils/auth";
+import { getOrCreatePrivateRoom, sendMessage } from "../common/friendMenu/chatApi.js";
+import { getSocket } from "../common/friendMenu/chatApi.js";
 
 import "./ShareMenu.css";
 
-export default function ShareMenu({ videoUrl, videoTitle, friends = [] }) {
+export default function ShareMenu({ videoUrl, videoTitle }) {
     const [open, setOpen] = useState(false);
-    const { showSuccess } = useToast();
-
+    const [friends, setFriends] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const { showSuccess, showError } = useToast();
+    const [sendingTo, setSendingTo] = useState(null);
 
     const copyToClipboard = () => {
         const url = window.location.href;
@@ -24,62 +31,133 @@ export default function ShareMenu({ videoUrl, videoTitle, friends = [] }) {
         showSuccess("Video downloaded");
     };
 
+    useEffect(() => {
+        let isMounted = true;
+
+        const loadFriends = async () => {
+            const token = getAuthToken();
+            if (!token) return;
+
+            try {
+                const data = await fetchFriendsAndRequests();
+                if (!isMounted) return;
+
+                const friendsList = data.friends.map(f => ({
+                    id: f.id,
+                    name: f.userName,
+                    avatar: f.avatarUrl || DEFAULT_AVATAR
+                }));
+
+                setFriends(friendsList);
+            } catch (error) {
+                console.error("Error fetching friends:", error);
+                if (isMounted) showError("Failed to load friends.");
+            } finally {
+                if (isMounted) setIsLoading(false);
+            }
+        };
+
+        loadFriends();
+        return () => { isMounted = false; };
+    }, [showError]);
+
+    const shareVideoWithFriend = async (friend) => {
+        try {
+            setSendingTo(friend.id);
+            const url = window.location.href;
+            // 1️ Enviar el video como texto directamente al usuario (no a la sala)
+            await sendMessage(friend.id, url);
+
+            showSuccess(`Video shared with ${friend.name}`);
+        } catch (error) {
+            console.error("Error sending video:", error);
+            showError(`Failed to share video with ${friend.name}`);
+        } finally {
+            setSendingTo(null);
+        }
+    };
+
     return (
         <div className="share-wrapper">
-
-            {/* BOTÓN / MENÚ EXPANDIBLE */}
             <div className={`share-expandable ${open ? "open" : ""}`}>
-
-                {/* Si está cerrado solo se ve el botón */}
                 {!open && (
-                    <button
+                    <div
                         className="share-btn"
+                        role="button"
+                        tabIndex={0}
                         onClick={() => setOpen(true)}
+                        onKeyDown={(e) => { if (e.key === 'Enter') setOpen(true); }}
                     >
                         <FaShare size={20} />
-                    </button>
+                    </div>
                 )}
 
-                {/* Si está abierto, el botón se convierte en menú */}
                 {open && (
-                    <div className="share-menu-content">
+                    <div className="share-menu-content" style={{ cursor: "default" }}>
                         <div className="share-menu-header">
-
-                            <h4>Compartir video</h4>                            
-                            <button className="close-btn" onClick={() => setOpen(false)}>
+                            <h4 style={{ fontSize: "16px", textAlign: "start", color: "#777878" }}>Share Video</h4>
+                            <div
+                                className="close-btn"
+                                role="button"
+                                tabIndex={0}
+                                onClick={() => setOpen(false)}
+                                onKeyDown={(e) => { if (e.key === 'Enter') setOpen(false); }}
+                            >
                                 <IoClose size={18} />
-                            </button>
+                            </div>
                         </div>
 
-                        <button className="share-option" onClick={copyToClipboard}>
+                        <div
+                            className="share-option"
+                            role="button"
+                            tabIndex={0}
+                            onClick={copyToClipboard}
+                            onKeyDown={(e) => { if (e.key === 'Enter') copyToClipboard(); }}
+                            style={{ color: "#1a1a1b" }}
+                        >
                             <FaCopy size={16} /> Copy link
-                        </button>
+                        </div>
 
-                        <button className="share-option" onClick={downloadVideo}>
+                        <div
+                            className="share-option"
+                            role="button"
+                            tabIndex={0}
+                            onClick={downloadVideo}
+                            onKeyDown={(e) => { if (e.key === 'Enter') downloadVideo(); }}
+                            style={{ color: "#1a1a1b" }}
+                        >
                             <FaDownload size={16} /> Download video
-                        </button>
+                        </div>
 
                         <div className="friends-section">
-                            <h4>Send to friends</h4>
+                            <h4 style={{ fontSize: "16px", textAlign: "start", color: "#777878" }}>Send to friends</h4>
 
-                            {friends.length === 0 && (
-                                <h5 className="no-friends">Dont have any friends yet</h5>
+                            {isLoading && <p style={{ color: "#777878" }}>Loading friends...</p>}
+
+                            {!isLoading && friends.length === 0 && (
+                                <h5 style={{ fontSize: "13px", textAlign: "start", color: "#777878" }} className="no-friends">
+                                    Don't have any friends yet
+                                </h5>
                             )}
 
-                            {friends.map(friend => (
-                                <button
+                            {!isLoading && friends.map(friend => (
+                                <div
                                     key={friend.id}
                                     className="friend-item"
-                                    onClick={() => alert(`Compartido con ${friend.name}`)}
+                                    role="button"
+                                    tabIndex={0}
+                                    onClick={() => shareVideoWithFriend(friend)}
+                                    onKeyDown={(e) => { if (e.key === 'Enter') shareVideoWithFriend(friend); }}
+                                    style={{ opacity: sendingTo === friend.id ? 0.6 : 1, pointerEvents: sendingTo === friend.id ? 'none' : 'auto', alignItems: 'center'}}
                                 >
-                                    <img src={friend.avatar} alt="friend" />
-                                    <span>{friend.name}</span>
-                                </button>
+                                    <img src={friend.avatar} alt={friend.name} />
+                                    <span style={{ marginTop:"0", fontSize: 13 }}>{friend.name}</span>
+                                    {sendingTo === friend.id && <span style={{ marginLeft: 8, fontSize: 12 }}>Sending...</span>}
+                                </div>
                             ))}
                         </div>
                     </div>
                 )}
-
             </div>
         </div>
     );
