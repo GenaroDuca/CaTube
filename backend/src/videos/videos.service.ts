@@ -84,6 +84,18 @@ export class VideosService {
       throw new Error(`Failed to create video: ${err.message}`);
     }
   }
+  
+  // ======================================================
+  // Visitas incrementales
+  // ======================================================
+  async incrementViews(id: string): Promise<void> {
+    const video = await this.videoRepository.findOne({ where: { id } });
+    if (!video) {
+      throw new NotFoundException("Video not found");
+    }
+    video.views += 1;
+    await this.videoRepository.save(video);
+  }
 
   // ======================================================
   // GET VIDEOS

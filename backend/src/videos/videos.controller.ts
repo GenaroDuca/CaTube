@@ -51,6 +51,13 @@ export class VideosController {
     return this.videosService.create(createVideoDto, userId, allFiles)
   }
 
+  // Visitas inclementales
+  @Post(':id/views')
+  async incrementViews(@Param('id', ParseUUIDPipe) id: string) {
+    await this.videosService.incrementViews(id);
+    return { message: 'Views incremented successfully' };
+  }
+
   // Get all videos
   @Get()
   findAll() {

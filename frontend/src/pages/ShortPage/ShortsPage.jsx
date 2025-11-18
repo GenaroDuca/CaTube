@@ -19,6 +19,26 @@ export default function ShortPage() {
   const shortRefs = useRef({});
   const token = getAuthToken();
 
+  // Función para incrementar vistas
+  const incrementView = async (videoId) => {
+    const userId = localStorage.getItem('userId') || 'anonymous';
+    const viewedVideosKey = `viewedVideos_${userId}`;
+    const viewedVideos = JSON.parse(localStorage.getItem(viewedVideosKey) || '[]');
+
+    if (!viewedVideos.includes(videoId)) {
+      try {
+        await fetch(`http://localhost:3000/videos/${videoId}/views`, {
+          headers: { Authorization: `Bearer ${token}` },
+          method: 'POST',
+        });
+        viewedVideos.push(videoId);
+        localStorage.setItem(viewedVideosKey, JSON.stringify(viewedVideos));
+      } catch (error) {
+        console.error('Error incrementing views:', error);
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchShorts = async () => {
       try {
@@ -43,7 +63,6 @@ export default function ShortPage() {
           tags: short.tags,
         }));
 
-        // Si entrás en /shorts/:id → mover ese short al principio
         if (id) {
           const index = transformed.findIndex((s) => String(s.id) === String(id));
           if (index !== -1) {
@@ -64,7 +83,7 @@ export default function ShortPage() {
     fetchShorts();
   }, [id, token]);
 
-  // Actualizar la URL según el short visible
+  // 👉 IntersectionObserver para detectar short visible y sumar vista
   useEffect(() => {
     if (shorts.length === 0) return;
 
@@ -83,6 +102,9 @@ export default function ShortPage() {
           if (entry.isIntersecting && entry.intersectionRatio > 0.65) {
             const visibleId = entry.target.getAttribute('data-id');
             updateUrlIfNeeded(visibleId);
+
+            // 🚀 Aquí incrementamos la vista
+            incrementView(visibleId);
           }
         });
       },
@@ -93,16 +115,15 @@ export default function ShortPage() {
       if (ref) observer.observe(ref);
     });
 
-    // Detección inicial del primer short
     const firstRef = shortRefs.current[shorts[0].id];
     if (firstRef) {
       const visibleId = firstRef.getAttribute('data-id');
       updateUrlIfNeeded(visibleId);
+      incrementView(visibleId); // también sumamos vista inicial
     }
 
     return () => observer.disconnect();
   }, [shorts]);
-
 
   const handleMaximize = (shortId) => {
     setMaximizedId((prev) => (prev === shortId ? null : shortId));
