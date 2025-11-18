@@ -19,7 +19,7 @@ import { Request } from 'express';
 
 @Controller('comment')
 export class CommentsController {
-  constructor(private readonly commentsService: CommentsService) {}
+  constructor(private readonly commentsService: CommentsService) { }
 
   // Create a new comment for a specific video
   @Post(':videoId/comments')
@@ -29,8 +29,11 @@ export class CommentsController {
     @Body() createCommentDto: CreateCommentDto,
     @Req() req: Request,
   ) {
+
     const user = req.user as User;
-    return this.commentsService.create(createCommentDto, user, videoId);
+    const userId = user.user_id;
+
+    return this.commentsService.create(createCommentDto, userId, videoId);
   }
 
   // Get all comments for a specific video

@@ -142,6 +142,7 @@
     overflow: hidden;
     word-wrap: break-word;
     overflow-wrap: break-word;
+    margin-bottom: 20px;
 }
 
 .video-comment {

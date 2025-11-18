@@ -22,106 +22,97 @@ export class CommentsService {
 
     @InjectRepository(Video)
     private readonly videoRepository: Repository<Video>,
-  ) {}
+
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+
+
+  ) { }
 
   //Create a comment
-  // Create a comment
-async create(
-  createCommentDto: CreateCommentDto,
-  user: User,
-  videoId: string,
-) {
-  const video = await this.videoRepository.findOne({
-    where: { id: videoId },
-  });
+  async create(createCommentDto: CreateCommentDto, userId: string, videoId: string) {
 
-  if (!video) throw new NotFoundException('Video not found');
-
-  let parentComment: Comment | null = null;
-
-  if (createCommentDto.parentCommentId) {
-    parentComment = await this.commentRepository.findOne({
-      where: { id: createCommentDto.parentCommentId },
+    const user = await this.userRepository.findOne({
+      where: { user_id: userId },
+      relations: ['channel'], // si necesitas
     });
 
-    if (!parentComment) {
-      throw new NotFoundException('Parent comment not found');
-    }
+    if (!user) throw new NotFoundException('User not found');
+
+    const video = await this.videoRepository.findOne({
+      where: { id: videoId },
+    });
+
+    if (!video) throw new NotFoundException('Video not found');
+
+    const comment = this.commentRepository.create({
+      content: createCommentDto.content,
+      user,
+      video,
+      parentComment: undefined,
+    });
+
+    const savedComment = await this.commentRepository.save(comment);
+
+    const fullComment = await this.commentRepository.findOne({
+      where: { id: savedComment.id },
+      relations: ['user', 'user.channel', 'replies', 'likes'],
+    });
+
+    return {
+      id: fullComment?.id,
+      username: fullComment?.user.username,
+      user_id: fullComment?.user.user_id,
+      channelUrl: fullComment?.user.channel?.url || null,
+      photoUrl: fullComment?.user.channel?.photoUrl || null,
+      content: fullComment?.content,
+      createdAt: fullComment?.createdAt,
+      updatedAt: fullComment?.updatedAt,
+      likesCount: (fullComment?.likes ?? []).filter(l => l.like).length,
+      replies: [],
+    };
   }
 
-  const comment = this.commentRepository.create({
-    content: createCommentDto.content,
-    user,
-    video,
-    parentComment: parentComment ?? null,
-  } as Partial<Comment>);
+  //Get all comments for a specific video
+  async findAll(videoId: string) {
+    const videoExists = await this.videoRepository.exist({
+      where: { id: videoId },
+    });
 
-  const savedComment = await this.commentRepository.save(comment);
+    if (!videoExists) throw new NotFoundException('Video not found');
 
-  return {
-    id: savedComment.id,
-    username: savedComment.user.username,
-    user_id: savedComment.user.user_id,
-    channelUrl: comment.user.channel?.url || null,
-    photoUrl: comment.user.channel?.photoUrl || null,
-    content: savedComment.content,
-    createdAt: savedComment.createdAt.toISOString(),
-    updatedAt: savedComment.updatedAt.toISOString(),
-    likesCount: (comment.likes ?? []).filter(like => like.like).length,
-    replies: (comment.replies ?? []).map(reply => ({
-      id: reply.id,
-      username: reply.user.username,
-      user_id: reply.user.user_id,
-      channelUrl: reply.user.channel?.url || null,
-      photoUrl: reply.user.channel?.photoUrl || null,
-      content: reply.content,
-      createdAt: reply.createdAt.toISOString(),
-      updatedAt: reply.updatedAt.toISOString(),
-      likesCount: (reply.likes ?? []).filter(like => like.like).length,
-    })),
-  };
-}
+    const comments = await this.commentRepository.find({
+      where: {
+        video: { id: videoId },
+        parentComment: IsNull(),
+      },
+      relations: ['user', 'user.channel', 'likes', 'replies', 'replies.user.channel', 'replies.user'],
+      order: { createdAt: 'DESC' },
+    });
 
-//Get all comments for a specific video
-async findAll(videoId: string) {
-  const videoExists = await this.videoRepository.exist({
-    where: { id: videoId },
-  });
-
-  if (!videoExists) throw new NotFoundException('Video not found');
-
-  const comments = await this.commentRepository.find({
-    where: {
-      video: { id: videoId },
-      parentComment: IsNull(),
-    },
-    relations: ['user', 'user.channel', 'likes', 'replies', 'replies.user.channel','replies.user'],
-    order: { createdAt: 'DESC' },
-  });
-
-  return comments.map((comment) => ({
-    id: comment.id,
-    username: comment.user.username,
-    user_id: comment.user.user_id,
-    channelUrl: comment.user.channel?.url || null,
-    photoUrl: comment.user.channel?.photoUrl || null,
-    content: comment.content,
-    createdAt: comment.createdAt.toISOString(),
-    updatedAt: comment.updatedAt.toISOString(),
-    likesCount: (comment.likes ?? []).filter(like => like.like).length,
-    replies: (comment.replies ?? []).map(reply => ({
-      id: reply.id,
-      username: reply.user.username,
-      user_id: reply.user.user_id,
-      channelUrl: reply.user.channel?.url || null,
-      photoUrl: reply.user.channel?.photoUrl || null,
-      content: reply.content,
-      createdAt: reply.createdAt.toISOString(),
-      updatedAt: reply.updatedAt.toISOString(),
-      likesCount: (reply.likes ?? []).filter(like => like.like).length,
-    })),
-  }));
-}
+    return comments.map((comment) => ({
+      id: comment.id,
+      username: comment.user.username,
+      user_id: comment.user.user_id,
+      channelUrl: comment.user.channel?.url || null,
+      photoUrl: comment.user.channel?.photoUrl || null,
+      content: comment.content,
+      createdAt: comment.createdAt.toISOString(),
+      updatedAt: comment.updatedAt.toISOString(),
+      likesCount: (comment.likes ?? []).filter(like => like.like).length,
+      replies: (comment.replies ?? []).map(reply => ({
+        id: reply.id,
+        username: reply.user.username,
+        user_id: reply.user.user_id,
+        channelUrl: reply.user.channel?.url || null,
+        photoUrl: reply.user.channel?.photoUrl || null,
+        content: reply.content,
+        createdAt: reply.createdAt.toISOString(),
+        updatedAt: reply.updatedAt.toISOString(),
+        likesCount: (reply.likes ?? []).filter(like => like.like).length,
+      })),
+    }));
+  }
 
 
   //Update a comment

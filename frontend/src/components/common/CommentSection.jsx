@@ -96,6 +96,9 @@ export function CommentSection({ videoId, onCountChange }) {
             });
 
             const result = await res.json();
+
+                        console.log ("hice el fetch y mande:" + newComment)
+
             if (res.status === 201) {
                 setNewComment("");
                 setComments((prev) => {
@@ -350,7 +353,7 @@ export function CommentSection({ videoId, onCountChange }) {
                                 src={
                                     comment.photoUrl
                                         ? `http://localhost:3000${comment.photoUrl}`
-                                        : `/assets/images/profile/${comment.username?.charAt(0).toUpperCase(),console.log(comment)}.png`
+                                        : `/assets/images/profile/${comment.username?.charAt(0).toUpperCase()}.png`
                                 }
                                 alt={comment.username || "User avatar"}
                                 className="comment-avatar"
