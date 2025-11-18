@@ -21,10 +21,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 90%;
+    width: 100%;
     padding: 8px 12px;
     background-color: var(--background-color);
     border-radius: var(--border-radius);
+    margin-bottom: 20px;
     input {
         width: 90%;
         border: none;
@@ -58,6 +59,7 @@
     padding: 8px 12px;
     background-color: var(--primary-color);
     border-radius: var(--border-radius);
+    margin-bottom: 20px;
     input {
         width: 90%;
         border: none;
@@ -109,8 +111,14 @@
 .comment-date {
     display: flex;
     justify-content: flex-end;
-    font-size: 0.8em;
-    color: var(--text);
+    font-size: 12px;
+    color: var(--btn);
+}
+
+.comment-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
 }
 
 .comments-list {
@@ -143,6 +151,11 @@
     word-wrap: break-word;
     overflow-wrap: break-word;
     margin-bottom: 20px;
+}
+
+.reply-to {
+    color: var(--btn);
+    font-size: 12px;
 }
 
 .video-comment {
@@ -200,6 +213,7 @@
     flex-direction: row;
     align-items: center;
     gap: 2px;
+    margin-top: 5px;
 }
 
 /* Estilo de la barra */

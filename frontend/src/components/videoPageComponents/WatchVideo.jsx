@@ -151,7 +151,7 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
             </div>
 
             <div className="vv-displayVideo-comments">
-                <h2>Comments</h2>
+                <h3>Comments</h3>
                 <CommentSection videoId={videoId} />
             </div>
         </article>

@@ -9,6 +9,7 @@
 }
 
 .fullscreen-short-container>.short-container {
+    width: 0;
     height: 90vh;
     flex: 1;
     display: flex;

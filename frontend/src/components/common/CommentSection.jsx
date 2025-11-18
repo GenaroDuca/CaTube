@@ -19,6 +19,9 @@ import "./CommentSection.css";
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
+//Modal
+import { useModal } from '../common/Modal/ModalContext';
+
 export function CommentSection({ videoId, onCountChange }) {
     // Get current user from token
     const token = getAuthToken();
@@ -26,6 +29,9 @@ export function CommentSection({ videoId, onCountChange }) {
 
     //Toast notifications
     const { showSuccess, showError } = useToast();
+
+    //Modal 
+    const { openModal, closeModal } = useModal();
 
     //Comments
     const [comments, setComments] = useState([]);
@@ -96,9 +102,7 @@ export function CommentSection({ videoId, onCountChange }) {
             });
 
             const result = await res.json();
-
-                        console.log ("hice el fetch y mande:" + newComment)
-
+            
             if (res.status === 201) {
                 setNewComment("");
                 setComments((prev) => {
@@ -179,45 +183,56 @@ export function CommentSection({ videoId, onCountChange }) {
     // Delete comment or reply
     const handleDeleteComment = async (commentId, parentCommentId = null) => {
         const token = getAuthToken();
-        try {
-            const res = await fetch(
-                `http://localhost:3000/comment/${videoId}/comments/${commentId}`,
-                {
-                    method: "DELETE",
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            );
+        const actionFunction = async () => {
+            try {
+                const res = await fetch(
+                    `http://localhost:3000/comment/${videoId}/comments/${commentId}`,
+                    {
+                        method: "DELETE",
+                        headers: { Authorization: `Bearer ${token}` },
+                    }
+                );
 
-            if (!res.ok) {
-                const result = await res.json();
-                showError(result.message);
-                return;
+                if (!res.ok) {
+                    const result = await res.json();
+                    showError(result.message);
+                    return;
+                }
+
+                // Update state
+                setComments((prev) => {
+                    let updated;
+                    if (!parentCommentId) {
+                        // Delete root comment
+                        updated = prev.filter((c) => c.id !== commentId);
+                    } else {
+                        // Delete reply
+                        updated = prev.map((c) =>
+                            c.id === parentCommentId
+                                ? { ...c, replies: c.replies.filter((r) => r.id !== commentId) }
+                                : c
+                        );
+                    }
+
+                    // Recalculate total comments count
+                    onCountChange?.(getTotalCommentsCount(updated));
+                    return updated;
+                });
+
+                showSuccess("Comment deleted!");
+                closeModal()
+            } catch {
+                showError("Error deleting comment.");
+                closeModal()
             }
-
-            // Update state
-            setComments((prev) => {
-                let updated;
-                if (!parentCommentId) {
-                    // Delete root comment
-                    updated = prev.filter((c) => c.id !== commentId);
-                } else {
-                    // Delete reply
-                    updated = prev.map((c) =>
-                        c.id === parentCommentId
-                            ? { ...c, replies: c.replies.filter((r) => r.id !== commentId) }
-                            : c
-                    );
-                }
-
-                // Recalculate total comments count
-                onCountChange?.(getTotalCommentsCount(updated));
-                return updated;
-            });
-
-            showSuccess("Comment deleted!");
-        } catch {
-            showError("Error deleting comment.");
         }
+
+        openModal('confirm', {
+            title: "Delete Comment",
+            message: `Are you sure you want to delete this comment?`,
+            confirmText: "Delete",
+            onConfirm: actionFunction,
+        });
     };
 
     // Start reply mode
@@ -320,11 +335,11 @@ export function CommentSection({ videoId, onCountChange }) {
             const value = intervals[key];
             if (seconds >= value) {
                 const time = Math.floor(seconds / value);
-                return ` ${time} ago ${key}${time !== 1 ? "s" : ""}`;
+                return ` ${time} ${key}${time !== 1 ? "s" : ""} ago`;
             }
         }
 
-        return "a moment ago";
+        return "A moment ago";
     }
 
     const cardClassName = isVideoPage
@@ -340,227 +355,10 @@ export function CommentSection({ videoId, onCountChange }) {
 
     return (
         <div className="comments-section">
-
-            <div className="comments-list">
-                {comments.map((comment) => (
-                    <div key={comment.id} className={cardClassName}>
-                        {/* Profile link */}
-                        <Link
-                            to={comment.channelUrl ? `/yourchannel/${comment.channelUrl}` : "#"}
-                            className="comment-channel-link"
-                        >
-                            <img
-                                src={
-                                    comment.photoUrl
-                                        ? `http://localhost:3000${comment.photoUrl}`
-                                        : `/assets/images/profile/${comment.username?.charAt(0).toUpperCase()}.png`
-                                }
-                                alt={comment.username || "User avatar"}
-                                className="comment-avatar"
-                            />
-
-                            <p>
-                                <strong>{comment.username || "Unknown user"}</strong>
-                            </p>
-                        </Link>
-
-                        {/* Edit mode */}
-                        {editingCommentId === comment.id ? (
-                            <div className={editClassName}>
-                                <input
-                                    type="text"
-                                    value={editingContent}
-                                    onChange={(e) => setEditingContent(e.target.value)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === "Enter") handleSaveEdit();
-                                        if (e.key === "Escape") cancelEditing();
-                                    }}
-                                    autoFocus
-                                />
-                                <div className="edit-comment-buttons">
-                                    <button onClick={handleSaveEdit}>
-                                        <IoCheckmark size={18} />
-                                    </button>
-                                    <button onClick={cancelEditing}>
-                                        <IoIosCloseCircle size={20} />
-                                    </button>
-                                </div>
-                            </div>
-                        ) : (
-                            <p>{comment.content}</p>
-                        )}
-
-                        {/* Time */}
-                        <p className="comment-date">
-                            {new Date(comment.updatedAt).getTime() !==
-                                new Date(comment.createdAt).getTime()
-                                ? <>Edited {timeAgo(comment.updatedAt)}</>
-                                : <> {timeAgo(comment.createdAt)}</>}
-                        </p>
-
-                        {/* Actions */}
-                        <div className="comment-actions">
-                            {currentUser?.id === comment.user_id && (
-                                <>
-                                    <button onClick={() => startEditing(comment)}>
-                                        <MdEdit size={18} />
-                                    </button>
-                                    <button onClick={() => handleDeleteComment(comment.id)}>
-                                        <MdDelete size={18} />
-                                    </button>
-                                </>
-                            )}
-                            <button
-                                className="reply"
-                                onClick={() => startReplying(comment.id)}
-                            >
-                                <FaShare className="reply-icon" size={18} />
-                            </button>
-                        </div>
-
-                        {/* Reply input */}
-                        {replyingToId === comment.id && (
-                            <div className="reply-input">
-                                <input
-                                    type="text"
-                                    value={replyContent}
-                                    onChange={(e) => setReplyContent(e.target.value)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === "Enter") handleSendReply(comment.id);
-                                        if (e.key === "Escape") cancelReplying();
-                                    }}
-                                    placeholder={`Reply to ${comment.username}...`}
-                                    autoFocus
-                                />
-                                <button onClick={() => handleSendReply(comment.id)}>
-                                    <IoSend size={18} />
-                                </button>
-                                <button onClick={cancelReplying}>
-                                    <IoIosCloseCircle size={20} />
-                                </button>
-                            </div>
-                        )}
-
-                        {/* Render replies */}
-                        {Array.isArray(comment.replies) && comment.replies.length > 0 && (
-                            <>
-                                {/* Toggle replies button */}
-                                <button
-                                    className="toggle-replies-btn"
-                                    onClick={() => toggleReplies(comment.id)}
-                                >
-                                    {openReplies[comment.id]
-                                        ? `▲ Hide replies`
-                                        : `▼ View replies (${comment.replies.length})`}
-                                </button>
-
-                                {/* Visible replies */}
-                                {openReplies[comment.id] && (
-                                    <div className="replies-list">
-                                        {comment.replies.slice(0, replyDisplayCount[comment.id]).map((reply) => (
-                                            <div key={reply.id} className="reply">
-                                                {/* Reply link */}
-                                                <Link
-                                                    to={
-                                                        reply.channelUrl
-                                                            ? `/yourchannel/${reply.channelUrl}`
-                                                            : "#"
-                                                    }
-                                                    className="comment-channel-link"
-                                                >
-                                                    <img
-                                                        src={
-                                                            reply.photoUrl
-                                                                ? `http://localhost:3000${reply.photoUrl}`
-                                                                : `/assets/images/profile/${reply.username.charAt(
-                                                                    0
-                                                                )}.png`
-                                                        }
-                                                        alt={reply.username || "User avatar"}
-                                                        className="comment-avatar"
-                                                    />
-                                                    <p>
-                                                        <strong>{reply.username || "Unknown user"}</strong>
-                                                        <span className="reply-to">
-                                                            {comment.username ? ` (reply to ${comment.username})` : ""}
-                                                        </span>
-                                                    </p>
-                                                </Link>
-
-                                                {/* Reply content */}
-                                                {editingCommentId === reply.id ? (
-                                                    <div className={editClassName}>
-                                                        <input
-                                                            type="text"
-                                                            value={editingContent}
-                                                            onChange={(e) => setEditingContent(e.target.value)}
-                                                            onKeyDown={(e) => {
-                                                                if (e.key === "Enter") handleSaveEdit();
-                                                                if (e.key === "Escape") cancelEditing();
-                                                            }}
-                                                            autoFocus
-                                                        />
-                                                        <div className="edit-comment-buttons">
-                                                            <button onClick={handleSaveEdit}>
-                                                                <IoCheckmark size={18} />
-                                                            </button>
-                                                            <button onClick={cancelEditing}>
-                                                                <IoIosCloseCircle size={20} />
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                ) : (
-                                                    <p>{reply.content}</p>
-                                                )}
-
-                                                {/* Time */}
-                                                <p className="comment-date">
-                                                    {new Date(reply.updatedAt).getTime() !==
-                                                        new Date(reply.createdAt).getTime()
-                                                        ? <>Edited {timeAgo(reply.updatedAt)}</>
-                                                        : <> {timeAgo(reply.createdAt)}</>}
-                                                </p>
-
-                                                {/* Reply actions */}
-                                                <div className="comment-actions">
-                                                    {currentUser?.id === reply.user_id && (
-                                                        <>
-                                                            <button onClick={() =>
-                                                                startEditing(reply, comment.id)
-                                                            }>
-                                                                <MdEdit size={18} />
-                                                            </button>
-                                                            <button onClick={() =>
-                                                                handleDeleteComment(reply.id, comment.id)
-                                                            }>
-                                                                <MdDelete size={18} />
-                                                            </button>
-                                                        </>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        ))}
-
-                                        {/* Load more replies button */}
-                                        {replyDisplayCount[comment.id] < comment.replies.length && (
-                                            <button
-                                                className="see-more-btn"
-                                                onClick={() => loadMoreReplies(comment.id)}
-                                            >
-                                                View more
-                                            </button>
-                                        )}
-                                    </div>
-                                )}
-                            </>
-                        )}
-                    </div>
-                ))}
-            </div>
-
             {/* Add new comment */}
             <div className={inputClassName}>
                 <input
+                    maxLength={160}
                     type="text"
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
@@ -573,6 +371,235 @@ export function CommentSection({ videoId, onCountChange }) {
                     <IoSend size={18} />
                 </button>
             </div>
+            <div className="comments-list">
+                {comments.length === 0 ? (
+                    <p style={{ textAlign: "center", color: "var(--text)"}}>
+                        No comments yet
+                    </p>
+                ) : (
+                    comments.map((comment) => (
+                        <div key={comment.id} className={cardClassName}>
+                            {/* Profile link */}
+                            <Link
+                                to={comment.channelUrl ? `/yourchannel/${comment.channelUrl}` : "#"}
+                                className="comment-channel-link"
+                            >
+                                <img
+                                    src={
+                                        comment.photoUrl
+                                            ? `http://localhost:3000${comment.photoUrl}`
+                                            : `/assets/images/profile/${comment.username?.charAt(0).toUpperCase()}.png`
+                                    }
+                                    alt={comment.username || "User avatar"}
+                                    className="comment-avatar"
+                                />
+
+                                <p>
+                                    <strong>{comment.username || "Unknown user"}</strong>
+                                </p>
+                            </Link>
+
+                            {/* Edit mode */}
+                            {editingCommentId === comment.id ? (
+                                <div className={editClassName}>
+                                    <input
+                                        maxLength={160}
+                                        type="text"
+                                        value={editingContent}
+                                        onChange={(e) => setEditingContent(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") handleSaveEdit();
+                                            if (e.key === "Escape") cancelEditing();
+                                        }}
+                                        autoFocus
+                                    />
+                                    <div className="edit-comment-buttons">
+                                        <button onClick={handleSaveEdit}>
+                                            <IoCheckmark size={18} />
+                                        </button>
+                                        <button onClick={cancelEditing}>
+                                            <IoIosCloseCircle size={20} />
+                                        </button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <p>{comment.content}</p>
+                            )}
+
+                            <div className="comment-footer">
+                                {/* Actions */}
+                                <div className="comment-actions">
+                                    {currentUser?.id === comment.user_id && (
+                                        <>
+                                            <button onClick={() => startEditing(comment)}>
+                                                <MdEdit size={18} />
+                                            </button>
+                                            <button onClick={() => handleDeleteComment(comment.id)}>
+                                                <MdDelete size={18} />
+                                            </button>
+                                        </>
+                                    )}
+                                    <button
+                                        className="reply"
+                                        onClick={() => startReplying(comment.id)}
+                                    >
+                                        <FaShare className="reply-icon" size={18} />
+                                    </button>
+                                </div>
+                                {/* Time */}
+                                <p className="comment-date">
+                                    {new Date(comment.updatedAt).getTime() !==
+                                        new Date(comment.createdAt).getTime()
+                                        ? <>Edited {timeAgo(comment.updatedAt)}</>
+                                        : <> {timeAgo(comment.createdAt)}</>}
+                                </p>
+                            </div>
+
+
+                            {/* Reply input */}
+                            {replyingToId === comment.id && (
+                                <div className="reply-input">
+                                    <input
+                                        maxLength={160}
+                                        type="text"
+                                        value={replyContent}
+                                        onChange={(e) => setReplyContent(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "Enter") handleSendReply(comment.id);
+                                            if (e.key === "Escape") cancelReplying();
+                                        }}
+                                        placeholder={`Reply to ${comment.username}...`}
+                                        autoFocus
+                                    />
+                                    <button onClick={() => handleSendReply(comment.id)}>
+                                        <IoSend size={18} />
+                                    </button>
+                                    <button onClick={cancelReplying}>
+                                        <IoIosCloseCircle size={20} />
+                                    </button>
+                                </div>
+                            )}
+
+                            {/* Render replies */}
+                            {Array.isArray(comment.replies) && comment.replies.length > 0 && (
+                                <>
+                                    {/* Toggle replies button */}
+                                    <button
+                                        className="toggle-replies-btn"
+                                        onClick={() => toggleReplies(comment.id)}
+                                    >
+                                        {openReplies[comment.id]
+                                            ? `▲ Hide replies`
+                                            : `▼ View replies (${comment.replies.length})`}
+                                    </button>
+
+                                    {/* Visible replies */}
+                                    {openReplies[comment.id] && (
+                                        <div className="replies-list">
+                                            {comment.replies.slice(0, replyDisplayCount[comment.id]).map((reply) => (
+                                                <div key={reply.id} className="reply">
+                                                    {/* Reply link */}
+                                                    <Link
+                                                        to={
+                                                            reply.channelUrl
+                                                                ? `/yourchannel/${reply.channelUrl}`
+                                                                : "#"
+                                                        }
+                                                        className="comment-channel-link"
+                                                    >
+                                                        <img
+                                                            src={
+                                                                reply.photoUrl
+                                                                    ? `http://localhost:3000${reply.photoUrl}`
+                                                                    : `/assets/images/profile/${reply.username.charAt(
+                                                                        0
+                                                                    )}.png`
+                                                            }
+                                                            alt={reply.username || "User avatar"}
+                                                            className="comment-avatar"
+                                                        />
+                                                        <p>
+                                                            <strong>{reply.username || "Unknown user"}</strong>
+                                                            <span className="reply-to">
+                                                                {comment.username ? ` (reply to ${comment.username})` : ""}
+                                                            </span>
+                                                        </p>
+                                                    </Link>
+
+                                                    {/* Reply content */}
+                                                    {editingCommentId === reply.id ? (
+                                                        <div className={editClassName}>
+                                                            <input
+                                                                maxLength={160}
+                                                                type="text"
+                                                                value={editingContent}
+                                                                onChange={(e) => setEditingContent(e.target.value)}
+                                                                onKeyDown={(e) => {
+                                                                    if (e.key === "Enter") handleSaveEdit();
+                                                                    if (e.key === "Escape") cancelEditing();
+                                                                }}
+                                                                autoFocus
+                                                            />
+                                                            <div className="edit-comment-buttons">
+                                                                <button onClick={handleSaveEdit}>
+                                                                    <IoCheckmark size={18} />
+                                                                </button>
+                                                                <button onClick={cancelEditing}>
+                                                                    <IoIosCloseCircle size={20} />
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    ) : (
+                                                        <p>{reply.content}</p>
+                                                    )}
+
+                                                    {/* Time */}
+                                                    <p className="comment-date">
+                                                        {new Date(reply.updatedAt).getTime() !==
+                                                            new Date(reply.createdAt).getTime()
+                                                            ? <>Edited {timeAgo(reply.updatedAt)}</>
+                                                            : <> {timeAgo(reply.createdAt)}</>}
+                                                    </p>
+
+                                                    {/* Reply actions */}
+                                                    <div className="comment-actions">
+                                                        {currentUser?.id === reply.user_id && (
+                                                            <>
+                                                                <button onClick={() =>
+                                                                    startEditing(reply, comment.id)
+                                                                }>
+                                                                    <MdEdit size={18} />
+                                                                </button>
+                                                                <button onClick={() =>
+                                                                    handleDeleteComment(reply.id, comment.id)
+                                                                }>
+                                                                    <MdDelete size={18} />
+                                                                </button>
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            ))}
+
+                                            {/* Load more replies button */}
+                                            {replyDisplayCount[comment.id] < comment.replies.length && (
+                                                <button
+                                                    className="see-more-btn"
+                                                    onClick={() => loadMoreReplies(comment.id)}
+                                                >
+                                                    View more
+                                                </button>
+                                            )}
+                                        </div>
+                                    )}
+                                </>
+                            )}
+                        </div>
+                    ))
+                )}
+            </div>
+
+
         </div>
     );
 }

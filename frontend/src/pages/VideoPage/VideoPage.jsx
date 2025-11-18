@@ -12,11 +12,9 @@ import './VideoPage.css';
 //Assets
 import Yukki from '../../assets/images/profile/yukki.jpg'
 import Video from '../../assets/videos/channel-video-proof.mp4'
-import thumbnail from '../../assets/images/thumbnails/Pinterest_Swap_Challenge.jpg'
-import Gena from '../../assets/images/profile/gena.jpg'
-import Jere from '../../assets/images/profile/jere.jpg'
 import { VideoList } from '../../components/videoPageComponents/VideoList.jsx';
 import { getAuthToken } from '../../utils/auth.js';
+import Footer from '../../components/common/Footer.jsx';
 
 export function VideoPage() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -152,6 +150,7 @@ export function VideoPage() {
                 </div>
 
             </main>
+            {/* <Footer> </Footer> */}
         </>
     );
 }

@@ -37,7 +37,7 @@ function Trending() {
                         id: short.id,
                         nameshort: short.title,
                         shortviews: `${short.views} views`,
-                        photo: short.thumbnail
+                        thumbnail: short.thumbnail
                     }));
                     setShorts(formattedShorts);
                 }

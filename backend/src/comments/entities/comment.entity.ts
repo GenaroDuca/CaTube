@@ -8,7 +8,7 @@ export class Comment {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @Column()
+    @Column({ type: "longtext" })
     content: string;
 
     @ManyToOne(() => User, (user) => user.comments, { onDelete: 'CASCADE' })
