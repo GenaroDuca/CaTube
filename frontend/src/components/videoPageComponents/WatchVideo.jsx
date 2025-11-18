@@ -16,8 +16,9 @@ import Jere from '../../assets/images/profile/jere.jpg';
 import Yukki from '../../assets/images/profile/yukki.jpg';
 import { Link } from "react-router-dom";
 import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
+import { CommentSection } from "../common/CommentSection.jsx";
 
-export function WatchVideo({ url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags }) {
+export function WatchVideo({ videoId, url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags }) {
     const videoRef = useRef(null);
     const {
         isPlaying,
@@ -49,7 +50,7 @@ export function WatchVideo({ url, title, avatar, userName, description, subscrip
         const secs = Math.floor(seconds % 60);
         return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
     };
-    
+
     return (
         <article className={`vv-displayVideo-container ${isTheaterMode ? 'theater-active' : ''}`}>
             <header className={`vv-displayVideo-header ${isTheaterMode ? 'theater-mode' : ''} ${isFullScreen ? 'full-screen' : ''}`}>
@@ -151,18 +152,7 @@ export function WatchVideo({ url, title, avatar, userName, description, subscrip
 
             <div className="vv-displayVideo-comments">
                 <h2>Comments</h2>
-                {comments.map(comment => (
-                    <div key={comment.id} className="comment">
-                        <div className="comment-header">
-                            <img className="comment-avatar" src={comment.avatar} alt={`${comment.userName} avatar`} />
-                            <h3 className="comment-username">{comment.userName}</h3>
-                        </div>
-                        <div>
-                            <p className="comment-content">{comment.content}</p>
-                            <input className='comment-input' type="text" placeholder="reply comment" />
-                        </div>
-                    </div>
-                ))}
+                <CommentSection videoId={videoId} />
             </div>
         </article>
     );

@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToOne, CreateDateColumn, UpdateDateColumn, OneToOne, OneToMany, JoinColumn } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Video } from 'src/videos/entities/video.entity';
 import { Like } from 'src/likes/entities/like.entity';
@@ -11,21 +11,24 @@ export class Comment {
     @Column()
     content: string;
 
-    @Column()
-    videoId: string;
-
-    @Column()
-    userId: string;
-
     @ManyToOne(() => User, (user) => user.comments, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'userId' })
     user: User;
 
-    //nullable: true to like comments or videos independently
-    @ManyToOne(() => Video, (video) => video.comments, { onDelete: 'CASCADE', nullable: true }) //OnDelete: 'CASCADE' for deleting comments if video is deleted
+    @ManyToOne(() => Video, (video) => video.comments, { onDelete: 'CASCADE' }) //OnDelete: 'CASCADE' for deleting comments if video is deleted
+    @JoinColumn({ name: 'videoId' })
     video: Video;
 
-    @OneToMany(() => Like, (like) => like.comment, { onDelete: 'CASCADE', nullable: true })
+    @OneToMany(() => Like, (like) => like.comment, { onDelete: 'CASCADE' })
     likes: Like[];
+
+    @ManyToOne(() => Comment, (comment) => comment.replies, { nullable: true, onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'parentCommentId' })
+    parentComment?: Comment;
+
+    @OneToMany(() => Comment, (comment) => comment.parentComment)
+    replies: Comment[];
+
 
     @CreateDateColumn()
     createdAt: Date;

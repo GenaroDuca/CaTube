@@ -126,13 +126,6 @@
     font-size: 1.4rem;
 }
 
-.comment {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 1px solid #eee;
-}
 
 .comment:last-child {
     border-bottom: none;

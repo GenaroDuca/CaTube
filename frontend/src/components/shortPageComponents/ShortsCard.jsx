@@ -13,6 +13,7 @@ import { FiMaximize2 } from "react-icons/fi";
 import { Link } from 'react-router-dom';
 import { useToast } from '../../hooks/useToast';
 import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
+import { CommentSection } from '../common/CommentSection.jsx';
 
 export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
   const videoRef = useRef(null)
@@ -22,6 +23,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
   const [sliderVisible, setSliderVisible] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
   const { showSuccess, showError } = useToast()
+  const [commentCount, setCommentCount] = useState(short.comments || 0);
 
   useEffect(() => {
     const v = videoRef.current
@@ -184,11 +186,11 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
           </button>
 
           <div style={{ width: "100%", textAlign: "justify" }}>
-            <h3 style={{textAlign: "center"}}>{short.title}</h3>
-            <h3 style={{marginTop: "20px"}}>Video Description</h3>
+            <h3 style={{ textAlign: "center" }}>{short.title}</h3>
+            <h3 style={{ marginTop: "20px" }}>Video Description</h3>
             <p>{short.description}</p>
             <div className="vv-displayVideo-description-tags">
-              <h4 style={{marginTop: "20px"}}>Video Tags</h4>
+              <h4 style={{ marginTop: "20px" }}>Video Tags</h4>
               <div>
                 {short.tags.map(tag => (
                   <Link
@@ -278,7 +280,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
           </div>
         </div>
         <div className='short-comments-container short-container'>
-          <p>COMENTARIOS FALTAN</p>
+          <CommentSection videoId={short.id} onCountChange={setCommentCount} />
         </div>
       </div >
 
