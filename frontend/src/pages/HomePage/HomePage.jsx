@@ -96,8 +96,9 @@ function Home() {
           id: short.id,
           nameshort: short.title,
           shortviews: `${short.views || 0} views`,
-          photo: `http://localhost:3000${short.thumbnail}`,
+          thumbnail: `http://localhost:3000${short.thumbnail}`,
         }));
+        
         setShorts(transformedShorts);
       } catch (err) {
         console.error('Error fetching shorts:', err);
@@ -143,7 +144,7 @@ function Home() {
 
         {/* <Ads /> */}
 
-        <Footer footer="footer"></Footer>
+        <Footer ></Footer>
       </main>
     </>
   )

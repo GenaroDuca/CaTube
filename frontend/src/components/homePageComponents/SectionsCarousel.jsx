@@ -40,7 +40,7 @@ function SectionsCarousel(props) {
                         key={index}
                         nameshort={item.nameshort}
                         shortviews={item.shortviews}
-                        photo={item.photo}
+                        thumbnail={item.thumbnail}
                     />
                     </Link>
                 );

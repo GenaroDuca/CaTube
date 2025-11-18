@@ -23,7 +23,7 @@ function DiscoverPage() {
 
         if (tagFromUrl) {
             setSelectedTag(tagFromUrl);
-            setSearchTag(tagFromUrl);        
+            setSearchTag(tagFromUrl);
             setShowTagList(false);
         }
     }, [location.search]);
@@ -84,7 +84,7 @@ function DiscoverPage() {
             setSearchTag("");
         } else {
             setSelectedTag(tagName);
-            setSearchTag(tagName); // ⬅️ Mostrar tag seleccionado en el input
+            setSearchTag(tagName);
         }
 
         setShowTagList(false);

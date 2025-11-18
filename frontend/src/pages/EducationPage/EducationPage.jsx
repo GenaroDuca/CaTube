@@ -32,9 +32,18 @@ function Education() {
                 });
                 const data = await response.json();
 
+                const transformed= data.map(video => ({
+                    type: video.type,
+                    id: video.id,
+                    nameshort: video.title,
+                    shortviews: `${video.views || 0} views`,
+                    thumbnail: `http://localhost:3000${video.thumbnail}`,
+                }));
+
+
                 // Separar entre shorts y videos largos según el campo "type"
-                const shortsList = data.filter(v => v.type === 'short');
-                const videosList = data.filter(v => v.type === 'video');
+                const shortsList = transformed.filter(v => v.type === 'short');
+                const videosList = transformed.filter(v => v.type === 'video');
 
                 setShorts(shortsList);
                 setVideos(videosList);
