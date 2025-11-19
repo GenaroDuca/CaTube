@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { BsPersonFill } from "react-icons/bs";
 import { FaKey } from "react-icons/fa";
 import { useToast } from '../../hooks/useToast.jsx';
-import { useModal } from '../common/Modal/ModalContext';
+import { useModal } from '../common/modal/ModalContext';
 
 const LoginForm = ({ togglePanel }) => {
   const navigate = useNavigate();
