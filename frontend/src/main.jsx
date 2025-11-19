@@ -25,7 +25,7 @@ import ModalRenderer from './components/common/modal/ModalRenderer.jsx'
 import { SidebarProvider } from './hooks/useSidebarToggle.jsx';
 import { FriendMenu } from './components/common/friendMenu/friendMenu.jsx';
 import { ToastManager } from './components/common/toast/ToastManager.jsx';
-import { NotificationProvider } from './hooks/useNotification.jsx';
+import { NotificationProvider } from './hooks/useNotification';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
