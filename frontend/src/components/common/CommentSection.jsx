@@ -20,7 +20,7 @@ import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 //Modal
-import { useModal } from '../common/Modal/ModalContext';
+import { useModal } from '../common/modal/ModalContext';
 
 export function CommentSection({ videoId, onCountChange }) {
     // Get current user from token
