@@ -1,6 +1,6 @@
 import { DataSource } from 'typeorm';
 import * as path from 'path';
-// Importa todas tus entidades aquí
+
 import { User } from './src/users/entities/user.entity';
 import { Channel } from './src/channels/entities/channel.entity';
 import { Store } from './src/store/entities/store.entity';
@@ -16,20 +16,17 @@ import { Notification } from './src/notifications/entities/notification.entity';
 import { Post } from './src/posts/entities/post.entity';
 
 export const AppDataSource = new DataSource({
-    type: 'mysql',
-    host: 'localhost',
-    port: 3306,
-    username: 'root',
-    password: 'geniducv1',
-    database: 'catube_db',
-    
-    entities: [
-        User, Channel, Store, Product, Playlist, Video, 
-        Comment, Like, Subscription, PlaylistVideo, Friendship, Notification, Post
-    ],
-    
-    migrations: [path.join(__dirname, 'src', 'migrations', '*.ts')],
-    
-    synchronize: false, 
-    logging: true,
+  type: 'mysql',
+  host: process.env.DB_HOST ?? 'localhost',
+  port: parseInt(process.env.DB_PORT ?? '3306', 10),
+  username: process.env.DB_USER ?? 'root',
+  password: process.env.DB_PASS ?? '',
+  database: process.env.DB_NAME ?? 'test',
+  entities: [
+    User, Channel, Store, Product, Playlist, Video,
+    Comment, Like, Subscription, PlaylistVideo, Friendship, Notification, Post
+  ],
+  migrations: [path.join(__dirname, 'src', 'migrations', '*.ts')],
+  synchronize: false,
+  logging: true,
 });

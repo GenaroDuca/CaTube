@@ -15,7 +15,7 @@ import { HiMail } from "react-icons/hi";
 // =================================================================
 
 // Mínimo 5, máximo 20, solo letras (a-z, A-Z), números (0-9) y guion bajo (_).
-const USERNAME_REGEX = /^[a-zA-Z0-9_]{5,20}$/;
+const USERNAME_REGEX = /^[a-zA-Z0-9_ ]{5,20}$/;
 
 // Estándar de email más robusto.
 const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
