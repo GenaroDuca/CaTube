@@ -1,5 +1,5 @@
 import "../YourChannelPage/YourChannelPage.css";
-import "../Homepage/Homepage.css";
+import "../HomePage/HomePage.css";
 import "../../styles/Global_components.css"
 import Sidebar from "../../components/common/Sidebar";
 import Banner from "../../components/yourChannelPageComponents/Banner.jsx";
