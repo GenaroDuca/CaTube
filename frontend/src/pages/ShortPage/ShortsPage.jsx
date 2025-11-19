@@ -153,8 +153,6 @@ export default function ShortPage() {
             </div>
           ))}
         </div>
-
-        <Footer footer="footer" />
       </main>
     </>
   );

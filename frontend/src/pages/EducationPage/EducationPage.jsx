@@ -79,7 +79,7 @@ function Education() {
                     cts="carousel-ctshorts"
                 />
 
-                <Footer footer="footer" />
+                <Footer footer="footer"> </Footer>
             </main>
         </>
     );

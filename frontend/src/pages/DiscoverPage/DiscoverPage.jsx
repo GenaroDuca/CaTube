@@ -8,6 +8,7 @@ import Container from "../../components/common/Container.jsx";
 import Subtitle from "../../components/homePageComponents/Subtitle.jsx";
 import Video from "../../components/homePageComponents/Video.jsx";
 import { Link, useLocation } from "react-router-dom";
+import Footer from "../../components/common/Footer.jsx";
 
 function DiscoverPage() {
     const [videos, setVideos] = useState([]);
@@ -170,6 +171,7 @@ function DiscoverPage() {
                         ))}
                     </Container>
                 </Container>
+                <Footer footer= "footer"></Footer>
             </main>
         </>
     );

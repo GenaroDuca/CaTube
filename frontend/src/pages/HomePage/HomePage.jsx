@@ -144,7 +144,7 @@ function Home() {
 
         {/* <Ads /> */}
 
-        <Footer ></Footer>
+        <Footer footer="footer" ></Footer>
       </main>
     </>
   )

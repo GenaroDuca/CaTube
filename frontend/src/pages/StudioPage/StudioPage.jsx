@@ -90,17 +90,16 @@ function Studio() {
 
     return (
         <>
-            <>
-                <main>
-                    <Header></Header>
-                    <SidebarStudio activeTabIndex={activeTabIndex} onTabClick={handleTabClick}></SidebarStudio>
-                    <div className="container-studio">
-                        {React.cloneElement(ActiveComponent, { key: componentKey })}
-                        {/* <Footer footer="footer-studio"></Footer> */}
-                    </div>
-                    <RightMenu channelId={userChannelId}></RightMenu>
-                </main>
-            </>
+            <main>
+                <Header></Header>
+                <SidebarStudio activeTabIndex={activeTabIndex} onTabClick={handleTabClick}></SidebarStudio>
+                <div className="container-studio">
+                    {React.cloneElement(ActiveComponent, { key: componentKey })}
+                    {/* <Footer footer="footer-studio"></Footer> */}
+                </div>
+                <RightMenu channelId={userChannelId}></RightMenu>
+            </main>
+            <Footer footer="footer-studio"></Footer>
         </>
     );
 }

@@ -293,10 +293,7 @@
 
 }
 
-.fullscreen-short-container.maximized~.footer,
-.footer {
-    display: none !important;
-}
+
 
 /* Media Query para pantallas pequeñas */
 @media (max-width: 768px) {

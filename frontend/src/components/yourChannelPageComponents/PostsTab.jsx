@@ -90,13 +90,16 @@ function PostsTab({ isOwner, channelId }) {
                                 value={postContent}
                                 onChange={(e) => setPostContent(e.target.value)}
                             />
-                            <button
-                                className="btn-channel"
-                                onClick={handlePostNow}
-                                disabled={loading || !postContent.trim()}
-                            >
-                                {loading ? "Posting..." : "Post now"}
-                            </button>
+                            <div className="post-btn-container">
+                                <button
+                                    className="btn-channel"
+                                    onClick={handlePostNow}
+                                    disabled={loading || !postContent.trim()}
+                                >
+                                    {loading ? "Posting..." : "Post now"}
+                                </button>
+                            </div>
+
 
                         </Container>
                     )}
