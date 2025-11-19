@@ -1,6 +1,6 @@
 import LatestComments from "./LatestComments";
 import RecentCatscribers from "./RecentsCatscribers";
-import Title from "../../TrendingPageComponents/Title"
+import Title from "../../trendingPageComponents/Title"
 import Container from "../../common/Container";
 import LatestVideo from "./LatestVideo";
 
