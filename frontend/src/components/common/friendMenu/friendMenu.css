@@ -411,7 +411,7 @@
     margin-top: 20px;
     text-align: left;
     flex-grow: 1;
-    overflow-y: none;
+    overflow-y: auto;
     color: var(--text);
 }
 
