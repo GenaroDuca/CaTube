@@ -17,16 +17,16 @@ import Header from "../../components/common/header/Header.jsx";
 
 function YourChannel() {
     const { url } = useParams();
-    const isOwnChannel = url === 'yourchannel';
     const tabLabels = ['Home', 'Videos', 'Shorts', 'Playlists', 'Posts'];
     const [activeTab, setActiveTab] = useState(0);
     const [channelId, setChannelId] = useState(null);
+    const [isOwner, setIsOwner] = useState(false);
     const tabContents = [
         <HomeTab key={`home-${channelId}`} channelId={channelId} />,
         <VideosTab key={`videos-${channelId}`} />,
         <ShortsTab key={`shorts-${channelId}`} />,
         <Playlists key={`playlists-${channelId}`} />,
-        <PostsTab key={`posts-${channelId}`} />
+        <PostsTab key={`posts-${channelId}`} isOwner={isOwner} channelId={channelId} />
     ];
 
     useEffect(() => {
@@ -74,9 +74,6 @@ function YourChannel() {
         }
         loadChannel();
     }, [url]);
-
-    // Check if user is the owner of the current channel
-    const [isOwner, setIsOwner] = useState(false);
 
     useEffect(() => {
         async function checkOwnership() {

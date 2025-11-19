@@ -1,29 +1,19 @@
-import RowButtons from "./RowButtons";
-import deleted from "../../assets/images/yourChannel_media/Delete.png"
 import Container from "../common/Container";
-import PostVideoLink from "./PostVideoLink";
-import { unpublishedVideos } from "../../assets/data/Data";
+import PostItem from "./PostItem";
 
-function PublishedContent() {
+
+function PublishedContent({ publishedPosts = [], onDelete, isOwner }) {
     return (
-        <Container id="publishedSection" className="content-table-posts">
-            <Container className="postsOptions">
-                <p>Visibility: Private</p>
-                <p className="space">NEW MASIVE VIDEOOOOOOS!! GO GO GO!!</p>
-                <Container className="container-column">
-                    <Container className="container-row">
-                        {unpublishedVideos.map(video => (
-                            <PostVideoLink
-                                key={video.id}
-                                thumbnailSrc={video.thumbnail}
-                                videoTitle={video.title}
-                            />
-                        ))}
-                    </Container>
-                </Container>
-                <RowButtons btntitle="Archive post" name="delete" src={deleted} ></RowButtons>
+            <Container className="content-table-posts">
+                {publishedPosts.length > 0 ? (
+                    publishedPosts.map(post => (
+                        <PostItem  key={post.id} post={post} onDelete={onDelete} isOwner={isOwner} />
+
+                    ))
+                ) : (
+                    <p className="postsOptions">The user hasn't uploaded any post yet.</p>
+                )}
             </Container>
-        </Container>
     );
 }
 
