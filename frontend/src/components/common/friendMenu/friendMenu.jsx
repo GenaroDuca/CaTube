@@ -2,7 +2,7 @@ import React from 'react';
 import { useSidebarToggle } from '../../../hooks/useSidebarToggleFriends';
 import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { useToast } from '../../../hooks/useToast';
-import { useModal } from '../../common/Modal/ModalContext';
+import { useModal } from '../../common/modal/ModalContext';
 
 // Importaciones de iconos
 import { IoArrowBackCircle } from "react-icons/io5";
@@ -33,7 +33,7 @@ import { DEFAULT_AVATAR } from './constants';
 import { getAuthToken } from '../../../utils/auth';
 import { useNotification } from '../../../hooks/useNotification';
 
-import './FriendMenu.css';
+import './friendMenu.css';
 
 export function FriendMenu() {
     // 💡 VERIFICACIÓN DE AUTENTICACIÓN AL INICIO
