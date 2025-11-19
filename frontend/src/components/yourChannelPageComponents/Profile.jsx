@@ -2,7 +2,7 @@ import { profile } from "../../assets/data/Data"
 import { Link } from 'react-router-dom'
 import NewButton from "../homePageComponents/Button";
 import { useState, useEffect } from "react";
-import { useNotification } from "../../hooks/UseNotification";
+import { useNotification } from "../../hooks/useNotification";
 import { useToast } from '../../hooks/useToast';
 
 const BASE_URL = 'http://localhost:3000';
