@@ -23,7 +23,7 @@ import { ResetPasswordPage } from './pages/ResetPasswordPage/ResetPasswordPage.j
 import { ModalProvider } from './components/common/modal/ModalContext.jsx'
 import ModalRenderer from './components/common/modal/ModalRenderer.jsx'
 import { SidebarProvider } from './hooks/useSidebarToggle.jsx';
-import { FriendMenu } from './components/common/friendMenu/FriendMenu.jsx';
+import { FriendMenu } from './components/common/friendMenu/friendMenu.jsx';
 import { ToastManager } from './components/common/toast/ToastManager.jsx';
 import { NotificationProvider } from './hooks/useNotification.jsx';
 
