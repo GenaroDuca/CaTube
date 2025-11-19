@@ -10,7 +10,7 @@ import '../../styles/Global_components.css'
 import '../HomePage/HomePage.css'
 import '../TrendingPage/TrendingPage.css'
 import { getAuthToken } from "../../utils/auth";
-
+import { API_URL } from '../../../config';
 
 function Education() {
     const shortsRef = useRef(null);
@@ -23,7 +23,7 @@ function Education() {
     useEffect(() => {
         const fetchVideos = async () => {
             try {
-                const response = await fetch('http://localhost:3000/videos/education', {
+                const response = await fetch(`${API_URL}/videos/education`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -37,7 +37,7 @@ function Education() {
                     id: video.id,
                     nameshort: video.title,
                     shortviews: `${video.views || 0} views`,
-                    thumbnail: `http://localhost:3000${video.thumbnail}`,
+                    thumbnail: `${API_URL}${video.thumbnail}`,
                 }));
 
 

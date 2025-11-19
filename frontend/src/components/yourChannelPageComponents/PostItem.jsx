@@ -2,6 +2,7 @@ import Container from "../common/Container";
 import { useModal } from "../common/modal/ModalContext";
 import { useToast } from "../../hooks/useToast";
 import trash  from "../../assets/images/yourChannel_media/Delete.png";   
+import { API_URL } from '../../../config';
 
 function PostItem({ post, onDelete, isOwner }) {
     const { openModal, closeModal } = useModal();
@@ -15,7 +16,7 @@ function PostItem({ post, onDelete, isOwner }) {
             onConfirm: async () => {
                 try {
                     const accessToken = localStorage.getItem('accessToken');
-                    const response = await fetch(`http://localhost:3000/posts/${post.id}`, {
+                    const response = await fetch(`${API_URL}/posts/${post.id}`, {
                         method: 'DELETE',
                         headers: {
                             'Authorization': `Bearer ${accessToken}`,

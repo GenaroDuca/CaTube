@@ -4,6 +4,7 @@ import ContainerButton from "./ContainerButton";
 import { useState, useEffect } from "react";
 import { useRef } from "react";
 import { getAuthToken } from "../../utils/auth.js";
+import { API_URL } from '../../../config';
 
 function ShortsTab() {
     const tabs = ['Latest', 'Popular', 'Oldest'];
@@ -22,7 +23,7 @@ function ShortsTab() {
             if (!channelId) return;
 
             try {
-                const res = await fetch(`http://localhost:3000/videos/channel/${channelId}`, {
+                const res = await fetch(`${API_URL}/videos/channel/${channelId}`, {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${token}`,

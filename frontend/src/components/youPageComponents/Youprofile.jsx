@@ -1,8 +1,8 @@
 import { youProfile } from "../../assets/data/Data";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../../../config';
 
-const BASE_URL = 'http://localhost:3000';
 
 async function apiFetch(url, options = {}) {
     const accessToken = localStorage.getItem('accessToken');
@@ -17,7 +17,7 @@ async function apiFetch(url, options = {}) {
     }
 
     try {
-        const response = await fetch(`${BASE_URL}${url}`, { ...options, headers });
+        const response = await fetch(`${API_URL}${url}`, { ...options, headers });
 
         if (response.status === 404) {
             return null;
@@ -75,7 +75,7 @@ function Youprofile() {
                             let photoPath = channelData.photoUrl;
                             if (photoPath.startsWith('/uploads/')) {
                                 // Imagen subida por el usuario
-                                photoSrc = BASE_URL + photoPath;
+                                photoSrc = API_URL + photoPath;
                             } else if (photoPath.startsWith('/assets/images/profile/')) {
                                 // Imagen predeterminada ya mapeada
                                 photoSrc = photoPath;
@@ -86,7 +86,7 @@ function Youprofile() {
                                 photoSrc = `/assets/images/profile/${letter}.png`;
                             } else {
                                 // Otro tipo de ruta, asumir que es subida
-                                photoSrc = BASE_URL + photoPath;
+                                photoSrc = API_URL + photoPath;
                             }
                         } else {
                             // Set default avatar based on first letter of channel name

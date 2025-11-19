@@ -9,6 +9,7 @@ import '../HomePage/HomePage.css'
 import '../TrendingPage/TrendingPage.css'
 import Header from "../../components/common/header/Header.jsx";
 import { getAuthToken } from '../../utils/auth.js';
+import { API_URL } from '../../../config';
 
 function Catscribers() {
     const shortsRef = useRef(null);
@@ -20,7 +21,7 @@ function Catscribers() {
         async function fetchShorts() {
             try {
                 setLoading(true);
-                const response = await fetch('http://localhost:3000/videos/shorts', {
+                const response = await fetch(`${API_URL}/videos/shorts`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

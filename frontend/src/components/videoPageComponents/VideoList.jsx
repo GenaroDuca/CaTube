@@ -8,7 +8,9 @@ import { CatubeVideoCard } from './CatubeVideoCard.jsx'
 //Styles
 import './VideoList.css'
 
-import { getAuthToken } from '../../utils/auth.js';
+import { getAuthToken } from '../../utils/auth.js'
+import { API_URL } from '../../../config';
+
 
 export function VideoList({ currentVideoId }) {
     const [videos, setVideos] = useState([]);
@@ -19,7 +21,7 @@ export function VideoList({ currentVideoId }) {
     useEffect(() => {
         const fetchVideos = async () => {
             try {
-                const response = await fetch('http://localhost:3000/videos', {
+                const response = await fetch(`${API_URL}/videos`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

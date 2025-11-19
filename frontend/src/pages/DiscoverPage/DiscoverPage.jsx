@@ -9,6 +9,7 @@ import Subtitle from "../../components/homePageComponents/Subtitle.jsx";
 import Video from "../../components/homePageComponents/Video.jsx";
 import { Link, useLocation } from "react-router-dom";
 import Footer from "../../components/common/Footer.jsx";
+import { API_URL } from '../../../config';
 
 function DiscoverPage() {
     const [videos, setVideos] = useState([]);
@@ -36,7 +37,7 @@ function DiscoverPage() {
     // Fetch tags
     // ============================
     useEffect(() => {
-        fetch("http://localhost:3000/tags", {
+        fetch(`${API_URL}/tags`, {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then((res) => res.json())
@@ -53,7 +54,7 @@ function DiscoverPage() {
             return;
         }
 
-        fetch(`http://localhost:3000/videos/by-tag/${selectedTag}`, {
+        fetch(`${API_URL}/videos/by-tag/${selectedTag}`, {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then((res) => res.json())

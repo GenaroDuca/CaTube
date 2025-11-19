@@ -16,6 +16,8 @@ import { VideoList } from '../../components/videoPageComponents/VideoList.jsx';
 import { getAuthToken } from '../../utils/auth.js';
 import Footer from '../../components/common/Footer.jsx';
 
+import { API_URL } from '../../../config';
+
 export function VideoPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const token = getAuthToken();
@@ -44,7 +46,7 @@ export function VideoPage() {
 
             setLoading(true);
             try {
-                const res = await fetch(`http://localhost:3000/videos/${id}`, {
+                const res = await fetch(`${API_URL}/videos/${id}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -54,14 +56,14 @@ export function VideoPage() {
                 if (!res.ok) throw new Error('Video not found');
                 const data = await res.json();
 
-                const fileUrl = data.url && data.url.startsWith('/') ? `http://localhost:3000${data.url}` : data.url;
-                const thumbnailUrl = data.thumbnail && data.thumbnail.startsWith('/') ? `http://localhost:3000${data.thumbnail}` : data.thumbnail;
+                const fileUrl = data.url && data.url.startsWith('/') ? `${API_URL}${data.url}` : data.url;
+                const thumbnailUrl = data.thumbnail && data.thumbnail.startsWith('/') ? `${API_URL}${data.thumbnail}` : data.thumbnail;
 
                 let channelPhotoUrl = null;
                 const rawPhoto = data.channel?.photoUrl;
                 if (rawPhoto && rawPhoto.trim() !== '') {
                     if (rawPhoto.startsWith('/uploads/')) {
-                        channelPhotoUrl = `http://localhost:3000${rawPhoto}`;
+                        channelPhotoUrl = `${API_URL}${rawPhoto}`;
                     } else if (rawPhoto.startsWith('/assets/images/profile/')) {
                         channelPhotoUrl = rawPhoto;
                     } else if (rawPhoto.startsWith('/default-avatar/')) {
@@ -69,7 +71,7 @@ export function VideoPage() {
                         const letter = letterMatch ? letterMatch[1] : (data.channel?.channel_name?.charAt(0).toUpperCase() || 'A');
                         channelPhotoUrl = `/assets/images/profile/${letter}.png`;
                     } else if (rawPhoto.startsWith('/')) {
-                        channelPhotoUrl = `http://localhost:3000${rawPhoto}`;
+                        channelPhotoUrl = `${API_URL}${rawPhoto}`;
                     } else {
                         channelPhotoUrl = rawPhoto;
                     }
@@ -104,7 +106,7 @@ export function VideoPage() {
 
                 if (!viewedVideos.includes(id)) {
                     try {
-                        await fetch(`http://localhost:3000/videos/${id}/views`, {
+                        await fetch(`${API_URL}/videos/${id}/views`, {
                             headers: { Authorization: `Bearer ${token}` },
                             method: 'POST',
                         });

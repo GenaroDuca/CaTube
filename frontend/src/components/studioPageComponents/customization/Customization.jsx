@@ -6,8 +6,8 @@ import InfoContainer from "./InfoContainer";
 import banner from "../../../assets/images/studio_media/banner-customization.png"
 import { useState, useEffect } from "react";
 import { useToast } from "../../../hooks/useToast";
+import { API_URL } from "../../../../config"
 
-const BASE_URL = 'http://localhost:3000';
 
 async function apiFetch(url, options = {}) {
     const accessToken = localStorage.getItem('accessToken');
@@ -22,7 +22,7 @@ async function apiFetch(url, options = {}) {
     }
 
     try {
-        const response = await fetch(`${BASE_URL}${url}`, { ...options, headers });
+        const response = await fetch(`${API_URL}${url}`, { ...options, headers });
 
         if (response.status === 404) {
             return null;
@@ -60,7 +60,7 @@ function Customization({ channelId }) {
             let photoPath = channel.photoUrl;
             if (photoPath.startsWith('/uploads/')) {
                 // Imagen subida por el usuario
-                return BASE_URL + photoPath;
+                return API_URL + photoPath;
             } else if (photoPath.startsWith('/assets/images/profile/')) {
                 // Imagen predeterminada ya mapeada
                 return photoPath;
@@ -71,7 +71,7 @@ function Customization({ channelId }) {
                 return `/assets/images/profile/${letter}.png`;
             } else {
                 // Otro tipo de ruta, asumir que es subida
-                return BASE_URL + photoPath;
+                return API_URL + photoPath;
             }
         } else {
             // Set default avatar based on first letter of channel name
@@ -83,7 +83,7 @@ function Customization({ channelId }) {
     const getBanner = (channel) => {
         if (channel.bannerUrl) {
             let bannerPath = channel.bannerUrl;
-            return BASE_URL + bannerPath;
+            return API_URL + bannerPath;
         } else {
             return banner;
         }
@@ -126,7 +126,7 @@ function Customization({ channelId }) {
                 body: formData,
             });
             if (photoResult && photoResult.photoUrl) {
-                setPhotoPreview(BASE_URL + photoResult.photoUrl);
+                setPhotoPreview(API_URL + photoResult.photoUrl);
                 showSuccess('Logo updated!');
             }
         }
@@ -149,7 +149,7 @@ function Customization({ channelId }) {
                 body: formData,
             });
             if (bannerResult && bannerResult.bannerUrl) {
-                setBannerPreview(BASE_URL + bannerResult.bannerUrl);
+                setBannerPreview(API_URL + bannerResult.bannerUrl);
                 showSuccess('Banner updated');
             }
         }

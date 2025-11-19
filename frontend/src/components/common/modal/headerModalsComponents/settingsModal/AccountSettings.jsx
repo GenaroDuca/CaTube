@@ -1,6 +1,9 @@
 import { useModal } from "../../ModalContext";
 import { useToast } from '../../../../../hooks/useToast';
-import { getMyUserId} from "../../../../../utils/auth"
+import { getMyUserId} from "../../../../../utils/auth";
+import { API_URL } from "../../../../../../config"
+
+
 const AccountSettings = () => {
   const { openModal } = useModal();
   // FeedbackToast y Modal Context
@@ -16,7 +19,7 @@ const AccountSettings = () => {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/users/${userId}`, {
+      const response = await fetch(`${API_URL}/users/${userId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('accessToken')}`

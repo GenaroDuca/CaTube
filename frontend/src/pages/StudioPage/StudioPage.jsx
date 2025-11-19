@@ -16,6 +16,7 @@ import Header from "../../components/common/header/Header.jsx";
 import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import React from "react";
+import { API_URL } from '../../../config';
 
 function Studio() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -32,7 +33,7 @@ function Studio() {
             }
 
             try {
-                const response = await fetch('http://localhost:3000/users/me', {
+                const response = await fetch(`${API_URL}/users/me`, {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                     },

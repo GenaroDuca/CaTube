@@ -6,6 +6,7 @@ import Header from '../../components/common/header/Header';
 import Sidebar from '../../components/common/Sidebar';
 import Footer from '../../components/common/Footer';
 import { getAuthToken } from '../../utils/auth';
+import { API_URL } from '../../../config';
 
 export default function ShortPage() {
   const { id } = useParams();
@@ -27,7 +28,7 @@ export default function ShortPage() {
 
     if (!viewedVideos.includes(videoId)) {
       try {
-        await fetch(`http://localhost:3000/videos/${videoId}/views`, {
+        await fetch(`${API_URL}/videos/${videoId}/views`, {
           headers: { Authorization: `Bearer ${token}` },
           method: 'POST',
         });
@@ -42,7 +43,7 @@ export default function ShortPage() {
   useEffect(() => {
     const fetchShorts = async () => {
       try {
-        const response = await fetch('http://localhost:3000/videos/shorts', {
+        const response = await fetch(`${API_URL}/videos/shorts`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
@@ -52,7 +53,7 @@ export default function ShortPage() {
 
         const transformed = data.map((short) => ({
           id: short.id,
-          videoSrc: `http://localhost:3000${short.url}`,
+          videoSrc: `${API_URL}${short.url}`,
           title: short.title,
           description: short.description,
           channelName: short.channel?.channel_name || 'Unknown',

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useToast } from "../../../../hooks/useToast.jsx";
+import { API_URL } from "../../../../../config"
 
-const BASE_URL = 'http://localhost:3000';
 
 function EditVideoModal({ onClose, videoId, title: initialTitle, description: initialDescription, thumbnail }) {
     const { showSuccess, showError } = useToast();
@@ -62,7 +62,7 @@ function EditVideoModal({ onClose, videoId, title: initialTitle, description: in
             //     hasThumbnail: !!thumbnailFile
             // });
 
-            const response = await fetch(`${BASE_URL}/videos/${videoId}`, {
+            const response = await fetch(`${API_URL}/videos/${videoId}`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,

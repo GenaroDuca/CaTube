@@ -6,12 +6,11 @@ import { useModal } from "../../common/modal/ModalContext";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import ProductCard from './ProductCard';
 import { useToast } from '../../../hooks/useToast';
+import { API_URL } from '../../../../config';
 
 // ----------------------------------------------------------------------
 // CONFIGURACIÓN BASE
 // ----------------------------------------------------------------------
-
-const BASE_URL = 'http://localhost:3000';
 
 // ----------------------------------------------------------------------
 // FUNCIONES DE SERVICIO (FUERA DEL COMPONENTE REACT)
@@ -20,7 +19,7 @@ const BASE_URL = 'http://localhost:3000';
 /** Función autocontenida para obtener la tienda del usuario. */
 async function getMyStore() {
     const accessToken = localStorage.getItem('accessToken');
-    const url = `${BASE_URL}/store/my-store`;
+    const url = `${API_URL}/store/my-store`;
 
     const headers = {};
     if (accessToken) {
@@ -59,7 +58,7 @@ async function getMyStore() {
 /** Función autocontenida para obtener la lista de productos del usuario. */
 async function getMyProducts() {
     const accessToken = localStorage.getItem('accessToken');
-    const url = `${BASE_URL}/product/my-products`;
+    const url = `${API_URL}/product/my-products`;
 
     const headers = {};
     if (accessToken) {
@@ -94,7 +93,7 @@ async function getMyProducts() {
 /** 🚀 NUEVA FUNCIÓN: Eliminar un producto por ID. */
 async function deleteProduct(productId) {
     const accessToken = localStorage.getItem('accessToken');
-    const url = `${BASE_URL}/product/${productId}`; // Asumo que tu ruta DELETE es /product/:id
+    const url = `${API_URL}/product/${productId}`; // Asumo que tu ruta DELETE es /product/:id
 
     const headers = {};
     if (accessToken) {
@@ -213,7 +212,7 @@ function Store() {
         }
     }, [fetchProducts, authStatus]);
 
-    /** 🚀 MODIFICACIÓN: Implementación del modal de confirmación y llamada a la API. */
+    /** MODIFICACIÓN: Implementación del modal de confirmación y llamada a la API. */
     const handleDeleteProduct = useCallback((product) => {
         // Función que se ejecutará al confirmar la eliminación
         const apiDeleteHandler = async () => {

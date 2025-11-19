@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useToast } from "../../../../hooks/useToast.jsx";
 import { getAuthToken } from "../../../../utils/auth.js";
+import { API_URL } from "../../../../../config"
 
 const { showSuccess, showError } = useToast();
 
@@ -12,7 +13,7 @@ async function CreateVideoFetch(videoData) {
     const token = getAuthToken();
 
     try {
-        const res = await fetch("http://localhost:3000/videos/create", {
+        const res = await fetch(`${API_URL}/videos/create`, {
             method: "POST",
             body: videoData,
             headers: {
@@ -62,7 +63,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     //  CARGAR TAGS POR DEFECTO
     // ===============================================================
     useEffect(() => {
-        fetch("http://localhost:3000/tags?type=default")
+        fetch(`${API_URL}/tags?type=default`)
             .then((res) => res.json())
             .then((data) => setDefaultTags(data))
             .catch(() => showError("Could not load default tags"));
@@ -116,7 +117,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
 
         // Llamada real
         try {
-            const res = await fetch("http://localhost:3000/tags", {
+            const res = await fetch(`${API_URL}/tags`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -200,7 +201,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
             // ===============================================================
             //  ASIGNAR TAGS AL VIDEO
             // ===============================================================
-            await fetch("http://localhost:3000/tags/assign", {
+            await fetch(`${API_URL}/tags/assign`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

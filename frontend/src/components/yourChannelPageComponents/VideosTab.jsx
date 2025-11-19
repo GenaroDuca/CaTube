@@ -4,6 +4,7 @@ import Container from "../common/Container";
 import { useState, useEffect } from "react";
 import { useRef } from "react";
 import { getAuthToken } from "../../utils/auth.js";
+import { API_URL } from '../../../config';
 
 function VideosTab() {
     const tabvs = ['Latest', 'Popular', 'Oldest'];
@@ -23,7 +24,7 @@ function VideosTab() {
             if (!channelId) return;
 
             try {
-                const res = await fetch(`http://localhost:3000/videos/channel/${channelId}`, {
+                const res = await fetch(`${API_URL}/videos/channel/${channelId}`, {
                     method: 'GET',
                     headers: {
                         Authorization: `Bearer ${token}`,

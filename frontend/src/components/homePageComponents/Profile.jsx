@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../../config';
 
 function Profile(props) {
-    const BASE_URL = 'http://localhost:3000';
     const firstLetter = props.namechannel?.charAt(0).toUpperCase();
 
     // Mostrar la foto asignada al usuario si existe, sino la que se pasa por props, sino la por defecto
@@ -10,7 +10,7 @@ function Profile(props) {
         let photoPath = props.thumbnail;
         if (photoPath.startsWith('/uploads/')) {
             // Imagen subida por el usuario
-            photoSrc = BASE_URL + photoPath;
+            photoSrc = API_URL + photoPath;
         } else if (photoPath.startsWith('/assets/images/profile/')) {
             // Imagen predeterminada ya mapeada
             photoSrc = photoPath;
@@ -21,7 +21,7 @@ function Profile(props) {
             photoSrc = `/assets/images/profile/${letter}.png`;
         } else {
             // Otro tipo de ruta, asumir que es subida
-            photoSrc = BASE_URL + photoPath;
+            photoSrc = API_URL + photoPath;
         }
     } else {
         photoSrc = `/assets/images/profile/${firstLetter}.png`;

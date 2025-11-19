@@ -1,9 +1,10 @@
+import { API_URL } from '../../../config';
 
 function Short(props) {
         // Handle photo URL properly
         let photoSrc = props.thumbnail || '';
         if (photoSrc && !photoSrc.startsWith('http')) {
-                photoSrc = `http://localhost:3000${photoSrc}`;
+                photoSrc = `${API_URL}${photoSrc}`;
         }
 
         return (

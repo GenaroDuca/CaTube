@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Container from "../../common/Container";
 import Subtitle from "../../homePageComponents/Subtitle";
 import { getAuthToken } from '../../../utils/auth';
+import { API_URL } from '../../../../config';
 
 function LatestVideo({ channelId }) {
     const [latest, setLatest] = useState(null);
@@ -17,7 +18,7 @@ function LatestVideo({ channelId }) {
                     return;
                 }
 
-                const res = await fetch(`http://localhost:3000/videos/channel/${channelId}`, {
+                const res = await fetch(`${API_URL}/videos/channel/${channelId}`, {
                     headers: { 'Authorization': `Bearer ${token}` },
                 });
                 if (!res.ok) {
@@ -37,7 +38,7 @@ function LatestVideo({ channelId }) {
                 const sorted = data.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
                 const v = sorted[0];
 
-                const thumbnail = v.thumbnail && v.thumbnail.startsWith('/') ? `http://localhost:3000${v.thumbnail}` : (v.thumbnail || '');
+                const thumbnail = v.thumbnail && v.thumbnail.startsWith('/') ? `${API_URL}${v.thumbnail}` : (v.thumbnail || '');
                 setLatest({
                     id: v.id,
                     title: v.title,

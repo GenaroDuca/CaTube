@@ -1,5 +1,6 @@
 
 import { IoIosCloseCircle } from "react-icons/io";
+import { API_URL } from "../../../../../config";
 
 const ModalDeleteAccount = ({ onClose }) => {
     async function handleDeleteAccount() {
@@ -10,7 +11,7 @@ const ModalDeleteAccount = ({ onClose }) => {
         }
 
         try {
-            const response = await fetch(`http://localhost:3000/users/${userId}`, {
+            const response = await fetch(`${API_URL}/users/${userId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('accessToken')}`

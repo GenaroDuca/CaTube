@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { IoIosCloseCircle } from "react-icons/io";
 import { useToast } from '../../../../hooks/useToast.jsx';
+import { API_URL } from "../../../../../config"
 
 // ----------------------------------------------------------------------
 // FUNCIONES DE FETCH
 // ----------------------------------------------------------------------
 
-const BASE_URL = 'http://localhost:3000';
 
 /**
  * Obtiene la lista de productos del usuario para verificar duplicados.
@@ -14,7 +14,7 @@ const BASE_URL = 'http://localhost:3000';
  */
 async function getExistingProductsSolo() {
   const accessToken = localStorage.getItem('accessToken');
-  const url = `${BASE_URL}/product/my-products`;
+  const url = `${API_URL}/product/my-products`;
 
   const headers = {};
   if (accessToken) {
@@ -46,7 +46,7 @@ async function getExistingProductsSolo() {
  */
 async function updateProductSolo(productId, formDataToSend) {
   const accessToken = localStorage.getItem('accessToken');
-  const url = `${BASE_URL}/product/${productId}`;
+  const url = `${API_URL}/product/${productId}`;
 
   const headers = {};
   if (accessToken) {

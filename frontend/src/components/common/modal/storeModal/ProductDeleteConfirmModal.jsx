@@ -1,6 +1,7 @@
 import React from 'react';
 import { IoIosCloseCircle } from "react-icons/io";
 import { useToast } from '../../../../hooks/useToast.jsx';
+import { API_URL } from "../../../../../config"
 
 // ----------------------------------------------------------------------
 // 💡 FUNCIÓN DE SERVICIO DE ELIMINACIÓN (AHORA DENTRO O IMPORTADA POR EL MODAL)
@@ -13,10 +14,9 @@ async function deleteProduct(productId) {
     }
 
     const accessToken = localStorage.getItem('accessToken');
-    const BASE_URL = 'http://localhost:3000';
 
     try {
-        const response = await fetch(`${BASE_URL}/product/${productId}`, {
+        const response = await fetch(`${API_URL}/product/${productId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${accessToken}`

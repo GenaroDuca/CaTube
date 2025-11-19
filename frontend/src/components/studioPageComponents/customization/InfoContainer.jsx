@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import NewButton from "../../homePageComponents/Button";
 import { useToast } from "../../../hooks/useToast";
+import { API_URL } from "../../../../config"
 
-const BASE_URL = 'http://localhost:3000';
 
 async function apiFetch(url, options = {}) {
     const accessToken = localStorage.getItem('accessToken');
@@ -17,7 +17,7 @@ async function apiFetch(url, options = {}) {
     }
 
     try {
-        const response = await fetch(`${BASE_URL}${url}`, { ...options, headers });
+        const response = await fetch(`${API_URL}${url}`, { ...options, headers });
 
         if (response.status === 404) {
             return null;

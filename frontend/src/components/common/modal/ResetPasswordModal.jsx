@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './modals.css';
 import { IoIosCloseCircle } from "react-icons/io";
 import { useToast } from '../../../hooks/useToast';
+import { API_URL } from "../../../../config.js"
+
 
 const ResetPasswordModal = ({ onClose }) => {
   const [email, setEmail] = useState('');
@@ -19,7 +21,7 @@ const ResetPasswordModal = ({ onClose }) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3000/auth/forgot-password', {
+      const response = await fetch(`fetc${API_URL}/auth/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),

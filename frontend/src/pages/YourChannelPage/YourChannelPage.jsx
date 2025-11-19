@@ -14,6 +14,7 @@ import Playlists from "../../components/yourChannelPageComponents/Playlists";
 import PostsTab from "../../components/yourChannelPageComponents/PostsTab";
 import Footer from "../../components/common/Footer.jsx";
 import Header from "../../components/common/header/Header.jsx";
+import { API_URL } from '../../../config';
 
 function YourChannel() {
     const { url } = useParams();
@@ -31,12 +32,11 @@ function YourChannel() {
 
     useEffect(() => {
         async function loadChannel() {
-            const BASE_URL = 'http://localhost:3000';
             const accessToken = localStorage.getItem('accessToken');
 
             if (url && url !== 'yourchannel') {
                 // URL like /yourchannel/genad, treat as channel URL
-                const response = await fetch(`${BASE_URL}/channels/url/${url}`, {
+                const response = await fetch(`${API_URL}/channels/url/${url}`, {
                     headers: {
                         'Authorization': accessToken ? `Bearer ${accessToken}` : '',
                     },
@@ -52,7 +52,7 @@ function YourChannel() {
             } else {
                 // Load user's own channel for /yourchannel or no url
                 if (accessToken) {
-                    const response = await fetch(`${BASE_URL}/users/me`, {
+                    const response = await fetch(`${API_URL}/users/me`, {
                         headers: {
                             'Authorization': `Bearer ${accessToken}`,
                         },
@@ -84,7 +84,7 @@ function YourChannel() {
             }
 
             try {
-                const response = await fetch('http://localhost:3000/users/me', {
+                const response = await fetch(`${API_URL}/users/me`, {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                     },

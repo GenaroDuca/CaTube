@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import { IoIosCloseCircle } from "react-icons/io";
 import { useToast } from '../../../../hooks/useToast';
+import { API_URL } from "../../../../../config"
 
 // ----------------------------------------------------------------------
 // FUNCIONES DE FETCH (INTEGRADAS EN EL ARCHIVO)
 // ----------------------------------------------------------------------
-
-const BASE_URL = 'http://localhost:3000';
 
 /**
  * Realiza el fetch para crear una nueva tienda.
@@ -15,7 +14,7 @@ const BASE_URL = 'http://localhost:3000';
  */
 async function createStoreSolo(storeData) {
     const accessToken = localStorage.getItem('accessToken');
-    const url = `${BASE_URL}/store`;
+    const url = `${API_URL}/store`;
 
     const headers = {
         'Content-Type': 'application/json',

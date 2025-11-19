@@ -1,6 +1,7 @@
 // --- API Service: Centraliza todas las llamadas al backend ---
+import { API_URL } from '../../../config';
+
 const apiService = {
-    BASE_URL: 'http://localhost:3000',
 
     async _fetch(url, options = {}) {
         const accessToken = localStorage.getItem('accessToken');
@@ -17,7 +18,7 @@ const apiService = {
         }
 
         try {
-            const response = await fetch(`${this.BASE_URL}${url}`, { ...options, headers });
+            const response = await fetch(`${API_URL}${url}`, { ...options, headers });
 
             if (response.status === 404) {
                 return null; // Devuelve null si el recurso no se encuentra

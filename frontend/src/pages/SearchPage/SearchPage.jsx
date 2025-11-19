@@ -1,4 +1,5 @@
 import {useState, useMemo, useEffect} from 'react'
+import { API_URL } from '../../../config';
 
 //Components
 import { ChannelList } from '../../components/user/ChannelList.jsx'
@@ -12,12 +13,7 @@ import './SearchPage.css';
 
 //Assets
 import Angel from '../../assets/images/profile/angel.jpg'
-import Yukki from '../../assets/images/profile/yukki.jpg'
-import Gena from '../../assets/images/profile/gena.jpg'
-import Jere from '../../assets/images/profile/jere.jpg'
-import thumbnail from '../../assets/images/thumbnails/pinterest_swap_challenge.jpg'
-import shortThumbnail from '../../assets/images/thumbnails/shorts.jpg'
-import shortCats from '../../assets/images/thumbnails/funnycats.jpg'
+
 
 export function Search() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -40,7 +36,7 @@ export function Search() {
   useEffect(() => {
     const fetchChannels = async () => {
       try {
-        const response = await fetch('http://localhost:3000/channels');
+        const response = await fetch(`${API_URL}/channels`);
         if (response.ok) {
           const data = await response.json();
           const transformedChannels = data.map(channel => {
@@ -48,7 +44,7 @@ export function Search() {
             if (channel.photoUrl) {
               if (channel.photoUrl.startsWith('/uploads/')) {
                 // Uploaded image
-                avatar = `http://localhost:3000${channel.photoUrl}`;
+                avatar = `${API_URL}${channel.photoUrl}`;
               } else if (channel.photoUrl.startsWith('/assets/images/profile/')) {
                 // Default image
                 avatar = channel.photoUrl;
@@ -59,7 +55,7 @@ export function Search() {
                 avatar = `/assets/images/profile/${letter}.png`;
               } else {
                 // Other uploaded path
-                avatar = `http://localhost:3000${channel.photoUrl}`;
+                avatar = `${API_URL}${channel.photoUrl}`;
               }
             } else {
               // No photoUrl, use first letter of channel name
@@ -95,16 +91,16 @@ export function Search() {
     const fetchVideos = async () => {
       setLoadingVideos(true);
       try {
-        const res = await fetch('http://localhost:3000/videos');
+        const res = await fetch(`${API_URL}/videos`);
         if (!res.ok) throw new Error('Failed to fetch videos');
         const data = await res.json();
 
         const mapped = data.map(v => {
-          const thumbnail = v.thumbnail && v.thumbnail.startsWith('/') ? `http://localhost:3000${v.thumbnail}` : (v.thumbnail || '');
+          const thumbnail = v.thumbnail && v.thumbnail.startsWith('/') ? `${API_URL}${v.thumbnail}` : (v.thumbnail || '');
           let avatar = '/assets/images/profile/A.png'; // default
           if (v.channel?.photoUrl) {
             if (v.channel.photoUrl.startsWith('/uploads/')) {
-              avatar = `http://localhost:3000${v.channel.photoUrl}`;
+              avatar = `${API_URL}${v.channel.photoUrl}`;
             } else if (v.channel.photoUrl.startsWith('/assets/images/profile/')) {
               avatar = v.channel.photoUrl;
             } else if (v.channel.photoUrl.startsWith('/default-avatar/')) {
@@ -112,7 +108,7 @@ export function Search() {
               const letter = letterMatch ? letterMatch[1] : 'A';
               avatar = `/assets/images/profile/${letter}.png`;
             } else {
-              avatar = `http://localhost:3000${v.channel.photoUrl}`;
+              avatar = `${API_URL}${v.channel.photoUrl}`;
             }
           } else {
             // No photoUrl, use default image

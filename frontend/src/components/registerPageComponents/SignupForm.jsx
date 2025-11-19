@@ -4,6 +4,7 @@ import { useToast } from '../../hooks/useToast.jsx';
 import { BsPersonFill } from "react-icons/bs";
 import { FaKey } from "react-icons/fa";
 import { HiMail } from "react-icons/hi";
+import { API_URL } from "../../../config"
 
 // =================================================================
 // 0. HOOK PERSONALIZADO PARA DEBOUNCING (ELIMINADO para verificación instantánea)
@@ -113,7 +114,7 @@ const SignupForm = ({ togglePanel }) => {
 
         try {
             // Llama al servidor de forma instantánea
-            const response = await fetch(`http://localhost:3000/users/check/${field}?value=${value}`);
+            const response = await fetch(`${API_URL}/users/check/${field}?value=${value}`);
 
             if (response.status === 409) { // Conflicto: Ya existe
                 if (field === 'username') {
@@ -184,7 +185,7 @@ const SignupForm = ({ togglePanel }) => {
 
         const userData = { username, email, password };
         try {
-            const response = await fetch('http://localhost:3000/users', {
+            const response = await fetch(`${API_URL}/users`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(userData),
