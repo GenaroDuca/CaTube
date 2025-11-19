@@ -1,7 +1,7 @@
 import EarnOption from "./EarnOption";
 import Container from "../../common/Container";
 import NewButton from "../../homePageComponents/Button";
-import Title from "../../TrendingPageComponents/Title"
+import Title from "../../trendingPageComponents/Title"
 import EarnRequeriments from "./EarnRequeriments";
 import { useState } from "react";
 
