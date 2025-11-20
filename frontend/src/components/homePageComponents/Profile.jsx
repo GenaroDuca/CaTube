@@ -4,26 +4,29 @@ import { VITE_API_URL } from '../../../config';
 function Profile(props) {
     const firstLetter = props.namechannel?.charAt(0).toUpperCase();
 
-    // Mostrar la foto asignada al usuario si existe, sino la que se pasa por props, sino la por defecto
+    // Determinar la URL de la foto
     let photoSrc;
     if (props.thumbnail && props.thumbnail.trim() !== '') {
-        let photoPath = props.thumbnail;
-        if (photoPath.startsWith('/uploads/')) {
-            // Imagen subida por el usuario
-            photoSrc = VITE_API_URL + photoPath;
-        } else if (photoPath.startsWith('/assets/images/profile/')) {
+        if (props.thumbnail.startsWith('http://') || props.thumbnail.startsWith('https://')) {
+            // Ya es una URL completa (ej. S3)
+            photoSrc = props.thumbnail;
+        } else if (props.thumbnail.startsWith('/uploads/')) {
+            // Ruta interna de backend
+            photoSrc = VITE_API_URL + props.thumbnail;
+        } else if (props.thumbnail.startsWith('/assets/images/profile/')) {
             // Imagen predeterminada ya mapeada
-            photoSrc = photoPath;
-        } else if (photoPath.startsWith('/default-avatar/')) {
-            // Map old default-avatar paths to new assets path
-            const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
+            photoSrc = props.thumbnail;
+        } else if (props.thumbnail.startsWith('/default-avatar/')) {
+            // Mapear rutas antiguas a assets
+            const letterMatch = props.thumbnail.match(/\/default-avatar\/([A-Z])\.png/);
             const letter = letterMatch ? letterMatch[1] : 'A';
             photoSrc = `/assets/images/profile/${letter}.png`;
         } else {
             // Otro tipo de ruta, asumir que es subida
-            photoSrc = VITE_API_URL + photoPath;
+            photoSrc = VITE_API_URL + props.thumbnail;
         }
     } else {
+        // Por defecto, primera letra del nombre del canal
         photoSrc = `/assets/images/profile/${firstLetter}.png`;
     }
 
@@ -37,4 +40,5 @@ function Profile(props) {
         </Link>
     );
 }
+
 export default Profile;
