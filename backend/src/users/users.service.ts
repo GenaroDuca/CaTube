@@ -336,6 +336,10 @@ export class UsersService {
         const user = this.configService.get<string>('SMTP_USER');
         const pass = this.configService.get<string>('SMTP_PASS');
 
+        console.log('📧 Inicializando transporter...');
+        console.log('🔍 SMTP_USER leído:', user ? user : 'NO DEFINIDO');
+        console.log('🔍 SMTP_PASS leído:', pass ? '*** oculto ***' : 'NO DEFINIDO');
+
         if (!user || !pass) {
             console.error('🔴 ERROR: SMTP_USER o SMTP_PASS no están cargados. Revisa config.env y la ruta en AppModule.');
             return;
@@ -344,29 +348,37 @@ export class UsersService {
         this.transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 587,
-            secure: false,
+            secure: false, // STARTTLS
             auth: {
                 user: user,
                 pass: pass,
             },
+            tls: {
+                rejectUnauthorized: false,
+            },
         });
 
         try {
-            // await this.transporter.verify();
-            console.log('📬 UserService: Nodemailer Ready to send mails.');
+            console.log('📬 Intentando verificar conexión SMTP...');
+            // await this.transporter.verify(); // opcional en producción
+            console.log('✅ UserService: Nodemailer listo para enviar mails.');
         } catch (error) {
             console.error('🔴 UserService: Error al verificar la conexión SMTP:', error.message);
         }
     }
 
-    async sendVerificationEmail(newUserEmail: string, verificationLink: string) { // Se tipó verificationLink a string
+    async sendVerificationEmail(newUserEmail: string, verificationLink: string) {
         if (!this.transporter) {
             console.error('📧 El transporter no se inicializó. No se puede enviar el correo.');
             return;
         }
 
+        console.log(`📨 Preparando envío de email de verificación...`);
+        console.log(`➡️ Destinatario: ${newUserEmail}`);
+        console.log(`➡️ Link de verificación: ${verificationLink}`);
+
         try {
-            await this.transporter.sendMail({
+            const info = await this.transporter.sendMail({
                 from: '"CaTube Team" <catubeapp@gmail.com>',
                 to: newUserEmail,
                 subject: "Verify your user",
@@ -383,14 +395,14 @@ export class UsersService {
                     </tr>
                 </table>
                 <p>If the button doesn't work, copy and paste this link into your browser: <a href="${verificationLink}">${verificationLink}</a></p>
-                `,
+            `,
             });
+
+            console.log('✅ Email enviado correctamente. Respuesta del servidor SMTP:', info);
         } catch (error) {
-            console.error('Error enviando el email de verificación a ' + newUserEmail, error);
-            // Considera si este error debe ser fatal o solo logueado.
+            console.error('❌ Error enviando el email de verificación a ' + newUserEmail, error);
             throw new Error('Email sending failed.');
         }
-
     }
 
     // Resetear contraseña
