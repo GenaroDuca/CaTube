@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 import { useToast } from '../../hooks/useToast';
 import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
 import { CommentSection } from '../common/CommentSection.jsx';
-import { API_URL } from "../../../config"
+import { VITE_API_URL } from "../../../config"
 
 export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
   const videoRef = useRef(null)
@@ -42,7 +42,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
       if (!token || !userId || !short.channelId) return;
 
       try {
-        const res = await fetch(`${API_URL}/subscriptions/user/${userId}`, {
+        const res = await fetch(`${VITE_API_URL}/subscriptions/user/${userId}`, {
           headers: { 'Authorization': `Bearer ${token}` },
         });
         if (!res.ok) return;
@@ -66,7 +66,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
 
     if (isSubscribed) {
       // Unsubscribe
-      const response = await fetch(`${API_URL}/subscriptions`, {
+      const response = await fetch(`${VITE_API_URL}/subscriptions`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${accessToken}`,
@@ -85,7 +85,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
     } else {
       // Subscribe
       try {
-        const response = await fetch(`${API_URL}/subscriptions`, {
+        const response = await fetch(`${VITE_API_URL}/subscriptions`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${accessToken}`,

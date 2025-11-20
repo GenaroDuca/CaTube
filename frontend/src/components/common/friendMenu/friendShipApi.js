@@ -1,6 +1,6 @@
 // src/api/friendshipApi.js
 import { DEFAULT_AVATAR } from './constants';
-import { API_URL } from "../../../../config.js"
+import { VITE_API_URL } from "../../../../config.js"
 import { getAuthToken } from '../../../utils/auth';
 
 /**
@@ -11,7 +11,7 @@ import { getAuthToken } from '../../../utils/auth';
 export const fetchUsers = async (query) => {
   if (!query || query.trim().length < 2) return [];
 
-  const url = `${API_URL}/users/search?q=${query}`;
+  const url = `${VITE_API_URL}/users/search?q=${query}`;
   const token = getAuthToken();
 
   try {
@@ -52,7 +52,7 @@ export const fetchFriendsAndRequests = async () => {
   }
 
   try {
-    const response = await fetch(`${API_URL}/friendships`, {
+    const response = await fetch(`${VITE_API_URL}/friendships`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
 
@@ -100,7 +100,7 @@ export const sendFriendRequest = async (receiverId) => {
   const token = getAuthToken();
   if (!token) throw new Error('User not authenticated!');
 
-  const url = `${API_URL}/friendships`;
+  const url = `${VITE_API_URL}/friendships`;
 
   const response = await fetch(url, {
     method: 'POST',
@@ -131,7 +131,7 @@ export const fetchMyProfile = async () => {
   if (!token) throw new Error('User not authenticated!');
 
   try {
-    const response = await fetch(`${API_URL}/users/me`, {
+    const response = await fetch(`${VITE_API_URL}/users/me`, {
       headers: { 'Authorization': `Bearer ${token}` }
     });
 
@@ -164,7 +164,7 @@ export const updateMyProfile = async (updateData) => {
   const token = getAuthToken();
   if (!token) throw new Error('User not authenticated!');
 
-  const url = `${API_URL}/users/me`;
+  const url = `${VITE_API_URL}/users/me`;
 
   const response = await fetch(url, {
     method: 'PATCH',
@@ -199,7 +199,7 @@ export const deleteFriendship = async (friendshipId) => {
   const token = getAuthToken();
   if (!token) throw new Error('User not authenticated!');
 
-  const response = await fetch(`${API_URL}/friendships/${friendshipId}`, {
+  const response = await fetch(`${VITE_API_URL}/friendships/${friendshipId}`, {
     method: 'DELETE',
     headers: { 'Authorization': `Bearer ${token}` }
   });
@@ -217,7 +217,7 @@ export const acceptFriendRequest = async (friendshipId) => {
   const token = getAuthToken();
   if (!token) throw new Error('User not authenticated!');
 
-  const url = `${API_URL}/friendships/${friendshipId}/accept`;
+  const url = `${VITE_API_URL}/friendships/${friendshipId}/accept`;
 
   const response = await fetch(url, {
     method: 'PUT',

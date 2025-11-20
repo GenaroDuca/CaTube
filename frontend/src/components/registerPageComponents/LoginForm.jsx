@@ -4,7 +4,7 @@ import { BsPersonFill } from "react-icons/bs";
 import { FaKey } from "react-icons/fa";
 import { useToast } from '../../hooks/useToast.jsx';
 import { useModal } from '../common/modal/ModalContext';
-import { API_URL } from "../../../config"
+import { VITE_API_URL } from "../../../config"
 
 const LoginForm = ({ togglePanel }) => {
   const navigate = useNavigate();
@@ -21,7 +21,7 @@ const LoginForm = ({ togglePanel }) => {
     const loginData = { username, password };
 
     try {
-      const response = await fetch(`${API_URL}/auth/login`, {
+      const response = await fetch(`${VITE_API_URL}/auth/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(loginData),

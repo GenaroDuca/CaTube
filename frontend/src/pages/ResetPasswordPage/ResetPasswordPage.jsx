@@ -2,7 +2,7 @@ import React, { useState, useMemo } from "react";
 import { Link, useNavigate } from 'react-router-dom'; 
 import { useToast } from "../../hooks/useToast.jsx";
 import './ResetPasswordPage.css';
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 // ============================================================
 // VALIDACIÓN DE PASSWORD (igual que en SignupForm)
@@ -73,7 +73,7 @@ export const ResetPasswordPage = () => {
         try {
             setIsSubmitting(true);
 
-            const response = await fetch(`${API_URL}/auth/reset-password`, {
+            const response = await fetch(`${VITE_API_URL}/auth/reset-password`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ token, newPassword: password }),

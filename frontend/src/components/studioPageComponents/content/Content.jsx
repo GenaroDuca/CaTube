@@ -3,7 +3,7 @@ import Container from "../../common/Container"
 import FilterBar from "./FilterBar"
 import VideoContent from "./VideoContent";
 import { useState, useEffect } from "react";
-import { API_URL } from "../../../../config"
+import { VITE_API_URL } from "../../../../config"
 
 function Content() {
     const [activeContent, setActiveContent] = useState('Videos');
@@ -21,7 +21,7 @@ function Content() {
             // helper to map response video objects to table shape
             const mapVideos = (data) => data.map(v => {
                 let src = v.thumbnail || '';
-                if (src && src.startsWith('/uploads/')) src = `${API_URL}${src}`;
+                if (src && src.startsWith('/uploads/')) src = `${VITE_API_URL}${src}`;
                 if (!src) src = '/assets/images/thumbnails/pinterest_swap_challenge.jpg';
                 return {
                     id: v.id,
@@ -43,7 +43,7 @@ function Content() {
             try {
                 console.debug('Content: fetching videos, accessToken present?', !!accessToken, 'storedChannelId:', storedChannelId);
                 if (accessToken) {
-                    const res = await fetch(`${API_URL}/videos/my-videos`, {
+                    const res = await fetch(`${VITE_API_URL}/videos/my-videos`, {
                         headers: { 'Authorization': `Bearer ${accessToken}` },
                     });
                     console.debug('Content: /videos/my-videos status', res.status);

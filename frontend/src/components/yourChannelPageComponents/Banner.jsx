@@ -1,6 +1,6 @@
 import banner from '../../assets/images/studio_media/catube-pc.png';
 import { useState, useEffect } from 'react';
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 function Banner({ channelId }) {
     const [bannerSrc, setBannerSrc] = useState(banner);
@@ -13,11 +13,11 @@ function Banner({ channelId }) {
             }
 
             try {
-                const response = await fetch(`${API_URL}/channels/${channelId}`);
+                const response = await fetch(`${VITE_API_URL}/channels/${channelId}`);
                 if (response.ok) {
                     const channelData = await response.json();
                     if (channelData.bannerUrl) {
-                        setBannerSrc(`${API_URL}${channelData.bannerUrl}`);
+                        setBannerSrc(`${VITE_API_URL}${channelData.bannerUrl}`);
                     } else {
                         setBannerSrc(banner);
                     }

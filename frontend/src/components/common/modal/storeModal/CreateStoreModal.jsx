@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { IoIosCloseCircle } from "react-icons/io";
 import { useToast } from '../../../../hooks/useToast';
-import { API_URL } from "../../../../../config"
+import { VITE_API_URL } from "../../../../../config"
 
 // ----------------------------------------------------------------------
 // FUNCIONES DE FETCH (INTEGRADAS EN EL ARCHIVO)
@@ -14,7 +14,7 @@ import { API_URL } from "../../../../../config"
  */
 async function createStoreSolo(storeData) {
     const accessToken = localStorage.getItem('accessToken');
-    const url = `${API_URL}/store`;
+    const url = `${VITE_API_URL}/store`;
 
     const headers = {
         'Content-Type': 'application/json',

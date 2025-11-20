@@ -5,7 +5,7 @@ import './VideoCard.css'
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 export function CatubeVideoCard({ video }) {
     const { pathname } = useLocation();
@@ -26,7 +26,7 @@ export function CatubeVideoCard({ video }) {
                 <Link to={`/watch/${video.id}`}>
                     <img
                         className='ct-videoCard-thumbnail'
-                        src={`${API_URL}${video.thumbnail}`}
+                        src={`${VITE_API_URL}${video.thumbnail}`}
                         alt="thumbnail"
                     />
                 </Link>
@@ -46,7 +46,7 @@ export function CatubeVideoCard({ video }) {
                                 src={
                                     video.channel.photoUrl
                                         ? (video.channel.photoUrl.startsWith('/uploads/')
-                                            ? `${API_URL}${video.channel.photoUrl}`
+                                            ? `${VITE_API_URL}${video.channel.photoUrl}`
                                             : video.channel.photoUrl)
                                         : `/assets/images/profile/${video.channel.channel_name?.charAt(0).toUpperCase() || 'A'}.png`
                                 }

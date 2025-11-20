@@ -4,7 +4,7 @@ import NewButton from "../homePageComponents/Button";
 import { useState, useEffect } from "react";
 import { useNotification } from "../../hooks/useNotification";
 import { useToast } from '../../hooks/useToast';
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 async function apiFetch(url, options = {}) {
     const accessToken = localStorage.getItem('accessToken');
@@ -19,7 +19,7 @@ async function apiFetch(url, options = {}) {
     }
 
     try {
-        const response = await fetch(`${API_URL}${url}`, { ...options, headers });
+        const response = await fetch(`${VITE_API_URL}${url}`, { ...options, headers });
 
         if (response.status === 404) {
             return null;
@@ -157,7 +157,7 @@ function Profile() {
                     let photoPath = channelData.photoUrl;
                     if (photoPath.startsWith('/uploads/')) {
                         // Imagen subida por el usuario
-                        photoSrc = API_URL + photoPath;
+                        photoSrc = VITE_API_URL + photoPath;
                     } else if (photoPath.startsWith('/assets/images/profile/')) {
                         // Imagen predeterminada ya mapeada
                         photoSrc = photoPath;
@@ -168,7 +168,7 @@ function Profile() {
                         photoSrc = `/assets/images/profile/${letter}.png`;
                     } else {
                         // Otro tipo of ruta, asumir que es subida
-                        photoSrc = API_URL + photoPath;
+                        photoSrc = VITE_API_URL + photoPath;
                     }
                 } else {
                     // Set default avatar based on first letter of channel name

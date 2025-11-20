@@ -1,6 +1,6 @@
 import { io } from 'socket.io-client';
 // Asume que la ruta es correcta
-import { API_URL } from "../../../../config.js"
+import { VITE_API_URL } from "../../../../config.js"
 
 // Asume que la ruta es correcta
 import { getAuthToken } from '../../../utils/auth';
@@ -71,7 +71,7 @@ export const fetchMessageHistory = async (roomId, limit = 20, offset = 0) => {
     if (!token || !roomId) return [];
     const url = `${API_BASE_URL}/messages/${roomId}?limit=${limit}&offset=${offset}`;
     try {
-        const response = await fetch(API_URL, {
+        const response = await fetch(VITE_API_URL, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!response.ok) {
@@ -106,7 +106,7 @@ export const getOrCreatePrivateRoom = async (targetUserId) => {
 
     const url = `${API_BASE_URL}/rooms/private`;
 
-    const response = await fetch(API_URL, {
+    const response = await fetch(VITE_API_URL, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

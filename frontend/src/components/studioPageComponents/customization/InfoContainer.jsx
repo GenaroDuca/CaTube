@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import NewButton from "../../homePageComponents/Button";
 import { useToast } from "../../../hooks/useToast";
-import { API_URL } from "../../../../config"
+import { VITE_API_URL } from "../../../../config"
 
 
 async function apiFetch(url, options = {}) {
@@ -17,7 +17,7 @@ async function apiFetch(url, options = {}) {
     }
 
     try {
-        const response = await fetch(`${API_URL}${url}`, { ...options, headers });
+        const response = await fetch(`${VITE_API_URL}${url}`, { ...options, headers });
 
         if (response.status === 404) {
             return null;

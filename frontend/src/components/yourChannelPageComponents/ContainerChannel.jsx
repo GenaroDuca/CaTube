@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getAuthToken } from '../../utils/auth';
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 function ContainerChannel({ channelId }) {
     const [featuredVideo, setFeaturedVideo] = useState(null);
@@ -11,7 +11,7 @@ function ContainerChannel({ channelId }) {
             if (!channelId) return;
 
             try {
-                const response = await fetch(`${API_URL}/videos/channel/${channelId}`, {
+                const response = await fetch(`${VITE_API_URL}/videos/channel/${channelId}`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -79,7 +79,7 @@ function ContainerChannel({ channelId }) {
                     <a href={`/watch/${featuredVideo.id}`}>
                         <img 
                             className="principal-video" 
-                            src={`${API_URL}${featuredVideo.src}`} 
+                            src={`${VITE_API_URL}${featuredVideo.src}`} 
                             alt={featuredVideo.name}
                         />
                     </a>

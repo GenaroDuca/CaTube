@@ -4,7 +4,7 @@ import ContainerButton from "./ContainerButton";
 import PublishedContent from "./PublishedContent";
 import { useState, useEffect } from "react";
 import { useToast } from "../../hooks/useToast";
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 function PostsTab({ isOwner, channelId }) {
     const [postContent, setPostContent] = useState("");
@@ -21,7 +21,7 @@ function PostsTab({ isOwner, channelId }) {
     const loadPosts = async () => {
         try {
             const accessToken = localStorage.getItem('accessToken');
-            const response = await fetch(`${API_URL}/posts/channel/${channelId}`, {
+            const response = await fetch(`${VITE_API_URL}/posts/channel/${channelId}`, {
                 headers: {
                     'Authorization': accessToken ? `Bearer ${accessToken}` : '',
                 },
@@ -48,7 +48,7 @@ function PostsTab({ isOwner, channelId }) {
                 channelId: channelId,
             };
 
-            const response = await fetch(`${API_URL}/posts`, {
+            const response = await fetch(`${VITE_API_URL}/posts`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

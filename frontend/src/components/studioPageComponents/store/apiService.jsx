@@ -1,5 +1,5 @@
 // --- API Service: Centraliza todas las llamadas al backend ---
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 const apiService = {
 
@@ -18,7 +18,7 @@ const apiService = {
         }
 
         try {
-            const response = await fetch(`${API_URL}${url}`, { ...options, headers });
+            const response = await fetch(`${VITE_API_URL}${url}`, { ...options, headers });
 
             if (response.status === 404) {
                 return null; // Devuelve null si el recurso no se encuentra

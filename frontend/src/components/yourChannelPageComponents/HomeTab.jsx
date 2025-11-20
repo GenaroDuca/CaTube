@@ -3,7 +3,7 @@ import Container from "../common/Container";
 import ContainerChannel from "../../components/yourChannelPageComponents/ContainerChannel";
 import SectionsCarousel from "../homePageComponents/SectionsCarousel";
 import { getAuthToken } from "../../utils/auth.js";
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 function HomeTab({ channelId }) {
     const foryouRef = useRef(null);
@@ -22,7 +22,7 @@ function HomeTab({ channelId }) {
                 if (!channelId) return;
 
                 // Fetch videos for this channel
-                const videosRes = await fetch(`${API_URL}/videos/channel/${channelId}`, {
+                const videosRes = await fetch(`${VITE_API_URL}/videos/channel/${channelId}`, {
                     headers: { 'Authorization': `Bearer ${token}` },
                 });
                 if (videosRes.ok) {
@@ -32,14 +32,14 @@ function HomeTab({ channelId }) {
                         id: video.id,
                         namevideo: video.title,
                         videoviews: `${video.views || 0} views`,
-                        thumbnail: `${API_URL}${video.thumbnail}`,
+                        thumbnail: `${VITE_API_URL}${video.thumbnail}`,
                         channel_name: video.channel?.channel_name || 'Unknown'
                     }));
                     const allShorts = data.filter(v => v.type === "short").map(short => ({
                         id: short.id,
                         nameshort: short.title,
                         shortviews: `${short.views || 0} views`,
-                        photo: `${API_URL}${short.thumbnail}`,
+                        photo: `${VITE_API_URL}${short.thumbnail}`,
                     }));
 
                     setVideos(allVideos);

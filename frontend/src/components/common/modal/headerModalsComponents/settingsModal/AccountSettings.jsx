@@ -1,7 +1,7 @@
 import { useModal } from "../../ModalContext";
 import { useToast } from '../../../../../hooks/useToast';
 import { getMyUserId} from "../../../../../utils/auth";
-import { API_URL } from "../../../../../../config"
+import { VITE_API_URL } from "../../../../../../config"
 
 
 const AccountSettings = () => {
@@ -19,7 +19,7 @@ const AccountSettings = () => {
     }
 
     try {
-      const response = await fetch(`${API_URL}/users/${userId}`, {
+      const response = await fetch(`${VITE_API_URL}/users/${userId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('accessToken')}`

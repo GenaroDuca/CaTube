@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 
 //Hooks
 import { useToast } from "../../hooks/useToast.jsx";
-import { API_URL } from "../../../config.js"
+import { VITE_API_URL } from "../../../config.js"
 
 //JWT Decode
 import { jwtDecode } from "jwt-decode";
@@ -64,7 +64,7 @@ export function CommentSection({ videoId, onCountChange }) {
 
     // Fetch comments on load or video change
     useEffect(() => {
-        fetch(`${API_URL}/comment/${videoId}/comments`)
+        fetch(`${VITE_API_URL}/comment/${videoId}/comments`)
             .then((res) => res.json())
             .then((data) => {
                 if (!Array.isArray(data)) {
@@ -96,7 +96,7 @@ export function CommentSection({ videoId, onCountChange }) {
         }
 
         try {
-            const res = await fetch(`${API_URL}/comment/${videoId}/comments`, {
+            const res = await fetch(`${VITE_API_URL}/comment/${videoId}/comments`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
                 body: JSON.stringify({ content: newComment }),
@@ -138,7 +138,7 @@ export function CommentSection({ videoId, onCountChange }) {
         const token = getAuthToken();
         try {
             const res = await fetch(
-                `${API_URL}/comment/${videoId}/comments/${editingCommentId}`,
+                `${VITE_API_URL}/comment/${videoId}/comments/${editingCommentId}`,
                 {
                     method: "PATCH",
                     headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -187,7 +187,7 @@ export function CommentSection({ videoId, onCountChange }) {
         const actionFunction = async () => {
             try {
                 const res = await fetch(
-                    `${API_URL}/comment/${videoId}/comments/${commentId}`,
+                    `${VITE_API_URL}/comment/${videoId}/comments/${commentId}`,
                     {
                         method: "DELETE",
                         headers: { Authorization: `Bearer ${token}` },
@@ -257,7 +257,7 @@ export function CommentSection({ videoId, onCountChange }) {
 
         const token = getAuthToken();
         try {
-            const res = await fetch(`${API_URL}/comment/${videoId}/comments`, {
+            const res = await fetch(`${VITE_API_URL}/comment/${videoId}/comments`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -388,7 +388,7 @@ export function CommentSection({ videoId, onCountChange }) {
                                 <img
                                     src={
                                         comment.photoUrl
-                                            ? `${API_URL}${comment.photoUrl}`
+                                            ? `${VITE_API_URL}${comment.photoUrl}`
                                             : `/assets/images/profile/${comment.username?.charAt(0).toUpperCase()}.png`
                                     }
                                     alt={comment.username || "User avatar"}
@@ -511,7 +511,7 @@ export function CommentSection({ videoId, onCountChange }) {
                                                         <img
                                                             src={
                                                                 reply.photoUrl
-                                                                    ? `${API_URL}${reply.photoUrl}`
+                                                                    ? `${VITE_API_URL}${reply.photoUrl}`
                                                                     : `/assets/images/profile/${reply.username.charAt(
                                                                         0
                                                                     )}.png`

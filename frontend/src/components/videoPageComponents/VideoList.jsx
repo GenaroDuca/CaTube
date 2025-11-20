@@ -9,7 +9,7 @@ import { CatubeVideoCard } from './CatubeVideoCard.jsx'
 import './VideoList.css'
 
 import { getAuthToken } from '../../utils/auth.js'
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 
 export function VideoList({ currentVideoId }) {
@@ -21,7 +21,7 @@ export function VideoList({ currentVideoId }) {
     useEffect(() => {
         const fetchVideos = async () => {
             try {
-                const response = await fetch(`${API_URL}/videos`, {
+                const response = await fetch(`${VITE_API_URL}/videos`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

@@ -14,7 +14,7 @@ import Playlists from "../../components/yourChannelPageComponents/Playlists";
 import PostsTab from "../../components/yourChannelPageComponents/PostsTab";
 import Footer from "../../components/common/Footer.jsx";
 import Header from "../../components/common/header/Header.jsx";
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 function YourChannel() {
     const { url } = useParams();
@@ -36,7 +36,7 @@ function YourChannel() {
 
             if (url && url !== 'yourchannel') {
                 // URL like /yourchannel/genad, treat as channel URL
-                const response = await fetch(`${API_URL}/channels/url/${url}`, {
+                const response = await fetch(`${VITE_API_URL}/channels/url/${url}`, {
                     headers: {
                         'Authorization': accessToken ? `Bearer ${accessToken}` : '',
                     },
@@ -52,7 +52,7 @@ function YourChannel() {
             } else {
                 // Load user's own channel for /yourchannel or no url
                 if (accessToken) {
-                    const response = await fetch(`${API_URL}/users/me`, {
+                    const response = await fetch(`${VITE_API_URL}/users/me`, {
                         headers: {
                             'Authorization': `Bearer ${accessToken}`,
                         },
@@ -84,7 +84,7 @@ function YourChannel() {
             }
 
             try {
-                const response = await fetch(`${API_URL}/users/me`, {
+                const response = await fetch(`${VITE_API_URL}/users/me`, {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                     },

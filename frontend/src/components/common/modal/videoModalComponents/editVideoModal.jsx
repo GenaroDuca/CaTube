@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useToast } from "../../../../hooks/useToast.jsx";
-import { API_URL } from "../../../../../config"
+import { VITE_API_URL } from "../../../../../config"
 
 
 function EditVideoModal({ onClose, videoId, title: initialTitle, description: initialDescription, thumbnail }) {
@@ -62,7 +62,7 @@ function EditVideoModal({ onClose, videoId, title: initialTitle, description: in
             //     hasThumbnail: !!thumbnailFile
             // });
 
-            const response = await fetch(`${API_URL}/videos/${videoId}`, {
+            const response = await fetch(`${VITE_API_URL}/videos/${videoId}`, {
                 method: 'PATCH',
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,

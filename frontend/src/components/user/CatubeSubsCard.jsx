@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { useToast } from '../../hooks/useToast';
 import './CatubeSubsCard.css'
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 
 export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isFollowing: initialIsFollowing, channelUrl }) {
@@ -26,7 +26,7 @@ export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isF
             if (!accessToken || !userId || !channelId) return;
 
             try {
-                const res = await fetch(`${API_URL}/subscriptions/user/${userId}`, {
+                const res = await fetch(`${VITE_API_URL}/subscriptions/user/${userId}`, {
                     headers: { 'Authorization': `Bearer ${accessToken}` },
                 });
                 if (!res.ok) return; // no autenticado o error
@@ -53,7 +53,7 @@ export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isF
         try {
             if (!isFollowing) {
                 // Subscribe
-                const res = await fetch(`${API_URL}/subscription`, {
+                const res = await fetch(`${VITE_API_URL}/subscription`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -67,7 +67,7 @@ export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isF
                 showSuccess(`Subscribed to ${userName}!`);
             } else {
                 // Unsubscribe
-                const res = await fetch(`${API_URL}/subscriptions`, {
+                const res = await fetch(`${VITE_API_URL}/subscriptions`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',

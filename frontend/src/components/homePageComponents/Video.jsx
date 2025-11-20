@@ -1,11 +1,11 @@
 import './Video.css';
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 function Video(props) {
         // Handle thumbnail URL properly
         let thumbnailSrc = props.thumbnail || props.photo || '';
         if (thumbnailSrc && !thumbnailSrc.startsWith('http')) {
-                thumbnailSrc = `${API_URL}${thumbnailSrc}`;
+                thumbnailSrc = `${VITE_API_URL}${thumbnailSrc}`;
         }
 
         return (

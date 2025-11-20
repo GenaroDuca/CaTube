@@ -7,7 +7,7 @@ import './catbot.css'
 //components
 import { useState } from 'react';
 import { useOverlay } from '../../hooks/useOverlay.jsx';
-import { API_URL } from "../../../config.js"
+import { VITE_API_URL } from "../../../config.js"
 
 export default function Catbot() {
     const {
@@ -29,7 +29,7 @@ export default function Catbot() {
         setInput("");
 
         try {
-        const res = await fetch(`${API_URL}/api/chat`, {
+        const res = await fetch(`${VITE_API_URL}/api/chat`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ message: input }),

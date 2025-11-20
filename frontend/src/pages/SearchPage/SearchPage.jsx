@@ -1,5 +1,5 @@
 import {useState, useMemo, useEffect} from 'react'
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 //Components
 import { ChannelList } from '../../components/user/ChannelList.jsx'
@@ -36,7 +36,7 @@ export function Search() {
   useEffect(() => {
     const fetchChannels = async () => {
       try {
-        const response = await fetch(`${API_URL}/channels`);
+        const response = await fetch(`${VITE_API_URL}/channels`);
         if (response.ok) {
           const data = await response.json();
           const transformedChannels = data.map(channel => {
@@ -44,7 +44,7 @@ export function Search() {
             if (channel.photoUrl) {
               if (channel.photoUrl.startsWith('/uploads/')) {
                 // Uploaded image
-                avatar = `${API_URL}${channel.photoUrl}`;
+                avatar = `${VITE_API_URL}${channel.photoUrl}`;
               } else if (channel.photoUrl.startsWith('/assets/images/profile/')) {
                 // Default image
                 avatar = channel.photoUrl;
@@ -55,7 +55,7 @@ export function Search() {
                 avatar = `/assets/images/profile/${letter}.png`;
               } else {
                 // Other uploaded path
-                avatar = `${API_URL}${channel.photoUrl}`;
+                avatar = `${VITE_API_URL}${channel.photoUrl}`;
               }
             } else {
               // No photoUrl, use first letter of channel name
@@ -91,16 +91,16 @@ export function Search() {
     const fetchVideos = async () => {
       setLoadingVideos(true);
       try {
-        const res = await fetch(`${API_URL}/videos`);
+        const res = await fetch(`${VITE_API_URL}/videos`);
         if (!res.ok) throw new Error('Failed to fetch videos');
         const data = await res.json();
 
         const mapped = data.map(v => {
-          const thumbnail = v.thumbnail && v.thumbnail.startsWith('/') ? `${API_URL}${v.thumbnail}` : (v.thumbnail || '');
+          const thumbnail = v.thumbnail && v.thumbnail.startsWith('/') ? `${VITE_API_URL}${v.thumbnail}` : (v.thumbnail || '');
           let avatar = '/assets/images/profile/A.png'; // default
           if (v.channel?.photoUrl) {
             if (v.channel.photoUrl.startsWith('/uploads/')) {
-              avatar = `${API_URL}${v.channel.photoUrl}`;
+              avatar = `${VITE_API_URL}${v.channel.photoUrl}`;
             } else if (v.channel.photoUrl.startsWith('/assets/images/profile/')) {
               avatar = v.channel.photoUrl;
             } else if (v.channel.photoUrl.startsWith('/default-avatar/')) {
@@ -108,7 +108,7 @@ export function Search() {
               const letter = letterMatch ? letterMatch[1] : 'A';
               avatar = `/assets/images/profile/${letter}.png`;
             } else {
-              avatar = `${API_URL}${v.channel.photoUrl}`;
+              avatar = `${VITE_API_URL}${v.channel.photoUrl}`;
             }
           } else {
             // No photoUrl, use default image

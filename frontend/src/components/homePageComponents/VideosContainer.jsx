@@ -4,7 +4,7 @@ import Video from './Video.jsx'
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { getAuthToken } from '../../utils/auth.js';
-import { API_URL } from "../../../config"
+import { VITE_API_URL } from "../../../config"
 
 function VideosContainer() {
     const [recommended, setRecommended] = useState([]);
@@ -14,7 +14,7 @@ function VideosContainer() {
         let mounted = true;
         async function fetchRecommended() {
             try {
-                const res = await fetch(`${API_URL}/videos/videos-only`, {
+                const res = await fetch(`${VITE_API_URL}/videos/videos-only`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

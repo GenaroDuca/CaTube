@@ -2,7 +2,7 @@ import React from 'react';
 import Container from '../../common/Container';
 import { MdModeEditOutline } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
-import { API_URL } from '../../../../config';
+import { VITE_API_URL } from '../../../../config';
 
 /**
  * Componente para renderizar una tarjeta de producto.
@@ -18,7 +18,7 @@ const ProductCard = ({ product, onEditClick, onDeleteClick }) => {
     
     // Construye la URL de la imagen
     const imageUrl = product.image_url
-        ? `${API_URL}${product.image_url}`
+        ? `${VITE_API_URL}${product.image_url}`
         : "/default-image.png";
 
     return (

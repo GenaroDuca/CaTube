@@ -1,10 +1,10 @@
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 function Short(props) {
         // Handle photo URL properly
         let photoSrc = props.thumbnail || '';
         if (photoSrc && !photoSrc.startsWith('http')) {
-                photoSrc = `${API_URL}${photoSrc}`;
+                photoSrc = `${VITE_API_URL}${photoSrc}`;
         }
 
         return (

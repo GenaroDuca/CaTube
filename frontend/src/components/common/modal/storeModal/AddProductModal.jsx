@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useToast } from '../../../../hooks/useToast.jsx';
 import { IoIosCloseCircle } from "react-icons/io";
-import { API_URL } from "../../../../../config.js"
+import { VITE_API_URL } from "../../../../../config.js"
 
 // ----------------------------------------------------------------------
 // FUNCIONES DE FETCH (MOVIDAS DENTRO DEL ARCHIVO)
@@ -12,7 +12,7 @@ import { API_URL } from "../../../../../config.js"
  */
 async function getExistingProductsSolo() {
     const accessToken = localStorage.getItem('accessToken');
-    const url = `${API_URL}/product/my-products`;
+    const url = `${VITE_API_URL}/product/my-products`;
 
     const headers = {};
     if (accessToken) {
@@ -39,7 +39,7 @@ async function getExistingProductsSolo() {
  */
 async function createProductSolo(formDataToSend) {
     const accessToken = localStorage.getItem('accessToken');
-    const url = `${API_URL}/product`;
+    const url = `${VITE_API_URL}/product`;
 
     for (const [key, value] of formDataToSend.entries()) {
         // console.log(key, value);

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 function Profile(props) {
     const firstLetter = props.namechannel?.charAt(0).toUpperCase();
@@ -10,7 +10,7 @@ function Profile(props) {
         let photoPath = props.thumbnail;
         if (photoPath.startsWith('/uploads/')) {
             // Imagen subida por el usuario
-            photoSrc = API_URL + photoPath;
+            photoSrc = VITE_API_URL + photoPath;
         } else if (photoPath.startsWith('/assets/images/profile/')) {
             // Imagen predeterminada ya mapeada
             photoSrc = photoPath;
@@ -21,7 +21,7 @@ function Profile(props) {
             photoSrc = `/assets/images/profile/${letter}.png`;
         } else {
             // Otro tipo de ruta, asumir que es subida
-            photoSrc = API_URL + photoPath;
+            photoSrc = VITE_API_URL + photoPath;
         }
     } else {
         photoSrc = `/assets/images/profile/${firstLetter}.png`;

@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 function VideoCard({ video }) {
     // Handle thumbnail URL properly
     let thumbnailSrc = video.thumbnail || '';
     if (thumbnailSrc && !thumbnailSrc.startsWith('http')) {
-        thumbnailSrc = `${API_URL}${thumbnailSrc}`;
+        thumbnailSrc = `${VITE_API_URL}${thumbnailSrc}`;
     }
 
     return (

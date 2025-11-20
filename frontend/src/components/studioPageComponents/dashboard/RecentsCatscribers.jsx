@@ -2,7 +2,7 @@ import Subtitle from "../../homePageComponents/Subtitle";
 import Container from "../../common/Container";
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
-import { API_URL } from '../../../../config';
+import { VITE_API_URL } from '../../../../config';
 
 // Helper function to get profile image source
 function getProfileImageSrc(photoUrl, username) {
@@ -10,7 +10,7 @@ function getProfileImageSrc(photoUrl, username) {
         let photoPath = photoUrl;
         if (photoPath.startsWith('/uploads/')) {
             // Imagen subida por el usuario
-            return API_URL + photoPath;
+            return VITE_API_URL + photoPath;
         } else if (photoPath.startsWith('/assets/images/profile/')) {
             // Imagen predeterminada ya mapeada
             return photoPath;
@@ -21,7 +21,7 @@ function getProfileImageSrc(photoUrl, username) {
             return `/assets/images/profile/${letter}.png`;
         } else {
             // Otro tipo de ruta, asumir que es subida
-            return API_URL + photoPath;
+            return VITE_API_URL + photoPath;
         }
     } else {
         // Set default avatar based on first letter of username
@@ -56,7 +56,7 @@ function RecentCatscribers() {
 
 
                 // Fetch recent subscribers
-                const subscribersResponse = await fetch(`${API_URL}/subscriptions/me/recent`, {
+                const subscribersResponse = await fetch(`${VITE_API_URL}/subscriptions/me/recent`, {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                     },
@@ -74,7 +74,7 @@ function RecentCatscribers() {
                             .filter(Boolean)));
 
                         if (channelIds.length > 0) {
-                            const channelPromises = channelIds.map(id => fetch(`${API_URL}/channels/${id}`));
+                            const channelPromises = channelIds.map(id => fetch(`${VITE_API_URL}/channels/${id}`));
                             const channelResponses = await Promise.all(channelPromises);
                             const channelJsons = await Promise.all(channelResponses.map(r => r.ok ? r.json() : null));
                             const map = {};
@@ -94,7 +94,7 @@ function RecentCatscribers() {
 
 
                 // Fetch total subscribers count from logged-in user's channel
-                const userResponse = await fetch(`${API_URL}/users/me`, {
+                const userResponse = await fetch(`${VITE_API_URL}/users/me`, {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                     },
@@ -105,7 +105,7 @@ function RecentCatscribers() {
                     const userData = await userResponse.json();
                     const userChannelId = userData.channel?.channel_id;
                     if (userChannelId) {
-                        const channelResponse = await fetch(`${API_URL}/channels/${userChannelId}`, {
+                        const channelResponse = await fetch(`${VITE_API_URL}/channels/${userChannelId}`, {
                             headers: {
                                 'Authorization': `Bearer ${accessToken}`,
                             },

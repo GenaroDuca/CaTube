@@ -10,7 +10,7 @@ import '../../styles/Global_components.css'
 import '../HomePage/HomePage.css'
 import '../TrendingPage/TrendingPage.css'
 import { getAuthToken } from '../../utils/auth.js';
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 function Trending() {
     const shortsRef = useRef(null);
@@ -25,7 +25,7 @@ function Trending() {
                 setLoading(true);
 
                 // Fetch shorts
-                const shortsResponse = await fetch(`${API_URL}/videos/shorts`, {
+                const shortsResponse = await fetch(`${VITE_API_URL}/videos/shorts`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ function Trending() {
                 }
 
                 // Fetch videos
-                const videosResponse = await fetch(`${API_URL}/videos` , {
+                const videosResponse = await fetch(`${VITE_API_URL}/videos` , {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',

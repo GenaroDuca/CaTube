@@ -1,6 +1,6 @@
 import { getAuthToken } from '../../utils/auth.js';
 import React, { useState, useEffect } from 'react';
-import { API_URL } from "../../../config"
+import { VITE_API_URL } from "../../../config"
 
 
 function RightMenu({ channelId }) {
@@ -10,7 +10,7 @@ function RightMenu({ channelId }) {
             let photoPath = channel.photoUrl;
             if (photoPath.startsWith('/uploads/')) {
                 // Imagen subida por el usuario
-                return API_URL + photoPath;
+                return VITE_API_URL + photoPath;
             } else if (photoPath.startsWith('/assets/images/profile/')) {
                 // Imagen predeterminada ya mapeada
                 return photoPath;
@@ -21,7 +21,7 @@ function RightMenu({ channelId }) {
                 return `/assets/images/profile/${letter}.png`;
             } else {
                 // Otro tipo de ruta, asumir que es subida
-                return API_URL + photoPath;
+                return VITE_API_URL + photoPath;
             }
         } else {
             // Set default avatar based on first letter of channel name
@@ -40,7 +40,7 @@ function RightMenu({ channelId }) {
                 return;
             }
             try {
-                const response = await fetch(`${API_URL}/channels/${channelId}`, {
+                const response = await fetch(`${VITE_API_URL}/channels/${channelId}`, {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                         'Content-Type': 'application/json'

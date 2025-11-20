@@ -8,7 +8,7 @@ import SectionsCarousel from '../../components/homePageComponents/SectionsCarous
 import Header from '../../components/common/header/Header.jsx'
 import { useRef, useState, useEffect } from 'react';
 import { getAuthToken } from "../../utils/auth";
-import { API_URL } from '../../../config';
+import { VITE_API_URL } from '../../../config';
 
 function Home() {
   const [channels, setChannels] = useState([]);
@@ -26,7 +26,7 @@ function Home() {
   useEffect(() => {
     const fetchChannels = async () => {
       try {
-        const response = await fetch(`${API_URL}/channels`);
+        const response = await fetch(`${VITE_API_URL}/channels`);
         if (!response.ok) {
           throw new Error('Failed to fetch channels');
         }
@@ -51,7 +51,7 @@ function Home() {
 
     const fetchVideos = async () => {
       try {
-        const response = await fetch(`${API_URL}/videos`, {
+        const response = await fetch(`${VITE_API_URL}/videos`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ function Home() {
           id: video.id,
           namevideo: video.title,
           videoviews: `${video.views || 0} views`,
-          thumbnail: `${API_URL}${video.thumbnail}`,
+          thumbnail: `${VITE_API_URL}${video.thumbnail}`,
           channel_name: video.channel?.channel_name || 'Unknown'
         }));
         setVideos(transformedVideos);
@@ -81,7 +81,7 @@ function Home() {
 
     const fetchShorts = async () => {
       try {
-        const response = await fetch(`${API_URL}/videos/shorts`, {
+        const response = await fetch(`${VITE_API_URL}/videos/shorts`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -97,7 +97,7 @@ function Home() {
           id: short.id,
           nameshort: short.title,
           shortviews: `${short.views || 0} views`,
-          thumbnail: `${API_URL}${short.thumbnail}`,
+          thumbnail: `${VITE_API_URL}${short.thumbnail}`,
         }));
         
         setShorts(transformedShorts);
