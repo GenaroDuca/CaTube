@@ -1,19 +1,16 @@
-import FooterItem  from '../homePageComponents/FooterItem.jsx'
-import UlContainer from '../homePageComponents/UlContainer.jsx'
-import FooterText from '../homePageComponents/FooterText.jsx'
-import Container from './Container.jsx'
+import FooterItem from '../homePageComponents/FooterItem.jsx';
+import UlContainer from '../homePageComponents/UlContainer.jsx';
+import FooterText from '../homePageComponents/FooterText.jsx';
+import Container from './Container.jsx';
 import { textfooter } from '../../assets/data/Data.jsx';
 import './Footer.css';
 
-function Footer(props) {
+function Footer() {
     return (
-        <Container className={props.footer}>
+        <Container className="footer">
             <UlContainer className="menu-elem">
-                {textfooter.map((footer, index) => (
-                    <FooterItem
-                        key={index}
-                        textfooter={footer.textfooter}
-                    />
+                {textfooter.map((item, index) => (
+                    <FooterItem key={index} textfooter={item.textfooter} />
                 ))}
             </UlContainer>
             <FooterText text="© 2025 CaTube. All rights reserved." />
@@ -21,4 +18,4 @@ function Footer(props) {
     );
 }
 
-export default Footer
+export default Footer;

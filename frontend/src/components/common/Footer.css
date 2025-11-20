@@ -7,21 +7,7 @@
     border-radius: 30px;
 }
 
-/* footer */
-footer {
-    margin-left: 100px;
-    margin-top: 1rem;
-}
-
-footer div {
-    background-color: var(--primary-color);
-    width: 95%;
-    height: auto;
-    padding: 1rem 2rem;
-    margin: 1rem auto;
-    border-radius: 30px;
-}
-
+/* Menu de links */
 .menu-elem {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -29,9 +15,8 @@ footer div {
     justify-items: center;
     width: 85%;
     max-width: 800px;
-    margin: 0 auto;
+    margin: 20px auto 0 auto;
     padding: 0;
-    margin-top: 20px;
 }
 
 .menu-item {
@@ -49,14 +34,14 @@ footer div {
     opacity: 1;
 }
 
+/* Iconos sociales */
 .social-icon {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: relative;
-    margin: 10px 5px;
     flex-wrap: wrap;
     gap: 10px;
+    margin: 10px 5px;
 }
 
 .icon-elem {
@@ -66,7 +51,6 @@ footer div {
 .icon {
     color: var(--text-color);
     font-size: 32px;
-    display: inline-block;
     margin: 0 10px;
     transition: color 0.5s ease;
 }
@@ -75,16 +59,16 @@ footer div {
     transform: translateY(-5px);
 }
 
+/* Texto del footer */
 .footer-text {
     color: var(--text-color);
     text-align: center;
-    margin-top: 15px;
-    margin-bottom: 20px;
+    margin: 15px 0 20px 0;
     font-size: 20px;
 }
 
-
-@media (max-width:768px) {
+/* Responsive */
+@media (max-width: 768px) {
     .menu-elem {
         grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
         gap: 30px 10px;
@@ -95,16 +79,11 @@ footer div {
         margin: 0 6px;
     }
 
-
     .footer-text {
         font-size: 16px;
     }
 
-    footer div {
+    .footer {
         padding: 10px 20px;
-    }
-
-    footer {
-        margin-left: 70px
     }
 }

@@ -1,17 +1,25 @@
 import Container from '../common/Container.jsx'
-import Subtitle from '../homePageComponents/Subtitle.jsx'
-import Video from '../homePageComponents/Video.jsx'
+import Subtitle from './Subtitle.jsx'
+import Video from './Video.jsx'
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { getAuthToken } from '../../utils/auth.js';
 
-function Recommendations() {
+function VideosContainer() {
     const [recommended, setRecommended] = useState([]);
+    const token = getAuthToken();
 
     useEffect(() => {
         let mounted = true;
         async function fetchRecommended() {
             try {
-                const res = await fetch('http://localhost:3000/videos/videos-only');
+                const res = await fetch('http://localhost:3000/videos/videos-only', {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
                 if (!res.ok) {
                     setRecommended([]);
                     return;
@@ -41,7 +49,7 @@ function Recommendations() {
     }, []);
 
     return (
-        <Container className="recommendations">
+        <Container className="VideoContainer">
             <Subtitle subtitle="Recommended" />
             <Container className="recommendations-container">
                 {recommended.map((video, index) => (
@@ -58,4 +66,4 @@ function Recommendations() {
     );
 }
 
-export default Recommendations;
+export default VideosContainer;

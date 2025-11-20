@@ -1,55 +1,70 @@
-import { Controller, Post, Body, Get, Param, Patch, Delete, ParseUUIDPipe, Req } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Patch,
+  Delete,
+  ParseUUIDPipe,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { CommentsService } from './comments.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
-import { AuthGuard } from '@nestjs/passport';
-import { UseGuards } from '@nestjs/common';
 import { User } from '../users/entities/user.entity';
+import { Request } from 'express';
 
-
-@Controller('videos/:videoId/comments')
+@Controller('comment')
 export class CommentsController {
-  constructor(private readonly commentsService: CommentsService) {}
+  constructor(private readonly commentsService: CommentsService) { }
 
-  //Create a new comment for a specific video
-  @Post()
+  // Create a new comment for a specific video
+  @Post(':videoId/comments')
   @UseGuards(AuthGuard('jwt'))
   create(
     @Param('videoId', ParseUUIDPipe) videoId: string,
     @Body() createCommentDto: CreateCommentDto,
-    @Req() req: any,
+    @Req() req: Request,
   ) {
-    const user = req.user as User; // Ensure req.user is typed as User
-    return this.commentsService.create(createCommentDto, user, videoId);
+
+    const user = req.user as User;
+    const userId = user.user_id;
+
+    return this.commentsService.create(createCommentDto, userId, videoId);
   }
 
-  //Get all comments for a specific video
-  @Get()
-  findAll(@Param('videoId', ParseUUIDPipe) videoId: string) {
+  // Get all comments for a specific video
+  @Get(':videoId/comments')
+  findAll(
+    @Param('videoId', ParseUUIDPipe) videoId: string,
+  ) {
     return this.commentsService.findAll(videoId);
   }
 
-  //Update a comment by its ID
-  @Patch(':id')
+  // Update a comment by its ID
+  @Patch(':videoId/comments/:id')
   @UseGuards(AuthGuard('jwt'))
   update(
-    @Param('id', ParseUUIDPipe) id: string,
+    @Param('id', ParseUUIDPipe) commentId: string,
     @Body() updateCommentDto: UpdateCommentDto,
-    @Req() req: any,
+    @Req() req: Request,
   ) {
     const user = req.user as User;
-    return this.commentsService.update(id, updateCommentDto, user);
+    return this.commentsService.update(commentId, updateCommentDto, user);
   }
 
-  //Delete a comment by its ID
-  @Delete(':id')
+
+  // Delete a comment by its ID
+  @Delete(':videoId/comments/:id')
   @UseGuards(AuthGuard('jwt'))
   remove(
-    @Param('id', ParseUUIDPipe) id: string,
-    @Req() req: any,
-  ){
+    @Param('id', ParseUUIDPipe) commentId: string,
+    @Req() req: Request,
+  ) {
     const user = req.user as User;
-    return this.commentsService.remove(id, user);
+    return this.commentsService.remove(commentId, user);
   }
 }
-

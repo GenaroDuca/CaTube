@@ -1,10 +1,11 @@
-import { IsInt, IsArray, IsString } from 'class-validator';
+
+import { IsArray, IsUUID } from 'class-validator';
 
 export class AssignTagsDto {
-  @IsInt()
+  @IsUUID()
   video_id: string;
 
   @IsArray()
-  @IsString({ each: true })
-  tagNames: string[];
+  @IsUUID("all", { each: true })
+  tag_ids: string[];
 }

@@ -1,0 +1,234 @@
+.comments-section {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.comment-channel-link{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+    margin-bottom: 10px;
+}
+
+.title-section-comment {
+    margin-bottom: 10px;
+}
+
+.add-comment-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 8px 12px;
+    background-color: var(--background-color);
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    input {
+        width: 90%;
+        border: none;
+        background: transparent;
+        color: var(--text-color);
+        font-size: var(--font-size);
+        &:focus {
+            outline: none;
+        }
+    }
+    button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: none;
+        border: none;
+        color: var(--btn);
+        cursor: pointer;
+        padding: 8px;
+        gap: 8px;
+    }
+}
+
+
+
+.video-add-comment-input, .reply-input {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 8px 12px;
+    background-color: var(--primary-color);
+    border-radius: var(--border-radius);
+    margin-bottom: 20px;
+    input {
+        width: 90%;
+        border: none;
+        background: transparent;
+        color: var(--text-color);
+        font-size: var(--font-size);
+        &:focus {
+            outline: none;
+        }
+    }
+    button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: none;
+        border: none;
+        color: var(--btn);
+        cursor: pointer;
+        padding: 8px;
+    }
+}
+
+.reply-input {
+    width: 80%;
+    button {
+        padding: 4px;
+    }   
+}
+
+.toggle-replies-btn,
+.see-more-btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: 6px 0;
+    font-size: 0.9em;
+    color: var(--text);
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+.toggle-replies-btn:hover,
+.see-more-btn:hover {
+    color: var(--btn);
+}
+
+
+.comment-date {
+    display: flex;
+    justify-content: flex-end;
+    font-size: 12px;
+    color: var(--btn);
+}
+
+.comment-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.comments-list {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;   
+    button {
+        background: none;
+        border: none;
+        color: var(--text);
+        cursor: pointer;
+        &:hover {
+            color: var(--btn);
+        }
+    }
+
+    .comment-actions {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        gap: 8px;
+    }
+}
+
+.comment {
+    background-color: var(--background-color);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    margin-bottom: 20px;
+}
+
+.reply-to {
+    color: var(--btn);
+    font-size: 12px;
+}
+
+.video-comment {
+    background-color: var(--primary-color);
+    padding: 14px;
+    border-radius: var(--border-radius);
+    margin-bottom: 10px;
+    overflow: hidden;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.reply-icon {
+    transform: scaleX(-1);
+}
+
+.replies-list {
+    margin-top: 10px;
+    margin-left: 20px;
+    padding-left: 10px;
+}
+
+.edit-comment-input {
+    input {
+        width: 100%;
+        border: none;
+        padding: 8px;
+        background-color: var(--primary-color);
+        color: var(--text-color);
+        font-size: var(--font-size);
+        border-radius: var(--border-radius);
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.video-edit-comment-input {
+    input {
+        width: 100%;
+        border: none;
+        padding: 8px;
+        background-color: var(--background-color);
+        color: var(--text-color);
+        font-size: var(--font-size);
+        border-radius: var(--border-radius);
+        &:focus {
+            outline: none;
+        }
+    }
+}
+
+.edit-comment-buttons {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 2px;
+    margin-top: 5px;
+}
+
+/* Estilo de la barra */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+/* Track (fondo de la barra) */
+::-webkit-scrollbar-track {
+    background: var(--background-color);
+    border-radius: 4px;
+}
+
+/* Thumb (parte que se mueve) */
+::-webkit-scrollbar-thumb {
+    background-color: var(--btn);
+    border-radius: 4px;
+}

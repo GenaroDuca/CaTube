@@ -41,7 +41,6 @@ function Studio() {
                     const userData = await response.json();
                     if (userData.channel) {
                         const channelId = userData.channel.channel_id;
-                        // Set the user's own channel in localStorage for studio components
                         localStorage.setItem('channelId', channelId);
                         setUserChannelId(channelId);
                     }
@@ -91,17 +90,16 @@ function Studio() {
 
     return (
         <>
-            <>
-                <main>
-                    <Header></Header>
-                    <SidebarStudio activeTabIndex={activeTabIndex} onTabClick={handleTabClick}></SidebarStudio>
-                    <div className="container-studio">
-                        {React.cloneElement(ActiveComponent, { key: componentKey })}
-                        {/* <Footer footer="footer-studio"></Footer> */}
-                    </div>
-                    <RightMenu channelId={userChannelId}></RightMenu>
-                </main>
-            </>
+            <main>
+                <Header></Header>
+                <SidebarStudio activeTabIndex={activeTabIndex} onTabClick={handleTabClick}></SidebarStudio>
+                <div className="container-studio">
+                    {React.cloneElement(ActiveComponent, { key: componentKey })}
+                    {/* <Footer footer="footer-studio"></Footer> */}
+                </div>
+                <RightMenu channelId={userChannelId}></RightMenu>
+            </main>
+            <Footer footer="footer-studio"></Footer>
         </>
     );
 }

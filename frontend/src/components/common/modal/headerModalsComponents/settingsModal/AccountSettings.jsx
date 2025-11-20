@@ -1,6 +1,6 @@
 import { useModal } from "../../ModalContext";
 import { useToast } from '../../../../../hooks/useToast';
-
+import { getMyUserId} from "../../../../../utils/auth"
 const AccountSettings = () => {
   const { openModal } = useModal();
   // FeedbackToast y Modal Context
@@ -8,7 +8,7 @@ const AccountSettings = () => {
 
   // 1. Mover la lógica de borrado de cuenta del modal viejo aquí
   const deleteUserAccount = async () => {
-    let userId = localStorage.getItem('userId');
+    let userId = getMyUserId();
 
     if (!userId) {
       console.error('User ID not found. Please log in again.');

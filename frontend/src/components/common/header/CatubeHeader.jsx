@@ -39,7 +39,7 @@ export function CatubeHeader({logo, searchQuery, setSearchQuery}) {
     const { openModal } = useModal();
 
     const handleVoiceSearch = () => {
-        console.log('Voice search started');
+        // console.log('Voice search started');
         let finalSearchTranscript = '';
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 

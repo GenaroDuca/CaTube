@@ -4,9 +4,11 @@ import { TagController } from './tags.controller';
 import { Video } from '../videos/entities/video.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Tag } from './entities/tag.entity';
+import { VideosModule } from 'src/videos/videos.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Tag, Video])],
+  imports: [TypeOrmModule.forFeature([Tag, Video]),
+    VideosModule],
   controllers: [TagController,],
   providers: [TagService],
 

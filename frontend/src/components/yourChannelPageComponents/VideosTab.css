@@ -11,18 +11,11 @@
     overflow: hidden;
 }
 
-.video-thumbnail {
-    width: 100%;
-    aspect-ratio: 16/9;
-    object-fit: cover;
-}
-
 .video-details {
     padding: 1rem;
 }
 
 .video-title {
-    color: white;
     margin-bottom: 0.5rem;
 }
 

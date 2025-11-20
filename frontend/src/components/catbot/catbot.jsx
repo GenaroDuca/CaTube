@@ -22,7 +22,7 @@ export default function Catbot() {
     const sendMessage = async () => {
         if (!input.trim()) return;
 
-        console.log("Enviando mensaje:", input);
+        // console.log("Enviando mensaje:", input);
         const newMessages = [...messages, { sender: "user", text: input }];
         setMessages(newMessages);
         setInput("");

@@ -1,10 +1,10 @@
+import { getAuthToken } from '../../utils/auth.js';
 import React, { useState, useEffect } from 'react';
 
 
 function RightMenu({ channelId }) {
     const BASE_URL = 'http://localhost:3000';
     const [channel, setChannel] = useState(null);
-
     const getAvatar = (channel) => {
         if (channel.photoUrl && channel.photoUrl.trim() !== '') {
             let photoPath = channel.photoUrl;
@@ -30,11 +30,12 @@ function RightMenu({ channelId }) {
         }
     };
 
-    useEffect(() => {
+    useEffect(() => {        
         const fetchChannel = async () => {
-            const accessToken = localStorage.getItem('accessToken');
+            const accessToken = getAuthToken();;
+
             if (!channelId || !accessToken) {
-                console.warn('No channelId or accessToken found, skipping fetch');
+                // console.warn('No channelId or accessToken found, skipping fetch');
                 setChannel(null);
                 return;
             }

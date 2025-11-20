@@ -37,6 +37,7 @@ function Content() {
                     comments: v.comments?.length ?? 0,
                     like: v.likes?.length ?? 0,
                     type: v.type || 'video',
+                    tags: v.tags?.map(t => t.name) || []
                 };
             });
 
@@ -64,7 +65,9 @@ function Content() {
 
                 // No access token — try to fetch by stored channelId (public endpoint)
                 if (storedChannelId) {
-                    const res = await fetch(`${BASE_URL}/videos/channel/${storedChannelId}`);
+                    const res = await fetch(`${BASE_URL}/videos/channel/${storedChannelId}`, {
+                        headers: { 'Authorization': `Bearer ${accessToken}` },
+                    });
                     console.debug('Content: /videos/channel/:id status', res.status);
                         if (!res.ok) {
                             const text = await res.text().catch(() => '<no body>');

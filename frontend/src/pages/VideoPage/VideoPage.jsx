@@ -12,20 +12,18 @@ import './VideoPage.css';
 //Assets
 import Yukki from '../../assets/images/profile/yukki.jpg'
 import Video from '../../assets/videos/channel-video-proof.mp4'
-import thumbnail from '../../assets/images/thumbnails/Pinterest_Swap_Challenge.jpg'
-import Gena from '../../assets/images/profile/gena.jpg'
-import Jere from '../../assets/images/profile/jere.jpg'
 import { VideoList } from '../../components/videoPageComponents/VideoList.jsx';
-
+import { getAuthToken } from '../../utils/auth.js';
+import Footer from '../../components/common/Footer.jsx';
 
 export function VideoPage() {
     const [searchQuery, setSearchQuery] = useState('');
+    const token = getAuthToken();
 
     useEffect(() => {
         window.scrollTo({ top: 0 });
     }, []);
 
-    // Cargar video por id desde la ruta /watch/:id
     const { id } = useParams();
     const [video, setVideo] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -46,18 +44,19 @@ export function VideoPage() {
 
             setLoading(true);
             try {
-                const res = await fetch(`http://localhost:3000/videos/${id}`);
+                const res = await fetch(`http://localhost:3000/videos/${id}`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`,
+                    },
+                });
                 if (!res.ok) throw new Error('Video not found');
                 const data = await res.json();
 
                 const fileUrl = data.url && data.url.startsWith('/') ? `http://localhost:3000${data.url}` : data.url;
                 const thumbnailUrl = data.thumbnail && data.thumbnail.startsWith('/') ? `http://localhost:3000${data.thumbnail}` : data.thumbnail;
 
-                // Normalize channel photo URL:
-                // - /uploads/... => backend host
-                // - /assets/images/profile/... => keep as-is (served by frontend)
-                // - /default-avatar/X.png => map to /assets/images/profile/X.png
-                // - other absolute paths starting with / => assume backend uploads and prefix
                 let channelPhotoUrl = null;
                 const rawPhoto = data.channel?.photoUrl;
                 if (rawPhoto && rawPhoto.trim() !== '') {
@@ -70,18 +69,15 @@ export function VideoPage() {
                         const letter = letterMatch ? letterMatch[1] : (data.channel?.channel_name?.charAt(0).toUpperCase() || 'A');
                         channelPhotoUrl = `/assets/images/profile/${letter}.png`;
                     } else if (rawPhoto.startsWith('/')) {
-                        // fallback: likely uploaded path
                         channelPhotoUrl = `http://localhost:3000${rawPhoto}`;
                     } else {
                         channelPhotoUrl = rawPhoto;
                     }
                 } else {
-                    // default avatar based on channel name first letter
                     const firstLetter = data.channel?.channel_name?.charAt(0).toUpperCase() || 'A';
                     channelPhotoUrl = `/assets/images/profile/${firstLetter}.png`;
                 }
 
-                // Formatear el número de suscriptores
                 const formatSubscriptions = (count) => {
                     if (count >= 1000000) return `${(count / 1000000).toFixed(1)}M`;
                     if (count >= 1000) return `${(count / 1000).toFixed(1)}K`;
@@ -94,10 +90,34 @@ export function VideoPage() {
                     avatar: channelPhotoUrl || Yukki,
                     userName: data.channel?.channel_name || 'Unknown',
                     description: data.description || '',
-                    // Enviamos tanto el id del canal como el número crudo de suscriptores
                     channelId: data.channel?.channel_id,
                     subscriptions: data.channel?.subscriberCount || 0,
+                    tags: data.tags
                 });
+
+                // --------------------------------------------------------
+                // IMPLEMENTACIÓN DE VISTAS 
+                // --------------------------------------------------------
+                const userId = localStorage.getItem('userId') || 'anonymous';
+                const viewedVideosKey = `viewedVideos_${userId}`;
+                const viewedVideos = JSON.parse(localStorage.getItem(viewedVideosKey) || '[]');
+
+                if (!viewedVideos.includes(id)) {
+                    try {
+                        await fetch(`http://localhost:3000/videos/${id}/views`, {
+                            headers: { Authorization: `Bearer ${token}` },
+                            method: 'POST',
+                        });
+
+                        viewedVideos.push(id);
+                        localStorage.setItem(viewedVideosKey, JSON.stringify(viewedVideos));
+                        console.log('Views incremented successfully');
+                    } catch (error) {
+                        console.error('Error incrementing views:', error);
+                    }
+                }
+                // --------------------------------------------------------
+
             } catch (err) {
                 console.error('Error fetching video:', err);
                 setVideo({
@@ -121,17 +141,16 @@ export function VideoPage() {
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
             />
-            <Sidebar>
-            </Sidebar>
+            <Sidebar></Sidebar>
             <main className="main-content">
 
-
                 <div className="container-all">
-                    {loading ? <p>Loading video...</p> : <WatchVideo {...video} />}
+                    {loading ? <p>Loading video...</p> : <WatchVideo {...video} videoId={id} />}
                     <VideoList currentVideoId={id} />
                 </div>
-            </main>
-        </>
 
+            </main>
+            {/* <Footer> </Footer> */}
+        </>
     );
 }

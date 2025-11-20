@@ -12,6 +12,8 @@ import { FiMinimize2 } from "react-icons/fi";
 import { FiMaximize2 } from "react-icons/fi";
 import { Link } from 'react-router-dom';
 import { useToast } from '../../hooks/useToast';
+import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
+import { CommentSection } from '../common/CommentSection.jsx';
 
 export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
   const videoRef = useRef(null)
@@ -21,6 +23,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
   const [sliderVisible, setSliderVisible] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
   const { showSuccess, showError } = useToast()
+  const [commentCount, setCommentCount] = useState(short.comments || 0);
 
   useEffect(() => {
     const v = videoRef.current
@@ -29,6 +32,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
       v.volume = volume
     }
   }, [])
+
 
   useEffect(() => {
     const checkSubscription = async () => {
@@ -144,7 +148,6 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
     slider.style.background = `linear-gradient(to right, rgb(144, 180, 132) ${percent}%, #1a1a1b ${percent}%)`
   }
 
-
   function onVideoClick(e) {
     const target = e.target
     if (target.tagName.toLowerCase() === 'video' || target.classList.contains('video-placeholder')) {
@@ -161,8 +164,9 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
             <img src={short.channelAvatar} alt={short.channelName} />
           </Link>
           <div className="channel-info">
-            <p>{short.channelName}</p>
+            <h2>{short.channelName}</h2>
           </div>
+
           <button
             type="button"
             className="subscribe-button short-action-subscribe"
@@ -181,7 +185,26 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
             Promote short
           </button>
 
-          <p>{short.title}</p>
+          <div style={{ width: "100%", textAlign: "justify" }}>
+            <h3 style={{ textAlign: "center" }}>{short.title}</h3>
+            <h3 style={{ marginTop: "20px" }}>Video Description</h3>
+            <p>{short.description}</p>
+            <div className="vv-displayVideo-description-tags">
+              <h4 style={{ marginTop: "20px" }}>Video Tags</h4>
+              <div>
+                {short.tags.map(tag => (
+                  <Link
+                    key={tag.name}
+                    to={`/discover?tag=${encodeURIComponent(tag.name)}`}
+                    className="tag-link"
+                  >
+                    #{tag.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
 
 
 
@@ -209,8 +232,8 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
           <div className='short-action-buttons-container'>
 
             <div className="container-play-vol">
-              <button type="button" id="maximize" className="action-button" onClick={(e) => { e.stopPropagation(); onToggleMaximize(); }}>
-                {isMaximized ? <FiMinimize2 color=' rgb(144, 180, 132' size={25} /> : <FiMaximize2 color=' rgb(144, 180, 132' size={25} />}
+              <button type="button" id="maximize" className="action-button btn-maximize" onClick={(e) => { e.stopPropagation(); onToggleMaximize(); }}>
+                {isMaximized ? <FiMinimize2 size={25} /> : <FiMaximize2 size={25} />}
               </button>
               <button
                 type="button"
@@ -219,12 +242,12 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
                 onClick={togglePlay}
                 aria-label={paused ? 'Play' : 'Pause'}
               >
-                {paused ? <FaCirclePlay color=' rgb(144, 180, 132' size={25} /> : <FaCirclePause color=' rgb(144, 180, 132' size={25} />}
+                {paused ? <FaCirclePlay size={25} /> : <FaCirclePause size={25} />}
               </button>
 
               <div className="volume-control-container">
                 <button type="button" id="soundMuteBtn" className="action-button btn-sound" onClick={toggleMute}>
-                  {muted ? <ImVolumeMute2 color=' rgb(144, 180, 132' size={25} /> : <ImVolumeMedium color=' rgb(144, 180, 132' size={25} />}
+                  {muted ? <ImVolumeMute2 size={25} /> : <ImVolumeMedium size={25} />}
                 </button>
                 <input
                   type="range"
@@ -241,23 +264,23 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
 
             </div>
             <div className="action-buttons">
-              <button type="button" className="action-button"><FaHeart color=' rgb(144, 180, 132' size={25} /></button>
+              <button type="button" className="action-button"><FaHeart size={25} /></button>
               <span>{short.likes}</span>
-              <button type="button" className="action-button"><IoHeartDislike color=' rgb(144, 180, 132' size={25} /></button>
+              <button type="button" className="action-button"><IoHeartDislike size={25} /></button>
               <span>{short.dislikes}</span>
 
-              <button type="button" className="action-button"><FaComments color=' rgb(144, 180, 132' size={25} /></button>
+              <button type="button" className="action-button"><FaComments size={25} /></button>
               <span>{short.comments}</span>
 
-              <button type="button" className="action-button"><FaShare color=' rgb(144, 180, 132' size={25} /></button>
+              <button type="button" className="action-button"><ShareMenu videoUrl={short.url} videoTitle={short.title} /></button>
 
-              <button type="button" className="action-button"><RiSettings2Fill color=' rgb(144, 180, 132' size={25} /></button>
+              <button type="button" className="action-button"><RiSettings2Fill size={25} /></button>
 
             </div>
           </div>
         </div>
         <div className='short-comments-container short-container'>
-          <p>COMENTARIOS FALTAN</p>
+          <CommentSection videoId={short.id} onCountChange={setCommentCount} />
         </div>
       </div >
 

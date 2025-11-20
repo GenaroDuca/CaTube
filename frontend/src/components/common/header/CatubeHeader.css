@@ -359,33 +359,4 @@
     .create-video-btn {
         margin: 0 -10px
     }
-
-
-    .create-thumbnail {
-        justify-content: center;
-    }
-
-    .create-thumbnail img {
-        margin-bottom: 20px;
-        width: 100%;
-    }
-
-    .create-video-tags-container section:nth-child(1) {
-        order: 1;
-        width: 45%;
-    }
-
-    .create-video-tags-container section:nth-child(2) {
-        order: 2;
-        width: 100%
-    }
-
-    .create-video-tags-container section:nth-child(3) {
-        order: 1;
-        width: 45%;
-    }
-
-    .create-video-tags-container {
-        flex-wrap: wrap;
-    }
 }

@@ -14,8 +14,11 @@ import Angel from '../../assets/images/profile/angel.jpg';
 import Gena from '../../assets/images/profile/gena.jpg';
 import Jere from '../../assets/images/profile/jere.jpg';
 import Yukki from '../../assets/images/profile/yukki.jpg';
+import { Link } from "react-router-dom";
+import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
+import { CommentSection } from "../common/CommentSection.jsx";
 
-export function WatchVideo({ url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle }) {
+export function WatchVideo({ videoId, url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags }) {
     const videoRef = useRef(null);
     const {
         isPlaying,
@@ -118,31 +121,38 @@ export function WatchVideo({ url, title, avatar, userName, description, subscrip
                     <section>
                         <button className="like-btn"><FaHeart color='#777878' size={22} /></button>
                         <button className="dislike-btn"><IoHeartDislike color='#777878' size={25} /></button>
-                        <button className="share-btn"><FaShare color='#777878' size={25} /></button>
+                        <ShareMenu videoUrl={url} videoTitle={title} />
                         <button className="options-btn"><SlOptionsVertical color='#777878' size={20} /></button>
                     </section>
                 </div>
             </div>
 
             <div className="vv-displayVideo-description">
-                <h3>Video Description</h3>
-                <p>{description}</p>
+                <div>
+                    <h3>Video Description</h3>
+                    <p>{description}</p>
+                </div>
+
+                <div className="vv-displayVideo-description-tags">
+                    <h4>Video Tags</h4>
+                    <div>
+                        {tags.map(tag => (
+                            <Link
+                                key={tag.name}
+                                to={`/discover?tag=${encodeURIComponent(tag.name)}`}
+                                className="tag-link"
+                            >
+                                #{tag.name}
+                            </Link>
+                        ))}
+
+                    </div>
+                </div>
             </div>
 
             <div className="vv-displayVideo-comments">
-                <h2>Comments</h2>
-                {comments.map(comment => (
-                    <div key={comment.id} className="comment">
-                        <div className="comment-header">
-                            <img className="comment-avatar" src={comment.avatar} alt={`${comment.userName} avatar`} />
-                            <h3 className="comment-username">{comment.userName}</h3>
-                        </div>
-                        <div>
-                            <p className="comment-content">{comment.content}</p>
-                            <input className='comment-input' type="text" placeholder="reply comment" />
-                        </div>
-                    </div>
-                ))}
+                <h3>Comments</h3>
+                <CommentSection videoId={videoId} />
             </div>
         </article>
     );

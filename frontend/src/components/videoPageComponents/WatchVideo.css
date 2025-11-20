@@ -280,6 +280,24 @@
     border-radius: var(--border-radius);
 }
 
+.vv-displayVideo-description-tags {
+    margin-top: 20px;
+    
+}
+
+.vv-displayVideo-description-tags div{
+    display: flex;
+    gap: 10px;
+}
+
+.vv-displayVideo-description-tags div a{
+    color: var(--btn);
+}
+
+.vv-displayVideo-description-tags div a:hover{
+    color: var(--btn-dark);
+}
+
 /* ===Likes/Dislikes/Options=== */
 
 .vv-displayVideo-userActions {
@@ -309,12 +327,14 @@
     cursor: pointer;
 }
 
-.like-btn:hover {
-
-    .like-btn svg path {
-        color: var(--btn);
-    }
+.like-btn:hover svg path,
+.dislike-btn:hover svg path,
+.options-btn:hover svg path,
+.share-btn:hover svg path {
+    fill: var(--btn);
+    stroke: var(--btn);
 }
+
 
 /* ===Comments=== */
 
@@ -323,10 +343,13 @@
     border-radius: var(--border-radius);
 }
 
+.vv-displayVideo-comments h3 {
+    margin-bottom: 20px;
+}
+
 .comment {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
 }
 
 .comment-header {

@@ -43,7 +43,7 @@ async function createProductSolo(formDataToSend) {
     const url = `${BASE_URL}/product`;
 
     for (const [key, value] of formDataToSend.entries()) {
-        console.log(key, value);
+        // console.log(key, value);
     }
 
     const headers = {};

@@ -1,15 +1,27 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsNumber } from 'class-validator';
 
 export class ResponseCommentDto {
-    @IsString()
-    @IsNotEmpty()
-    user_name: string;
-
-    @IsString()
-    @IsNotEmpty()
-    content: string
 
     @IsNotEmpty()
     @IsString()
-    createdAt: Date;
+    username: string;
+
+    @IsNotEmpty()
+    @IsString()
+    content: string;
+
+    @IsNotEmpty()
+    @IsString()
+    createdAt: string;
+
+    @IsOptional()
+    @IsString()
+    updatedAt?: string;
+
+    @IsNotEmpty()
+    @IsNumber()
+    likesCount: number;
+
+    @IsOptional()
+    replies?: ResponseCommentDto[];
 }

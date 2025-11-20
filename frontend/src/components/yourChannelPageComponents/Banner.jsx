@@ -31,7 +31,7 @@ function Banner({ channelId }) {
 
     return (
         <div className="banner-container">
-            <img className="banner" src={bannerSrc} alt="banner" />
+            <img className="banner-image" src={bannerSrc} alt="banner" />
         </div>
     );
 }

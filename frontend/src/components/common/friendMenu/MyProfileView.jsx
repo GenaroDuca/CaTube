@@ -1,7 +1,7 @@
 // src/components/FriendMenu/MyProfileView.jsx
 import { useState, useEffect } from 'react';
 import { IoArrowBackCircle } from "react-icons/io5";
-import { DEFAULT_AVATAR } from './Constants'; // Importar de constantes
+import { DEFAULT_AVATAR } from './constants'; // Importar de constantes
 
 
 const MyProfileView = ({ myUser, onBack, onSaveProfile, isLoading }) => {

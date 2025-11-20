@@ -10,7 +10,7 @@
     margin: 1rem;
 }
 
-.banner {
+.banner-image {
     width: 95%;
     height: 275px;
     object-fit: cover;
@@ -285,6 +285,12 @@
     flex-wrap: wrap;
 }
 
+.post-btn-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
 .btn-channel {
     background: var(--btn);
     border-radius: 30px;
@@ -336,13 +342,17 @@
 }
 
 .post-text {
-    min-width: 0;
+    width: 100%;
 }
 
 .post-text p {
     word-wrap: break-word;
     overflow-wrap: break-word;
     max-width: 99%;
+}
+
+.post-text small {
+    color: var(--btn);
 }
 
 .postsOptions input {

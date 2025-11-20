@@ -48,7 +48,7 @@ export function NotificationCard({ notification, onMarkAsRead, onDelete }) {
                 //logica para abrir abrir chat (falta)
                 break;
             default:
-                console.log('Default action for notification:', notification);
+                // console.log('Default action for notification:', notification);
                 break;
         }
     };
@@ -56,7 +56,7 @@ export function NotificationCard({ notification, onMarkAsRead, onDelete }) {
     // NUEVA FUNCIÓN para manejar la eliminación
     const handleDeleteClick = () => {
         if (onDelete) {
-            console.log(`Deleting notification with ID: ${id}`);
+            // console.log(`Deleting notification with ID: ${id}`);
             onDelete(id); // Llama a la función que se pasa desde el componente padre
         }
     };

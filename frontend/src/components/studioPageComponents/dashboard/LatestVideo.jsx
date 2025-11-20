@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import Container from "../../common/Container";
 import Subtitle from "../../homePageComponents/Subtitle";
+import { getAuthToken } from '../../../utils/auth';
 
 function LatestVideo({ channelId }) {
     const [latest, setLatest] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const token = getAuthToken();
     useEffect(() => {
         async function fetchLatest() {
             setLoading(true);
@@ -16,7 +17,9 @@ function LatestVideo({ channelId }) {
                     return;
                 }
 
-                const res = await fetch(`http://localhost:3000/videos/channel/${channelId}`);
+                const res = await fetch(`http://localhost:3000/videos/channel/${channelId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                });
                 if (!res.ok) {
                     setLatest(null);
                     setLoading(false);

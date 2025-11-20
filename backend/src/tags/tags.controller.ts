@@ -3,15 +3,20 @@ import {
   Post,
   Body,
   Get,
-  Query,
+  UseGuards,
+  Param,
 } from '@nestjs/common';
 import { TagService } from './tags.service';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { AssignTagsDto } from './dto/assign-tag.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { VideosService } from 'src/videos/videos.service';
 
 @Controller('tags')
 export class TagController {
-  constructor(private readonly tagService: TagService) {}
+  constructor(private readonly tagService: TagService,
+    private readonly videosService: VideosService,
+  ) { }
 
   @Post()
   createTag(@Body() dto: CreateTagDto) {
@@ -23,8 +28,11 @@ export class TagController {
     return this.tagService.getAllTags();
   }
 
+
   @Post('assign')
-  assignTagsToVideo(@Body() dto: AssignTagsDto) {
-    return this.tagService.assignTagsToVideo(dto.video_id, dto.tagNames);
+  @UseGuards(AuthGuard('jwt'))
+  async assignTags(@Body() assignTagsDto: AssignTagsDto) {
+    const { video_id, tag_ids } = assignTagsDto;
+    return this.tagService.assignTagsToVideo(video_id, tag_ids);
   }
 }

@@ -3,10 +3,11 @@ import '../../styles/Global_components.css'
 import Ads from '../../components/homePageComponents/Ads.jsx'
 import Sidebar from "../../components/common/Sidebar";
 import Footer from "../../components/common/Footer.jsx";
-import Recommendations from '../../components/homePageComponents/Recommendations.jsx'
-import Sections from '../../components/homePageComponents/Sections.jsx'
+import VideosContainer from '../../components/homePageComponents/VideosContainer.jsx'
+import SectionsCarousel from '../../components/homePageComponents/SectionsCarousel.jsx'
 import Header from '../../components/common/header/Header.jsx'
 import { useRef, useState, useEffect } from 'react';
+import { getAuthToken } from "../../utils/auth";
 
 function Home() {
   const [channels, setChannels] = useState([]);
@@ -18,6 +19,8 @@ function Home() {
   const popularChannelsRef = useRef(null);
   const catsRef = useRef(null);
   const shortsRef = useRef(null);
+
+  const token = getAuthToken();
 
   useEffect(() => {
     const fetchChannels = async () => {
@@ -47,7 +50,13 @@ function Home() {
 
     const fetchVideos = async () => {
       try {
-        const response = await fetch('http://localhost:3000/videos');
+        const response = await fetch('http://localhost:3000/videos', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        })
         if (!response.ok) {
           throw new Error('Failed to fetch videos');
         }
@@ -71,7 +80,13 @@ function Home() {
 
     const fetchShorts = async () => {
       try {
-        const response = await fetch('http://localhost:3000/videos/shorts');
+        const response = await fetch('http://localhost:3000/videos/shorts', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
         if (!response.ok) {
           throw new Error('Failed to fetch shorts');
         }
@@ -81,8 +96,9 @@ function Home() {
           id: short.id,
           nameshort: short.title,
           shortviews: `${short.views || 0} views`,
-          photo: `http://localhost:3000${short.thumbnail}`,
+          thumbnail: `http://localhost:3000${short.thumbnail}`,
         }));
+        
         setShorts(transformedShorts);
       } catch (err) {
         console.error('Error fetching shorts:', err);
@@ -116,20 +132,20 @@ function Home() {
 
   return (
     <>
-        <Header></Header>
-        <Sidebar />
-        <main className="main-content">
-          {/* <Ads /> */}
-          <Sections section="popular-channels" subtitle="Recent Channels" ref={popularChannelsRef} render={channels} type="profile" cts="carousel-cts" ></Sections>
-          <Sections section="trending" subtitle="Shorts" ref={shortsRef} render={shorts} type="short" cts="carousel-ctshorts"></Sections>
-          <Sections section="subscriptions" subtitle="Catscribers" ref={catsRef} render={videos} type="video" cts="carousel-ctsvideos"></Sections>
+      <Header></Header>
+      <Sidebar />
+      <main className="main-content">
+        {/* <Ads /> */}
+        <SectionsCarousel section="popular-channels" subtitle="Recent Channels" ref={popularChannelsRef} render={channels} type="profile" cts="carousel-cts" ></SectionsCarousel>
+        <SectionsCarousel section="trending" subtitle="Shorts" ref={shortsRef} render={shorts} type="short" cts="carousel-ctshorts"></SectionsCarousel>
+        {/* <Sections section="subscriptions" subtitle="Catscribers" ref={catsRef} render={videos} type="video" cts="carousel-ctsvideos"></Sections> */}
 
-          <Recommendations />
+        <VideosContainer />
 
-          {/* <Ads /> */}
+        {/* <Ads /> */}
 
-          <Footer footer="footer"></Footer>
-        </main>
+        <Footer footer="footer" ></Footer>
+      </main>
     </>
   )
 }

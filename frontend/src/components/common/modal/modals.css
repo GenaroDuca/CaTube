@@ -69,6 +69,7 @@
     justify-content: center;
     backdrop-filter: blur(2px);
     animation: fadeIn 0.3s ease-in-out;
+    padding: 20px;
 }
 
 /* Encabezados de todos los modales (Grandes) */
@@ -600,10 +601,13 @@ input:checked+.slider:before {
 /* ==================================== */
 /* 7. ESTILOS ESPECÍFICOS DE CREATE VIDEO MODAL */
 /* ==================================== */
+.create-video-content {
+    height: 90vh;
+}
 
 .create-video-content main {
     width: 100%;
-    padding: 0px 20px 20px 20px;
+    height: 90%;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
     background-color: var(--background-color);
@@ -612,7 +616,6 @@ input:checked+.slider:before {
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
 }
 
 .create-video-content main h2 {
@@ -699,6 +702,33 @@ input:checked+.slider:before {
     flex-direction: column;
 }
 
+.create-video-tags-container section ul {
+    height: 200px;
+    overflow-y: auto;
+    background-color: var(--primary-color);
+    padding: 20px;
+    border-radius: 30px;
+}
+
+.create-video-tags-container section ul li {
+    list-style: none;
+}
+
+.create-video-tags-container section ul li button {
+    background-color: transparent;
+    color: var(--text-color);
+    border: none;
+    padding: 5px 0px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+
+.create-video-tags-container section ul li button:hover {
+    color: var(--btn);
+}
+
+
 .create-video-tags-container section select {
     padding: 20px;
     height: auto;
@@ -732,24 +762,39 @@ input:checked+.slider:before {
     flex-direction: row;
 }
 
-.tag-input-container div button {
-    background: var(--btn);
-    color: var(--primary-color);
+.tag-input-container p {
+    width: 100%;
+    padding: 12px 20px;
+    margin-bottom: 20px;
+}
+
+.no-tags-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.no-tags-message {
+    text-align: center;
+}
+
+.tag-selected {
+    color: var(--btn) !important;                   
+}
+
+.create-tag-btn {
+    background-color: var(--btn);
     border: none;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px;
-    padding: 5px 10px;
+    padding: 12px 20px;
+    border-radius: 30px;
     cursor: pointer;
 }
 
-.tag-input-container div button:hover {
-    background: var(--btn-dark);
+.create-tag-btn:hover {
+    background-color: var(--btn-dark);
 }
 
-.tag-input-container div input {
-    border-bottom-right-radius: 0px !important;
-    border-top-right-radius: 0px !important;
-}
 
 .create-video-buttons button {
     padding: 12px 20px;
@@ -1066,6 +1111,10 @@ input:checked+.slider:before {
     }
 
     .price-stock-container {
+        flex-direction: column;
+    }
+
+    .create-video-media-input {
         flex-direction: column;
     }
 

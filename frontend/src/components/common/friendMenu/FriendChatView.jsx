@@ -4,6 +4,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { useNotification } from '../../../hooks/useNotification';
 import { useModal } from '../modal/ModalContext';
 import { useToast } from '../../../hooks/useToast';
+import { IoIosCloseCircle } from "react-icons/io";
 
 import {
   getSocket,
@@ -243,20 +244,27 @@ const FriendChatView = ({ friend, onBack, onGoToProfile }) => {
 
                 <div className="message-bubble-content">
                   {isEditing ? (
-                    <form onSubmit={submitEdit} className="edit-form">
+                    <div className="edit-comment-input">
                       <input
                         type="text"
                         value={editingContent}
                         onChange={handleEditChange}
                         onKeyDown={(e) => {
-                          if (e.key === 'Escape') setEditingMessageId(null);
+                          if (e.key === "Enter") submitEdit(e);
+                          if (e.key === "Escape") setEditingMessageId(null);
                         }}
                         autoFocus
                       />
-                      <button type="submit" disabled={!editingContent.trim()}>
-                        <IoCheckmark size={20} title="Confirm Edit" />
-                      </button>
-                    </form>
+
+                      <div className="edit-comment-buttons">
+                        <button onClick={submitEdit}>
+                          <IoCheckmark size={18} />
+                        </button>
+                        <button onClick={() => setEditingMessageId(null)}>
+                          <IoIosCloseCircle size={20} />
+                        </button>
+                      </div>
+                    </div>
                   ) : (
                     <p className="message-content">{msg.content}</p>
                   )}
