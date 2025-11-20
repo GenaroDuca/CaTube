@@ -11,6 +11,7 @@ import { Tag } from 'src/tags/entities/tag.entity';
 import * as ffmpeg from 'fluent-ffmpeg';
 import * as ffmpegStatic from 'ffmpeg-static';
 import * as ffprobeStatic from 'ffprobe-static';
+import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { s3 } from 'src/aws/s3.config';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -24,10 +25,10 @@ export class VideosService {
     @InjectRepository(Video)
     private readonly videoRepository: Repository<Video>,
     private userService: UsersService,
-  ) {}
+  ) { }
 
   // ======================================================
-  // CREATE VIDEO -> ahora con S3
+  // CREATE VIDEO 
   // ======================================================
   async create(createVideoDto: CreateVideoDto, userId: string, files: Express.Multer.File[]) {
     const user = await this.userService.findOneById(userId);
@@ -37,27 +38,23 @@ export class VideosService {
 
     if (!files || files.length === 0) throw new InternalServerErrorException('No files uploaded');
 
-    const newVideo = this.videoRepository.create({
-      ...createVideoDto,
-      channel,
-    });
+    const newVideo = this.videoRepository.create({ ...createVideoDto, channel });
 
-    // Subir archivos a S3
     for (const file of files) {
       const extension = file.originalname.split('.').pop();
       const key = `${uuidv4()}_${Date.now()}.${extension}`;
 
-      const params = {
-        Bucket: process.env.AWS_BUCKET_NAME!,
-        Key: key,
-        Body: file.buffer,
-        ContentType: file.mimetype,
-        ACL: 'public-read',
-      };
-
       try {
-        const result = await s3.upload(params).promise();
-        const url = result.Location;
+        const command = new PutObjectCommand({
+          Bucket: process.env.AWS_BUCKET_NAME!,
+          Key: key,
+          Body: file.buffer,
+          ContentType: file.mimetype,
+          ACL: 'public-read',
+        });
+
+        await s3.send(command);
+        const url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
 
         if (file.mimetype.startsWith('image/')) newVideo.thumbnail = url;
         else if (file.mimetype.startsWith('video/')) newVideo.url = url;
@@ -69,18 +66,16 @@ export class VideosService {
 
     if (!newVideo.url) throw new InternalServerErrorException('Video file is required');
 
-    // Determinar tipo short o video
     const duration = await this.getVideoDurationFromUrl(newVideo.url);
     newVideo.type = duration <= 60 ? 'short' : 'video';
 
     await this.videoRepository.save(newVideo);
-
     const link = newVideo.type === 'short' ? `/shorts/${newVideo.id}` : `/watch/${newVideo.id}`;
     return { ...newVideo, link };
   }
 
   // ======================================================
-  // UPDATE VIDEO -> actualizar thumbnail a S3
+  // UPDATE VIDEO
   // ======================================================
   async update(id: string, updateVideoDto: UpdateVideoDto, files?: Express.Multer.File[]) {
     const video = await this.videoRepository.findOne({
@@ -95,27 +90,30 @@ export class VideosService {
 
     if (files && files.length > 0) {
       const thumbnailFile = files[0];
-      if (!thumbnailFile.mimetype.startsWith('image/')) throw new InternalServerErrorException('File must be an image');
+      if (!thumbnailFile.mimetype.startsWith('image/'))
+        throw new InternalServerErrorException('File must be an image');
 
       const extension = thumbnailFile.originalname.split('.').pop();
       const key = `${uuidv4()}_${Date.now()}.${extension}`;
 
-      const params = {
-        Bucket: process.env.AWS_BUCKET_NAME!,
-        Key: key,
-        Body: thumbnailFile.buffer,
-        ContentType: thumbnailFile.mimetype,
-        ACL: 'public-read',
-      };
-
       try {
-        const result = await s3.upload(params).promise();
-        const url = result.Location;
+        const command = new PutObjectCommand({
+          Bucket: process.env.AWS_BUCKET_NAME!,
+          Key: key,
+          Body: thumbnailFile.buffer,
+          ContentType: thumbnailFile.mimetype,
+          ACL: 'public-read',
+        });
+
+        await s3.send(command);
+        const url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
         updates.thumbnail = url;
 
-        // Si había thumbnail anterior, opcionalmente se puede borrar de S3
-        // const oldKey = video.thumbnail.split('/').pop();
-        // await s3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME!, Key: oldKey }).promise();
+        // borrar thumbnail anterior
+        if (video.thumbnail) {
+          const oldKey = video.thumbnail.split('/').pop();
+          await s3.send(new DeleteObjectCommand({ Bucket: process.env.AWS_BUCKET_NAME!, Key: oldKey }));
+        }
 
       } catch (err) {
         console.error('S3 upload error:', err);

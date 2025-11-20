@@ -1,19 +1,28 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateChannelDto } from './dto-channels/create-channel.dto';
 import { Channel } from './entities/channel.entity';
 import { User } from 'src/users/entities/user.entity';
-import { s3 } from 'src/aws/s3.config'; // tu configuración de S3
 import { v4 as uuidv4 } from 'uuid';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 
 @Injectable()
 export class ChannelsService {
+    private s3: S3Client;
 
     constructor(
         @InjectRepository(Channel)
         private channelRepository: Repository<Channel>,
-    ) { }
+    ) {
+        this.s3 = new S3Client({
+            region: process.env.AWS_REGION,
+            credentials: {
+                accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+            },
+        });
+    }
 
     async create(createChannelDto: CreateChannelDto, user: User): Promise<Channel> {
         const newChannel = this.channelRepository.create({
@@ -69,20 +78,30 @@ export class ChannelsService {
     }
 
     // ---------------- AWS S3 ----------------
-    private async uploadToS3(file: Express.Multer.File, folder: string) {
-        const bucketName = process.env.AWS_BUCKET_NAME as string;
-        const region = process.env.AWS_REGION as string;
+    private async uploadToS3(file: Express.Multer.File, folder: string): Promise<string> {
+        try {
+            const bucketName = process.env.AWS_BUCKET_NAME!;
+            const key = `${folder}/${uuidv4()}_${file.originalname}`;
 
-        const key = `${folder}/${uuidv4()}_${file.originalname}`;
-        await s3.putObject({
-            Bucket: bucketName,
-            Key: key,
-            Body: file.buffer,
-            ACL: 'public-read',
-            ContentType: file.mimetype,
-        }).promise();
+            console.log('Key que se usará en S3:', key);
 
-        return `https://${bucketName}.s3.${region}.amazonaws.com/${key}`;
+            const command = new PutObjectCommand({
+                Bucket: bucketName,
+                Key: key,
+                Body: file.buffer,
+                ACL: 'public-read',
+                ContentType: file.mimetype,
+            });
+
+            await this.s3.send(command);
+
+            console.log('URL pública generada:', `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`);
+
+            return `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+        } catch (err) {
+            console.error('S3 upload error:', err);
+            throw new InternalServerErrorException('Failed to upload file to S3');
+        }
     }
 
     async uploadBanner(id: string, file: Express.Multer.File): Promise<Channel> {
@@ -91,6 +110,8 @@ export class ChannelsService {
 
         const bannerUrl = await this.uploadToS3(file, 'banners');
         channel.bannerUrl = bannerUrl;
+
+        console.log('Banner actualizado en DB:', bannerUrl);
 
         return this.channelRepository.save(channel);
     }
@@ -101,6 +122,7 @@ export class ChannelsService {
 
         const photoUrl = await this.uploadToS3(file, 'profile');
         channel.photoUrl = photoUrl;
+        console.log('Foto de perfil actualizada en DB:', photoUrl);
 
         return this.channelRepository.save(channel);
     }
