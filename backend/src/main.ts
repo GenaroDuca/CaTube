@@ -9,7 +9,11 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.enableCors({
-    origin: 'https://catube-steel.vercel.app', // ← tu frontend en Vercel
+    origin: [
+      'https://catube-steel.vercel.app',
+      'https://catube.xyz',
+      'https://www.catube.xyz',
+    ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
