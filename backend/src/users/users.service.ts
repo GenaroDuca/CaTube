@@ -343,8 +343,8 @@ export class UsersService {
 
         this.transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
-            port: 465,
-            secure: true,
+            port: 587,
+            secure: false,
             auth: {
                 user: user,
                 pass: pass,
@@ -352,7 +352,7 @@ export class UsersService {
         });
 
         try {
-            await this.transporter.verify();
+            // await this.transporter.verify();
             console.log('📬 UserService: Nodemailer Ready to send mails.');
         } catch (error) {
             console.error('🔴 UserService: Error al verificar la conexión SMTP:', error.message);
