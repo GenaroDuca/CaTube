@@ -38,6 +38,7 @@ import { Message } from './messages/entities/message.entity';
 import { Room } from './rooms/entities/room.entity';
 import { Tag } from './tags/entities/tag.entity';
 import { Post } from './posts/entities/post.entity';
+import { UploadsModule } from './uploads/uploads.module';
 
 @Module({
   imports: [
@@ -80,6 +81,7 @@ import { Post } from './posts/entities/post.entity';
     TagsModule,
     CommentsModule,
     PostsModule,
+    UploadsModule,
   ],
   controllers: [AppController],
   providers: [AppService, ChatGateway],

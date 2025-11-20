@@ -1,35 +1,34 @@
-    import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateChannelDto } from './dto-channels/create-channel.dto';
 import { Channel } from './entities/channel.entity';
 import { User } from 'src/users/entities/user.entity';
-import * as fs from 'fs';
-import * as path from 'path';
-import { getUploadsPath } from 'src/utils/uploads-path';
+import { s3 } from 'src/aws/s3.config'; // tu configuración de S3
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ChannelsService {
 
-constructor(
-    @InjectRepository(Channel)
-    private channelRepository: Repository<Channel>,
-) { }
+    constructor(
+        @InjectRepository(Channel)
+        private channelRepository: Repository<Channel>,
+    ) { }
 
     async create(createChannelDto: CreateChannelDto, user: User): Promise<Channel> {
-    const newChannel = this.channelRepository.create({
-        channel_name: createChannelDto.channel_name,
-        description: createChannelDto.description,
-        url: createChannelDto.url,
-        user: user,
-    });
+        const newChannel = this.channelRepository.create({
+            channel_name: createChannelDto.channel_name,
+            description: createChannelDto.description,
+            url: createChannelDto.url,
+            user: user,
+        });
 
-    // Asignar avatar por defecto basado en la primera letra del nombre del canal
-    const firstLetter = newChannel.channel_name.charAt(0).toUpperCase();
-    newChannel.photoUrl = `/assets/images/profile/${firstLetter}.png`;
+        // Asignar avatar por defecto basado en la primera letra del nombre del canal
+        const firstLetter = newChannel.channel_name.charAt(0).toUpperCase();
+        newChannel.photoUrl = `/assets/images/profile/${firstLetter}.png`;
 
-    return this.channelRepository.save(newChannel);
-}
+        return this.channelRepository.save(newChannel);
+    }
 
     findAll(): Promise<Channel[]> {
         return this.channelRepository.find();
@@ -41,32 +40,21 @@ constructor(
 
     async findOneById(id: string): Promise<Channel & { videoCount: number }> {
         const channel = await this.channelRepository.findOneBy({ channel_id: id });
-
-        if (!channel) {
-            throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
-        }
-
+        if (!channel) throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
         const videoCount = await this.getVideoCount(id);
         return { ...channel, videoCount };
     }
 
     async findOneByUrl(url: string): Promise<Channel & { videoCount: number }> {
-        const channel = await this.channelRepository.findOneBy({ url: url });
-
-        if (!channel) {
-            throw new NotFoundException(`Canal con URL @${url} no encontrado.`);
-        }
-
+        const channel = await this.channelRepository.findOneBy({ url });
+        if (!channel) throw new NotFoundException(`Canal con URL @${url} no encontrado.`);
         const videoCount = await this.getVideoCount(channel.channel_id);
         return { ...channel, videoCount };
     }
 
     async update(id: string, updateChannelDto: CreateChannelDto): Promise<Channel> {
         const channelToUpdate = await this.channelRepository.findOneBy({ channel_id: id });
-
-        if (!channelToUpdate) {
-            throw new NotFoundException(`El canal con ID ${id} no fue encontrado.`);
-        }
+        if (!channelToUpdate) throw new NotFoundException(`El canal con ID ${id} no fue encontrado.`);
 
         if (updateChannelDto.url) {
             const newUrl = updateChannelDto.url.toLowerCase().trim();
@@ -77,88 +65,56 @@ constructor(
         }
 
         Object.assign(channelToUpdate, updateChannelDto);
-
         return this.channelRepository.save(channelToUpdate);
     }
 
-    async uploadBanner(id: string, file: any): Promise<Channel> {
+    // ---------------- AWS S3 ----------------
+    private async uploadToS3(file: Express.Multer.File, folder: string) {
+        const bucketName = process.env.AWS_BUCKET_NAME as string;
+        const region = process.env.AWS_REGION as string;
+
+        const key = `${folder}/${uuidv4()}_${file.originalname}`;
+        await s3.putObject({
+            Bucket: bucketName,
+            Key: key,
+            Body: file.buffer,
+            ACL: 'public-read',
+            ContentType: file.mimetype,
+        }).promise();
+
+        return `https://${bucketName}.s3.${region}.amazonaws.com/${key}`;
+    }
+
+    async uploadBanner(id: string, file: Express.Multer.File): Promise<Channel> {
         const channel = await this.channelRepository.findOneBy({ channel_id: id });
+        if (!channel) throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
 
-        if (!channel) {
-            throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
-        }
-
-        // Guardar archivo en carpeta uploads del backend (ruta normalizada)
-        const uploadDir = getUploadsPath('banners');
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
-
-        // Si ya existe un banner previo que no sea el por defecto, eliminarlo para ahorrar espacio
-        if (channel.bannerUrl && !channel.bannerUrl.startsWith('/assets/images/studio_media/')) {
-            const oldFilePath = path.join(__dirname, '..', '..', channel.bannerUrl);
-            if (fs.existsSync(oldFilePath)) {
-                fs.unlinkSync(oldFilePath);
-            }
-        }
-
-        const filename = `${id}_${Date.now()}_${file.originalname}`;
-        const filepath = path.join(uploadDir, filename);
-
-        fs.writeFileSync(filepath, file.buffer);
-
-        // Actualizar la entidad con la ruta o URL del banner
-        channel.bannerUrl = `/uploads/banners/${filename}`;
+        const bannerUrl = await this.uploadToS3(file, 'banners');
+        channel.bannerUrl = bannerUrl;
 
         return this.channelRepository.save(channel);
     }
 
-    async uploadPhoto(id: string, file: any): Promise<Channel> {
+    async uploadPhoto(id: string, file: Express.Multer.File): Promise<Channel> {
         const channel = await this.channelRepository.findOneBy({ channel_id: id });
+        if (!channel) throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
 
-        if (!channel) {
-            throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
-        }
-
-        // Guardar archivo en carpeta uploads del backend (ruta normalizada)
-        const uploadDir = getUploadsPath('profile');
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir, { recursive: true });
-        }
-
-        // Si ya existe una foto previa que no sea la por defecto, eliminarla para ahorrar espacio
-        if (channel.photoUrl && !channel.photoUrl.startsWith('/assets/images/profile/')) {
-            const oldFilePath = path.join(__dirname, '..', '..', channel.photoUrl);
-            if (fs.existsSync(oldFilePath)) {
-                fs.unlinkSync(oldFilePath);
-            }
-        }
-
-        const filename = `${id}_${Date.now()}_${file.originalname}`;
-        const filepath = path.join(uploadDir, filename);
-
-        fs.writeFileSync(filepath, file.buffer);
-
-        // Actualizar la entidad con la ruta o URL de la foto
-        channel.photoUrl = `/uploads/profile/${filename}`;
+        const photoUrl = await this.uploadToS3(file, 'profile');
+        channel.photoUrl = photoUrl;
 
         return this.channelRepository.save(channel);
     }
 
     async setDefaultPhoto(id: string): Promise<Channel> {
         const channel = await this.findOneById(id);
-
         const firstLetter = channel.channel_name.charAt(0).toUpperCase();
         channel.photoUrl = `/assets/images/profile/${firstLetter}.png`;
-
         return this.channelRepository.save(channel);
     }
 
     async setDefaultBanner(id: string): Promise<Channel> {
         const channel = await this.findOneById(id);
-
         channel.bannerUrl = `/assets/images/studio_media/catube-pc.png`;
-
         return this.channelRepository.save(channel);
     }
 

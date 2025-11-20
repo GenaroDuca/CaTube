@@ -59,3 +59,4 @@ export class ChannelsController {
         return this.channelsService.uploadBanner(id, file);
     }
 }
+

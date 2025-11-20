@@ -51,6 +51,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedTags, setSelectedTags] = useState([]);
     const [customTagInput, setCustomTagInput] = useState("");
+    const [loading, setLoading] = useState(false);
 
     // ===============================================================
     //  FILTRAR TAGS
@@ -177,6 +178,8 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        if (loading) return;
+
         const missingFields = [];
         if (!videoName) missingFields.push("Title");
         if (!videoDescription) missingFields.push("Description");
@@ -195,6 +198,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
         formData.append("thumbnail", videoThumbnail);
 
         try {
+            setLoading(true);
             const response = await CreateVideoFetch(formData);
             if (!response) return;
 
@@ -220,6 +224,8 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
         } catch (err) {
             console.error(err);
             showError("Unexpected error.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -389,8 +395,8 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                             >
                                 Discard
                             </button>
-                            <button type="submit" className="upload-btn">
-                                Upload
+                            <button type="submit" className="upload-btn" disabled={loading}>
+                                {loading ? "Uploading..." : "Upload"}
                             </button>
                         </div>
                     </form>

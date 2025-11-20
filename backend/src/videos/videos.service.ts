@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Video } from './entities/video.entity';
@@ -8,14 +8,13 @@ import { Channel } from '../channels/entities/channel.entity';
 import { UsersService } from 'src/users/users.service';
 import { Tag } from 'src/tags/entities/tag.entity';
 
-import * as path from 'path';
-import * as fs from 'fs';
 import * as ffmpeg from 'fluent-ffmpeg';
 import * as ffmpegStatic from 'ffmpeg-static';
 import * as ffprobeStatic from 'ffprobe-static';
-import { getUploadsPath } from 'src/utils/uploads-path';
+import { s3 } from 'src/aws/s3.config';
+import { v4 as uuidv4 } from 'uuid';
 
-// Set the path to ffmpeg binary
+// Configurar ffmpeg
 ffmpeg.setFfmpegPath(ffmpegStatic as any);
 ffmpeg.setFfprobePath(ffprobeStatic.path);
 
@@ -25,81 +24,140 @@ export class VideosService {
     @InjectRepository(Video)
     private readonly videoRepository: Repository<Video>,
     private userService: UsersService,
-  ) { }
+  ) {}
 
   // ======================================================
-  // CREATE VIDEO
+  // CREATE VIDEO -> ahora con S3
   // ======================================================
-  async create(
-    createVideoDto: CreateVideoDto,
-    userId: string,
-    files: Express.Multer.File[]
-  ) {
-    try {
-      const user = await this.userService.findOneById(userId);
-      if (!user) throw new NotFoundException(`User with ID ${userId} not found`);
+  async create(createVideoDto: CreateVideoDto, userId: string, files: Express.Multer.File[]) {
+    const user = await this.userService.findOneById(userId);
+    if (!user) throw new NotFoundException(`User with ID ${userId} not found`);
+    const channel = user.channel;
+    if (!channel) throw new NotFoundException(`Channel not found for user ${userId}`);
 
-      const channel = user.channel;
-      if (!channel) throw new NotFoundException(`Channel not found for user ${userId}`);
+    if (!files || files.length === 0) throw new InternalServerErrorException('No files uploaded');
 
-      const newVideo = this.videoRepository.create({
-        ...createVideoDto,
-        channel,
-      });
+    const newVideo = this.videoRepository.create({
+      ...createVideoDto,
+      channel,
+    });
 
-      const uploadDir = getUploadsPath('videos');
-      if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
+    // Subir archivos a S3
+    for (const file of files) {
+      const extension = file.originalname.split('.').pop();
+      const key = `${uuidv4()}_${Date.now()}.${extension}`;
 
-      if (!files || files.length === 0) throw new Error('No files were uploaded');
-
-      for (const file of files) {
-        const videoId = newVideo.id ?? Date.now().toString();
-        const safeName = file.originalname.replace(/\s+/g, '_');
-        const fileName = `${videoId}_${Date.now()}_${safeName}`;
-        const filePath = path.join(uploadDir, fileName);
-
-        fs.writeFileSync(filePath, file.buffer);
-        const relativePath = `/uploads/videos/${fileName}`;
-
-        if (file.mimetype.startsWith('image/')) newVideo.thumbnail = relativePath;
-        else if (file.mimetype.startsWith('video/')) newVideo.url = relativePath;
-      }
-
-      if (!newVideo.url) throw new Error('Video file is required but was not uploaded.');
-
-      const videoPath = path.join(process.cwd(), newVideo.url);
-      const duration = await this.getVideoDuration(videoPath);
-      newVideo.type = duration <= 60 ? 'short' : 'video';
-
-      await this.videoRepository.save(newVideo);
-
-      const link = newVideo.type === 'short' ? `/shorts/${newVideo.id}` : `/watch/${newVideo.id}`;
-
-      return {
-        ...newVideo,
-        link,
+      const params = {
+        Bucket: process.env.AWS_BUCKET_NAME!,
+        Key: key,
+        Body: file.buffer,
+        ContentType: file.mimetype,
+        ACL: 'public-read',
       };
-    } catch (err) {
-      console.error('Error creating video:', err);
-      throw new Error(`Failed to create video: ${err.message}`);
+
+      try {
+        const result = await s3.upload(params).promise();
+        const url = result.Location;
+
+        if (file.mimetype.startsWith('image/')) newVideo.thumbnail = url;
+        else if (file.mimetype.startsWith('video/')) newVideo.url = url;
+      } catch (err) {
+        console.error('S3 upload error:', err);
+        throw new InternalServerErrorException('Failed to upload file to S3');
+      }
     }
+
+    if (!newVideo.url) throw new InternalServerErrorException('Video file is required');
+
+    // Determinar tipo short o video
+    const duration = await this.getVideoDurationFromUrl(newVideo.url);
+    newVideo.type = duration <= 60 ? 'short' : 'video';
+
+    await this.videoRepository.save(newVideo);
+
+    const link = newVideo.type === 'short' ? `/shorts/${newVideo.id}` : `/watch/${newVideo.id}`;
+    return { ...newVideo, link };
   }
-  
+
   // ======================================================
-  // Visitas incrementales
+  // UPDATE VIDEO -> actualizar thumbnail a S3
+  // ======================================================
+  async update(id: string, updateVideoDto: UpdateVideoDto, files?: Express.Multer.File[]) {
+    const video = await this.videoRepository.findOne({
+      where: { id },
+      relations: ['channel', 'channel.user', 'tags'],
+    });
+    if (!video) throw new NotFoundException('Video not found');
+
+    const updates: any = {};
+    if (updateVideoDto.title !== undefined) updates.title = updateVideoDto.title;
+    if (updateVideoDto.description !== undefined) updates.description = updateVideoDto.description;
+
+    if (files && files.length > 0) {
+      const thumbnailFile = files[0];
+      if (!thumbnailFile.mimetype.startsWith('image/')) throw new InternalServerErrorException('File must be an image');
+
+      const extension = thumbnailFile.originalname.split('.').pop();
+      const key = `${uuidv4()}_${Date.now()}.${extension}`;
+
+      const params = {
+        Bucket: process.env.AWS_BUCKET_NAME!,
+        Key: key,
+        Body: thumbnailFile.buffer,
+        ContentType: thumbnailFile.mimetype,
+        ACL: 'public-read',
+      };
+
+      try {
+        const result = await s3.upload(params).promise();
+        const url = result.Location;
+        updates.thumbnail = url;
+
+        // Si había thumbnail anterior, opcionalmente se puede borrar de S3
+        // const oldKey = video.thumbnail.split('/').pop();
+        // await s3.deleteObject({ Bucket: process.env.AWS_BUCKET_NAME!, Key: oldKey }).promise();
+
+      } catch (err) {
+        console.error('S3 upload error:', err);
+        throw new InternalServerErrorException('Failed to upload thumbnail to S3');
+      }
+    }
+
+    Object.assign(video, updates);
+    const updatedVideo = await this.videoRepository.save(video);
+
+    return {
+      id: updatedVideo.id,
+      title: updatedVideo.title,
+      description: updatedVideo.description,
+      thumbnail: updatedVideo.thumbnail,
+      url: updatedVideo.url,
+      tags: updatedVideo.tags,
+    };
+  }
+
+  // ======================================================
+  // Helper: obtener duración del video desde URL S3
+  // ======================================================
+  private async getVideoDurationFromUrl(url: string): Promise<number> {
+    return new Promise((resolve, reject) => {
+      ffmpeg.ffprobe(url, (err, metadata) => {
+        if (err) return reject(err);
+        resolve(metadata.format.duration || 0);
+      });
+    });
+  }
+
+  // ======================================================
+  // TODOS LOS MÉTODOS ORIGINALES SE MANTIENEN
   // ======================================================
   async incrementViews(id: string): Promise<void> {
     const video = await this.videoRepository.findOne({ where: { id } });
-    if (!video) {
-      throw new NotFoundException("Video not found");
-    }
+    if (!video) throw new NotFoundException("Video not found");
     video.views += 1;
     await this.videoRepository.save(video);
   }
 
-  // ======================================================
-  // GET VIDEOS
-  // ======================================================
   async findAll() {
     return this.videoRepository.find({
       relations: ['channel', 'tags'],
@@ -137,7 +195,7 @@ export class VideosService {
       .leftJoinAndSelect('video.channel', 'channel')
       .leftJoinAndSelect('channel.user', 'user')
       .leftJoinAndSelect('video.tags', 'tag')
-      .where('tag.name = :tagName', { tagName: 'education' }) // filtra por tag educativo
+      .where('tag.name = :tagName', { tagName: 'education' })
       .orderBy('video.createdAt', 'DESC')
       .getMany();
   }
@@ -157,21 +215,12 @@ export class VideosService {
   }
 
   async getVideosByTag(tag: string) {
-    const videos = await this.videoRepository.find({
-      where: {
-        tags: {
-          name: tag
-        }
-      },
-      relations: ['tags']
+    return this.videoRepository.find({
+      where: { tags: { name: tag } },
+      relations: ['tags'],
     });
-
-    return videos;
   }
 
-  // ======================================================
-  // FIND ONE VIDEO
-  // ======================================================
   async findOneById(id: string) {
     const video = await this.videoRepository.findOne({
       where: { id },
@@ -184,7 +233,7 @@ export class VideosService {
       console.error('Video found but missing channel or user information:', {
         videoId: video.id,
         hasChannel: !!video.channel,
-        hasUser: !!video.channel?.user
+        hasUser: !!video.channel?.user,
       });
       throw new ForbiddenException('Video no tiene información de canal o usuario asociada');
     }
@@ -192,64 +241,6 @@ export class VideosService {
     return video;
   }
 
-  // ======================================================
-  // UPDATE VIDEO
-  // ======================================================
-  async update(id: string, updateVideoDto: UpdateVideoDto, files?: Express.Multer.File[]) {
-    try {
-      const video = await this.videoRepository.findOne({
-        where: { id },
-        relations: ['channel', 'channel.user', 'tags'],
-      });
-
-      if (!video) throw new NotFoundException('Video not found');
-
-      const updates: any = {};
-      if (updateVideoDto.title !== undefined) updates.title = updateVideoDto.title;
-      if (updateVideoDto.description !== undefined) updates.description = updateVideoDto.description;
-
-      if (files && files.length > 0) {
-        const thumbnailFile = files[0];
-        if (!thumbnailFile.mimetype.startsWith('image/')) throw new Error('El archivo debe ser una imagen');
-
-        const uploadDir = getUploadsPath('videos');
-        if (!fs.existsSync(uploadDir)) fs.mkdirSync(uploadDir, { recursive: true });
-
-        const safeName = thumbnailFile.originalname.replace(/\s+/g, '_');
-        const fileName = `${video.id}_${Date.now()}_${safeName}`;
-        const filePath = path.join(uploadDir, fileName);
-
-        await fs.promises.writeFile(filePath, thumbnailFile.buffer);
-        updates.thumbnail = `/uploads/videos/${fileName}`;
-
-        if (video.thumbnail) {
-          const oldThumbnailPath = path.join(process.cwd(), video.thumbnail.replace(/^\//, ''));
-          if (fs.existsSync(oldThumbnailPath)) await fs.promises.unlink(oldThumbnailPath);
-        }
-      }
-
-      if (Object.keys(updates).length === 0) throw new Error('No se proporcionaron cambios para actualizar');
-
-      Object.assign(video, updates);
-      const updatedVideo = await this.videoRepository.save(video);
-
-      return {
-        id: updatedVideo.id,
-        title: updatedVideo.title,
-        description: updatedVideo.description,
-        thumbnail: updatedVideo.thumbnail,
-        url: updatedVideo.url,
-        tags: updatedVideo.tags
-      };
-    } catch (error) {
-      console.error('Error in video update:', error);
-      throw error;
-    }
-  }
-
-  // ======================================================
-  // DELETE VIDEO
-  // ======================================================
   async remove(id: string, channel: Channel) {
     const video = await this.videoRepository.findOne({
       where: { id },
@@ -263,21 +254,5 @@ export class VideosService {
 
     await this.videoRepository.remove(video);
     return { message: 'Video deleted successfully' };
-  }
-
-  // ======================================================
-  // HELPERS
-  // ======================================================
-  private async getVideoDuration(videoPath: string): Promise<number> {
-    return new Promise((resolve, reject) => {
-      ffmpeg.ffprobe(videoPath, (err, metadata) => {
-        if (err) {
-          console.error('Error getting video duration:', err);
-          reject(err);
-        } else {
-          resolve(metadata.format.duration || 0);
-        }
-      });
-    });
   }
 }
