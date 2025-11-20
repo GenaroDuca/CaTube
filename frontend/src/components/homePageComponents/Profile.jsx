@@ -42,7 +42,7 @@ function Profile(props) {
     return (
         <Link to={`/yourchannel/${props.url}`}>
             <div className="profile">
-                <img className="profile-photo" src={"https://catube-uploads.s3.sa-east-1.amazonaws.com/profile/432fb967-f5b9-4d67-97cc-b6c90812add7_sheni.jpg"} alt={props.namechannel} />
+                <img className="profile-photo" src={"no"} alt={props.namechannel} />
                 <p className="name-channel">{props.namechannel}</p>
                 <p className="subs-channel">{props.subschannel} Cats</p>
             </div>
