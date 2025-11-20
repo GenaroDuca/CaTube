@@ -336,7 +336,7 @@ export class UsersService {
             const resend = new Resend(this.configService.get<string>('RESEND_API_KEY'));
 
             const { data, error } = await resend.emails.send({
-                from: "CaTube Team <onboarding@resend.dev>",
+                from: "CaTube Team <no-reply@catube.xyz>",
                 to: newUserEmail,
                 subject: 'Verify your user',
                 html: `
@@ -477,7 +477,7 @@ export class UsersService {
             const resend = new Resend(this.configService.get<string>('RESEND_API_KEY'));
 
             const { data, error } = await resend.emails.send({
-                from: "CaTube Team <onboarding@resend.dev>",
+                from: "CaTube Team <no-reply@catube.xyz>",
                 to: userEmail,
                 subject: 'Reset your password',
                 html: `
