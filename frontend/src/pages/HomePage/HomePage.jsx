@@ -39,11 +39,11 @@ function Home() {
           url: channel.url,
           handle: '@' + channel.url,
         }));
-        console.log("foto" + transformedChannels.photo)
+        
+        console.log("Fotos de todos los canales:", transformedChannels.map(c => c.photo));
         // Sort channels by subscriber count in descending order
         transformedChannels.sort((a, b) => b.subs - a.subs);
         setChannels(transformedChannels);
-        console.log(channels)
       } catch (err) {
         setError(err);
       } finally {
@@ -101,7 +101,7 @@ function Home() {
           shortviews: `${short.views || 0} views`,
           thumbnail: `${VITE_API_URL}${short.thumbnail}`,
         }));
-        
+
         setShorts(transformedShorts);
       } catch (err) {
         console.error('Error fetching shorts:', err);
