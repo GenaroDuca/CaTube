@@ -50,7 +50,6 @@ export class VideosService {
           Key: key,
           Body: file.buffer,
           ContentType: file.mimetype,
-          ACL: 'public-read',
         });
 
         await s3.send(command);
@@ -102,7 +101,6 @@ export class VideosService {
           Key: key,
           Body: thumbnailFile.buffer,
           ContentType: thumbnailFile.mimetype,
-          ACL: 'public-read',
         });
 
         await s3.send(command);

@@ -89,7 +89,6 @@ export class ChannelsService {
                 Bucket: bucketName,
                 Key: key,
                 Body: file.buffer,
-                ACL: 'public-read',
                 ContentType: file.mimetype,
             });
 
