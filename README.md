@@ -156,6 +156,7 @@
     npm install ffmpeg-static
     npm install ffprobe-static
     npm install date-fns
+    npm install resend
 
 ## Crear proyecto React con Vite
     npm create vite@latest

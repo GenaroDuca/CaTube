@@ -1,4 +1,11 @@
-import { Injectable, Inject, forwardRef, ConflictException, NotFoundException, BadRequestException } from '@nestjs/common';
+import {
+    Injectable,
+    Inject,
+    forwardRef,
+    ConflictException,
+    NotFoundException,
+    BadRequestException
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, QueryFailedError, Like } from 'typeorm';
 import { CreateUserDto } from './dto-users/create-user.dto';
@@ -7,15 +14,15 @@ import * as bcrypt from 'bcrypt';
 import * as crypto from "crypto";
 import { ChannelsService } from 'src/channels/channels.service';
 import { ConfigService } from '@nestjs/config';
-import * as nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 import { UpdateUserDto } from './dto-users/update-user.dto';
 import { DataSource } from 'typeorm';
 import { Room } from 'src/rooms/entities/room.entity';
 
 @Injectable()
 export class UsersService {
-
-    private transporter: nodemailer.Transporter;
+    private resend: Resend;
+    private mailFrom: string;
 
     constructor(
         @InjectRepository(User)
@@ -26,134 +33,102 @@ export class UsersService {
 
         private readonly configService: ConfigService,
         private readonly dataSource: DataSource,
-
-
-
     ) {
-        this.initializeTransporter();
+        // Inicializa Resend
+        this.resend = new Resend(this.configService.get<string>('RESEND_API_KEY'));
+        this.mailFrom = this.configService.get<string>('MAIL_FROM');
+
         this.findAll();
     }
 
-    // =================================================================
-    // MODO LECTURA: Método de creación de usuario
-    // =================================================================
-
+    // ================================================================
+    // CREAR USUARIO
+    // ================================================================
     async create(createUserDto: CreateUserDto): Promise<User> {
-        const capitalizedUsername = createUserDto.username.charAt(0).toUpperCase() + createUserDto.username.slice(1);
+        const capitalizedUsername =
+            createUserDto.username.charAt(0).toUpperCase() +
+            createUserDto.username.slice(1);
 
-        // 1 & 2. VALIDACIÓN DE UNICIDAD (Username y Email)
-        const existingUserByUsername = await this.usersRepository.findOne({ where: { username: capitalizedUsername } });
-        if (existingUserByUsername) {
+        // Verificar username existente
+        if (await this.usersRepository.findOne({ where: { username: capitalizedUsername } })) {
             throw new ConflictException('Username already exists');
         }
 
-        const existingUserByEmail = await this.usersRepository.findOne({ where: { email: createUserDto.email } });
-        if (existingUserByEmail) {
+        // Verificar email existente
+        if (await this.usersRepository.findOne({ where: { email: createUserDto.email } })) {
             throw new ConflictException('Email already exists');
         }
 
-        // 3. HASHEO Y GENERACIÓN DE TOKEN
+        // Hash contraseña + token
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(createUserDto.password, salt);
 
         const token = crypto.randomBytes(32).toString('hex');
-        const expiry = new Date(Date.now() + 24 * 3600 * 1000); // Caducidad: 24 horas
+        const expiry = new Date(Date.now() + 24 * 3600 * 1000);
 
         const newUser = this.usersRepository.create({
             username: capitalizedUsername,
             email: createUserDto.email,
             password: hashedPassword,
-            // ASIGNACIÓN DE CAMPOS DE VERIFICACIÓN
             is_verified: false,
             verification_token: token,
             token_expiry: expiry,
         });
 
-        // 4. INSERCIÓN EN BD Y MANEJO DE ERRORES
         try {
-            const savedUser = await this.usersRepository.save(newUser); // Guarda el usuario con token
+            const savedUser = await this.usersRepository.save(newUser);
 
-            // 5. PREPARACIÓN Y ENVÍO DEL EMAIL
-            // Usamos la URL base de verificación configurada + el token
             const BASE_VERIFY_URL = this.configService.get<string>('BACKEND_VERIFY_URL');
-            // Construye la URL completa que el usuario clickeará
             const verificationUrl = `${BASE_VERIFY_URL}?token=${token}`;
 
             await this.sendVerificationEmail(savedUser.email, verificationUrl);
 
-            // 6. CREACIÓN DEL CANAL
-            const defaultChannelDto = {
-                channel_name: savedUser.username,
-                description: `Bienvenido al canal de ${savedUser.username}`,
-                url: savedUser.username.toLowerCase(),
-            };
-            await this.channelsService.create(defaultChannelDto, savedUser);
+            // Crear canal
+            await this.channelsService.create(
+                {
+                    channel_name: savedUser.username,
+                    description: `Bienvenido al canal de ${savedUser.username}`,
+                    url: savedUser.username.toLowerCase(),
+                },
+                savedUser
+            );
 
             return savedUser;
         } catch (error) {
-            // Manejo de errores de TypeORM/DB
-            const uniqueViolationCode = '23505';
-            if (error instanceof QueryFailedError && (error as any).code === uniqueViolationCode) {
-                const detail = (error as any).detail || error.message;
-                if (detail.includes('username')) {
-                    throw new ConflictException('Username already exists');
-                }
-                if (detail.includes('email')) {
-                    throw new ConflictException('Email already exists');
-                }
-            }
-
-            // Manejo de error de email
-            if (error instanceof Error && error.message.includes('transporter')) {
-                console.error('Error al enviar el correo:', error);
-                // Opcional: Podrías eliminar el usuario si el correo es crítico, o dejarlo y marcar que el envío falló.
+            const uniqueCode = '23505';
+            if (error instanceof QueryFailedError && (error as any).code === uniqueCode) {
+                throw new ConflictException('Duplicated user data');
             }
             throw error;
         }
     }
 
-    // =================================================================
-    // Lógica de Verificación del Token
-    // =================================================================
-
-    /**
-     * Valida el token recibido y verifica la cuenta del usuario.
-     * @param token El token único de la URL.
-     * @returns El usuario verificado.
-     */
+    // ================================================================
+    // VERIFICACIÓN EMAIL
+    // ================================================================
     async verifyEmail(token: string): Promise<User> {
-        // 1. Buscar el usuario por el token
         const user = await this.usersRepository.findOne({
             where: { verification_token: token }
         });
 
-        if (!user) {
-            throw new NotFoundException('Token de verificación inválido o ya utilizado.');
-        }
+        if (!user) throw new NotFoundException('Token inválido.');
 
-        // 2. Comprobar si ya está verificado
-        if (user.is_verified) {
-            // Ya está verificado, no hace falta reprocesar.
-            return user;
-        }
+        if (user.is_verified) return user;
 
-        // 3. Comprobar la caducidad
         if (user.token_expiry && user.token_expiry < new Date()) {
-            throw new ConflictException('El token de verificación ha caducado. Por favor, solicite un nuevo enlace.');
+            throw new ConflictException('Token expirado.');
         }
 
-        // 4. Verificación exitosa: Actualizar el usuario
         user.is_verified = true;
-        user.verification_token = null; // Limpia el token
-        user.token_expiry = null;       // Limpia la caducidad
+        user.verification_token = null;
+        user.token_expiry = null;
 
         return this.usersRepository.save(user);
     }
 
-    // =================================================================
-    // MODO LECTURA: Métodos Existentes
-    // =================================================================
-
+    // ================================================================
+    // MÉTODOS EXISTENTES
+    // ================================================================
     findAll(): Promise<User[]> {
         return this.usersRepository.find();
     }
@@ -165,25 +140,15 @@ export class UsersService {
         });
     }
 
-    /**
-   * Busca usuarios por nombre de usuario que contenga la cadena de búsqueda.
-   * @param query - El término de búsqueda.
-   * @returns Promesa que resuelve a una lista de entidades User.
-   */
     async searchUsers(query: string): Promise<Partial<User>[]> {
         const users = await this.usersRepository.find({
-            // Usamos el operador 'Like' para buscar coincidencias parciales (case-insensitive en algunos BD)
-            where: {
-                username: Like(`%${query}%`),
-            },
-            // Excluye el campo 'password' para no enviarlo al frontend
+            where: { username: Like(`%${query}%`) },
             select: ['user_id', 'username', 'email'],
         });
 
-        // Filtramos información sensible si el 'select' de TypeORM no es suficiente
-        return users.map(user => ({
-            user_id: user.user_id,
-            username: user.username,
+        return users.map(u => ({
+            user_id: u.user_id,
+            username: u.username,
         }));
     }
 
@@ -194,103 +159,50 @@ export class UsersService {
         });
     }
 
-    /**
-     * Obtiene los detalles del usuario autenticado por su ID.
-     * @param userId El ID del usuario autenticado (extraído del JWT payload).
-     * @returns Datos del usuario.
-     */
     async findMe(userId: string): Promise<Partial<User>> {
         const user = await this.usersRepository.findOne({
             where: { user_id: userId },
-            select: [
-                'user_id',
-                'username',
-                'email',
-                'avatarUrl',
-                'description',
-                'is_verified'
-            ],
+            select: ['user_id', 'username', 'email', 'avatarUrl', 'description', 'is_verified'],
             relations: ['channel'],
         });
 
-        if (!user) {
-            throw new NotFoundException('User not found.');
-        }
+        if (!user) throw new NotFoundException('User not found.');
 
         return user;
     }
 
-    /**
-     * Actualiza el perfil del usuario autenticado (username y/o description).
-     * @param userId El ID del usuario autenticado (extraído del JWT payload).
-     * @param updateData Los datos a actualizar (UpdateUserDto).
-     * @returns El usuario actualizado.
-     */
     async updateUser(userId: string, updateData: UpdateUserDto): Promise<Partial<User>> {
-        // 1. Obtener el usuario
         const user = await this.usersRepository.findOneBy({ user_id: userId });
+        if (!user) throw new NotFoundException('User not found.');
 
-        if (!user) {
-            throw new NotFoundException('User not found.');
-        }
-
-        // 2. Validar y actualizar username
         if (updateData.username && updateData.username !== user.username) {
-            const capitalizedUsername = updateData.username.charAt(0).toUpperCase() + updateData.username.slice(1);
+            const newUsername =
+                updateData.username.charAt(0).toUpperCase() +
+                updateData.username.slice(1);
 
-            // Verificar unicidad
-            const existingUser = await this.usersRepository.findOne({
-                where: { username: capitalizedUsername }
+            const exists = await this.usersRepository.findOne({
+                where: { username: newUsername },
             });
 
-            if (existingUser) {
-                throw new ConflictException('This username is already in use.');
-            }
+            if (exists) throw new ConflictException('Username already in use.');
 
-            user.username = capitalizedUsername;
+            user.username = newUsername;
         }
 
-        // 3. Actualizar description
-        if (updateData.description !== undefined) {
+        if (updateData.description !== undefined)
             user.description = updateData.description;
-        }
 
-        // 4. Actualizar avatarUrl
-        if (updateData.avatarUrl !== undefined) {
+        if (updateData.avatarUrl !== undefined)
             user.avatarUrl = updateData.avatarUrl;
-        }
 
-        // 5. Comprobación de cambios
-        if (!updateData.username && updateData.description === undefined && updateData.avatarUrl === undefined) {
-            throw new BadRequestException('No update fields provided or values are the same.');
-        }
+        const saved = await this.usersRepository.save(user);
 
-
-        try {
-            // 6. Guardar cambios
-            const savedUser = await this.usersRepository.save(user);
-
-            // 7. Devolver solo campos seguros
-            const { password, ...result } = savedUser;
-            return {
-                user_id: result.user_id,
-                username: result.username,
-                email: result.email,
-                avatarUrl: result.avatarUrl,
-                description: result.description,
-            };
-
-        } catch (error) {
-            console.error('Error al guardar la actualización del usuario:', error);
-            throw new Error('Failed to save user updates.');
-        }
+        const { password, ...result } = saved;
+        return result;
     }
-
-
 
     async remove(id: string): Promise<void> {
         await this.dataSource.transaction(async manager => {
-            // 1️⃣ Traer usuario con todas las relaciones necesarias
             const user = await manager.findOne(User, {
                 where: { user_id: id },
                 relations: [
@@ -311,234 +223,109 @@ export class UsersService {
 
             if (!user) throw new NotFoundException('User not found');
 
-            // console.log('Rooms como user1:', user.roomsAsUser1.map(r => r.room_id));
-            // console.log('Rooms como user2:', user.roomsAsUser2.map(r => r.room_id));
+            const rooms = [...user.roomsAsUser1, ...user.roomsAsUser2];
+            if (rooms.length > 0) await manager.remove(Room, rooms);
 
-            // Eliminar todas las rooms donde el usuario es user1 o user2
-            const roomsToDelete = [...user.roomsAsUser1, ...user.roomsAsUser2];
-            if (roomsToDelete.length > 0) {
-                await manager.remove(Room, roomsToDelete);
-            }
-
-            // Eliminar canal si existe
-            if (user.channel) {
+            if (user.channel)
                 await this.channelsService.remove(user.channel.channel_id);
-            }
 
-            // Eliminar usuario (cascade elimina mensajes enviados, playlists, comentarios, etc.)
             await manager.remove(User, user);
         });
     }
 
-    // Verificacion de mail
-
-    private async initializeTransporter() {
-        const user = this.configService.get<string>('SMTP_USER');
-        const pass = this.configService.get<string>('SMTP_PASS');
-
-        console.log('📧 Inicializando transporter...');
-        console.log('🔍 SMTP_USER leído:', user ? user : 'NO DEFINIDO');
-        console.log('🔍 SMTP_PASS leído:', pass ? '*** oculto ***' : 'NO DEFINIDO');
-
-        if (!user || !pass) {
-            console.error('🔴 ERROR: SMTP_USER o SMTP_PASS no están cargados. Revisa config.env y la ruta en AppModule.');
-            return;
-        }
-
-        this.transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false, // STARTTLS
-            auth: {
-                user: user,
-                pass: pass,
-            },
-            tls: {
-                rejectUnauthorized: false,
-            },
-        });
-
+    // ================================================================
+    // ENVÍO DE EMAIL - RESEND
+    // ================================================================
+    async sendVerificationEmail(userEmail: string, verificationLink: string) {
         try {
-            console.log('📬 Intentando verificar conexión SMTP...');
-            // await this.transporter.verify(); // opcional en producción
-            console.log('✅ UserService: Nodemailer listo para enviar mails.');
-        } catch (error) {
-            console.error('🔴 UserService: Error al verificar la conexión SMTP:', error.message);
-        }
-    }
-
-    async sendVerificationEmail(newUserEmail: string, verificationLink: string) {
-        if (!this.transporter) {
-            console.error('📧 El transporter no se inicializó. No se puede enviar el correo.');
-            return;
-        }
-
-        console.log(`📨 Preparando envío de email de verificación...`);
-        console.log(`➡️ Destinatario: ${newUserEmail}`);
-        console.log(`➡️ Link de verificación: ${verificationLink}`);
-
-        try {
-            const info = await this.transporter.sendMail({
-                from: '"CaTube Team" <catubeapp@gmail.com>',
-                to: newUserEmail,
-                subject: "Verify your user",
+            await this.resend.emails.send({
+                from: this.mailFrom,
+                to: userEmail,
+                subject: "Verify your CaTube account",
                 html: `
-                <p>Welcome to CaTube! </p>
-                <p>Please click the button below to verify your account:</p>
-                <table cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td align="center" bgcolor="#90b484" style="border-radius: 30px;">
-                            <a href="${verificationLink}" target="_blank" style="padding: 10px 20px; border: 1px solid #90b484; border-radius: 30px; color: #1a1a1b; text-decoration: none; display: inline-block; font-weight: bold;">
-                                Verify
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-                <p>If the button doesn't work, copy and paste this link into your browser: <a href="${verificationLink}">${verificationLink}</a></p>
-            `,
+                    <p>Welcome to CaTube!</p>
+                    <p>Please verify your account:</p>
+                    <a href="${verificationLink}" style="padding:10px 20px;background:#90b484;color:#000;border-radius:20px;font-weight:bold;text-decoration:none;">
+                        Verify
+                    </a>
+                    <p>If it doesn't work, use this link:</p>
+                    <p>${verificationLink}</p>
+                `,
             });
-
-            console.log('✅ Email enviado correctamente. Respuesta del servidor SMTP:', info);
         } catch (error) {
-            console.error('❌ Error enviando el email de verificación a ' + newUserEmail, error);
+            console.error('Error sending verification email:', error);
             throw new Error('Email sending failed.');
         }
     }
 
-    // Resetear contraseña
-
-    // Buscar por email
-    async findByEmail(email: string): Promise<User | null> {
-        return this.usersRepository.findOne({ where: { email } });
-    }
-
-    // Actualizar datos del usuario
-    async update(id: string, data: Partial<User>): Promise<User | null> {
-        await this.usersRepository.update(id, data);
-        return this.usersRepository.findOne({ where: { user_id: id } });
-    }
-
-    // Buscar usuario por token de reseteo
-    async findOneByResetToken(token: string): Promise<User | null> {
-        const users = await this.usersRepository.find();
-
-        for (const user of users) {
-            if (!user.reset_password_token) continue;
-            const isMatch = await bcrypt.compare(token, user.reset_password_token);
-            if (isMatch) return user;
-        }
-
-        return null;
-    }
-
-    /**
-     * Paso 1: Enviar correo con link de restablecimiento
-     */
+    // ================================================================
+    // RESET PASSWORD EMAIL
+    // ================================================================
     async sendPasswordResetEmail(email: string): Promise<void> {
-        // Buscar usuario
         const user = await this.usersRepository.findOne({ where: { email } });
-        if (!user) {
-            // Por seguridad, no revelar si existe o no
-            return;
-        }
+        if (!user) return;
 
-        // Generar token único
         const resetToken = crypto.randomBytes(32).toString('hex');
-        const expiry = new Date(Date.now() + 15 * 60 * 1000); // 15 minutos
+        const expiry = new Date(Date.now() + 15 * 60 * 1000);
 
-        // Guardar token y expiración
         user.reset_password_token = resetToken;
         user.reset_token_expiry = expiry;
         await this.usersRepository.save(user);
 
-        // Construir la URL del enlace (configurable desde .env)
         const BASE_RESET_URL = this.configService.get<string>('BACKEND_RESET_URL');
         const resetUrl = `${BASE_RESET_URL}?token=${resetToken}`;
 
-        // Enviar correo
         await this.sendResetPasswordEmail(user.email, resetUrl);
     }
 
-    /**
-     * Paso 2: Validar token (usado cuando el usuario abre el link)
-     */
     async validateResetToken(token: string): Promise<User> {
         const user = await this.usersRepository.findOne({
             where: { reset_password_token: token },
         });
 
-        if (!user) {
-            throw new NotFoundException('Token inválido o ya utilizado.');
+        if (!user) throw new NotFoundException('Token inválido.');
+        if (!user.reset_token_expiry || user.reset_token_expiry < new Date()) {
+            throw new ConflictException('Token expirado.');
         }
-
-        if (user.reset_token_expiry && user.reset_token_expiry < new Date()) {
-            throw new ConflictException('El token ha expirado.');
-        }
-
         return user;
     }
 
-    /**
-     * Paso 3: Restablecer la contraseña
-     */
     async resetPassword(token: string, newPassword: string): Promise<User> {
         const user = await this.usersRepository.findOne({
             where: { reset_password_token: token },
         });
 
-        if (!user) {
-            throw new NotFoundException('Token inválido o ya utilizado.');
+        if (!user) throw new NotFoundException('Token inválido.');
+        if (!user.reset_token_expiry || user.reset_token_expiry < new Date()) {
+            throw new ConflictException('Token expirado.');
         }
-
-        if (user.reset_token_expiry && user.reset_token_expiry < new Date()) {
-            throw new ConflictException('El token ha expirado.');
-        }
-
-        // Hashear la nueva contraseña
         const salt = await bcrypt.genSalt();
         user.password = await bcrypt.hash(newPassword, salt);
 
-        // Limpiar campos del token
         user.reset_password_token = null;
         user.reset_token_expiry = null;
 
         return this.usersRepository.save(user);
     }
 
-    /**
-     * Enviar correo de restablecimiento
-     */
     async sendResetPasswordEmail(userEmail: string, resetLink: string) {
-        if (!this.transporter) {
-            console.error(' Transporter no inicializado. No se puede enviar el correo.');
-            return;
-        }
-
         try {
-            await this.transporter.sendMail({
-                from: '"CaTube Team" <catubeapp@gmail.com>',
+            await this.resend.emails.send({
+                from: this.mailFrom,
                 to: userEmail,
-                subject: "Reset your password",
+                subject: "Reset your CaTube password",
                 html: `
-                <p>Forgot your password?</p>
-                <p>Please click the button below to reset your password:</p>
-                <table cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td align="center" bgcolor="#90b484" style="border-radius: 30px;">
-                            <a href="${resetLink}" target="_blank" style="padding: 10px 20px; border: 1px solid #90b484; border-radius: 30px; color: #1a1a1b; text-decoration: none; display: inline-block; font-weight: bold;">
-                                Reset password
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-                <p>If the button doesn't work, copy and paste this link into your browser: <a href="${resetLink}">${resetLink}</a></p>
-                <p>This link will expire in 15 minutes.</p>
-                <p>If you did not request a password reset, please ignore this email.</p>
-            `,
+                    <p>You requested a password reset.</p>
+                    <a href="${resetLink}" style="padding:10px 20px;background:#90b484;color:#000;border-radius:20px;font-weight:bold;text-decoration:none;">
+                        Reset Password
+                    </a>
+                    <p>If it doesn’t work, use this link:</p>
+                    <p>${resetLink}</p>
+                `,
             });
         } catch (error) {
-            console.error('Error enviando el email de restablecimiento a ' + userEmail, error);
-            throw new Error('Error al enviar el email de restablecimiento.');
+            console.error('Error sending reset email:', error);
+            throw new Error('Error sending password reset email.');
         }
     }
 }
