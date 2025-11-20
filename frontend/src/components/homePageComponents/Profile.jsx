@@ -12,21 +12,27 @@ function Profile(props) {
         if (thumbnail.startsWith('http://') || thumbnail.startsWith('https://')) {
             // Es una URL completa (ej. S3)
             photoSrc = thumbnail;
-            console.log(photoSrc);
+            console.log("1" + photoSrc);
         } else if (thumbnail.startsWith('/uploads/')) {
             // Ruta interna de backend
             photoSrc = VITE_API_URL + thumbnail;
+            console.log("2" + photoSrc);
+
         } else if (thumbnail.startsWith('/assets/images/profile/')) {
             // Imagen predeterminada ya mapeada
             photoSrc = thumbnail;
+            console.log("3" + photoSrc);
+
         } else if (thumbnail.startsWith('/default-avatar/')) {
             // Mapear rutas antiguas a assets
             const letterMatch = thumbnail.match(/\/default-avatar\/([A-Z])\.png/);
             const letter = letterMatch ? letterMatch[1] : 'A';
             photoSrc = `/assets/images/profile/${letter}.png`;
+            console.log("4" + photoSrc);
         } else {
             // Otro tipo de ruta desconocida, asumir backend
             photoSrc = VITE_API_URL + thumbnail;
+            console.log("5" + photoSrc);
         }
     } else {
         // Por defecto, primera letra del nombre del canal

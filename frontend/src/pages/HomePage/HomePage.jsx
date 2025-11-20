@@ -39,10 +39,11 @@ function Home() {
           url: channel.url,
           handle: '@' + channel.url,
         }));
-        console.log(transformedChannels.photo)
+        console.log("foto" + transformedChannels.photo)
         // Sort channels by subscriber count in descending order
         transformedChannels.sort((a, b) => b.subs - a.subs);
         setChannels(transformedChannels);
+        console.log(channels)
       } catch (err) {
         setError(err);
       } finally {
