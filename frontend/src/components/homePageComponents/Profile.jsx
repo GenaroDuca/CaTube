@@ -6,24 +6,27 @@ function Profile(props) {
 
     // Determinar la URL de la foto
     let photoSrc;
-    if (props.thumbnail && props.thumbnail.trim() !== '') {
-        if (props.thumbnail.startsWith('http://') || props.thumbnail.startsWith('https://')) {
-            // Ya es una URL completa (ej. S3)
-            photoSrc = props.thumbnail;
-        } else if (props.thumbnail.startsWith('/uploads/')) {
+    const thumbnail = props.thumbnail?.trim();
+
+    if (thumbnail) {
+        if (thumbnail.startsWith('http://') || thumbnail.startsWith('https://')) {
+            // Es una URL completa (ej. S3)
+            photoSrc = thumbnail;
+            console.log(photoSrc);
+        } else if (thumbnail.startsWith('/uploads/')) {
             // Ruta interna de backend
-            photoSrc = VITE_API_URL + props.thumbnail;
-        } else if (props.thumbnail.startsWith('/assets/images/profile/')) {
+            photoSrc = VITE_API_URL + thumbnail;
+        } else if (thumbnail.startsWith('/assets/images/profile/')) {
             // Imagen predeterminada ya mapeada
-            photoSrc = props.thumbnail;
-        } else if (props.thumbnail.startsWith('/default-avatar/')) {
+            photoSrc = thumbnail;
+        } else if (thumbnail.startsWith('/default-avatar/')) {
             // Mapear rutas antiguas a assets
-            const letterMatch = props.thumbnail.match(/\/default-avatar\/([A-Z])\.png/);
+            const letterMatch = thumbnail.match(/\/default-avatar\/([A-Z])\.png/);
             const letter = letterMatch ? letterMatch[1] : 'A';
             photoSrc = `/assets/images/profile/${letter}.png`;
         } else {
-            // Otro tipo de ruta, asumir que es subida
-            photoSrc = VITE_API_URL + props.thumbnail;
+            // Otro tipo de ruta desconocida, asumir backend
+            photoSrc = VITE_API_URL + thumbnail;
         }
     } else {
         // Por defecto, primera letra del nombre del canal
