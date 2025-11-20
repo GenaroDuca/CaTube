@@ -4,12 +4,15 @@ function Profile({ namechannel, subschannel, thumbnail, url }) {
     const firstLetter = namechannel?.charAt(0).toUpperCase();
 
     // Determinar la URL final de la foto
-    let photoSrc = thumbnail?.trim();
-
+    let photoSrc = props.thumbnail && props.thumbnail.startsWith('http')
+        ? props.thumbnail
+        : VITE_API_URL + props.thumbnail;
+        
     if (!photoSrc) {
         // Por defecto, mostrar imagen según la primera letra
         photoSrc = `/assets/images/profile/${firstLetter}.png`;
     }
+
 
     return (
         <Link to={`/yourchannel/${url}`}>

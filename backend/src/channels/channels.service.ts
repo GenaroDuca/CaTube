@@ -6,6 +6,7 @@ import { Channel } from './entities/channel.entity';
 import { User } from 'src/users/entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { console } from 'inspector';
 
 @Injectable()
 export class ChannelsService {
@@ -40,6 +41,7 @@ export class ChannelsService {
     }
 
     findAll(): Promise<Channel[]> {
+        console.log(this.channelRepository.find())
         return this.channelRepository.find();
     }
 

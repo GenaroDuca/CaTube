@@ -35,7 +35,7 @@ function Home() {
         const transformedChannels = data.map(channel => ({
           name: channel.channel_name,
           subs: channel.subscriberCount,
-          photo: channel.photoUrl || '',
+          photo: channel.photoUrl?.startsWith('http') ? channel.photoUrl : VITE_API_URL + channel.photoUrl,
           url: channel.url,
           handle: '@' + channel.url,
         }));
@@ -71,7 +71,7 @@ function Home() {
           id: video.id,
           namevideo: video.title,
           videoviews: `${video.views || 0} views`,
-          thumbnail: `${VITE_API_URL}${video.thumbnail}`,
+          thumbnail: `${video.thumbnail}`,
           channel_name: video.channel?.channel_name || 'Unknown'
         }));
         setVideos(transformedVideos);
@@ -99,7 +99,7 @@ function Home() {
           id: short.id,
           nameshort: short.title,
           shortviews: `${short.views || 0} views`,
-          thumbnail: `${VITE_API_URL}${short.thumbnail}`,
+          thumbnail: `${short.thumbnail}`,
         }));
 
         setShorts(transformedShorts);
