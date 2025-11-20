@@ -152,29 +152,26 @@ function Profile() {
                 setChannelDescription(channelData.description || profile.description);
                 setChannelSubs(channelData.subscriberCount || 0);
                 setChannelVideos(channelData.videoCount ? `${channelData.videoCount} videos` : '0 videos');
-                let photoSrc;
+                let photoSrc = `/assets/images/profile/A.png`; // default
+
                 if (channelData.photoUrl && channelData.photoUrl.trim() !== '') {
-                    let photoPath = channelData.photoUrl;
-                    if (photoPath.startsWith('/uploads/')) {
-                        // Imagen subida por el usuario
-                        photoSrc = VITE_API_URL + photoPath;
+                    const photoPath = channelData.photoUrl.trim();
+                    if (photoPath.startsWith('http://') || photoPath.startsWith('https://')) {
+                        photoSrc = photoPath; // URL completa de S3
+                    } else if (photoPath.startsWith('/uploads/')) {
+                        photoSrc = VITE_API_URL + photoPath; // rutas del backend
                     } else if (photoPath.startsWith('/assets/images/profile/')) {
-                        // Imagen predeterminada ya mapeada
-                        photoSrc = photoPath;
+                        photoSrc = photoPath; // avatar por defecto mapeado
                     } else if (photoPath.startsWith('/default-avatar/')) {
-                        // Map old default-avatar paths to new assets path
                         const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
                         const letter = letterMatch ? letterMatch[1] : 'A';
                         photoSrc = `/assets/images/profile/${letter}.png`;
                     } else {
-                        // Otro tipo of ruta, asumir que es subida
-                        photoSrc = VITE_API_URL + photoPath;
+                        photoSrc = VITE_API_URL + '/' + photoPath; // fallback
                     }
-                } else {
-                    // Set default avatar based on first letter of channel name
-                    const firstLetter = channelData.channel_name?.charAt(0).toUpperCase() || 'A';
-                    photoSrc = `/assets/images/profile/${firstLetter}.png`;
                 }
+
+                console.log('URL final de la foto:', photoSrc);
                 setUserPhoto(photoSrc);
             }
 
@@ -203,35 +200,35 @@ function Profile() {
     }, [channelId, accessToken, userId]); // Add userId to dependencies to force re-run when user changes
 
     return (
-    <div className="container-profile">
-        <div className="first-part-profile">
-            <img className="channel-photo" src={userPhoto} alt={channelName} />
-            <div className="text-channel">
-                <h2>{channelName} </h2>
-                <div className="row-info">
-                    <p className="space">{channelHandle} </p>
-                    <p className="space">{channelSubs} Catscribers </p>
-                    <p className="space">{channelVideos} </p>
+        <div className="container-profile">
+            <div className="first-part-profile">
+                <img className="channel-photo" src={userPhoto} alt={channelName} />
+                <div className="text-channel">
+                    <h2>{channelName} </h2>
+                    <div className="row-info">
+                        <p className="space">{channelHandle} </p>
+                        <p className="space">{channelSubs} Catscribers </p>
+                        <p className="space">{channelVideos} </p>
+                    </div>
+                    <p>{channelDescription} </p>
+                    {!isOwner && (
+                        <NewButton btnclass="subscribe-btn" btntitle={isSubscribed ? "Subscribed" : "Subscribe"} onClick={handleSubscribe}></NewButton>
+                    )}
                 </div>
-                <p>{channelDescription} </p>
-                {!isOwner && (
-                    <NewButton btnclass="subscribe-btn" btntitle={isSubscribed ? "Subscribed" : "Subscribe"} onClick={handleSubscribe}></NewButton>
+            </div>
+            <div className="row">
+                {isOwner && (
+                    <>
+                        <Link to="/studio/?section=customization" className="customize-btn-channel">
+                            <NewButton btnclass="customize-btn-channel" btntitle="Customize channel"></NewButton>
+                        </Link>
+                        <Link to="/studio/?section=content">
+                            <NewButton btnclass="manage-btn-videos" btntitle="Manage videos"></NewButton>
+                        </Link>
+                    </>
                 )}
             </div>
         </div>
-        <div className="row">
-            {isOwner && (
-                <>
-                    <Link to="/studio/?section=customization" className="customize-btn-channel">
-                    <NewButton btnclass="customize-btn-channel" btntitle="Customize channel"></NewButton>
-                    </Link>
-                    <Link to="/studio/?section=content">
-                    <NewButton btnclass="manage-btn-videos" btntitle="Manage videos"></NewButton>
-                    </Link>
-                </>
-            )}
-        </div>
-    </div>
     );
 }
 
