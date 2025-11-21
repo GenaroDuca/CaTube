@@ -16,7 +16,7 @@ export function NotificationMenu() {
         overlayRef: NotificationMenuRef
     } = useOverlay();
 
-    const { notifications, markAsRead, deleteNotification } = useNotification(); 
+    const { notifications, markAsRead, deleteNotification, markAllAsRead, loading, refresNotifications } = useNotification(); 
 
     const unreadCount = notifications.filter(n => !n.read).length;
 
@@ -34,9 +34,19 @@ export function NotificationMenu() {
             <aside className={`notifications-sidebar ${isNotificationMenuOpen ? '' : 'collapsed'}`}>
                 <header>
                     <h2>Notifications</h2>
+                     {unreadCount > 0 && (
+                        <button onClick={markAllAsRead} className="mark-all-read-btn">
+                            Mark all read
+                        </button>
+                    )}
+                    <button onClick={refreshNotifications} className="refresh-btn">
+                        🔄
+                    </button>
                 </header>
                 <main>
-                    {notifications.length === 0 ? (
+                    {loading ? (
+                        <p className="notification-empty">Loading notifications...</p>
+                    ) : notifications.length === 0 ? (
                         <p className="notification-empty">You have no notifications.</p>
                     ) : (
                         notifications.map(note => (
@@ -44,7 +54,7 @@ export function NotificationMenu() {
                                 key={note.id}
                                 notification={note}
                                 onMarkAsRead={markAsRead}
-                                onDelete={deleteNotification} // ⬅️ Se pasa la función estable importada del hook
+                                onDelete={deleteNotification} 
                             />
                         ))
                     )}

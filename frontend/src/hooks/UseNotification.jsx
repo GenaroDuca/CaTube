@@ -1,18 +1,52 @@
-import { useState, createContext, useContext, useMemo } from 'react';
+import { useState, createContext, useContext, useMemo, useEffect } from 'react';
+import { notificationService } from '../services/notificationService';
 
-// 1. Create a Context
 const NotificationContext = createContext();
 
-// 2. Create a Provider Component
 export function NotificationProvider({ children }) {
     const [notifications, setNotifications] = useState([]);
-    const [nextId, setNextId] = useState(1)
+    const [nextId, setNextId] = useState(1);
+    const [loading, setLoading] = useState(false);
 
+    // Carga notificaciones reales del backend
+    useEffect(() => {
+        const loadBackendNotifications = async () => {
+            setLoading(true);
+            try {
+                const backendNotifications = await notificationService.getNotifications();
+                
+                // Transforma notificaciones del backend al formato del frontend
+                const transformedNotifications = backendNotifications.map(notification => ({
+                    id: notification.notification_id, 
+                    type: notification.type === 'friend_request' ? 'friend-request' : 
+                          notification.type === 'new_message' ? 'chat-message' : 'default',
+                    userName: notification.sender?.username || 'Usuario',
+                    senderId: notification.sender?.user_id,
+                    senderAvatar: notification.sender?.avatar || '/default-avatar.png',
+                    linkAction: notification.type === 'friend_request' ? 'openFriendMenu' : 
+                               notification.type === 'new_message' ? 'openChat' : 'default',
+                    read: notification.isRead,
+                    timestamp: notification.createdAt,
+                    isFromBackend: true // Marca como notificación real
+                }));
+
+                setNotifications(transformedNotifications);
+            } catch (error) {
+                console.error('Error loading notifications from backend:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadBackendNotifications();
+    }, []);
+
+    // Notificaciones locales
     const addNotification = (notificationData) => {
         const { type, userName, senderId, senderAvatar, linkAction } = notificationData;
 
         const newNotification = {
-            id: nextId,
+            id: `local-${nextId}`, 
             type,
             userName,
             senderId,
@@ -20,16 +54,39 @@ export function NotificationProvider({ children }) {
             linkAction,
             read: false,
             timestamp: new Date().toISOString(),
+            isFromBackend: false 
         };
         setNotifications(prev => [newNotification, ...prev]);
         setNextId(prev => prev + 1);
     };
 
-    const deleteNotification = (id) => {
+    // Maneja backend y local
+    const deleteNotification = async (id) => {
+        // Si es una notificación del backend, eliminarla también del backend
+        if (!id.startsWith('local-')) {
+            try {
+                await notificationService.deleteNotification(id);
+            } catch (error) {
+                console.error('Error deleting notification from backend:', error);
+            }
+        }
+        
+        // Elimina del estado local
         setNotifications(prev => prev.filter(n => n.id !== id));
     };
 
-    const markAsRead = (id) => {
+    // Maneja backend y local
+    const markAsRead = async (id) => {
+        // Si es una notificación del backend, marcarla como leída en el backend
+        if (!id.startsWith('local-')) {
+            try {
+                await notificationService.markAsRead(id);
+            } catch (error) {
+                console.error('Error marking notification as read in backend:', error);
+            }
+        }
+        
+        // Actualiza estado local
         setNotifications(prev =>
             prev.map(n =>
                 n.id === id ? { ...n, read: true } : n
@@ -37,12 +94,53 @@ export function NotificationProvider({ children }) {
         );
     };
 
+    // Marca todas como leídas
+    const markAllAsRead = async () => {
+        try {
+            await notificationService.markAllAsRead();
+            // Actualiza todas las notificaciones locales como leídas
+            setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+        } catch (error) {
+            console.error('Error marking all as read:', error);
+        }
+    };
+
+    // Recarga notificaciones
+    const refreshNotifications = async () => {
+        setLoading(true);
+        try {
+            const backendNotifications = await notificationService.getNotifications();
+            const transformedNotifications = backendNotifications.map(notification => ({
+                id: notification.notification_id,
+                type: notification.type === 'friend_request' ? 'friend-request' : 
+                      notification.type === 'new_message' ? 'chat-message' : 'default',
+                userName: notification.sender?.username || 'Usuario',
+                senderId: notification.sender?.user_id,
+                senderAvatar: notification.sender?.avatar || '/default-avatar.png',
+                linkAction: notification.type === 'friend_request' ? 'openFriendMenu' : 
+                           notification.type === 'new_message' ? 'openChat' : 'default',
+                read: notification.isRead,
+                timestamp: notification.createdAt,
+                isFromBackend: true
+            }));
+
+            setNotifications(transformedNotifications);
+        } catch (error) {
+            console.error('Error refreshing notifications:', error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const value = useMemo(() => ({
         notifications,
+        loading,
         addNotification,
         markAsRead,
         deleteNotification,
-    }), [notifications]);
+        markAllAsRead, 
+        refreshNotifications, 
+    }), [notifications, loading]);
 
     return (
         <NotificationContext.Provider value={value}>
@@ -51,7 +149,7 @@ export function NotificationProvider({ children }) {
     );
 }
 
-// 3. Create a Custom Hook to consume the Context
+// Hook 
 export function useNotification() {
     const context = useContext(NotificationContext);
     if (!context) {

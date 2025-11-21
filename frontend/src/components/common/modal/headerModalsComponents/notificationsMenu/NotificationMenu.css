@@ -167,3 +167,30 @@
 .delete-notification-button:hover {
     background-color: #b94c4a;
 }
+
+.mark-all-read-btn {
+    background: var(--btn);
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: var(--border-radius);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.mark-all-read-btn:hover {
+    background: var(--btn-dark);
+}
+
+.refresh-btn {
+    background: var(--btn);
+    border: none;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.refresh-btn:hover {
+    background: var(--btn-dark);
+}
