@@ -4,9 +4,9 @@ function Profile({ namechannel, subschannel, thumbnail, url }) {
     const firstLetter = namechannel?.charAt(0).toUpperCase();
 
     // Determinar la URL final de la foto
-    let photoSrc = props.thumbnail && props.thumbnail.startsWith('http')
-        ? props.thumbnail
-        : VITE_API_URL + props.thumbnail;
+    let photoSrc = thumbnail && thumbnail.startsWith('http')
+        ? thumbnail
+        : VITE_API_URL + thumbnail;
         
     if (!photoSrc) {
         // Por defecto, mostrar imagen según la primera letra
