@@ -85,7 +85,6 @@ button:hover {
     color: var(--btn);
 }
 
-.change-password-form a,
 .menu-btn:hover,
 .mic-btn:hover,
 .notify-btn:hover,
@@ -138,9 +137,17 @@ button:hover {
     justify-content: center
 }
 
-.change-password-form a:hover,
 .sr-header-createButton:hover {
     color: var(--btn-dark)
+}
+
+.change-password-form a {
+    cursor: pointer;
+    text-align: end;
+}
+
+.change-password-form a:hover {
+    color: var(--btn);
 }
 
 .sr-header-userActions {

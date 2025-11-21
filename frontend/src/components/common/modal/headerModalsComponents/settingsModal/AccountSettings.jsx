@@ -1,6 +1,6 @@
 import { useModal } from "../../ModalContext";
 import { useToast } from '../../../../../hooks/useToast';
-import { getMyUserId} from "../../../../../utils/auth"
+import { getMyUserId } from "../../../../../utils/auth"
 const AccountSettings = () => {
   const { openModal } = useModal();
   // FeedbackToast y Modal Context
@@ -56,7 +56,9 @@ const AccountSettings = () => {
       <form className="change-password-form">
         <label htmlFor="current-password">Current Password:</label>
         <input type="password" id="current-password" placeholder="Current password" required />
-        <a href="#">Forgot your password?</a>
+        <a type="button" onClick={() => openModal("reset-password")}>
+          I forgot my password
+        </a>
 
         <label htmlFor="new-password">New Password:</label>
         <input type="password" id="new-password" placeholder="New password" required />
