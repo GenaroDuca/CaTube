@@ -4,7 +4,7 @@ import { useToast } from "../../../../hooks/useToast.jsx";
 import { getAuthToken } from "../../../../utils/auth.js";
 import { VITE_API_URL } from "../../../../../config"
 
-
+const { showSuccess, showError } = useToast();
 // ===============================================================
 //  API: CREATE VIDEO
 // ===============================================================
@@ -51,7 +51,6 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     const [selectedTags, setSelectedTags] = useState([]);
     const [customTagInput, setCustomTagInput] = useState("");
     const [loading, setLoading] = useState(false);
-    const { showSuccess, showError } = useToast();
 
     // ===============================================================
     //  FILTRAR TAGS
