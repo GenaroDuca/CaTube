@@ -17,7 +17,7 @@ import Yukki from '../../assets/images/profile/yukki.jpg';
 import { Link } from "react-router-dom";
 import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
 import { CommentSection } from "../common/CommentSection.jsx";
-import { useReaction } from "../../hooks/useReaction.jsx";
+import { useReaction } from "../../hooks/useReaction";
 
 export function WatchVideo({ videoId, url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags }) {
     const videoRef = useRef(null);
