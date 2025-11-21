@@ -8,7 +8,6 @@ import david from "../images/profile/david.jpg";
 import nicolas from "../images/profile/nicolas.jpg";
 import tiziano from "../images/profile/tiziano.jpg";
 import angelr from "../images/profile/angelr.jpg";
-import genar from "../images/profile/genar.jpg";
 import thiagor from "../images/profile/thiago.jpg";
 import jerer from "../images/profile/jerer.jpg";
 import laura from "../images/profile/laura.jpg";
