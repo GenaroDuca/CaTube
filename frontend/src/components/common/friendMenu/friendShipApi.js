@@ -137,7 +137,7 @@ export const fetchMyProfile = async () => {
 
     if (!response.ok) {
       if (response.status === 404) {
-        throw new Error(`Route '${API_BASE_URL}/users/me' not found on the backend (404).`);
+        throw new Error(`Route '${VITE_API_URL}/users/me' not found on the backend (404).`);
       }
       throw new Error(`Failed to load my profile. Code: ${response.status}`);
     }

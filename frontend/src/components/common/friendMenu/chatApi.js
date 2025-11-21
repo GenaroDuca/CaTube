@@ -20,7 +20,7 @@ export const getSocket = () => {
             return null;
         }
 
-        socket = io(API_BASE_URL, {
+        socket = io(VITE_API_URL, {
             auth: {
                 token: token
             }
@@ -69,7 +69,7 @@ export const sendMessage = async (toUserId, content) => {
 export const fetchMessageHistory = async (roomId, limit = 20, offset = 0) => {
     const token = getAuthToken();
     if (!token || !roomId) return [];
-    const url = `${API_BASE_URL}/messages/${roomId}?limit=${limit}&offset=${offset}`;
+    const url = `${VITE_API_URL}/messages/${roomId}?limit=${limit}&offset=${offset}`;
     try {
         const response = await fetch(VITE_API_URL, {
             headers: { 'Authorization': `Bearer ${token}` }
@@ -104,7 +104,7 @@ export const getOrCreatePrivateRoom = async (targetUserId) => {
     const token = getAuthToken();
     if (!token || !targetUserId) throw new Error("Datos insuficientes para obtener la sala.");
 
-    const url = `${API_BASE_URL}/rooms/private`;
+    const url = `${VITE_API_URL}/rooms/private`;
 
     const response = await fetch(VITE_API_URL, {
         method: 'POST',
