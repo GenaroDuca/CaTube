@@ -17,6 +17,7 @@ import Yukki from '../../assets/images/profile/yukki.jpg';
 import { Link } from "react-router-dom";
 import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
 import { CommentSection } from "../common/CommentSection.jsx";
+import { useReaction } from "../../hooks/UseReaction.jsx";
 
 export function WatchVideo({ videoId, url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags }) {
     const videoRef = useRef(null);
@@ -50,6 +51,14 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
         const secs = Math.floor(seconds % 60);
         return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
     };
+
+    const {
+        likes,
+        dislikes,
+        userReaction,
+        react,
+        removeReaction
+    } = useReaction(videoId);
 
     return (
         <article className={`vv-displayVideo-container ${isTheaterMode ? 'theater-active' : ''}`}>
@@ -119,8 +128,36 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
                         channelUrl={channelUrl ? `/yourchannel/${channelUrl}` : undefined}
                     />
                     <section>
-                        <button className="like-btn"><FaHeart color='#777878' size={22} /></button>
-                        <button className="dislike-btn"><IoHeartDislike color='#777878' size={25} /></button>
+                        {/* LIKE */}
+                        <span>
+                            {likes}
+                        </span>
+                        <button
+                            className="like-btn"
+                            onClick={() => userReaction === "like" ? removeReaction() : react(true)}
+                        >
+                            <FaHeart
+                                size={22}
+                                color={userReaction === "like" ? "#90B484" : "#777878"}
+                            />
+
+                        </button>
+
+
+                        {/* DISLIKE */}
+                        <span >
+                            {dislikes}
+                        </span>
+                        <button
+                            className="dislike-btn"
+                            onClick={() => userReaction === "dislike" ? removeReaction() : react(false)}
+                        >
+                            <IoHeartDislike
+                                size={25}
+                                color={userReaction === "dislike" ? "#e96765" : "#777878"}
+                            />
+                        </button>
+
                         <ShareMenu videoUrl={url} videoTitle={title} />
                         <button className="options-btn"><SlOptionsVertical color='#777878' size={20} /></button>
                     </section>

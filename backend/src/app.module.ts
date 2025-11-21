@@ -17,6 +17,7 @@ import { VideosModule } from './videos/videos.module';
 import { TagsModule } from './tags/tags.module';
 import { CommentsModule } from './comments/comments.module';
 import { PostsModule } from './posts/posts.module';
+import { LikesModule } from './likes/likes.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -38,7 +39,6 @@ import { Message } from './messages/entities/message.entity';
 import { Room } from './rooms/entities/room.entity';
 import { Tag } from './tags/entities/tag.entity';
 import { Post } from './posts/entities/post.entity';
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -80,6 +80,7 @@ import { Post } from './posts/entities/post.entity';
     TagsModule,
     CommentsModule,
     PostsModule,
+    LikesModule,
   ],
   controllers: [AppController],
   providers: [AppService, ChatGateway],

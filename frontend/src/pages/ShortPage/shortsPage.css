@@ -218,6 +218,19 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
 }
 
+.reacted-like {
+    color: var(--btn);
+}
+
+.reacted-dislike {
+    color: rgb(233, 103, 101);
+}
+
+.comment-short-btn {
+    display: none;
+}
+
+
 .action-button:hover {
     color: var(--btn);
 }
@@ -297,6 +310,7 @@
 
 /* Media Query para pantallas pequeñas */
 @media (max-width: 768px) {
+
     .short-block {
         width: 60vw;
         max-width: 300px;
