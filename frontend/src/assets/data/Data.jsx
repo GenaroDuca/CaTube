@@ -1406,12 +1406,6 @@ const recentSubscribers = [
         subscriberCount: "22k subscribers",
     },
     {
-        id: "sub3",
-        photo: genar,
-        username: "@gena_pro",
-        subscriberCount: "12k subscribers",
-    },
-    {
         id: "sub4",
         photo: jerer,
         username: "@jeremias_art",
@@ -1465,13 +1459,6 @@ const latestCommentsData = [
         videoThumbnail: duki,
     },
     {
-        id: "comment-3",
-        userPhoto: genar,
-        username: "@user3",
-        message: "¡Saludos desde Argentina!",
-        videoThumbnail: duki,
-    },
-    {
         id: "comment-4",
         userPhoto: jerer,
         username: "@user4",
@@ -1512,25 +1499,6 @@ export const containerChannel = {
     time: "2 years ago",
     description: "Cabildo de Bs As, Argentina"
 }
-
-export const discoverRecommendations =[{
-            channelName: "Channel name",
-            subs: "0",
-            videos: "0",
-            description: "Description Description Description Description Description Description Description Description Description Description Description Description Description Description",
-            profileImg: genar,
-            bannerImg: banner,
-            lastVideo: {
-                title: "Title of video",
-                timeAgo: "0 years ago",
-                views: "0 view",
-                thumbnail: duki,
-                description: "Description Description Description Description Description Description Description"
-            },
-            lastShort: {
-                thumbnail: short
-            }
-        }]
 
 const videoCommunityData = [
     {
