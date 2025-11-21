@@ -15,7 +15,7 @@ import { useToast } from '../../hooks/useToast';
 import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
 import { CommentSection } from '../common/CommentSection.jsx';
 import { VITE_API_URL } from "../../../config"
-import { useReaction } from '../../hooks/useReaction';
+import { useReaction } from "../../hooks/useReaction";
 
 export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
   const videoRef = useRef(null)
