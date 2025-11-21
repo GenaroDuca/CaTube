@@ -71,7 +71,7 @@ export const fetchMessageHistory = async (roomId, limit = 20, offset = 0) => {
     if (!token || !roomId) return [];
     const url = `${VITE_API_URL}/messages/${roomId}?limit=${limit}&offset=${offset}`;
     try {
-        const response = await fetch(VITE_API_URL, {
+        const response = await fetch(url, {
             headers: { 'Authorization': `Bearer ${token}` }
         });
         if (!response.ok) {
@@ -106,7 +106,7 @@ export const getOrCreatePrivateRoom = async (targetUserId) => {
 
     const url = `${VITE_API_URL}/rooms/private`;
 
-    const response = await fetch(VITE_API_URL, {
+    const response = await fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
