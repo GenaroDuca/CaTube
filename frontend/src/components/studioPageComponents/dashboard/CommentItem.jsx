@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "../../common/friendMenu/constants";
+import { VITE_API_URL } from "../../../../config";
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
@@ -10,7 +10,7 @@ function CommentItem(props) {
         if (!channelUrl && props.channelId) {
             const fetchChannelUrl = async () => {
                 try {
-                    const res = await fetch(`${API_BASE_URL}/channels/${props.channelId}`);
+                    const res = await fetch(`${VITE_API_URL}/channels/${props.channelId}`);
                     if (res.ok) {
                         const channelData = await res.json();
                         setChannelUrl(channelData.url);
@@ -28,7 +28,7 @@ function CommentItem(props) {
             let photoPath = photoUrl;
             if (photoPath.startsWith('/uploads/')) {
                 // Imagen subida por el usuario
-                return API_BASE_URL + photoPath;
+                return VITE_API_URL + photoPath;
             } else if (photoPath.startsWith('/assets/images/profile/')) {
                 // Imagen predeterminada ya mapeada
                 return photoPath;
@@ -39,7 +39,7 @@ function CommentItem(props) {
                 return `/assets/images/profile/${letter}.png`;
             } else {
                 // Otro tipo de ruta, asumir que es subida
-                return API_BASE_URL + photoPath;
+                return VITE_API_URL + photoPath;
             }
         } else {
             // Set default avatar based on first letter of username
@@ -61,7 +61,7 @@ function CommentItem(props) {
                 <p className="user-message-dashboard">{props.message}</p>
             </div>
             <Link to={videoTo}>
-                <img className="video-commented-dashboard" src={`${API_BASE_URL}${props.videoThumbnail}`} alt="Video thumbnail" />
+                <img className="video-commented-dashboard" src={`${VITE_API_URL}${props.videoThumbnail}`} alt="Video thumbnail" />
             </Link>
         </div>
     );

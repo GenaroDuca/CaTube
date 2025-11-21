@@ -4,7 +4,7 @@ import CommentItem from './CommentItem';
 import Container from "../../common/Container";
 import NewButton from '../../homePageComponents/Button';
 import { Link } from 'react-router-dom'
-import { API_BASE_URL } from '../../common/friendMenu/constants';
+import { VITE_API_URL } from "../../../../config";
 
 function LatestComments() {
     const [comments, setComments] = useState([]);
@@ -15,7 +15,7 @@ function LatestComments() {
         const fetchComments = async () => {
             try {
                 const token = localStorage.getItem('accessToken');
-                const response = await fetch(`${API_BASE_URL}/comment/user-comments`, {
+                const response = await fetch(`${VITE_API_URL}/comment/user-comments`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },

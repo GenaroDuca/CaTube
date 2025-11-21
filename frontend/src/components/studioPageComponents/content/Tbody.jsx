@@ -4,7 +4,7 @@ import { MdModeEditOutline } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { useModal } from "../../common/modal/ModalContext";
 import { Link } from 'react-router-dom';
-import { API_BASE_URL } from "../../common/friendMenu/constants.js";
+import { VITE_API_URL } from "../../../../config";
 
 function Tbody(props) {
     const { openModal } = useModal();
@@ -57,7 +57,7 @@ function Tbody(props) {
                                         onConfirm: async () => {
                                             try {
                                                 const token = localStorage.getItem('accessToken');
-                                                const response = await fetch(`${API_BASE_URL}/videos/${item.id}`, {
+                                                const response = await fetch(`${VITE_API_URL}/videos/${item.id}`, {
                                                     method: 'DELETE',
                                                     headers: {
                                                         'Authorization': `Bearer ${token}`,

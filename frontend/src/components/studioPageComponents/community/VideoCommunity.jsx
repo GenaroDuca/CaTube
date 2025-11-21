@@ -1,7 +1,7 @@
 import Container from "../../common/Container";
 import React, { useState, useEffect } from 'react';
-import { API_BASE_URL } from "../../common/friendMenu/constants.js";
 import { Link } from 'react-router-dom';
+import { VITE_API_URL } from "../../../../config";
 
 function VideoCommunity() {
     const [comments, setComments] = useState([]);
@@ -13,7 +13,7 @@ function VideoCommunity() {
             let photoPath = photoUrl;
             if (photoPath.startsWith('/uploads/')) {
                 // Imagen subida por el usuario
-                return API_BASE_URL + photoPath;
+                return VITE_API_URL + photoPath;
             } else if (photoPath.startsWith('/assets/images/profile/')) {
                 // Imagen predeterminada ya mapeada
                 return photoPath;
@@ -24,7 +24,7 @@ function VideoCommunity() {
                 return `/assets/images/profile/${letter}.png`;
             } else {
                 // Otro tipo de ruta, asumir que es subida
-                return API_BASE_URL + photoPath;
+                return VITE_API_URL + photoPath;
             }
         } else {
             // Set default avatar based on first letter of username
@@ -37,7 +37,7 @@ function VideoCommunity() {
         const fetchComments = async () => {
             try {
                 const token = localStorage.getItem('accessToken');
-                const response = await fetch(`${API_BASE_URL}/comment/user-comments?limit=10`, {
+                const response = await fetch(`${VITE_API_URL}/comment/user-comments?limit=10`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     },
@@ -78,7 +78,7 @@ function VideoCommunity() {
                         </Container>
                         <Container className="video">
                             <Link to={comment.videoType === 'short' ? `/shorts/${comment.videoId}` : `/watch/${comment.videoId}`}>
-                                <img className="video-commented-community" src={`${API_BASE_URL}${comment.videoThumbnail}`} alt="Video thumbnail" />
+                                <img className="video-commented-community" src={`${VITE_API_URL}${comment.videoThumbnail}`} alt="Video thumbnail" />
                             </Link>
                             <p>{comment.title}</p>
                         </Container>
