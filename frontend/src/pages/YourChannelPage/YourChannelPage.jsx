@@ -14,10 +14,11 @@ import Playlists from "../../components/yourChannelPageComponents/Playlists";
 import PostsTab from "../../components/yourChannelPageComponents/PostsTab";
 import Footer from "../../components/common/Footer.jsx";
 import Header from "../../components/common/header/Header.jsx";
+import StoreChannel from "../../components/yourChannelPageComponents/StoreChannel.jsx";
 
 function YourChannel() {
     const { url } = useParams();
-    const tabLabels = ['Home', 'Videos', 'Shorts', 'Playlists', 'Posts'];
+    const tabLabels = ['Home', 'Videos', 'Shorts', 'Playlists', 'Posts', 'Store'];
     const [activeTab, setActiveTab] = useState(0);
     const [channelId, setChannelId] = useState(null);
     const [isOwner, setIsOwner] = useState(false);
@@ -26,7 +27,8 @@ function YourChannel() {
         <VideosTab key={`videos-${channelId}`} />,
         <ShortsTab key={`shorts-${channelId}`} />,
         <Playlists key={`playlists-${channelId}`} />,
-        <PostsTab key={`posts-${channelId}`} isOwner={isOwner} channelId={channelId} />
+        <PostsTab key={`posts-${channelId}`} isOwner={isOwner} channelId={channelId} />,
+        <StoreChannel key={`store-${channelId}`} isOwner={isOwner} channelId={channelId}/>
     ];
 
     useEffect(() => {

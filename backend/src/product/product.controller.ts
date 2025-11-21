@@ -7,7 +7,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('product')
 export class ProductController {
-  constructor(private readonly productService: ProductService) {}
+  constructor(private readonly productService: ProductService) { }
 
   @UseGuards(JwtAuthGuard)
   @Post()
@@ -28,7 +28,13 @@ export class ProductController {
     const userId = req.user.id;
     return this.productService.findMyProducts(userId);
   }
-  
+
+  // GET productos de un canal público (sin auth)
+  @Get('channel/:channelId')
+  async findProductsByChannel(@Param('channelId') channelId: string) {
+    return this.productService.findProductsByChannel(channelId);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string, @Request() req) {

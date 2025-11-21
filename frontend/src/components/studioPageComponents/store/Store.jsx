@@ -1,11 +1,11 @@
 import Title from "../../trendingPageComponents/Title";
 import Container from "../../common/Container";
 import NewButton from "../../homePageComponents/Button";
-// 💡 Importar closeModal si tu useModal lo proporciona. Asumo que sí.
 import { useModal } from "../../common/modal/ModalContext";
 import { useState, useEffect, useCallback, useMemo } from "react";
 import ProductCard from './ProductCard';
 import { useToast } from '../../../hooks/useToast';
+import { FaCirclePlus } from "react-icons/fa6";
 
 // ----------------------------------------------------------------------
 // CONFIGURACIÓN BASE
@@ -91,7 +91,7 @@ async function getMyProducts() {
     }
 }
 
-/** 🚀 NUEVA FUNCIÓN: Eliminar un producto por ID. */
+/** Eliminar un producto por ID. */
 async function deleteProduct(productId) {
     const accessToken = localStorage.getItem('accessToken');
     const url = `${BASE_URL}/product/${productId}`; // Asumo que tu ruta DELETE es /product/:id
@@ -124,14 +124,12 @@ async function deleteProduct(productId) {
 // ----------------------------------------------------------------------
 
 function Store() {
-    // --- HOOKS ---
-    // 💡 MODAL CONTEXT: Desestructurar closeModal también
     const { openModal, closeModal } = useModal();
     const [products, setProducts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [storeExists, setStoreExists] = useState(true);
     const [error, setError] = useState(null);
-
+    const isOwner = true
     // FeedbackToast y Modal Context
     const { showSuccess, showError } = useToast();
 
@@ -213,7 +211,7 @@ function Store() {
         }
     }, [fetchProducts, authStatus]);
 
-    /** 🚀 MODIFICACIÓN: Implementación del modal de confirmación y llamada a la API. */
+    /** Implementación del modal de confirmación y llamada a la API. */
     const handleDeleteProduct = useCallback((product) => {
         // Función que se ejecutará al confirmar la eliminación
         const apiDeleteHandler = async () => {
@@ -226,9 +224,8 @@ function Store() {
             } catch (error) {
                 // Manejo de errores
                 console.error("Error al confirmar eliminación:", error.message);
-                alert(`Error al eliminar el producto: ${error.message}`);
-                closeModal();
-                fetchProducts(); // Recarga forzada aunque haya error (buena práctica)
+                showError(`Error deleting product: ${error.message}`); closeModal();
+                fetchProducts();
             }
         };
 
@@ -240,7 +237,7 @@ function Store() {
             onConfirm: apiDeleteHandler, // Pasamos el handler que llama a la API
             // No necesitas pasar 'productName' ni 'productId' aquí, ya que apiDeleteHandler los tiene
         });
-    }, [openModal, closeModal, fetchProducts]); // Incluir closeModal en las dependencias
+    }, [openModal, closeModal, fetchProducts]);
 
     const handleEditProductClick = useCallback((product) => {
         openModal("editproduct", {
@@ -313,7 +310,7 @@ function Store() {
                             type="button"
                             onClick={() => openModal("addproduct", { onProductAdded: fetchProducts })}
                         >
-                            <i className="fas fa-plus" ></i>
+                            <FaCirclePlus size={25} color="#1a1a1b" />
                         </button>
                     </Container>
                 </Container>
@@ -326,9 +323,11 @@ function Store() {
                     ) : (
                         products.map((product) => (
                             <ProductCard
-                                key={product.product_id} product={product}
-                                onEditClick={handleEditProductClick}
-                                onDeleteClick={handleDeleteProduct}
+                                key={product.product_id}
+                                product={product}
+                                isOwner={isOwner}
+                                onEditClick={isOwner ? handleEditProductClick : undefined}
+                                onDeleteClick={isOwner ? handleDeleteProduct : undefined}
                             />
                         ))
                     )}

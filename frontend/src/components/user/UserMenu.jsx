@@ -62,6 +62,9 @@ export function UserMenu() {
                 La clase 'collapsed' lo ocultará (trasladará) si isUserMenuOpen es false. */}
             <aside className={`ts-sidebar ${isUserMenuOpen ? '' : 'collapsed'}`}>
                 <nav className="ts-sidebar-nav">
+                    <div className='user-menu-username'>
+                        <p>Hi, <span>{username}</span></p>
+                    </div>
                     <ul className="ts-nav-list">
                         {/* Log Out / Log In */}
                         <li className="ts-nav-item">

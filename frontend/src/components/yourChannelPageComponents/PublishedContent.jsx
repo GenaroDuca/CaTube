@@ -11,7 +11,7 @@ function PublishedContent({ publishedPosts = [], onDelete, isOwner }) {
 
                     ))
                 ) : (
-                    <p className="postsOptions">The user hasn't uploaded any post yet.</p>
+                    <p className="postsOptions empty-posts">No posts have been published yet</p>
                 )}
             </Container>
     );
