@@ -1,3 +1,4 @@
+
 .dashboard-card,
 .left-menu,
 .right-menu {
@@ -12,13 +13,8 @@
     padding: 0px 20px 20px 20px;
 }
 
-.footer-studio {
-    background-color: var(--primary-color);
-    width: 100%;
-    height: auto;
-    padding: 1rem 2rem;
-    margin: 1rem auto;
-    border-radius: 30px;
+.no-comments {
+    text-align: center;
 }
 
 .content,
@@ -180,9 +176,6 @@
 
 .add-product-btn {
     margin-left: 30px !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .btn-container,
@@ -260,14 +253,6 @@
 
 .edit-product-btn {
     width: 80%;
-    height: 35px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.buy-product-btn {
-    width: 100%;
     height: 35px;
     display: flex;
     justify-content: center;
@@ -360,7 +345,7 @@
 /* WebKit (Chrome, Edge, Safari) */
 .scroll-table-container ::-webkit-scrollbar {
     height: 10px;
-    width: 10px;
+    width: 10px;  
 }
 
 .scroll-table-container ::-webkit-scrollbar-track {
@@ -504,7 +489,7 @@
 .use-info-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     height: 100%;
 }
 
@@ -787,7 +772,11 @@
 }
 
 /*Content modal */
-.edit-video-btn-container button {
+.edit-video-btn-container{
+    display: flex;
+}
+
+.edit-video-btn {
     width: 40px;
     height: 40px;
     background: var(--btn);
@@ -797,6 +786,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: 10px;
 }
 
 .edit-video-btn:hover {
@@ -816,6 +806,18 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.delete-video-btn{
+    width: 40px;
+    height: 40px;
+    background: #e96765 !important;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .edit-video-content {
@@ -1008,6 +1010,10 @@
     border-top-right-radius: 0px !important;
 }
 
+.studio-empty-message {
+    text-align: center;
+}
+
 @media (max-width: 1024px) {
     .sidebar-left-studio {
         display: flex;
@@ -1086,4 +1092,38 @@
     .edit-video-tags-container {
         flex-wrap: wrap;
     }
+}
+
+.video-dashboard > a {
+    display: block;   
+    flex-shrink: 0;   
+    line-height: 0;   
+}
+
+.user {
+    flex-grow: 1;            
+    width: auto;              
+    display: flex;            
+    flex-direction: column;   
+    justify-content: center; 
+}
+
+.username-dashboard,
+.user-message-dashboard {
+    margin: 0;
+}
+
+.userphoto-dashboard {
+    width: 50px;       
+    height: 50px;      
+    object-fit: cover; 
+    border-radius: 50%;
+    margin-left: 20px;
+}
+
+.video-commented-dashboard {
+    width: 100px;      
+    height: auto;
+    border-radius: 10px;
+    margin-right: 20px;
 }

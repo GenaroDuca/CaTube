@@ -462,7 +462,7 @@ const SignupForm = ({ togglePanel }) => {
                 {getLabelText('repeatPassword')}
             </label>
 
-            <button type="submit" className="register-btn" disabled={!isFormValid}>
+            <button type="submit" className="register-btn" disabled={!isFormValid || isSubmitting}>
                 {isSubmitting ? 'Loading...' : 'Sign Up'}
             </button>
         </form>

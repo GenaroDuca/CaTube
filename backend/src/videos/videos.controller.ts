@@ -178,7 +178,7 @@ export class VideosController {
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
   remove(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {
-    const channel = req.user.channel as Channel;
-    return this.videosService.remove(id, channel);
+    const userId = req.user.id;
+    return this.videosService.remove(id, userId);
   }
 }
