@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 
 //Hooks
 import { useToast } from "../../hooks/useToast.jsx";
+import { CommentReaction } from "../../hooks/CommentReaction.jsx";
+
 
 //JWT Decode
 import { jwtDecode } from "jwt-decode";
@@ -13,6 +15,8 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { IoIosCloseCircle } from "react-icons/io";
 import { FaShare } from "react-icons/fa";
 import { IoSend, IoCheckmark } from "react-icons/io5";
+import { FaHeart } from "react-icons/fa";
+import { IoHeartDislike } from "react-icons/io5";
 import "./CommentSection.css";
 
 //Router
@@ -352,7 +356,6 @@ export function CommentSection({ videoId, onCountChange }) {
         ? "video-edit-comment-input"
         : "edit-comment-input";
 
-
     return (
         <div className="comments-section">
             {/* Add new comment */}
@@ -439,6 +442,8 @@ export function CommentSection({ videoId, onCountChange }) {
                                             </button>
                                         </>
                                     )}
+                                    {/* Comments reactions */}
+                                    <CommentReaction videoId={videoId} commentId={comment.id} />
                                     <button
                                         className="reply"
                                         onClick={() => startReplying(comment.id)}
@@ -446,6 +451,7 @@ export function CommentSection({ videoId, onCountChange }) {
                                         <FaShare className="reply-icon" size={18} />
                                     </button>
                                 </div>
+
                                 {/* Time */}
                                 <p className="comment-date">
                                     {new Date(comment.updatedAt).getTime() !==
@@ -454,7 +460,6 @@ export function CommentSection({ videoId, onCountChange }) {
                                         : <> {timeAgo(comment.createdAt)}</>}
                                 </p>
                             </div>
-
 
                             {/* Reply input */}
                             {replyingToId === comment.id && (
@@ -565,18 +570,16 @@ export function CommentSection({ videoId, onCountChange }) {
                                                     <div className="comment-actions">
                                                         {currentUser?.id === reply.user_id && (
                                                             <>
-                                                                <button onClick={() =>
-                                                                    startEditing(reply, comment.id)
-                                                                }>
+                                                                <button onClick={() => startEditing(reply, comment.id)}>
                                                                     <MdEdit size={18} />
                                                                 </button>
-                                                                <button onClick={() =>
-                                                                    handleDeleteComment(reply.id, comment.id)
-                                                                }>
+                                                                <button onClick={() => handleDeleteComment(reply.id, comment.id)}>
                                                                     <MdDelete size={18} />
                                                                 </button>
                                                             </>
                                                         )}
+                                                        {/* Reply reactions */}
+                                                        <CommentReaction videoId={videoId} commentId={reply.id} />
                                                     </div>
                                                 </div>
                                             ))}

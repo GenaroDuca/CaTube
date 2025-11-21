@@ -4,7 +4,6 @@ import { FaCirclePause } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa";
 import { FaComments } from "react-icons/fa6";
 import { IoHeartDislike } from "react-icons/io5";
-import { FaShare } from "react-icons/fa";
 import { RiSettings2Fill } from "react-icons/ri";
 import { ImVolumeMedium } from "react-icons/im";
 import { ImVolumeMute2 } from "react-icons/im";
@@ -14,6 +13,7 @@ import { Link } from 'react-router-dom';
 import { useToast } from '../../hooks/useToast';
 import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
 import { CommentSection } from '../common/CommentSection.jsx';
+import { useReaction } from '../../hooks/UseReaction.jsx';
 
 export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
   const videoRef = useRef(null)
@@ -32,7 +32,6 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
       v.volume = volume
     }
   }, [])
-
 
   useEffect(() => {
     const checkSubscription = async () => {
@@ -155,10 +154,18 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
     }
   }
 
+  // Reaction hook
+  const {
+      likes,
+      dislikes,
+      userReaction,
+      react,
+      removeReaction
+      } = useReaction(short.id);
+
   return (
     <>
       <div className={`fullscreen-short-container ${isMaximized ? 'maximized' : ''}`}>
-
         <div className="short-channel-info short-container" id="short-actions-container">
           <Link to={short.channelUrl ? `/yourchannel/${short.channelUrl}` : '#'} className="short-channel-avatar">
             <img src={short.channelAvatar} alt={short.channelName} />
@@ -204,10 +211,6 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
               </div>
             </div>
           </div>
-
-
-
-
         </div>
 
         <div className={`short-video-container short-container ${isMaximized ? 'maximized' : ''}`}>
@@ -264,19 +267,53 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
 
             </div>
             <div className="action-buttons">
-              <button type="button" className="action-button"><FaHeart size={25} /></button>
-              <span>{short.likes}</span>
-              <button type="button" className="action-button"><IoHeartDislike size={25} /></button>
-              <span>{short.dislikes}</span>
+              {/* LIKE */}
+              <button
+                type="button"
+                className="action-button"
+                onClick={() => {
+                  if (userReaction === "like") removeReaction();
+                  else react(true);
+                }}
+              >
+                <FaHeart
+                  size={25}
+                  color={userReaction === "like" ? "#90B484" : "#777878"}
+                />
+              </button>
+              <span>{likes}</span>
 
-              <button type="button" className="action-button"><FaComments size={25} /></button>
-              <span>{short.comments}</span>
+              {/* DISLIKE */}
+              <button
+                type="button"
+                className="action-button"
+                onClick={() => {
+                  if (userReaction === "dislike") removeReaction();
+                  else react(false);
+                }}
+              >
+                <IoHeartDislike
+                  size={25}
+                  color={userReaction === "dislike" ? "#e96765" : "#777878"}
+                />
+              </button>
+              <span>{dislikes}</span>
 
-              <button type="button" className="action-button"><ShareMenu videoUrl={short.url} videoTitle={short.title} /></button>
+              <button type="button" className="action-button">
+                <FaComments size={25} />
+              </button>
+              <span>{commentCount}</span>
 
-              <button type="button" className="action-button"><RiSettings2Fill size={25} /></button>
+              <button type="button" className="action-button">
+                <ShareMenu videoUrl={short.url} videoTitle={short.title} />
+              </button>
+
+              <button type="button" className="action-button">
+                <RiSettings2Fill size={25} />
+              </button>
 
             </div>
+
           </div>
         </div>
         <div className='short-comments-container short-container'>

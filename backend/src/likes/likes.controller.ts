@@ -2,50 +2,78 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, Pars
 import { LikesService } from './likes.service';
 import { AuthGuard } from '@nestjs/passport';
 
-
 @Controller('likes')
 export class LikesController {
-    constructor(
-        private readonly likesService: LikesService
-    ) {}
+    constructor(private readonly likesService: LikesService) {}
 
-    @Post(':videoId/:commentId?')
+    //VIDEO REACTIONS
+    @Post('video/:videoId')
     @UseGuards(AuthGuard('jwt'))
-    react(
+    reactVideo(
         @Param('videoId', ParseUUIDPipe) videoId: string,
         @Body('like', ParseBoolPipe) like: boolean,
         @Req() req: any,
-        @Param('commentId', ParseUUIDPipe) commentId?: string,
-    ){
-        return this.likesService.react(req.user, like, videoId, commentId)
-    }
-
-    @Get(':videoId/:commentId?')
-    getLikes(
-        @Param('videoId', ParseUUIDPipe) videoId: string,
-        @Param('commentId', ParseUUIDPipe) commentId: string,
-    ){
-        return this.likesService.countLikesDislikes(videoId, commentId);
-    }
-
-    @Patch(':videoId/:commentId?')
-    @UseGuards(AuthGuard('jwt'))
-    updateLike(
-        @Param('videoId', ParseUUIDPipe) videoId: string,
-        @Body('like', ParseBoolPipe) like: boolean,
-        @Req() req: any,
-        @Param('commentId', ParseUUIDPipe) commentId?: string,
-    ){
-        return this.likesService.react(req.user, like, videoId, commentId)
-    }
-
-    @Delete(':videoId/:commentId?')
-    @UseGuards(AuthGuard('jwt'))
-    remove(
-        @Param('videoId', ParseUUIDPipe) videoId: string,
-        @Req() req: any,
-        @Param('commentId', ParseUUIDPipe) commentId?: string,
     ) {
-        return this.likesService.removeReact(req.user, videoId, commentId);
+        return this.likesService.react(req.user, like, videoId, null);
+    }
+
+    @Get('video/:videoId')
+    getVideoLikes(@Param('videoId', ParseUUIDPipe) videoId: string) {
+        return this.likesService.countLikesDislikes(videoId, null);
+    }
+
+    @Patch('video/:videoId')
+    @UseGuards(AuthGuard('jwt'))
+    updateVideoLike(
+        @Param('videoId', ParseUUIDPipe) videoId: string,
+        @Body('like', ParseBoolPipe) like: boolean,
+        @Req() req: any,
+    ) {
+        return this.likesService.react(req.user, like, videoId, null);
+    }
+
+    @Delete('video/:videoId')
+    @UseGuards(AuthGuard('jwt'))
+    removeVideoLike(
+        @Param('videoId', ParseUUIDPipe) videoId: string,
+        @Req() req: any,
+    ) {
+        return this.likesService.removeReact(req.user, videoId, null);
+    }
+
+    //COMMENT REACTIONS 
+    @Post('comment/:commentId')
+    @UseGuards(AuthGuard('jwt'))
+    reactComment(
+        @Param('commentId', ParseUUIDPipe) commentId: string,
+        @Body('like', ParseBoolPipe) like: boolean,
+        @Req() req: any,
+    ) {
+        return this.likesService.react(req.user, like, null, commentId);
+    }
+
+    @Get('comment/:commentId')
+    getCommentLikes(@Param('commentId', ParseUUIDPipe) commentId: string) {
+        return this.likesService.countLikesDislikes(null, commentId);
+    }
+
+    @Patch('comment/:commentId')
+    @UseGuards(AuthGuard('jwt'))
+    updateCommentLike(
+        @Param('commentId', ParseUUIDPipe) commentId: string,
+        @Body('like', ParseBoolPipe) like: boolean,
+        @Req() req: any,
+    ) {
+        return this.likesService.react(req.user, like, null, commentId);
+    }
+
+    @Delete('comment/:commentId')
+    @UseGuards(AuthGuard('jwt'))
+    removeCommentLike(
+        @Param('commentId', ParseUUIDPipe) commentId: string,
+        @Req() req: any,
+    ) {
+        return this.likesService.removeReact(req.user, null, commentId);
     }
 }
+

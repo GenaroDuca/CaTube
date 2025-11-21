@@ -10,13 +10,10 @@ import { FiMinimize2, FiMaximize2 } from "react-icons/fi";
 import { SlOptionsVertical } from "react-icons/sl";
 import { BsSkipStartFill, BsSkipEndFill } from "react-icons/bs";
 import { TbLayoutSidebarRightCollapseFilled, TbLayoutSidebarRightExpandFilled } from "react-icons/tb";
-import Angel from '../../assets/images/profile/angel.jpg';
-import Gena from '../../assets/images/profile/gena.jpg';
-import Jere from '../../assets/images/profile/jere.jpg';
-import Yukki from '../../assets/images/profile/yukki.jpg';
 import { Link } from "react-router-dom";
 import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
 import { CommentSection } from "../common/CommentSection.jsx";
+import { useReaction } from "../../hooks/UseReaction.jsx";
 
 export function WatchVideo({ videoId, url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags }) {
     const videoRef = useRef(null);
@@ -36,13 +33,6 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
         handleSeek
     } = useVideoControl(videoRef, onTheaterToggle);
 
-    const comments = useMemo(() => [
-        { id: 1, avatar: Angel, userName: "Colithoxz", content: "Muy buen video" },
-        { id: 2, avatar: Gena, userName: "Sheni", content: "Primeroooooo!" },
-        { id: 3, avatar: Jere, userName: "Gazzard", content: "Mandame un saludo plssss" },
-        { id: 4, avatar: Yukki, userName: "Yukki", content: "Goddddd" },
-    ], []);
-
     // 🔹 Formatear tiempo (segundos → mm:ss)
     const formatTime = (seconds) => {
         if (isNaN(seconds)) return "0:00";
@@ -50,6 +40,14 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
         const secs = Math.floor(seconds % 60);
         return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
     };
+
+    const {
+    likes,
+    dislikes,
+    userReaction,
+    react,
+    removeReaction
+    } = useReaction(videoId);
 
     return (
         <article className={`vv-displayVideo-container ${isTheaterMode ? 'theater-active' : ''}`}>
@@ -119,11 +117,40 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
                         channelUrl={channelUrl ? `/yourchannel/${channelUrl}` : undefined}
                     />
                     <section>
-                        <button className="like-btn"><FaHeart color='#777878' size={22} /></button>
-                        <button className="dislike-btn"><IoHeartDislike color='#777878' size={25} /></button>
+                        {/* LIKE */}
+                        <button
+                            className="like-btn"
+                            onClick={() => userReaction === "like" ? removeReaction() : react(true)}
+                        >
+                            <FaHeart
+                                size={22}
+                                color={userReaction === "like" ? "#90B484" : "#777878"} 
+                            />
+                            <span style={{ color: "var(--text-color)", marginLeft: "6px" }}>
+                                {likes}
+                            </span>
+                        </button>
+
+                        {/* DISLIKE */}
+                        <button
+                            className="dislike-btn"
+                            onClick={() => userReaction === "dislike" ? removeReaction() : react(false)}
+                        >
+                            <IoHeartDislike
+                                size={25}
+                                color={userReaction === "dislike" ? "#e96765" : "#777878"}
+                            />
+                            <span style={{ color: "var(--text-color)", marginLeft: "6px" }}>
+                                {dislikes}
+                            </span>
+                        </button>
+
                         <ShareMenu videoUrl={url} videoTitle={title} />
-                        <button className="options-btn"><SlOptionsVertical color='#777878' size={20} /></button>
+                        <button className="options-btn">
+                            <SlOptionsVertical color='#777878' size={20} />
+                        </button>
                     </section>
+
                 </div>
             </div>
 
