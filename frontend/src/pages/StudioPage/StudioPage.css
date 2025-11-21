@@ -494,7 +494,7 @@
 .use-info-container {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     height: 100%;
 }
 
@@ -777,7 +777,11 @@
 }
 
 /*Content modal */
-.edit-video-btn-container button {
+.edit-video-btn-container{
+    display: flex;
+}
+
+.edit-video-btn {
     width: 40px;
     height: 40px;
     background: var(--btn);
@@ -787,6 +791,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-right: 10px;
 }
 
 .edit-video-btn:hover {
@@ -806,6 +811,18 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.delete-video-btn{
+    width: 40px;
+    height: 40px;
+    background: #e96765 !important;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .edit-video-content {
@@ -1076,4 +1093,38 @@
     .edit-video-tags-container {
         flex-wrap: wrap;
     }
+}
+
+.video-dashboard > a {
+    display: block;   
+    flex-shrink: 0;   
+    line-height: 0;   
+}
+
+.user {
+    flex-grow: 1;            
+    width: auto;              
+    display: flex;            
+    flex-direction: column;   
+    justify-content: center; 
+}
+
+.username-dashboard,
+.user-message-dashboard {
+    margin: 0;
+}
+
+.userphoto-dashboard {
+    width: 50px;       
+    height: 50px;      
+    object-fit: cover; 
+    border-radius: 50%;
+    margin-left: 20px;
+}
+
+.video-commented-dashboard {
+    width: 100px;      
+    height: auto;
+    border-radius: 10px;
+    margin-right: 20px;
 }

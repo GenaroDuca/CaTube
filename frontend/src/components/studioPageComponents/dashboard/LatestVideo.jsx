@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Container from "../../common/Container";
 import Subtitle from "../../homePageComponents/Subtitle";
 import { getAuthToken } from '../../../utils/auth';
+import { Link } from 'react-router-dom';
 
 function LatestVideo({ channelId }) {
     const [latest, setLatest] = useState(null);
@@ -44,6 +45,7 @@ function LatestVideo({ channelId }) {
                     thumbnail,
                     views: v.views || 0,
                     createdAt: v.createdAt,
+                    type: v.type,
                 });
             } catch (err) {
                 console.error('Error loading latest video:', err);
@@ -69,7 +71,9 @@ function LatestVideo({ channelId }) {
                 <p>Loading latest video...</p>
             ) : latest ? (
                 <>
-                    <img className="latest-video" src={latest.thumbnail || '/assets/images/thumbnails/pinterest_swap_challenge.jpg'} alt={latest.title}></img>
+                    <Link to={latest.type === 'short' ? `/shorts/${latest.id}` : `/watch/${latest.id}`}>
+                        <img className="latest-video" src={latest.thumbnail || '/assets/images/thumbnails/pinterest_swap_challenge.jpg'} alt={latest.title}></img>
+                    </Link>
                     <Container className="lca-dashboard">
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                             <strong>{latest.title}</strong>

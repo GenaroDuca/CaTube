@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Req,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { CommentsService } from './comments.service';
@@ -16,6 +17,7 @@ import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { User } from '../users/entities/user.entity';
 import { Request } from 'express';
+
 
 @Controller('comment')
 export class CommentsController {
@@ -66,5 +68,20 @@ export class CommentsController {
   ) {
     const user = req.user as User;
     return this.commentsService.remove(commentId, user);
+  }
+
+  // Get latest comments on user's videos
+  @Get('user-comments')
+  @UseGuards(AuthGuard('jwt'))
+  getUserComments(@Req() req: Request, @Query('limit') limit?: string) {
+    const user = req.user as User;
+    const limitNum = limit ? parseInt(limit, 10) : 6;
+    return this.commentsService.getUserComments(user.user_id, limitNum);
+  }
+
+  // Get comment count for a specific video
+  @Get(':videoId/comments/count')
+  getCommentCount(@Param('videoId', ParseUUIDPipe) videoId: string) {
+    return this.commentsService.getCommentCount(videoId);
   }
 }
