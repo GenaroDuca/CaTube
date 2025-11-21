@@ -485,7 +485,7 @@ export function FriendMenu() {
                             <IoArrowBackCircle size={28} color="#90b484" />
                             <h4>Return to Friends</h4>
                         </button>
-                        <h2 style={{ color: '#e96765' }}>⚠️ Error</h2>
+                        <h2 style={{ color: '#e96765' }}>Error</h2>
                         <p style={{ textAlign: 'center' }}>
                             Could not load your profile details. Please verify that the
                             **GET /users/me** endpoint is correctly implemented and accessible on the server.
