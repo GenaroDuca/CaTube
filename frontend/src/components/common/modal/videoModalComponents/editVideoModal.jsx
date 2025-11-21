@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+    import React, { useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useToast } from "../../../../hooks/useToast.jsx";
 import { VITE_API_URL } from "../../../../../config"
 
 
-function EditVideoModal({ onClose, videoId, title: initialTitle, description: initialDescription, thumbnail }) {
+function EditVideoModal({ onClose, videoId, title: initialTitle, description: initialDescription, thumbnail, contentType }) {
     const { showSuccess, showError } = useToast();
     const [formData, setFormData] = useState({
         title: initialTitle || '',
@@ -107,7 +107,7 @@ function EditVideoModal({ onClose, videoId, title: initialTitle, description: in
         <div className="right-menu-modal">
             <div className="create-video-content edit-mode">
                 <header>
-                    <h1>Edit Video</h1>
+                    <h1>Edit {contentType === 'Shorts' ? 'Short' : 'Video'}</h1>
                     <button type="button" onClick={onClose}>
                         <IoIosCloseCircle size={25} color="#1a1a1b" />
                     </button>

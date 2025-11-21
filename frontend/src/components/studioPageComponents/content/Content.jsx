@@ -18,27 +18,42 @@ function Content() {
             const storedChannelId = localStorage.getItem('channelId');
             setLoading(true);
 
-            // helper to map response video objects to table shape
-            const mapVideos = (data) => data.map(v => {
-                let src = v.thumbnail || '';
-                if (src && src.startsWith('/uploads/')) src = `${VITE_API_URL}${src}`;
-                if (!src) src = '/assets/images/thumbnails/pinterest_swap_challenge.jpg';
-                return {
-                    id: v.id,
-                    src,
-                    alt: v.title,
-                    title: v.title,
-                    description: v.description || '',
-                    visibility: v.visibility || 'Public',
-                    restrictions: v.restrictions || 'None',
-                    date: v.createdAt || '',
-                    views: v.views ?? 0,
-                    comments: v.comments?.length ?? 0,
-                    like: v.likes?.length ?? 0,
-                    type: v.type || 'video',
-                    tags: v.tags?.map(t => t.name) || []
-                };
-            });
+            const mapVideos = async (data) => {
+                const mapped = await Promise.all(data.map(async (v) => {
+                    let src = v.thumbnail || '';
+                    if (src && src.startsWith('/uploads/')) src = `${VITE_API_URL}${src}`;
+                    if (!src) src = '/assets/images/thumbnails/pinterest_swap_challenge.jpg';
+
+                    // Fetch comment count for each video
+                    let commentsCount = 0;
+                    try {
+                        const res = await fetch(`${BASE_URL}/comment/${v.id}/comments/count`);
+                        if (res.ok) {
+                            const countData = await res.json();
+                            commentsCount = countData || 0;
+                        }
+                    } catch (err) {
+                        console.error('Error fetching comment count for video', v.id, err);
+                    }
+
+                    return {
+                        id: v.id,
+                        src,
+                        alt: v.title,
+                        title: v.title,
+                        description: v.description || '',
+                        visibility: v.visibility || 'Public',
+                        restrictions: v.restrictions || 'None',
+                        date: v.createdAt || '',
+                        views: v.views ?? 0,
+                        comments: commentsCount,
+                        like: v.likes ?? 0,
+                        type: v.type || 'video',
+                        tags: v.tags?.map(t => t.name) || []
+                    };
+                }));
+                return mapped;
+            };
 
             try {
                 console.debug('Content: fetching videos, accessToken present?', !!accessToken, 'storedChannelId:', storedChannelId);
@@ -56,7 +71,7 @@ function Content() {
                         }
                     const data = await res.json();
                     console.debug('Content: /videos/my-videos returned', Array.isArray(data) ? data.length : typeof data, data);
-                    const mapped = mapVideos(data);
+                    const mapped = await mapVideos(data);
                     setVideos(mapped.filter(x => x.type === 'video'));
                     setShorts(mapped.filter(x => x.type === 'short'));
                     return;
@@ -106,18 +121,33 @@ function Content() {
             <Title title="Content"></Title>
             <hr></hr>
             <Container className="content">
-                <FilterBar activeFilter={activeContent} onFilterChange={setActiveContent} ></FilterBar>
+                {/* Only show FilterBar if there are videos or shorts */}
+                {(videos.length > 0 || shorts.length > 0) && (
+                    <FilterBar activeFilter={activeContent} onFilterChange={setActiveContent} ></FilterBar>
+                )}
 
                 {/* Informative messages for empty state */}
                 {!loading && videos.length === 0 && shorts.length === 0 && (
-                    <div className="studio-empty-message" style={{padding: '1rem', color: '#666'}}>
-                        No hay videos para mostrar. Asegúrate de haber iniciado sesión o de que tu canal esté seleccionado.
-                        Si subiste un video recientemente, inicia sesión y visita la página "Tu canal" para sincronizar el canal (localStorage). 
+                    <div className="studio-empty-message" >
+                    There are no videos to show.
                     </div>
                 )}
 
-                {activeContent === 'Videos' && <VideoContent content={videos} contentType={activeContent} />}
-                {activeContent === 'Shorts' && <VideoContent content={shorts} contentType={activeContent} />}
+                {/* Only show VideoContent if there are items for the active content type */}
+                {activeContent === 'Videos' && videos.length > 0 && <VideoContent content={videos} contentType={activeContent} />}
+                {activeContent === 'Shorts' && shorts.length > 0 && <VideoContent content={shorts} contentType={activeContent} />}
+                {/* Show message when no videos but shorts exist */}
+                {activeContent === 'Videos' && videos.length === 0 && shorts.length > 0 && (
+                    <div className="studio-empty-message" >
+                        No videos to show.
+                    </div>
+                )}
+                {/* Show message when no shorts but videos exist */}
+                {activeContent === 'Shorts' && shorts.length === 0 && videos.length > 0 && (
+                    <div className="studio-empty-message" >
+                        No shorts to show.
+                    </div>
+                )}
                 {/* {activeContent === 'Playlists' && <VideoContent content={[]} contentType={activeContent} />} */}
             </Container>
         </>

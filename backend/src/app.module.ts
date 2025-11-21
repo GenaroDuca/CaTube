@@ -17,6 +17,7 @@ import { VideosModule } from './videos/videos.module';
 import { TagsModule } from './tags/tags.module';
 import { CommentsModule } from './comments/comments.module';
 import { PostsModule } from './posts/posts.module';
+import { LikesModule } from './likes/likes.module';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -82,6 +83,7 @@ import { Post } from './posts/entities/post.entity';
     CommentsModule,
     PostsModule,
     // UploadsModule,
+    LikesModule,
   ],
   controllers: [AppController],
   providers: [AppService, ChatGateway],

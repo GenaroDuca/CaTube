@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 //Hooks
 import { useToast } from "../../hooks/useToast.jsx";
 import { VITE_API_URL } from "../../../config.js"
+import { CommentReaction } from "../../hooks/CommentReaction.jsx";
 
 //JWT Decode
 import { jwtDecode } from "jwt-decode";
@@ -14,6 +15,8 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { IoIosCloseCircle } from "react-icons/io";
 import { FaShare } from "react-icons/fa";
 import { IoSend, IoCheckmark } from "react-icons/io5";
+import { FaHeart } from "react-icons/fa";
+import { IoHeartDislike } from "react-icons/io5";
 import "./CommentSection.css";
 
 //Router
@@ -103,7 +106,7 @@ export function CommentSection({ videoId, onCountChange }) {
             });
 
             const result = await res.json();
-            
+
             if (res.status === 201) {
                 setNewComment("");
                 setComments((prev) => {
@@ -374,7 +377,7 @@ export function CommentSection({ videoId, onCountChange }) {
             </div>
             <div className="comments-list">
                 {comments.length === 0 ? (
-                    <p style={{ textAlign: "center", color: "var(--text)"}}>
+                    <p style={{ textAlign: "center", color: "var(--text)" }}>
                         No comments yet
                     </p>
                 ) : (
@@ -440,6 +443,8 @@ export function CommentSection({ videoId, onCountChange }) {
                                             </button>
                                         </>
                                     )}
+                                    {/* Comments reactions */}
+                                    <CommentReaction videoId={videoId} commentId={comment.id} />
                                     <button
                                         className="reply"
                                         onClick={() => startReplying(comment.id)}
@@ -578,6 +583,8 @@ export function CommentSection({ videoId, onCountChange }) {
                                                                 </button>
                                                             </>
                                                         )}
+                                                        {/* Reply reactions */}
+                                                        <CommentReaction videoId={videoId} commentId={reply.id} />
                                                     </div>
                                                 </div>
                                             ))}

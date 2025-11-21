@@ -13,7 +13,7 @@ import { useLocation } from 'react-router-dom';
 //Hooks
 import { useState } from 'react';
 
-export function CatubeHeader({logo, searchQuery, setSearchQuery}) {
+export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
     const { pathname } = useLocation();
     const navigate = useNavigate();
     const isRegisterPage = pathname.includes('/register');

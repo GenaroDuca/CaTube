@@ -1,0 +1,34 @@
+.content-store-channel {
+    width: 95%;
+    margin: 1rem auto;
+    border-radius: 30px;
+}
+
+.store-empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    text-align: center;
+    padding-bottom: 500px ;
+}
+
+.store-empty-state p {
+    color: var(--text-color);
+}
+
+.go-to-studio-store-btn {
+    background-color: var(--btn);
+    color: var(--primary-color);
+    border: none;
+    padding: 12px 25px;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.go-to-studio-store-btn:hover {
+    background-color: var(--btn-dark);
+}

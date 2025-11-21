@@ -3,15 +3,24 @@ import Container from '../../common/Container';
 import { MdModeEditOutline } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { VITE_API_URL } from '../../../../config';
+import { FaShoppingCart } from "react-icons/fa"; 
 
 /**
  * Componente para renderizar una tarjeta de producto.
  * @param {object} props
  * @param {object} props.product - El objeto completo del producto.
- * @param {function} props.onEditClick - Handler para la edición (llama a handleEditProductClick del padre).
- * @param {function} props.onDeleteClick - Handler para la eliminación (llama a handleDeleteProduct del padre).
+ * @param {boolean} props.isOwner - Bandera que indica si el usuario actual es el propietario del producto/canal.
+ * @param {function} props.onEditClick - Handler para la edición (solo si isOwner es true).
+ * @param {function} props.onDeleteClick - Handler para la eliminación (solo si isOwner es true).
+ * @param {function} props.onBuyClick - Handler para la compra (solo si isOwner es false).
  */
-const ProductCard = ({ product, onEditClick, onDeleteClick }) => {
+const ProductCard = ({ 
+    product, 
+    isOwner,
+    onEditClick, 
+    onDeleteClick,
+    onBuyClick 
+}) => {
 
     // Función para formatear el precio
     const formattedPrice = parseFloat(product.price).toFixed(2);
@@ -33,21 +42,37 @@ const ProductCard = ({ product, onEditClick, onDeleteClick }) => {
 
             <div className="product-card-actions">
 
-                <button
-                    type="button"
-                    className="edit-product-btn"
-                    onClick={() => onEditClick(product)}
-                >
-                    <MdModeEditOutline size={25} color="#1a1a1b" />
-                </button>
+                {/* Lógica Condicional: Si es el propietario, muestra Editar/Eliminar. Si no, muestra Comprar. */}
+                {isOwner ? (
+                    // ⚙️ VISTA DE PROPIETARIO (ADMINISTRACIÓN)
+                    <>
+                        <button
+                            type="button"
+                            className="edit-product-btn"
+                            onClick={() => onEditClick(product)}
+                        >
+                            <MdModeEditOutline size={25} color="#1a1a1b" />
+                        </button>
 
-                <button
-                    type="button"
-                    className="delete-product-btn"
-                    onClick={() => onDeleteClick(product)}>
-
-                    <MdDelete size={25} color="#1a1a1b" />
-                </button>
+                        <button
+                            type="button"
+                            className="delete-product-btn"
+                            onClick={() => onDeleteClick(product)}
+                        >
+                            <MdDelete size={25} color="#1a1a1b" />
+                        </button>
+                    </>
+                ) : (
+                    // 💳 VISTA DE VISITANTE (COMPRA)
+                    <button
+                        type="button"
+                        className="buy-product-btn"
+                        onClick={() => onBuyClick(product)}
+                    >
+                        <FaShoppingCart size={20} style={{ marginRight: '8px' }} />
+                        Buy
+                    </button>
+                )}
             </div>
         </Container >
     );

@@ -85,7 +85,6 @@ button:hover {
     color: var(--btn);
 }
 
-.change-password-form a,
 .menu-btn:hover,
 .mic-btn:hover,
 .notify-btn:hover,
@@ -138,9 +137,17 @@ button:hover {
     justify-content: center
 }
 
-.change-password-form a:hover,
 .sr-header-createButton:hover {
     color: var(--btn-dark)
+}
+
+.change-password-form a {
+    cursor: pointer;
+    text-align: end;
+}
+
+.change-password-form a:hover {
+    color: var(--btn);
 }
 
 .sr-header-userActions {
@@ -203,6 +210,20 @@ button:hover {
 
 .ts-sidebar-nav {
     padding: 20px;
+}
+
+.user-menu-username {
+    text-align: center;
+    border-radius: 30px;
+}
+
+.user-menu-username p{
+    color: var(--text-color);
+}
+
+
+.user-menu-username span{
+    color: var(--btn);
 }
 
 .ts-nav-list {

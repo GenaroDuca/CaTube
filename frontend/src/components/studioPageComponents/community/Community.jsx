@@ -2,7 +2,7 @@ import Container from "../../common/Container";
 import Title from "../../trendingPageComponents/Title";
 import VideoCommunity from "./VideoCommunity";
 
-function Community() {
+    function Community() {
     return (
         <>
             <Title title="Community"></Title>

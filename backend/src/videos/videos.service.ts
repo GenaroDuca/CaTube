@@ -237,6 +237,9 @@ export class VideosService {
     return video;
   }
 
+  // ======================================================
+  // DELETE VIDEO
+  // ======================================================
   async remove(id: string, channel: Channel) {
     const video = await this.videoRepository.findOne({
       where: { id },
@@ -244,7 +247,7 @@ export class VideosService {
     });
     if (!video) throw new NotFoundException('Video not found');
 
-    if (video.channel.user.user_id !== channel.user.user_id) {
+    if (video.channel.channel_id !== channel.channel_id) {
       throw new ForbiddenException('You cannot delete this video');
     }
 

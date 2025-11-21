@@ -16,7 +16,7 @@ export class ProductService {
     private readonly productRepository: Repository<Product>,
     @InjectRepository(Store)
     private readonly storeRepository: Repository<Store>,
-  ) {}
+  ) { }
 
   async create(createProductDto: CreateProductDto, userId: string, file?: any) {
     // 1. Encontrar la tienda del usuario.
@@ -72,6 +72,23 @@ export class ProductService {
 
     // 2. Devolver los productos de esa tienda específica.
     return this.productRepository.find({ where: { store: { store_id: store.store_id } } });
+  }
+
+  async findProductsByChannel(channelId: string): Promise<Product[]> {
+    // 1. Buscar la tienda asociada al canal
+    const store = await this.storeRepository.findOne({
+      where: { channel: { channel_id: channelId } },
+    });
+
+    // Si no tiene tienda → no tiene productos, devolver []
+    if (!store) {
+      return [];
+    }
+
+    // 2. Buscar productos de esa tienda
+    return this.productRepository.find({
+      where: { store: { store_id: store.store_id } },
+    });
   }
 
   async findOne(id: string, userId: string): Promise<Product> {

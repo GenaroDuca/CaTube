@@ -56,7 +56,11 @@
 
 /* SELECTOR UNIFICADO PARA OVERLAYS Y POSICIONAMIENTO CENTRAL (TODOS LOS MODALES) */
 .right-menu-modal,
-.universal-modal-overlay {
+.universal-modal-overlay,
+.create-video-modal-overlay,
+.edit-product-modal,
+.add-product-modal,
+.create-store-modal {
     position: fixed;
     left: 0;
     top: 0;

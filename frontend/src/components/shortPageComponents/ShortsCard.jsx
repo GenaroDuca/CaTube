@@ -15,6 +15,7 @@ import { useToast } from '../../hooks/useToast';
 import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
 import { CommentSection } from '../common/CommentSection.jsx';
 import { VITE_API_URL } from "../../../config"
+import { useReaction } from '../../hooks/UseReaction.jsx';
 
 export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
   const videoRef = useRef(null)
@@ -156,6 +157,15 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
     }
   }
 
+  // Reaction hook
+  const {
+    likes,
+    dislikes,
+    userReaction,
+    react,
+    removeReaction
+  } = useReaction(short.id);
+
   return (
     <>
       <div className={`fullscreen-short-container ${isMaximized ? 'maximized' : ''}`}>
@@ -265,13 +275,36 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
 
             </div>
             <div className="action-buttons">
-              <button type="button" className="action-button"><FaHeart size={25} /></button>
-              <span>{short.likes}</span>
-              <button type="button" className="action-button"><IoHeartDislike size={25} /></button>
-              <span>{short.dislikes}</span>
+              {/* LIKE */}
+              <button
+                type="button"
+                className={`action-button ${userReaction === "like" ? "reacted-like" : ""}`} // Add class for selected state
+                onClick={() => {
+                  if (userReaction === "like") removeReaction();
+                  else react(true);
+                }}
+              >
+                {/* Remove the 'color' prop */}
+                <FaHeart size={25} />
+              </button>
+              <span>{likes}</span>
 
-              <button type="button" className="action-button"><FaComments size={25} /></button>
-              <span>{short.comments}</span>
+              {/* DISLIKE */}
+              <button
+                type="button"
+                className={`action-button ${userReaction === "dislike" ? "reacted-dislike" : ""}`} // Add class for selected state
+                onClick={() => {
+                  if (userReaction === "dislike") removeReaction();
+                  else react(false);
+                }}
+              >
+                {/* Remove the 'color' prop */}
+                <IoHeartDislike size={25} />
+              </button>
+              <span>{dislikes}</span>
+
+              <button type="button" className="action-button comment-short-btn"><FaComments size={25} /></button>
+              <span className="comment-short-btn">{commentCount}</span>
 
               <button type="button" className="action-button"><ShareMenu videoUrl={short.url} videoTitle={short.title} /></button>
 

@@ -150,4 +150,48 @@ export class CommentsService {
 
     return { message: 'Comment deleted successfully' };
   }
+
+  // Get latest comments on user's videos
+  async getUserComments(userId: string, limit: number = 4) {
+    const user = await this.userRepository.findOne({
+      where: { user_id: userId },
+      relations: ['channel'],
+    });
+
+    if (!user || !user.channel) throw new NotFoundException('User or channel not found');
+
+    const comments = await this.commentRepository
+      .createQueryBuilder('comment')
+      .leftJoinAndSelect('comment.user', 'user')
+      .leftJoinAndSelect('user.channel', 'userChannel')
+      .leftJoinAndSelect('comment.video', 'video')
+      .leftJoinAndSelect('video.channel', 'videoChannel')
+      .where('videoChannel.channel_id = :channelId', { channelId: user.channel.channel_id })
+      .andWhere('comment.parentComment IS NULL')
+      .andWhere('comment.user.user_id != :userId', { userId: user.user_id })
+      .orderBy('comment.createdAt', 'DESC')
+      .take(limit)
+      .getMany();
+
+    return comments.map(comment => ({
+      id: comment.id,
+      username: comment.user.username,
+      userPhoto: comment.user.channel?.photoUrl || null,
+      message: comment.content,
+      videoThumbnail: comment.video.thumbnail,
+      title: comment.video.title,
+      channelUrl: comment.user.channel?.url || null,
+      videoId: comment.video.id,
+      videoType: comment.video.type,
+      createdAt: comment.createdAt.toISOString(),
+    }));
+  }
+
+  // Get comment count for a specific video
+  async getCommentCount(videoId: string): Promise<number> {
+    const count = await this.commentRepository.count({
+      where: { video: { id: videoId } },
+    });
+    return count;
+  }
 }

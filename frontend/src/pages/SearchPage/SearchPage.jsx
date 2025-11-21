@@ -1,12 +1,13 @@
-import {useState, useMemo, useEffect} from 'react'
 import { VITE_API_URL } from '../../../config';
+import { useState, useMemo, useEffect } from 'react'
 
 //Components
 import { ChannelList } from '../../components/user/ChannelList.jsx'
 import { VideoList } from '../../components/videoPageComponents/VideoList.jsx'
 import { ShortList } from '../../components/shortPageComponents/ShortList.jsx'
 import Header from '../../components/common/header/Header.jsx'
-import Catbot from '../../components/catbot/catbot.jsx'
+import Sidebar from "../../components/common/Sidebar";
+import Footer from "../../components/common/Footer.jsx";
 
 //Styles
 import './SearchPage.css';
@@ -159,15 +160,13 @@ export function Search() {
 
 
   return (
-    <div className="search-page">
+    <>
       <Header
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       />
+      <Sidebar />
       <main className="main-content">
-        <section className='catbot'>
-          <Catbot />
-        </section>
         <section className="channel-section">
           <ChannelList channels={filteredChannels} />
         </section>
@@ -177,8 +176,9 @@ export function Search() {
         <section className='short-section'>
           <ShortList shorts={filteredShorts} />
         </section>
+        <Footer footer="footer"></Footer>
       </main>
-    </div>
+    </>
   );
 }
 

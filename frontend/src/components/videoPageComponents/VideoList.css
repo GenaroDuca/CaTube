@@ -1,17 +1,8 @@
 .sr-videosSection {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    justify-content: flex-start;
     background-color: var(--primary-color);
-    padding: 2rem 5rem;
-    border-radius: var(--border-radius);
-    margin-bottom: 1rem;
-    height: auto
-}
-
-.sr-videosSection.watch {
-    display: flex;
-    flex-direction: column;
-    padding: 2rem;
+    width: 95%;
+    height: auto;
+    padding: 1rem 2rem;
+    margin: 1rem auto;
+    border-radius: 30px;
 }

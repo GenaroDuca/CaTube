@@ -72,6 +72,7 @@ const MyProfileView = ({ myUser, onBack, onSaveProfile, isLoading }) => {
                             rows={4}
                             disabled={isLoading}
                         />
+
                     </div>
                 </div>
                 <div className="profile-actions-container">
