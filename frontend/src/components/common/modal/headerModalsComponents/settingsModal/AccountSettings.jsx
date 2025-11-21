@@ -3,8 +3,6 @@ import { useToast } from '../../../../../hooks/useToast';
 import { getMyUserId} from "../../../../../utils/auth";
 import { VITE_API_URL } from "../../../../../../config"
 
-
-import { getMyUserId } from "../../../../../utils/auth"
 const AccountSettings = () => {
   const { openModal } = useModal();
   // FeedbackToast y Modal Context
