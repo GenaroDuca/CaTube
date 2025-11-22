@@ -11,11 +11,16 @@
 }
 
 .banner-image {
-    width: 95%;
-    height: 275px;
-    object-fit: cover;
+    width: 100%;
+    /* ocupa todo el ancho disponible */
+    height: auto;
+    /* altura automática */
+    object-fit: contain;
+    /* muestra la imagen completa sin recortes */
     border-radius: 30px;
+    /* esquinas redondeadas */
 }
+
 
 .container-button,
 .container-profile {
@@ -458,6 +463,15 @@
         margin-bottom: 20px;
     }
 
+    .container-subscribe-btn {
+        display: flex;
+        justify-content: center;
+    }
+
+    .container-profile {
+        padding: 0px !important;
+    }
+
     .video-thumbnail img {
         width: 100%;
         height: auto;
@@ -487,5 +501,9 @@
 
     .text-principal-video h2 {
         margin-top: 20px;
+    }
+
+    .banner-image {
+        border-radius: 30px;
     }
 }

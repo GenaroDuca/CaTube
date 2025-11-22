@@ -556,7 +556,7 @@
 
     @media (max-width:768px) {
         .main-content {
-            margin-left: 70px;
+            margin-left: 0px;
         }
 
         .setting-section {

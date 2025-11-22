@@ -18,7 +18,7 @@ import StoreChannel from "../../components/yourChannelPageComponents/StoreChanne
 
 function YourChannel() {
     const { url } = useParams();
-    const tabLabels = ['Home', 'Videos', 'Shorts', 'Playlists', 'Posts', 'Store'];
+    const tabLabels = ['Home', 'Videos', 'Shorts', 'Posts', 'Store'];
     const [activeTab, setActiveTab] = useState(0);
     const [channelId, setChannelId] = useState(null);
     const [isOwner, setIsOwner] = useState(false);

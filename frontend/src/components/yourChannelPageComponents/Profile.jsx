@@ -208,7 +208,9 @@ function Profile() {
                     </div>
                     <p>{channelDescription} </p>
                     {!isOwner && (
-                        <NewButton btnclass="subscribe-btn" btntitle={isSubscribed ? "Subscribed" : "Subscribe"} onClick={handleSubscribe}></NewButton>
+                        <div className="container-subscribe-btn">                        
+                            <NewButton btnclass="subscribe-btn" btntitle={isSubscribed ? "Subscribed" : "Subscribe"} onClick={handleSubscribe}></NewButton>
+                        </div>
                     )}
                 </div>
             </div>

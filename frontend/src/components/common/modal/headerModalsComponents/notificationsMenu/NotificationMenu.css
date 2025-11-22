@@ -200,3 +200,15 @@
 .refresh-btn:hover {
     color: var(--btn);
 }
+
+@media (max-width: 481px) {
+    .notifications-sidebar.collapsed {
+        width: 95%;
+        margin-right: 10px;
+    }
+
+    .notifications-sidebar {
+        width: 95%;
+        margin-right: 10px;
+    }
+}

@@ -640,8 +640,7 @@ export function FriendMenu() {
                                 currentView === 'my_profile' ? 'Your Profile' : 'CaTube Social'}
                         </h2>
                         <div className='header-divider-social-menu'>
-                            {/* BOTÓN "MI PERFIL" (SOLO EN LA VISTA DE LISTA) */}
-                            {currentView !== 'my_profile' && (
+                            {(currentView === 'list') && (
                                 <button
                                     onClick={goToMyProfile}
                                     className="my-profile-button"
