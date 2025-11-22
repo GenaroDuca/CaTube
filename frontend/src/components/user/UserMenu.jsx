@@ -2,6 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 import { useModal } from '../common/modal/ModalContext';
 
+import { useTheme } from '../../hooks/useTheme'; 
+
 import { BsPersonFill } from "react-icons/bs";
 import { TbLogout } from "react-icons/tb";
 import { BiSolidUserRectangle } from "react-icons/bi";
@@ -16,19 +18,20 @@ import { useSidebarToggle } from '../../hooks/useSidebarToggle.jsx';
 
 export function UserMenu() {
     const {
-        isUserMenuOpen,     // Estado del menú
-        toggleUserMenu,     // Toggle del menú
-        closeUserMenu       // Función para cerrar
+        isUserMenuOpen, 
+        toggleUserMenu, 
+        closeUserMenu 
     } = useSidebarToggle();
 
     const { openModal } = useModal();
     const navigate = useNavigate();
 
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // ⭐️ Consumir el hook useTheme
+    const { isDarkMode, toggleTheme } = useTheme(); 
 
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [username, setUsername] = useState('');
     
-    // Detect cliks off menu: Referencia para el contenedor
     const menuRef = useRef(null);
 
     // Check login status on mount
@@ -37,31 +40,26 @@ export function UserMenu() {
         const username = localStorage.getItem('username');
         setIsLoggedIn(!!accessToken);
         setUsername(username || '');
-
     }, []);
 
-    //2. LÓGICA DE CLICK-OUTSIDE
+    // LÓGICA DE CLICK-OUTSIDE (Mantenida)
     useEffect(() => {
-        // Solo adjuntamos el listener si el menú está abierto
         if (!isUserMenuOpen) return;
 
         const handleClickOutside = (event) => {
-            // Si el clic NO está dentro del elemento del menú (menuRef.current)
             if (menuRef.current && !menuRef.current.contains(event.target)) {
-                closeUserMenu(); // Llama a la función para cerrar
+                closeUserMenu();
             }
         };
 
-        // Adjunta el event listener al documento.
         document.addEventListener("mousedown", handleClickOutside);
 
-        // Función de limpieza:
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [isUserMenuOpen, closeUserMenu]); // Dependencias: solo se re-ejecuta si el estado del menú o la función de cierre cambian.
+    }, [isUserMenuOpen, closeUserMenu]);
     
-    // --- FUNCIÓN DE LOGOUT ---
+    // --- FUNCIÓN DE LOGOUT (Mantenida) ---
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('channelId');
@@ -69,27 +67,30 @@ export function UserMenu() {
         localStorage.removeItem('userId');
         setIsLoggedIn(false);
         setUsername('');
-        closeUserMenu(); // Cierra el menú al desloguearse
+        closeUserMenu();
         navigate('/register');
         window.location.reload();
     };
 
+    // --- FUNCIÓN PARA ALTERNAR EL TEMA Y CERRAR EL MENÚ ---
+    const handleThemeToggle = () => {
+        toggleTheme(); // Aquí se activa el modo claro/oscuro
+        closeUserMenu(); 
+    };
+
     return (
-        // ⭐ 3. ADJUNTAR LA REFERENCIA AL CONTENEDOR PRINCIPAL
         <div className="user-menu-container" ref={menuRef}> 
-            {/* El botón ahora usa toggleUserMenu */}
             <button className="user-button" onClick={toggleUserMenu}>
                 <BsPersonFill size={30} className={isLoggedIn ? 'logged-in-icon' : ''} />
             </button>
 
-            {/* 4. Renderizamos el menú SIEMPRE para permitir la transición CSS.
-                La clase 'collapsed' lo ocultará (trasladará) si isUserMenuOpen es false. */}
             <aside className={`ts-sidebar ${isUserMenuOpen ? '' : 'collapsed'}`}>
                 <nav className="ts-sidebar-nav">
                     <div className='user-menu-username'>
                         <p>Hi, <span>{username}</span></p>
                     </div>
                     <ul className="ts-nav-list">
+                        
                         {/* Log Out / Log In */}
                         <li className="ts-nav-item">
                             {isLoggedIn ? (
@@ -98,7 +99,6 @@ export function UserMenu() {
                                     <span className="ts-nav-label">Log Out</span>
                                 </button>
                             ) : (
-                                // Usamos Link para navegar y también cerramos el menú
                                 <Link to="/register" className="ts-nav-link" onClick={closeUserMenu}>
                                     <HiOutlineLogin size={30} />
                                     <span className="ts-nav-label">Log In</span>
@@ -124,34 +124,39 @@ export function UserMenu() {
 
                         <li className="ts-nav-item"><hr /></li>
 
-                        {/* Appearance */}
+                        {/* ⭐️ Appearance (MODIFICADO para alternar el tema) */}
                         <li className="ts-nav-item">
-                            <button type="button" className="ts-nav-link soon" onClick={closeUserMenu}>
+                            <button 
+                                type="button" 
+                                className="ts-nav-link" 
+                                onClick={handleThemeToggle} // Llama a la función de alternancia
+                            >
                                 <IoMoon size={25} />
-                                <span className="ts-nav-label">Appearance</span>
+                                <span className="ts-nav-label">
+                                    Appearance: {isDarkMode ? 'Dark' : 'Light'}
+                                </span>
                             </button>
                         </li>
 
                         <li className="ts-nav-item"><hr /></li>
 
-                        {/* Settings */}
+                        {/* Settings, Help, Feedback */}
                         <li className="ts-nav-item">
-                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { openModal('settings'); }}>
+                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { closeUserMenu(); openModal('settings'); }}>
                                 <RiSettings2Fill size={25} />
                                 <span className="ts-nav-label">Settings</span>
                             </button>
                         </li>
 
-                        {/* Help */}
                         <li className="ts-nav-item">
-                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { openModal('help'); }}>
+                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { closeUserMenu(); openModal('help'); }}>
                                 <IoIosHelpCircle size={25} />
                                 <span className="ts-nav-label">Help</span>
                             </button>
                         </li>
-                        {/* Send feedback */}
+                        
                         <li className="ts-nav-item">
-                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { openModal('feedback'); }}>
+                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { closeUserMenu(); openModal('feedback'); }}>
                                 <BsFillSendExclamationFill size={25} />
                                 <span className="ts-nav-label">Send feedback</span>
                             </button>

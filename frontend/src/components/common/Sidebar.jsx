@@ -13,11 +13,11 @@ function Sidebar() {
 
   return (
     <aside className={`sidebar ${isSidebarOpen ? '' : 'collapsed'}`} ref={SidebarRef}>
-      <header className="sidebar-header">
+      <div className="sidebar-header">
         <button className="toggler sidebar-toggler" onClick={toggleSidebar}>
           <span className="material-symbols-outlined">chevron_left</span>
         </button>
-      </header>
+      </div>
 
       <nav className="sidebar-nav">
         <ul className="nav-list primary-nav">
