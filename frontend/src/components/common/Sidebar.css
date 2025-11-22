@@ -7,7 +7,7 @@
     margin: 0 0 0 15px;
     border-radius: 30px;
     height: calc(100vh - 32px);
-    z-index: 2;
+    z-index: 1000;
     overflow-y: auto;
     overflow-x: hidden;
 }

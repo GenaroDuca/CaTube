@@ -6,8 +6,6 @@ import { useEffect, useState } from 'react';
 import { CatubeVideoCard } from './CatubeVideoCard.jsx'
 
 //Styles
-import './VideoList.css'
-
 import { getAuthToken } from '../../utils/auth.js'
 import { VITE_API_URL } from '../../../config';
 

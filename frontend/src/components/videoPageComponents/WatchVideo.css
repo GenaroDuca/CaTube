@@ -2,16 +2,13 @@
 .watch-page-layout {
     display: flex;
     gap: 24px;
-    max-width: 1850px;
+    max-width: 2000px;
     margin: 0 auto;
     padding: 20px;
 }
 
-.vv-displayVideo-container{
-    flex: 1;
-    min-width: 640px;
-    position: relative;
-    z-index: 1;
+.vv-displayVideo-container {
+    width: 100%;
 }
 
 
@@ -55,64 +52,62 @@
 }
 
 .vv-progress-bar {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: 0px 20px 80px 20px;
-  width: calc(100% - 40px);
-  height: 6px;
-  appearance: none;
-  background: #2c2c2c;
-  border-radius: 4px;
-  cursor: pointer;
-  outline: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: 0px 20px 80px 20px;
+    width: calc(100% - 40px);
+    height: 6px;
+    appearance: none;
+    background: #2c2c2c;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
 }
 
 /* Barra del progreso (relleno) */
 .vv-progress-bar::-webkit-slider-thumb {
-  appearance: none;
-  width: 12px;
-  height: 12px;
-  background: transparent;
+    appearance: none;
+    width: 12px;
+    height: 12px;
+    background: transparent;
 
 }
 
 .vv-progress-bar::-webkit-slider-thumb:hover {
-  transform: scale(1.2);
+    transform: scale(1.2);
 }
 
 /* Color de la barra que ya se ha reproducido */
 .vv-progress-bar::-webkit-slider-runnable-track {
-  height: 6px;
-  border-radius: 4px;
-  background: linear-gradient(
-    to right,
-    rgb(144, 180, 132) var(--progress, 0%),
-    #3a3a3a var(--progress, 0%)
-  );
+    height: 6px;
+    border-radius: 4px;
+    background: linear-gradient(to right,
+            rgb(144, 180, 132) var(--progress, 0%),
+            #3a3a3a var(--progress, 0%));
 }
 
 /* Firefox */
 .vv-progress-bar::-moz-range-track {
-  height: 6px;
-  border-radius: 4px;
-  background: #3a3a3a;
+    height: 6px;
+    border-radius: 4px;
+    background: #3a3a3a;
 }
 
 .vv-progress-bar::-moz-range-progress {
-  height: 6px;
-  border-radius: 4px;
-  background: rgb(144, 180, 132);
+    height: 6px;
+    border-radius: 4px;
+    background: rgb(144, 180, 132);
 }
 
 .vv-progress-bar::-moz-range-thumb {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: rgb(180, 132, 132);
-  border: none;
-  cursor: pointer;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgb(180, 132, 132);
+    border: none;
+    cursor: pointer;
 }
 
 .volume-control {
@@ -158,7 +153,8 @@
     border-radius: 50%;
     background: var(--btn);
     cursor: pointer;
-    margin-top: -4px; /* centra el thumb */
+    margin-top: -4px;
+    /* centra el thumb */
 }
 
 .volume-control input[type="range"]::-moz-range-thumb {
@@ -191,12 +187,13 @@
     height: auto;
     transition: all 0.3s ease;
 }
+
 .vv-displayVideo {
     border-radius: var(--border-radius);
     object-fit: contain;
     cursor: pointer;
     width: 100%;
-    height: 100%;
+    aspect-ratio: 16/9;
 }
 
 /* ===Controls=== */
@@ -232,6 +229,7 @@
     justify-content: center;
     gap: 20px;
 }
+
 .vv-video-leftControls button,
 .vv-video-rightControls button {
     width: 50px;
@@ -282,19 +280,19 @@
 
 .vv-displayVideo-description-tags {
     margin-top: 20px;
-    
+
 }
 
-.vv-displayVideo-description-tags div{
+.vv-displayVideo-description-tags div {
     display: flex;
     gap: 10px;
 }
 
-.vv-displayVideo-description-tags div a{
+.vv-displayVideo-description-tags div a {
     color: var(--btn);
 }
 
-.vv-displayVideo-description-tags div a:hover{
+.vv-displayVideo-description-tags div a:hover {
     color: var(--btn-dark);
 }
 
@@ -311,10 +309,11 @@
     gap: 10px;
 }
 
-.vv-displayVideo-userActions section span{
+.vv-displayVideo-userActions section span {
     display: flex;
     align-items: center;
 }
+
 
 .like-btn,
 .dislike-btn,
@@ -885,7 +884,8 @@ body.in-theater-mode .main-content {
     }
 
     .container-watch-comments:not(.theater-mode-active *) {
-        flex: 2.5;
+        flex: 1;
+        max-width: 1920px;
     }
 
     .container-watch-right:not(.theater-mode-active *) {
@@ -959,7 +959,22 @@ body.in-theater-mode .main-content {
 
 
 /* Mobile Devices */
+@media (max-width: 768px) {
+    .vv-displayVideo-userActions {
+        flex-direction: column  ;
+        gap: 20px;
+    }
+}
+
 @media (max-width: 600px) {
+    .vv-video-leftControls-button, .vv-video-rightControls-theaterMode {
+        display: none !important;
+    }
+
+    .vv-time-display {
+        font-size: 0.8rem;
+    }
+
     .container-all {
         padding: 10px;
     }

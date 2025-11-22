@@ -53,7 +53,7 @@ export default function ShortPage() {
 
         const transformed = data.map((short) => ({
           id: short.id,
-          videoSrc: `${VITE_API_URL}${short.url}`,
+          videoSrc: `${short.url}`,
           title: short.title,
           description: short.description,
           channelName: short.channel?.channel_name || 'Unknown',
@@ -84,7 +84,7 @@ export default function ShortPage() {
     fetchShorts();
   }, [id, token]);
 
-  // 👉 IntersectionObserver para detectar short visible y sumar vista
+  // IntersectionObserver para detectar short visible y sumar vista
   useEffect(() => {
     if (shorts.length === 0) return;
 
