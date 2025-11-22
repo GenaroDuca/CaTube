@@ -1,13 +1,17 @@
 import logo from '../../../../public/catube_white.svg'
 import { CatubeHeader } from './CatubeHeader.jsx'
 import './CatubeHeader.css'
+import { useTheme } from '../../context/themeContext.jsx'
+import logoDark from '../../../../public/catube_dark.svg'
 
-function Header( { searchQuery, setSearchQuery}) {
+function Header({ searchQuery, setSearchQuery }) {
+    const { isDarkMode } = useTheme();
+
     return (
         <CatubeHeader
-        logo={logo}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
+            logo={isDarkMode ? logo : logoDark}
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
         />
     )
 }

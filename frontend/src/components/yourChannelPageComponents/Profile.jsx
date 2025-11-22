@@ -2,7 +2,6 @@ import { profile } from "../../assets/data/Data"
 import { Link } from 'react-router-dom'
 import NewButton from "../homePageComponents/Button";
 import { useState, useEffect } from "react";
-import { useNotification } from "../../hooks/useNotification";
 import { useToast } from '../../hooks/useToast';
 import { VITE_API_URL } from '../../../config';
 
@@ -48,7 +47,6 @@ async function apiFetch(url, options = {}) {
 }
 
 function Profile() {
-    const { showError } = useNotification();
     const { showSuccess } = useToast();
     const [userPhoto, setUserPhoto] = useState(profile.src);
     const [channelName, setChannelName] = useState(profile.name);
@@ -170,8 +168,6 @@ function Profile() {
                         photoSrc = VITE_API_URL + '/' + photoPath; // fallback
                     }
                 }
-
-                console.log('URL final de la foto:', photoSrc);
                 setUserPhoto(photoSrc);
             }
 

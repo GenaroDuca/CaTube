@@ -1,113 +1,137 @@
-// src/notifications/notifications.service.ts
-
 import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Not } from 'typeorm';
+import { Repository } from 'typeorm';
 
 import { Notification, NotificationType } from './entities/notification.entity';
 import { CreateNotificationDto } from './dto/create-notification.dto';
-import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class NotificationsService {
   constructor(
     @InjectRepository(Notification)
     private notificationRepository: Repository<Notification>,
-
   ) { }
 
-  /**
-   * 1. CORE: Crea y guarda una notificación en la DB.
-   * Esta función debe ser llamada internamente por otros servicios (ej: FriendshipService).
-   */
+  // --- 1. Crear notificación ---
   async createNotification(
     receiverId: string,
-    senderId: string,
+    senderId: string | null,
     type: NotificationType,
     content: string,
     linkTarget: string
   ): Promise<Notification | null> {
-    if (receiverId === senderId) return null; // No enviamos notificaciones a uno mismo
     try {
-      const newNotification = this.notificationRepository.create({
-        userId: receiverId,
+      const newNotificationData = {
+        // 🚨 FIX CLAVE: Usamos las propiedades de ID explícitas
+        receiverId: receiverId, 
         senderId: senderId,
+        
         type: type,
         content: content,
         linkTarget: linkTarget,
         isRead: false,
+      };
+
+      const result = await this.notificationRepository.insert(newNotificationData);
+
+      const insertedId = result.identifiers[0].notification_id;
+
+      return await this.notificationRepository.findOne({ 
+        where: { notification_id: insertedId } as any,
+        relations: ['receiver', 'sender']
       });
 
-      return this.notificationRepository.save(newNotification);
     } catch (error) {
       console.error('Error saving notification:', error);
+      // Lanzamos la excepción después de loguear
       throw new InternalServerErrorException('Failed to create notification.');
     }
   }
 
-  /**
-   * 2. Obtiene las notificaciones del usuario, incluyendo los datos del remitente.
-   */
+  // --- 2. Obtener notificaciones ---
   async findNotificationsByUserId(
     userId: string,
     limit: number = 20,
     unreadOnly: boolean = false
   ): Promise<Notification[]> {
-    const whereCondition: any = { userId };
-    if (unreadOnly) {
-      whereCondition.isRead = false;
-    }
 
-    return this.notificationRepository.find({
-      where: whereCondition,
-      order: { createdAt: 'DESC' },
-      take: limit,
-      relations: ['sender'], // Carga el objeto 'sender' para mapear el DTO
-    });
+    try {
+      const qb = this.notificationRepository.createQueryBuilder('notification')
+        // Hacemos JOIN explícito con 'receiver' y 'sender'
+        .leftJoinAndSelect('notification.receiver', 'receiver')
+        .leftJoinAndSelect('notification.sender', 'sender')
+        .where('notification.receiverId = :userId', { userId })
+        .orderBy('notification.createdAt', 'DESC')
+        .take(limit);
+
+      if (unreadOnly) {
+        qb.andWhere('notification.isRead = :isRead', { isRead: false });
+      }
+
+      return await qb.getMany();
+
+    } catch (error) {
+      console.error('Error finding notifications:', error);
+      throw new InternalServerErrorException('Could not fetch notifications');
+    }
   }
 
-  /**
-   * 3. Marca una notificación específica como leída (usado por el Controller).
-   */
+  // --- 3. Marcar como leída ---
   async markAsRead(notificationId: string, userId: string): Promise<void> {
-    // Aseguramos que el usuario solo puede modificar sus propias notificaciones
-    const result = await this.notificationRepository.update(
-      { notification_id: notificationId, userId: userId },
-      { isRead: true }
-    );
+    const notification = await this.notificationRepository.findOne({
+      where: {
+        notification_id: notificationId,
+        // 🚨 FIX CLAVE: Usamos el ID de la FK
+        receiverId: userId 
+      } as any
+    });
 
-    if (result.affected === 0) {
+    if (!notification) {
       throw new NotFoundException('Notification not found or unauthorized.');
     }
+
+    notification.isRead = true;
+    await this.notificationRepository.save(notification);
   }
 
-  /**
-   * 4. Marca todas las notificaciones pendientes como leídas.
-   */
+  // --- 4. Marcar todas como leídas ---
   async markAllAsRead(userId: string): Promise<void> {
-    await this.notificationRepository.update(
-      { userId: userId, isRead: false },
-      { isRead: true }
-    );
+    await this.notificationRepository.createQueryBuilder()
+      .update(Notification)
+      .set({ isRead: true })
+      .where("receiverId = :userId", { userId })
+      .andWhere("is_read = :isRead", { isRead: false })
+      .execute();
   }
 
-  /**
-   * 5. Mapea la Entidad a DTO para enviar al frontend.
-   */
+  // --- 5. Eliminar notificación ---
+  async remove(notificationId: string, userId: string): Promise<void> {
+    const result = await this.notificationRepository.delete({
+      notification_id: notificationId,
+      receiverId: userId
+    } as any);
+
+    if (result.affected === 0) {
+      throw new NotFoundException(`Notification not found`);
+    }
+  }
+
+  // --- 6. Mapear a DTO ---
   mapToDto(notification: Notification): CreateNotificationDto {
     const dto = new CreateNotificationDto();
-    dto.id = notification.userId;
+
+    dto.notification_id = notification.notification_id;
     dto.type = notification.type;
     dto.content = notification.content;
     dto.isRead = notification.isRead;
     dto.linkTarget = notification.linkTarget;
-    dto.createdAt = notification.createdAt.toISOString();
+    dto.createdAt = notification.createdAt ? notification.createdAt.toISOString() : new Date().toISOString();
 
-    // Mapeo seguro del remitente
     dto.sender = {
-      id: notification.sender?.user_id,
-      username: notification.sender?.username,
-      avatarUrl: notification.sender?.avatarUrl,
+      // Usamos la relación 'sender' para obtener los datos.
+      senderId: notification.sender?.user_id || notification.senderId || null,
+      username: notification.sender?.username || 'Sistema',
+      avatarUrl: notification.sender?.avatarUrl || null,
     };
 
     return dto;

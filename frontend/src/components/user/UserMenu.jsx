@@ -16,9 +16,9 @@ import { useSidebarToggle } from '../../hooks/useSidebarToggle.jsx';
 
 export function UserMenu() {
     const {
-        isUserMenuOpen,     // Estado del menú
-        toggleUserMenu,     // Toggle del menú
-        closeUserMenu       // Función para cerrar
+        isUserMenuOpen,     // Estado del menú
+        toggleUserMenu,     // Toggle del menú
+        closeUserMenu       // Función para cerrar
     } = useSidebarToggle();
 
     const { openModal } = useModal();
@@ -27,7 +27,8 @@ export function UserMenu() {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const [username, setUsername] = useState('');
-    // Detect cliks off menu
+    
+    // Detect cliks off menu: Referencia para el contenedor
     const menuRef = useRef(null);
 
     // Check login status on mount
@@ -39,6 +40,28 @@ export function UserMenu() {
 
     }, []);
 
+    //2. LÓGICA DE CLICK-OUTSIDE
+    useEffect(() => {
+        // Solo adjuntamos el listener si el menú está abierto
+        if (!isUserMenuOpen) return;
+
+        const handleClickOutside = (event) => {
+            // Si el clic NO está dentro del elemento del menú (menuRef.current)
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                closeUserMenu(); // Llama a la función para cerrar
+            }
+        };
+
+        // Adjunta el event listener al documento.
+        document.addEventListener("mousedown", handleClickOutside);
+
+        // Función de limpieza:
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isUserMenuOpen, closeUserMenu]); // Dependencias: solo se re-ejecuta si el estado del menú o la función de cierre cambian.
+    
+    // --- FUNCIÓN DE LOGOUT ---
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('channelId');
@@ -52,7 +75,8 @@ export function UserMenu() {
     };
 
     return (
-        <div className="user-menu-container" /*ref={menuRef}*/>
+        // ⭐ 3. ADJUNTAR LA REFERENCIA AL CONTENEDOR PRINCIPAL
+        <div className="user-menu-container" ref={menuRef}> 
             {/* El botón ahora usa toggleUserMenu */}
             <button className="user-button" onClick={toggleUserMenu}>
                 <BsPersonFill size={30} className={isLoggedIn ? 'logged-in-icon' : ''} />
@@ -89,15 +113,6 @@ export function UserMenu() {
                                 <span className="ts-nav-label">Your channel</span>
                             </Link>
                         </li>
-
-                        {/* Friends */}
-                        {/* <li className="ts-nav-item"> */}
-                        {/* toggleFriendMenu debería estar en el contexto. Después de esto, cerrar el menú de usuario. */}
-                        {/* <button type="button" className="ts-nav-link friends-btn" onClick={() => { toggleFriendMenu()}}>
-                                <FaUserFriends size={25} />
-                                <span className="ts-nav-label">Friends</span>
-                            </button>
-                        </li> */}
 
                         {/* Catube Studio */}
                         <li className="ts-nav-item">

@@ -28,6 +28,7 @@ import { Channel } from './channels/entities/channel.entity';
 import { Store } from './store/entities/store.entity';
 import { Product } from './product/entities/product.entity';
 import { Playlist } from './playlist/entities/playlist.entity';
+import { PlaylistModule } from './playlist/playlist.module';
 import { Video } from './videos/entities/video.entity';
 import { Comment } from './comments/entities/comment.entity';
 import { Like } from './likes/entities/like.entity';
@@ -72,6 +73,7 @@ import { Post } from './posts/entities/post.entity';
     AuthModule,
     ProductModule,
     StoreModule,
+    PlaylistModule,
     PlaylistVideosModule,
     FriendshipsModule,
     NotificationsModule,
@@ -88,4 +90,4 @@ import { Post } from './posts/entities/post.entity';
   controllers: [AppController],
   providers: [AppService, ChatGateway],
 })
-export class AppModule {}
+export class AppModule { }
