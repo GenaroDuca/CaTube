@@ -53,9 +53,6 @@
 .p-4 { padding: 1rem; }
 
 /* Text utilities */
-.text-white {
-    color: white;
-}
 
 .text-primary {
     color: var(--text-color);

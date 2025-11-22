@@ -391,7 +391,7 @@ export function CommentSection({ videoId, onCountChange }) {
                                 <img
                                     src={
                                         comment.photoUrl
-                                            ? `${VITE_API_URL}${comment.photoUrl}`
+                                            ? `${comment.photoUrl}`
                                             : `/assets/images/profile/${comment.username?.charAt(0).toUpperCase()}.png`
                                     }
                                     alt={comment.username || "User avatar"}
@@ -516,7 +516,7 @@ export function CommentSection({ videoId, onCountChange }) {
                                                         <img
                                                             src={
                                                                 reply.photoUrl
-                                                                    ? `${VITE_API_URL}${reply.photoUrl}`
+                                                                    ? `${reply.photoUrl}`
                                                                     : `/assets/images/profile/${reply.username.charAt(
                                                                         0
                                                                     )}.png`

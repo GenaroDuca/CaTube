@@ -3,7 +3,6 @@
     border: none;
     border-radius: var(--border-radius);
     background-color: var(--btn);
-    color: white;
     cursor: pointer;
     transition: background-color 0.2s;
 }

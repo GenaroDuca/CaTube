@@ -3,8 +3,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Friendship, FriendshipStatus } from './entities/friendship.entity';
-import { User } from '../users/entities/user.entity'; // Asumimos esta ruta
+import { User } from '../users/entities/user.entity';
 import { FriendProfile } from "./friend-profile.interface";
+
+// Importaciones necesarias para la notificación
+import { NotificationsService } from '../notifications/notifications.service';
+import { NotificationType } from '../notifications/entities/notification.entity';
 
 @Injectable()
 export class FriendshipService {
@@ -14,6 +18,8 @@ export class FriendshipService {
 
     @InjectRepository(User)
     private userRepository: Repository<User>,
+
+    private readonly notificationsService: NotificationsService,
   ) { }
 
   /**
@@ -46,7 +52,23 @@ export class FriendshipService {
       userIdReceiver: receiverId,
     });
 
-    return this.friendshipRepository.save(newFriendship);
+    const savedFriendship = await this.friendshipRepository.save(newFriendship);
+
+    // NOTIFICACIÓN AL RECEPTOR (El usuario que recibió la solicitud)
+    try {
+      // Usaremos el tipo FRIEND_REQUEST y enlazaremos al perfil del emisor
+      await this.notificationsService.createNotification(
+        receiverId,
+        senderId,
+        NotificationType.FRIEND_REQUEST,
+        'has sent you a friend request!',
+        `/profile/${senderId}`, // Enlace al perfil del emisor
+      );
+    } catch (e) {
+      console.error('Failed to create FRIEND_REQUEST notification:', e);
+    }
+
+    return savedFriendship;
   }
 
   /**
@@ -71,7 +93,25 @@ export class FriendshipService {
 
     // 3. Actualizar estado a 'accepted'
     friendship.status = FriendshipStatus.ACCEPTED;
-    return this.friendshipRepository.save(friendship);
+    const acceptedFriendship = await this.friendshipRepository.save(friendship);
+
+    // NOTIFICACIÓN AL EMISOR (El usuario cuya solicitud fue aceptada)
+    try {
+      const senderId = friendship.userIdSender;
+      const newFriendId = acceptorId;
+
+      await this.notificationsService.createNotification(
+        senderId,      
+        newFriendId, 
+        NotificationType.FRIEND_ACCEPTED,
+        'has accepted your friend request!',
+        `/profile/${newFriendId}`, 
+      );
+    } catch (e) {
+      console.error('Failed to create FRIEND_ACCEPTED notification:', e);
+    }
+
+    return acceptedFriendship;
   }
 
   /**
@@ -119,7 +159,7 @@ export class FriendshipService {
     return rawResults.map(r => ({
       id: r.friend_id,
       username: r.friend_username,
-      friendshipId: r.friendship_id, 
+      friendshipId: r.friendship_id,
       avatarUrl: r.friend_avatarUrl
     } as FriendProfile));
   }

@@ -26,7 +26,7 @@ export function CatubeVideoCard({ video }) {
                 <Link to={`/watch/${video.id}`}>
                     <img
                         className='ct-videoCard-thumbnail'
-                        src={`${VITE_API_URL}${video.thumbnail}`}
+                        src={`${video.thumbnail}`}
                         alt="thumbnail"
                     />
                 </Link>

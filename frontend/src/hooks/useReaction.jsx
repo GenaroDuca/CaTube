@@ -9,13 +9,20 @@ export function useReaction(videoId, commentId = null) {
 
     // Fetch current counts
     const fetchCounts = async () => {
+        const token = getAuthToken();
 
-        // NEW → URLs adaptadas a NestJS 10 (sin parámetros opcionales)
+        // NEW → URLs adaptad   as a NestJS 10 (sin parámetros opcionales)
         const url = commentId
-            ? `${VITE_API_URL}/comment/${commentId}`
-            : `${VITE_API_URL}/video/${videoId}`;
+            ? `${VITE_API_URL}/likes/comment/${commentId}`
+            : `${VITE_API_URL}/likes/video/${videoId}`;
 
-        const res = await fetch(url);
+        const res = await fetch(url, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+
         const data = await res.json();
 
         setLikes(data.likes);
@@ -28,8 +35,8 @@ export function useReaction(videoId, commentId = null) {
 
         // NEW → Rutas separadas para video/comment
         const url = commentId
-            ? `${baseVITE_API_URLUrl}/comment/${commentId}`
-            : `${VITE_API_URL}/video/${videoId}`;
+            ? `${VITE_API_URL}/likes/comment/${commentId}`
+            : `${VITE_API_URL}/likes/video/${videoId}`;
 
         const res = await fetch(url, {
             method: "POST",
@@ -52,8 +59,8 @@ export function useReaction(videoId, commentId = null) {
 
         // NEW → DELETE usando rutas nuevas
         const url = commentId
-            ? `${VITE_API_URL}/comment/${commentId}`
-            : `${VITE_API_URL}/video/${videoId}`;
+            ? `${VITE_API_URL}/likes/comment/${commentId}`
+            : `${VITE_API_URL}/likes/video/${videoId}`;
 
         const res = await fetch(url, {
             method: "DELETE",

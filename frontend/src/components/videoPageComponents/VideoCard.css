@@ -7,12 +7,20 @@
     width: 360px;
     margin-bottom: 15px;
     overflow: hidden;
+    background-color: var(--primary-color);
+    border-radius: var(--border-radius);
+    padding: 20px;
+}
+
+.ct-videoCard-header {
+    display: flex;
+    justify-content: center;
 }
 
 .ct-videoCard-thumbnail {
     cursor: pointer;
-    width: 360px;
-    height: 200px;
+    width: 320px;
+
     border-radius: 20px;
 }
 
@@ -61,4 +69,34 @@
 
 .ct-videoCard-description.watch {
     display: none;
+}
+
+@media screen and (max-width: 1022px) {
+    .sr-videosSection.watch {
+        width: 100%;
+    }
+
+    .ct-videoCard {
+        width: 100%;
+        flex-direction: row;
+    }
+
+    .ct-videoCard-info {
+        justify-content: space-between;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .ct-videoCard {
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .sr-videosSection.watch {
+        width: auto;
+    }
+
+    .ct-videoCard-info {
+        justify-content: space-between;
+    }
 }

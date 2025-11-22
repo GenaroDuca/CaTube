@@ -1,6 +1,6 @@
 // Hooks
 import { useOverlay } from '../../../../../hooks/useOverlay';
-import { useNotification } from '../../../../../hooks/useNotification'; // ⬅️ Este hook fue modificado
+import { useNotification } from '../../../../../hooks/useNotification'
 
 // Components
 import { NotificationCard } from './NotificationCard';
@@ -8,6 +8,7 @@ import { NotificationCard } from './NotificationCard';
 // Styles
 import { FaBell } from "react-icons/fa6";
 import './NotificationMenu.css';
+import { IoRefreshCircle } from "react-icons/io5";
 
 export function NotificationMenu() {
     const {
@@ -16,7 +17,7 @@ export function NotificationMenu() {
         overlayRef: NotificationMenuRef
     } = useOverlay();
 
-    const { notifications, markAsRead, deleteNotification } = useNotification(); 
+    const { notifications, markAsRead, deleteNotification, markAllAsRead, loading, refreshNotifications } = useNotification();
 
     const unreadCount = notifications.filter(n => !n.read).length;
 
@@ -34,9 +35,20 @@ export function NotificationMenu() {
             <aside className={`notifications-sidebar ${isNotificationMenuOpen ? '' : 'collapsed'}`}>
                 <header>
                     <h2>Notifications</h2>
+                    {unreadCount > 0 && (
+                        <button onClick={markAllAsRead} className="mark-all-read-btn">
+                            Mark all read
+                        </button>
+                    )}
+                    <button onClick={refreshNotifications} className="refresh-btn">
+                        <IoRefreshCircle size={25}/>
+
+                    </button>
                 </header>
                 <main>
-                    {notifications.length === 0 ? (
+                    {loading ? (
+                        <p className="notification-empty">Loading notifications...</p>
+                    ) : notifications.length === 0 ? (
                         <p className="notification-empty">You have no notifications.</p>
                     ) : (
                         notifications.map(note => (
@@ -44,7 +56,8 @@ export function NotificationMenu() {
                                 key={note.id}
                                 notification={note}
                                 onMarkAsRead={markAsRead}
-                                onDelete={deleteNotification} // ⬅️ Se pasa la función estable importada del hook
+                                onDelete={deleteNotification}
+                                onCloseNotificationMenu={toggleNotificationMenu}
                             />
                         ))
                     )}

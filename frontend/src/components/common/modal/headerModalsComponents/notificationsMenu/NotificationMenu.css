@@ -52,6 +52,9 @@
 
 .notifications-container {
     margin-bottom: 10px;
+    gap: 10px;
+    background-color: var(--primary-color);
+    border-radius: 30px;
 }
 
 
@@ -69,6 +72,7 @@
     padding: 20px;
     flex-shrink: 0;
     display: flex;
+    justify-content: space-between;
 }
 
 .notification-dropdown::-webkit-scrollbar {
@@ -166,4 +170,45 @@
 
 .delete-notification-button:hover {
     background-color: #b94c4a;
+}
+
+.mark-all-read-btn {
+    background: var(--btn);
+    border: none;
+    padding: 5px 10px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+}
+
+.mark-all-read-btn:hover {
+    background: var(--btn-dark);
+}
+
+.refresh-btn {
+    background: transparent;
+    border: none;
+    padding: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 5px;
+    color: var(--text);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.refresh-btn:hover {
+    color: var(--btn);
+}
+
+@media (max-width: 481px) {
+    .notifications-sidebar.collapsed {
+        width: 95%;
+        margin-right: 10px;
+    }
+
+    .notifications-sidebar {
+        width: 95%;
+        margin-right: 10px;
+    }
 }

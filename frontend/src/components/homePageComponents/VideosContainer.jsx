@@ -51,7 +51,7 @@ function VideosContainer() {
 
     return (
         <Container className="VideoContainer">
-            <Subtitle subtitle="Recommended" />
+            <Subtitle subtitle="Videos" />
             <Container className="recommendations-container">
                 {recommended.map((video, index) => (
                     <Link to={`/watch/${video.id}`} key={video.id || index}>

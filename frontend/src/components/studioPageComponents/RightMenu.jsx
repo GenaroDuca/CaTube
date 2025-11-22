@@ -6,29 +6,30 @@ import { VITE_API_URL } from "../../../config"
 function RightMenu({ channelId }) {
     const [channel, setChannel] = useState(null);
     const getAvatar = (channel) => {
-        if (channel.photoUrl && channel.photoUrl.trim() !== '') {
-            let photoPath = channel.photoUrl;
-            if (photoPath.startsWith('/uploads/')) {
-                // Imagen subida por el usuario
-                return VITE_API_URL + photoPath;
-            } else if (photoPath.startsWith('/assets/images/profile/')) {
-                // Imagen predeterminada ya mapeada
-                return photoPath;
-            } else if (photoPath.startsWith('/default-avatar/')) {
-                // Map old default-avatar paths to new assets path
-                const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
-                const letter = letterMatch ? letterMatch[1] : 'A';
-                return `/assets/images/profile/${letter}.png`;
-            } else {
-                // Otro tipo de ruta, asumir que es subida
-                return VITE_API_URL + photoPath;
-            }
+    if (channel.photoUrl && channel.photoUrl.trim() !== '') {
+        let photoPath = channel.photoUrl;
+        
+        // 🚀 FIX CLAVE: Verificar si ya es una URL absoluta
+        if (photoPath.startsWith('http://') || photoPath.startsWith('https://')) {
+            return photoPath; // Devuelve la URL S3/completa directamente
+        } else if (photoPath.startsWith('/assets/images/profile/')) {
+            // Imagen predeterminada ya mapeada
+            return photoPath;
+        } else if (photoPath.startsWith('/default-avatar/')) {
+            // Map old default-avatar paths to new assets path
+            const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
+            const letter = letterMatch ? letterMatch[1] : 'A';
+            return `/assets/images/profile/${letter}.png`;
         } else {
-            // Set default avatar based on first letter of channel name
-            const firstLetter = channel.channel_name?.charAt(0).toUpperCase() || 'A';
-            return `/assets/images/profile/${firstLetter}.png`;
+            // Asumir que es una ruta relativa de la API
+            return VITE_API_URL + photoPath;
         }
-    };
+    } else {
+        // Set default avatar based on first letter of channel name
+        const firstLetter = channel.channel_name?.charAt(0).toUpperCase() || 'A';
+        return `/assets/images/profile/${firstLetter}.png`;
+    }
+};
 
     useEffect(() => {        
         const fetchChannel = async () => {

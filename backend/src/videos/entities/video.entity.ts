@@ -12,7 +12,6 @@ import {
 import { Channel } from '../../channels/entities/channel.entity';
 import { Comment } from 'src/comments/entities/comment.entity';
 import { Like } from 'src/likes/entities/like.entity';
-import { PlaylistVideo } from '../../playlist_videos/entities/playlist_video.entity';
 import { Tag } from '../../tags/entities/tag.entity';
 
 @Entity('videos')
@@ -56,10 +55,6 @@ export class Video {
   //Likes
   @OneToMany(() => Like, like => like.video, { onDelete: 'CASCADE' })
   likes: Like[];
-
-  //Relación con playlists (intermedia)
-  @OneToMany(() => PlaylistVideo, playlistVideo => playlistVideo.video)
-  playlistVideos: PlaylistVideo[];
 
   @CreateDateColumn()
   createdAt: Date;

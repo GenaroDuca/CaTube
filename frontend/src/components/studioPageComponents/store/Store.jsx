@@ -6,11 +6,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import ProductCard from './ProductCard';
 import { useToast } from '../../../hooks/useToast';
 import { VITE_API_URL } from '../../../../config';
-import { FaCirclePlus } from "react-icons/fa6";
-
-// ----------------------------------------------------------------------
-// CONFIGURACIÓN BASE
-// ----------------------------------------------------------------------
+import { IoIosAdd } from "react-icons/io";
 
 // ----------------------------------------------------------------------
 // FUNCIONES DE SERVICIO (FUERA DEL COMPONENTE REACT)
@@ -309,7 +305,7 @@ function Store() {
                             type="button"
                             onClick={() => openModal("addproduct", { onProductAdded: fetchProducts })}
                         >
-                            <FaCirclePlus size={25} color="#1a1a1b" />
+                            <IoIosAdd size={30} color="#1a1a1b" />
                         </button>
                     </Container>
                 </Container>

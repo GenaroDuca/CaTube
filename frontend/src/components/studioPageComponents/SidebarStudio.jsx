@@ -20,14 +20,6 @@ function SidebarStudio(props) {
                         ))
                         }
                     </UlContainer>
-                    <ul className="nav-list secondary-nav">
-                        <li className="nav-item setting-left-menu-item">
-                            <button type="button" className="nav-link">
-                                <span className="material-symbols-outlined">settings</span>
-                                <span className="nav-label">Settings</span>
-                            </button>
-                        </li>
-                    </ul>
                 </nav>
             </aside>
         </div>

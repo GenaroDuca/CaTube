@@ -31,17 +31,19 @@ import {
 // Importaciones de constantes y utilidades
 import { DEFAULT_AVATAR } from './constants';
 import { getAuthToken } from '../../../utils/auth';
-import { useNotification } from '../../../hooks/useNotification';
 
 import './friendMenu.css';
 
 export function FriendMenu() {
-    // 💡 VERIFICACIÓN DE AUTENTICACIÓN AL INICIO
     const isAuthenticated = !!getAuthToken();
     if (!isAuthenticated) return null;
 
-    const { isFriendMenuOpen, toggleFriendMenu, openFriendMenu } = useSidebarToggle();
+    const { isFriendMenuOpen, toggleFriendMenu, closeFriendMenu } = useSidebarToggle();
     const collapsedClass = !isFriendMenuOpen ? 'collapsed' : '';
+    
+    // ⭐ 1. REFERENCIA PARA EL CONTENEDOR DEL MENÚ
+    const menuRef = useRef(null); 
+
     // --- ESTADOS DE LA VISTA Y DATOS ---
     const [userStatus, setUserStatus] = useState('online');
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -54,7 +56,7 @@ export function FriendMenu() {
     const [pendingRequests, setPendingRequests] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [isSearchLoading, setIsSearchLoading] = useState(false); // ESTADO ESPECÍFICO DE BÚSQUEDA
+    const [isSearchLoading, setIsSearchLoading] = useState(false); 
 
     // ESTADO PARA MI PERFIL
     const [myProfile, setMyProfile] = useState(null);
@@ -70,14 +72,12 @@ export function FriendMenu() {
     // FeedbackToast y Modal Context y Notificaciones
     const { showSuccess, showError } = useToast();
     const { openModal, closeModal } = useModal();
-    const { addNotification } = useNotification();
 
     // Referencia para almacenar las funciones de hook (para estabilizar loadData)
-    const hookFuncsRef = useRef({ addNotification, showError });
+    const hookFuncsRef = useRef({ showError });
 
     // Actualizamos el ref en cada renderizado.
     useEffect(() => {
-        hookFuncsRef.current.addNotification = addNotification;
         hookFuncsRef.current.showError = showError;
     });
 
@@ -89,11 +89,35 @@ export function FriendMenu() {
     // Derivados de estado
     const friendIds = useMemo(() => new Set(friends.map(f => f.id)), [friends]);
     const isSearching = searchQuery.length > 0;
+    
+    // ⭐ 2. LÓGICA DE CLICK-OUTSIDE
+    useEffect(() => {
+        // Solo adjuntamos el listener si el menú está abierto
+        if (!isFriendMenuOpen) return;
+
+        const handleClickOutside = (event) => {
+            // Si el clic NO está dentro del elemento del menú (menuRef.current)
+            // y el menú está realmente abierto
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                closeFriendMenu(); // Llama a la función para cerrar
+            }
+        };
+
+        // Adjunta el event listener al documento. Usamos 'mousedown' para que
+        // se dispare antes del evento 'click' y evitar posibles conflictos.
+        document.addEventListener("mousedown", handleClickOutside);
+
+        // Función de limpieza: Se ejecuta al desmontar el componente o al cambiar 
+        // las dependencias (por ejemplo, cuando isFriendMenuOpen pasa a false).
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isFriendMenuOpen, closeFriendMenu]); // Dependencias: solo se re-ejecuta si el estado del menú o la función de cierre cambian.
 
     // --- LÓGICA DE CARGA DE AMIGOS/SOLICITUDES (FUNCIÓN ESTABLE) ---
     const loadFriendsAndRequests = useCallback(async () => {
-        const { addNotification: currentAddNotification, showError: currentShowError } = hookFuncsRef.current;
-
+        const { showError: currentShowError } = hookFuncsRef.current;
+        // ... (Tu lógica de carga existente)
         const token = getAuthToken();
         if (!token) return;
 
@@ -108,16 +132,6 @@ export function FriendMenu() {
             const newRequests = friendData.pendingRequests.filter(
                 req => !previousPendingRequestIds.current.has(req.id)
             );
-
-            newRequests.forEach(request => {
-                currentAddNotification({
-                    senderId: request.sender.id,
-                    type: 'friend-request',
-                    userName: request.sender.userName,
-                    senderAvatar: request.sender.avatarUrl || DEFAULT_AVATAR,
-                    linkAction: 'openFriendMenu'
-                });
-            });
 
             previousPendingRequestIds.current = currentRequestIds;
             // Estabilizar Friends
@@ -256,7 +270,6 @@ export function FriendMenu() {
         } finally {
             setIsSearchLoading(false);
         }
-        // DEPENDENCIAS ESTABLES: friendDataRef (que contiene los arrays) no está aquí
     }, [showError, myProfile, setIsSearchLoading, setSearchResults]);
 
     // useEffect para manejar el retardo (Debounce)
@@ -275,7 +288,7 @@ export function FriendMenu() {
             return;
         }
 
-        // ⭐ 6. ANTI-BUCLE: Si la query es la misma que la última exitosa, no hagas nada
+        // ⭐ ANTI-BUCLE: Si la query es la misma que la última exitosa, no hagas nada
         if (trimmedQuery === lastSearchQueryRef.current) {
             setIsSearchLoading(false); // Aseguramos que el estado de carga es false
             return;
@@ -485,7 +498,7 @@ export function FriendMenu() {
                             <IoArrowBackCircle size={28} color="#90b484" />
                             <h4>Return to Friends</h4>
                         </button>
-                        <h2 style={{ color: '#e96765' }}>⚠️ Error</h2>
+                        <h2 style={{ color: '#e96765' }}>Error</h2>
                         <p style={{ textAlign: 'center' }}>
                             Could not load your profile details. Please verify that the
                             **GET /users/me** endpoint is correctly implemented and accessible on the server.
@@ -608,7 +621,8 @@ export function FriendMenu() {
 
 
     return (
-        <div className={`friends-menu ${collapsedClass}`} >
+        // ⭐ 3. ADJUNTAR LA REFERENCIA AL CONTENEDOR PRINCIPAL
+        <div className={`friends-menu ${collapsedClass}`} ref={menuRef}> 
             <button
                 onClick={toggleFriendMenu}
                 aria-expanded={isFriendMenuOpen}
@@ -626,8 +640,7 @@ export function FriendMenu() {
                                 currentView === 'my_profile' ? 'Your Profile' : 'CaTube Social'}
                         </h2>
                         <div className='header-divider-social-menu'>
-                            {/* BOTÓN "MI PERFIL" (SOLO EN LA VISTA DE LISTA) */}
-                            {currentView !== 'my_profile' && (
+                            {(currentView === 'list') && (
                                 <button
                                     onClick={goToMyProfile}
                                     className="my-profile-button"
@@ -650,4 +663,4 @@ export function FriendMenu() {
             )}
         </div>
     );
-} 
+}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { IoArrowBackCircle, IoSend, IoCheckmark } from "react-icons/io5";
 import { MdDelete, MdEdit } from "react-icons/md";
-import { useNotification } from '../../../hooks/useNotification';
 import { useModal } from '../modal/ModalContext';
 import { useToast } from '../../../hooks/useToast';
 import { IoIosCloseCircle } from "react-icons/io";
@@ -30,7 +29,6 @@ const FriendChatView = ({ friend, onBack, onGoToProfile }) => {
 
   const { openModal, closeModal } = useModal();
   const { showSuccess } = useToast();
-  const { addNotification } = useNotification();
 
   const userName = useMemo(() => friend?.userName || '', [friend?.userName]);
 
@@ -146,15 +144,7 @@ const FriendChatView = ({ friend, onBack, onGoToProfile }) => {
           ];
         });
 
-        if (msg.senderId !== myUserId) {
-          addNotification({
-            type: 'chat-message',
-            userName: msg.senderName || userName,
-            senderId: msg.senderId,
-            senderAvatar: msg.senderAvatar || '/default-avatar.png',
-            linkAction: 'openChat',
-          });
-        }
+
       }
     };
 
@@ -187,7 +177,7 @@ const FriendChatView = ({ friend, onBack, onGoToProfile }) => {
       socket.off('message updated', handleMessageUpdated);
       socket.off('message deleted', handleMessageDeleted);
     };
-  }, [roomId, myUserId, userName, addNotification]);
+  }, [roomId, myUserId, userName]);
 
   useEffect(() => {
     scrollToBottom();

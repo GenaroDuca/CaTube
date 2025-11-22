@@ -83,7 +83,7 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
 
                 <div className="vv-video-controls">
                     <div className="vv-video-leftControls">
-                        <button onClick={() => skipTime(-10)}>
+                        <button className="vv-video-leftControls-button" onClick={() => skipTime(-10)}>
                             <BsSkipStartFill color='rgb(144, 180, 132)' size={25} />
                         </button>
                         <button onClick={togglePlayPause}>
@@ -91,7 +91,7 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
                                 ? <FaCirclePause color='rgb(144, 180, 132)' size={25} />
                                 : <FaCirclePlay color='rgb(144, 180, 132)' size={25} />}
                         </button>
-                        <button onClick={() => skipTime(10)}>
+                        <button className="vv-video-leftControls-button" onClick={() => skipTime(10)}>
                             <BsSkipEndFill color='rgb(144, 180, 132)' size={25} />
                         </button>
 
@@ -103,12 +103,12 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
 
                     <div className="vv-video-rightControls">
                         <VolumeControl volume={volume} isMuted={isMuted} changeVolume={changeVolume} />
-                        <button onClick={toggleTheaterMode}>
+                        <button className="vv-video-rightControls-theaterMode" onClick={toggleTheaterMode}>
                             {isTheaterMode
                                 ? <TbLayoutSidebarRightExpandFilled color='rgb(144, 180, 132)' size={25} />
                                 : <TbLayoutSidebarRightCollapseFilled color='rgb(144, 180, 132)' size={25} />}
                         </button>
-                        <button onClick={toggleFullScreen}>
+                        <button className="vv-video-rightControls-button" onClick={toggleFullScreen}>
                             {isFullScreen
                                 ? <FiMinimize2 color='rgb(144, 180, 132)' size={25} />
                                 : <FiMaximize2 color='rgb(144, 180, 132)' size={25} />}

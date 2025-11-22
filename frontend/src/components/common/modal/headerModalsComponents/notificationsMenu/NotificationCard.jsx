@@ -1,8 +1,11 @@
 import React from 'react';
+// 🚨 NECESITAS IMPORTAR TU HOOK DE NAVEGACIÓN (ej: useNavigate de react-router-dom)
+import { useNavigate } from 'react-router-dom';
 
 // Styles
 import './NotificationMenu.css';
 import { MdDelete } from "react-icons/md";
+import { useSidebarToggle } from '../../../../../hooks/useSidebarToggleFriends';
 
 // Función para formatear la fecha (se mantiene igual)
 const formatNotificationTime = (timestamp) => {
@@ -22,42 +25,46 @@ const formatNotificationTime = (timestamp) => {
     return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 };
 
-// Se añade la prop 'onDelete' a la desestructuración
-export function NotificationCard({ notification, onMarkAsRead, onDelete }) {
-    // Se añade 'onDelete' a las props
-    const { id, type, userName, senderAvatar, read, timestamp, linkAction } = notification;
+export function NotificationCard({ notification, onMarkAsRead, onDelete, onCloseNotificationMenu }) {
+    // 🚨 IMPORTAMOS useNavigate
+    const navigate = useNavigate();
 
-    const getMessage = (type, userName) => {
-        const templates = {
-            'friend-request': `${userName} has sent you a friend request`,
-            'chat-message': `${userName} sent you a message`,
-            // ... (Otros tipos de notificación)
-        };
-        return templates[type] || `${userName} did something`;
-    };
+    // El hook de la barra lateral (asumimos que exporta openFriendMenu)
+    const { openFriendMenu } = useSidebarToggle();
+    const { id, type, sender, read, createdAt, linkTarget, content } = notification;
+
+    // Obtenemos los datos del emisor, asegurándonos de manejar el caso donde 'sender' es null
+    const senderUsername = sender?.username || 'El sistema';
+    const senderAvatarUrl = sender?.avatarUrl || 'default_avatar_path.png';
 
     const handleNotificationClick = () => {
-        // Marcamos como leído solo si la acción principal se ejecuta.
         onMarkAsRead(id);
 
-        switch (linkAction) {
-            case 'openFriendMenu':
-                //logica para abrir menu de amigos (falta)
-                break;
-            case 'openChat':
-                //logica para abrir abrir chat (falta)
-                break;
-            default:
-                // console.log('Default action for notification:', notification);
-                break;
+        // 🚨 LÓGICA DE ACCIÓN CORREGIDA 🚨
+        if (type === 'friend_request' || type === 'friend_accepted') {
+            openFriendMenu();
+            console.log("click")
+
+            if (onCloseNotificationMenu) {
+                onCloseNotificationMenu();
+            }
+
+        } else if (linkTarget) {
+            navigate(linkTarget);
+
+            if (onCloseNotificationMenu) {
+                onCloseNotificationMenu();
+            }
+
+        } else {
+            // Acción por defecto o log
+            console.log(`Notification action for ID ${id} not handled.`);
         }
     };
 
-    // NUEVA FUNCIÓN para manejar la eliminación
     const handleDeleteClick = () => {
         if (onDelete) {
-            // console.log(`Deleting notification with ID: ${id}`);
-            onDelete(id); // Llama a la función que se pasa desde el componente padre
+            onDelete(id);
         }
     };
 
@@ -67,28 +74,28 @@ export function NotificationCard({ notification, onMarkAsRead, onDelete }) {
                 className={`notification-item`}
             >
                 <img
-                    src={senderAvatar}
-                    alt={`${userName} avatar`}
+                    src={senderAvatarUrl}
+                    alt={`${senderUsername} avatar`}
                     className="notification-avatar"
                 />
                 <div className="notification-content">
                     <p className="notification-text" onClick={handleNotificationClick}>
-                        {getMessage(type, userName)}
+                        {senderUsername} {content}
                     </p>
                     <span className="notification-time">
-                        {formatNotificationTime(timestamp)}
+                        {formatNotificationTime(createdAt)}
                     </span>
                 </div>
 
             </div>
-            {/* Botón de acción principal: "Ir" */}
+            {/* Botón de acción principal: "Go" */}
             <button className="btn-link" onClick={handleNotificationClick}>
-                Ir
+                Go
             </button>
 
             {/* BOTÓN DE BORRAR IMPLEMENTADO */}
             <button
-                onClick={handleDeleteClick} // Llama a la nueva función
+                onClick={handleDeleteClick}
                 title="Delete Notification"
                 className="delete-notification-button"
             >

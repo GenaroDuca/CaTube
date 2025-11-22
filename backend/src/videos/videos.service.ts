@@ -12,7 +12,7 @@ import * as ffmpeg from 'fluent-ffmpeg';
 import * as ffmpegStatic from 'ffmpeg-static';
 import * as ffprobeStatic from 'ffprobe-static';
 import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
-import { s3 } from 'src/aws/s3.config';
+import { getS3Client } from 'src/aws/s3.config';
 import { v4 as uuidv4 } from 'uuid';
 
 // Configurar ffmpeg
@@ -21,11 +21,16 @@ ffmpeg.setFfprobePath(ffprobeStatic.path);
 
 @Injectable()
 export class VideosService {
+  private readonly s3Client;
+  
   constructor(
     @InjectRepository(Video)
     private readonly videoRepository: Repository<Video>,
     private userService: UsersService,
-  ) { }
+    
+  ) { this.s3Client = getS3Client();
+
+  }
 
   // ======================================================
   // CREATE VIDEO 
@@ -52,12 +57,13 @@ export class VideosService {
           ContentType: file.mimetype,
         });
 
-        await s3.send(command);
+        await this.s3Client.send(command);
         const url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
 
         if (file.mimetype.startsWith('image/')) newVideo.thumbnail = url;
         else if (file.mimetype.startsWith('video/')) newVideo.url = url;
       } catch (err) {
+
         console.error('S3 upload error:', err);
         throw new InternalServerErrorException('Failed to upload file to S3');
       }
@@ -103,18 +109,20 @@ export class VideosService {
           ContentType: thumbnailFile.mimetype,
         });
 
-        await s3.send(command);
+        await this.s3Client.send(command);
         const url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
         updates.thumbnail = url;
 
         // borrar thumbnail anterior
         if (video.thumbnail) {
           const oldKey = video.thumbnail.split('/').pop();
-          await s3.send(new DeleteObjectCommand({ Bucket: process.env.AWS_BUCKET_NAME!, Key: oldKey }));
+          await this.s3Client.send(new DeleteObjectCommand({ Bucket: process.env.AWS_BUCKET_NAME!, Key: oldKey }));
         }
 
       } catch (err) {
-        console.error('S3 upload error:', err);
+                    console.log(process.env.AWS_ACCESS_KEY_ID);
+                    console.log(process.env.AWS_SECRET_ACCESS_KEY);
+        console.error('S3 upload error3:', err);
         throw new InternalServerErrorException('Failed to upload thumbnail to S3');
       }
     }

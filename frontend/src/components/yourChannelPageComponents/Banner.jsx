@@ -17,7 +17,7 @@ function Banner({ channelId }) {
                 if (response.ok) {
                     const channelData = await response.json();
                     if (channelData.bannerUrl) {
-                        setBannerSrc(`${VITE_API_URL}${channelData.bannerUrl}`);
+                        setBannerSrc(`${channelData.bannerUrl}`);
                     } else {
                         setBannerSrc(banner);
                     }

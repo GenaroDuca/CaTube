@@ -1,7 +1,5 @@
-// src/notifications/notifications.controller.ts
-
-import { Controller, Get, Patch, Body, Param, Query, UseGuards, Req, HttpCode, HttpStatus, BadRequestException } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard'; // Tu guard
+import { Controller, Get, Patch, Delete, Body, Param, Query, UseGuards, Req, HttpCode, HttpStatus, BadRequestException } from '@nestjs/common';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard'; 
 import { NotificationsService } from './notifications.service';
 import { UpdateNotificationDto } from './dto/update-notification.dto';
 import { CreateNotificationDto } from './dto/create-notification.dto';
@@ -13,7 +11,6 @@ export class NotificationsController {
 
     /**
      * GET /api/notifications
-     * Obtiene la lista de notificaciones para el usuario autenticado.
      */
     @Get()
     async findAll(
@@ -35,10 +32,9 @@ export class NotificationsController {
 
     /**
      * PATCH /api/notifications/mark-all-read
-     * Marca todas las notificaciones pendientes como leídas.
      */
     @Patch('mark-all-read')
-    @HttpCode(HttpStatus.NO_CONTENT) // 204 No Content
+    @HttpCode(HttpStatus.NO_CONTENT) 
     async markAllAsRead(@Req() req: any): Promise<void> {
         const userId = req.user.id;
         await this.notificationsService.markAllAsRead(userId);
@@ -46,18 +42,16 @@ export class NotificationsController {
 
     /**
      * PATCH /api/notifications/:id
-     * Marca una notificación específica como leída/no leída.
      */
     @Patch(':id')
-    @HttpCode(HttpStatus.NO_CONTENT) // 204 No Content
+    @HttpCode(HttpStatus.NO_CONTENT) 
     async updateReadStatus(
         @Param('id') notificationId: string, 
-        @Body() updateDto: UpdateNotificationDto, // Valida que isRead es booleano
+        @Body() updateDto: UpdateNotificationDto, 
         @Req() req: any
     ): Promise<void> {
         const userId = req.user.id;
         
-        // El DTO debe asegurar que updateDto.isRead es un booleano válido
         if (updateDto.isRead === undefined || typeof updateDto.isRead !== 'boolean') {
              throw new BadRequestException('The body must contain a boolean "isRead" field.');
         }
@@ -66,5 +60,19 @@ export class NotificationsController {
             notificationId, 
             userId, 
         );
+    }
+
+    /**
+     * DELETE /api/notifications/:id
+     * (AGREGADO) Necesario para que funcione el botón "Borrar" del frontend
+     */
+    @Delete(':id')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    async remove(
+        @Param('id') notificationId: string,
+        @Req() req: any
+    ): Promise<void> {
+        const userId = req.user.id;
+        await this.notificationsService.remove(notificationId, userId);
     }
 }

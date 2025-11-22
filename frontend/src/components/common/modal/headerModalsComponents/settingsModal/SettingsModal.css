@@ -20,7 +20,6 @@
 
 .settings-tab.active {
     background-color: var(--btn);
-    color: white;
 }
 
 .settings-content {

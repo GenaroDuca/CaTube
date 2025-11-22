@@ -40,7 +40,6 @@ function Home() {
           handle: '@' + channel.url,
         }));
         
-        console.log("Fotos de todos los canales:", transformedChannels.map(c => c.photo));
         // Sort channels by subscriber count in descending order
         transformedChannels.sort((a, b) => b.subs - a.subs);
         setChannels(transformedChannels);
@@ -112,18 +111,7 @@ function Home() {
     fetchChannels();
     fetchVideos();
     fetchShorts();
-
-    // Refresh data every 5 seconds
-    const channelsInterval = setInterval(fetchChannels, 5000);
-    const videosInterval = setInterval(fetchVideos, 5000);
-    const shortsInterval = setInterval(fetchShorts, 5000);
-
-    return () => {
-      clearInterval(channelsInterval);
-      clearInterval(videosInterval);
-      clearInterval(shortsInterval);
-    };
-  }, []);
+  }, [token]);
 
   if (loading) {
     return <div>Loading...</div>;

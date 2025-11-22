@@ -26,6 +26,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
   const [isSubscribed, setIsSubscribed] = useState(false)
   const { showSuccess, showError } = useToast()
   const [commentCount, setCommentCount] = useState(short.comments || 0);
+  const [showComments, setShowComments] = useState(false);
 
   useEffect(() => {
     const v = videoRef.current
@@ -170,57 +171,6 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
     <>
       <div className={`fullscreen-short-container ${isMaximized ? 'maximized' : ''}`}>
 
-        <div className="short-channel-info short-container" id="short-actions-container">
-          <Link to={short.channelUrl ? `/yourchannel/${short.channelUrl}` : '#'} className="short-channel-avatar">
-            <img src={short.channelAvatar} alt={short.channelName} />
-          </Link>
-          <div className="channel-info">
-            <h2>{short.channelName}</h2>
-          </div>
-
-          <button
-            type="button"
-            className="subscribe-button short-action-subscribe"
-            style={{ display: short.isOwner ? 'none' : 'inline-block' }}
-            onClick={() => handleSubscribe(short)}
-          >
-            {isSubscribed ? 'Subscribed' : 'Subscribe'}
-          </button>
-
-          <button
-            type="button"
-            className="subscribe-button short-action-promote owner-action"
-            style={{ display: short.isOwner ? 'inline-block' : 'none' }}
-            onClick={() => alert('Promoting short!')}
-          >
-            Promote short
-          </button>
-
-          <div style={{ width: "100%", textAlign: "justify" }}>
-            <h3 style={{ textAlign: "center" }}>{short.title}</h3>
-            <h3 style={{ marginTop: "20px" }}>Video Description</h3>
-            <p>{short.description}</p>
-            <div className="vv-displayVideo-description-tags">
-              <h4 style={{ marginTop: "20px" }}>Video Tags</h4>
-              <div>
-                {short.tags.map(tag => (
-                  <Link
-                    key={tag.name}
-                    to={`/discover?tag=${encodeURIComponent(tag.name)}`}
-                    className="tag-link"
-                  >
-                    #{tag.name}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          </div>
-
-
-
-
-        </div>
-
         <div className={`short-video-container short-container ${isMaximized ? 'maximized' : ''}`}>
           <div className={`short-block`} role="region" aria-label={`Short ${short.title || short.id}`}>
 
@@ -235,9 +185,58 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
                 onPlay={handlePlayPauseChange}
                 onPause={handlePlayPauseChange}
                 onVolumeChange={handlePlayPauseChange}
-                style={{ width: '100%', objectFit: isMaximized ? 'contain' : 'cover' }}
               />
             </div>
+
+            {/* User Info Overlay */}
+            <div className="short-info-overlay">
+              
+
+              <div className="short-details">
+                <h3 className="short-title">{short.title}</h3>
+                <p className="short-desc">{short.description}</p>
+                <div className="short-tags">
+                  {short.tags.map(tag => (
+                    <Link
+                      key={tag.name}
+                      to={`/discover?tag=${encodeURIComponent(tag.name)}`}
+                      className="tag-link"
+                    >
+                      #{tag.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+              <div className="short-user-header">
+                <Link to={short.channelUrl ? `/yourchannel/${short.channelUrl}` : '#'} className="overlay-avatar">
+                  <img src={short.channelAvatar} alt={short.channelName} />
+                </Link>
+                <div className="overlay-text-info">
+                  <h4 className="overlay-username">{short.channelName}</h4>
+                  <button
+                    type="button"
+                    className="subscribe-button overlay-subscribe"
+                    style={{ display: short.isOwner ? 'none' : 'inline-block' }}
+                    onClick={() => handleSubscribe(short)}
+                  >
+                    {isSubscribed ? 'Subscribed' : 'Subscribe'}
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+
+            {/* Comments Drawer */}
+            <div className={`comments-drawer ${showComments ? 'open' : ''}`}>
+              <div className="comments-drawer-header">
+                <h3>Comments</h3>
+                <button onClick={() => setShowComments(false)} className="close-drawer-btn">✕</button>
+              </div>
+              <div className="comments-drawer-content">
+                <CommentSection videoId={short.id} onCountChange={setCommentCount} />
+              </div>
+            </div>
+
           </div>
 
           <div className='short-action-buttons-container'>
@@ -278,13 +277,12 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
               {/* LIKE */}
               <button
                 type="button"
-                className={`action-button ${userReaction === "like" ? "reacted-like" : ""}`} // Add class for selected state
+                className={`action-button ${userReaction === "like" ? "reacted-like" : ""}`}
                 onClick={() => {
                   if (userReaction === "like") removeReaction();
                   else react(true);
                 }}
               >
-                {/* Remove the 'color' prop */}
                 <FaHeart size={25} />
               </button>
               <span>{likes}</span>
@@ -292,18 +290,19 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
               {/* DISLIKE */}
               <button
                 type="button"
-                className={`action-button ${userReaction === "dislike" ? "reacted-dislike" : ""}`} // Add class for selected state
+                className={`action-button ${userReaction === "dislike" ? "reacted-dislike" : ""}`}
                 onClick={() => {
                   if (userReaction === "dislike") removeReaction();
                   else react(false);
                 }}
               >
-                {/* Remove the 'color' prop */}
                 <IoHeartDislike size={25} />
               </button>
               <span>{dislikes}</span>
 
-              <button type="button" className="action-button comment-short-btn"><FaComments size={25} /></button>
+              <button type="button" className="action-button comment-short-btn" onClick={() => setShowComments(!showComments)}>
+                <FaComments size={25} />
+              </button>
               <span className="comment-short-btn">{commentCount}</span>
 
               <button type="button" className="action-button"><ShareMenu videoUrl={short.url} videoTitle={short.title} /></button>
@@ -312,9 +311,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
 
             </div>
           </div>
-        </div>
-        <div className='short-comments-container short-container'>
-          <CommentSection videoId={short.id} onCountChange={setCommentCount} />
+
         </div>
       </div >
 

@@ -101,6 +101,7 @@ export class ChannelsService {
             return `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
         } catch (err) {
             console.error('S3 upload error:', err);
+
             throw new InternalServerErrorException('Failed to upload file to S3');
         }
     }

@@ -74,7 +74,7 @@ a {
 .carousel-cts {
   display: flex;
   align-items: center;
-  gap: 26px;
+  gap: 10px;
   overflow-x: auto;
   scroll-behavior: smooth;
 }
@@ -106,24 +106,27 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: auto;
+  width: 160px;
   height: auto;
-  margin-left: 5px;
-  margin-right: 5px;
+  overflow: hidden;        
+  white-space: nowrap;      
+  text-overflow: ellipsis;  
+    border-radius: 30px;
+
 }
+
+.profile:hover {
+  background-color: var(--background-color);
+  border-radius: 30px;
+}
+
+
 
 .profile-photo {
   width: 80px;
   height: 80px;
   border-radius: 50%;
   margin-top: 20px;
-
-}
-
-.profile-photo:hover {
-  transform: scale(1.1);
-  cursor: pointer;
-
 }
 
 .name-channel,
@@ -233,8 +236,13 @@ a {
     height: 30px;
   }
 
+  .profile {
+    width: 100px;
+  }
+
   .profile-photo {
     width: 60px;
+    height: 60px;
   }
 
   .video-card {

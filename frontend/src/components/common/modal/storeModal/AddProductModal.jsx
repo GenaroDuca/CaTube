@@ -198,7 +198,7 @@ const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProduct
         <div className="add-product-modal">
             <div className="add-product-content">
                 <header>
-                    <h1>Add a new Product</h1>
+                    <h1>Add Product</h1>
                     <button type="button" onClick={onClose} className="close-add-product-modal">
                         <IoIosCloseCircle size={25} color="#1a1a1b" />
                     </button>

@@ -27,6 +27,7 @@
     cursor: pointer;
     font-size: 1rem;
     transition: background-color 0.2s;
+    margin-top: 20px;
 }
 
 .go-to-studio-store-btn:hover {

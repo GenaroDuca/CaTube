@@ -1,12 +1,12 @@
 export class CreateNotificationDto {
-    id: string;
+    notification_id: string;
     type: string;
     content: string;
     isRead: boolean; 
     linkTarget: string;
     createdAt: string;
     sender: {
-        id: string;
+        senderId: string | null;
         username: string;
         avatarUrl: string | null;
     };

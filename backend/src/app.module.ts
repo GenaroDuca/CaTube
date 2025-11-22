@@ -7,7 +7,6 @@ import { ChannelsModule } from './channels/channels.module';
 import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import { StoreModule } from './store/store.module';
-import { PlaylistVideosModule } from './playlist_videos/playlist_videos.module';
 import { FriendshipsModule } from './friendships/friendships.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { MessagesModule } from './messages/messages.module';
@@ -27,12 +26,10 @@ import { User } from './users/entities/user.entity';
 import { Channel } from './channels/entities/channel.entity';
 import { Store } from './store/entities/store.entity';
 import { Product } from './product/entities/product.entity';
-import { Playlist } from './playlist/entities/playlist.entity';
 import { Video } from './videos/entities/video.entity';
 import { Comment } from './comments/entities/comment.entity';
 import { Like } from './likes/entities/like.entity';
 import { Subscription } from './subs/entities/sub.entity';
-import { PlaylistVideo } from './playlist_videos/entities/playlist_video.entity';
 import { Friendship } from './friendships/entities/friendship.entity';
 import { Notification } from './notifications/entities/notification.entity';
 import { Message } from './messages/entities/message.entity';
@@ -59,8 +56,8 @@ import { Post } from './posts/entities/post.entity';
         password: config.get<string>('DB_PASS'),
         database: config.get<string>('DB_NAME'),
         entities: [
-          User, Channel, Store, Product, Playlist, Video, Comment, Like,
-          Subscription, PlaylistVideo, Friendship, Notification, Message,
+          User, Channel, Store, Product, Video, Comment, Like,
+          Subscription, Friendship, Notification, Message,
           Room, Tag, Post
         ],
         synchronize: true,
@@ -72,7 +69,6 @@ import { Post } from './posts/entities/post.entity';
     AuthModule,
     ProductModule,
     StoreModule,
-    PlaylistVideosModule,
     FriendshipsModule,
     NotificationsModule,
     MessagesModule,
@@ -88,4 +84,4 @@ import { Post } from './posts/entities/post.entity';
   controllers: [AppController],
   providers: [AppService, ChatGateway],
 })
-export class AppModule {}
+export class AppModule { }

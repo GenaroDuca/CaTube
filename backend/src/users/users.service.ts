@@ -80,7 +80,7 @@ export class UsersService {
             // 6. CREACIÓN DEL CANAL
             const defaultChannelDto = {
                 channel_name: savedUser.username,
-                description: `Bienvenido al canal de ${savedUser.username}`,
+                description: `Welcome to ${savedUser.username} channel!`,
                 url: savedUser.username.toLowerCase(),
             };
             await this.channelsService.create(defaultChannelDto, savedUser);
