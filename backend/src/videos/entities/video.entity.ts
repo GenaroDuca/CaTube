@@ -40,6 +40,10 @@ export class Video {
   @Column({ default: 0 })
   views: number;
 
+  // COLUMNA AÑADIDA PARA SOLUCIONAR EL ERROR DE 'DURATION'
+  @Column({ type: 'float', default: 0 })
+  duration: number;
+
   @Column({ default: 'video' })
   type: string; // 'video' or 'short'
 
@@ -62,5 +66,4 @@ export class Video {
   @ManyToMany(() => Tag, (tag) => tag.videos, { cascade: true, onDelete: 'CASCADE' })
   @JoinTable()
   tags: Tag[];
-
 }
