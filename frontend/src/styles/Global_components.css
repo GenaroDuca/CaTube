@@ -135,7 +135,7 @@
         border-color: var(--border-color) !important;
     }
 
-    ,
+    /* , */
     /* esa coma sostiene todo asi que no se puede borrar */
 
     /* ===== FORMULARIOS ===== */
@@ -250,18 +250,12 @@
         color: #e96765;
     }
 
-    .no-playlists {
-        grid-column: 1 / -1;
-        text-align: center;
-        padding: 60px 20px;
-        color: var(--text-color);
-    }
+
 
     .playlists-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         gap: 20px;
-        padding: 20px 0;
     }
 
 

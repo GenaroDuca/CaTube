@@ -1,6 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, OneToOne, OneToMany, Unique, ManyToMany } from 'typeorm';
 import { Channel } from 'src/channels/entities/channel.entity';
-import { Playlist } from 'src/playlist/entities/playlist.entity';
 import { Comment } from 'src/comments/entities/comment.entity';
 import { Like } from 'src/likes/entities/like.entity';
 import { Subscription } from 'src/subs/entities/sub.entity';
@@ -49,9 +48,6 @@ export class User {
     // -------------------------------------------------------
     @OneToOne(() => Channel, (channel) => channel.user, { onDelete: 'CASCADE' })
     channel: Channel;
-
-    @OneToMany(() => Playlist, (playlist) => playlist.user, { onDelete: 'CASCADE' })
-    playlists: Playlist[];
 
     @OneToMany(() => Comment, (comment) => comment.user, { onDelete: 'CASCADE' })
     comments: Comment[];

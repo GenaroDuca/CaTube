@@ -27,7 +27,6 @@ import { FriendMenu } from './components/common/friendMenu/friendMenu.jsx';
 import { ToastManager } from './components/common/toast/ToastManager.jsx';
 import { NotificationProvider } from './hooks/useNotification.jsx';
 import { ThemeProvider } from './components/context/themeContext.jsx';
-import PlaylistDetail from './pages/PlaylistDetailPage/PlaylistDetail.jsx';
 import {SidebarToggleProvider} from "./hooks/useSidebarToggleFriends.jsx"
 
 createRoot(document.getElementById('root')).render(
@@ -47,8 +46,6 @@ createRoot(document.getElementById('root')).render(
                   <Route path="/subscribers" element={<Catscribers />} />
                   <Route path="/you" element={<You />} />
                   <Route path="/history" element={<You />} />
-                  <Route path="/playlist" element={<You />} />
-                  <Route path="/playlist/:id" element={<PlaylistDetail />} />
                   <Route path="/view-later" element={<You />} />
                   <Route path="/liked" element={<You />} />
                   <Route path="/register" element={<RegisterPage />} />

@@ -87,7 +87,6 @@
 
 .btn-cancel {
     background: #e96765;
-    color: white;
     margin-left: 0;
 }
 
@@ -97,7 +96,6 @@
 
 .btn-confirm {
     background: var(--btn);
-    color: white;
 }
 
 .btn-confirm:hover {

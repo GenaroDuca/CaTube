@@ -172,19 +172,6 @@ function StoreChannel({ isOwner, channelId }) {
                     ))}
                 </div>
             )}
-            {!loading && (
-                <div className="store-empty-state">
-                    {isOwner && (
-                        <button
-                            type="button"
-                            className="btn-primary go-to-studio-store-btn"
-                            onClick={handleGoToStudioStore}
-                        >
-                            Manage Store
-                        </button>
-                    )}
-                </div>
-            )}
 
         </Container>
     );

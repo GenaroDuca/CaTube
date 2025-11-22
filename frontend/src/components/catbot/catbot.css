@@ -97,7 +97,6 @@
     padding: 8px 16px;
     border-radius: var(--border-radius);
     background-color: var(--btn);
-    color: white;
     border: none;
     cursor: pointer;
 }

@@ -10,7 +10,6 @@ import VideosTab from "../../components/yourChannelPageComponents/VideosTab";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ShortsTab from "../../components/yourChannelPageComponents/ShortsTab";
-import Playlists from "../../components/yourChannelPageComponents/Playlists";
 import PostsTab from "../../components/yourChannelPageComponents/PostsTab";
 import Footer from "../../components/common/Footer.jsx";
 import Header from "../../components/common/header/Header.jsx";
@@ -27,7 +26,6 @@ function YourChannel() {
         <HomeTab key={`home-${channelId}`} channelId={channelId} />,
         <VideosTab key={`videos-${channelId}`} />,
         <ShortsTab key={`shorts-${channelId}`} />,
-        <Playlists key={`playlists-${channelId}`} />,
         <PostsTab key={`posts-${channelId}`} isOwner={isOwner} channelId={channelId} />,
         <StoreChannel key={`store-${channelId}`} isOwner={isOwner} channelId={channelId}/>
     ];

@@ -1041,6 +1041,10 @@ input:checked+.slider:before {
     margin-top: 20px;
 }
 
+.create-store-btn:hover {
+    background-color: var(--btn-dark);
+}
+
 /* Toasts */
 .Toastify__toast-container {
     margin-top: 50px;
