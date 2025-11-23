@@ -86,7 +86,7 @@ function Youprofile() {
                                 photoSrc = `/assets/images/profile/${letter}.png`;
                             } else {
                                 // Otro tipo de ruta, asumir que es subida
-                                photoSrc = VITE_API_URL + photoPath;
+                                photoSrc = photoPath;
                             }
                         } else {
                             // Set default avatar based on first letter of channel name

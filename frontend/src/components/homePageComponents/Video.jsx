@@ -28,8 +28,6 @@ function Video(props) {
         // Handle thumbnail URL properly
         let thumbnailSrc = props.thumbnail || props.photo || '';
 
-        console.log(props.createdAt);
-
         return (
                 <div className="video-card">
                         <img className="video-thumbnail" src={thumbnailSrc} alt={props.namevideo} />

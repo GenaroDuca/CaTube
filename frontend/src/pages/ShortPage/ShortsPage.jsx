@@ -17,10 +17,13 @@ export default function ShortPage() {
   const [error, setError] = useState(null);
   const [maximizedId, setMaximizedId] = useState(null);
 
+  // ESTADO CENTRAL: ID del short que debe estar reproduciéndose
+  const [activeShortId, setActiveShortId] = useState(null);
+
   const shortRefs = useRef({});
   const token = getAuthToken();
 
-  // Función para incrementar vistas
+  // Función para incrementar vistas (se mantiene igual)
   const incrementView = async (videoId) => {
     const userId = localStorage.getItem('userId') || 'anonymous';
     const viewedVideosKey = `viewedVideos_${userId}`;
@@ -40,6 +43,7 @@ export default function ShortPage() {
     }
   };
 
+  // Lógica de Fetch de Shorts (CORRECCIÓN DE INICIALIZACIÓN AQUÍ)
   useEffect(() => {
     const fetchShorts = async () => {
       try {
@@ -58,11 +62,14 @@ export default function ShortPage() {
           description: short.description,
           channelName: short.channel?.channel_name || 'Unknown',
           channelAvatar: short.channel?.photoUrl,
+          channelId: short.channel?.channel_id,
+          channelUrl: short.channel?.url,
           likes: short.likes || 0,
           comments: short.comments || 0,
           dislikes: short.dislikes || 0,
           tags: short.tags,
         }));
+
 
         if (id) {
           const index = transformed.findIndex((s) => String(s.id) === String(id));
@@ -74,6 +81,15 @@ export default function ShortPage() {
         }
 
         setShorts(transformed);
+
+        // 🚀 CORRECCIÓN: Si hay shorts, activamos inmediatamente el primero
+        if (transformed.length > 0) {
+          const firstShortId = transformed[0].id;
+          setActiveShortId(firstShortId);
+
+          // También incrementamos la vista inicial aquí
+          incrementView(firstShortId);
+        }
       } catch (err) {
         setError(err);
       } finally {
@@ -84,7 +100,7 @@ export default function ShortPage() {
     fetchShorts();
   }, [id, token]);
 
-  // IntersectionObserver para detectar short visible y sumar vista
+  // Lógica del IntersectionObserver para detectar y activar el video
   useEffect(() => {
     if (shorts.length === 0) return;
 
@@ -102,10 +118,16 @@ export default function ShortPage() {
         entries.forEach((entry) => {
           if (entry.isIntersecting && entry.intersectionRatio > 0.65) {
             const visibleId = entry.target.getAttribute('data-id');
-            updateUrlIfNeeded(visibleId);
 
-            // 🚀 Aquí incrementamos la vista
-            incrementView(visibleId);
+            // 🚀 ACTUALIZA EL ESTADO CENTRAL: Pausa el anterior y activa este.
+            if (activeShortId !== visibleId) {
+              setActiveShortId(visibleId);
+            }
+
+            // Lógica de URL y Vistas
+            updateUrlIfNeeded(visibleId);
+            // Ya no llamamos a incrementView aquí, ya que se llama en handleVideoActive o en la inicialización
+
           }
         });
       },
@@ -116,15 +138,22 @@ export default function ShortPage() {
       if (ref) observer.observe(ref);
     });
 
-    const firstRef = shortRefs.current[shorts[0].id];
-    if (firstRef) {
-      const visibleId = firstRef.getAttribute('data-id');
-      updateUrlIfNeeded(visibleId);
-      incrementView(visibleId); // también sumamos vista inicial
-    }
-
     return () => observer.disconnect();
-  }, [shorts]);
+  }, [shorts, activeShortId]);
+
+  // Función de Callback para ShortCard (la usa el ShortCard para notificarnos)
+  const handleVideoActive = (shortId) => {
+    if (activeShortId !== shortId) {
+      setActiveShortId(shortId);
+
+      // Si se activa por callback, actualizamos la URL y sumamos vista
+      const currentIdInUrl = window.location.pathname.split('/').pop();
+      if (shortId && shortId !== currentIdInUrl) {
+        window.history.replaceState(null, '', `/shorts/${shortId}`);
+      }
+      incrementView(shortId);
+    }
+  };
 
   const handleMaximize = (shortId) => {
     setMaximizedId((prev) => (prev === shortId ? null : shortId));
@@ -150,6 +179,9 @@ export default function ShortPage() {
                 short={short}
                 isMaximized={maximizedId === short.id}
                 onToggleMaximize={() => handleMaximize(short.id)}
+                // PROPS DE CONTROL DE REPRODUCCIÓN
+                isActive={activeShortId === short.id}
+                onVideoActive={handleVideoActive}
               />
             </div>
           ))}

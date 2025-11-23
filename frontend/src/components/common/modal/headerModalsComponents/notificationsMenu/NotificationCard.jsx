@@ -44,7 +44,6 @@ export function NotificationCard({ notification, onMarkAsRead, onDelete, onClose
         // 🚨 LÓGICA DE ACCIÓN CORREGIDA 🚨
         if (type === 'friend_request' || type === 'friend_accepted') {
             openFriendMenu();
-            console.log("click")
 
             if (onCloseNotificationMenu) {
                 onCloseNotificationMenu();

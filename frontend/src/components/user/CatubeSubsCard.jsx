@@ -53,7 +53,7 @@ export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isF
         try {
             if (!isFollowing) {
                 // Subscribe
-                const res = await fetch(`${VITE_API_URL}/subscription`, {
+                const res = await fetch(`${VITE_API_URL}/subscriptions`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -90,7 +90,7 @@ export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isF
 
     const text = isFollowing ? 'Subscribed' : 'Subscribe';
     const buttonClassName = isFollowing
-        ? 'ct-subsCard-button is-following'
+        ? 'ct-subsCard-button '
         : 'ct-subsCard-button';
 
     const content = (
@@ -98,21 +98,21 @@ export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isF
             <header className="ct-subsCard-header">
                 {channelUrl ? (
                     <Link to={channelUrl}>
-                        <img className="ct-subsCard-avatar" src={avatar} alt={`Avatar de ${userName}`}/>
+                        <img className="ct-subsCard-avatar" src={avatar} alt={`Avatar de ${userName}`} />
                     </Link>
                 ) : (
-                    <img className="ct-subsCard-avatar" src={avatar} alt={`Avatar de ${userName}`}/>
+                    <img className="ct-subsCard-avatar" src={avatar} alt={`Avatar de ${userName}`} />
                 )}
                 <div className="ct-subsCard-info">
-                <span className="ct-subsCard-userName">{userName}</span>
-                <span className="ct-subsCard-infoUserName">{formatSubscriptions(subsCount)} Catscribers</span>
+                    <Link to={channelUrl} className="ct-subsCard-userName">{userName}</Link>
+                    <span className="ct-subsCard-infoUserName">{formatSubscriptions(subsCount)} Catscribers</span>
                 </div>
             </header>
 
             <aside className="ct-subsCard-aside">
                 <button className={buttonClassName} onClick={handleClick} disabled={loading}>
-                <span className="ct-subsCard-text">{text}</span>
-                <span className="ct-subsCard-unsubscribe">Unsubscribe</span>
+                    <span className="ct-subsCard-text">{text}</span>
+                    <span className="ct-subsCard-unsubscribe">Unsubscribe</span>
                 </button>
             </aside>
         </article>

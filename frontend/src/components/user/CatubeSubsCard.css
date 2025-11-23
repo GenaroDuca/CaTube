@@ -43,16 +43,15 @@
 .ct-subsCard-button {
     background-color: var(--btn);
     border: none;
-    border-radius: 999px;
+    border-radius: 30px;
     color: var(--primary-color);
     cursor: pointer;
-    font-weight: bold;
     padding: 6px 16px;
     transition: 0.3s ease background-color;
 }
 
 .ct-subsCard-button:hover {
-    opacity: 0.8;
+    background-color: var(--btn-dark);
 }
 
 /* === Estado: siguiendo === */

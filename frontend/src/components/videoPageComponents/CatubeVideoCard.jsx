@@ -7,11 +7,32 @@ import { useLocation } from 'react-router-dom';
 
 import { VITE_API_URL } from '../../../config';
 
+function getTimeAgo(dateInput) {
+        const date = new Date(dateInput); // Ensure dateInput is parsed into a Date object
+        const seconds = Math.floor((new Date() - date) / 1000);
+
+        let interval = seconds / 31536000;
+        if (interval > 1) return Math.floor(interval) + " years ago";
+
+        interval = seconds / 2592000;
+        if (interval > 1) return Math.floor(interval) + " months ago";
+
+        interval = seconds / 86400;
+        if (interval > 1) return Math.floor(interval) + " days ago";
+
+        interval = seconds / 3600;
+        if (interval > 1) return Math.floor(interval) + " hours ago";
+
+        interval = seconds / 60;
+        if (interval > 1) return Math.floor(interval) + " minutes ago";
+
+        return Math.floor(seconds) + " seconds ago";
+}
+
 export function CatubeVideoCard({ video }) {
     const { pathname } = useLocation();
     const isVideoPage = pathname.includes('/watch');
 
-    // 🧠 Si no hay video o es un short, no renderiza nada
     if (!video || video.type === 'short') {
         return null;
     }
@@ -34,13 +55,16 @@ export function CatubeVideoCard({ video }) {
 
             <div className="ct-videoCard-info">
                 <div className="ct-videoCard-infoVideo">
-                    <h1 className="ct-videoCard-title">{video.title}</h1>
-                    <p>{video.views || 0} views • {new Date(video.createdAt).toLocaleDateString()}</p>
+                    <Link to={`/watch/${video.id}`} className="ct-videoCard-title">{video.title}</Link>
+                    <div>
+                        <p>{video.views || 0} views </p>
+                        <p style={{ color: 'var(--btn)' }}>{getTimeAgo(video.createdAt)}</p>
+                    </div>
                 </div>
 
                 <div className="ct-videoCard-infoUser">
                     {video.channel && (
-                        <div className="ct-videoCard-user">
+                        <Link to={`/yourchannel/${video.channel.url}`} className="ct-videoCard-user">
                             <img
                                 className='ct-videoCard-avatar'
                                 src={
@@ -53,7 +77,7 @@ export function CatubeVideoCard({ video }) {
                                 alt="avatar del canal"
                             />
                             <h3 className="ct-videoCard-infoUserName">{video.channel.channel_name}</h3>
-                        </div>
+                        </Link>
                     )}
                     <p className={cardClassName}>{video.description}</p>
                 </div>

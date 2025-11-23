@@ -31,7 +31,7 @@ function ContainerChannel({ channelId }) {
                         setFeaturedVideo({
                             src: mainVideo.thumbnail,
                             name: mainVideo.title,
-                            views: '0 views', // Se actualizará cuando se implemente el conteo de vistas
+                            views: mainVideo.views,
                             time: timeAgo,
                             description: mainVideo.description,
                             id: mainVideo.id
@@ -87,8 +87,8 @@ function ContainerChannel({ channelId }) {
                 <div className="text-principal-video">
                     <h2>{featuredVideo.name}</h2>
                     <div className="row-principal">
-                        <p className="space">{featuredVideo.views}</p>
-                        <p className="space">{featuredVideo.time}</p>
+                        <p className="space">{featuredVideo.views} views</p>
+                        <p className="space" style={{ color: '#90b484' }}>{featuredVideo.time}</p>
                     </div>
                     <p>{featuredVideo.description}</p>
                 </div>

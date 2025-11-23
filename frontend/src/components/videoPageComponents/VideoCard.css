@@ -20,7 +20,6 @@
 .ct-videoCard-thumbnail {
     cursor: pointer;
     width: 320px;
-
     border-radius: 20px;
 }
 
@@ -34,6 +33,11 @@
 .ct-videoCard-infoVideo {
     display: flex;
     flex-direction: column;
+}
+
+.ct-videoCard-infoVideo div {
+    display: flex;
+    justify-content: space-between;
 }
 
 .ct-videoCard-info .ct-videoCard-title {

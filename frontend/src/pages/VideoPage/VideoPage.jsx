@@ -94,6 +94,7 @@ export function VideoPage() {
                     description: data.description || '',
                     channelId: data.channel?.channel_id,
                     subscriptions: data.channel?.subscriberCount || 0,
+                    channelUrl: data.channel?.url || '',
                     tags: data.tags
                 });
 
@@ -113,7 +114,7 @@ export function VideoPage() {
 
                         viewedVideos.push(id);
                         localStorage.setItem(viewedVideosKey, JSON.stringify(viewedVideos));
-                        console.log('Views incremented successfully');
+                        // console.log('Views incremented successfully');
                     } catch (error) {
                         console.error('Error incrementing views:', error);
                     }

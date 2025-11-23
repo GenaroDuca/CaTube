@@ -194,8 +194,9 @@ function DiscoverPage() {
                                 <Link to={`/watch/${video.id}`} key={video.id}>
                                     <Video
                                         namevideo={video.title}
-                                        videoviews={video.viewsLabel || `${video.views} views`}
+                                        videoviews={`${video.views} views`}
                                         thumbnail={video.thumbnail}
+                                        createdAt={video.createdAt}
                                     />
                                 </Link>
                             ))}

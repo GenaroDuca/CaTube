@@ -414,18 +414,7 @@
 
 .comments-drawer.open {
     transform: translateY(0);
-}
-
-.comments-drawer-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-}
-
-.comments-drawer-header h3 {
-    margin: 0;
-    font-size: 1rem;
+    padding: 20px;
 }
 
 .close-drawer-btn {
@@ -547,7 +536,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
+    margin-bottom: 20px;
 }
 
 .comments-drawer-header h3 {
@@ -568,9 +557,9 @@
     color: var(--btn);
 }
 
-.comments-section {
+/* .comments-section {
     padding: 20px;
-}
+} */
 
 .add-comment-input {
     background-color: var(--primary-color);

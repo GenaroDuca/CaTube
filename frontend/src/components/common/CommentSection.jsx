@@ -41,6 +41,9 @@ export function CommentSection({ videoId, onCountChange }) {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
 
+    // Nuevo estado para controlar la carga/envío
+    const [isSendingComment, setIsSendingComment] = useState(false); // 👈 ¡NUEVO!
+
     //Editing comments or replies
     const [editingCommentId, setEditingCommentId] = useState(null);
     const [editingParentCommentId, setEditingParentCommentId] = useState(null);
@@ -49,6 +52,7 @@ export function CommentSection({ videoId, onCountChange }) {
     //Replies
     const [replyingToId, setReplyingToId] = useState(null);
     const [replyContent, setReplyContent] = useState("");
+    const [isSendingReply, setIsSendingReply] = useState(false); // 👈 ¡NUEVO! para replies
 
     //Replies toggle and display count
     const [openReplies, setOpenReplies] = useState({});
@@ -98,6 +102,9 @@ export function CommentSection({ videoId, onCountChange }) {
             return;
         }
 
+        // Desactivar para prevenir spam
+        setIsSendingComment(true); // 👈 INICIO DE CARGA
+
         try {
             const res = await fetch(`${VITE_API_URL}/comment/${videoId}/comments`, {
                 method: "POST",
@@ -118,7 +125,11 @@ export function CommentSection({ videoId, onCountChange }) {
                 showError(result.message || "Server error");
             }
         } catch (err) {
-            console.rror("Network error or unexpected failure.");
+            console.error("Network error or unexpected failure.");
+            showError("Network error or unexpected failure.");
+        } finally {
+            // Re-activar siempre, independientemente del éxito o fracaso
+            setIsSendingComment(false); // 👈 FIN DE CARGA
         }
     };
 
@@ -259,6 +270,10 @@ export function CommentSection({ videoId, onCountChange }) {
         }
 
         const token = getAuthToken();
+
+        // Desactivar para prevenir spam en replies
+        setIsSendingReply(true); // 👈 INICIO DE CARGA DE REPLY
+
         try {
             const res = await fetch(`${VITE_API_URL}/comment/${videoId}/comments`, {
                 method: "POST",
@@ -284,13 +299,16 @@ export function CommentSection({ videoId, onCountChange }) {
                 );
 
                 onCountChange?.(getTotalCommentsCount(updated));
-                return updated; // ← FALTABA ESTO
+                return updated;
             });
 
             showSuccess("Reply added!");
             cancelReplying();
         } catch {
             showError("Error sending reply.");
+        } finally {
+            // Re-activar siempre, independientemente del éxito o fracaso
+            setIsSendingReply(false); // 👈 FIN DE CARGA DE REPLY
         }
     };
 
@@ -367,11 +385,17 @@ export function CommentSection({ videoId, onCountChange }) {
                     value={newComment}
                     onChange={(e) => setNewComment(e.target.value)}
                     onKeyDown={(e) => {
-                        if (e.key === "Enter") handleAddComment();
+                        // Deshabilitar la tecla "Enter" si se está enviando
+                        if (e.key === "Enter" && !isSendingComment) handleAddComment();
                     }}
                     placeholder="Write a comment..."
+                    disabled={isSendingComment} // 👈 Deshabilitado durante el envío
                 />
-                <button onClick={handleAddComment}>
+                <button
+                    onClick={handleAddComment}
+                    // Deshabilitado si: 1) Está enviando O 2) El campo está vacío
+                    disabled={isSendingComment || !newComment.trim()} // 👈 Deshabilitado durante el envío
+                >
                     <IoSend size={18} />
                 </button>
             </div>
@@ -471,16 +495,21 @@ export function CommentSection({ videoId, onCountChange }) {
                                         value={replyContent}
                                         onChange={(e) => setReplyContent(e.target.value)}
                                         onKeyDown={(e) => {
-                                            if (e.key === "Enter") handleSendReply(comment.id);
-                                            if (e.key === "Escape") cancelReplying();
+                                            // Deshabilitar la tecla "Enter" si se está enviando
+                                            if (e.key === "Enter" && !isSendingReply) handleSendReply(comment.id);
                                         }}
                                         placeholder={`Reply to ${comment.username}...`}
                                         autoFocus
+                                        disabled={isSendingReply} // 👈 Deshabilitado durante el envío de reply
                                     />
-                                    <button onClick={() => handleSendReply(comment.id)}>
+                                    <button
+                                        onClick={() => handleSendReply(comment.id)}
+                                        // Deshabilitado si: 1) Está enviando O 2) El campo está vacío
+                                        disabled={isSendingReply || !replyContent.trim()} // 👈 Deshabilitado durante el envío de reply
+                                    >
                                         <IoSend size={18} />
                                     </button>
-                                    <button onClick={cancelReplying}>
+                                    <button onClick={cancelReplying} disabled={isSendingReply}>
                                         <IoIosCloseCircle size={20} />
                                     </button>
                                 </div>

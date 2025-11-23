@@ -17,10 +17,11 @@ import { CommentSection } from '../common/CommentSection.jsx';
 import { VITE_API_URL } from "../../../config"
 import { useReaction } from "../../hooks/useReaction.jsx";
 
-export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
+// Acepta los props isActive y onVideoActive
+export default function ShortCard({ short, isMaximized, onToggleMaximize, isActive, onVideoActive }) {
   const videoRef = useRef(null)
-  const [paused, setPaused] = useState(false)
-  const [muted, setMuted] = useState(true)
+  const [paused, setPaused] = useState(true)
+  const [muted, setMuted] = useState(false)
   const [volume, setVolume] = useState(1)
   const [sliderVisible, setSliderVisible] = useState(false)
   const [isSubscribed, setIsSubscribed] = useState(false)
@@ -28,15 +29,80 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
   const [commentCount, setCommentCount] = useState(short.comments || 0);
   const [showComments, setShowComments] = useState(false);
 
+  // --- LÓGICA DE VISIBILIDAD PARA NOTIFICAR AL PADRE (Se mantiene igual) ---
+
   useEffect(() => {
-    const v = videoRef.current
-    if (v) {
-      v.muted = muted
-      v.volume = volume
+    const v = videoRef.current;
+    if (!v) return;
+
+    v.volume = volume;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
+          onVideoActive(short.id);
+        }
+      },
+      { threshold: 0.6 }
+    );
+
+    observer.observe(v);
+    return () => {
+      observer.unobserve(v);
+      if (v && !v.paused) v.pause();
+    };
+  }, [short.id, onVideoActive]);
+
+  // --- 🚨 LÓGICA DE REPRODUCCIÓN (Corrección para garantizar play) 🚨 ---
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+
+    // Función auxiliar para intentar la reproducción
+    const attemptPlay = () => {
+      // 1. Intentar reproducir con el estado actual de muteo (idealmente sin muteo)
+      v.play().then(() => {
+        setPaused(false);
+        setMuted(v.muted); // Sincroniza el estado de muteo
+      }).catch(e => {
+        // 2. Si falla por Autoplay Policy (permisos)
+        console.error("Autoplay bloqueado. Intentando mutear y reintentar.", e);
+
+        v.muted = true;
+
+        v.play().then(() => {
+          setPaused(false);
+          setMuted(true); // Se muteó forzadamente y sincroniza
+        }).catch(error => {
+          // 3. Si falla incluso muteado (video no cargado o error grave)
+          console.error("Fallo la reproducción incluso muteado.", error);
+          setPaused(true);
+        });
+      });
+    };
+
+    if (isActive) {
+      // Verificar si los metadatos ya están cargados (readyState 1: metadata is available)
+      if (v.readyState >= 1) {
+        attemptPlay();
+      } else {
+        // Si el video aún está cargando, usa el evento 'loadedmetadata'
+        const onLoaded = () => {
+          attemptPlay();
+          v.removeEventListener('loadedmetadata', onLoaded);
+        };
+        v.addEventListener('loadedmetadata', onLoaded);
+
+        return () => v.removeEventListener('loadedmetadata', onLoaded);
+      }
+    } else {
+      // Si NO es el video activo, páusalo
+      v.pause();
+      setPaused(true);
     }
-  }, [])
+  }, [isActive]);
 
-
+  // --- LÓGICA DE SUBSCRIPCIÓN (Se mantiene igual) ---
   useEffect(() => {
     const checkSubscription = async () => {
       const token = localStorage.getItem('accessToken');
@@ -109,11 +175,20 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
       }
     }
   }
+  // --- FIN DE LÓGICA DE SUBSCRIPCIÓN ---
 
+
+  // --- MANEJO DE CONTROLES (Se mantiene igual) ---
   function togglePlay() {
     const v = videoRef.current
     if (!v) return
     if (v.paused) {
+      // Al hacer clic para reproducir, intentamos desmutear (si el usuario no lo ha hecho)
+      if (v.muted) {
+        v.muted = false;
+        setMuted(false);
+      }
+
       v.play().catch((e) => console.error(e))
     } else {
       v.pause()
@@ -157,6 +232,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
       togglePlay()
     }
   }
+  // --- FIN DE MANEJO DE CONTROLES ---
 
   // Reaction hook
   const {
@@ -179,7 +255,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
                 id="shortVideo"
                 ref={videoRef}
                 src={short.videoSrc}
-                autoPlay
+                preload="metadata" // Ayuda a que loadedmetadata se dispare rápido
                 muted={muted}
                 loop
                 onPlay={handlePlayPauseChange}
@@ -190,8 +266,8 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
 
             {/* User Info Overlay */}
             <div className="short-info-overlay">
-              
 
+              {/* ... (Detalles y tags) ... */}
               <div className="short-details">
                 <h3 className="short-title">{short.title}</h3>
                 <p className="short-desc">{short.description}</p>
@@ -208,11 +284,13 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
                 </div>
               </div>
               <div className="short-user-header">
-                <Link to={short.channelUrl ? `/yourchannel/${short.channelUrl}` : '#'} className="overlay-avatar">
+                <Link to={`/yourchannel/${short.channelUrl}`} className="overlay-avatar">
                   <img src={short.channelAvatar} alt={short.channelName} />
                 </Link>
                 <div className="overlay-text-info">
-                  <h4 className="overlay-username">{short.channelName}</h4>
+                  <Link to={`/yourchannel/${short.channelUrl}`}>
+                    <h4 className="overlay-username">{short.channelName}</h4>
+                  </Link>
                   <button
                     type="button"
                     className="subscribe-button overlay-subscribe"
@@ -224,9 +302,9 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize }) {
                 </div>
               </div>
             </div>
-            
 
-            {/* Comments Drawer */}
+
+            {/* Comments Drawer (se mantiene igual) */}
             <div className={`comments-drawer ${showComments ? 'open' : ''}`}>
               <div className="comments-drawer-header">
                 <h3>Comments</h3>

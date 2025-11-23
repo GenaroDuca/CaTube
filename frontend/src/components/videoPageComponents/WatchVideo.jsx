@@ -56,12 +56,12 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
     return (
         <article className={`vv-displayVideo-container ${isTheaterMode ? 'theater-active' : ''}`}>
             <header className={`vv-displayVideo-header ${isTheaterMode ? 'theater-mode' : ''} ${isFullScreen ? 'full-screen' : ''}`}>
-                {/* <video
+                <video
                     className='vv-displayVideo'
                     src={url}
                     ref={videoRef}
                     onClick={togglePlayPause}
-                /> */}
+                />
 
                 {/* Barra de progreso */}
                 <input

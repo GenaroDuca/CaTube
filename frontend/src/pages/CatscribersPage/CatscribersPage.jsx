@@ -34,7 +34,8 @@ function Catscribers() {
                         id: short.id,
                         nameshort: short.title,
                         shortviews: `${short.views} views`,
-                        thumbnail: short.thumbnail
+                        thumbnail: short.thumbnail,
+                        createdAt: short.createdAt
                     }));
                     setShorts(formattedShorts);
                 }
