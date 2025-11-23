@@ -286,6 +286,7 @@
         z-index: 4;
     }
 
+
 }
 
 @media (max-width: 425px) {
@@ -312,6 +313,7 @@
     .short-video-container {
         padding: 0 !important;
     }
+    
 }
 
 /* New Styles for Overlay and Drawer */

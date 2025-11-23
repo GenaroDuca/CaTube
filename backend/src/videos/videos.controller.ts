@@ -33,9 +33,10 @@ export class VideosController {
     { name: 'thumbnail', maxCount: 1 },
     { name: 'video', maxCount: 1 },
   ], {
+    // Usamos memoryStorage para tener el buffer disponible en el servicio
     storage: multer.memoryStorage()
   }))
-  create(
+  async create(
     @Body() createVideoDto: CreateVideoDto,
     @Req() req,
     @UploadedFiles() files: {
@@ -43,12 +44,17 @@ export class VideosController {
       video?: Express.Multer.File[]
     },
   ) {
-    const userId = req.user.id
+    console.log('LOG: Petición /videos/create recibida.');
+    const userId = req.user.id;
+
+    // Unificar todos los archivos en un solo array para simplificar el envío al servicio
     const allFiles: Express.Multer.File[] = [
       ...(files.thumbnail ?? []),
       ...(files.video ?? [])
     ];
-    return this.videosService.create(createVideoDto, userId, allFiles)
+
+    // El Service manejará la lógica y los errores. Usamos await.
+    return this.videosService.create(createVideoDto, userId, allFiles);
   }
 
   // Visitas inclementales

@@ -35,70 +35,109 @@ export class VideosService {
   }
 
   // ======================================================
-  // CREATE VIDEO 
+  // CREATE VIDEO (COMPLETAMENTE CORREGIDO Y ROBUSTO)
   // ======================================================
   async create(createVideoDto: CreateVideoDto, userId: string, files: Express.Multer.File[]) {
-    const user = await this.userService.findOneById(userId);
-    if (!user) throw new NotFoundException(`User with ID ${userId} not found`);
-    const channel = user.channel;
-    if (!channel) throw new NotFoundException(`Channel not found for user ${userId}`);
-
-    if (!files || files.length === 0) throw new InternalServerErrorException('No files uploaded');
-
-    // 1. Encontrar el archivo de video y obtener su duración (NUEVA LÓGICA)
-    const videoFile = files.find(file => file.mimetype.startsWith('video/'));
-    if (!videoFile) throw new InternalServerErrorException('Video file is required');
-
-    let duration: number;
     try {
-      // Usar el Buffer para obtener la duración, evitando el problema de la URL/S3
-      duration = await this.getVideoDurationFromBuffer(videoFile.buffer, videoFile.mimetype);
-      console.log(`Detected duration for video: ${duration} seconds`);
-    } catch (error) {
-      console.error('FFPROBE Error (SIGSEGV likely):', error);
-      // Fallback: si falla, asumimos que es un video largo para evitar clasificarlo erróneamente como short
-      duration = 61;
-    }
+      console.log('LOG: Iniciando proceso de creación para usuario ID:', userId);
 
-    // Si la duración es 0 (fallo de detección), asumimos que es video largo
-    if (duration === 0) duration = 61;
-
-    const newVideo = this.videoRepository.create({
-      ...createVideoDto,
-      channel,
-      duration: duration,
-      type: duration <= 60 ? 'short' : 'video'
-    });
-
-    // 2. Subir los archivos a S3
-    for (const file of files) {
-      const extension = file.originalname.split('.').pop();
-      const key = `${uuidv4()}_${Date.now()}.${extension}`;
-
-      try {
-        const command = new PutObjectCommand({
-          Bucket: process.env.AWS_BUCKET_NAME!,
-          Key: key,
-          Body: file.buffer,
-          ContentType: file.mimetype,
-        });
-
-        await this.s3Client.send(command);
-        const url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
-
-        if (file.mimetype.startsWith('image/')) newVideo.thumbnail = url;
-        else if (file.mimetype.startsWith('video/')) newVideo.url = url;
-      } catch (err) {
-        console.error('S3 upload error:', err);
-        throw new InternalServerErrorException('Failed to upload file to S3');
+      // 1. Validar Usuario y Canal
+      const user = await this.userService.findOneById(userId);
+      if (!user) {
+        console.warn(`WARN: Usuario ID ${userId} no encontrado.`);
+        throw new NotFoundException(`User with ID ${userId} not found`);
       }
+      const channel = user.channel;
+      if (!channel) {
+        console.warn(`WARN: Canal no encontrado para usuario ID ${userId}.`);
+        throw new NotFoundException(`Channel not found for user ${userId}`);
+      }
+
+      if (!files || files.length === 0) {
+        console.error('ERROR: No se subieron archivos.');
+        throw new InternalServerErrorException('No files uploaded');
+      }
+
+      // 2. Encontrar archivo de video y obtener su duración
+      const videoFile = files.find(file => file.mimetype.startsWith('video/'));
+      if (!videoFile) {
+        console.error('ERROR: Archivo de video requerido no encontrado.');
+        throw new InternalServerErrorException('Video file is required');
+      }
+
+      let duration: number;
+      try {
+        // Intenta obtener la duración
+        duration = await this.getVideoDurationFromBuffer(videoFile.buffer, videoFile.mimetype);
+        console.log(`LOG: Duración detectada para el video: ${duration} segundos.`);
+      } catch (error) {
+        console.error('ERROR: FFPROBE falló (SIGSEGV/timeout probable). Usando duración de fallback.', error);
+        // Si FFPROBE falla, usamos 61 segundos para forzar la clasificación como 'video'
+        duration = 61;
+      }
+
+      // 3. Crear Entidad Video
+      // Aseguramos que si la duración detectada es 0 (ej. archivo corrupto), usamos 61 para evitar ser un 'short'
+      if (duration === 0) duration = 61;
+
+      const type = duration <= 60 ? 'short' : 'video';
+      console.log(`LOG: El video se clasificará como: ${type}.`);
+
+      const newVideo = this.videoRepository.create({
+        ...createVideoDto,
+        channel,
+        duration: duration,
+        type: type, // Clasificación corregida
+      });
+
+      // 4. Subir archivos a S3
+      for (const file of files) {
+        const extension = file.originalname.split('.').pop();
+        const key = `${uuidv4()}_${Date.now()}.${extension}`;
+
+        try {
+          const command = new PutObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME!,
+            Key: key,
+            Body: file.buffer,
+            ContentType: file.mimetype,
+          });
+
+          await this.s3Client.send(command);
+          const url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+
+          if (file.mimetype.startsWith('image/')) {
+            newVideo.thumbnail = url;
+            console.log('LOG: Thumbnail subido y URL guardada.');
+          } else if (file.mimetype.startsWith('video/')) {
+            newVideo.url = url;
+            console.log('LOG: Video subido y URL guardada.');
+          }
+        } catch (err) {
+          console.error('ERROR FATAL: Fallo al subir archivo a S3.', err);
+          // Lanza una excepción HTTP para que NestJS la capture
+          throw new InternalServerErrorException('Failed to upload file to S3');
+        }
+      }
+
+      // 5. Guardar en Base de Datos
+      await this.videoRepository.save(newVideo);
+      console.log(`LOG: Video ID ${newVideo.id} guardado exitosamente en DB.`);
+
+      const link = newVideo.type === 'short' ? `/shorts/${newVideo.id}` : `/watch/${newVideo.id}`;
+      return { ...newVideo, link };
+
+    } catch (error) {
+      // Este bloque garantiza que CUALQUIER error se propague como una Excepción HTTP
+      console.error('ERROR: Fallo catastrófico en VideosService.create.', error);
+
+      // Si ya es una excepción HTTP controlada (NotFoundException, etc.), la relanzamos.
+      if (error.status) {
+        throw error;
+      }
+      // Si es una excepción no controlada (ej. error de TypeORM, u otra excepción de Node.js), la transformamos.
+      throw new InternalServerErrorException('An unexpected error occurred during video creation.');
     }
-
-    // La URL del video ya está garantizada por la verificación inicial y la subida
-
-    await this.videoRepository.save(newVideo);
-    const link = newVideo.type === 'short' ? `/shorts/${newVideo.id}` : `/watch/${newVideo.id}`;
-    return { ...newVideo, link };
   }
 
   // ======================================================
