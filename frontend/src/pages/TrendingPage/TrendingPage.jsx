@@ -24,7 +24,14 @@ function Trending() {
             try {
                 setLoading(true);
 
-                // Fetch shorts
+                // Función auxiliar para ordenar por vistas (descendente)
+                const sortByViews = (a, b) => {
+                    // Convertir la cadena de vistas a un número entero para la comparación
+                    // Suponiendo que 'views' es una propiedad numérica en el objeto de la API
+                    return b.views - a.views;
+                };
+
+                // --- Fetch shorts ---
                 const shortsResponse = await fetch(`${VITE_API_URL}/videos/shorts`, {
                     method: 'GET',
                     headers: {
@@ -32,35 +39,51 @@ function Trending() {
                         'Authorization': `Bearer ${token}`,
                     },
                 });
+
                 if (shortsResponse.ok) {
                     const shortsData = await shortsResponse.json();
-                    const formattedShorts = shortsData.map(short => ({
+
+                    // 1. Aplicar el ordenamiento
+                    const sortedShorts = shortsData.sort(sortByViews);
+
+                    const formattedShorts = sortedShorts.map(short => ({
                         id: short.id,
                         nameshort: short.title,
                         shortviews: `${short.views} views`,
-                        thumbnail: short.thumbnail
+                        thumbnail: short.thumbnail,
+                        createdAt: short.createdAt
                     }));
                     setShorts(formattedShorts);
                 }
 
-                // Fetch videos
-                const videosResponse = await fetch(`${VITE_API_URL}/videos` , {
+                // --- Fetch videos ---
+                const videosResponse = await fetch(`${VITE_API_URL}/videos`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`,
                     },
                 });
+
                 if (videosResponse.ok) {
                     const videosData = await videosResponse.json();
-                    const formattedVideos = videosData
-                        .filter(video => video.type === 'video')
-                        .map(video => ({
-                            id: video.id,
-                            title: video.title,
-                            videoviews: `${video.views} views`,
-                            thumbnail: video.thumbnail
-                        }));
+
+                    const filteredVideos = videosData.filter(video => video.type === 'video');
+
+                    // 2. Aplicar el ordenamiento
+                    const sortedVideos = filteredVideos.sort(sortByViews);
+
+                    // APLICAR LA POSICIÓN DE TENDENCIA AQUÍ
+                    const formattedVideos = sortedVideos.map((video, index) => ({
+                        id: video.id,
+                        title: video.title,
+                        videoviews: `${video.views} views`,
+                        thumbnail: video.thumbnail,
+                        createdAt: video.createdAt,
+                        description: video.description,
+                        // ESTA ES LA NUEVA PROPIEDAD
+                        position: index + 1 // El índice empieza en 0, la posición en 1
+                    }));
                     setVideos(formattedVideos);
                 }
             } catch (error) {
@@ -87,6 +110,7 @@ function Trending() {
                         <p>Loading videos...</p>
                     ) : (
                         videos.map(video => (
+                            // Se pasa la posición como parte del objeto 'video'
                             <VideoCard key={video.id} video={video} />
                         ))
                     )}
