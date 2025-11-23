@@ -1,5 +1,4 @@
 import ContainerButton from "./ContainerButton"
-import VideosLatest from "./VideosLatest";
 import Container from "../common/Container";
 import { useState, useEffect } from "react";
 import { useRef } from "react";
@@ -80,6 +79,7 @@ function VideosTab() {
                             namevideo={video.title}
                             videoviews={video.views + ' views'}
                             thumbnail={video.thumbnail}
+                            createdAt={video.createdAt}
                         />
                     </Link>
                 ))}
@@ -94,6 +94,7 @@ function VideosTab() {
                             namevideo={video.title}
                             videoviews={video.views + ' views'}
                             thumbnail={video.thumbnail}
+                            createdAt={video.createdAt}
                         />
                     </Link>
                 ))}
@@ -108,6 +109,7 @@ function VideosTab() {
                             namevideo={video.title}
                             videoviews={video.views + ' views'}
                             thumbnail={video.thumbnail}
+                            createdAt={video.createdAt}
                         />
                     </Link>
                 ))}

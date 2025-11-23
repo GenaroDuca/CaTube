@@ -291,7 +291,6 @@ export class UsersService {
                 where: { user_id: id },
                 relations: [
                     'channel',
-                    'playlists',
                     'comments',
                     'likes',
                     'subscriptions',
@@ -321,7 +320,7 @@ export class UsersService {
                 await this.channelsService.remove(user.channel.channel_id);
             }
 
-            // Eliminar usuario (cascade elimina mensajes enviados, playlists, comentarios, etc.)
+            // Eliminar usuario (cascade elimina mensajes enviados, comentarios, etc.)
             await manager.remove(User, user);
         });
     }

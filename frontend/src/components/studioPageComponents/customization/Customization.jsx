@@ -54,31 +54,26 @@ function Customization({ channelId }) {
     const { showSuccess, showError } = useToast();
     const [photoPreview, setPhotoPreview] = useState("");
     const [bannerPreview, setBannerPreview] = useState("");
-    
+
     const getAvatar = (channel) => {
-    if (channel.photoUrl && channel.photoUrl.trim() !== '') {
-        let photoPath = channel.photoUrl;
-        
-        if (photoPath.startsWith('http://') || photoPath.startsWith('https://')) {
-            return photoPath; // Devuelve la URL S3/completa directamente
-        } else if (photoPath.startsWith('/assets/images/profile/')) {
-            // Imagen predeterminada ya mapeada
-            return photoPath;
-        } else if (photoPath.startsWith('/default-avatar/')) {
-            // Map old default-avatar paths to new assets path
-            const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
-            const letter = letterMatch ? letterMatch[1] : 'A';
-            return `/assets/images/profile/${letter}.png`;
+        if (channel.photoUrl && channel.photoUrl.trim() !== '') {
+            let photoPath = channel.photoUrl;
+
+            if (photoPath.startsWith('http://') || photoPath.startsWith('https://')) {
+                return photoPath;
+            } else if (photoPath.startsWith('/assets/images/profile/')) {
+                return photoPath;
+            } else if (photoPath.startsWith('/default-avatar/')) {
+                const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
+                const letter = letterMatch ? letterMatch[1] : 'A';
+                return `/assets/images/profile/${letter}.png`;
+            }
         } else {
-            // Asumir que es una ruta relativa de la API
-            return VITE_API_URL + photoPath;
+            // Set default avatar based on first letter of channel name
+            const firstLetter = channel.channel_name?.charAt(0).toUpperCase() || 'A';
+            return `/assets/images/profile/${firstLetter}.png`;
         }
-    } else {
-        // Set default avatar based on first letter of channel name
-        const firstLetter = channel.channel_name?.charAt(0).toUpperCase() || 'A';
-        return `/assets/images/profile/${firstLetter}.png`;
-    }
-};
+    };
 
     const getBanner = (channel) => {
         if (channel.bannerUrl) {
@@ -126,7 +121,7 @@ function Customization({ channelId }) {
                 body: formData,
             });
             if (photoResult && photoResult.photoUrl) {
-                setPhotoPreview(VITE_API_URL + photoResult.photoUrl);
+                setPhotoPreview(photoResult.photoUrl);
                 showSuccess('Logo updated!');
             }
         }
@@ -149,7 +144,7 @@ function Customization({ channelId }) {
                 body: formData,
             });
             if (bannerResult && bannerResult.bannerUrl) {
-                setBannerPreview(VITE_API_URL + bannerResult.bannerUrl);
+                setBannerPreview(bannerResult.bannerUrl);
                 showSuccess('Banner updated');
             }
         }

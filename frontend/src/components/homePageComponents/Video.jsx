@@ -22,9 +22,13 @@ function getTimeAgo(dateInput) {
         return Math.floor(seconds) + " seconds ago";
 }
 
+
+
 function Video(props) {
         // Handle thumbnail URL properly
         let thumbnailSrc = props.thumbnail || props.photo || '';
+
+        console.log(props.createdAt);
 
         return (
                 <div className="video-card">
