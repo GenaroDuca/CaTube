@@ -5,6 +5,9 @@ import { useState, useEffect } from "react";
 import { useRef } from "react";
 import { getAuthToken } from "../../utils/auth.js";
 import { VITE_API_URL } from '../../../config';
+import Subtitle from '../homePageComponents/Subtitle'
+import Video from '../homePageComponents/Video.jsx'
+import { Link } from 'react-router-dom';
 
 function VideosTab() {
     const tabvs = ['Latest', 'Popular', 'Oldest'];
@@ -56,21 +59,75 @@ function VideosTab() {
         return <Container className="video-main-content"><p>Loading videos...</p></Container>;
     }
 
+    if (videos.latest.length === 0) {
+        return (
+            <Container className="video-main-content">
+                <div className="empty-channel-message">
+                    <h3>No videos uploaded yet</h3>
+                    <p>This channel hasn't uploaded any videos</p>
+                </div>
+            </Container>
+        );
+    }
+
     const tabContents = [
-        <VideosLatest render={videos.latest} id="latestSection" className="content-table-videos" container="latest-container" ref={videosLatestRef} type="videos"/>,
-        <VideosLatest render={videos.popular} id="popularSection" className="content-table-videos" container="latest-container" ref={videosPopularRef} type="videos"/>,
-        <VideosLatest render={videos.oldest} id="oldestSection" className="content-table-videos" container="latest-container" ref={videosOldestRef} type="videos"/>
+        <Container className="VideoContainer">
+            <Subtitle subtitle="Lastest Videos"/>
+            <Container className="recommendations-container">
+                {videos.latest.map((video, index) => (
+                    <Link to={`/watch/${video.id}`} key={video.id || index}>
+                        <Video
+                            namevideo={video.title}
+                            videoviews={video.views + ' views'}
+                            thumbnail={video.thumbnail}
+                        />
+                    </Link>
+                ))}
+            </Container>
+        </Container>,
+        <Container className="VideoContainer">
+            <Subtitle subtitle="Popular Videos"/>
+            <Container className="recommendations-container">
+                {videos.popular.map((video, index) => (
+                    <Link to={`/watch/${video.id}`} key={video.id || index}>
+                        <Video
+                            namevideo={video.title}
+                            videoviews={video.views + ' views'}
+                            thumbnail={video.thumbnail}
+                        />
+                    </Link>
+                ))}
+            </Container>
+        </Container>,
+        <Container className="VideoContainer">
+            <Subtitle subtitle="Oldest Videos"/>
+            <Container className="recommendations-container">
+                {videos.oldest.map((video, index) => (
+                    <Link to={`/watch/${video.id}`} key={video.id || index}>
+                        <Video
+                            namevideo={video.title}
+                            videoviews={video.views + ' views'}
+                            thumbnail={video.thumbnail}
+                        />
+                    </Link>
+                ))}
+            </Container>
+        </Container>
+        // <VideosLatest render={videos.latest} id="latestSection" className="content-table-videos" container="latest-container" ref={videosLatestRef} type="videos" />,
+        // <VideosLatest render={videos.popular} id="popularSection" className="content-table-videos" container="latest-container" ref={videosPopularRef} type="videos" />,
+        // <VideosLatest render={videos.oldest} id="oldestSection" className="content-table-videos" container="latest-container" ref={videosOldestRef} type="videos" />
     ];
 
     return (
         <>
-        <Container className="video-main-content">
-        <ContainerButton tabs={tabvs} activeTabIndex={activeTab} onTabClick={setActiveTab} buttonClass="nav-btn-videos" ></ContainerButton>
+            <Container className="video-main-content">
+                <ContainerButton containerName="nav-btn-videos-container" tabs={tabvs} activeTabIndex={activeTab} onTabClick={setActiveTab} buttonClass="nav-btn-videos" ></ContainerButton>
 
-        <div className="tab-content-container">
-                        {tabContents[activeTab]}
-        </div>
-        </Container>
+                <div className="tab-content-container">
+                    {tabContents[activeTab]}
+
+                </div>
+            </Container>
         </>
     );
 }

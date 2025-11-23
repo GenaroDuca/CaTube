@@ -37,7 +37,7 @@ function Education() {
                     id: video.id,
                     nameshort: video.title,
                     shortviews: `${video.views || 0} views`,
-                    thumbnail: `${VITE_API_URL}${video.thumbnail}`,
+                    thumbnail: ` ${video.thumbnail}`,
                 }));
 
 

@@ -54,12 +54,11 @@ function Customization({ channelId }) {
     const { showSuccess, showError } = useToast();
     const [photoPreview, setPhotoPreview] = useState("");
     const [bannerPreview, setBannerPreview] = useState("");
-
+    
     const getAvatar = (channel) => {
     if (channel.photoUrl && channel.photoUrl.trim() !== '') {
         let photoPath = channel.photoUrl;
         
-        // 🚀 FIX CLAVE: Verificar si ya es una URL absoluta
         if (photoPath.startsWith('http://') || photoPath.startsWith('https://')) {
             return photoPath; // Devuelve la URL S3/completa directamente
         } else if (photoPath.startsWith('/assets/images/profile/')) {
@@ -84,7 +83,7 @@ function Customization({ channelId }) {
     const getBanner = (channel) => {
         if (channel.bannerUrl) {
             let bannerPath = channel.bannerUrl;
-            return VITE_API_URL + bannerPath;
+            return bannerPath;
         } else {
             return banner;
         }

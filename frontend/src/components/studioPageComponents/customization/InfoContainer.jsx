@@ -54,6 +54,9 @@ function InfoContainer({ channelId }) {
     useEffect(() => {
         async function loadChannelData() {
             try {
+                if (!channelId) {
+                    return;
+                }
                 const channelData = await apiFetch('/channels/' + channelId);
                 if (channelData) {
                     setName(channelData.channel_name || "");

@@ -79,7 +79,7 @@ function ContainerChannel({ channelId }) {
                     <a href={`/watch/${featuredVideo.id}`}>
                         <img 
                             className="principal-video" 
-                            src={`${VITE_API_URL}${featuredVideo.src}`} 
+                            src={`${featuredVideo.src}`} 
                             alt={featuredVideo.name}
                         />
                     </a>

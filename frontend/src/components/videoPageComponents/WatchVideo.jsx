@@ -37,13 +37,6 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
         handleSeek
     } = useVideoControl(videoRef, onTheaterToggle);
 
-    const comments = useMemo(() => [
-        { id: 1, avatar: Angel, userName: "Colithoxz", content: "Muy buen video" },
-        { id: 2, avatar: Gena, userName: "Sheni", content: "Primeroooooo!" },
-        { id: 3, avatar: Jere, userName: "Gazzard", content: "Mandame un saludo plssss" },
-        { id: 4, avatar: Yukki, userName: "Yukki", content: "Goddddd" },
-    ], []);
-
     // 🔹 Formatear tiempo (segundos → mm:ss)
     const formatTime = (seconds) => {
         if (isNaN(seconds)) return "0:00";
@@ -63,12 +56,12 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
     return (
         <article className={`vv-displayVideo-container ${isTheaterMode ? 'theater-active' : ''}`}>
             <header className={`vv-displayVideo-header ${isTheaterMode ? 'theater-mode' : ''} ${isFullScreen ? 'full-screen' : ''}`}>
-                <video
+                {/* <video
                     className='vv-displayVideo'
                     src={url}
                     ref={videoRef}
                     onClick={togglePlayPause}
-                />
+                /> */}
 
                 {/* Barra de progreso */}
                 <input

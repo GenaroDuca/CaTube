@@ -39,7 +39,7 @@ function CommentItem(props) {
                 return `/assets/images/profile/${letter}.png`;
             } else {
                 // Otro tipo de ruta, asumir que es subida
-                return VITE_API_URL + photoPath;
+                return photoPath;
             }
         } else {
             // Set default avatar based on first letter of username
@@ -61,7 +61,7 @@ function CommentItem(props) {
                 <p className="user-message-dashboard">{props.message}</p>
             </div>
             <Link to={videoTo}>
-                <img className="video-commented-dashboard" src={`${VITE_API_URL}${props.videoThumbnail}`} alt="Video thumbnail" />
+                <img className="video-commented-dashboard" src={props.videoThumbnail} alt="Video thumbnail" />
             </Link>
         </div>
     );

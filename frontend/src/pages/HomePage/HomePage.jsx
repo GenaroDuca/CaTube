@@ -71,7 +71,8 @@ function Home() {
           namevideo: video.title,
           videoviews: `${video.views || 0} views`,
           thumbnail: `${video.thumbnail}`,
-          channel_name: video.channel?.channel_name || 'Unknown'
+          channel_name: video.channel?.channel_name || 'Unknown',
+          createdAt: video.createdAt,
         }));
         setVideos(transformedVideos);
       } catch (err) {
@@ -99,6 +100,7 @@ function Home() {
           nameshort: short.title,
           shortviews: `${short.views || 0} views`,
           thumbnail: `${short.thumbnail}`,
+          createdAt: short.createdAt,
         }));
 
         setShorts(transformedShorts);

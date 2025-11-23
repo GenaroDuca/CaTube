@@ -32,14 +32,17 @@ function HomeTab({ channelId }) {
                         id: video.id,
                         namevideo: video.title,
                         videoviews: `${video.views || 0} views`,
-                        thumbnail: `${VITE_API_URL}${video.thumbnail}`,
+                        createdAt: video.createdAt,
+                        thumbnail: `${video.thumbnail}`,
                         channel_name: video.channel?.channel_name || 'Unknown'
                     }));
+
                     const allShorts = data.filter(v => v.type === "short").map(short => ({
                         id: short.id,
                         nameshort: short.title,
                         shortviews: `${short.views || 0} views`,
-                        photo: `${VITE_API_URL}${short.thumbnail}`,
+                        thumbnail: `${short.thumbnail}`,
+                        createdAt: short.createdAt
                     }));
 
                     setVideos(allVideos);
@@ -61,12 +64,7 @@ function HomeTab({ channelId }) {
 
     // Ordenar los videos
     const recentVideos = videos.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-    const popularVideos = videos.slice().sort((a, b) => {
-        // Por ahora usamos un orden aleatorio hasta implementar vistas
-        // Luego será: return b.views - a.views;
-        return Math.random() - 0.5;
-    });
-
+    const popularVideos = videos.slice().sort((a, b) => b.views - a.views);
     return (
         <>
             <Container className="content-table">

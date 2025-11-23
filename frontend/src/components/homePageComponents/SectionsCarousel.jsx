@@ -4,7 +4,7 @@ import Short from './Short.jsx'
 import Container from '../common/Container.jsx'
 import Subtitle from './Subtitle.jsx'
 import ButtonCarousel from './ButtonCarousel.jsx'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { getAuthToken } from '../../utils/auth.js'
 
 import './Sections.css';
@@ -25,23 +25,25 @@ function SectionsCarousel(props) {
             case 'video':
                 return (
                     <Link to={`/watch/${item.id}`}>
-                    <Video
-                        key={index}
-                        namevideo={item.title}
-                        videoviews={item.views}
-                        thumbnail={item.thumbnail}
-                    />
+                        <Video
+                            key={index}
+                            namevideo={item.namevideo}
+                            videoviews={item.videoviews}
+                            thumbnail={item.thumbnail}
+                            createdAt={item.createdAt}
+                        />
                     </Link>
                 );
             case 'short':
                 return (
                     <Link to={`/shorts/${item.id}`}>
-                    <Short
-                        key={index}
-                        nameshort={item.nameshort}
-                        shortviews={item.shortviews}
-                        thumbnail={item.thumbnail}
-                    />
+                        <Short
+                            key={index}
+                            nameshort={item.nameshort}
+                            shortviews={item.shortviews}
+                            thumbnail={item.thumbnail}
+                            createdAt={item.createdAt}
+                        />
                     </Link>
                 );
             default:

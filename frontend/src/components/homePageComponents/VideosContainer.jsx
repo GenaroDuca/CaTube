@@ -33,12 +33,13 @@ function VideosContainer() {
                     title: v.title,
                     viewsLabel: v.views ? `${v.views} views` : '0 views',
                     thumbnail: v.thumbnail || v.photo || '',
+                    createdAt: v.createdAt,
                 }));
 
                 // Optionally sort by views desc to recommend popular, then take top 8
                 mapped.sort((a, b) => (b.views || 0) - (a.views || 0));
 
-                if (mounted) setRecommended(mapped.slice(0, 8));
+                if (mounted) setRecommended(mapped.slice(0));
             } catch (err) {
                 console.error('Error fetching recommended videos:', err);
                 if (mounted) setRecommended([]);
@@ -59,6 +60,7 @@ function VideosContainer() {
                             namevideo={video.title}
                             videoviews={video.viewsLabel}
                             thumbnail={video.thumbnail}
+                            createdAt={video.createdAt}
                         />
                     </Link>
                 ))}

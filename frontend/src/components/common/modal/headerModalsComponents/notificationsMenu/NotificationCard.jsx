@@ -36,6 +36,7 @@ export function NotificationCard({ notification, onMarkAsRead, onDelete, onClose
     // Obtenemos los datos del emisor, asegurándonos de manejar el caso donde 'sender' es null
     const senderUsername = sender?.username || 'El sistema';
     const senderAvatarUrl = sender?.avatarUrl || 'default_avatar_path.png';
+    
 
     const handleNotificationClick = () => {
         onMarkAsRead(id);

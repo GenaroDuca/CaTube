@@ -29,8 +29,24 @@ a {
   border-radius: 30px;
 }
 
+.carousel-container a{
+  height: 100%;
+}
+
 .short-card {
   width: 200px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
+}
+
+.short-card div{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 /*carruseles*/
@@ -97,7 +113,7 @@ a {
 
 .carousel-cts::-webkit-scrollbar,
 .carousel-ctshorts::-webkit-scrollbar,
-.carousel-ctsvideos::-webkit-scrollbar{
+.carousel-ctsvideos::-webkit-scrollbar {
   display: none;
 }
 
@@ -108,10 +124,10 @@ a {
   align-items: center;
   width: 160px;
   height: auto;
-  overflow: hidden;        
-  white-space: nowrap;      
-  text-overflow: ellipsis;  
-    border-radius: 30px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-radius: 30px;
 
 }
 
@@ -131,11 +147,10 @@ a {
 
 .name-channel,
 .sub-channel {
-  display: block;
-  white-space: nowrap;
+  /* display: block  white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-top: 5px;
+  margin-top: 5px; */
 }
 
 .short {
@@ -146,7 +161,7 @@ a {
 
 /*miniaturas*/
 .video-thumb {
-  min-width: 200px; 
+  min-width: 200px;
   max-width: 100%;
   height: auto;
   border-radius: 20px;
@@ -164,45 +179,53 @@ a {
 /* Recommendations */
 .recommendations-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
   width: 100%;
-  margin-top: 20px;
+}
+
+.recommendations-container a {
+  width: 100%;
+  height: 100%;
+}
+
+.recommendations-container img {
+  width: 100% ; 
 }
 
 .video-card {
   width: 100%;
-  box-sizing: border-box;
+  height: 100%;
   display: flex;
+  box-sizing: border-box;
   flex-direction: column;
   align-items: center;
-  overflow: hidden; 
-  text-align: center;
+  justify-content: space-between !important;
 }
 
-.video-thumb-recommendations {
+.video-card div {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  border-radius: 12px; /* un poco menos para que no se deforme */
-  margin-top: 10px;
-  transition: transform 0.2s;
+  display: flex;
+  justify-content: space-between !important;
 }
+
 
 .video-thumb-recommendations:hover {
   transform: scale(1.05);
   cursor: pointer;
 }
 
-.video-card p, 
+.video-card p,
 .video-card h3 {
   margin: 8px 0;
   padding: 0 8px;
   font-size: 0.9rem;
   line-height: 1.2;
-  word-wrap: break-word; /* corta palabras largas */
+  word-wrap: break-word;
+  /* corta palabras largas */
   overflow: hidden;
-  text-overflow: ellipsis; /* puntos suspensivos si se pasa */
+  text-overflow: ellipsis;
+  /* puntos suspensivos si se pasa */
   max-width: 100%;
 }
 
@@ -216,8 +239,33 @@ a {
 
 
 /*------------Responsive-----------*/
+/*------------Responsive-----------*/
+
+@media (max-width: 1200px) {
+  .recommendations-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .recommendations-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
 @media (max-width: 768px) {
+  .short-card div, .video-card div {
+    flex-direction: column;
+  }
+
+
+  .recommendations-container {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .recommendations-container::-webkit-scrollbar {
+    display: none;
+  }
 
   /* Carruseles */
   .carousel-container {

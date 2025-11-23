@@ -32,8 +32,15 @@ function ShortsTab() {
                 if (!res.ok) throw new Error("Error al obtener los shorts");
                 const data = await res.json();
 
-                // Filtrar solo shorts
-                const allShorts = data.filter(v => v.type === "short");
+                // Filtrar solo shorts y mapear
+                const allShorts = data.filter(v => v.type === "short").map(short => ({
+                    id: short.id,
+                    nameshort: short.title,
+                    shortviews: `${short.views || 0} views • ${new Date(short.createdAt).toLocaleDateString()}`,
+                    thumbnail: short.thumbnail,
+                    views: short.views || 0,
+                    createdAt: short.createdAt
+                }));
 
                 // Ordenar por latest, popular, oldest
                 const latest = [...allShorts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -55,20 +62,31 @@ function ShortsTab() {
         return <Container className="video-main-content"><p>Loading shorts...</p></Container>;
     }
 
+    if (shorts.latest.length === 0) {
+        return (
+            <Container className="video-main-content">
+                <div className="empty-channel-message">
+                    <h3>No shorts uploaded yet</h3>
+                    <p>This channel hasn't uploaded any shorts</p>
+                </div>
+            </Container>
+        );
+    }
+
     const tabContents = [
-        <VideosLatest render={shorts.latest} id="shortsLatest" className="content-table-shorts" container="shorts-container" ref={shortsLatestRef} type="shorts"/>,
-        <VideosLatest render={shorts.popular} id="shortsPopular" className="content-table-shorts" container="shorts-container" ref={shortsPopularRef} type="shorts"/>,
-        <VideosLatest render={shorts.oldest} id="shortsOldest" className="content-table-shorts" container="shorts-container" ref={shortsOldestRef} type="shorts"/>
+        <VideosLatest render={shorts.latest} id="shortsLatest" className="content-table-shorts" container="shorts-container" ref={shortsLatestRef} type="shorts" />,
+        <VideosLatest render={shorts.popular} id="shortsPopular" className="content-table-shorts" container="shorts-container" ref={shortsPopularRef} type="shorts" />,
+        <VideosLatest render={shorts.oldest} id="shortsOldest" className="content-table-shorts" container="shorts-container" ref={shortsOldestRef} type="shorts" />
     ];
     return (
         <>
-        <Container className="video-main-content">
-        <ContainerButton tabs={tabs} activeTabIndex={activeTab} onTabClick={setActiveTab} buttonClass="nav-btn-shorts" ></ContainerButton>
-        
-        <div className="tab-content-container">
-                        {tabContents[activeTab]}
-        </div>
-        </Container>
+            <Container className="video-main-content">
+                <ContainerButton tabs={tabs} activeTabIndex={activeTab} onTabClick={setActiveTab} buttonClass="nav-btn-shorts" ></ContainerButton>
+
+                <div className="tab-content-container">
+                    {tabContents[activeTab]}
+                </div>
+            </Container>
         </>
     );
 }

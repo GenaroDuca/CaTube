@@ -24,7 +24,7 @@ function VideoCommunity() {
                 return `/assets/images/profile/${letter}.png`;
             } else {
                 // Otro tipo de ruta, asumir que es subida
-                return VITE_API_URL + photoPath;
+                return photoPath;
             }
         } else {
             // Set default avatar based on first letter of username
@@ -78,7 +78,7 @@ function VideoCommunity() {
                         </Container>
                         <Container className="video">
                             <Link to={comment.videoType === 'short' ? `/shorts/${comment.videoId}` : `/watch/${comment.videoId}`}>
-                                <img className="video-commented-community" src={`${VITE_API_URL}${comment.videoThumbnail}`} alt="Video thumbnail" />
+                                <img className="video-commented-community" src={`${comment.videoThumbnail}`} alt="Video thumbnail" />
                             </Link>
                             <p>{comment.title}</p>
                         </Container>
