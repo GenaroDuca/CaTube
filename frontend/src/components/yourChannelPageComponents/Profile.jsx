@@ -46,8 +46,8 @@ async function apiFetch(url, options = {}) {
     }
 }
 
-function Profile() {
-    const { showSuccess } = useToast();
+function Profile({ channelId: propChannelId }) {
+    const { showSuccess, showError } = useToast();
     const [userPhoto, setUserPhoto] = useState(profile.src);
     const [channelName, setChannelName] = useState(profile.name);
     const [channelHandle, setChannelHandle] = useState(profile.handle);
@@ -56,12 +56,20 @@ function Profile() {
     const [channelVideos, setChannelVideos] = useState(profile.videos);
     const [isOwner, setIsOwner] = useState(false);
     const [isSubscribed, setIsSubscribed] = useState(false);
-    const [channelId, setChannelId] = useState(localStorage.getItem('channelId'));
+
+    // Use prop if available, otherwise fallback to localStorage
+    const [channelId, setChannelId] = useState(propChannelId || localStorage.getItem('channelId'));
     const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken'));
     const [userId, setUserId] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    // Listen for changes in localStorage
+    // Listen for changes in localStorage only if no prop is provided
     useEffect(() => {
+        if (propChannelId) {
+            setChannelId(propChannelId);
+            return;
+        }
+
         const handleStorageChange = () => {
             const newChannelId = localStorage.getItem('channelId');
             const newAccessToken = localStorage.getItem('accessToken');
@@ -87,7 +95,7 @@ function Profile() {
             window.removeEventListener('storage', handleStorageChange);
             clearInterval(interval);
         };
-    }, [channelId, accessToken]);
+    }, [channelId, accessToken, propChannelId]);
 
     const handleSubscribe = async () => {
         const accessToken = localStorage.getItem('accessToken');
@@ -96,12 +104,12 @@ function Profile() {
             return;
         }
 
-        const channelId = localStorage.getItem('channelId');
+        const currentChannelId = channelId || localStorage.getItem('channelId');
         if (isSubscribed) {
             // Unsubscribe
             const result = await apiFetch('/subscriptions', {
                 method: 'DELETE',
-                body: JSON.stringify({ channelId }),
+                body: JSON.stringify({ channelId: currentChannelId }),
             });
             if (result) {
                 setIsSubscribed(false);
@@ -113,7 +121,7 @@ function Profile() {
             try {
                 const result = await apiFetch('/subscriptions', {
                     method: 'POST',
-                    body: JSON.stringify({ channelId }),
+                    body: JSON.stringify({ channelId: currentChannelId }),
                 });
                 if (result) {
                     setIsSubscribed(true);
@@ -133,10 +141,15 @@ function Profile() {
 
     useEffect(() => {
         async function loadChannelData() {
-            const currentChannelId = localStorage.getItem('channelId');
+            const currentChannelId = channelId || localStorage.getItem('channelId');
             const currentAccessToken = localStorage.getItem('accessToken');
 
-            if (!currentChannelId) return;
+            if (!currentChannelId) {
+                setLoading(true);
+                return;
+            }
+
+            setLoading(true);
 
             // Reset states at the beginning to avoid stale data
             setIsOwner(false);
@@ -191,9 +204,14 @@ function Profile() {
                 setIsSubscribed(false);
                 setUserId(null);
             }
+            setLoading(false);
         }
         loadChannelData();
     }, [channelId, accessToken, userId]); // Add userId to dependencies to force re-run when user changes
+
+    if (loading && propChannelId === null) {
+        return <div className="container-profile" style={{ justifyContent: 'center', padding: '20px' }}>Loading channel...</div>;
+    }
 
     return (
         <div className="container-profile">
@@ -208,7 +226,7 @@ function Profile() {
                     </div>
                     <p>{channelDescription} </p>
                     {!isOwner && (
-                        <div className="container-subscribe-btn">                        
+                        <div className="container-subscribe-btn">
                             <NewButton btnclass="subscribe-btn" btntitle={isSubscribed ? "Subscribed" : "Subscribe"} onClick={handleSubscribe}></NewButton>
                         </div>
                     )}

@@ -1,5 +1,6 @@
 import { useState, createContext, useContext, useMemo, useEffect } from 'react';
 import { notificationService } from '../services/notificationService';
+import { useAuth } from '../auth/AuthContext';
 
 const NotificationContext = createContext();
 
@@ -7,32 +8,35 @@ export function NotificationProvider({ children }) {
     const [notifications, setNotifications] = useState([]);
     const [nextId, setNextId] = useState(1);
     const [loading, setLoading] = useState(false);
+    const { isAuthenticated } = useAuth();
 
     // Carga notificaciones reales del backend
     const loadBackendNotifications = async () => {
+        if (!isAuthenticated) return;
+
         setLoading(true);
         try {
             const backendNotifications = await notificationService.getNotifications();
-            
+
             const transformedNotifications = backendNotifications.map(notification => ({
                 id: notification.notification_id, // El ID del backend es ahora 'id' en el frontend
                 type: notification.type, // Usamos el tipo directo (ej: 'friend_request')
-                
+
                 // Objeto 'sender' simplificado para el frontend, usando la estructura del DTO
-                sender: { 
+                sender: {
                     id: notification.sender?.user_id || null, // Usar user_id del sender
                     username: notification.sender?.username || 'El sistema',
                     // Asegúrate de que esta propiedad exista en el objeto 'sender' del DTO si no usas 'avatarUrl'
-                    avatarUrl: notification.sender?.avatarUrl || '/default-avatar.png', 
+                    avatarUrl: notification.sender?.avatarUrl || '/default-avatar.png',
                 },
-                
+
                 content: notification.content, // <--- EL MENSAJE PRE-GENERADO DEL BACKEND
                 linkTarget: notification.linkTarget, // La ruta a la que debe navegar
-                
+
                 // Usamos 'isRead' como prop en el backend, pero lo mapeamos a 'read' para el componente
-                read: notification.isRead, 
+                read: notification.isRead,
                 createdAt: notification.createdAt, // <--- PROPIEDAD DE TIEMPO CORRECTA
-                isFromBackend: true 
+                isFromBackend: true
             }));
 
             setNotifications(transformedNotifications);
@@ -43,24 +47,28 @@ export function NotificationProvider({ children }) {
         }
     };
 
-    // Carga inicial
+    // Carga inicial y cuando cambia el estado de autenticación
     useEffect(() => {
-        loadBackendNotifications();
-    }, []);
+        if (isAuthenticated) {
+            loadBackendNotifications();
+        } else {
+            setNotifications([]);
+        }
+    }, [isAuthenticated]);
 
     // Notificaciones locales (Asegurarse de que el formato coincida con el backend)
     const addNotification = (notificationData) => {
         const { type, sender, content, linkTarget } = notificationData;
 
         const newNotification = {
-            id: `local-${nextId}`, 
+            id: `local-${nextId}`,
             type,
             sender,
             content,
             linkTarget,
             read: false,
             createdAt: new Date().toISOString(), // <--- USAMOS 'createdAt'
-            isFromBackend: false 
+            isFromBackend: false
         };
         setNotifications(prev => [newNotification, ...prev]);
         setNextId(prev => prev + 1);
@@ -75,7 +83,7 @@ export function NotificationProvider({ children }) {
                 console.error('Error deleting notification from backend:', error);
             }
         }
-        
+
         setNotifications(prev => prev.filter(n => n.id !== id));
     };
 
@@ -88,7 +96,7 @@ export function NotificationProvider({ children }) {
                 console.error('Error marking notification as read in backend:', error);
             }
         }
-        
+
         setNotifications(prev =>
             prev.map(n =>
                 n.id === id ? { ...n, read: true } : n
@@ -115,8 +123,8 @@ export function NotificationProvider({ children }) {
         addNotification,
         markAsRead,
         deleteNotification,
-        markAllAsRead, 
-        refreshNotifications, 
+        markAllAsRead,
+        refreshNotifications,
     }), [notifications, loading]);
 
     return (

@@ -7,12 +7,14 @@ import { getAuthToken } from "../../utils/auth";
 import Container from "../../components/common/Container.jsx";
 import Subtitle from "../../components/homePageComponents/Subtitle.jsx";
 import Video from "../../components/homePageComponents/Video.jsx";
+import Short from "../../components/homePageComponents/Short.jsx";
 import { Link, useLocation } from "react-router-dom";
 import Footer from "../../components/common/Footer.jsx";
 import { VITE_API_URL } from '../../../config';
 
 function DiscoverPage() {
     const [videos, setVideos] = useState([]);
+    const [shorts, setShorts] = useState([]);
     const [tags, setTags] = useState([]);
     const [selectedTag, setSelectedTag] = useState(null);
     const [searchTag, setSearchTag] = useState("");
@@ -51,6 +53,7 @@ function DiscoverPage() {
     useEffect(() => {
         if (!selectedTag) {
             setVideos([]);
+            setShorts([]);
             return;
         }
 
@@ -58,7 +61,12 @@ function DiscoverPage() {
             headers: { Authorization: `Bearer ${token}` },
         })
             .then((res) => res.json())
-            .then((data) => setVideos(data))
+            .then((data) => {
+                const v = data.filter(item => item.type === 'video' || !item.type);
+                const s = data.filter(item => item.type === 'short');
+                setVideos(v);
+                setShorts(s);
+            })
             .catch((err) => console.log(err));
     }, [selectedTag, token]);
 
@@ -83,6 +91,7 @@ function DiscoverPage() {
         if (selectedTag === tagName) {
             setSelectedTag(null);
             setVideos([]);
+            setShorts([]);
             setSearchTag("");
         } else {
             setSelectedTag(tagName);
@@ -139,8 +148,27 @@ function DiscoverPage() {
                 </Container>
 
                 {/* Título con el tag seleccionado */}
-                {selectedTag && videos.length > 0 && (
+                {selectedTag && (videos.length > 0 || shorts.length > 0) && (
                     <h1 className="selected-tag-title">#{selectedTag}</h1>
+                )}
+
+                {/* SHORTS */}
+                {selectedTag && shorts.length > 0 && (
+                    <Container className="VideoContainer">
+                        <Subtitle subtitle="Shorts found" />
+                        <Container className="recommendations-container">
+                            {shorts.map((short) => (
+                                <Link to={`/shorts/${short.id}`} key={short.id}>
+                                    <Short
+                                        nameshort={short.title}
+                                        shortviews={short.viewsLabel || `${short.views} views`}
+                                        thumbnail={short.thumbnail}
+                                        createdAt={short.createdAt}
+                                    />
+                                </Link>
+                            ))}
+                        </Container>
+                    </Container>
                 )}
 
                 {/* VIDEOS */}
@@ -153,26 +181,28 @@ function DiscoverPage() {
                     )}
 
                     {/* Mensaje cuando sí hay tag pero sin resultados */}
-                    {selectedTag && videos.length === 0 && (
+                    {selectedTag && videos.length === 0 && shorts.length === 0 && (
                         <p className="no-videos">
-                            No videos were found for #{selectedTag}.
+                            No videos or shorts were found for #{selectedTag}.
                         </p>
                     )}
 
                     {/* Lista de videos */}
-                    <Container className="recommendations-container">
-                        {videos.map((video) => (
-                            <Link to={`/watch/${video.id}`} key={video.id}>
-                                <Video
-                                    namevideo={video.title}
-                                    videoviews={video.viewsLabel}
-                                    thumbnail={video.thumbnail}
-                                />
-                            </Link>
-                        ))}
-                    </Container>
+                    {videos.length > 0 && (
+                        <Container className="recommendations-container">
+                            {videos.map((video) => (
+                                <Link to={`/watch/${video.id}`} key={video.id}>
+                                    <Video
+                                        namevideo={video.title}
+                                        videoviews={video.viewsLabel || `${video.views} views`}
+                                        thumbnail={video.thumbnail}
+                                    />
+                                </Link>
+                            ))}
+                        </Container>
+                    )}
                 </Container>
-                <Footer footer= "footer"></Footer>
+                <Footer footer="footer"></Footer>
             </main>
         </>
     );

@@ -5,6 +5,7 @@ import { FaKey } from "react-icons/fa";
 import { useToast } from '../../hooks/useToast.jsx';
 import { useModal } from '../common/modal/ModalContext';
 import { VITE_API_URL } from "../../../config"
+import { useAuth } from '../../auth/AuthContext';
 
 const LoginForm = ({ togglePanel }) => {
   const navigate = useNavigate();
@@ -15,6 +16,7 @@ const LoginForm = ({ togglePanel }) => {
   const { showSuccess, showError } = useToast()
 
   const { openModal, closeModal } = useModal();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,23 +34,11 @@ const LoginForm = ({ togglePanel }) => {
       if (response.ok) {
         // --- 1. LOGIN SUCCESS ---
         showSuccess(`Successfully logged in, Welcome ${username}!`);
-        localStorage.setItem('accessToken', result.access_token);
 
-        // Save user/channel data
-        if (result.user && result.user.channel && result.user.channel.channel_id) {
-          localStorage.setItem('channelId', result.user.channel.channel_id);
-          localStorage.setItem('username', result.user.username);
+        // Use AuthContext to login
+        login(result);
 
-          // Aseguramos que guardamos el user_id
-          localStorage.setItem('userId', result.user.user_id);
-
-          navigate('/');
-          window.location.reload();
-        } else {
-          showError('Login successful, but there was an issue retrieving your channel data.')
-          // console.log("Login result:", result);
-        }
-
+        navigate('/');
       } else {
         // --- 2. LOGIN FAILED (Response Not OK) ---
         const errorMessage = result.message || 'Unknown error';

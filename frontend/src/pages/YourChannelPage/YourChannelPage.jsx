@@ -27,19 +27,23 @@ function YourChannel() {
         <VideosTab key={`videos-${channelId}`} />,
         <ShortsTab key={`shorts-${channelId}`} />,
         <PostsTab key={`posts-${channelId}`} isOwner={isOwner} channelId={channelId} />,
-        <StoreChannel key={`store-${channelId}`} isOwner={isOwner} channelId={channelId}/>
+        <StoreChannel key={`store-${channelId}`} isOwner={isOwner} channelId={channelId} />
     ];
 
     useEffect(() => {
+        setChannelId(null); // Reset to prevent showing old data
         async function loadChannel() {
             const accessToken = localStorage.getItem('accessToken');
 
             if (url && url !== 'yourchannel') {
                 // URL like /yourchannel/genad, treat as channel URL
+                const headers = {};
+                if (accessToken) {
+                    headers['Authorization'] = `Bearer ${accessToken}`;
+                }
+
                 const response = await fetch(`${VITE_API_URL}/channels/url/${url}`, {
-                    headers: {
-                        'Authorization': accessToken ? `Bearer ${accessToken}` : '',
-                    },
+                    headers: headers,
                 });
                 if (response.ok) {
                     const channel = await response.json();

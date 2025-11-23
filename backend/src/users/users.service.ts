@@ -81,7 +81,7 @@ export class UsersService {
             const defaultChannelDto = {
                 channel_name: savedUser.username,
                 description: `Welcome to ${savedUser.username} channel!`,
-                url: savedUser.username.toLowerCase(),
+                url: savedUser.username.toLowerCase().replace(/\s+/g, '-'),
             };
             await this.channelsService.create(defaultChannelDto, savedUser);
 

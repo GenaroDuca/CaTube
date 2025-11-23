@@ -39,7 +39,7 @@ function Home() {
           url: channel.url,
           handle: '@' + channel.url,
         }));
-        
+
         // Sort channels by subscriber count in descending order
         transformedChannels.sort((a, b) => b.subs - a.subs);
         setChannels(transformedChannels);
@@ -52,12 +52,16 @@ function Home() {
 
     const fetchVideos = async () => {
       try {
+        const headers = {
+          'Content-Type': 'application/json',
+        };
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+
         const response = await fetch(`${VITE_API_URL}/videos`, {
           method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
+          headers: headers,
         })
         if (!response.ok) {
           throw new Error('Failed to fetch videos');
@@ -83,12 +87,16 @@ function Home() {
 
     const fetchShorts = async () => {
       try {
+        const headers = {
+          'Content-Type': 'application/json',
+        };
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+
         const response = await fetch(`${VITE_API_URL}/videos/shorts`, {
           method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-          },
+          headers: headers,
         });
         if (!response.ok) {
           throw new Error('Failed to fetch shorts');

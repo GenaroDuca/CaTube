@@ -12,10 +12,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 //Hooks
 import { useState } from 'react';
+import { useAuth } from '../../../auth/AuthContext';
 
 export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
     const { pathname } = useLocation();
     const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
     const isRegisterPage = pathname.includes('/register');
 
     // Local state for search query if not provided
@@ -134,12 +136,14 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
             )}
 
             <div className={cardClassName}>
-                <button className="sr-header-createButton" onClick={() => openModal('createvideo')}>
-                    <span className="sr-header-createLabel">Create</span>
-                    <FaCirclePlus color={"#90B484"} size={28} />
-                </button>
+                {isAuthenticated && (
+                    <button className="sr-header-createButton" onClick={() => openModal('createvideo')}>
+                        <span className="sr-header-createLabel">Create</span>
+                        <FaCirclePlus color={"#90B484"} size={28} />
+                    </button>
+                )}
                 <div className="sr-header-userActions">
-                    <NotificationMenu />
+                    {isAuthenticated && <NotificationMenu />}
                     <UserMenu />
                 </div>
             </div>

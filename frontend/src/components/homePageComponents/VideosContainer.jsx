@@ -14,12 +14,16 @@ function VideosContainer() {
         let mounted = true;
         async function fetchRecommended() {
             try {
+                const headers = {
+                    'Content-Type': 'application/json',
+                };
+                if (token) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                }
+
                 const res = await fetch(`${VITE_API_URL}/videos/videos-only`, {
                     method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`,
-                    },
+                    headers: headers,
                 });
                 if (!res.ok) {
                     setRecommended([]);
@@ -48,7 +52,7 @@ function VideosContainer() {
 
         fetchRecommended();
         return () => { mounted = false };
-    }, []);
+    }, [token]);
 
     return (
         <Container className="VideoContainer">

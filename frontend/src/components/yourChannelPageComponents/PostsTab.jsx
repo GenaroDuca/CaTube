@@ -21,10 +21,13 @@ function PostsTab({ isOwner, channelId }) {
     const loadPosts = async () => {
         try {
             const accessToken = localStorage.getItem('accessToken');
+            const headers = {};
+            if (accessToken) {
+                headers['Authorization'] = `Bearer ${accessToken}`;
+            }
+
             const response = await fetch(`${VITE_API_URL}/posts/channel/${channelId}`, {
-                headers: {
-                    'Authorization': accessToken ? `Bearer ${accessToken}` : '',
-                },
+                headers: headers,
             });
             if (response.ok) {
                 const posts = await response.json();

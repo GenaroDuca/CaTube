@@ -2,6 +2,7 @@ import { useOverlay } from '../../hooks/useOverlay.jsx';
 import { leftMenu } from "../../assets/data/Data.jsx";
 import { Link } from 'react-router-dom';
 import './Sidebar.css';
+import { useAuth } from '../../auth/AuthContext';
 
 function Sidebar() {
   const {
@@ -10,6 +11,25 @@ function Sidebar() {
     close: closeSidebar,
     overlayRef: SidebarRef
   } = useOverlay();
+
+  const { isAuthenticated } = useAuth();
+
+  const protectedLinks = [
+    '/subscribers',
+    '/you',
+    '/history',
+    '/view-later',
+    '/liked',
+    '/studio?section=content'
+  ];
+
+  const filteredMenu = leftMenu.filter(item => {
+    if (item.divider) return true;
+    if (protectedLinks.includes(item.link)) {
+      return isAuthenticated;
+    }
+    return true;
+  });
 
   return (
     <aside className={`sidebar ${isSidebarOpen ? '' : 'collapsed'}`} ref={SidebarRef}>
@@ -21,7 +41,7 @@ function Sidebar() {
 
       <nav className="sidebar-nav">
         <ul className="nav-list primary-nav">
-          {leftMenu.map((props, index) =>
+          {filteredMenu.map((props, index) =>
             props.divider ? (
               <hr key={`divider-${index}`} />
             ) : (

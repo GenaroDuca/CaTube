@@ -27,50 +27,52 @@ import { FriendMenu } from './components/common/friendMenu/friendMenu.jsx';
 import { ToastManager } from './components/common/toast/ToastManager.jsx';
 import { NotificationProvider } from './hooks/useNotification.jsx';
 import { ThemeProvider } from './hooks/useTheme.jsx';
-import {SidebarToggleProvider} from "./hooks/useSidebarToggleFriends.jsx"
+import { SidebarToggleProvider } from "./hooks/useSidebarToggleFriends.jsx"
+import { AuthProvider } from './auth/AuthContext.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <Router>
+          <SidebarToggleProvider>
+            <SidebarProvider>
+              <NotificationProvider>
+                <ModalProvider>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/discover" element={<DiscoverPage />} />
+                    <Route path="/education" element={<Education />} />
+                    <Route path="/trending" element={<Trending />} />
+                    <Route path="/subscribers" element={<Catscribers />} />
+                    <Route path="/you" element={<You />} />
+                    <Route path="/history" element={<You />} />
+                    <Route path="/view-later" element={<You />} />
+                    <Route path="/liked" element={<You />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/studio" element={<Studio />} />
+                    <Route path="/yourchannel/:url?" element={<YourChannel />} />
+                    <Route path="/shorts" element={<ShortsPage />} />
+                    <Route path="/shorts/:id" element={<ShortsPage />} />
+                    <Route path='/watch/:id' element={<VideoPage />} />
+                    <Route path="/verification-successful" element={<SuccessPage />} />
+                    <Route path="/verification-error" element={<ErrorPage />} />
+                    <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-      <Router>
-        <SidebarToggleProvider>
-          <SidebarProvider>
-            <NotificationProvider>
-              <ModalProvider>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/discover" element={<DiscoverPage />} />
-                  <Route path="/education" element={<Education />} />
-                  <Route path="/trending" element={<Trending />} />
-                  <Route path="/subscribers" element={<Catscribers />} />
-                  <Route path="/you" element={<You />} />
-                  <Route path="/history" element={<You />} />
-                  <Route path="/view-later" element={<You />} />
-                  <Route path="/liked" element={<You />} />
-                  <Route path="/register" element={<RegisterPage />} />
-                  <Route path="/studio" element={<Studio />} />
-                  <Route path="/yourchannel/:url?" element={<YourChannel />} />
-                  <Route path="/shorts" element={<ShortsPage />} />
-                  <Route path="/shorts/:id" element={<ShortsPage />} />
-                  <Route path='/watch/:id' element={<VideoPage />} />
-                  <Route path="/verification-successful" element={<SuccessPage />} />
-                  <Route path="/verification-error" element={<ErrorPage />} />
-                  <Route path="/reset-password" element={<ResetPasswordPage />} />
 
+                    <Route path='/Search' element={<Search />} />
+                  </Routes>
 
-                  <Route path='/Search' element={<Search />} />
-                </Routes>
+                  <ModalRenderer />
+                  <FriendMenu />
+                  <ToastManager />
+                </ModalProvider>
+              </NotificationProvider>
+            </SidebarProvider>
+          </SidebarToggleProvider>
+        </Router>
+      </ThemeProvider>
+    </AuthProvider>
 
-                <ModalRenderer />
-                <FriendMenu />
-                <ToastManager />
-
-              </ModalProvider>
-            </NotificationProvider>
-          </SidebarProvider>
-        </SidebarToggleProvider>
-      </Router>
-    </ThemeProvider>
   </StrictMode>
 );

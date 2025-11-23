@@ -22,13 +22,13 @@ import { UseInterceptors, UploadedFiles } from '@nestjs/common';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 import * as multer from 'multer';
 
-@UseGuards(AuthGuard('jwt'))
 @Controller('videos')
 export class VideosController {
   constructor(private readonly videosService: VideosService) { }
 
   // Create a new video
   @Post('create')
+  @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(FileFieldsInterceptor([
     { name: 'thumbnail', maxCount: 1 },
     { name: 'video', maxCount: 1 },

@@ -85,7 +85,7 @@ export class User {
 
     @OneToMany(() => Room, room => room.user2)
     roomsAsUser2: Room[];
-    
+
     @OneToMany(() => Message, message => message.sender, { onDelete: 'CASCADE' })
     messages: Message[];
 
