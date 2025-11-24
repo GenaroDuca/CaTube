@@ -3,16 +3,15 @@ import { Link } from 'react-router-dom';
 function Profile({ namechannel, subschannel, thumbnail, url }) {
     const firstLetter = namechannel?.charAt(0).toUpperCase();
 
-    // Determinar la URL final de la foto
-    let photoSrc = thumbnail && thumbnail.startsWith('http')
-        ? thumbnail
-        : VITE_API_URL + thumbnail;
-        
-    if (!photoSrc) {
-        // Por defecto, mostrar imagen según la primera letra
-        photoSrc = `/assets/images/profile/${firstLetter}.png`;
+    let photoSrc;
+
+    if (thumbnail && thumbnail.startsWith('https')) {
+        photoSrc = thumbnail;
     }
 
+    if (!thumbnail.startsWith('https')) {
+        photoSrc = `/assets/images/profile/${firstLetter}.png`;
+    }
 
     return (
         <Link to={`/yourchannel/${url}`}>

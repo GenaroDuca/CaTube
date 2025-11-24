@@ -9,9 +9,9 @@ function RightMenu({ channelId }) {
     if (channel.photoUrl && channel.photoUrl.trim() !== '') {
         let photoPath = channel.photoUrl;
         
-        // 🚀 FIX CLAVE: Verificar si ya es una URL absoluta
+        // Verificar si ya es una URL absoluta
         if (photoPath.startsWith('http://') || photoPath.startsWith('https://')) {
-            return photoPath; // Devuelve la URL S3/completa directamente
+            return photoPath;
         } else if (photoPath.startsWith('/assets/images/profile/')) {
             // Imagen predeterminada ya mapeada
             return photoPath;

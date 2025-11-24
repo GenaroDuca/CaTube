@@ -1,0 +1,17 @@
+.most-viewed-container {
+    flex: 1;
+    width: 50%;
+    /* height: 1400px; */
+    display: flex;
+    flex-direction: column;
+    background-color: var(--primary-color);
+    padding: 20px;
+    border-radius: 30px;
+}
+
+.most-viewed-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 30px;
+
+}
