@@ -5,13 +5,13 @@ import { UserMenu } from "../../user/UserMenu.jsx";
 import { useModal } from '../../common/modal/ModalContext';
 
 //Icons
-import { FaCirclePlus, FaMicrophone } from "react-icons/fa6";
+import { FaCirclePlus, FaMicrophone, FaArrowLeft } from "react-icons/fa6";
 import { ImSearch } from "react-icons/im";
 //Router
 import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 //Hooks
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../../auth/AuthContext';
 
 export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
@@ -31,6 +31,10 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
     const [isListening, setIsListening] = useState(false);
     const [placeholder, setPlaceholder] = useState("Search...");
 
+    // Mobile search state
+    const [showMobileSearch, setShowMobileSearch] = useState(false);
+    const headerRef = useRef(null);
+
     //Conditional classes and visibility
     const cardClassName = isRegisterPage
         ? 'sr-header-right register'
@@ -39,6 +43,32 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
     const showSearchBar = !isRegisterPage;
 
     const { openModal } = useModal();
+
+    // Close mobile search on resize if screen becomes large
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth > 680) {
+                setShowMobileSearch(false);
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // Close mobile search when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (showMobileSearch && headerRef.current && !headerRef.current.contains(event.target)) {
+                setShowMobileSearch(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showMobileSearch]);
+
 
     const handleVoiceSearch = () => {
         // console.log('Voice search started');
@@ -61,7 +91,7 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
 
         recognition.onstart = () => {
             setIsListening(true);
-            setPlaceholder("Escuchando...");
+            setPlaceholder("Listening...");
         };
 
         recognition.onresult = (e) => {
@@ -104,49 +134,93 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
         recognition.start();
     };
 
-    return (
-        <header className="sr-header">
-            <Link to={`/`}>
-                <div className="sr-header-logo">
-                    <img className="sr-header-symbol" src={logo} alt={`Logo de Catube`} />
-                    <span className="sr-header-title">CaTube</span>
-                </div>
-            </Link>
+    const handleSearchSubmit = () => {
+        const searchPagePath = '/Search';
+        if (!pathname.includes(searchPagePath)) {
+            sessionStorage.setItem('voiceSearchTerm', currentSearchQuery);
+            navigate(searchPagePath);
+        }
+        setShowMobileSearch(false);
+    };
 
-            {showSearchBar && (
-                <div className="sr-header-searchBar">
-                    <button
-                        className={`sr-header-micButton ${isListening ? 'listening' : ''}`}
-                        onClick={handleVoiceSearch}
-                    >
-                        <FaMicrophone size={20} />
+    const handleSearchToggleOrSubmit = () => {
+        if (window.innerWidth <= 680) {
+            setShowMobileSearch(true);
+        } else {
+            handleSearchSubmit();
+        }
+    };
+
+    return (
+        <header className="sr-header" ref={headerRef}>
+            {showMobileSearch ? (
+                <div className="sr-header-mobile-search-overlay">
+                    <button className="sr-header-back-button" onClick={() => setShowMobileSearch(false)}>
+                        <FaArrowLeft size={20} />
                     </button>
-                    <div className="sr-header-searchBarSection">
+                    <div className="sr-header-searchBarSection mobile-expanded">
                         <SearchBar
-                            className="sr-header-input"
+                            className="sr-header-input mobile-input"
                             searchQuery={currentSearchQuery}
                             setSearchQuery={currentSetSearchQuery}
                             placeholder={placeholder}
                         />
-                        <Link to={`/Search`}>
-                            <button className="sr-header-searchButton"><ImSearch size={20} /></button>
-                        </Link>
+                        <button className="sr-header-searchButton mobile-search-btn" onClick={handleSearchSubmit}>
+                            <ImSearch size={20} />
+                        </button>
                     </div>
-                </div>
-            )}
-
-            <div className={cardClassName}>
-                {isAuthenticated && (
-                    <button className="sr-header-createButton" onClick={() => openModal('createvideo')}>
-                        <span className="sr-header-createLabel">Create</span>
-                        <FaCirclePlus color={"#90B484"} size={28} />
+                    <button
+                        className={`sr-header-micButton mobile-mic ${isListening ? 'listening' : ''}`}
+                        onClick={handleVoiceSearch}
+                    >
+                        <FaMicrophone size={20} />
                     </button>
-                )}
-                <div className="sr-header-userActions">
-                    {isAuthenticated && <NotificationMenu />}
-                    <UserMenu />
                 </div>
-            </div>
+            ) : (
+                <>
+                    <Link to={`/`}>
+                        <div className="sr-header-logo">
+                            <img className="sr-header-symbol" src={logo} alt={`Logo de Catube`} />
+                            <span className="sr-header-title">CaTube</span>
+                        </div>
+                    </Link>
+
+                    {showSearchBar && (
+                        <div className="sr-header-searchBar">
+                            <button
+                                className={`sr-header-micButton ${isListening ? 'listening' : ''}`}
+                                onClick={handleVoiceSearch}
+                            >
+                                <FaMicrophone size={20} />
+                            </button>
+                            <div className="sr-header-searchBarSection">
+                                <SearchBar
+                                    className="sr-header-input"
+                                    searchQuery={currentSearchQuery}
+                                    setSearchQuery={currentSetSearchQuery}
+                                    placeholder={placeholder}
+                                />
+                                <button className="sr-header-searchButton" onClick={handleSearchToggleOrSubmit}>
+                                    <ImSearch size={20} />
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    <div className={cardClassName}>
+                        {isAuthenticated && (
+                            <button className="sr-header-createButton" onClick={() => openModal('createvideo')}>
+                                <span className="sr-header-createLabel">Create</span>
+                                <FaCirclePlus color={"#90B484"} size={28} />
+                            </button>
+                        )}
+                        <div className="sr-header-userActions">
+                            {isAuthenticated && <NotificationMenu />}
+                            <UserMenu />
+                        </div>
+                    </div>
+                </>
+            )}
         </header>
     );
 }
