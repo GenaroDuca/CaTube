@@ -1,4 +1,4 @@
-import { useMemo, useRef } from "react";
+import { useMemo, useRef, useEffect } from "react";
 import { CatubeSubsCard } from "../../components/user/CatubeSubsCard.jsx";
 import { useVideoControl } from "../../hooks/useVideoControl.jsx";
 import { VolumeControl } from "../../components/videoPageComponents/volumeControl.jsx";
@@ -37,6 +37,14 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
         handleSeek
     } = useVideoControl(videoRef, onTheaterToggle);
 
+    useEffect(() => {
+        if (videoRef.current) {
+            videoRef.current.play().catch(error => {
+                console.warn("Autoplay prevented:", error);
+            });
+        }
+    }, [url]);
+
     // 🔹 Formatear tiempo (segundos → mm:ss)
     const formatTime = (seconds) => {
         if (isNaN(seconds)) return "0:00";
@@ -62,6 +70,7 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
                     src={url}
                     ref={videoRef}
                     onClick={togglePlayPause}
+                    autoPlay
                 />
 
                 {/* Barra de progreso */}
@@ -163,7 +172,7 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
                 <div>
                     <span style={{ color: "var(--btn)" }}>{views} views</span>
                 </div>
-                
+
                 <div>
                     <h3>Video Description</h3>
                     <p>{description}</p>
