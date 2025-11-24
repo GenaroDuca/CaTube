@@ -29,7 +29,7 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
 
     // Voice search states
     const [isListening, setIsListening] = useState(false);
-    const [placeholder, setPlaceholder] = useState("Buscar...");
+    const [placeholder, setPlaceholder] = useState("Search...");
 
     //Conditional classes and visibility
     const cardClassName = isRegisterPage

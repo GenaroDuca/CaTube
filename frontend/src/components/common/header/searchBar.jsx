@@ -1,4 +1,4 @@
-function SearchBar({ className, searchQuery, setSearchQuery, placeholder = "Buscar..." }) {
+function SearchBar({ className, searchQuery, setSearchQuery, placeholder = "Search..." }) {
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' && e.target.value && e.target.value.trim()) {
             // Navigate to search page with the query

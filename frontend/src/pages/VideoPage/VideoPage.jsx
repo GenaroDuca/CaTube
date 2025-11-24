@@ -142,7 +142,9 @@ export function VideoPage() {
                     subscriptions: data.channel?.subscriberCount || 0,
                     channelUrl: data.channel?.url || '',
                     tags: data.tags,
-                    views: data.views
+                    views: data.views,
+                    ownerId: data.channel?.user?.user_id,
+                    thumbnail: thumbnailUrl
                 });
 
                 // --------------------------------------------------------

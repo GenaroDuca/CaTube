@@ -275,7 +275,7 @@ export class VideosService {
   async findAllShorts() {
     return this.videoRepository.find({
       where: { type: 'short' },
-      relations: ['channel', 'tags'],
+      relations: ['channel', 'channel.user', 'tags'],
       order: { createdAt: 'DESC' },
     });
   }

@@ -16,6 +16,7 @@ import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
 import { CommentSection } from '../common/CommentSection.jsx';
 import { VITE_API_URL } from "../../../config"
 import { useReaction } from "../../hooks/useReaction.jsx";
+import VideoOptionsMenu from '../videoPageComponents/VideoOptionsMenu.jsx';
 
 // Acepta los props isActive y onVideoActive
 export default function ShortCard({ short, isMaximized, onToggleMaximize, isActive, onVideoActive }) {
@@ -368,7 +369,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
               {/* DISLIKE */}
               <button
                 type="button"
-                className={`action-button ${userReaction === "dislike" ? "reacted-dislike" : ""}`}
+                className={`action-button ${userReaction === "dislike" ? "reacted-dislike" : ""} dislike-btn`}
                 onClick={() => {
                   if (userReaction === "dislike") removeReaction();
                   else react(false);
@@ -385,7 +386,19 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
 
               <button type="button" className="action-button"><ShareMenu videoUrl={short.url} videoTitle={short.title} /></button>
 
-              <button type="button" className="action-button"><RiSettings2Fill size={25} /></button>
+              {short.ownerId === localStorage.getItem('userId') && (
+                <div className="action-button">
+                  <VideoOptionsMenu
+                    videoId={short.id}
+                    title={short.title}
+                    description={short.description}
+                    thumbnail={short.thumbnail}
+                    tags={short.tags}
+                    contentType="Shorts"
+                    ownerId={short.ownerId}
+                  />
+                </div>
+              )}
 
             </div>
           </div>

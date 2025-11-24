@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FaShare, FaCopy, FaDownload } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { useToast } from "../../hooks/useToast";
@@ -16,6 +16,7 @@ export default function ShareMenu({ videoUrl, videoTitle }) {
     const [isLoading, setIsLoading] = useState(true);
     const { showSuccess, showError } = useToast();
     const [sendingTo, setSendingTo] = useState(null);
+    const menuRef = useRef(null);
 
     const copyToClipboard = () => {
         const url = window.location.href;
@@ -30,6 +31,18 @@ export default function ShareMenu({ videoUrl, videoTitle }) {
         a.click();
         showSuccess("Video downloaded");
     };
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [menuRef]);
 
     useEffect(() => {
         let isMounted = true;
@@ -78,7 +91,7 @@ export default function ShareMenu({ videoUrl, videoTitle }) {
     };
 
     return (
-        <div className="share-wrapper">
+        <div className="share-wrapper" ref={menuRef}>
             <div className={`share-expandable ${open ? "open" : ""}`}>
                 {!open && (
                     <div
@@ -148,10 +161,10 @@ export default function ShareMenu({ videoUrl, videoTitle }) {
                                     tabIndex={0}
                                     onClick={() => shareVideoWithFriend(friend)}
                                     onKeyDown={(e) => { if (e.key === 'Enter') shareVideoWithFriend(friend); }}
-                                    style={{ opacity: sendingTo === friend.id ? 0.6 : 1, pointerEvents: sendingTo === friend.id ? 'none' : 'auto', alignItems: 'center'}}
+                                    style={{ opacity: sendingTo === friend.id ? 0.6 : 1, pointerEvents: sendingTo === friend.id ? 'none' : 'auto', alignItems: 'center' }}
                                 >
                                     <img src={friend.avatar} alt={friend.name} />
-                                    <span style={{ marginTop:"0", fontSize: 13 }}>{friend.name}</span>
+                                    <span style={{ marginTop: "0", fontSize: 13 }}>{friend.name}</span>
                                     {sendingTo === friend.id && <span style={{ marginLeft: 8, fontSize: 12 }}>Sending...</span>}
                                 </div>
                             ))}

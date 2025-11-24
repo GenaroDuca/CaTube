@@ -68,6 +68,8 @@ export default function ShortPage() {
           comments: short.comments || 0,
           dislikes: short.dislikes || 0,
           tags: short.tags,
+          ownerId: short.channel?.user?.user_id,
+          thumbnail: short.thumbnail // Also adding thumbnail just in case
         }));
 
 

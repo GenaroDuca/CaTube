@@ -14,8 +14,9 @@ import { Link } from "react-router-dom";
 import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
 import { CommentSection } from "../common/CommentSection.jsx";
 import { useReaction } from "../../hooks/useReaction.jsx";
+import VideoOptionsMenu from "./VideoOptionsMenu.jsx";
 
-export function WatchVideo({ videoId, url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags, views, onNext, onPrev, hasNext, hasPrev }) {
+export function WatchVideo({ videoId, url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags, views, onNext, onPrev, hasNext, hasPrev, ownerId, thumbnail }) {
     const videoRef = useRef(null);
     const {
         isPlaying,
@@ -158,7 +159,15 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
                         </button>
 
                         <ShareMenu videoUrl={url} videoTitle={title} />
-                        <button className="options-btn"><SlOptionsVertical color='#777878' size={20} /></button>
+                        <VideoOptionsMenu
+                            videoId={videoId}
+                            title={title}
+                            description={description}
+                            thumbnail={thumbnail}
+                            tags={tags}
+                            contentType="Videos"
+                            ownerId={ownerId}
+                        />
                     </section>
                 </div>
             </div>
