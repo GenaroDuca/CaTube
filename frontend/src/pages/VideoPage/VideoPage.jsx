@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
 //Components
 import Header from '../../components/common/header/Header.jsx'
@@ -27,8 +27,54 @@ export function VideoPage() {
     }, []);
 
     const { id } = useParams();
+    const navigate = useNavigate();
     const [video, setVideo] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [videoList, setVideoList] = useState([]);
+
+    // Fetch de la lista de videos para navegación
+    useEffect(() => {
+        async function fetchVideoList() {
+            try {
+                const res = await fetch(`${VITE_API_URL}/videos`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    // Filtrar shorts para que no aparezcan en la navegación
+                    const regularVideos = data.filter(v => v.type !== 'short');
+                    setVideoList(regularVideos);
+                }
+            } catch (error) {
+                console.error("Error fetching video list:", error);
+            }
+        }
+        fetchVideoList();
+    }, [token]);
+
+    // Calcular siguiente y anterior
+    const { nextVideoId, prevVideoId } = useMemo(() => {
+        // videoList ya está filtrado (sin shorts)
+        if (!videoList.length || !id) return { nextVideoId: null, prevVideoId: null };
+
+        const currentIndex = videoList.findIndex(v => v.id === id);
+
+        // Si el video actual no está en la lista (ej: es un short al que se accedió directamente), no hay next/prev
+        if (currentIndex === -1) return { nextVideoId: null, prevVideoId: null };
+
+        const prev = currentIndex > 0 ? videoList[currentIndex - 1].id : null;
+        const next = currentIndex < videoList.length - 1 ? videoList[currentIndex + 1].id : null;
+
+        return { nextVideoId: next, prevVideoId: prev };
+    }, [videoList, id]);
+
+    const handleNextVideo = () => {
+        if (nextVideoId) navigate(`/watch/${nextVideoId}`);
+    };
+
+    const handlePrevVideo = () => {
+        if (prevVideoId) navigate(`/watch/${prevVideoId}`);
+    };
 
     useEffect(() => {
         async function fetchVideo() {
@@ -149,8 +195,17 @@ export function VideoPage() {
             <main className="main-content">
 
                 <div className="container-all">
-                    {loading ? <p>Loading video...</p> : <WatchVideo {...video} videoId={id} />}
-                    <VideoList currentVideoId={id} />
+                    {loading ? <p>Loading video...</p> : (
+                        <WatchVideo
+                            {...video}
+                            videoId={id}
+                            onNext={handleNextVideo}
+                            onPrev={handlePrevVideo}
+                            hasNext={!!nextVideoId}
+                            hasPrev={!!prevVideoId}
+                        />
+                    )}
+                    <VideoList currentVideoId={id} videos={videoList} />
                 </div>
 
             </main>

@@ -7,19 +7,15 @@ import '../user/CatubeSubsCard.css';
 import { FaCirclePlay, FaCirclePause, FaHeart, FaShare } from "react-icons/fa6";
 import { IoHeartDislike } from "react-icons/io5";
 import { FiMinimize2, FiMaximize2 } from "react-icons/fi";
-import { SlOptionsVertical } from "react-icons/sl";
-import { BsSkipStartFill, BsSkipEndFill } from "react-icons/bs";
+import { BiSkipPrevious, BiSkipNext } from "react-icons/bi";
 import { TbLayoutSidebarRightCollapseFilled, TbLayoutSidebarRightExpandFilled } from "react-icons/tb";
-import Angel from '../../assets/images/profile/angel.jpg';
-import Gena from '../../assets/images/profile/gena.jpg';
-import Jere from '../../assets/images/profile/jere.jpg';
-import Yukki from '../../assets/images/profile/yukki.jpg';
+import { SlOptionsVertical } from "react-icons/sl";
 import { Link } from "react-router-dom";
 import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
 import { CommentSection } from "../common/CommentSection.jsx";
 import { useReaction } from "../../hooks/useReaction.jsx";
 
-export function WatchVideo({ videoId, url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags, views }) {
+export function WatchVideo({ videoId, url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags, views, onNext, onPrev, hasNext, hasPrev }) {
     const videoRef = useRef(null);
     const {
         isPlaying,
@@ -35,7 +31,7 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
         toggleTheaterMode,
         toggleFullScreen,
         handleSeek
-    } = useVideoControl(videoRef, onTheaterToggle);
+    } = useVideoControl(videoRef, onTheaterToggle, onNext);
 
     useEffect(() => {
         if (videoRef.current) {
@@ -52,7 +48,6 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
         const secs = Math.floor(seconds % 60);
         return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
     };
-    console.log(views);
 
     const {
         likes,
@@ -86,16 +81,16 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
 
                 <div className="vv-video-controls">
                     <div className="vv-video-leftControls">
-                        <button className="vv-video-leftControls-button" onClick={() => skipTime(-10)}>
-                            <BsSkipStartFill color='rgb(144, 180, 132)' size={25} />
+                        <button className="vv-video-leftControls-button" onClick={onPrev} disabled={!hasPrev} style={{ opacity: hasPrev ? 1 : 0.5 }}>
+                            <BiSkipPrevious color='rgb(144, 180, 132)' size={30} />
                         </button>
                         <button onClick={togglePlayPause}>
                             {isPlaying
                                 ? <FaCirclePause color='rgb(144, 180, 132)' size={25} />
                                 : <FaCirclePlay color='rgb(144, 180, 132)' size={25} />}
                         </button>
-                        <button className="vv-video-leftControls-button" onClick={() => skipTime(10)}>
-                            <BsSkipEndFill color='rgb(144, 180, 132)' size={25} />
+                        <button className="vv-video-leftControls-button" onClick={onNext} disabled={!hasNext} style={{ opacity: hasNext ? 1 : 0.5 }}>
+                            <BiSkipNext color='rgb(144, 180, 132)' size={30} />
                         </button>
 
                         {/* 🔹 Tiempo actual y duración */}

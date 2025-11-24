@@ -10,13 +10,18 @@ import { getAuthToken } from '../../utils/auth.js'
 import { VITE_API_URL } from '../../../config';
 
 
-export function VideoList({ currentVideoId }) {
+export function VideoList({ currentVideoId, videos: initialVideos }) {
     const [videos, setVideos] = useState([]);
     const { pathname } = useLocation();
     const isVideoPage = pathname.includes('/watch')
     const token = getAuthToken();
 
     useEffect(() => {
+        if (initialVideos && initialVideos.length > 0) {
+            setVideos(initialVideos.filter(video => video.id !== currentVideoId));
+            return;
+        }
+
         const fetchVideos = async () => {
             try {
                 const response = await fetch(`${VITE_API_URL}/videos`, {
@@ -26,7 +31,7 @@ export function VideoList({ currentVideoId }) {
                         'Authorization': `Bearer ${token}`,
                     },
                 });
-                
+
                 if (response.ok) {
                     const data = await response.json();
                     const filteredVideos = data.filter(video => video.id !== currentVideoId);
@@ -38,7 +43,7 @@ export function VideoList({ currentVideoId }) {
         };
 
         fetchVideos();
-    }, [currentVideoId]);
+    }, [currentVideoId, initialVideos]);
 
     const cardClassName = isVideoPage
         ? 'sr-videosSection watch'

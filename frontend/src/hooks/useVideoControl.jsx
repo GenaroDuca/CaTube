@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 
-export function useVideoControl(videoRef, onTheaterToggle) {
+export function useVideoControl(videoRef, onTheaterToggle, onEndedCallback) {
     const [isPlaying, setIsPlaying] = useState(false);
     const [volume, setVolume] = useState(1);
     const [isMuted, setIsMuted] = useState(false);
@@ -77,7 +77,10 @@ export function useVideoControl(videoRef, onTheaterToggle) {
 
         const onPlay = () => setIsPlaying(true);
         const onPause = () => setIsPlaying(false);
-        const onEnded = () => setIsPlaying(false);
+        const onEnded = () => {
+            setIsPlaying(false);
+            if (onEndedCallback) onEndedCallback();
+        };
         const onTimeUpdate = () => {
             if (!isSeekingRef.current) {
                 setProgress(video.currentTime);
