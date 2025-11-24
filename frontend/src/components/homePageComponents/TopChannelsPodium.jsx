@@ -38,7 +38,7 @@ function TopChannelsPodium({ channels }) {
                         <p className="podium-handle">{second.handle}</p>
                         <div className="podium-subs">
                             <span className="subs-count">{formatSubs(second.subs)}</span>
-                            <span className="subs-label">subscribers</span>
+                            <span className="subs-label">Catscribers</span>
                         </div>
                     </div>
                     <div className="podium-base podium-base-second">
@@ -60,7 +60,7 @@ function TopChannelsPodium({ channels }) {
                         <p className="podium-handle">{first.handle}</p>
                         <div className="podium-subs">
                             <span className="subs-count">{formatSubs(first.subs)}</span>
-                            <span className="subs-label">subscribers</span>
+                            <span className="subs-label">Catscribers</span>
                         </div>
                     </div>
                     <div className="podium-base podium-base-first">
@@ -81,7 +81,7 @@ function TopChannelsPodium({ channels }) {
                         <p className="podium-handle">{third.handle}</p>
                         <div className="podium-subs">
                             <span className="subs-count">{formatSubs(third.subs)}</span>
-                            <span className="subs-label">subscribers</span>
+                            <span className="subs-label">Catscribers</span>
                         </div>
                     </div>
                     <div className="podium-base podium-base-third">
