@@ -451,16 +451,20 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                                     <p style={{ textAlign: 'center', fontSize: '12px', marginTop: '5px' }}>{processingStatus}</p>
                                 </div>
                             )}
-                            <button
-                                type="button"
-                                className="discard-changes-create-video"
-                                onClick={onClose}
-                            >
-                                Discard
-                            </button>
-                            <button type="submit" className="upload-btn" disabled={loading}>
-                                {loading ? "Processing..." : "Upload"}
-                            </button>
+                            <div className="create-video-buttons-container">
+
+                                <button
+                                    type="button"
+                                    className="discard-changes-create-video"
+                                    onClick={onClose}
+                                >
+                                    Discard
+                                </button>
+                                <button type="submit" className="upload-btn" disabled={loading}>
+                                    {loading ? "Processing..." : "Upload"}
+                                </button>
+                            </div>
+
                         </div>
                     </form>
                 </main>

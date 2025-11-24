@@ -753,6 +753,11 @@ input:checked+.slider:before {
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    gap: 20px;   
+}
+
+.create-video-buttons-container{
+    display: flex;
     gap: 20px;
 }
 
@@ -806,6 +811,7 @@ input:checked+.slider:before {
     border: none;
     border-radius: 30px;
     cursor: pointer;
+    
 }
 
 .create-video-buttons button:hover {
@@ -1055,6 +1061,17 @@ input:checked+.slider:before {
 /* ==================================== */
 
 @media (max-width:768px) {
+
+    .create-video-buttons {
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .create-video-buttons-container {
+        display: flex;
+        justify-content: center;
+    }
 
     .create-video-content,
     .add-product-content {

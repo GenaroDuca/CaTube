@@ -32,14 +32,14 @@ function Education() {
                 });
                 const data = await response.json();
 
-                const transformed= data.map(video => ({
+                const transformed = data.map(video => ({
                     type: video.type,
                     id: video.id,
                     nameshort: video.title,
                     shortviews: `${video.views || 0} views`,
                     thumbnail: ` ${video.thumbnail}`,
+                    createdAt: video.createdAt,
                 }));
-
 
                 // Separar entre shorts y videos largos según el campo "type"
                 const shortsList = transformed.filter(v => v.type === 'short');
@@ -47,6 +47,8 @@ function Education() {
 
                 setShorts(shortsList);
                 setVideos(videosList);
+                console.log(shortsList);
+                console.log(videosList);
             } catch (error) {
                 console.error('Error fetching videos:', error);
             }
@@ -62,6 +64,7 @@ function Education() {
             <main className="main-content">
                 <Title class="title-container" title="Education"></Title>
 
+                {/* Bloque para Videos Largos */}
                 <Block section="trending-videos" subtitle="Education Videos">
                     {videos.length > 0 ? (
                         videos.map(video => <VideoCard key={video.id} video={video} />)
@@ -70,14 +73,23 @@ function Education() {
                     )}
                 </Block>
 
-                <SectionsCarousel
-                    section="trending-shorts"
-                    subtitle="Education Shorts"
-                    ref={shortsRef}
-                    render={shorts}
-                    type="short"
-                    cts="carousel-ctshorts"
-                />
+                {/* --- Lógica para Shorts --- */}
+                {shorts.length > 0 ? (
+                    // 1. Si hay shorts, renderizar el carrusel
+                    <SectionsCarousel
+                        section="trending-shorts"
+                        subtitle="Education Shorts"
+                        ref={shortsRef}
+                        render={shorts}
+                        type="short"
+                        cts="carousel-ctshorts"
+                    />
+                ) : (
+                    // 2. Si no hay shorts, mostrar un <Block> con el mensaje
+                    <Block section="trending-shorts" subtitle="Education Shorts">
+                        <p>No educational shorts found.</p>
+                    </Block>
+                )}
 
                 <Footer footer="footer"> </Footer>
             </main>
