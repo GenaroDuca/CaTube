@@ -56,7 +56,7 @@ export function Search() {
                 avatar = `/assets/images/profile/${letter}.png`;
               } else {
                 // Other uploaded path
-                avatar = `${VITE_API_URL}${channel.photoUrl}`;
+                avatar = channel.photoUrl;
               }
             } else {
               // No photoUrl, use first letter of channel name
@@ -158,7 +158,6 @@ export function Search() {
     short.title.toLowerCase().includes(lower) ||
     short.userName.toLowerCase().includes(lower)
   );
-
 
   return (
     <>
