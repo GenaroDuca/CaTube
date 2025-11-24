@@ -19,7 +19,7 @@ import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
 import { CommentSection } from "../common/CommentSection.jsx";
 import { useReaction } from "../../hooks/useReaction.jsx";
 
-export function WatchVideo({ videoId, url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags }) {
+export function WatchVideo({ videoId, url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags, views }) {
     const videoRef = useRef(null);
     const {
         isPlaying,
@@ -44,6 +44,7 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
         const secs = Math.floor(seconds % 60);
         return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
     };
+    console.log(views);
 
     const {
         likes,
@@ -120,6 +121,7 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
                         channelId={channelId}
                         channelUrl={channelUrl ? `/yourchannel/${channelUrl}` : undefined}
                     />
+
                     <section>
                         {/* LIKE */}
                         <span>
@@ -158,6 +160,10 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
             </div>
 
             <div className="vv-displayVideo-description">
+                <div>
+                    <span style={{ color: "var(--btn)" }}>{views} views</span>
+                </div>
+                
                 <div>
                     <h3>Video Description</h3>
                     <p>{description}</p>

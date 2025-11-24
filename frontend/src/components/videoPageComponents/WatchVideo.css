@@ -305,6 +305,12 @@
     align-items: center;
 }
 
+.vv-displayVideo-userActions-left {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
 .vv-displayVideo-userActions section {
     display: flex;
     gap: 10px;

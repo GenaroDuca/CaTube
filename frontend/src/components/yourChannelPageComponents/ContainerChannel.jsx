@@ -47,25 +47,55 @@ function ContainerChannel({ channelId }) {
     }, [channelId]);
 
     // Función helper para calcular tiempo transcurrido
-    function getTimeAgo(date) {
-        const seconds = Math.floor((new Date() - date) / 1000);
-        
+    function getTimeAgo(dateInput) {
+        const date = new Date(dateInput);
+
+        const msDifference = Math.abs(new Date() - date);
+        const seconds = Math.floor(msDifference / 1000);
+
         let interval = seconds / 31536000;
-        if (interval > 1) return Math.floor(interval) + " years ago";
-        
+        if (interval >= 1) {
+            const time = Math.floor(interval);
+            const unit = time === 1 ? "year" : "years";
+            return `${time} ${unit} ago`;
+        }
+
         interval = seconds / 2592000;
-        if (interval > 1) return Math.floor(interval) + " months ago";
-        
+        if (interval >= 1) {
+            const time = Math.floor(interval);
+            const unit = time === 1 ? "month" : "months";
+            return `${time} ${unit} ago`;
+        }
+
         interval = seconds / 86400;
-        if (interval > 1) return Math.floor(interval) + " days ago";
-        
+        if (interval >= 1) {
+            const time = Math.floor(interval);
+            const unit = time === 1 ? "day" : "days";
+            return `${time} ${unit} ago`;
+        }
+
         interval = seconds / 3600;
-        if (interval > 1) return Math.floor(interval) + " hours ago";
-        
+        if (interval >= 1) {
+            const time = Math.floor(interval);
+            const unit = time === 1 ? "hour" : "hours";
+            return `${time} ${unit} ago`;
+        }
+
         interval = seconds / 60;
-        if (interval > 1) return Math.floor(interval) + " minutes ago";
-        
-        return Math.floor(seconds) + " seconds ago";
+        if (interval >= 1) {
+            const time = Math.floor(interval);
+            const unit = time === 1 ? "minute" : "minutes";
+            return `${time} ${unit} ago`;
+        }
+
+        // If less than 60 seconds
+        const time = Math.floor(seconds);
+        // Note: It's common to use "just now" for very small time differences (e.g., < 5s)
+        if (time < 5) {
+            return "just now";
+        }
+        const unit = time === 1 ? "second" : "seconds";
+        return `${time} ${unit} ago`;
     }
 
     if (!featuredVideo) {
@@ -77,9 +107,9 @@ function ContainerChannel({ channelId }) {
             <div className="principal-video-container">
                 <div className="principal-video">
                     <a href={`/watch/${featuredVideo.id}`}>
-                        <img 
-                            className="principal-video" 
-                            src={`${featuredVideo.src}`} 
+                        <img
+                            className="principal-video"
+                            src={`${featuredVideo.src}`}
                             alt={featuredVideo.name}
                         />
                     </a>

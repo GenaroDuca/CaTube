@@ -95,7 +95,8 @@ export function VideoPage() {
                     channelId: data.channel?.channel_id,
                     subscriptions: data.channel?.subscriberCount || 0,
                     channelUrl: data.channel?.url || '',
-                    tags: data.tags
+                    tags: data.tags,
+                    views: data.views
                 });
 
                 // --------------------------------------------------------
