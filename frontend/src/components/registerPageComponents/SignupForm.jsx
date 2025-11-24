@@ -15,14 +15,14 @@ import { VITE_API_URL } from "../../../config"
 // 1. CONSTANTES PARA VALIDACIÓN
 // =================================================================
 
-// Mínimo 5, máximo 20, solo letras (a-z, A-Z), números (0-9) y guion bajo (_).
-const USERNAME_REGEX = /^[a-zA-Z0-9_ ]{5,20}$/;
+// Mínimo 5, máximo 20, solo letras (a-z, A-Z), números (0-9), guion bajo (_) y espacios SOLO en el medio (no al inicio ni al final).
+const USERNAME_REGEX = /^(?! )[a-zA-Z0-9_ ]{5,20}(?<! )$/;
 
 // Estándar de email más robusto.
-const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+const EMAIL_REGEX = /^\s*[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}\s*$/;
 
 // Mínimo 8 caracteres, al menos una mayúscula, una minúscula y un número.
-const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s]{8,}$/;
 
 const SignupForm = ({ togglePanel }) => {
     // Estados de entrada de formulario
@@ -293,7 +293,7 @@ const SignupForm = ({ togglePanel }) => {
             if (isUnicityError) return 'Username already exists, try another!';
 
             // 3. DEFAULT
-            return 'Min 5, max 20 chars (letters, numbers, _)';
+            return 'Min 5, max 20 chars (letters, numbers, _). No spaces at start/end';
         }
 
         if (inputName === 'email') {

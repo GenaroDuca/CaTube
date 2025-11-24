@@ -240,8 +240,6 @@
     color: rgb(233, 103, 101);
 }
 
-.comment-short-btn {}
-
 
 .action-button:hover {
     color: var(--btn);
