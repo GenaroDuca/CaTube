@@ -127,7 +127,7 @@ function Home() {
           nameshort: short.title,
           shortviews: `${short.views || 0} views`,
           thumbnail: `${short.thumbnail}`,
-          channel_date: short.channel_date,
+          createdAt: short.createdAt,
         }));
 
         setShorts(transformedShorts);
