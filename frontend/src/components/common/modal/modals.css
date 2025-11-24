@@ -782,6 +782,7 @@ input:checked+.slider:before {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+    margin-top: 10px;
 }
 
 .no-tags-message {

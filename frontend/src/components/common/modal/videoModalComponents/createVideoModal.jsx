@@ -62,6 +62,11 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
         tag.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    // Verificar si existe una coincidencia exacta (no solo parcial)
+    const exactMatch = searchTerm.trim() && defaultTags.some((tag) =>
+        tag.name.toLowerCase() === searchTerm.toLowerCase().trim()
+    );
+
     // ===============================================================
     //  CARGAR TAGS POR DEFECTO
     // ===============================================================
@@ -364,7 +369,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                                     disabled={loading}
                                 />
 
-                                {filteredTags.length > 0 ? (
+                                {filteredTags.length > 0 && (
                                     <ul>
                                         {filteredTags.map((tag) => {
                                             const isSelected = selectedTags.some(
@@ -387,23 +392,27 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                                             );
                                         })}
                                     </ul>
-                                ) : (
-                                    searchTerm.trim().length > 0 && (
-                                        <div className="no-tags-container">
-                                            <p className="no-tags-message">
-                                                No tag found for: "<strong>{searchTerm}</strong>"
-                                            </p>
+                                )}
 
-                                            <button
-                                                type="button"
-                                                onClick={() => handleAddCustomTag(searchTerm)}
-                                                className="create-tag-btn"
-                                                disabled={loading}
-                                            >
-                                                Create tag: #{searchTerm}
-                                            </button>
-                                        </div>
-                                    )
+                                {/* Mostrar botón de crear tag si no hay coincidencia exacta */}
+                                {searchTerm.trim().length > 0 && !exactMatch && (
+                                    <div className="no-tags-container">
+                                        <p className="no-tags-message">
+                                            {filteredTags.length > 0
+                                                ? `No exact match for: "${searchTerm}"`
+                                                : `No tag found for: "${searchTerm}"`
+                                            }
+                                        </p>
+
+                                        <button
+                                            type="button"
+                                            onClick={() => handleAddCustomTag(searchTerm)}
+                                            className="create-tag-btn"
+                                            disabled={loading}
+                                        >
+                                            Create tag: #{searchTerm}
+                                        </button>
+                                    </div>
                                 )}
                             </section>
 
