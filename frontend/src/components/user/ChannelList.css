@@ -1,6 +1,60 @@
 .sr-channelSection {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    justify-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    width: 100%;
+    padding: 1rem;
+    justify-items: center;
+}
+
+/* Extra large screens (4K, ultra-wide) */
+@media (min-width: 1920px) {
+    .sr-channelSection {
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 2.5rem;
+        padding: 1.5rem 2rem;
+    }
+}
+
+/* Large screens (standard desktop) */
+@media (min-width: 1400px) and (max-width: 1919px) {
+    .sr-channelSection {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 2rem;
+    }
+}
+
+/* Medium screens (laptop, small desktop) */
+@media (min-width: 1024px) and (max-width: 1399px) {
+    .sr-channelSection {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+}
+
+/* Tablets (landscape and portrait) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .sr-channelSection {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1.5rem;
+        padding: 1rem;
+    }
+}
+
+/* Small tablets and large phones */
+@media (min-width: 600px) and (max-width: 767px) {
+    .sr-channelSection {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        padding: 0.75rem;
+    }
+}
+
+/* Mobile devices */
+@media (max-width: 599px) {
+    .sr-channelSection {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 0.5rem;
+    }
 }

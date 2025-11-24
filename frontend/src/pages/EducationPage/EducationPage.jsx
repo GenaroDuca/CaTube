@@ -32,23 +32,31 @@ function Education() {
                 });
                 const data = await response.json();
 
-                const transformed = data.map(video => ({
-                    type: video.type,
-                    id: video.id,
-                    nameshort: video.title,
-                    shortviews: `${video.views || 0} views`,
-                    thumbnail: ` ${video.thumbnail}`,
-                    createdAt: video.createdAt,
+                // Separar entre shorts y videos largos según el campo "type"
+                const shortsList = data.filter(v => v.type === 'short');
+                const transformedShorts = shortsList.map(short => ({
+                    type: short.type,
+                    id: short.id,
+                    nameshort: short.title,
+                    shortviews: `${short.views || 0} views`,
+                    thumbnail: ` ${short.thumbnail}`,
+                    createdAt: short.createdAt,
+                    description: short.description,
                 }));
 
-                // Separar entre shorts y videos largos según el campo "type"
-                const shortsList = transformed.filter(v => v.type === 'short');
-                const videosList = transformed.filter(v => v.type === 'video');
+                const videosList = data.filter(v => v.type === 'video');
+                const transformedVideos = videosList.map(video => ({
+                    type: video.type,
+                    id: video.id,
+                    title: video.title,
+                    videoviews: `${video.views || 0} views`,
+                    thumbnail: ` ${video.thumbnail}`,
+                    createdAt: video.createdAt,
+                    description: video.description,
+                }));
 
-                setShorts(shortsList);
-                setVideos(videosList);
-                console.log(shortsList);
-                console.log(videosList);
+                setShorts(transformedShorts);
+                setVideos(transformedVideos);
             } catch (error) {
                 console.error('Error fetching videos:', error);
             }

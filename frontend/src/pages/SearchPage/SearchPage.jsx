@@ -109,12 +109,13 @@ export function Search() {
               const letter = letterMatch ? letterMatch[1] : 'A';
               avatar = `/assets/images/profile/${letter}.png`;
             } else {
-              avatar = `${VITE_API_URL}${v.channel.photoUrl}`;
+              avatar = `${v.channel.photoUrl}`;
             }
           } else {
             // No photoUrl, use default image
             avatar = '/assets/images/profile/yukki.jpg';
           }
+
           return {
             id: v.id,
             thumbnail,

@@ -56,26 +56,24 @@ function VideoCard({ video }) {
     // Handle thumbnail URL properly
     let thumbnailSrc = video.thumbnail || '';
     if (thumbnailSrc && !thumbnailSrc.startsWith('http')) {
-        thumbnailSrc = `${VITE_API_URL}${thumbnailSrc}`;
+        thumbnailSrc = `${thumbnailSrc}`;
     }
 
     return (
-        // Utilizamos un div contenedor si Link no es el elemento más externo, 
-        // o envolvemos la Link si queremos que toda la tarjeta sea cliqueable.
-        // Asumiendo que quieres el número FUERA del link (como en YouTube Trending)
-
         <div className="trending-video-wrapper">
             {/* 1. NÚMERO DE POSICIÓN */}
             {/* Usamos el valor 'position' que viene del componente Trending.jsx */}
+            {video.position && (
             <div className="trending-position-number">
                 #{video.position}
             </div>
+            )}
 
             {/* 2. CARD CLICKEABLE */}
             <Link className="trending-video-card" to={`/watch/${video.id}`}>
                 {/* Reestructura el contenido dentro de Link para que el número quede fuera */}
 
-                <img src={thumbnailSrc} alt={video.title} />
+                <img src={video.thumbnail} alt={video.title} />
 
                 <div className="trending-video-info">
                     <h3>{video.title}</h3>

@@ -56,7 +56,6 @@ function Home() {
           return diff;
         });
 
-        console.log('✅ Canales ordenados por fecha:', sortedByDate.map(c => ({ name: c.name, channel_date: c.channel_date })));
         setRecentChannels(sortedByDate);
       } catch (err) {
         setError(err);

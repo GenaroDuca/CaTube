@@ -1,0 +1,98 @@
+/* ================================================
+   CATSCRIBERS PAGE STYLES
+   ================================================ */
+
+/* Empty State */
+.catscribers-empty {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    text-align: center;
+    padding: 40px;
+}
+
+.catscribers-empty h2 {
+    font-size: 2rem;
+    color: var(--text-color);
+    margin-bottom: 16px;
+}
+
+.catscribers-empty p {
+    font-size: 1.2rem;
+    color: var(--text-color-secondary);
+    opacity: 0.7;
+}
+
+/* Search Container */
+.catscribers-search-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.catscribers-search-input {
+    width: 100%;
+    padding: 12px 20px;
+    background-color: transparent;
+    color: var(--text-color);
+    border: 1px solid var(--text-color);
+    border-radius: 30px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.catscribers-search-input::placeholder {
+    color: var(--text-color);
+}
+
+.catscribers-search-input:focus {
+    border-color: var(--btn-dark);
+}
+
+/* Sections */
+.catscribers-channels-section {
+    width: 95%;
+    margin: 1rem auto;
+}
+
+
+.catscribers-section-title {
+    margin-bottom: 20px;
+}
+
+.catscribers-section-title span {
+    color: var(--btn);
+    font-size: 14px;
+}
+
+/* No Results Message */
+.catscribers-no-results {
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 1.1rem;
+    color: var(--text-color);
+    opacity: 0.7;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .catscribers-section-title {
+        font-size: 1.5rem;
+        padding-left: 12px;
+    }
+
+    .catscribers-search-container {
+        padding: 0 16px;
+    }
+
+    .catscribers-empty h2 {
+        font-size: 1.5rem;
+    }
+
+    .catscribers-empty p {
+        font-size: 1rem;
+    }
+}

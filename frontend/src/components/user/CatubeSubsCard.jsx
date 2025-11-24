@@ -105,7 +105,7 @@ export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isF
                 )}
                 <div className="ct-subsCard-info">
                     <Link to={channelUrl} className="ct-subsCard-userName">{userName}</Link>
-                    <span className="ct-subsCard-infoUserName">{formatSubscriptions(subsCount)} Catscribers</span>
+                    <Link to={channelUrl} className="ct-subsCard-infoUserName">{formatSubscriptions(subsCount)} Catscribers</Link>
                 </div>
             </header>
 

@@ -9,7 +9,7 @@
     gap: 30px;
     justify-content: space-between;
     padding: 1rem;
-    width: 350px;
+    max-width: 340px;
 }
 
 /* === Avatar e info === */
