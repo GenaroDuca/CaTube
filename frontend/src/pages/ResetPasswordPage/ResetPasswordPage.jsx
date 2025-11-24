@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Link, useNavigate } from 'react-router-dom'; 
+import { Link, useNavigate } from 'react-router-dom';
 import { useToast } from "../../hooks/useToast.jsx";
 import './ResetPasswordPage.css';
 import { VITE_API_URL } from '../../../config';
@@ -20,7 +20,7 @@ export const ResetPasswordPage = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const { showSuccess, showError } = useToast();
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     // ============================================================
     // VALIDACIONES
@@ -134,7 +134,7 @@ export const ResetPasswordPage = () => {
 
     const isFormValid = useMemo(() =>
         validatePassword(password) && validateConfirmPassword(confirmPassword)
-    , [password, confirmPassword]);
+        , [password, confirmPassword]);
 
     // ============================================================
     // RENDER
@@ -144,7 +144,7 @@ export const ResetPasswordPage = () => {
             <div style={{ textAlign: 'center' }}>
                 <img
                     style={{ width: "100px", marginTop: "-10px" }}
-                    src="../../../public/catube_white.png"
+                    src="catube_white.png"
                     alt="CaTube Logo"
                 />
                 <h1>Reset Your Password!</h1>

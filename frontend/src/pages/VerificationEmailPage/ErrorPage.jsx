@@ -11,7 +11,7 @@ const ErrorPage = () => {
 
     return (
         <div style={{ textAlign: 'center' }}>
-            <img style={{ width: "100px", marginTop: "-10px" }} src="../../../public/catube_white.png" alt="CaTube Logo" />
+            <img style={{ width: "100px", marginTop: "-10px" }} src="catube_white.png" alt="CaTube Logo" />
             <h1>Email Verification Error!</h1>
             <h2 style={{ color: '#90b484' }}>Please contact CaTube Support</h2>
             <a href="mailto:catubeapp@gmail.com">catubeapp@gmail.com</a>

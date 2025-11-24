@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const SuccessPage = () => {
   return (
     <div style={{ textAlign: 'center' }}>
-      <img style= {{ width: "100px", marginTop: "-10px"}} src= "../../../public/catube_white.png"  alt="CaTube Logo" />
+      <img style= {{ width: "100px", marginTop: "-10px"}} src= "catube_white.png"  alt="CaTube Logo" />
       <h1>Email Verified Successfully!</h1>
       <h2 style={{color: '#90b484'}}>Thank you for being part of the CaTube family</h2>
       <p >Your account is now active. You can log in and start using our application.</p>
