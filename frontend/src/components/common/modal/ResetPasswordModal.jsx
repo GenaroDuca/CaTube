@@ -21,7 +21,7 @@ const ResetPasswordModal = ({ onClose }) => {
     setIsLoading(true);
 
     try {
-      const response = await fetch(`fetc${VITE_API_URL}/auth/forgot-password`, {
+      const response = await fetch(`${VITE_API_URL}/auth/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
