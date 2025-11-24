@@ -5,6 +5,13 @@
     display: flex;
 }
 
+.right-menu h1 {
+    width: 100%;
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .container-studio {
     width: 70%;
     margin-left: 15vw;
