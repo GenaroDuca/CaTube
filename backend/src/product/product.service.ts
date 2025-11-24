@@ -5,12 +5,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
 import { Store } from 'src/store/entities/store.entity';
-import * as fs from 'fs';
-import * as path from 'path';
-import { getUploadsPath } from 'src/utils/uploads-path';
+import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { getS3Client } from 'src/aws/s3.config';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ProductService {
+  private readonly s3Client = getS3Client();
+
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
@@ -34,19 +36,21 @@ export class ProductService {
     // 3. Guardar el producto en la base de datos primero para obtener el ID.
     await this.productRepository.save(newProduct);
 
-    // 4. Si hay un archivo de imagen, guardarlo y asignar la ruta
+    // 4. Si hay un archivo de imagen, subirlo a S3
     if (file) {
-      const uploadDir = getUploadsPath('store', 'products');
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
-      }
+      const extension = file.originalname.split('.').pop();
+      const key = `products/${newProduct.product_id}_${Date.now()}.${extension}`;
 
-      const filename = `${newProduct.product_id}_${Date.now()}_${file.originalname}`;
-      const filepath = path.join(uploadDir, filename);
+      const command = new PutObjectCommand({
+        Bucket: process.env.AWS_BUCKET_NAME!,
+        Key: key,
+        Body: file.buffer,
+        ContentType: file.mimetype,
+      });
 
-      fs.writeFileSync(filepath, file.buffer);
+      await this.s3Client.send(command);
 
-      newProduct.image_url = `/uploads/store/products/${filename}`;
+      newProduct.image_url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
 
       // Guardar nuevamente con la imagen
       await this.productRepository.save(newProduct);
@@ -115,35 +119,59 @@ export class ProductService {
     // Mezclamos los datos nuevos con los existentes.
     Object.assign(productToUpdate, updateProductDto);
 
-    // Si hay un archivo de imagen, guardarlo y actualizar la ruta de la imagen
+    // Si hay un archivo de imagen, subirlo a S3
     if (file) {
-      // Guardar archivo en carpeta uploads del backend
-      const uploadDir = getUploadsPath('store', 'products');
-      if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
-      }
+      const extension = file.originalname.split('.').pop();
+      const key = `products/${id}_${Date.now()}.${extension}`;
 
-      // Si ya existe una imagen previa, eliminarla para ahorrar espacio
-      if (productToUpdate.image_url && !productToUpdate.image_url.startsWith('/assets/')) {
-        const oldFilePath = path.join(__dirname, '..', '..', productToUpdate.image_url);
-        if (fs.existsSync(oldFilePath)) {
-          fs.unlinkSync(oldFilePath);
+      const command = new PutObjectCommand({
+        Bucket: process.env.AWS_BUCKET_NAME!,
+        Key: key,
+        Body: file.buffer,
+        ContentType: file.mimetype,
+      });
+
+      await this.s3Client.send(command);
+
+      const newImageUrl = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+
+      // Si ya existe una imagen previa en S3, eliminarla
+      if (productToUpdate.image_url && productToUpdate.image_url.includes('amazonaws.com')) {
+        const oldKey = productToUpdate.image_url.split('/').pop();
+        if (oldKey) {
+          await this.s3Client.send(new DeleteObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME!,
+            Key: `products/${oldKey}`
+          }));
         }
       }
 
-      const filename = `${id}_${Date.now()}_${file.originalname}`;
-      const filepath = path.join(uploadDir, filename);
-
-      fs.writeFileSync(filepath, file.buffer);
-
-      // Actualizar la entidad con la ruta o URL de la imagen
-      productToUpdate.image_url = `/uploads/store/products/${filename}`;
+      // Actualizar la entidad con la nueva URL de la imagen
+      productToUpdate.image_url = newImageUrl;
     }
 
     return this.productRepository.save(productToUpdate);
   }
 
-  remove(id: string) {
+  async remove(id: string) {
+    // Buscar el producto para obtener la URL de la imagen
+    const product = await this.productRepository.findOne({ where: { product_id: id } });
+
+    // Eliminar imagen de S3 si existe
+    if (product?.image_url && product.image_url.includes('amazonaws.com')) {
+      try {
+        const imageKey = product.image_url.split('/').pop();
+        if (imageKey) {
+          await this.s3Client.send(new DeleteObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME!,
+            Key: `products/${imageKey}`
+          }));
+        }
+      } catch (error) {
+        console.error('Error deleting product image from S3:', error);
+      }
+    }
+
     return this.productRepository.delete(id);
   }
 
@@ -163,7 +191,22 @@ export class ProductService {
       throw new UnauthorizedException('You are not authorized to delete this product.');
     }
 
-    // 3. Si la verificación es correcta, eliminar el producto.
+    // 3. Eliminar imagen de S3 si existe
+    if (product.image_url && product.image_url.includes('amazonaws.com')) {
+      try {
+        const imageKey = product.image_url.split('/').pop();
+        if (imageKey) {
+          await this.s3Client.send(new DeleteObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME!,
+            Key: `products/${imageKey}`
+          }));
+        }
+      } catch (error) {
+        console.error('Error deleting product image from S3:', error);
+      }
+    }
+
+    // 4. Si la verificación es correcta, eliminar el producto.
     await this.productRepository.remove(product);
   }
 }

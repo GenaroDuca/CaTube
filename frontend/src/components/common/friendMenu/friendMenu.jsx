@@ -647,7 +647,7 @@ export function FriendMenu() {
                                     title="View and edit my profile"
                                     disabled={isLoading}
                                 >
-                                    Your profile
+                                    You
                                 </button>
                             )}
 

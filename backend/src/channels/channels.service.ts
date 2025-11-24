@@ -5,7 +5,7 @@ import { CreateChannelDto } from './dto-channels/create-channel.dto';
 import { Channel } from './entities/channel.entity';
 import { User } from 'src/users/entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { console } from 'inspector';
 
 @Injectable()
@@ -110,6 +110,21 @@ export class ChannelsService {
         const channel = await this.channelRepository.findOneBy({ channel_id: id });
         if (!channel) throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
 
+        // Eliminar banner anterior de S3 si existe
+        if (channel.bannerUrl && channel.bannerUrl.includes('amazonaws.com')) {
+            try {
+                const oldKey = channel.bannerUrl.split('.com/')[1];
+                if (oldKey) {
+                    await this.s3.send(new DeleteObjectCommand({
+                        Bucket: process.env.AWS_BUCKET_NAME!,
+                        Key: oldKey
+                    }));
+                }
+            } catch (error) {
+                console.error('Error deleting old banner from S3:', error);
+            }
+        }
+
         const bannerUrl = await this.uploadToS3(file, 'banners');
         channel.bannerUrl = bannerUrl;
 
@@ -122,6 +137,21 @@ export class ChannelsService {
         const channel = await this.channelRepository.findOneBy({ channel_id: id });
         if (!channel) throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
 
+        // Eliminar foto anterior de S3 si existe
+        if (channel.photoUrl && channel.photoUrl.includes('amazonaws.com')) {
+            try {
+                const oldKey = channel.photoUrl.split('.com/')[1];
+                if (oldKey) {
+                    await this.s3.send(new DeleteObjectCommand({
+                        Bucket: process.env.AWS_BUCKET_NAME!,
+                        Key: oldKey
+                    }));
+                }
+            } catch (error) {
+                console.error('Error deleting old photo from S3:', error);
+            }
+        }
+
         const photoUrl = await this.uploadToS3(file, 'profile');
         channel.photoUrl = photoUrl;
         console.log('Foto de perfil actualizada en DB:', photoUrl);
@@ -131,6 +161,22 @@ export class ChannelsService {
 
     async setDefaultPhoto(id: string): Promise<Channel> {
         const channel = await this.findOneById(id);
+
+        // Eliminar foto anterior de S3 si existe
+        if (channel.photoUrl && channel.photoUrl.includes('amazonaws.com')) {
+            try {
+                const oldKey = channel.photoUrl.split('.com/')[1];
+                if (oldKey) {
+                    await this.s3.send(new DeleteObjectCommand({
+                        Bucket: process.env.AWS_BUCKET_NAME!,
+                        Key: oldKey
+                    }));
+                }
+            } catch (error) {
+                console.error('Error deleting old photo from S3:', error);
+            }
+        }
+
         const firstLetter = channel.channel_name.charAt(0).toUpperCase();
         channel.photoUrl = `/assets/images/profile/${firstLetter}.png`;
         return this.channelRepository.save(channel);
@@ -138,6 +184,22 @@ export class ChannelsService {
 
     async setDefaultBanner(id: string): Promise<Channel> {
         const channel = await this.findOneById(id);
+
+        // Eliminar banner anterior de S3 si existe
+        if (channel.bannerUrl && channel.bannerUrl.includes('amazonaws.com')) {
+            try {
+                const oldKey = channel.bannerUrl.split('.com/')[1];
+                if (oldKey) {
+                    await this.s3.send(new DeleteObjectCommand({
+                        Bucket: process.env.AWS_BUCKET_NAME!,
+                        Key: oldKey
+                    }));
+                }
+            } catch (error) {
+                console.error('Error deleting old banner from S3:', error);
+            }
+        }
+
         channel.bannerUrl = `/assets/images/studio_media/catube-pc.png`;
         return this.channelRepository.save(channel);
     }

@@ -29,7 +29,7 @@ a {
   border-radius: 30px;
 }
 
-.carousel-container a{
+.carousel-container a {
   height: 100%;
 }
 
@@ -43,7 +43,7 @@ a {
   justify-content: space-between;
 }
 
-.short-card div{
+.short-card div {
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -190,7 +190,7 @@ a {
 }
 
 .recommendations-container img {
-  width: 100% ; 
+  width: 100%;
 }
 
 .video-card {
@@ -254,7 +254,9 @@ a {
 }
 
 @media (max-width: 768px) {
-  .short-card div, .video-card div {
+
+  .short-card div,
+  .video-card div {
     flex-direction: column;
   }
 
@@ -309,7 +311,7 @@ a {
   }
 
   .short {
-    width: 100px;
+    width: 100px !important;
     height: 160px;
     margin-top: 10px;
   }

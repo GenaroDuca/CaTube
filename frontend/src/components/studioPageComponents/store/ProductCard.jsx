@@ -27,7 +27,7 @@ const ProductCard = ({
     
     // Construye la URL de la imagen
     const imageUrl = product.image_url
-        ? `${VITE_API_URL}${product.image_url}`
+        ? `${product.image_url}`
         : "/default-image.png";
 
     return (

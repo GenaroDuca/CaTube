@@ -98,7 +98,7 @@ export class VideosService {
 
       // 70% - Subiendo Video a S3
       const videoExtension = videoFile.originalname.split('.').pop();
-      const videoKey = `${uuidv4()}_${Date.now()}.${videoExtension}`;
+      const videoKey = `videos/${uuidv4()}_${Date.now()}.${videoExtension}`;
 
       const videoCommand = new PutObjectCommand({
         Bucket: process.env.AWS_BUCKET_NAME!,
@@ -117,7 +117,7 @@ export class VideosService {
       const thumbnailFile = files.find(file => file.mimetype.startsWith('image/'));
       if (thumbnailFile) {
         const thumbExtension = thumbnailFile.originalname.split('.').pop();
-        const thumbKey = `${uuidv4()}_${Date.now()}.${thumbExtension}`;
+        const thumbKey = `thumbnails/${uuidv4()}_${Date.now()}.${thumbExtension}`;
 
         const thumbCommand = new PutObjectCommand({
           Bucket: process.env.AWS_BUCKET_NAME!,
@@ -187,7 +187,7 @@ export class VideosService {
         throw new InternalServerErrorException('File must be an image');
 
       const extension = thumbnailFile.originalname.split('.').pop();
-      const key = `${uuidv4()}_${Date.now()}.${extension}`;
+      const key = `thumbnails/${uuidv4()}_${Date.now()}.${extension}`;
 
       try {
         const command = new PutObjectCommand({
@@ -204,7 +204,10 @@ export class VideosService {
         // borrar thumbnail anterior
         if (video.thumbnail) {
           const oldKey = video.thumbnail.split('/').pop();
-          await this.s3Client.send(new DeleteObjectCommand({ Bucket: process.env.AWS_BUCKET_NAME!, Key: oldKey }));
+          await this.s3Client.send(new DeleteObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME!,
+            Key: `thumbnails/${oldKey}`
+          }));
         }
 
       } catch (err) {
@@ -402,6 +405,36 @@ export class VideosService {
 
     if (video.channel.channel_id !== user.channel.channel_id) {
       throw new ForbiddenException('You cannot delete this video');
+    }
+
+    // Eliminar video de S3
+    if (video.url) {
+      try {
+        const videoKey = video.url.split('/').pop();
+        if (videoKey) {
+          await this.s3Client.send(new DeleteObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME!,
+            Key: `videos/${videoKey}`
+          }));
+        }
+      } catch (error) {
+        console.error('Error deleting video from S3:', error);
+      }
+    }
+
+    // Eliminar thumbnail de S3
+    if (video.thumbnail) {
+      try {
+        const thumbnailKey = video.thumbnail.split('/').pop();
+        if (thumbnailKey) {
+          await this.s3Client.send(new DeleteObjectCommand({
+            Bucket: process.env.AWS_BUCKET_NAME!,
+            Key: `thumbnails/${thumbnailKey}`
+          }));
+        }
+      } catch (error) {
+        console.error('Error deleting thumbnail from S3:', error);
+      }
     }
 
     await this.videoRepository.remove(video);
