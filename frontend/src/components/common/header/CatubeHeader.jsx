@@ -81,7 +81,7 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
 
         recognition.onend = () => {
             setIsListening(false);
-            setPlaceholder("Buscar...");
+            setPlaceholder("Search...");
             let cleanedTranscript = finalSearchTranscript.trim();
             cleanedTranscript = cleanedTranscript.replace(/\.$/, '');
             if (cleanedTranscript) {
