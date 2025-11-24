@@ -35,109 +35,136 @@ export class VideosService {
   }
 
   // ======================================================
-  // CREATE VIDEO (COMPLETAMENTE CORREGIDO Y ROBUSTO)
+  // CREATE VIDEO (JOB INITIATION)
   // ======================================================
-  async create(createVideoDto: CreateVideoDto, userId: string, files: Express.Multer.File[]) {
+  async create(createVideoDto: CreateVideoDto, userId: string) {
+    const user = await this.userService.findOneById(userId);
+    if (!user) throw new NotFoundException(`User with ID ${userId} not found`);
+
+    const channel = user.channel;
+    if (!channel) throw new NotFoundException(`Channel not found for user ${userId}`);
+
+    // Create initial video record
+    const newVideo = this.videoRepository.create({
+      ...createVideoDto,
+      channel,
+      status: 'processing',
+      processingProgress: 0,
+      url: '', // Placeholder
+      thumbnail: '', // Placeholder
+      duration: 0,
+      type: 'video' // Default
+    });
+
+    await this.videoRepository.save(newVideo);
+    console.log(`LOG: Job creado para video ID ${newVideo.id}`);
+
+    return newVideo;
+  }
+
+  // ======================================================
+  // PROCESS VIDEO (BACKGROUND TASK)
+  // ======================================================
+  async processVideo(videoId: string, files: Express.Multer.File[]) {
+    console.log(`LOG: Iniciando procesamiento de fondo para video ${videoId}`);
     try {
-      console.log('LOG: Iniciando proceso de creación para usuario ID:', userId);
-
-      // 1. Validar Usuario y Canal
-      const user = await this.userService.findOneById(userId);
-      if (!user) {
-        console.warn(`WARN: Usuario ID ${userId} no encontrado.`);
-        throw new NotFoundException(`User with ID ${userId} not found`);
-      }
-      const channel = user.channel;
-      if (!channel) {
-        console.warn(`WARN: Canal no encontrado para usuario ID ${userId}.`);
-        throw new NotFoundException(`Channel not found for user ${userId}`);
+      const video = await this.videoRepository.findOne({ where: { id: videoId } });
+      if (!video) {
+        console.error(`ERROR: Video ${videoId} no encontrado para procesar.`);
+        return;
       }
 
-      if (!files || files.length === 0) {
-        console.error('ERROR: No se subieron archivos.');
-        throw new InternalServerErrorException('No files uploaded');
-      }
+      // 10% - Iniciado
+      video.processingProgress = 10;
+      await this.videoRepository.save(video);
 
-      // 2. Encontrar archivo de video y obtener su duración
       const videoFile = files.find(file => file.mimetype.startsWith('video/'));
       if (!videoFile) {
-        console.error('ERROR: Archivo de video requerido no encontrado.');
-        throw new InternalServerErrorException('Video file is required');
+        throw new Error('No video file found');
       }
 
-      let duration: number;
+      // 30% - Analizando duración
+      let duration = 61;
       try {
-        // Intenta obtener la duración
         duration = await this.getVideoDurationFromBuffer(videoFile.buffer, videoFile.mimetype);
-        console.log(`LOG: Duración detectada para el video: ${duration} segundos.`);
       } catch (error) {
-        console.error('ERROR: FFPROBE falló (SIGSEGV/timeout probable). Usando duración de fallback.', error);
-        // Si FFPROBE falla, usamos 61 segundos para forzar la clasificación como 'video'
-        duration = 61;
+        console.error('FFPROBE error, using fallback duration', error);
       }
 
-      // 3. Crear Entidad Video
-      // Aseguramos que si la duración detectada es 0 (ej. archivo corrupto), usamos 61 para evitar ser un 'short'
-      if (duration === 0) duration = 61;
+      video.duration = duration === 0 ? 61 : duration;
+      video.type = video.duration <= 60 ? 'short' : 'video';
+      video.processingProgress = 30;
+      await this.videoRepository.save(video);
 
-      const type = duration <= 60 ? 'short' : 'video';
-      console.log(`LOG: El video se clasificará como: ${type}.`);
+      // 70% - Subiendo Video a S3
+      const videoExtension = videoFile.originalname.split('.').pop();
+      const videoKey = `${uuidv4()}_${Date.now()}.${videoExtension}`;
 
-      const newVideo = this.videoRepository.create({
-        ...createVideoDto,
-        channel,
-        duration: duration,
-        type: type, // Clasificación corregida
+      const videoCommand = new PutObjectCommand({
+        Bucket: process.env.AWS_BUCKET_NAME!,
+        Key: videoKey,
+        Body: videoFile.buffer,
+        ContentType: videoFile.mimetype,
       });
 
-      // 4. Subir archivos a S3
-      for (const file of files) {
-        const extension = file.originalname.split('.').pop();
-        const key = `${uuidv4()}_${Date.now()}.${extension}`;
+      await this.s3Client.send(videoCommand);
+      video.url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${videoKey}`;
 
-        try {
-          const command = new PutObjectCommand({
-            Bucket: process.env.AWS_BUCKET_NAME!,
-            Key: key,
-            Body: file.buffer,
-            ContentType: file.mimetype,
-          });
+      video.processingProgress = 70;
+      await this.videoRepository.save(video);
 
-          await this.s3Client.send(command);
-          const url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+      // 90% - Subiendo Thumbnail (si existe)
+      const thumbnailFile = files.find(file => file.mimetype.startsWith('image/'));
+      if (thumbnailFile) {
+        const thumbExtension = thumbnailFile.originalname.split('.').pop();
+        const thumbKey = `${uuidv4()}_${Date.now()}.${thumbExtension}`;
 
-          if (file.mimetype.startsWith('image/')) {
-            newVideo.thumbnail = url;
-            console.log('LOG: Thumbnail subido y URL guardada.');
-          } else if (file.mimetype.startsWith('video/')) {
-            newVideo.url = url;
-            console.log('LOG: Video subido y URL guardada.');
-          }
-        } catch (err) {
-          console.error('ERROR FATAL: Fallo al subir archivo a S3.', err);
-          // Lanza una excepción HTTP para que NestJS la capture
-          throw new InternalServerErrorException('Failed to upload file to S3');
-        }
+        const thumbCommand = new PutObjectCommand({
+          Bucket: process.env.AWS_BUCKET_NAME!,
+          Key: thumbKey,
+          Body: thumbnailFile.buffer,
+          ContentType: thumbnailFile.mimetype,
+        });
+
+        await this.s3Client.send(thumbCommand);
+        video.thumbnail = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${thumbKey}`;
       }
 
-      // 5. Guardar en Base de Datos
-      await this.videoRepository.save(newVideo);
-      console.log(`LOG: Video ID ${newVideo.id} guardado exitosamente en DB.`);
+      video.processingProgress = 90;
+      await this.videoRepository.save(video);
 
-      const link = newVideo.type === 'short' ? `/shorts/${newVideo.id}` : `/watch/${newVideo.id}`;
-      return { ...newVideo, link };
+      // 100% - Completado
+      video.status = 'completed';
+      video.processingProgress = 100;
+      await this.videoRepository.save(video);
+
+      console.log(`LOG: Procesamiento completado para video ${videoId}`);
 
     } catch (error) {
-      // Este bloque garantiza que CUALQUIER error se propague como una Excepción HTTP
-      console.error('ERROR: Fallo catastrófico en VideosService.create.', error);
-
-      // Si ya es una excepción HTTP controlada (NotFoundException, etc.), la relanzamos.
-      if (error.status) {
-        throw error;
-      }
-      // Si es una excepción no controlada (ej. error de TypeORM, u otra excepción de Node.js), la transformamos.
-      throw new InternalServerErrorException('An unexpected error occurred during video creation.');
+      console.error(`ERROR: Fallo procesando video ${videoId}`, error);
+      await this.videoRepository.update(videoId, {
+        status: 'failed',
+        processingProgress: 0
+      });
     }
+  }
+
+  async getJobStatus(id: string) {
+    const video = await this.videoRepository.findOne({
+      where: { id },
+      select: ['status', 'processingProgress', 'type', 'id']
+    });
+    if (!video) throw new NotFoundException('Video not found');
+
+    // Si está completado, devolvemos también el link para redirección
+    const link = video.type === 'short' ? `/shorts/${video.id}` : `/watch/${video.id}`;
+
+    return {
+      status: video.status,
+      progress: video.processingProgress,
+      videoId: video.id,
+      link: link
+    };
   }
 
   // ======================================================
@@ -281,17 +308,56 @@ export class VideosService {
   }
 
   async findAllByChannel(userId: string) {
+    // 1. Verificar Usuario y Canal
     const user = await this.userService.findOneById(userId);
-    if (!user) throw new NotFoundException(`User with ${userId} not found`);
+    if (!user) {
+      throw new NotFoundException(`User with ${userId} not found`);
+    }
 
     const channel = user.channel;
-    if (!channel) throw new NotFoundException(`Channel not found for user ${userId}`);
+    if (!channel) {
+      throw new NotFoundException(`Channel not found for user ${userId}`);
+    }
 
-    return this.videoRepository.find({
-      where: { channel: { channel_id: channel.channel_id } },
-      relations: ['channel', 'tags'],
+    const channelId = channel.channel_id;
+
+    const countsResult = await this.videoRepository.createQueryBuilder("video")
+      // Joins para Likes y Comentarios
+      .leftJoin("video.likes", "like")
+      .leftJoin("video.comments", "comment")
+
+      // Seleccionar el ID del video y los conteos calculados
+      .select("video.id", "video_id")
+      .addSelect("COUNT(DISTINCT like.id)", "likeCount")
+      .addSelect("COUNT(DISTINCT comment.id)", "commentCount")
+
+      // Filtrar y agrupar solo por el video
+      .where("video.channel_id = :channelId", { channelId: channelId })
+      .groupBy("video.id")
+      .getRawMany();
+
+    // 3. Mapear los Conteos para Búsqueda Rápida
+    const countsMap = countsResult.reduce((map, item) => {
+      // Usamos el alias simple 'likeCount' y 'commentCount' de la consulta
+      map[item.video_id] = {
+        likes: parseInt(item.likeCount || '0', 10),
+        comments: parseInt(item.commentCount || '0', 10)
+      };
+      return map;
+    }, {});
+
+    // 4.Obtener Videos con Relaciones (sin conflictos de agrupación)
+    const videos = await this.videoRepository.find({
+      where: { channel: { channel_id: channelId } },
+      relations: ['channel', 'tags'], // Carga tags y canal
       order: { createdAt: 'DESC' },
     });
+
+    return videos.map(video => ({
+      ...video,
+      video_likeCount: countsMap[video.id]?.likes ?? 0,
+      video_commentCount: countsMap[video.id]?.comments ?? 0,
+    }));
   }
 
   async getVideosByTag(tag: string) {

@@ -33,7 +33,6 @@ export class VideosController {
     { name: 'thumbnail', maxCount: 1 },
     { name: 'video', maxCount: 1 },
   ], {
-    // Usamos memoryStorage para tener el buffer disponible en el servicio
     storage: multer.memoryStorage()
   }))
   async create(
@@ -47,14 +46,31 @@ export class VideosController {
     console.log('LOG: Petición /videos/create recibida.');
     const userId = req.user.id;
 
-    // Unificar todos los archivos en un solo array para simplificar el envío al servicio
     const allFiles: Express.Multer.File[] = [
       ...(files.thumbnail ?? []),
       ...(files.video ?? [])
     ];
 
-    // El Service manejará la lógica y los errores. Usamos await.
-    return this.videosService.create(createVideoDto, userId, allFiles);
+    // 1. Crear el Job (rápido, solo DB)
+    const video = await this.videosService.create(createVideoDto, userId);
+
+    // 2. Iniciar procesamiento en segundo plano (fire and forget)
+    this.videosService.processVideo(video.id, allFiles).catch(err => {
+      console.error('Background processing error:', err);
+    });
+
+    // 3. Responder inmediatamente con 202 Accepted
+    return {
+      statusCode: 202,
+      message: 'Upload started',
+      jobId: video.id,
+      status: video.status
+    };
+  }
+
+  @Get('status/:jobId')
+  async getStatus(@Param('jobId') jobId: string) {
+    return this.videosService.getJobStatus(jobId);
   }
 
   // Visitas inclementales
@@ -113,8 +129,6 @@ export class VideosController {
     return this.videosService.findAllByChannelId(channelId);
   }
 
-
-
   // Update a video by its ID
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
@@ -133,19 +147,6 @@ export class VideosController {
       if (!req.user || !req.user.id) {
         throw new ForbiddenException('Usuario no autenticado');
       }
-
-      // console.log('Update video request:', {
-      //   id,
-      //   dto: updateVideoDto,
-      //   userId: req.user.id,
-      //   hasFiles: !!files?.thumbnail?.length,
-      //   fileInfo: files?.thumbnail?.[0] ? {
-      //     fieldname: files.thumbnail[0].fieldname,
-      //     originalname: files.thumbnail[0].originalname,
-      //     mimetype: files.thumbnail[0].mimetype,
-      //     size: files.thumbnail[0].size
-      //   } : null
-      // });
 
       // Obtener el video con todas las relaciones y validar propiedad
       const video = await this.videosService.findOneById(id);

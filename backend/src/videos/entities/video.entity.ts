@@ -40,12 +40,17 @@ export class Video {
   @Column({ default: 0 })
   views: number;
 
-  // COLUMNA AÑADIDA PARA SOLUCIONAR EL ERROR DE 'DURATION'
   @Column({ type: 'float', default: 0 })
   duration: number;
 
   @Column({ default: 'video' })
   type: string; // 'video' or 'short'
+
+  @Column({ default: 'processing' })
+  status: string;
+
+  @Column({ type: 'int', default: 0 })
+  processingProgress: number;
 
   //Relación con canal
   @ManyToOne(() => Channel, channel => channel.videos, { onDelete: 'CASCADE' })
