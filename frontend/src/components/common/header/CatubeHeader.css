@@ -178,6 +178,10 @@
     padding: 8px;
 }
 
+.sr-header-back-button:hover {
+    color: var(--btn);
+}
+
 @media (max-width:835px) {
 
         .sr-header-input {
