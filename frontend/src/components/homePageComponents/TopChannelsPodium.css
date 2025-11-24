@@ -6,14 +6,10 @@
 
 .podium-title {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 700;
     margin-bottom: 20px;
-    background: linear-gradient(135deg, #ffd700, #ffed4e);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 4px 6px rgba(255, 215, 0, 0.3);
+    color: var(--text-color);
 }
 
 .podium-wrapper {

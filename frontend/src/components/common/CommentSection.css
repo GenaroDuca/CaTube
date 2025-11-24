@@ -5,7 +5,7 @@
     flex-direction: column;
 }
 
-.comment-channel-link{
+.comment-channel-link {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -26,16 +26,19 @@
     background-color: var(--background-color);
     border-radius: var(--border-radius);
     margin-bottom: 20px;
+
     input {
         width: 90%;
         border: none;
         background: transparent;
         color: var(--text-color);
         font-size: var(--font-size);
+
         &:focus {
             outline: none;
         }
     }
+
     button {
         display: flex;
         justify-content: center;
@@ -51,7 +54,8 @@
 
 
 
-.video-add-comment-input, .reply-input {
+.video-add-comment-input,
+.reply-input {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -60,16 +64,19 @@
     background-color: var(--primary-color);
     border-radius: var(--border-radius);
     margin-bottom: 20px;
+
     input {
         width: 90%;
         border: none;
         background: transparent;
         color: var(--text-color);
         font-size: var(--font-size);
+
         &:focus {
             outline: none;
         }
     }
+
     button {
         display: flex;
         justify-content: center;
@@ -84,9 +91,10 @@
 
 .reply-input {
     width: 80%;
+
     button {
         padding: 4px;
-    }   
+    }
 }
 
 .toggle-replies-btn,
@@ -124,12 +132,14 @@
 .comments-list {
     flex: 1;
     overflow-y: auto;
-    padding-right: 4px;   
+    padding-right: 4px;
+
     button {
         background: none;
         border: none;
         color: var(--text);
         cursor: pointer;
+
         &:hover {
             color: var(--btn);
         }
@@ -141,6 +151,31 @@
         justify-content: flex-end;
         gap: 8px;
     }
+}
+
+.comments-drawer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close-drawer-btn {
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.close-drawer-btn:hover {
+    color: var(--btn);
+}
+
+.comments-drawer.open .add-comment-input {
+    background-color: var(--primary-color);
+
+}
+
+.comments-drawer.open .comment {
+    background-color: var(--primary-color);
 }
 
 .comment {
@@ -187,6 +222,7 @@
         color: var(--text-color);
         font-size: var(--font-size);
         border-radius: var(--border-radius);
+
         &:focus {
             outline: none;
         }
@@ -202,6 +238,7 @@
         color: var(--text-color);
         font-size: var(--font-size);
         border-radius: var(--border-radius);
+
         &:focus {
             outline: none;
         }
