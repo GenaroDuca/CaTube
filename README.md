@@ -159,6 +159,7 @@
     npm install resend
     npm install aws-sdk @nestjs/platform-express multer multer-s3
     npm install @aws-sdk/client-s3 @aws-sdk/s3-request-presigner
+    npm install date-fns
 
 ## Crear proyecto React con Vite
     npm create vite@latest
