@@ -161,6 +161,22 @@ export default function ShortPage() {
     setMaximizedId((prev) => (prev === shortId ? null : shortId));
   };
 
+  // Bloquear el scroll cuando se maximiza un short
+  useEffect(() => {
+    if (maximizedId) {
+      // Bloquear scroll
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Restaurar scroll
+      document.body.style.overflow = 'auto';
+    }
+
+    // Cleanup: Asegurar que el scroll se restaura al desmontar el componente
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [maximizedId]);
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
 

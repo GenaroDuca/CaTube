@@ -293,6 +293,10 @@
         width: 100%;
     }
 
+    .btn-maximize {
+        display: none;
+    }
+
     .short-action-buttons-container {
         margin-left: -100px;
         z-index: 4;

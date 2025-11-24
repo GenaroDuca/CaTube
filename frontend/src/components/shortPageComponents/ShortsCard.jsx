@@ -30,31 +30,6 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
   const [commentCount, setCommentCount] = useState(short.comments || 0);
   const [showComments, setShowComments] = useState(false);
 
-  // --- LÓGICA DE VISIBILIDAD PARA NOTIFICAR AL PADRE (Se mantiene igual) ---
-
-  useEffect(() => {
-    const v = videoRef.current;
-    if (!v) return;
-
-    v.volume = volume;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && entry.intersectionRatio > 0.6) {
-          onVideoActive(short.id);
-        }
-      },
-      { threshold: 0.6 }
-    );
-
-    observer.observe(v);
-    return () => {
-      observer.unobserve(v);
-      if (v && !v.paused) v.pause();
-    };
-  }, [short.id, onVideoActive]);
-
-  // --- 🚨 LÓGICA DE REPRODUCCIÓN (Corrección para garantizar play) 🚨 ---
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -179,7 +154,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
   // --- FIN DE LÓGICA DE SUBSCRIPCIÓN ---
 
 
-  // --- MANEJO DE CONTROLES (Se mantiene igual) ---
+  // --- MANEJO DE CONTROLES (Modificado: handlePlayPauseChange ahora solo se usa en togglePlay si es necesario) ---
   function togglePlay() {
     const v = videoRef.current
     if (!v) return
@@ -190,17 +165,22 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
         setMuted(false);
       }
 
-      v.play().catch((e) => console.error(e))
+      v.play().then(() => setPaused(false)).catch((e) => console.error(e))
     } else {
       v.pause()
+      setPaused(true)
     }
   }
 
+  /*
+  // La función handlePlayPauseChange ha sido reemplazada en togglePlay 
+  // y eliminada de los eventos del <video> para evitar el bucle.
   function handlePlayPauseChange() {
     const v = videoRef.current
     if (!v) return
-    setPaused(v.paused)
+    setPaused(v.paused) // ESTO CAUSABA EL BUCLE AL DISPARARSE POR ONPLAY/ONPAUSE DEL VIDEO
   }
+  */
 
   function toggleMute() {
     const v = videoRef.current
@@ -259,9 +239,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
                 preload="metadata" // Ayuda a que loadedmetadata se dispare rápido
                 muted={muted}
                 loop
-                onPlay={handlePlayPauseChange}
-                onPause={handlePlayPauseChange}
-                onVolumeChange={handlePlayPauseChange}
+              // SE ELIMINARON onPlay, onPause y onVolumeChange para evitar el bucle de estado
               />
             </div>
 
@@ -321,9 +299,6 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
           <div className='short-action-buttons-container'>
 
             <div className="container-play-vol">
-              <button type="button" id="maximize" className="action-button btn-maximize" onClick={(e) => { e.stopPropagation(); onToggleMaximize(); }}>
-                {isMaximized ? <FiMinimize2 size={25} /> : <FiMaximize2 size={25} />}
-              </button>
               <button
                 type="button"
                 id="playPauseBtn"

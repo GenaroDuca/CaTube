@@ -13,11 +13,15 @@ import { VITE_API_URL } from '../../../config';
 import Container from '../../components/common/Container.jsx'
 import Subtitle from '../../components/homePageComponents/Subtitle.jsx'
 import Video from '../../components/homePageComponents/Video.jsx'
+import Short from '../../components/homePageComponents/Short.jsx'
 import { Link } from 'react-router-dom';
+import SectionsCarousel from "../../components/homePageComponents/SectionsCarousel.jsx";
+
 
 function Catscribers() {
     const [subscribedChannels, setSubscribedChannels] = useState([]);
     const [subscribedVideos, setSubscribedVideos] = useState([]);
+    const [subscribedShorts, setSubscribedShorts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const token = getAuthToken();
@@ -50,8 +54,6 @@ function Catscribers() {
 
                 const subscriptions = await subsResponse.json();
                 const subscribedChannelIds = subscriptions.map(sub => sub.channel_id);
-
-                console.log('Subscribed channel IDs:', subscribedChannelIds);
 
                 // 2. Obtener todos los canales y filtrar los suscritos
                 const channelsResponse = await fetch(`${VITE_API_URL}/channels`);
@@ -142,6 +144,29 @@ function Catscribers() {
                     setSubscribedVideos(subscribedVideosData);
                 }
 
+                // 4. Obtener todos los shorts y filtrar los de canales suscritos
+                const shortsResponse = await fetch(`${VITE_API_URL}/videos/shorts`, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        ...(token && { 'Authorization': `Bearer ${token}` })
+                    },
+                });
+
+                if (shortsResponse.ok) {
+                    const allShorts = await shortsResponse.json();
+                    const subscribedShortsData = allShorts
+                        .filter(short => subscribedChannelIds.includes(short.channel?.channel_id))
+                        .map(short => ({
+                            id: short.id,
+                            thumbnail: short.thumbnail,
+                            nameshort: short.title,
+                            shortviews: `${short.views || 0} views`,
+                            createdAt: short.createdAt,
+                            userName: short.channel?.channel_name || 'Unknown'
+                        }));
+                    setSubscribedShorts(subscribedShortsData);
+                }
+
             } catch (error) {
                 console.error('Error fetching subscribed content:', error);
             } finally {
@@ -165,6 +190,12 @@ function Catscribers() {
     const filteredVideos = subscribedVideos.filter(video =>
         video.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         video.userName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    // Filtrar shorts por búsqueda
+    const filteredShorts = subscribedShorts.filter(short =>
+        short.nameshort.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        short.userName.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     if (loading) {
@@ -195,7 +226,7 @@ function Catscribers() {
         );
     }
 
-    if (subscribedChannels.length === 0) {
+    if (subscribedChannels.length === 0 && subscribedVideos.length === 0 && subscribedShorts.length === 0 && !searchQuery) {
         return (
             <>
                 <Header />
@@ -233,7 +264,31 @@ function Catscribers() {
                     {filteredChannels.length > 0 ? (
                         <ChannelList channels={filteredChannels} />
                     ) : (
-                        <p className="catscribers-no-results">No channels found matching "{searchQuery}"</p>
+                        <p className="catscribers-no-results">
+                            {searchQuery
+                                ? `No channels found matching "${searchQuery}"`
+                                : 'No channels available from your subscribed channels.'}
+                        </p>
+                    )}
+                </section>
+
+                {/* Shorts de canales suscritos */}
+                <section className="catscribers-shorts-section">
+                    {filteredShorts.length > 0 ? (
+                        <SectionsCarousel
+                            section="trending-shorts"
+                            subtitle="Shorts"
+                            ref={filteredShorts}
+                            render={filteredShorts}
+                            type="short"
+                            cts="carousel-ctshorts"
+                        />
+                    ) : (
+                        <p className="catscribers-no-results">
+                            {searchQuery
+                                ? `No shorts found matching "${searchQuery}"`
+                                : 'No shorts available from your subscribed channels.'}
+                        </p>
                     )}
                 </section>
 
@@ -241,7 +296,7 @@ function Catscribers() {
                 <section className="catscribers-videos-section">
                     {filteredVideos.length > 0 ? (
                         <Container className="VideoContainer">
-                            <Subtitle subtitle="Latest from your Catscriptions" />
+                            <Subtitle subtitle="Videos" />
                             <Container className="recommendations-container">
                                 {filteredVideos.map((video, index) => (
                                     <Link to={`/watch/${video.id}`} key={video.id || index}>
@@ -255,10 +310,9 @@ function Catscribers() {
                                 ))}
                             </Container>
                         </Container>
-                        // <VideoList videos={filteredVideos} />
                     ) : (
                         <p className="catscribers-no-results">
-                            {searchQuery ? `No videos found matching "${searchQuery}"` : 'No videos available from your subscribed channels'}
+                            {searchQuery ? `No videos found matching "${searchQuery}"` : 'No videos available from your subscribed channels.'}
                         </p>
                     )}
                 </section>
