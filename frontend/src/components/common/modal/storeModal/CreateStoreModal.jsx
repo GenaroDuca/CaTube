@@ -53,6 +53,7 @@ async function createStoreSolo(storeData) {
 // CONSTANTE DE LÍMITE DE CARACTERES
 // ----------------------------------------------------------------------
 const MAX_DESCRIPTION_LENGTH = 255;
+const MAX_TITLE_LENGTH = 60;
 
 /**
  * Modal para la creación de una nueva tienda.
@@ -147,22 +148,26 @@ const CreateStoreModal = ({ onClose, onCreate }) => {
                                 onChange={(e) => setStoreName(e.target.value)}
                                 disabled={loading}
                                 required
+                                maxLength={MAX_TITLE_LENGTH}
                             />
+                            <div className="description-counter" style={{ width: '100%', textAlign: 'right', marginTop: '-20px' }}>
+                                {storeName.length} / {MAX_TITLE_LENGTH}
+                            </div>
 
                             <label htmlFor="store-description-input"><h2>Store Description</h2></label>
                             <textarea
                                 id="store-description-input"
                                 placeholder="Enter your store description (Optional)"
                                 value={storeDescription}
-                                onChange={handleDescriptionChange} // Usamos la nueva función
+                                onChange={handleDescriptionChange}
                                 disabled={loading}
-                                maxLength={MAX_DESCRIPTION_LENGTH} // Atributo HTML para accesibilidad
+                                maxLength={MAX_DESCRIPTION_LENGTH}
                             />
 
                             {/* SPAN DE CONTADOR DE CARACTERES */}
-                            <span className="char-counter" style={{ display: 'block', textAlign: 'right', fontSize: '0.8rem',  marginTop: '-20px', color: storeDescription.length === MAX_DESCRIPTION_LENGTH ? '#e96765' : 'var(--text-color)' }}>
-                                {storeDescription.length}/{MAX_DESCRIPTION_LENGTH}
-                            </span>
+                            <div className="description-counter" style={{ width: '100%', textAlign: 'right', marginTop: '-20px' }}>
+                                {storeDescription.length} / {MAX_DESCRIPTION_LENGTH}
+                            </div>
                             {/* FIN SPAN DE CONTADOR DE CARACTERES */}
 
 

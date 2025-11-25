@@ -78,7 +78,11 @@ function VideoCommunity() {
                         </Container>
                         <Container className="video">
                             <Link to={comment.videoType === 'short' ? `/shorts/${comment.videoId}` : `/watch/${comment.videoId}`}>
-                                <img className="video-commented-community" src={`${comment.videoThumbnail}`} alt="Video thumbnail" />
+                                <img
+                                    className={comment.videoType === 'short' ? 'video-commented-community short' : 'video-commented-community'}
+                                    src={comment.videoThumbnail}
+                                    alt={comment.videoTitle}
+                                />
                             </Link>
                             <p>{comment.title}</p>
                         </Container>

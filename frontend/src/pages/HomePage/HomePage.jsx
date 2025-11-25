@@ -212,7 +212,7 @@ function Home() {
               ))}
             </div>
           </div>
-          <Footer footer="footer" ></Footer>
+          {/* <Footer footer="footer" ></Footer> */}
         </main>
       </>
     );
@@ -239,7 +239,7 @@ function Home() {
 
         {/* <Ads /> */}
 
-        <Footer footer="footer" ></Footer>
+        {/* <Footer footer="footer" ></Footer> */}
       </main>
     </>
   )

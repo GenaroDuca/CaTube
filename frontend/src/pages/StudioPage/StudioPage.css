@@ -109,6 +109,12 @@
     border-radius: 15px;
 }
 
+.latest-video.short {
+    width: 200px;
+    height: 360px;
+    border-radius: 15px;
+}
+
 .user {
     width: 70%;
 }
@@ -529,6 +535,17 @@
     width: 175px;
     height: 100px;
     border-radius: 20px;
+}
+
+.video-commented-community.short {
+    width: 120px;
+    height: 200px;
+    border-radius: 20px;
+}
+
+.thumbnail-preview-short {
+    width: 120px !important;
+    height: 200px;
 }
 
 .earn-options,
@@ -1155,12 +1172,11 @@
     height: 50px;
     object-fit: cover;
     border-radius: 50%;
-    margin-left: 20px;
 }
 
 .video-commented-dashboard {
     width: 100px;
     height: auto;
-    border-radius: 10px;
-    margin-right: 20px;
+    border-radius: 15px;
+    margin-top: 20px;
 }

@@ -1,4 +1,4 @@
-    import React, { useState } from "react";
+import React, { useState } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useToast } from "../../../../hooks/useToast.jsx";
 import { VITE_API_URL } from "../../../../../config"
@@ -8,12 +8,18 @@ function EditVideoModal({ onClose, videoId, title: initialTitle, description: in
     const { showSuccess, showError } = useToast();
     const [formData, setFormData] = useState({
         title: initialTitle || '',
-        description: initialDescription || ''
+        description: initialDescription || '' 
     });
     const [thumbnailFile, setThumbnailFile] = useState(null);
     const [thumbnailPreview, setThumbnailPreview] = useState(thumbnail || null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    // ----------------------------------------------------------------------
+    // CONSTANTE DE LÍMITE DE CARACTERES
+    // ----------------------------------------------------------------------
+    const MAX_DESCRIPTION_LENGTH = 5000;
+    const MAX_TITLE_LENGTH = 100;
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -50,7 +56,7 @@ function EditVideoModal({ onClose, videoId, title: initialTitle, description: in
             const formDataToSend = new FormData();
             formDataToSend.append('title', formData.title);
             formDataToSend.append('description', formData.description);
-            
+
             if (thumbnailFile) {
                 formDataToSend.append('thumbnail', thumbnailFile);
             }
@@ -124,7 +130,11 @@ function EditVideoModal({ onClose, videoId, title: initialTitle, description: in
                                 onChange={handleChange}
                                 placeholder="Enter video title"
                                 required
+                                maxLength={MAX_TITLE_LENGTH}
                             />
+                            <div className="description-counter" style={{ width: '100%', textAlign: 'right', marginTop: '-20px' }}>
+                                {formData.title.length} / {MAX_TITLE_LENGTH}
+                            </div>
                         </div>
 
                         <h2>Video Description</h2>
@@ -135,7 +145,11 @@ function EditVideoModal({ onClose, videoId, title: initialTitle, description: in
                                 value={formData.description}
                                 onChange={handleChange}
                                 placeholder="Enter video description"
+                                maxLength={MAX_DESCRIPTION_LENGTH}
                             ></textarea>
+                            <div className="description-counter" style={{ width: '100%', textAlign: 'right', marginTop: '-20px' }}>
+                                {formData.description.length} / {MAX_DESCRIPTION_LENGTH}
+                            </div>
                         </div>
 
                         <h2>Video Thumbnail</h2>
@@ -144,6 +158,7 @@ function EditVideoModal({ onClose, videoId, title: initialTitle, description: in
                                 <img
                                     src={thumbnailPreview}
                                     alt="Thumbnail"
+                                    className={contentType === 'Shorts' ? 'thumbnail-preview-short' : 'thumbnail-preview-video'}
                                 />
                             )}
                             <div className="thumbnail-upload">
@@ -154,8 +169,8 @@ function EditVideoModal({ onClose, videoId, title: initialTitle, description: in
                                     onChange={handleThumbnailChange}
                                     style={{ display: 'none' }}
                                 />
-                                <label 
-                                    htmlFor="thumbnail" 
+                                <label
+                                    htmlFor="thumbnail"
                                     className="apply-changes-create-video"
                                 >
                                     {thumbnailPreview ? 'Change' : 'Upload'}
@@ -174,8 +189,8 @@ function EditVideoModal({ onClose, videoId, title: initialTitle, description: in
                                 Discard Changes
                             </button>
 
-                            <button 
-                                type="submit" 
+                            <button
+                                type="submit"
                                 className="apply-changes-create-video"
                                 disabled={loading}
                             >

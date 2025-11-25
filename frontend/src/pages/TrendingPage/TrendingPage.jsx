@@ -140,7 +140,7 @@ function Trending() {
                             </div>
                         ))}
                     </div>
-                    <Footer footer="footer"></Footer>
+                    {/* <Footer footer="footer"></Footer> */}
                 </main>
             </>
         );

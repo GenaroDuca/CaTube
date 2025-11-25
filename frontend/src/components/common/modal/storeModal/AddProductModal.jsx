@@ -73,12 +73,6 @@ async function createProductSolo(formDataToSend) {
     }
 }
 
-// ----------------------------------------------------------------------
-// CONSTANTE DE LÍMITE DE CARACTERES
-// ----------------------------------------------------------------------
-const MAX_DESCRIPTION_LENGTH = 255;
-
-
 const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProductAdded
     const [formData, setFormData] = useState({
         product_name: "",
@@ -91,6 +85,12 @@ const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProduct
     const [error, setError] = useState(null);
     const [existingProducts, setExistingProducts] = useState([]);
     const [showDuplicateConfirm, setShowDuplicateConfirm] = useState(false);
+
+    // ----------------------------------------------------------------------
+    // CONSTANTE DE LÍMITE DE CARACTERES
+    // ----------------------------------------------------------------------
+    const MAX_DESCRIPTION_LENGTH = 255;
+    const MAX_TITLE_LENGTH = 60;
 
     // FeedbackToast
     const { showSuccess, showError } = useToast();
@@ -230,8 +230,6 @@ const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProduct
                     {!showDuplicateConfirm && (
                         <form onSubmit={handleSubmit}>
                             <div>
-                                {/* ... (Toda la estructura del formulario permanece igual) ... */}
-
                                 <h2>Product Name</h2>
                                 <input
                                     type="text"
@@ -242,6 +240,9 @@ const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProduct
                                     onChange={handleChange}
                                     disabled={loading}
                                 />
+                                <div className="description-counter" style={{ width: '100%', textAlign: 'right', marginTop: '-20px' }}>
+                                    {formData.product_name.length} / {MAX_TITLE_LENGTH}
+                                </div>
 
                                 <h2>Description</h2>
                                 <textarea
@@ -250,13 +251,13 @@ const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProduct
                                     value={formData.description}
                                     onChange={handleChange}
                                     disabled={loading}
-                                    maxLength={MAX_DESCRIPTION_LENGTH} // Aplicar el límite
+                                    maxLength={MAX_DESCRIPTION_LENGTH}
                                 />
 
                                 {/* SPAN DE CONTADOR DE CARACTERES */}
-                                <span className="char-counter" style={{ display: 'block', textAlign: 'right', fontSize: '0.8rem', marginTop: '-20px', color: formData.description.length === MAX_DESCRIPTION_LENGTH ? '#e96765' : 'var(--text-color)' }}>
-                                    {formData.description.length}/{MAX_DESCRIPTION_LENGTH}
-                                </span>
+                                <div className="description-counter" style={{ width: '100%', textAlign: 'right', marginTop: '-20px' }}>
+                                    {formData.description.length} / {MAX_DESCRIPTION_LENGTH}
+                                </div>
                                 {/* FIN SPAN DE CONTADOR DE CARACTERES */}
 
 
@@ -273,6 +274,7 @@ const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProduct
                                             onChange={handleChange}
                                             disabled={loading}
                                         />
+                                        
                                     </div>
                                     <div className="form-group">
                                         <h2>Stock</h2>

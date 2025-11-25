@@ -112,8 +112,6 @@ async function deleteProductSolo(productId) {
 
 // Componente: EditProductModal
 const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
-  const MAX_DESCRIPTION_LENGTH = 255;
-
   const [product] = useState(productData);
 
   const [formData, setFormData] = useState({
@@ -132,6 +130,12 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   const { showSuccess, showError } = useToast();
+
+  // ----------------------------------------------------------------------
+  // CONSTANTE DE LÍMITE DE CARACTERES
+  // ----------------------------------------------------------------------
+  const MAX_DESCRIPTION_LENGTH = 255;
+  const MAX_TITLE_LENGTH = 60;
 
   // ----------------------------------------------------------------------
   // MANEJADORES DE ESTADO DEL FORMULARIO
@@ -387,7 +391,11 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
                   value={formData.product_name}
                   onChange={handleChange}
                   disabled={loading}
+                  maxLength={MAX_TITLE_LENGTH}
                 />
+                <div className="title-counter" style={{ width: '100%', textAlign: 'right', marginTop: '-20px' }}>
+                  {formData.product_name.length} / {MAX_TITLE_LENGTH}
+                </div>
 
                 <h2>Description</h2>
                 <textarea
@@ -400,9 +408,9 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
                 />
 
                 {/* SPAN DE CONTADOR DE CARACTERES */}
-                <span className="char-counter" style={{ display: 'block', textAlign: 'right', fontSize: '0.8rem', marginTop: '-20px', color: formData.description.length === MAX_DESCRIPTION_LENGTH ? '#e96765' : 'var(--text-color)' }}>
-                  {formData.description.length}/{MAX_DESCRIPTION_LENGTH}
-                </span>
+                <div className="description-counter" style={{ width: '100%', textAlign: 'right', marginTop: '-20px' }}>
+                  {formData.description.length} / {MAX_DESCRIPTION_LENGTH}
+                </div>
                 {/* FIN SPAN DE CONTADOR DE CARACTERES */}
 
                 {/* Muestra el error, si existe */}

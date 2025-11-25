@@ -222,7 +222,7 @@ export function Search() {
               </div>
             </div>
           </section>
-          <Footer footer="footer"></Footer>
+          {/* <Footer footer="footer"></Footer> */}
         </main>
       </>
     );
@@ -245,7 +245,7 @@ export function Search() {
         <section className='short-section'>
           <ShortList shorts={filteredShorts} />
         </section>
-        <Footer footer="footer"></Footer>
+        {/* <Footer footer="footer"></Footer> */}
       </main>
     </>
   );

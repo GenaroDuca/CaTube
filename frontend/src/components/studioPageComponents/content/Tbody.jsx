@@ -8,7 +8,6 @@ import { VITE_API_URL } from "../../../../config";
 
 function Tbody(props) {
     const { openModal } = useModal();
-
     return (
         <tbody>
             {props.content.map((item, idx) => (
@@ -36,14 +35,16 @@ function Tbody(props) {
                                 <NewButton
                                     btnclass="edit-video-btn"
                                     type="button"
-                                    onClick={() => openModal('editvideo', {
-                                        videoId: item.id,
-                                        title: item.title,
-                                        description: item.description,
-                                        thumbnail: item.src,
-                                        initialTags: item.tags,
-                                        contentType: props.contentType
-                                    })}
+                                    onClick={() => {
+                                        openModal('editvideo', {
+                                            videoId: item.id,
+                                            title: item.title,
+                                            description: item.description,
+                                            thumbnail: item.src,
+                                            initialTags: item.tags,
+                                            contentType: props.contentType
+                                        })
+                                    }}
                                 >
                                     <MdModeEditOutline size={25} color="#1a1a1b" />
                                 </NewButton>

@@ -99,7 +99,7 @@ function Education() {
                     </Block>
                 )}
 
-                <Footer footer="footer"> </Footer>
+                {/* <Footer footer="footer"> </Footer> */}
             </main>
         </>
     );

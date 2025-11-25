@@ -236,7 +236,7 @@ function Catscribers() {
                         <h2>Sign in to see your Catscribers</h2>
                         <p>You need to be logged in to see your subscribed channels</p>
                     </div>
-                    <Footer footer="footer"></Footer>
+                    {/* <Footer footer="footer"></Footer> */}
                 </main>
             </>
         );
@@ -252,7 +252,7 @@ function Catscribers() {
                         <h2>No Catscriptions Yet</h2>
                         <p>Subscribe to channels to see their content here!</p>
                     </div>
-                    <Footer footer="footer"></Footer>
+                    {/* <Footer footer="footer"></Footer> */}
                 </main>
             </>
         );
@@ -333,7 +333,7 @@ function Catscribers() {
                     )}
                 </section>
 
-                <Footer footer="footer"></Footer>
+                {/* <Footer footer="footer"></Footer> */}
             </main>
         </>
     );

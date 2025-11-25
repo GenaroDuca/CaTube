@@ -100,7 +100,7 @@ function Studio() {
                 </div>
                 <RightMenu channelId={userChannelId}></RightMenu>
             </main>
-            <Footer footer="footer-studio"></Footer>
+            {/* <Footer footer="footer-studio"></Footer> */}
         </>
     );
 }

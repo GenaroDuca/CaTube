@@ -8,6 +8,7 @@ const { showSuccess, showError } = useToast();
 // ===============================================================
 //  API: CREATE VIDEO
 // ===============================================================
+
 async function CreateVideoFetch(videoData) {
     const token = getAuthToken();
 
@@ -53,10 +54,17 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     const [loading, setLoading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [processingStatus, setProcessingStatus] = useState("");
+
+    // ----------------------------------------------------------------------
+    // CONSTANTE DE LÍMITE DE CARACTERES
+    // ----------------------------------------------------------------------
+    const MAX_DESCRIPTION_LENGTH = 5000;
+    const MAX_TITLE_LENGTH = 100;
+
     // Handler for description input with max length validation (5000 chars)
     const handleDescriptionChange = (e) => {
         const newDesc = e.target.value;
-        if (newDesc.length > 5000) {
+        if (newDesc.length > MAX_DESCRIPTION_LENGTH) {
             setDescriptionError('Description cannot exceed 5000 characters');
         } else {
             setDescriptionError('');
@@ -316,7 +324,11 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                             value={videoName}
                             onChange={(e) => setVideoName(e.target.value)}
                             disabled={loading}
+                            maxLength={MAX_TITLE_LENGTH}
                         />
+                        <div className="description-counter" style={{ width: '100%', textAlign: 'right', marginTop: '-20px' }}>
+                            {videoName.length} / {MAX_TITLE_LENGTH}
+                        </div>
 
                         <h2>Description</h2>
                         <textarea
@@ -324,10 +336,10 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                             value={videoDescription}
                             onChange={handleDescriptionChange}
                             disabled={loading}
-                            maxLength={5000}
+                            maxLength={MAX_DESCRIPTION_LENGTH}
                         />
-                        <div className="description-counter" style={{ width: '100%', textAlign: 'right' }}>
-                            {videoDescription.length} / 5000 characters
+                        <div className="description-counter" style={{ width: '100%', textAlign: 'right', marginTop: '-20px' }}>
+                            {videoDescription.length} / {MAX_DESCRIPTION_LENGTH}
                         </div>
                         {descriptionError && <p className="error-text" style={{ color: 'red' }}>{descriptionError}</p>}
 

@@ -32,7 +32,7 @@ function Content() {
                         src,
                         alt: v.title,
                         title: v.title,
-                        description: v.description || '',
+                        description: v.description,
                         visibility: v.visibility || 'Public',
                         restrictions: v.restrictions || 'None',
                         date: v.createdAt || '',

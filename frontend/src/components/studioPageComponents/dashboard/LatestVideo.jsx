@@ -82,7 +82,11 @@ function LatestVideo({ channelId }) {
             ) : latest ? (
                 <>
                     <Link to={latest.type === 'short' ? `/shorts/${latest.id}` : `/watch/${latest.id}`}>
-                        <img className="latest-video" src={latest.thumbnail || '/assets/images/thumbnails/pinterest_swap_challenge.jpg'} alt={latest.title}></img>
+                        <img
+                            className={latest.type === 'short' ? 'latest-video short' : 'latest-video'}
+                            src={latest.thumbnail}
+                            alt={latest.title}
+                        />
                     </Link>
                     <Container className="lca-dashboard">
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>

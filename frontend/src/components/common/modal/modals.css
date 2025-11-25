@@ -145,6 +145,7 @@
     scrollbar-color: var(--btn) transparent;
 }
 
+
 /* WebKit-based browsers */
 .feedback-modal-content ::-webkit-scrollbar,
 .help-modal-content ::-webkit-scrollbar,

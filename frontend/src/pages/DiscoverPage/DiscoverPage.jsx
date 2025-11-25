@@ -203,7 +203,7 @@ function DiscoverPage() {
                         </Container>
                     )}
                 </Container>
-                <Footer footer="footer"></Footer>
+                {/* <Footer footer="footer"></Footer> */}
             </main>
         </>
     );

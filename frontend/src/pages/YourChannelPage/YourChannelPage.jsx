@@ -122,7 +122,7 @@ function YourChannel() {
                 <div className="tab-content-container">
                     {tabContents[activeTab]}
                 </div>
-                <Footer footer="footer"></Footer>
+                {/* <Footer footer="footer"></Footer> */}
             </main>
         </>
     );

@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsString }from 'class-validator';
+import { IsArray, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class ResponseVideoDto {
     @IsString()
@@ -6,10 +6,9 @@ export class ResponseVideoDto {
     title: string;
 
     @IsString()
-    @IsNotEmpty()
+    @IsOptional()
     description: string;
 
-    @IsString()
     @IsString()
     @IsArray()
     tags: string[];

@@ -220,8 +220,6 @@ export class VideosService {
         }
 
       } catch (err) {
-        console.log(process.env.AWS_ACCESS_KEY_ID);
-        console.log(process.env.AWS_SECRET_ACCESS_KEY);
         console.error('S3 upload error3:', err);
         throw new InternalServerErrorException('Failed to upload thumbnail to S3');
       }
