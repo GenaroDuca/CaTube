@@ -20,6 +20,7 @@
 .ct-videoCard-thumbnail {
     cursor: pointer;
     width: 320px;
+    aspect-ratio: 16 / 9;
     border-radius: 20px;
 }
 

@@ -33,7 +33,8 @@ export class VideosController {
     { name: 'thumbnail', maxCount: 1 },
     { name: 'video', maxCount: 1 },
   ], {
-    storage: multer.memoryStorage()
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 500 * 1024 * 1024 } 
   }))
   async create(
     @Body() createVideoDto: CreateVideoDto,
@@ -135,7 +136,8 @@ export class VideosController {
   @UseInterceptors(FileFieldsInterceptor([
     { name: 'thumbnail', maxCount: 1 }
   ], {
-    storage: multer.memoryStorage()
+    storage: multer.memoryStorage(),
+    limits: { fileSize: 500 * 1024 * 1024 } // 500MB limit
   }))
   async update(
     @Param('id', ParseUUIDPipe) id: string,

@@ -4,9 +4,14 @@ import { ValidationPipe } from '@nestjs/common/pipes/validation.pipe';
 import { join } from 'path';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { getUploadsPath } from './utils/uploads-path';
+import { json, urlencoded } from 'express';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
+
+  // Aumentar el límite de tamaño del cuerpo de la solicitud
+  app.use(json({ limit: '500mb' }));
+  app.use(urlencoded({ extended: true, limit: '500mb' }));
 
   app.enableCors({
     origin: [
@@ -27,9 +32,10 @@ async function bootstrap() {
 
   // Servir avatares por defecto desde frontend/src/assets/images/profile
   app.useStaticAssets(
-    join(__dirname, '..', '..', 'frontend', 'src', 'assets', 'images', 'profile'),
+    join(__dirname, '..', '..', 'frontend', 'src', 'assets'),
     {
-      prefix: '/assets/images/profile/',
+      // El prefijo es '/assets/'. Esto mapea la carpeta 'assets' a esta URL.
+      prefix: '/assets/',
     }
   );
 
