@@ -96,6 +96,56 @@ function Trending() {
         fetchTrendingContent();
     }, []);
 
+    if (loading) {
+        return (
+            <>
+                <Header></Header>
+                <Sidebar></Sidebar>
+                <main className="main-content">
+                    <div className="title-container">
+                        <div className="skeleton" style={{ width: '150px', height: '40px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                    </div>
+
+                    {/* Skeleton for Trending Shorts */}
+                    <div className="title-container">
+                        <div className="skeleton" style={{ width: '220px', height: '30px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginTop: '20px' }}></div>
+                    </div>
+                    <div style={{ width: '95%', margin: '1rem auto', backgroundColor: 'var(--primary-color)', borderRadius: '30px', padding: '20px' }}>
+                        <div style={{ display: 'flex', gap: '15px'}}>
+                            {[...Array(6)].map((_, index) => (
+                                <div key={index} style={{ minWidth: '200px' }}>
+                                    <div className="skeleton" style={{ width: '200px', aspectRatio: '9/16', backgroundColor: '#e0e0e0', borderRadius: '15px', marginBottom: '10px' }}></div>
+                                    <div className="skeleton" style={{ width: '100%', height: '15px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '5px' }}></div>
+                                    <div className="skeleton" style={{ width: '70%', height: '12px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Skeleton for Trending Videos */}
+                    <div className="title-container">
+                        <div className="skeleton" style={{ width: '220px', height: '30px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginTop: '20px' }}></div>
+                    </div>
+                    <div style={{ width: '95%', margin: '1rem auto' }}>
+                        {[...Array(5)].map((_, index) => (
+                            <div key={index} style={{ display: 'flex', gap: '15px', marginBottom: '20px', backgroundColor: 'var(--primary-color)', borderRadius: '20px', padding: '15px' }}>
+                                <div className="skeleton" style={{ width: '60px', height: '60px', backgroundColor: '#e0e0e0', borderRadius: '10px', flexShrink: 0 }}></div>
+                                <div className="skeleton" style={{ width: '280px', aspectRatio: '16/9', backgroundColor: '#e0e0e0', borderRadius: '15px', flexShrink: 0 }}></div>
+                                <div style={{ flex: 1 }}>
+                                    <div className="skeleton" style={{ width: '80%', height: '24px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '10px' }}></div>
+                                    <div className="skeleton" style={{ width: '100%', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '5px' }}></div>
+                                    <div className="skeleton" style={{ width: '100%', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '5px' }}></div>
+                                    <div className="skeleton" style={{ width: '40%', height: '14px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                    <Footer footer="footer"></Footer>
+                </main>
+            </>
+        );
+    }
+
     return (
         <>
             <Header></Header>
@@ -106,14 +156,10 @@ function Trending() {
                 <Title class="title-container" title="Trending"></Title>
                 <SectionsCarousel section="trending-shorts" subtitle="Trending Shorts" ref={shortsRef} render={shorts} type="short" cts="carousel-ctshorts"></SectionsCarousel>
                 <Block section="trending-videos" subtitle="Trending Videos">
-                    {loading ? (
-                        <p>Loading videos...</p>
-                    ) : (
-                        videos.map(video => (
-                            // Se pasa la posición como parte del objeto 'video'
-                            <VideoCard key={video.id} video={video} />
-                        ))
-                    )}
+                    {videos.map(video => (
+                        // Se pasa la posición como parte del objeto 'video'
+                        <VideoCard key={video.id} video={video} />
+                    ))}
                 </Block>
                 <Footer footer="footer"></Footer>
             </main>

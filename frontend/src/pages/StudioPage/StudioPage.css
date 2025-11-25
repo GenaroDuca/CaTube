@@ -109,49 +109,6 @@
     border-radius: 15px;
 }
 
-.userphoto-dashboard {
-    width: 15%;
-    border-radius: 50%;
-    margin-left: 20px;
-}
-
-.video-dashboard {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    text-align: start;
-    gap: 10px;
-}
-
-.recent-cats-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.recent-cats {
-    padding: 10px 20px;
-    width: auto;
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.userphoto-recent-cats {
-    width: 60px;
-    height: auto;
-    border-radius: 50%;
-}
-
-.video-commented-dashboard {
-    width: 30%;
-    height: auto;
-    border-radius: 10px;
-    margin-right: 20px;
-}
-
 .user {
     width: 70%;
 }
@@ -180,14 +137,22 @@
 }
 
 .truncated-text:hover {
-    overflow: visible; /* Muestra el contenido que se desborda */
-    white-space: normal; /* Permite que el texto se envuelva si es muy largo */
-    width: auto; /* Permite que el contenedor se expanda al ancho del texto */
-    max-width: fit-content; /* O un valor muy grande, ej: 1000px, si necesitas limitar */
-    position: absolute; /* ⚠️ Hace que se muestre encima de otros elementos */
-    z-index: 10; /* Asegura que esté por encima de otros elementos */
-    background: var(--primary-color, #fff); /* Añade un fondo para que sea legible */
-    border: 1px solid #ccc; /* Opcional: para enmarcarlo */
+    overflow: visible;
+    /* Muestra el contenido que se desborda */
+    white-space: normal;
+    /* Permite que el texto se envuelva si es muy largo */
+    width: auto;
+    /* Permite que el contenedor se expanda al ancho del texto */
+    max-width: fit-content;
+    /* O un valor muy grande, ej: 1000px, si necesitas limitar */
+    position: absolute;
+    /* ⚠️ Hace que se muestre encima de otros elementos */
+    z-index: 10;
+    /* Asegura que esté por encima de otros elementos */
+    background: var(--primary-color, #fff);
+    /* Añade un fondo para que sea legible */
+    border: 1px solid #ccc;
+    /* Opcional: para enmarcarlo */
     padding: 2px 5px;
 }
 
@@ -415,6 +380,38 @@
     border-radius: 6px;
 }
 
+.recent-cats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 15px;
+    padding: 10px 0;
+    width: 100%;
+}
+
+.recent-cats {
+    padding: 15px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    background-color: var(--secondary-color);
+    border-radius: 15px;
+    transition: transform 0.2s ease;
+    text-align: center;
+}
+
+.recent-cats:hover {
+    transform: translateY(-3px);
+}
+
+.userphoto-recent-cats {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .video-text {
     display: flex;
     flex-direction: column;
@@ -560,6 +557,7 @@
     flex-direction: column;
     gap: 10px;
 }
+
 .delete-store-btn {
     margin-top: 20px;
     margin-bottom: 20px;

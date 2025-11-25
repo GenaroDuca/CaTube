@@ -159,6 +159,75 @@ export function Search() {
     short.userName.toLowerCase().includes(lower)
   );
 
+  if (loadingChannels || loadingVideos) {
+    return (
+      <>
+        <Header
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
+        <Sidebar />
+        <main className="main-content">
+          {/* Skeleton for Channels */}
+          <section className="channel-section">
+            <div style={{ width: '95%', margin: '1rem auto' }}>
+              <div className="skeleton" style={{ width: '200px', height: '30px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '20px' }}></div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+                {[...Array(4)].map((_, index) => (
+                  <div key={index} style={{ display: 'flex', gap: '15px', padding: '15px', backgroundColor: 'var(--primary-color)', borderRadius: '20px' }}>
+                    <div className="skeleton" style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: '#e0e0e0', flexShrink: 0 }}></div>
+                    <div style={{ flex: 1 }}>
+                      <div className="skeleton" style={{ width: '80%', height: '20px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '10px' }}></div>
+                      <div className="skeleton" style={{ width: '60%', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Skeleton for Videos */}
+          <section className="video-section">
+            <div style={{ width: '95%', margin: '1rem auto' }}>
+              <div className="skeleton" style={{ width: '150px', height: '30px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '20px' }}></div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+                {[...Array(6)].map((_, index) => (
+                  <div key={index}>
+                    <div className="skeleton" style={{ width: '100%', aspectRatio: '16/9', backgroundColor: '#e0e0e0', borderRadius: '15px', marginBottom: '10px' }}></div>
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                      <div className="skeleton" style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: '#e0e0e0', flexShrink: 0 }}></div>
+                      <div style={{ flex: 1 }}>
+                        <div className="skeleton" style={{ width: '100%', height: '18px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '5px' }}></div>
+                        <div className="skeleton" style={{ width: '70%', height: '14px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* Skeleton for Shorts */}
+          <section className='short-section'>
+            <div style={{ width: '95%', margin: '1rem auto' }}>
+              <div className="skeleton" style={{ width: '150px', height: '30px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '20px' }}></div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '15px' }}>
+                {[...Array(6)].map((_, index) => (
+                  <div key={index}>
+                    <div className="skeleton" style={{ width: '100%', aspectRatio: '9/16', backgroundColor: '#e0e0e0', borderRadius: '15px', marginBottom: '10px' }}></div>
+                    <div className="skeleton" style={{ width: '100%', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '5px' }}></div>
+                    <div className="skeleton" style={{ width: '70%', height: '14px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+          <Footer footer="footer"></Footer>
+        </main>
+      </>
+    );
+  }
+
   return (
     <>
       <Header

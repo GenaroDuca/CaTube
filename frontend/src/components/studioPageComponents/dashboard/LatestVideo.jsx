@@ -69,7 +69,16 @@ function LatestVideo({ channelId }) {
         <Container className="dashboard-card">
             <Subtitle subtitle="Latest Video performance"></Subtitle>
             {loading ? (
-                <p>Loading latest video...</p>
+                <>
+                    <div className="skeleton" style={{ width: '80%', aspectRatio: '16/9', backgroundColor: '#e0e0e0', borderRadius: '15px', margin: '0 auto 15px' }}></div>
+                    <Container className="lca-dashboard">
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%' }}>
+                            <div className="skeleton" style={{ width: '70%', height: '20px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                            <div className="skeleton" style={{ width: '40%', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                            <div className="skeleton" style={{ width: '50%', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                        </div>
+                    </Container>
+                </>
             ) : latest ? (
                 <>
                     <Link to={latest.type === 'short' ? `/shorts/${latest.id}` : `/watch/${latest.id}`}>

@@ -52,11 +52,13 @@ function Youprofile() {
     const [channelHandle, setChannelHandle] = useState(youProfile.handle);
     const [channelDescription, setChannelDescription] = useState(youProfile.description);
     const [channelSubs, setChannelSubs] = useState(youProfile.subs);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function loadChannelData() {
             const accessToken = localStorage.getItem('accessToken');
             if (!accessToken) {
+                setLoading(false);
                 return;
             }
 
@@ -98,6 +100,8 @@ function Youprofile() {
                 }
             } catch (error) {
                 console.error('Error loading user channel data:', error);
+            } finally {
+                setLoading(false);
             }
         }
         loadChannelData();
@@ -110,20 +114,39 @@ function Youprofile() {
         }
     };
 
-    return (
-    <div className="container-profile" onClick={handleClick} style={{ cursor: 'pointer' }}>
-        <div className="first-part-profile">
-            <img className="channel-photo" src={userPhoto} alt={channelName} />
-            <div className="text-channel">
-                <h2>{channelName} </h2>
-                <div className="row-info">
-                    <p className="space">{channelHandle} </p>
-                    <p className="space">{channelSubs} Catscribers </p>
-                    <p className="space">{youProfile.videos} </p>
+    if (loading) {
+        return (
+            <div className="container-profile">
+                <div className="first-part-profile">
+                    <div className="skeleton" style={{ width: '200px', height: '200px', borderRadius: '50%', backgroundColor: '#e0e0e0' }}></div>
+                    <div className="text-channel" style={{ width: '100%' }}>
+                        <div className="skeleton" style={{ width: '40%', height: '32px', marginBottom: '10px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                        <div className="row-info">
+                            <div className="skeleton" style={{ width: '120px', height: '18px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginRight: '10px' }}></div>
+                            <div className="skeleton" style={{ width: '100px', height: '18px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginRight: '10px' }}></div>
+                            <div className="skeleton" style={{ width: '80px', height: '18px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                        </div>
+                        <div className="skeleton" style={{ width: '60%', height: '16px', marginTop: '10px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                    </div>
                 </div>
-                <p>{channelDescription} </p>
             </div>
-        </div>
+        );
+    }
+
+    return (
+        <div className="container-profile" onClick={handleClick} style={{ cursor: 'pointer' }}>
+            <div className="first-part-profile">
+                <img className="channel-photo" src={userPhoto} alt={channelName} />
+                <div className="text-channel">
+                    <h2>{channelName} </h2>
+                    <div className="row-info">
+                        <p className="space">{channelHandle} </p>
+                        <p className="space">{channelSubs} Catscribers </p>
+                        <p className="space">{youProfile.videos} </p>
+                    </div>
+                    <p>{channelDescription} </p>
+                </div>
+            </div>
         </div>
     );
 }

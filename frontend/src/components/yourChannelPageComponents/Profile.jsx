@@ -209,8 +209,24 @@ function Profile({ channelId: propChannelId }) {
         loadChannelData();
     }, [channelId, accessToken, userId]); // Add userId to dependencies to force re-run when user changes
 
-    if (loading && propChannelId === null) {
-        return <div className="container-profile" style={{ justifyContent: 'center', padding: '20px' }}>Loading channel...</div>;
+    if (loading) {
+        return (
+            <div className="container-profile">
+                <div className="first-part-profile">
+                    <div className="channel-photo skeleton" style={{ width: '200px', height: '200px', borderRadius: '50px', backgroundColor: '#e0e0e0' }}></div>
+                    <div className="text-channel" style={{ width: '100%' }}>
+                        <div className="skeleton" style={{ width: '40%', height: '32px', marginBottom: '10px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                        <div className="row-info">
+                            <div className="skeleton" style={{ width: '20%', height: '20px', marginRight: '10px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                            <div className="skeleton" style={{ width: '20%', height: '20px', marginRight: '10px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                            <div className="skeleton" style={{ width: '15%', height: '20px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                        </div>
+                        <div className="skeleton" style={{ width: '80%', height: '20px', marginTop: '10px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                        <div className="skeleton" style={{ width: '120px', height: '40px', marginTop: '20px', backgroundColor: '#e0e0e0', borderRadius: '20px' }}></div>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     return (

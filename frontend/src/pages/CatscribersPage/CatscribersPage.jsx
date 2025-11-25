@@ -204,7 +204,23 @@ function Catscribers() {
                 <Header />
                 <Sidebar />
                 <main className="main-content">
-                    <div className="catscribers-loading">Loading your subscriptions...</div>
+                    <div className="catscribers-search-container">
+                        <div className="skeleton" style={{ width: '100%', height: '40px', borderRadius: '30px', backgroundColor: '#e0e0e0' }}></div>
+                    </div>
+                    <section className="catscribers-channels-section">
+                        <div className="skeleton" style={{ width: '200px', height: '30px', marginBottom: '20px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            {[...Array(5)].map((_, index) => (
+                                <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '10px' }}>
+                                    <div className="skeleton" style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#e0e0e0' }}></div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', width: '200px' }}>
+                                        <div className="skeleton" style={{ width: '100%', height: '15px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                                        <div className="skeleton" style={{ width: '60%', height: '12px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
                 </main>
             </>
         );

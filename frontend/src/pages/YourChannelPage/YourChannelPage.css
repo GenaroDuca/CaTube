@@ -17,8 +17,15 @@
     border-radius: 30px;
 }
 
-.text-principal-video h2, .text-principal-video p  {
+.text-principal-video h2,
+.text-principal-video p {
     text-align: start;
+}
+
+.channel-photo.skeleton {
+    width: 200px !important;
+    aspect-ratio: 1/1;
+    border-radius: 50% !important;
 }
 
 
@@ -511,4 +518,22 @@
     .banner-image {
         border-radius: 30px;
     }
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: #4b4b4b;
+    }
+
+    50% {
+        background-color: #4b4b4b;
+    }
+
+    100% {
+        background-color: #4b4b4b;
+    }
+}
+
+.skeleton {
+    animation: skeleton-loading 1.5s infinite ease-in-out;
 }

@@ -142,7 +142,80 @@ function Home() {
   }, [token]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <>
+        <Header></Header>
+        <Sidebar />
+        <main className="main-content">
+          {/* Skeleton for Popular Channels Podium */}
+          <div className="title-container">
+            <div className="skeleton" style={{ width: '250px', height: '35px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+          </div>
+          <div className="podium-container" style={{ display: 'flex', justifyContent: 'center', gap: '20px', padding: '20px', backgroundColor: 'var(--primary-color)', borderRadius: '30px', margin: '1rem auto', width: '95%' }}>
+            {[...Array(3)].map((_, index) => (
+              <div key={index} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px' }}>
+                <div className="skeleton" style={{ width: '120px', height: '120px', borderRadius: '50%', backgroundColor: '#e0e0e0' }}></div>
+                <div className="skeleton" style={{ width: '100px', height: '20px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                <div className="skeleton" style={{ width: '80px', height: '15px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+              </div>
+            ))}
+          </div>
+
+          {/* Skeleton for Trending Section */}
+          <div className="title-container">
+            <div className="skeleton" style={{ width: '200px', height: '35px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginTop: '20px' }}></div>
+          </div>
+          <div style={{ width: '95%', margin: '1rem auto', backgroundColor: 'var(--primary-color)', borderRadius: '30px', padding: '20px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+              {[...Array(4)].map((_, index) => (
+                <div key={index}>
+                  <div className="skeleton" style={{ width: '100%', aspectRatio: '16/9', backgroundColor: '#e0e0e0', borderRadius: '15px', marginBottom: '10px' }}></div>
+                  <div className="skeleton" style={{ width: '100%', height: '20px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '5px' }}></div>
+                  <div className="skeleton" style={{ width: '70%', height: '15px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Skeleton for Recent Channels */}
+          <div className="title-container">
+            <div className="skeleton" style={{ width: '220px', height: '35px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginTop: '20px' }}></div>
+          </div>
+          <div style={{ width: '95%', margin: '1rem auto', backgroundColor: 'var(--primary-color)', borderRadius: '30px', padding: '20px' }}>
+            <div style={{ display: 'flex', gap: '15px', overflowX: 'auto' }}>
+              {[...Array(6)].map((_, index) => (
+                <div key={index} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '10px', minWidth: '100px' }}>
+                  <div className="skeleton" style={{ width: '80px', height: '80px', borderRadius: '50%', backgroundColor: '#e0e0e0' }}></div>
+                  <div className="skeleton" style={{ width: '90px', height: '15px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Skeleton for Video Recommendations */}
+          <div className="title-container">
+            <div className="skeleton" style={{ width: '180px', height: '35px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginTop: '20px' }}></div>
+          </div>
+          <div style={{ width: '95%', margin: '1rem auto' }}>
+            <div className="recommendations-container" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+              {[...Array(8)].map((_, index) => (
+                <div key={index}>
+                  <div className="skeleton" style={{ width: '100%', aspectRatio: '16/9', backgroundColor: '#e0e0e0', borderRadius: '15px', marginBottom: '10px' }}></div>
+                  <div style={{ display: 'flex', gap: '10px' }}>
+                    <div className="skeleton" style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: '#e0e0e0', flexShrink: 0 }}></div>
+                    <div style={{ flex: 1 }}>
+                      <div className="skeleton" style={{ width: '100%', height: '18px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '5px' }}></div>
+                      <div className="skeleton" style={{ width: '60%', height: '14px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <Footer footer="footer" ></Footer>
+        </main>
+      </>
+    );
   }
 
   if (error) {

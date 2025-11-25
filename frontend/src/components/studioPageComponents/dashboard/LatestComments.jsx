@@ -39,7 +39,17 @@ function LatestComments() {
         return (
             <Container className="dashboard-card">
                 <Subtitle subtitle="Latest comments" />
-                <p>Loading...</p>
+                {[...Array(3)].map((_, index) => (
+                    <div key={index} style={{ display: 'flex', gap: '15px', marginBottom: '15px', padding: '10px' }}>
+                        <div className="skeleton" style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#e0e0e0', flexShrink: 0 }}></div>
+                        <div style={{ flex: 1 }}>
+                            <div className="skeleton" style={{ width: '30%', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '8px' }}></div>
+                            <div className="skeleton" style={{ width: '100%', height: '14px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '5px' }}></div>
+                            <div className="skeleton" style={{ width: '80%', height: '14px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                        </div>
+                        <div className="skeleton" style={{ width: '80px', aspectRatio: '16/9', backgroundColor: '#e0e0e0', borderRadius: '8px', flexShrink: 0 }}></div>
+                    </div>
+                ))}
             </Container>
         );
     }

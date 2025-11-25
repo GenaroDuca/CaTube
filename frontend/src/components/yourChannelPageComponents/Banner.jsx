@@ -3,14 +3,17 @@ import { useState, useEffect } from 'react';
 import { VITE_API_URL } from '../../../config';
 
 function Banner({ channelId }) {
-    const [bannerSrc, setBannerSrc] = useState(banner);
+    const [bannerSrc, setBannerSrc] = useState();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function loadBanner() {
-            if (!channelId) {
-                setBannerSrc(banner);
-                return;
-            }
+            setLoading(true);
+            // if (!channelId) {
+            //     setBannerSrc(banner);
+            //     setLoading(false);
+            //     return;
+            // }
 
             try {
                 const response = await fetch(`${VITE_API_URL}/channels/${channelId}`);
@@ -25,10 +28,20 @@ function Banner({ channelId }) {
             } catch (error) {
                 console.error('Error loading banner:', error);
                 setBannerSrc(banner);
+            } finally {
+                setLoading(false);
             }
         }
         loadBanner();
     }, [channelId]);
+
+    if (loading) {
+        return (
+            <div className="banner-container">
+                <div className="banner-image skeleton" style={{ width: '100%', height: '200px', backgroundColor: '#e0e0e0' }}></div>
+            </div>
+        );
+    }
 
     return (
         <div className="banner-container">
