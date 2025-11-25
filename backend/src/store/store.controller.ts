@@ -3,7 +3,7 @@ import { StoreService } from './store.service';
 import { CreateStoreDto } from './dto/create-store.dto';
 import { UpdateStoreDto } from './dto/update-store.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-  
+
 @UseGuards(JwtAuthGuard)
 @Controller('store')
 export class StoreController {
@@ -21,6 +21,12 @@ export class StoreController {
     return this.storeService.findStoreByUserId(userId);
   }
 
+  @Delete('delete-my-store')
+  async deleteMyStore(@Request() req) {
+    const userId = req.user.id;
+    return this.storeService.deleteMyStore(userId);
+  }
+
   @Get()
   findAll() {
     return this.storeService.findAll();
@@ -36,8 +42,4 @@ export class StoreController {
     return this.storeService.update(id, updateStoreDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.storeService.remove(id);
-  }
 }

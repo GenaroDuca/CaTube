@@ -8,7 +8,7 @@ export class CreateVideoDto {
 
     @IsNotEmpty()
     @IsString()
-    @MaxLength(500)
+    @MaxLength(5000, { message: 'The description must be at most 5000 characters long.' })
     description: string;
 
     @IsOptional()

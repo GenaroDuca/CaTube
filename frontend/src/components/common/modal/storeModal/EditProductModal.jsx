@@ -4,15 +4,15 @@ import { useToast } from '../../../../hooks/useToast.jsx';
 import { VITE_API_URL } from "../../../../../config"
 
 // ----------------------------------------------------------------------
-// FUNCIONES DE FETCH
+// FUNCIONES DE FETCH (CORREGIDAS: localStorage.getItem)
 // ----------------------------------------------------------------------
-
 
 /**
  * Obtiene la lista de productos del usuario para verificar duplicados.
  * Maneja errores de red y de autenticación (401).
  */
 async function getExistingProductsSolo() {
+  // CORRECCIÓN: Usar localStorage.getItem
   const accessToken = localStorage.getItem('accessToken');
   const url = `${VITE_API_URL}/product/my-products`;
 
@@ -24,7 +24,6 @@ async function getExistingProductsSolo() {
   try {
     const response = await fetch(url, { method: 'GET', headers });
 
-    // Si la respuesta es 401, lanzamos un error para manejarlo
     if (response.status === 401) {
       throw new Error("Authentication failed. Cannot check for duplicate names.");
     }
@@ -35,7 +34,6 @@ async function getExistingProductsSolo() {
     }
     return [];
   } catch (error) {
-    // Propagamos el error para que useEffect lo capture
     console.error('Error fetching existing products for edit:', error);
     throw error;
   }
@@ -45,6 +43,7 @@ async function getExistingProductsSolo() {
  * Realiza el fetch para actualizar un producto existente.
  */
 async function updateProductSolo(productId, formDataToSend) {
+  // CORRECCIÓN: Usar localStorage.getItem
   const accessToken = localStorage.getItem('accessToken');
   const url = `${VITE_API_URL}/product/${productId}`;
 
@@ -77,90 +76,97 @@ async function updateProductSolo(productId, formDataToSend) {
   }
 }
 
+/**
+ * Realiza el fetch para eliminar un producto existente.
+ */
+async function deleteProductSolo(productId) {
+  // CORRECCIÓN: Usar localStorage.getItem
+  const accessToken = localStorage.getItem('accessToken');
+  const url = `${VITE_API_URL}/product/${productId}`;
+
+  try {
+    const response = await fetch(url, {
+      method: 'DELETE',
+      // Si el body está vacío, 'Content-Type' no es necesario, solo el Auth.
+      headers: { 'Authorization': `Bearer ${accessToken}` },
+    });
+
+    if (response.ok) {
+      return true;
+    }
+
+    let errorBody = null;
+    if (response.headers.get("content-type")?.includes("application/json")) {
+      errorBody = await response.json().catch(() => ({}));
+    }
+    const errorMessage = errorBody?.message || response.statusText;
+    throw new Error(errorMessage || "Failed to delete product on the server.");
+
+  } catch (error) {
+    console.error("Network or parsing error during product deletion:", error);
+    throw new Error(error.message || "A network error occurred.");
+  }
+}
+
 // ----------------------------------------------------------------------
 
 // Componente: EditProductModal
 const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
+  const MAX_DESCRIPTION_LENGTH = 255;
+
   const [product] = useState(productData);
 
   const [formData, setFormData] = useState({
     product_name: productData?.product_name || '',
     description: productData?.description || '',
-    price: productData?.price || '',
-    stock: productData?.stock || '',
+    price: productData?.price?.toString() || '',
+    stock: productData?.stock?.toString() || '',
     image: null,
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [existingProducts, setExistingProducts] = useState([]);
   const [showDuplicateConfirm, setShowDuplicateConfirm] = useState(false);
+
+  const [descriptionError, setDescriptionError] = useState("");
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  // FeedbackToast
   const { showSuccess, showError } = useToast();
-  // --- EFECTOS ---
-  useEffect(() => {
 
-    const fetchExisting = async () => {
-      try {
-        // Si productData está disponible, cargamos el resto.
-        if (productData) {
-          const products = await getExistingProductsSolo();
-          setExistingProducts(products);
-          setError(null); // Limpiar error si la carga es exitosa
-        }
-      } catch (err) {
-        // 💡 CLAVE: Manejar el error de autenticación sin bloquear el formulario.
-        console.error("Warning: Cannot fetch existing products for duplicate check:", err.message);
+  // ----------------------------------------------------------------------
+  // MANEJADORES DE ESTADO DEL FORMULARIO
+  // ----------------------------------------------------------------------
 
-        // Mostrar un error no fatal en la UI para avisar al usuario.
-        if (err.message.includes("Authentication failed")) {
-          setError("Warning: Cannot check for duplicate names. Please log in again.");
-        } else {
-          setError("Warning: Cannot check for duplicate names due to a network error.");
-        }
-        setExistingProducts([]);
-      }
-    };
-
-    fetchExisting();
-
-  }, [productData]); // Dependencia de productData para asegurar que se ejecuta cuando llega.
-
-  // --- HANDLERS ---
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const { name, value, files } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: files ? files[0] : value,
+
+    if (name === 'description') return;
+
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: name === 'image' && files ? files[0] : value
     }));
-  };
+  }, []);
 
-  const handleDelete = () => {
-    setShowDeleteConfirm(true);
-  };
+  const handleDescriptionChange = useCallback((e) => {
+    const newDesc = e.target.value;
+    const currentLength = newDesc.length;
 
-  const confirmDelete = async () => {
-    if (!product || !product.product_id) return;
-
-    setLoading(true);
-    setError(null);
-    setShowDeleteConfirm(false);
-
-    try {
-      const success = await deleteProductSolo(product.product_id);
-
-      if (success) {
-        if (onProductUpdated) onProductUpdated();
-        else window.location.reload();
-        onClose();
-      }
-    } catch (err) {
-      setError(err.message || "Failed to delete product");
-    } finally {
-      setLoading(false);
+    if (currentLength > MAX_DESCRIPTION_LENGTH) {
+      setDescriptionError(`Description cannot exceed ${MAX_DESCRIPTION_LENGTH} characters`);
+    } else {
+      setDescriptionError('');
+      setFormData(prevData => ({
+        ...prevData,
+        description: newDesc,
+      }));
     }
-  };
+  }, []);
+
+
+  // ----------------------------------------------------------------------
+  // LÓGICA DE ACTUALIZACIÓN
+  // ----------------------------------------------------------------------
 
   const handleUpdateLogic = useCallback(async () => {
     if (!product || !product.product_id) return;
@@ -170,13 +176,22 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
     setShowDuplicateConfirm(false);
 
     // 1. Validaciones
-    if (parseFloat(formData.price) < 0) {
+    const priceValue = parseFloat(formData.price);
+    const stockValue = parseInt(formData.stock, 10);
+
+    if (priceValue < 0) {
       showError("Price cannot be negative");
       setLoading(false);
       return;
     }
-    if (parseInt(formData.stock, 10) < 0) {
+    if (stockValue < 0) {
       showError("Stock cannot be negative");
+      setLoading(false);
+      return;
+    }
+
+    if (descriptionError) {
+      showError("Please correct the description length error.");
       setLoading(false);
       return;
     }
@@ -185,8 +200,8 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
     const formDataToSend = new FormData();
     formDataToSend.append("product_name", formData.product_name);
     formDataToSend.append("description", formData.description);
-    formDataToSend.append("price", parseFloat(formData.price));
-    formDataToSend.append("stock", parseInt(formData.stock, 10));
+    formDataToSend.append("price", priceValue);
+    formDataToSend.append("stock", stockValue);
 
     if (formData.image) {
       formDataToSend.append("image", formData.image);
@@ -197,22 +212,33 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
       const result = await updateProductSolo(product.product_id, formDataToSend);
 
       if (result) {
+        showSuccess("Product edited successfully!");
         if (onProductUpdated) onProductUpdated();
         else window.location.reload();
         onClose();
-        showSuccess("Product edited successfully!")
       }
     } catch (err) {
+      showError(err.message || "Failed to update product");
       setError(err.message || "Failed to update product");
     } finally {
       setLoading(false);
     }
-  }, [formData, product, onClose, onProductUpdated]);
+  }, [formData, product, onClose, onProductUpdated, showSuccess, showError, descriptionError]);
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Solo verifica duplicados si se pudieron cargar los productos existentes
+    if (descriptionError) {
+      showError("Please correct the description length error.");
+      return;
+    }
+
+    if (error && error.includes("Cannot check for duplicate names")) {
+      await handleUpdateLogic();
+      return;
+    }
+
     const isDuplicate = existingProducts.some(
       (p) => p.product_id !== product.product_id && p.product_name.toLowerCase() === formData.product_name.toLowerCase()
     );
@@ -225,14 +251,67 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
     await handleUpdateLogic();
   };
 
-  const handleConfirmDuplicate = () => {
-    setShowDuplicateConfirm(false);
-    handleUpdateLogic();
-  };
+
+  const handleConfirmDelete = useCallback(async () => {
+    if (!product || !product.product_id) return;
+
+    setLoading(true);
+    setError(null);
+    setShowDeleteConfirm(false);
+
+    try {
+      const success = await deleteProductSolo(product.product_id);
+
+      if (success) {
+        showSuccess("Product deleted successfully!");
+        if (onProductUpdated) onProductUpdated();
+        else window.location.reload();
+        onClose();
+      }
+    } catch (err) {
+      showError(err.message || "Failed to delete product");
+      setError(err.message || "Failed to delete product");
+    } finally {
+      setLoading(false);
+    }
+  }, [product, onProductUpdated, onClose, showError, showSuccess]);
 
 
-  // --- RENDER ---
-  // 💡 IMPORTANTE: Si productData es null/undefined, significa que el ModalHost no lo pasó.
+  // ----------------------------------------------------------------------
+  // EFECTOS (Solo para carga de datos inicial)
+  // ----------------------------------------------------------------------
+
+  useEffect(() => {
+    // Función para cargar los productos existentes
+    const fetchExisting = async () => {
+      try {
+        if (productData) {
+          const products = await getExistingProductsSolo();
+          setExistingProducts(products);
+          setError(null);
+        }
+      } catch (err) {
+        console.error("Warning: Cannot fetch existing products for duplicate check:", err.message);
+
+        if (err.message.includes("Authentication failed")) {
+          setError("Warning: Cannot check for duplicate names. Please log in again.");
+        } else {
+          setError("Warning: Cannot check for duplicate names due to a network error.");
+        }
+      }
+    };
+
+    if (productData) {
+      fetchExisting();
+    }
+
+  }, [productData]);
+
+
+  // ----------------------------------------------------------------------
+  // RENDERIZADO
+  // ----------------------------------------------------------------------
+
   if (!productData) {
     return (
       <div className="edit-product-modal">
@@ -243,7 +322,6 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
               <IoIosCloseCircle size={25} color="#1a1a1b" />
             </button>
           </header>
-
           <main><p>No product data found for editing. This is often caused by an issue in the Modal system or parent component.</p></main>
         </div>
       </div>
@@ -260,20 +338,34 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
           </button>
         </header>
         <main>
-          {/* Muestra el error, incluyendo el aviso de 401 */}
           {error && <div className="error-message">{error}</div>}
 
-          {/* Pantallas de Confirmación */}
           {(showDuplicateConfirm || showDeleteConfirm) && (
             <div className="confirmation-overlay">
+              {/* Confirmación de Duplicado */}
               {showDuplicateConfirm && (
                 <div className="duplicate-confirm">
                   <p>A product with this name already exists. Are you sure you want to update to a duplicate name?</p>
                   <div className="confirm-buttons">
-                    <button type="button" onClick={handleConfirmDuplicate} className="create-product-btn" disabled={loading}>
+                    <button type="button" onClick={handleUpdateLogic} className="create-product-btn" disabled={loading}>
                       {loading ? "Processing..." : "Yes, update"}
                     </button>
                     <button type="button" onClick={() => setShowDuplicateConfirm(false)} className="delete-confirm-btn" disabled={loading}>
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Confirmación de Eliminación */}
+              {showDeleteConfirm && (
+                <div className="delete-confirm">
+                  <p>Are you sure you want to delete the product: **{productData.product_name}**?</p>
+                  <div className="confirm-buttons">
+                    <button type="button" onClick={handleConfirmDelete} className="delete-confirm-btn" disabled={loading}>
+                      {loading ? "Deleting..." : "Yes, Delete"}
+                    </button>
+                    <button type="button" onClick={() => setShowDeleteConfirm(false)} className="create-product-btn" disabled={loading}>
                       Cancel
                     </button>
                   </div>
@@ -285,7 +377,6 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
           {/* Formulario principal */}
           {!(showDuplicateConfirm || showDeleteConfirm) && (
             <form onSubmit={handleSubmit}>
-              {/* Los placeholders y valores ahora usan 'product' o 'formData' */}
               <div>
                 <h2>Product Name</h2>
                 <input
@@ -303,9 +394,19 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
                   name="description"
                   placeholder={product?.description || "Enter product description"}
                   value={formData.description}
-                  onChange={handleChange}
+                  onChange={handleDescriptionChange}
                   disabled={loading}
+                  maxLength={MAX_DESCRIPTION_LENGTH}
                 />
+
+                {/* SPAN DE CONTADOR DE CARACTERES */}
+                <span className="char-counter" style={{ display: 'block', textAlign: 'right', fontSize: '0.8rem', marginTop: '-20px', color: formData.description.length === MAX_DESCRIPTION_LENGTH ? '#e96765' : 'var(--text-color)' }}>
+                  {formData.description.length}/{MAX_DESCRIPTION_LENGTH}
+                </span>
+                {/* FIN SPAN DE CONTADOR DE CARACTERES */}
+
+                {/* Muestra el error, si existe */}
+                {descriptionError && <p className="error-text" style={{ color: '#e96765' }}>{descriptionError}</p>}
 
                 <div className="price-stock-container">
                   <div className="form-group">
@@ -346,7 +447,7 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
               </div>
 
               <div className="add-product-buttons">
-                <button type="submit" className="update-product-btn" disabled={loading}>
+                <button type="submit" className="update-product-btn" disabled={loading || !!descriptionError}>
                   {loading ? "Updating..." : "Update Product"}
                 </button>
               </div>
@@ -357,5 +458,4 @@ const EditProductModal = ({ onClose, onProductUpdated, productData }) => {
     </div>
   );
 };
-
 export default EditProductModal;

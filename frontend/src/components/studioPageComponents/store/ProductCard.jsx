@@ -38,7 +38,7 @@ const ProductCard = ({
             />
             <h2>{product.product_name}</h2>
             <h3>${formattedPrice}</h3>
-            <p>{product.description || 'No description available.'}</p>
+            <p className="product-description">{product.description || 'No description available.'}</p>
 
             <div className="product-card-actions">
 

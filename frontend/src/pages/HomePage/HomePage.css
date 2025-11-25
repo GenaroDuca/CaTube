@@ -95,26 +95,27 @@ a {
   scroll-behavior: smooth;
 }
 
-.carousel-ctsvideos, .carousel-ctshorts {
-    display: flex; 
-    flex-wrap: nowrap; 
-    justify-content: flex-start; 
-    align-items: flex-start; 
-    gap: 20px;
-    overflow-x: auto; 
-    scroll-behavior: smooth;
-    width: 100%; 
-    padding-bottom: 10px; 
+.carousel-ctsvideos,
+.carousel-ctshorts {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  width: 100%;
+  padding-bottom: 10px;
 }
 
-.carousel-ctsvideos > * {
-    flex: 0 0 200px; 
-    height: auto; 
+.carousel-ctsvideos>* {
+  flex: 0 0 200px;
+  height: auto;
 }
 
-.carousel-ctshorts > * {
-    flex: 0 0 200px; 
-    height: auto; 
+.carousel-ctshorts>* {
+  flex: 0 0 200px;
+  height: auto;
 }
 
 .carousel-cts::-webkit-scrollbar,
@@ -130,11 +131,8 @@ a {
   align-items: center;
   width: 160px;
   height: auto;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+text-align: center;
   border-radius: 30px;
-
 }
 
 .profile:hover {
@@ -151,15 +149,11 @@ a {
   margin-top: 20px;
 }
 
-/* 
-.name-channel,
-.sub-channel {
+.name-channel {
   display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow-wrap: break-word;
   margin-top: 5px;
-} */
+}
 
 .short {
   width: 100%;
@@ -253,6 +247,8 @@ a {
   .recommendations-container {
     grid-template-columns: repeat(3, 1fr);
   }
+
+
 }
 
 @media (max-width: 900px) {
@@ -266,6 +262,10 @@ a {
   .short-card div,
   .video-card div {
     flex-direction: column;
+  }
+
+  .carousel-ctshorts>* {
+    flex: 0 0 100px;
   }
 
 
@@ -316,12 +316,6 @@ a {
 
   .short-card {
     width: 100%;
-  }
-
-  .short {
-    width: 100px !important;
-    height: 160px;
-    margin-top: 10px;
   }
 
   .VideoContainer-container::-webkit-scrollbar {

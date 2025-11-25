@@ -116,6 +116,37 @@ async function deleteProduct(productId) {
     }
 }
 
+/** Función autocontenida para eliminar la tienda del usuario. */
+async function deleteStore(storeId) {
+    const accessToken = localStorage.getItem('accessToken');
+    const url = `${VITE_API_URL}/store/${storeId}`;
+
+    const headers = {};
+    if (accessToken) {
+        headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+
+    try {
+        const response = await fetch(url, { method: 'DELETE', headers });
+
+        if (!response.ok) {
+            let errorBody = null;
+            if (response.headers.get("content-type")?.includes("application/json")) {
+                errorBody = await response.json().catch(() => ({}));
+            }
+            const errorMessage = errorBody?.message || response.statusText;
+            throw new Error(errorMessage);
+        }
+
+        return true;
+
+    } catch (error) {
+        console.error('Error al eliminar la tienda:', error);
+        throw new Error(error.message || "Connection error during store deletion.");
+    }
+}
+
+
 // ----------------------------------------------------------------------
 
 function Store() {
@@ -148,7 +179,7 @@ function Store() {
             const store = await getMyStore();
 
             if (!store || !store.store_id) {
-                setStoreData(null); // Asegurar que sea null
+                setStoreData(null);
                 setStoreExists(false);
                 setProducts([]);
                 setError(store ? null : "You don't have a store yet. Please create one.");
@@ -206,33 +237,89 @@ function Store() {
         }
     }, [fetchProducts, authStatus]);
 
-    /** MODIFICACIÓN: Implementación del modal de confirmación y llamada a la API. */
+    /** MODIFICACIÓN: Implementación del modal de confirmación y llamada a la API para eliminar PRODUCTO. */
     const handleDeleteProduct = useCallback((product) => {
-        // Función que se ejecutará al confirmar la eliminación
         const apiDeleteHandler = async () => {
             try {
-                // Deshabilitar el botón de confirmación puede manejarse internamente en ConfirmModal
                 await deleteProduct(product.product_id);
                 showSuccess(`Product "${product.product_name}" deleted successfully.`);
                 closeModal();
-                fetchProducts();
+                fetchProducts(); // Refrescar la lista de productos
             } catch (error) {
-                // Manejo de errores
-                console.error("Error al confirmar eliminación:", error.message);
-                showError(`Error deleting product: ${error.message}`); closeModal();
+                console.error("Error al confirmar eliminación de producto:", error.message);
+                showError(`Error deleting product: ${error.message}`);
+                closeModal();
                 fetchProducts();
             }
         };
 
-        // Abrimos el modal con el tipo 'confirm' (usando el modal universal)
         openModal("confirm", {
             title: "Delete Product",
             message: `Are you sure you want to delete the product "${product.product_name}"? This action is irreversible.`,
             confirmText: "Delete Product",
-            onConfirm: apiDeleteHandler, // Pasamos el handler que llama a la API
-            // No necesitas pasar 'productName' ni 'productId' aquí, ya que apiDeleteHandler los tiene
+            onConfirm: apiDeleteHandler,
         });
-    }, [openModal, closeModal, fetchProducts]);
+    }, [openModal, closeModal, fetchProducts, showError, showSuccess]);
+
+    async function deleteMyStore() {
+        const accessToken = localStorage.getItem('accessToken');
+        const url = `${VITE_API_URL}/store/delete-my-store`; // Endpoint solicitado
+
+        const headers = { 'Content-Type': 'application/json' };
+        if (accessToken) {
+            headers['Authorization'] = `Bearer ${accessToken}`;
+        }
+
+        try {
+            const response = await fetch(url, {
+                method: 'DELETE',
+                headers
+            });
+
+            if (!response.ok) {
+                let errorBody = null;
+                if (response.headers.get("content-type")?.includes("application/json")) {
+                    errorBody = await response.json().catch(() => ({}));
+                }
+                const errorMessage = errorBody?.message || response.statusText;
+                throw new Error(errorMessage);
+            }
+
+            return true;
+
+        } catch (error) {
+            console.error('Error al eliminar la tienda:', error);
+            throw new Error(error.message || "Connection error during store deletion.");
+        }
+    }
+
+    const handleDeleteStore = useCallback(() => {
+        if (!storeData || !storeData.store_id) return;
+
+        const apiDeleteHandler = async () => {
+            try {
+                await deleteMyStore(); 
+                
+                showSuccess(`Store "${storeData.store_name}" deleted successfully.`);
+                closeModal();
+                fetchProducts();
+            } catch (error) {
+                console.error("Error al confirmar eliminación de tienda:", error.message);
+                showError(`Error deleting store: ${error.message}`);
+                closeModal();
+                fetchProducts();
+            }
+        };
+
+        openModal("confirm", {
+            title: "Delete Store",
+            message: `Are you sure you want to delete your store "${storeData.store_name}"? This action is irreversible and will delete all your products.`,
+            confirmText: "Delete Store",
+            confirmButtonClass: "delete-store-confirm-btn",
+            onConfirm: apiDeleteHandler,
+        });
+    }, [openModal, closeModal, fetchProducts, storeData, showError, showSuccess]);
+
 
     const handleEditProductClick = useCallback((product) => {
         openModal("editproduct", {
@@ -297,18 +384,27 @@ function Store() {
             <Title title={dynamicTitle}></Title>
             <hr></hr>
             <Container className="content store-content">
-                <Container className="add-container">
-                    <Container className="btn-container">
-                        <p>Add new product</p>
-                        <button
-                            className="add-product-btn"
-                            type="button"
-                            onClick={() => openModal("addproduct", { onProductAdded: fetchProducts })}
-                        >
-                            <IoIosAdd size={30} color="#1a1a1b" />
-                        </button>
+                {/* 💡 CONTENEDOR DE BOTONES DE ACCIÓN DE LA TIENDA */}
+                <Container className="store-actions-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
+
+                    {/* Botón AÑADIR PRODUCTO */}
+                    <Container className="add-container" style={{ display: 'flex', alignItems: 'center' }}>
+                        <Container className="btn-container">
+                            <p style={{ marginRight: '10px' }}>Add new product</p>
+                            <button
+                                className="add-product-btn"
+                                type="button"
+                                onClick={() => openModal("addproduct", { onProductAdded: fetchProducts })}
+                            >
+                                <IoIosAdd size={30} color="#1a1a1b" />
+                            </button>
+                        </Container>
                     </Container>
+
+
                 </Container>
+                {/* FIN CONTENEDOR DE ACCIONES */}
+
                 <h2>Your products</h2>
                 <hr></hr>
 
@@ -327,7 +423,19 @@ function Store() {
                         ))
                     )}
                 </Container>
+                {/* BOTÓN ELIMINAR TIENDA */}
+                <button
+                    type="button"
+                    className={"delete-store-btn"}
+                    onClick={handleDeleteStore}
+                    style={{
+                        backgroundColor: "#e96765",
+                    }}
+                >
+                    Delete Store
+                </button>
             </Container>
+
         </>
     );
 }

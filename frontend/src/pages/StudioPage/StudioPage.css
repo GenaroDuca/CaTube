@@ -31,7 +31,6 @@
 
 .store-content {
     text-align: center;
-    height: 100vh;
 }
 
 .store-content button {
@@ -180,6 +179,18 @@
     border: none;
 }
 
+.truncated-text:hover {
+    overflow: visible; /* Muestra el contenido que se desborda */
+    white-space: normal; /* Permite que el texto se envuelva si es muy largo */
+    width: auto; /* Permite que el contenedor se expanda al ancho del texto */
+    max-width: fit-content; /* O un valor muy grande, ej: 1000px, si necesitas limitar */
+    position: absolute; /* ⚠️ Hace que se muestre encima de otros elementos */
+    z-index: 10; /* Asegura que esté por encima de otros elementos */
+    background: var(--primary-color, #fff); /* Añade un fondo para que sea legible */
+    border: 1px solid #ccc; /* Opcional: para enmarcarlo */
+    padding: 2px 5px;
+}
+
 .add-product-btn {
     margin-left: 30px !important;
     display: flex;
@@ -282,9 +293,6 @@
     background-color: #b94c4a !important
 }
 
-.store-content {
-    height: 100vh;
-}
 
 .filter-bar {
     flex-wrap: wrap;
@@ -535,8 +543,8 @@
 }
 
 .products-container {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    display: flex;
+    flex-wrap: wrap;
     gap: 1rem;
     width: 100%;
     margin-top: 20px;
@@ -552,6 +560,16 @@
     flex-direction: column;
     gap: 10px;
 }
+.delete-store-btn {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.delete-store-btn:hover {
+    cursor: pointer;
+    background-color: #b94c4a !important;
+}
+
 
 .product-card h2 {
     height: 80px;
@@ -902,7 +920,6 @@
     border-radius: 30px;
     background-color: transparent;
     color: var(--text-color);
-    resize: none;
 }
 
 .edit-video-content main input[type="text"]:focus,
@@ -1109,6 +1126,10 @@
 
     .edit-video-tags-container {
         flex-wrap: wrap;
+    }
+
+    .products-container {
+        justify-content: center;
     }
 }
 

@@ -13,7 +13,7 @@ export class StoreService {
     @InjectRepository(Store)
     private storeRepository: Repository<Store>,
     private usersService: UsersService,
-  ) {}
+  ) { }
 
   async create(createStoreDto: CreateStoreDto, userId: string): Promise<Store> {
     const user = await this.usersService.findOneById(userId);
@@ -57,6 +57,40 @@ export class StoreService {
     }
 
     return store;
+  }
+
+  /**
+   * Elimina la tienda del usuario y todos sus productos asociados.
+   * @param userId El ID del usuario autenticado, extraído del token.
+   * @returns Un mensaje de éxito o lanza una excepción.
+   */
+  async deleteMyStore(userId: string): Promise<{ message: string }> {
+    // 1. Obtener la entidad Channel asociada al userId
+    // Asumimos que usersService.findOneById(userId) devuelve una entidad User,
+    // y que la entidad User tiene una relación 'channel'.
+    const user = await this.usersService.findOneById(userId);
+
+    if (!user || !user.channel || !user.channel.channel_id) {
+      // Manejar el caso si el usuario existe pero no tiene un canal asociado
+      throw new NotFoundException('Channel not found for this user.');
+    }
+
+    const channelId = user.channel.channel_id;
+
+    const store = await this.storeRepository.findOneBy({
+      channel: { channel_id: channelId },
+    });
+
+    if (!store) {
+      throw new NotFoundException('Store not found for this user.');
+    }
+
+    const storeName = store.store_name;
+
+    // 3. Eliminar la Store.
+    await this.storeRepository.delete(store.store_id);
+
+    return { message: `Store "${storeName}" and all associated products deleted successfully.` };
   }
 
   findAll() {

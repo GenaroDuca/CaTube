@@ -86,13 +86,22 @@ export class VideosService {
       // 30% - Analizando duración
       let duration = 61;
       try {
+        console.log(`🎬 Analizando duración del video ${videoId}...`);
         duration = await this.getVideoDurationFromBuffer(videoFile.buffer, videoFile.mimetype);
+        console.log(`⏱️  Duración detectada: ${duration} segundos`);
       } catch (error) {
         console.error('FFPROBE error, using fallback duration', error);
+        console.log(`⚠️  Usando duración por defecto: ${duration} segundos`);
       }
 
       video.duration = duration === 0 ? 61 : duration;
       video.type = video.duration <= 60 ? 'short' : 'video';
+      
+      console.log(`📊 Clasificación del video ${videoId}: ${video.title}`);
+      console.log(`   - Duración final: ${video.duration} segundos`);
+      console.log(`   - Tipo asignado: ${video.type}`);
+      console.log(`   - Es Short: ${video.duration <= 60 ? 'SÍ ✅' : 'NO ❌'}`);
+      
       video.processingProgress = 30;
       await this.videoRepository.save(video);
 

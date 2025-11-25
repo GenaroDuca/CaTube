@@ -43,6 +43,7 @@ async function CreateVideoFetch(videoData) {
 const CreateVideoModal = ({ onClose, onSubmit }) => {
     const [videoName, setVideoName] = useState("");
     const [videoDescription, setVideoDescription] = useState("");
+    const [descriptionError, setDescriptionError] = useState(""); // validation state
     const [videoFile, setVideoFile] = useState("");
     const [videoThumbnail, setVideoThumbnail] = useState("");
     const [defaultTags, setDefaultTags] = useState([]);
@@ -52,6 +53,16 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     const [loading, setLoading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [processingStatus, setProcessingStatus] = useState("");
+    // Handler for description input with max length validation (5000 chars)
+    const handleDescriptionChange = (e) => {
+        const newDesc = e.target.value;
+        if (newDesc.length > 5000) {
+            setDescriptionError('Description cannot exceed 5000 characters');
+        } else {
+            setDescriptionError('');
+            setVideoDescription(newDesc);
+        }
+    };
 
     // ... (keep existing tag logic) ...
 
@@ -311,9 +322,14 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                         <textarea
                             placeholder="Describe your video"
                             value={videoDescription}
-                            onChange={(e) => setVideoDescription(e.target.value)}
+                            onChange={handleDescriptionChange}
                             disabled={loading}
+                            maxLength={5000}
                         />
+                        <div className="description-counter" style={{ width: '100%', textAlign: 'right' }}>
+                            {videoDescription.length} / 5000 characters
+                        </div>
+                        {descriptionError && <p className="error-text" style={{ color: 'red' }}>{descriptionError}</p>}
 
                         <div className="create-video-media-input">
                             <div>

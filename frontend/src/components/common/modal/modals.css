@@ -311,9 +311,7 @@
 
 .feedback-modal-content form textarea {
     height: 100px;
-    resize: none;
     padding: 20px;
-    /* Feedback/Textarea tiene más padding */
 }
 
 .feedback-modal-content form input:focus,
@@ -639,7 +637,6 @@ input:checked+.slider:before {
 
 .create-video-content main textarea {
     height: 100px;
-    resize: none;
 }
 
 .create-video-content main input[type="text"]:focus,
@@ -980,7 +977,6 @@ input:checked+.slider:before {
     border-radius: 30px;
     background-color: transparent;
     color: var(--text-color);
-    resize: none;
     margin-bottom: 20px;
 }
 

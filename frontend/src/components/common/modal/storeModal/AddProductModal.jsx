@@ -41,10 +41,6 @@ async function createProductSolo(formDataToSend) {
     const accessToken = localStorage.getItem('accessToken');
     const url = `${VITE_API_URL}/product`;
 
-    for (const [key, value] of formDataToSend.entries()) {
-        // console.log(key, value);
-    }
-
     const headers = {};
     if (accessToken) {
         headers['Authorization'] = `Bearer ${accessToken}`;
@@ -78,6 +74,10 @@ async function createProductSolo(formDataToSend) {
 }
 
 // ----------------------------------------------------------------------
+// CONSTANTE DE LÍMITE DE CARACTERES
+// ----------------------------------------------------------------------
+const MAX_DESCRIPTION_LENGTH = 255;
+
 
 const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProductAdded
     const [formData, setFormData] = useState({
@@ -106,6 +106,13 @@ const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProduct
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
+
+        // Lógica para limitar la descripción
+        if (name === "description" && value.length > MAX_DESCRIPTION_LENGTH) {
+            // Si el valor excede el límite, no actualizamos el estado.
+            return;
+        }
+
         setFormData((prev) => ({
             ...prev,
             [name]: files ? files[0] : value,
@@ -243,7 +250,15 @@ const AddProductModal = ({ onClose, onProductAdded }) => { // Agregué onProduct
                                     value={formData.description}
                                     onChange={handleChange}
                                     disabled={loading}
+                                    maxLength={MAX_DESCRIPTION_LENGTH} // Aplicar el límite
                                 />
+
+                                {/* SPAN DE CONTADOR DE CARACTERES */}
+                                <span className="char-counter" style={{ display: 'block', textAlign: 'right', fontSize: '0.8rem', marginTop: '-20px', color: formData.description.length === MAX_DESCRIPTION_LENGTH ? '#e96765' : 'var(--text-color)' }}>
+                                    {formData.description.length}/{MAX_DESCRIPTION_LENGTH}
+                                </span>
+                                {/* FIN SPAN DE CONTADOR DE CARACTERES */}
+
 
                                 <div className="price-stock-container">
                                     <div className="form-group">
