@@ -95,20 +95,26 @@ a {
   scroll-behavior: smooth;
 }
 
-.carousel-ctshorts {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
+.carousel-ctsvideos, .carousel-ctshorts {
+    display: flex; 
+    flex-wrap: nowrap; 
+    justify-content: flex-start; 
+    align-items: flex-start; 
+    gap: 20px;
+    overflow-x: auto; 
+    scroll-behavior: smooth;
+    width: 100%; 
+    padding-bottom: 10px; 
 }
 
-.carousel-ctsvideos {
-  display: flex;
-  align-items: center;
-  gap: 22px;
-  overflow-x: auto;
-  scroll-behavior: smooth;
+.carousel-ctsvideos > * {
+    flex: 0 0 200px; 
+    height: auto; 
+}
+
+.carousel-ctshorts > * {
+    flex: 0 0 200px; 
+    height: auto; 
 }
 
 .carousel-cts::-webkit-scrollbar,
@@ -144,6 +150,7 @@ a {
   border-radius: 50%;
   margin-top: 20px;
 }
+
 /* 
 .name-channel,
 .sub-channel {

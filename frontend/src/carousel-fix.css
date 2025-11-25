@@ -1,0 +1,17 @@
+.carousel-ctshorts {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(200px, 200px);
+    gap: 20px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}
+
+.carousel-ctsvideos {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(285px, 285px);
+    gap: 22px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+}

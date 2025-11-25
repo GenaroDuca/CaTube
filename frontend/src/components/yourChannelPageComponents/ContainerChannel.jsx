@@ -116,11 +116,14 @@ function ContainerChannel({ channelId }) {
                 </div>
                 <div className="text-principal-video">
                     <h2>{featuredVideo.name}</h2>
+                    <div>
+                        <h3>Description</h3>
+                        <p>{featuredVideo.description}</p>
+                    </div>
                     <div className="row-principal">
                         <p className="space">{featuredVideo.views} views</p>
                         <p className="space" style={{ color: '#90b484' }}>{featuredVideo.time}</p>
                     </div>
-                    <p>{featuredVideo.description}</p>
                 </div>
             </div>
         </div>
