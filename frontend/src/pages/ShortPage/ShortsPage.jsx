@@ -197,7 +197,6 @@ export default function ShortPage() {
                 short={short}
                 isMaximized={maximizedId === short.id}
                 onToggleMaximize={() => handleMaximize(short.id)}
-                // PROPS DE CONTROL DE REPRODUCCIÓN
                 isActive={activeShortId === short.id}
                 onVideoActive={handleVideoActive}
               />

@@ -1,5 +1,6 @@
 import { useMemo, useRef, useEffect } from "react";
 import { CatubeSubsCard } from "../../components/user/CatubeSubsCard.jsx";
+import { useAuth } from "../../auth/AuthContext.jsx";
 import { useVideoControl } from "../../hooks/useVideoControl.jsx";
 import { VolumeControl } from "../../components/videoPageComponents/volumeControl.jsx";
 import './WatchVideo.css';
@@ -18,6 +19,20 @@ import VideoOptionsMenu from "./VideoOptionsMenu.jsx";
 
 export function WatchVideo({ videoId, url, title, avatar, userName, description, subscriptions, channelId, channelUrl, onTheaterToggle, tags, views, onNext, onPrev, hasNext, hasPrev, ownerId, thumbnail }) {
     const videoRef = useRef(null);
+
+    const { user } = useAuth();
+    const currentUserId = user?.userId;
+
+    const isOwner = useMemo(() => {
+        if (!currentUserId || !ownerId) return false;
+
+        const normalizedCurrentId = String(currentUserId).trim();
+        const normalizedOwnerId = String(ownerId).trim();
+
+        return normalizedCurrentId === normalizedOwnerId;
+    }, [currentUserId, ownerId]);
+
+
     const {
         isPlaying,
         volume,
@@ -119,13 +134,17 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
             <div>
                 <h3 className='vv-displayVideo-title'>{title}</h3>
                 <div className="vv-displayVideo-userActions">
-                    <CatubeSubsCard
-                        avatar={avatar}
-                        userName={userName}
-                        subscriptions={subscriptions}
-                        channelId={channelId}
-                        channelUrl={channelUrl ? `/yourchannel/${channelUrl}` : undefined}
-                    />
+
+                    {/* LÓGICA DE OCULTAR BOTÓN DE SUSCRIPCIÓN*/}
+                        <CatubeSubsCard
+                            avatar={avatar}
+                            userName={userName}
+                            subscriptions={subscriptions}
+                            channelId={channelId}
+                            channelUrl={channelUrl ? `/yourchannel/${channelUrl}` : undefined}
+                            isOwner={isOwner}
+                        />
+                    {/* ------------------------------------------- */}
 
                     <section>
                         {/* LIKE */}

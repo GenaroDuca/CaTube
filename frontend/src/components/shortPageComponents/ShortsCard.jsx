@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState, useMemo } from 'react' // 💡 Agregamos useMemo
 import { FaCirclePlay } from "react-icons/fa6";
 import { FaCirclePause } from "react-icons/fa6";
 import { FaHeart } from "react-icons/fa";
@@ -29,6 +29,25 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
   const { showSuccess, showError } = useToast()
   const [commentCount, setCommentCount] = useState(short.comments || 0);
   const [showComments, setShowComments] = useState(false);
+
+  // 💡 LÓGICA DE DUEÑO CENTRALIZADA
+  const isOwner = useMemo(() => {
+    const currentUserId = localStorage.getItem('userId');
+    const ownerId = short.ownerId;
+
+    // Compara asegurándose de que ambos existan y sean iguales (ignorando tipo)
+    if (!currentUserId || !ownerId) return false;
+
+    const normalizedCurrentId = String(currentUserId).trim();
+    const normalizedOwnerId = String(ownerId).trim();
+
+    return normalizedCurrentId === normalizedOwnerId;
+  }, [short.ownerId]);
+
+
+  // ❌ Se eliminó el bloque que hacía 'return null' si eras el dueño.
+  // Ahora el short siempre se renderiza, pero ocultamos los botones de acción relevantes.
+
 
   useEffect(() => {
     const v = videoRef.current;
@@ -78,12 +97,13 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
     }
   }, [isActive]);
 
-  // --- LÓGICA DE SUBSCRIPCIÓN (Se mantiene igual) ---
+  // --- LÓGICA DE SUBSCRIPCIÓN ---
   useEffect(() => {
     const checkSubscription = async () => {
       const token = localStorage.getItem('accessToken');
       const userId = localStorage.getItem('userId');
-      if (!token || !userId || !short.channelId) return;
+      // Solo comprueba si el usuario no es el dueño y tiene token
+      if (isOwner || !token || !userId || !short.channelId) return;
 
       try {
         const res = await fetch(`${VITE_API_URL}/subscriptions/user/${userId}`, {
@@ -99,7 +119,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
     };
 
     checkSubscription();
-  }, [short.channelId])
+  }, [short.channelId, isOwner]) // 💡 Dependencia isOwner
 
   async function handleSubscribe(short) {
     const accessToken = localStorage.getItem('accessToken');
@@ -154,7 +174,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
   // --- FIN DE LÓGICA DE SUBSCRIPCIÓN ---
 
 
-  // --- MANEJO DE CONTROLES (Modificado: handlePlayPauseChange ahora solo se usa en togglePlay si es necesario) ---
+  // --- MANEJO DE CONTROLES ---
   function togglePlay() {
     const v = videoRef.current
     if (!v) return
@@ -171,16 +191,6 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
       setPaused(true)
     }
   }
-
-  /*
-  // La función handlePlayPauseChange ha sido reemplazada en togglePlay 
-  // y eliminada de los eventos del <video> para evitar el bucle.
-  function handlePlayPauseChange() {
-    const v = videoRef.current
-    if (!v) return
-    setPaused(v.paused) // ESTO CAUSABA EL BUCLE AL DISPARARSE POR ONPLAY/ONPAUSE DEL VIDEO
-  }
-  */
 
   function toggleMute() {
     const v = videoRef.current
@@ -239,7 +249,6 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
                 preload="metadata" // Ayuda a que loadedmetadata se dispare rápido
                 muted={muted}
                 loop
-              // SE ELIMINARON onPlay, onPause y onVolumeChange para evitar el bucle de estado
               />
             </div>
 
@@ -270,14 +279,18 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
                   <Link to={`/yourchannel/${short.channelUrl}`}>
                     <h4 className="overlay-username">{short.channelName}</h4>
                   </Link>
-                  <button
-                    type="button"
-                    className="subscribe-button overlay-subscribe"
-                    style={{ display: short.isOwner ? 'none' : 'inline-block' }}
-                    onClick={() => handleSubscribe(short)}
-                  >
-                    {isSubscribed ? 'Subscribed' : 'Subscribe'}
-                  </button>
+
+                  {/* 💡 RENDERIZADO CONDICIONAL DEL BOTÓN DE SUSCRIPCIÓN */}
+                  {/* Solo se muestra si NO eres el dueño (!isOwner) */}
+                  {!isOwner && (
+                    <button
+                      type="button"
+                      className={`subscribe-button overlay-subscribe ${isSubscribed ? 'subscribed' : ''}`}
+                      onClick={() => handleSubscribe(short)}
+                    >
+                      {isSubscribed ? 'Subscribed' : 'Subscribe'}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>
@@ -361,7 +374,9 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
 
               <button type="button" className="action-button"><ShareMenu videoUrl={short.url} videoTitle={short.title} /></button>
 
-              {short.ownerId === localStorage.getItem('userId') && (
+              {/* 💡 RENDERIZADO CONDICIONAL DEL BOTÓN DE OPCIONES */}
+              {/* Solo se muestra si SÍ eres el dueño (isOwner) */}
+              {isOwner && (
                 <div className="action-button">
                   <VideoOptionsMenu
                     videoId={short.id}

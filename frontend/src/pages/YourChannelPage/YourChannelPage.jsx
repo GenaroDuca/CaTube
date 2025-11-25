@@ -105,6 +105,7 @@ function YourChannel() {
             }
         }
         checkOwnership();
+
     }, [channelId]);
 
     return (

@@ -9,11 +9,10 @@ function Banner({ channelId }) {
     useEffect(() => {
         async function loadBanner() {
             setLoading(true);
-            // if (!channelId) {
-            //     setBannerSrc(banner);
-            //     setLoading(false);
-            //     return;
-            // }
+            if (!channelId) {
+                setLoading(false);
+                return;
+            }
 
             try {
                 const response = await fetch(`${VITE_API_URL}/channels/${channelId}`);

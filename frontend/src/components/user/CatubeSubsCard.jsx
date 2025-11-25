@@ -5,7 +5,7 @@ import './CatubeSubsCard.css'
 import { VITE_API_URL } from '../../../config';
 
 
-export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isFollowing: initialIsFollowing, channelUrl }) {
+export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isFollowing: initialIsFollowing, channelUrl, isOwner }) {
     const { showSuccess, showError } = useToast();
     const [isFollowing, setIsFollowing] = useState(initialIsFollowing || false);
     const [loading, setLoading] = useState(false);
@@ -110,10 +110,12 @@ export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isF
             </header>
 
             <aside className="ct-subsCard-aside">
-                <button className={buttonClassName} onClick={handleClick} disabled={loading}>
-                    <span className="ct-subsCard-text">{text}</span>
-                    <span className="ct-subsCard-unsubscribe">Unsubscribe</span>
-                </button>
+                {!isOwner && (
+                    <button className={buttonClassName} onClick={handleClick} disabled={loading}>
+                        <span className="ct-subsCard-text">{text}</span>
+                        <span className="ct-subsCard-unsubscribe">Unsubscribe</span>
+                    </button>
+                )}
             </aside>
         </article>
     );

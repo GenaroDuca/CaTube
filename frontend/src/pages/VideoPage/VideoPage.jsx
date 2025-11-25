@@ -198,7 +198,74 @@ export function VideoPage() {
             <main className={`main-content ${isTheaterMode ? 'theater-mode' : ''}`}>
 
                 <div className="container-all">
-                    {loading ? <p>Loading video...</p> : (
+                    {loading ? (
+                        <article className="vv-displayVideo-container">
+                            {/* Video Player Skeleton */}
+                            <header className="vv-displayVideo-header">
+                                <div className="skeleton" style={{ width: '100%', aspectRatio: '16/9', backgroundColor: '#e0e0e0', borderRadius: '15px' }}></div>
+                            </header>
+
+                            {/* Title and Actions Skeleton */}
+                            <div>
+                                <div className="skeleton" style={{ width: '70%', height: '32px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '15px' }}></div>
+
+                                <div className="vv-displayVideo-userActions">
+                                    {/* Channel Info Skeleton */}
+                                    <article className="ct-subsCard">
+                                        <header className="ct-subsCard-header">
+                                            <div className="skeleton" style={{ width: '48px', height: '48px', borderRadius: '50%', backgroundColor: '#e0e0e0' }}></div>
+                                            <div className="ct-subsCard-info">
+                                                <div className="skeleton" style={{ width: '150px', height: '18px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '5px' }}></div>
+                                                <div className="skeleton" style={{ width: '100px', height: '14px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                                            </div>
+                                        </header>
+                                        <aside className="ct-subsCard-aside">
+                                            <div className="skeleton" style={{ width: '100px', height: '36px', backgroundColor: '#e0e0e0', borderRadius: '18px' }}></div>
+                                        </aside>
+                                    </article>
+
+                                    {/* Action Buttons Skeleton */}
+                                    <section>
+                                        <div className="skeleton" style={{ width: '60px', height: '40px', backgroundColor: '#e0e0e0', borderRadius: '20px', display: 'inline-block', marginRight: '10px' }}></div>
+                                        <div className="skeleton" style={{ width: '60px', height: '40px', backgroundColor: '#e0e0e0', borderRadius: '20px', display: 'inline-block', marginRight: '10px' }}></div>
+                                        <div className="skeleton" style={{ width: '40px', height: '40px', backgroundColor: '#e0e0e0', borderRadius: '20px', display: 'inline-block', marginRight: '10px' }}></div>
+                                        <div className="skeleton" style={{ width: '40px', height: '40px', backgroundColor: '#e0e0e0', borderRadius: '20px', display: 'inline-block' }}></div>
+                                    </section>
+                                </div>
+                            </div>
+
+                            {/* Description Skeleton */}
+                            <div className="vv-displayVideo-description">
+                                <div className="skeleton" style={{ width: '120px', height: '20px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '15px' }}></div>
+                                <div className="skeleton" style={{ width: '100%', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '8px' }}></div>
+                                <div className="skeleton" style={{ width: '90%', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '8px' }}></div>
+                                <div className="skeleton" style={{ width: '70%', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '20px' }}></div>
+
+                                {/* Tags Skeleton */}
+                                <div className="skeleton" style={{ width: '100px', height: '18px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '10px' }}></div>
+                                <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+                                    {[...Array(4)].map((_, index) => (
+                                        <div key={index} className="skeleton" style={{ width: '80px', height: '28px', backgroundColor: '#e0e0e0', borderRadius: '14px' }}></div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Comments Skeleton */}
+                            <div className="vv-displayVideo-comments">
+                                <div className="skeleton" style={{ width: '150px', height: '24px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '20px' }}></div>
+                                {[...Array(3)].map((_, index) => (
+                                    <div key={index} style={{ display: 'flex', gap: '15px', marginBottom: '20px' }}>
+                                        <div className="skeleton" style={{ width: '40px', height: '40px', borderRadius: '50%', backgroundColor: '#e0e0e0', flexShrink: 0 }}></div>
+                                        <div style={{ flex: 1 }}>
+                                            <div className="skeleton" style={{ width: '120px', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '8px' }}></div>
+                                            <div className="skeleton" style={{ width: '100%', height: '14px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '5px' }}></div>
+                                            <div className="skeleton" style={{ width: '80%', height: '14px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </article>
+                    ) : (
                         <WatchVideo
                             {...video}
                             videoId={id}
