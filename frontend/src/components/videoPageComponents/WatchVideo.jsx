@@ -1,4 +1,4 @@
-import { useMemo, useRef, useEffect } from "react";
+import { useMemo, useRef, useEffect, useState } from "react";
 import { CatubeSubsCard } from "../../components/user/CatubeSubsCard.jsx";
 import { useAuth } from "../../auth/AuthContext.jsx";
 import { useVideoControl } from "../../hooks/useVideoControl.jsx";
@@ -49,6 +49,40 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
         handleSeek
     } = useVideoControl(videoRef, onTheaterToggle, onNext);
 
+    const [showControls, setShowControls] = useState(true);
+    const controlsTimeoutRef = useRef(null);
+
+    useEffect(() => {
+        const handleMouseMove = () => {
+            setShowControls(true);
+            if (controlsTimeoutRef.current) {
+                clearTimeout(controlsTimeoutRef.current);
+            }
+            if (isFullScreen) {
+                controlsTimeoutRef.current = setTimeout(() => {
+                    setShowControls(false);
+                }, 3000); // 3 seconds
+            }
+        };
+
+        if (isFullScreen) {
+            handleMouseMove(); // Iniciar timer al entrar a fullscreen
+            window.addEventListener('mousemove', handleMouseMove);
+        } else {
+            setShowControls(true);
+            if (controlsTimeoutRef.current) {
+                clearTimeout(controlsTimeoutRef.current);
+            }
+        }
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            if (controlsTimeoutRef.current) {
+                clearTimeout(controlsTimeoutRef.current);
+            }
+        };
+    }, [isFullScreen]);
+
     useEffect(() => {
         if (videoRef.current) {
             videoRef.current.play().catch(error => {
@@ -75,7 +109,7 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
 
     return (
         <article className={`vv-displayVideo-container ${isTheaterMode ? 'theater-active' : ''}`}>
-            <header className={`vv-displayVideo-header ${isTheaterMode ? 'theater-mode' : ''} ${isFullScreen ? 'full-screen' : ''}`}>
+            <header className={`vv-displayVideo-header ${isTheaterMode ? 'theater-mode' : ''} ${isFullScreen ? 'full-screen' : ''} ${!showControls && isFullScreen ? 'controls-hidden' : ''}`}>
                 <video
                     className='vv-displayVideo'
                     src={url}
@@ -136,14 +170,14 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
                 <div className="vv-displayVideo-userActions">
 
                     {/* LÓGICA DE OCULTAR BOTÓN DE SUSCRIPCIÓN*/}
-                        <CatubeSubsCard
-                            avatar={avatar}
-                            userName={userName}
-                            subscriptions={subscriptions}
-                            channelId={channelId}
-                            channelUrl={channelUrl ? `/yourchannel/${channelUrl}` : undefined}
-                            isOwner={isOwner}
-                        />
+                    <CatubeSubsCard
+                        avatar={avatar}
+                        userName={userName}
+                        subscriptions={subscriptions}
+                        channelId={channelId}
+                        channelUrl={channelUrl ? `/yourchannel/${channelUrl}` : undefined}
+                        isOwner={isOwner}
+                    />
                     {/* ------------------------------------------- */}
 
                     <section>

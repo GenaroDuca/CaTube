@@ -58,7 +58,7 @@ function You() {
                     cts="carousel-ctsvideos" >
                 </SectionsCarousel> */}
 
-                <Footer footer="footer" />
+                {/* <Footer footer="footer" /> */}
             </main >
 
         </>

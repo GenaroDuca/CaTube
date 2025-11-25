@@ -43,6 +43,14 @@
     border-radius: 0 !important;
 }
 
+/* Hide controls in fullscreen when inactive */
+.vv-displayVideo-header.full-screen.controls-hidden .vv-video-controls,
+.vv-displayVideo-header.full-screen.controls-hidden .vv-progress-bar {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
 .vv-progress-bar {
     position: absolute;
     bottom: 0;
@@ -64,6 +72,8 @@
     border-radius: 4px;
     cursor: pointer;
     outline: none;
+    transition: opacity 0.3s ease;
+    /* Add transition for smooth hiding */
 }
 
 /* Barra del progreso (relleno) */
@@ -209,6 +219,8 @@
     align-items: center;
     padding: 0px 20px 20px 20px;
     color: var(--text-color);
+    transition: opacity 0.3s ease;
+    /* Add transition for smooth hiding */
 
     button {
         background: none;
@@ -798,6 +810,7 @@
 .container-watch-video-titles p:last-child {
     margin-bottom: 0;
 }
+
 
 /* ========== THEATER MODE ========== */
 body.in-theater-mode {
