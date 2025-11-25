@@ -7,6 +7,7 @@ import { User } from 'src/users/entities/user.entity';
 import { v4 as uuidv4 } from 'uuid';
 import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { console } from 'inspector';
+import * as sharp from 'sharp';
 
 @Injectable()
 export class ChannelsService {
@@ -35,7 +36,7 @@ export class ChannelsService {
 
         // Asignar avatar por defecto basado en la primera letra del nombre del canal
         const firstLetter = newChannel.channel_name.charAt(0).toUpperCase();
-        newChannel.photoUrl = `/assets/images/profile/${firstLetter}.png`;
+        newChannel.photoUrl = `https://catube-uploads.s3.sa-east-1.amazonaws.com/profile/${firstLetter}.png`;
 
         return this.channelRepository.save(newChannel);
     }
@@ -83,15 +84,26 @@ export class ChannelsService {
     private async uploadToS3(file: Express.Multer.File, folder: string): Promise<string> {
         try {
             const bucketName = process.env.AWS_BUCKET_NAME!;
-            const key = `${folder}/${uuidv4()}_${file.originalname}`;
+
+            // 1. Procesar y convertir la imagen a WebP (o JPEG si prefieres)
+            const processedBuffer = await sharp(file.buffer)
+                .resize({ width: 800, withoutEnlargement: true }) // Opcional: redimensionar si es muy grande
+                .webp({ quality: 80 }) // Convertir a WebP con calidad 80
+                .toBuffer();
+
+            // 2. Determinar la nueva extensión y ContentType
+            const newMimeType = 'image/webp';
+            // Reemplazamos la extensión original por .webp
+            const originalNameWithoutExt = file.originalname.split('.').slice(0, -1).join('.');
+            const key = `${folder}/${uuidv4()}_${originalNameWithoutExt}.webp`;
 
             console.log('Key que se usará en S3:', key);
 
             const command = new PutObjectCommand({
                 Bucket: bucketName,
                 Key: key,
-                Body: file.buffer,
-                ContentType: file.mimetype,
+                Body: processedBuffer,
+                ContentType: newMimeType,
             });
 
             await this.s3.send(command);
@@ -101,8 +113,8 @@ export class ChannelsService {
             return `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
         } catch (err) {
             console.error('S3 upload error:', err);
-
-            throw new InternalServerErrorException('Failed to upload file to S3');
+            // Podrías añadir un log específico si la imagen es de un tipo no soportado por Sharp inicialmente
+            throw new InternalServerErrorException('Failed to process and upload file to S3');
         }
     }
 
@@ -178,7 +190,7 @@ export class ChannelsService {
         }
 
         const firstLetter = channel.channel_name.charAt(0).toUpperCase();
-        channel.photoUrl = `/assets/images/profile/${firstLetter}.png`;
+        channel.photoUrl = `https://catube-uploads.s3.sa-east-1.amazonaws.com/profile/${firstLetter}.png`;
         return this.channelRepository.save(channel);
     }
 

@@ -124,7 +124,7 @@ export function VideoPage() {
                     }
                 } else {
                     const firstLetter = data.channel?.channel_name?.charAt(0).toUpperCase() || 'A';
-                    channelPhotoUrl = `/assets/images/profile/${firstLetter}.png`;
+                    channelPhotoUrl = `https://catube-uploads.s3.sa-east-1.amazonaws.com/profile/${firstLetter}.png`;
                 }
 
                 const formatSubscriptions = (count) => {

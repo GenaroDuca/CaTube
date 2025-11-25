@@ -44,7 +44,7 @@ function CommentItem(props) {
         } else {
             // Set default avatar based on first letter of username
             const firstLetter = username?.charAt(0).toUpperCase() || 'A';
-            return `/assets/images/profile/${firstLetter}.png`;
+            return `https://catube-uploads.s3.sa-east-1.amazonaws.com/profile/${firstLetter}.png`;
         }
     };
 

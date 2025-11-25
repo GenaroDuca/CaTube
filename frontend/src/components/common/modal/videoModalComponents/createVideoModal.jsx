@@ -6,7 +6,7 @@ import { VITE_API_URL } from "../../../../../config"
 
 const { showSuccess, showError } = useToast();
 // ===============================================================
-//  API: CREATE VIDEO
+// API: CREATE VIDEO
 // ===============================================================
 
 async function CreateVideoFetch(videoData) {
@@ -30,7 +30,9 @@ async function CreateVideoFetch(videoData) {
         if (res.ok) {
             return await res.json();
         } else {
-            showError("Error creating video");
+            // Intenta obtener el error del cuerpo si está disponible
+            const errorData = await res.json().catch(() => ({}));
+            showError(errorData.message || "Error creating video");
         }
     } catch (err) {
         console.error("Video creation error", err);
@@ -39,7 +41,7 @@ async function CreateVideoFetch(videoData) {
 }
 
 // ===============================================================
-//  COMPONENTE
+// COMPONENTE
 // ===============================================================
 const CreateVideoModal = ({ onClose, onSubmit }) => {
     const [videoName, setVideoName] = useState("");
@@ -58,6 +60,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     // ----------------------------------------------------------------------
     // CONSTANTE DE LÍMITE DE CARACTERES
     // ----------------------------------------------------------------------
+    const DEFAULT_THUMBNAIL_URL = "https://catube-uploads.s3.sa-east-1.amazonaws.com/thumbnails/default-video-thumbnail.png";
     const MAX_DESCRIPTION_LENGTH = 5000;
     const MAX_TITLE_LENGTH = 100;
 
@@ -72,10 +75,8 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
         }
     };
 
-    // ... (keep existing tag logic) ...
-
     // ===============================================================
-    //  FILTRAR TAGS
+    // FILTRAR TAGS
     // ===============================================================
     const filteredTags = defaultTags.filter((tag) =>
         tag.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -87,7 +88,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     );
 
     // ===============================================================
-    //  CARGAR TAGS POR DEFECTO
+    // CARGAR TAGS POR DEFECTO
     // ===============================================================
     useEffect(() => {
         fetch(`${VITE_API_URL}/tags?type=default`)
@@ -97,7 +98,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     }, []);
 
     // ===============================================================
-    //  AGREGAR TAG (fixeado: AHORA AGREGA TODOS)
+    // AGREGAR TAG (fixeado: AHORA AGREGA TODOS)
     // ===============================================================
     const handleAddTag = (tag) => {
         if (!selectedTags.some((t) => t.name === tag.name)) {
@@ -107,7 +108,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
 
 
     // ===============================================================
-    //  ELIMINAR TAG (fix: AHORA ELIMINA POR ID)
+    // ELIMINAR TAG (fix: AHORA ELIMINA POR ID)
     // ===============================================================
 
     const handleRemoveTag = (name) => {
@@ -115,7 +116,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     };
 
     // ===============================================================
-    //  CREAR TAG CUSTOM
+    // CREAR TAG CUSTOM
     // ===============================================================
     const handleAddCustomTag = async (nameParam) => {
         // resolver el nombre: param > custom input > searchTerm
@@ -199,7 +200,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
 
 
     // ===============================================================
-    //  SUBIR VIDEO
+    // SUBIR VIDEO - MODIFICADO para que thumbnail sea opcional
     // ===============================================================
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -210,7 +211,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
         if (!videoName) missingFields.push("Title");
         if (!videoDescription) missingFields.push("Description");
         if (!videoFile) missingFields.push("Video file");
-        if (!videoThumbnail) missingFields.push("Thumbnail");
+        // Thumbnail is now OPTIONAL, so we don't check it here
 
         if (missingFields.length > 0) {
             showError(`Missing: ${missingFields.join(", ")}`);
@@ -221,7 +222,37 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
         formData.append("title", videoName);
         formData.append("description", videoDescription);
         formData.append("video", videoFile);
-        formData.append("thumbnail", videoThumbnail);
+
+        // --- INICIO DE LA LÓGICA MODIFICADA PARA EL THUMBNAIL ---
+        let thumbnailToSend = videoThumbnail; // Archivo subido por el usuario (File object o null/string)
+
+        // Si no hay archivo de thumbnail subido por el usuario
+        if (!videoThumbnail) {
+            setProcessingStatus("Fetching default thumbnail...");
+            try {
+                // 1. Obtiene el archivo predeterminado como un objeto File
+                const defaultFile = await urlToFile(
+                    DEFAULT_THUMBNAIL_URL,
+                    "default-video-thumbnail.png",
+                    "image/png"
+                );
+                thumbnailToSend = defaultFile;  
+                showSuccess("Using default thumbnail.");
+            } catch (err) {
+                console.error("Error fetching default thumbnail", err);
+                showError("Could not fetch default thumbnail. Aborting upload.");
+                setLoading(false);
+                return;
+            }
+        }
+
+        // 2. Adjunta el archivo (el subido por el usuario o el predeterminado)
+        // La validación `if (!videoThumbnail)` ya asegura que si llegamos aquí,
+        // `thumbnailToSend` es un objeto File válido (o el subido por el usuario).
+        if (thumbnailToSend) {
+            formData.append("thumbnail", thumbnailToSend);
+        }
+        // --- FIN DE LA LÓGICA MODIFICADA PARA EL THUMBNAIL ---
 
         try {
             setLoading(true);
@@ -235,8 +266,9 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
 
             const jobId = response.jobId || response.id;
 
-            // Polling Loop
+            // Polling Loop (remains the same)
             const pollInterval = setInterval(async () => {
+                // ... polling logic remains the same ...
                 try {
                     const statusRes = await fetch(`${VITE_API_URL}/videos/status/${jobId}`);
                     if (!statusRes.ok) return;
@@ -248,7 +280,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                     if (statusData.status === 'completed') {
                         clearInterval(pollInterval);
 
-                        // Asignar Tags
+                        // Asignar Tags (remains the same)
                         await fetch(`${VITE_API_URL}/tags/assign`, {
                             method: "POST",
                             headers: {
@@ -263,7 +295,6 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                             }),
                         });
 
-                        // Fetch full video object if needed, or just pass basic info
                         const videoRes = await fetch(`${VITE_API_URL}/videos/${jobId}`);
                         const videoData = await videoRes.json();
 
@@ -289,18 +320,19 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     };
 
     // ===============================================================
-    //  FILE INPUT PREVIEWS
+    // FILE INPUT PREVIEWS
     // ===============================================================
     const videoPreviewUrl = videoFile
         ? URL.createObjectURL(videoFile)
         : "/assets/videos/";
 
+    // La URL por defecto se usa si videoThumbnail es falsy (string vacío o null)
     const thumbnailPreviewUrl = videoThumbnail
         ? URL.createObjectURL(videoThumbnail)
-        : "/src/assets/images/thumbnails/cooking.jpg";
+        : "https://catube-uploads.s3.sa-east-1.amazonaws.com/thumbnails/default-video-thumbnail.png";
 
     // ===============================================================
-    //  RENDER
+    // RENDER
     // ===============================================================
     return (
         <div className="right-menu-modal" onClick={onClose}>
@@ -363,8 +395,9 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                             </div>
 
                             <div>
-                                <h2>Thumbnail</h2>
+                                <h2>Thumbnail (Optional)</h2> {/* <-- Etiqueta actualizada */}
                                 <div className="create-thumbnail">
+                                    {/* Mantiene la lógica de previsualización que usa la URL por defecto si no hay archivo */}
                                     <img src={thumbnailPreviewUrl} alt="Thumbnail preview" />
                                     <label htmlFor="upload-thumbnail">Upload</label>
                                     <input

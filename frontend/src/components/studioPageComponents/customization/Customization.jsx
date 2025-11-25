@@ -50,10 +50,12 @@ async function apiFetch(url, options = {}) {
     }
 }
 
+
 function Customization({ channelId }) {
     const { showSuccess, showError } = useToast();
     const [photoPreview, setPhotoPreview] = useState("");
     const [bannerPreview, setBannerPreview] = useState("");
+    const [channelData, setChannelData] = useState(null);
 
     const getAvatar = (channel) => {
         if (channel.photoUrl && channel.photoUrl.trim() !== '') {
@@ -66,12 +68,12 @@ function Customization({ channelId }) {
             } else if (photoPath.startsWith('/default-avatar/')) {
                 const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
                 const letter = letterMatch ? letterMatch[1] : 'A';
-                return `/assets/images/profile/${letter}.png`;
+                return `https://catube-uploads.s3.sa-east-1.amazonaws.com/profile/${letter}.png`;
             }
         } else {
             // Set default avatar based on first letter of channel name
             const firstLetter = channel.channel_name?.charAt(0).toUpperCase() || 'A';
-            return `/assets/images/profile/${firstLetter}.png`;
+            return `https://catube-uploads.s3.sa-east-1.amazonaws.com/profile/${firstLetter}.png`;
         }
     };
 
@@ -96,6 +98,7 @@ function Customization({ channelId }) {
                 if (channelData) {
                     setPhotoPreview(getAvatar(channelData));
                     setBannerPreview(getBanner(channelData));
+                    setChannelData(channelData);
                 }
             } catch (error) {
                 console.error('Error displaying channel data:', error);
@@ -157,7 +160,7 @@ function Customization({ channelId }) {
             <Container className="content">
                 <Container className="cards-customization-container">
                     <CardCustomization title="Banner image" imageClass="photo-card-banner" src={bannerPreview || banner} alt="Banner" for="banner-upload" onChange={handleBannerChange}></CardCustomization>
-                    <CardCustomization title="Picture" imageClass="photo-card" src={photoPreview || '/assets/images/profile/A.png'} alt="angel" for="picture-upload" onChange={handlePhotoChange}></CardCustomization>
+                    <CardCustomization title="Picture" imageClass="photo-card" src={photoPreview || '/assets/images/profile/A.png'} alt={channelData?.channel_name} for="picture-upload" onChange={handlePhotoChange}></CardCustomization>
                 </Container >
                 <InfoContainer channelId={channelId}></InfoContainer>
             </Container >

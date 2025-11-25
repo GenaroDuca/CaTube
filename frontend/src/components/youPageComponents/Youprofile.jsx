@@ -93,7 +93,7 @@ function Youprofile() {
                         } else {
                             // Set default avatar based on first letter of channel name
                             const firstLetter = channelData.channel_name?.charAt(0).toUpperCase() || 'A';
-                            photoSrc = `/assets/images/profile/${firstLetter}.png`;
+                            photoSrc = `https://catube-uploads.s3.sa-east-1.amazonaws.com/profile/${firstLetter}.png`;
                         }
                         setUserPhoto(photoSrc);
                     }

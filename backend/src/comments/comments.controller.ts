@@ -75,7 +75,7 @@ export class CommentsController {
   @UseGuards(AuthGuard('jwt'))
   getUserComments(@Req() req: Request, @Query('limit') limit?: string) {
     const user = req.user as User;
-    const limitNum = limit ? parseInt(limit, 10) : 6;
+    const limitNum = limit ? parseInt(limit, 10) : 4;
     return this.commentsService.getUserComments(user.user_id, limitNum);
   }
 

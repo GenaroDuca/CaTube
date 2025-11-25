@@ -79,7 +79,7 @@ function Catscribers() {
                                 }
                             } else {
                                 const firstLetter = channel.channel_name?.charAt(0).toUpperCase() || 'A';
-                                avatar = `/assets/images/profile/${firstLetter}.png`;
+                                avatar = `https://catube-uploads.s3.sa-east-1.amazonaws.com/profile/${firstLetter}.png`;
                             }
 
                             return {

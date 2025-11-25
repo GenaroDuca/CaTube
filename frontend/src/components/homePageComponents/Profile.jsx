@@ -10,7 +10,7 @@ function Profile({ namechannel, subschannel, thumbnail, url }) {
     }
 
     if (!thumbnail.startsWith('https')) {
-        photoSrc = `/assets/images/profile/${firstLetter}.png`;
+        photoSrc = `https://catube-uploads.s3.sa-east-1.amazonaws.com/profile/${firstLetter}.png`;
     }
 
     return (
