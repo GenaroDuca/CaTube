@@ -6,11 +6,10 @@
 }
 
 .video-thumbnail {
-    width: 100%;
+    width: 285px !important;
     aspect-ratio: 16/9;
     object-fit: cover;
     border-radius: 30px;
-
 }
 
 .video-duration {

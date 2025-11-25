@@ -11,7 +11,6 @@ import { UpdateCommentDto } from './dto/update-comment.dto';
 import { User } from '../users/entities/user.entity';
 import { Video } from 'src/videos/entities/video.entity';
 import { IsNull } from 'typeorm';
-import { channel } from 'diagnostics_channel';
 
 
 @Injectable()
@@ -31,10 +30,9 @@ export class CommentsService {
 
   //Create a comment
   async create(createCommentDto: CreateCommentDto, userId: string, videoId: string) {
-
     const user = await this.userRepository.findOne({
       where: { user_id: userId },
-      relations: ['channel'], // si necesitas
+      relations: ['channel'],
     });
 
     if (!user) throw new NotFoundException('User not found');
@@ -45,30 +43,56 @@ export class CommentsService {
 
     if (!video) throw new NotFoundException('Video not found');
 
-    const comment = this.commentRepository.create({
+    // Check if this is a reply (has parentCommentId)
+    if (createCommentDto.parentCommentId) {
+      const parentExists = await this.commentRepository.findOne({
+        where: { id: createCommentDto.parentCommentId },
+      });
+
+      if (!parentExists) {
+        console.log('❌ Parent comment not found!');
+        throw new NotFoundException('Parent comment not found');
+      }
+      console.log('✅ Parent comment found:', parentExists.id);
+    }
+
+    // Create comment with proper structure
+    const commentData: any = {
       content: createCommentDto.content,
       user,
       video,
-      parentComment: undefined,
-    });
+    };
 
-    const savedComment = await this.commentRepository.save(comment);
+    // Only add parentComment if it exists
+    if (createCommentDto.parentCommentId) {
+      commentData.parentComment = { id: createCommentDto.parentCommentId };
+    }
+
+
+    // Use insert with proper typing
+    const insertResult = await this.commentRepository.insert(commentData);
+    const newCommentId = insertResult.identifiers[0].id;
 
     const fullComment = await this.commentRepository.findOne({
-      where: { id: savedComment.id },
-      relations: ['user', 'user.channel', 'replies', 'likes'],
+      where: { id: newCommentId },
+      relations: ['user', 'user.channel', 'replies', 'likes', 'parentComment'],
     });
 
+
+    if (!fullComment) {
+      throw new NotFoundException('Failed to retrieve created comment');
+    }
+
     return {
-      id: fullComment?.id,
-      username: fullComment?.user.username,
-      user_id: fullComment?.user.user_id,
-      channelUrl: fullComment?.user.channel?.url || null,
-      photoUrl: fullComment?.user.channel?.photoUrl || null,
-      content: fullComment?.content,
-      createdAt: fullComment?.createdAt,
-      updatedAt: fullComment?.updatedAt,
-      likesCount: (fullComment?.likes ?? []).filter(l => l.like).length,
+      id: fullComment.id,
+      username: fullComment.user.username,
+      user_id: fullComment.user.user_id,
+      channelUrl: fullComment.user.channel?.url || null,
+      photoUrl: fullComment.user.channel?.photoUrl || null,
+      content: fullComment.content,
+      createdAt: fullComment.createdAt,
+      updatedAt: fullComment.updatedAt,
+      likesCount: (fullComment.likes ?? []).filter(l => l.like).length,
       replies: [],
     };
   }

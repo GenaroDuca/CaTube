@@ -272,7 +272,9 @@ export function CommentSection({ videoId, onCountChange }) {
         const token = getAuthToken();
 
         // Desactivar para prevenir spam en replies
-        setIsSendingReply(true); // 👈 INICIO DE CARGA DE REPLY
+        setIsSendingReply(true); 
+
+        console.log(replyContent, parentCommentId);
 
         try {
             const res = await fetch(`${VITE_API_URL}/comment/${videoId}/comments`, {

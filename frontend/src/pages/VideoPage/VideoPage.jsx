@@ -20,6 +20,7 @@ import { VITE_API_URL } from '../../../config';
 
 export function VideoPage() {
     const [searchQuery, setSearchQuery] = useState('');
+    const [isTheaterMode, setIsTheaterMode] = useState(false);
     const token = getAuthToken();
 
     useEffect(() => {
@@ -193,8 +194,8 @@ export function VideoPage() {
                 searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
             />
-            <Sidebar></Sidebar>
-            <main className="main-content">
+            {!isTheaterMode && <Sidebar></Sidebar>}
+            <main className={`main-content ${isTheaterMode ? 'theater-mode' : ''}`}>
 
                 <div className="container-all">
                     {loading ? <p>Loading video...</p> : (
@@ -205,6 +206,7 @@ export function VideoPage() {
                             onPrev={handlePrevVideo}
                             hasNext={!!nextVideoId}
                             hasPrev={!!prevVideoId}
+                            onTheaterToggle={setIsTheaterMode}
                         />
                     )}
                     <VideoList currentVideoId={id} videos={videoList} />
