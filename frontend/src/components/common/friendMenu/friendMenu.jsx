@@ -7,7 +7,7 @@ import { useModal } from '../../common/modal/ModalContext';
 // Importaciones de iconos
 import { IoArrowBackCircle } from "react-icons/io5";
 import { IoIosCloseCircle } from "react-icons/io";
-import { FaUserFriends, FaChevronDown, FaCircle } from "react-icons/fa";
+import { FaUserFriends } from "react-icons/fa";
 
 // Importaciones de tus nuevos componentes
 import FriendProfileView from './FriendProfileView';

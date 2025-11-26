@@ -101,11 +101,11 @@ export class FriendshipService {
       const newFriendId = acceptorId;
 
       await this.notificationsService.createNotification(
-        senderId,      
-        newFriendId, 
+        senderId,
+        newFriendId,
         NotificationType.FRIEND_ACCEPTED,
         'has accepted your friend request!',
-        `/profile/${newFriendId}`, 
+        `/profile/${newFriendId}`,
       );
     } catch (e) {
       console.error('Failed to create FRIEND_ACCEPTED notification:', e);
@@ -148,9 +148,17 @@ export class FriendshipService {
         "((friend.user_id = friendship.userIdSender AND friend.user_id != :userId) OR (friend.user_id = friendship.userIdReceiver AND friend.user_id != :userId))",
         { userId }
       )
+      // Unión a la tabla de canales
+      .leftJoin(
+        'channels',
+        "channel",
+        "channel.user_id = friend.user_id" // user_id del canal coincide con el user_id del amigo
+      )
       .select([
         "friend.user_id AS friend_id",
         "friend.username AS friend_username",
+        "channel.channel_id AS friend_channelId",
+        "channel.url AS friend_channelUrl",
         "friendship.friendship_id AS friendship_id",
         "friend.avatar_url AS friend_avatarUrl"
       ])
@@ -160,7 +168,9 @@ export class FriendshipService {
       id: r.friend_id,
       username: r.friend_username,
       friendshipId: r.friendship_id,
-      avatarUrl: r.friend_avatarUrl
+      avatarUrl: r.friend_avatarUrl,
+      channelId: r.friend_channelId,
+      channelUrl: r.friend_channelUrl
     } as FriendProfile));
   }
 

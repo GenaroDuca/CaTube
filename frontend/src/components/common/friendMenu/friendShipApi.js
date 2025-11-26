@@ -30,7 +30,7 @@ export const fetchUsers = async (query) => {
       id: String(user.user_id),
       userName: user.username,
       status: user.status || 'offline',
-      avatarUrl: user.avatarUrl || DEFAULT_AVATAR,
+      avatarUrl: user.avatarUrl,
     }));
 
   } catch (error) {
@@ -70,8 +70,9 @@ export const fetchFriendsAndRequests = async () => {
       id: String(f.id),
       userName: f.username,
       friendshipId: String(f.friendshipId),
-      avatarUrl: f.avatarUrl || DEFAULT_AVATAR,
-      status: f.status || 'online',
+      avatarUrl: f.avatarUrl,
+      channelId: String(f.channelId),
+      channelUrl: f.channelUrl
     }));
 
     // Mapear Solicitudes Recibidas
@@ -80,7 +81,9 @@ export const fetchFriendsAndRequests = async () => {
       sender: {
         id: String(req.sender.user_id),
         userName: req.sender.username,
-        avatarUrl: req.sender.avatarUrl || DEFAULT_AVATAR,
+        avatarUrl: req.sender.avatarUrl,
+        channelId: String(req.channelId),
+        channelUrl: req.channelUrl
       }
     }));
 

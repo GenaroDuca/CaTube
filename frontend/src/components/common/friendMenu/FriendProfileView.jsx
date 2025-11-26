@@ -2,10 +2,16 @@
 import { IoChatbox, IoPersonCircle, IoArrowBackCircle } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
 import { DEFAULT_AVATAR } from './constants'; // Importar de constantes
+import { useNavigate } from "react-router-dom";
+import { useSidebarToggle } from '../../../hooks/useSidebarToggleFriends';
 
 const FriendProfileView = ({ friend, onBack, onGoToChat, onDeleteFriend }) => {
+    const navigate = useNavigate();
+    const { closeFriendMenu } = useSidebarToggle();
+
     const goToChannel = () => {
-        alert(`Navegando al canal de ${friend.userName}... (Simulado)`);
+        navigate(`/yourchannel/${friend.channelUrl}`);
+        closeFriendMenu();
     };
 
     return (
