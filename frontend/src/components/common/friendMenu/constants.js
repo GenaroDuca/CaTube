@@ -1,1 +1,0 @@
-export const DEFAULT_AVATAR = 'https://i.pravatar.cc/150?u=default';

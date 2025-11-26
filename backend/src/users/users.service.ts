@@ -1,4 +1,4 @@
-import { Injectable, Inject, forwardRef, ConflictException, NotFoundException, BadRequestException } from '@nestjs/common';
+import { Injectable, Inject, forwardRef, ConflictException, NotFoundException, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, QueryFailedError, Like } from 'typeorm';
 import { CreateUserDto } from './dto-users/create-user.dto';
@@ -11,9 +11,14 @@ import { Resend } from 'resend';
 import { UpdateUserDto } from './dto-users/update-user.dto';
 import { DataSource } from 'typeorm';
 import { Room } from 'src/rooms/entities/room.entity';
+import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
+import { v4 as uuidv4 } from 'uuid';
+import * as sharp from 'sharp';
 
 @Injectable()
 export class UsersService {
+    private s3: S3Client;
+
     constructor(
         @InjectRepository(User)
         private usersRepository: Repository<User>,
@@ -27,6 +32,13 @@ export class UsersService {
 
 
     ) {
+        this.s3 = new S3Client({
+            region: process.env.AWS_REGION,
+            credentials: {
+                accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+            },
+        });
         this.findAll();
     }
 
@@ -55,11 +67,28 @@ export class UsersService {
         const token = crypto.randomBytes(32).toString('hex');
         const expiry = new Date(Date.now() + 24 * 3600 * 1000); // Caducidad: 24 horas
 
+        // --- LÓGICA DEL AVATAR POR DEFECTO ---
+
+        // Obtener variables de entorno
+        const bucketName = this.configService.get<string>('AWS_BUCKET_NAME');
+        const awsRegion = this.configService.get<string>('AWS_REGION');
+
+        // Calcular la clave: Primera letra del nombre de usuario capitalizada + '.png'
+        // Ejemplo: 'Angel' -> 'A' -> 'profile/A.png' (asumiendo que las imágenes están en la carpeta 'profile/')
+        const firstLetter = capitalizedUsername.charAt(0).toUpperCase();
+        const key = `profile/${firstLetter}.png`;
+
+        // Construir la URL completa
+        const defaultAvatarUrl = `https://${bucketName}.s3.${awsRegion}.amazonaws.com/${key}`;
+        // ------------------------------------
+
         const newUser = this.usersRepository.create({
             username: capitalizedUsername,
             email: createUserDto.email,
             password: hashedPassword,
-            // ASIGNACIÓN DE CAMPOS DE VERIFICACIÓN
+
+            avatarUrl: defaultAvatarUrl,
+
             is_verified: false,
             verification_token: token,
             token_expiry: expiry,
@@ -67,12 +96,10 @@ export class UsersService {
 
         // 4. INSERCIÓN EN BD Y MANEJO DE ERRORES
         try {
-            const savedUser = await this.usersRepository.save(newUser); // Guarda el usuario con token
+            const savedUser = await this.usersRepository.save(newUser); // Guarda el usuario con token y avatar
 
             // 5. PREPARACIÓN Y ENVÍO DEL EMAIL
-            // Usamos la URL base de verificación configurada + el token
             const BASE_VERIFY_URL = this.configService.get<string>('BACKEND_VERIFY_URL');
-            // Construye la URL completa que el usuario clickeará
             const verificationUrl = `${BASE_VERIFY_URL}?token=${token}`;
 
             await this.sendVerificationEmail(savedUser.email, verificationUrl);
@@ -87,7 +114,7 @@ export class UsersService {
 
             return savedUser;
         } catch (error) {
-            // Manejo de errores de TypeORM/DB
+            // ... (Tu manejo de errores existente)
             const uniqueViolationCode = '23505';
             if (error instanceof QueryFailedError && (error as any).code === uniqueViolationCode) {
                 const detail = (error as any).detail || error.message;
@@ -99,10 +126,8 @@ export class UsersService {
                 }
             }
 
-            // Manejo de error de email
             if (error instanceof Error && error.message.includes('transporter')) {
                 console.error('Error al enviar el correo:', error);
-                // Opcional: Podrías eliminar el usuario si el correo es crítico, o dejarlo y marcar que el envío falló.
             }
             throw error;
         }
@@ -279,6 +304,83 @@ export class UsersService {
         } catch (error) {
             console.error('Error al guardar la actualización del usuario:', error);
             throw new Error('Failed to save user updates.');
+        }
+    }
+
+    /**
+     * Upload user avatar to S3
+     */
+    async uploadAvatar(userId: string, file: Express.Multer.File): Promise<Partial<User>> {
+        const user = await this.usersRepository.findOneBy({ user_id: userId });
+        if (!user) {
+            throw new NotFoundException('User not found.');
+        }
+
+        const isCustomAvatar = user.avatarUrl && user.avatarUrl.includes('/avatar/');
+        const isDefaultAvatar = user.avatarUrl && user.avatarUrl.includes('/profile/');
+
+        if (isCustomAvatar && !isDefaultAvatar) {
+            try {
+                // Utilizamos 'avatar/' para dividir la URL y obtener la clave de S3
+                const oldKey = user.avatarUrl!.split('.com/')[1];
+
+                if (oldKey) {
+                    await this.s3.send(new DeleteObjectCommand({
+                        Bucket: process.env.AWS_BUCKET_NAME!,
+                        Key: oldKey
+                    }));
+                }
+            } catch (error) {
+                console.error('Error deleting old avatar from S3:', error);
+            }
+        }
+
+        // Process and upload new avatar
+        const avatarUrl = await this.uploadToS3(file, 'avatar');
+        user.avatarUrl = avatarUrl;
+
+        const savedUser = await this.usersRepository.save(user);
+
+        const { password, ...result } = savedUser;
+        return {
+            user_id: result.user_id,
+            username: result.username,
+            email: result.email,
+            avatarUrl: result.avatarUrl,
+            description: result.description,
+        };
+    }
+
+    /**
+     * Helper method to upload file to S3
+     */
+    private async uploadToS3(file: Express.Multer.File, folder: string): Promise<string> {
+        try {
+            const bucketName = process.env.AWS_BUCKET_NAME!;
+
+            // Process and convert image to WebP
+            const processedBuffer = await sharp(file.buffer)
+                .resize({ width: 800, withoutEnlargement: true })
+                .webp({ quality: 80 })
+                .toBuffer();
+
+            const newMimeType = 'image/webp';
+            const originalNameWithoutExt = file.originalname.split('.').slice(0, -1).join('.');
+            const key = `${folder}/${uuidv4()}_${originalNameWithoutExt}.webp`;
+
+            const command = new PutObjectCommand({
+                Bucket: bucketName,
+                Key: key,
+                Body: processedBuffer,
+                ContentType: newMimeType,
+            });
+
+            await this.s3.send(command);
+
+            return `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
+        } catch (err) {
+            console.error('S3 upload error:', err);
+            throw new InternalServerErrorException('Failed to process and upload file to S3');
         }
     }
 

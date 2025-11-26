@@ -3,7 +3,6 @@ import { FaShare, FaCopy, FaDownload } from "react-icons/fa6";
 import { IoClose } from "react-icons/io5";
 import { useToast } from "../../hooks/useToast";
 import { fetchFriendsAndRequests } from "../common/friendMenu/friendShipApi.js";
-import { DEFAULT_AVATAR } from "../common/friendMenu/constants.js";
 import { getAuthToken } from "../../utils/auth";
 import { getOrCreatePrivateRoom, sendMessage } from "../common/friendMenu/chatApi.js";
 import { getSocket } from "../common/friendMenu/chatApi.js";
@@ -58,7 +57,7 @@ export default function ShareMenu({ videoUrl, videoTitle }) {
                 const friendsList = data.friends.map(f => ({
                     id: f.id,
                     name: f.userName,
-                    avatar: f.avatarUrl || DEFAULT_AVATAR
+                    avatar: f.avatarUrl
                 }));
 
                 setFriends(friendsList);

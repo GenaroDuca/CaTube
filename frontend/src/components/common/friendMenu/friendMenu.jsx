@@ -29,7 +29,6 @@ import {
 } from './friendShipApi';
 
 // Importaciones de constantes y utilidades
-import { DEFAULT_AVATAR } from './constants';
 import { getAuthToken } from '../../../utils/auth';
 
 import './friendMenu.css';
@@ -174,7 +173,7 @@ export function FriendMenu() {
                 if (isMounted) setMyProfile(profileData);
             } catch (error) {
                 console.warn("Could not load user profile details.", error.message);
-                if (isMounted) setMyProfile({ userName: "Guest", description: "Profile not loaded", avatarUrl: DEFAULT_AVATAR });
+                if (isMounted) setMyProfile({ userName: "Guest", description: "Profile not loaded" });
             } finally {
                 if (isMounted) setIsLoading(false);
             }

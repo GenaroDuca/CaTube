@@ -1,7 +1,6 @@
 // src/components/FriendMenu/FriendProfileView.jsx
 import { IoChatbox, IoPersonCircle, IoArrowBackCircle } from "react-icons/io5";
 import { MdDelete } from "react-icons/md";
-import { DEFAULT_AVATAR } from './constants'; // Importar de constantes
 import { useNavigate } from "react-router-dom";
 import { useSidebarToggle } from '../../../hooks/useSidebarToggleFriends';
 
@@ -23,7 +22,7 @@ const FriendProfileView = ({ friend, onBack, onGoToChat, onDeleteFriend }) => {
 
             <h2>{friend.userName}</h2>
             <img
-                src={friend.avatarUrl || DEFAULT_AVATAR}
+                src={friend.avatarUrl}
                 alt={friend.userName}
                 className="profile-large-avatar"
             />

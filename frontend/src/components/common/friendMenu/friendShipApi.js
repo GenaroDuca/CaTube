@@ -1,5 +1,4 @@
 // src/api/friendshipApi.js
-import { DEFAULT_AVATAR } from './constants';
 import { VITE_API_URL } from "../../../../config.js"
 import { getAuthToken } from '../../../utils/auth';
 
@@ -150,7 +149,7 @@ export const fetchMyProfile = async () => {
       id: data.user_id,
       userName: data.username,
       email: data.email,
-      avatarUrl: data.avatarUrl || DEFAULT_AVATAR,
+      avatarUrl: data.avatarUrl,
       description: data.description || 'Hello, I am a new user on this platform!',
     };
 
@@ -190,7 +189,7 @@ export const updateMyProfile = async (updateData) => {
     id: updatedUser.user_id,
     userName: updatedUser.username,
     email: updatedUser.email,
-    avatarUrl: updatedUser.avatarUrl || DEFAULT_AVATAR,
+    avatarUrl: updatedUser.avatarUrl,
     description: updatedUser.description || 'Hello, I am a new user on this platform!',
   };
 };

@@ -453,6 +453,7 @@
     margin-bottom: 20px;
 }
 
+
 /* Estilo para el botón de Mi Perfil */
 .my-profile-button {
     padding: 0px 10px 0px 10px;
@@ -549,6 +550,25 @@
     text-align: right;
 }
 
+.avatar-upload-button {
+    position: absolute;
+    top: 230px;
+    right: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 10px 10px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+
+.avatar-upload-button:hover {
+    color: var(--btn);
+}
 .message {
     margin-top: 10px;
     display: flex;

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Delete, Param, Query, Res, ConflictException, NotFoundException, Patch } from '@nestjs/common';
+import { Body, Controller, Get, Post, Delete, Param, Query, Res, ConflictException, NotFoundException, Patch, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
 import { CreateUserDto } from './dto-users/create-user.dto';
 import { UsersService } from './users.service';
 import { Response } from 'express';
@@ -6,6 +6,7 @@ import { ConfigService } from '@nestjs/config';
 import { UseGuards, Req } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UpdateUserDto } from './dto-users/update-user.dto';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('users')
 export class UsersController {
@@ -83,6 +84,27 @@ export class UsersController {
     @Delete(':id')
     remove(@Param('id') id: string) {
         return this.usersService.remove(id);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('me/avatar')
+    @UseInterceptors(FileInterceptor('avatar'))
+    async uploadAvatar(
+        @Req() req,
+        @UploadedFile() file: Express.Multer.File,
+    ) {
+        if (!file) {
+            throw new BadRequestException('No file uploaded');
+        }
+
+        // Validate file type
+        const allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+        if (!allowedMimeTypes.includes(file.mimetype)) {
+            throw new BadRequestException('Only image files (JPEG, PNG, WebP) are allowed');
+        }
+
+        const userId = req.user.id;
+        return this.usersService.uploadAvatar(userId, file);
     }
 
     @UseGuards(JwtAuthGuard)

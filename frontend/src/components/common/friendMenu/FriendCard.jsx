@@ -1,7 +1,6 @@
 // src/components/FriendMenu/FriendCard.jsx
 import { IoChatbox, IoPersonCircle } from "react-icons/io5";
 import { FaUserPlus, FaCircle } from "react-icons/fa";
-import { DEFAULT_AVATAR } from './constants'; 
 
 const FriendCard = ({ user, isFriend, onGoToProfile, onGoToChat, onAddFriend }) => {
     const statusColor = user.status === 'online' ? '#90b484' : '#8c8c8c';
@@ -38,7 +37,7 @@ const FriendCard = ({ user, isFriend, onGoToProfile, onGoToChat, onAddFriend }) 
         >
             <div className="friend-info">
                 <div className="avatar-container">
-                    <img src={user.avatarUrl || DEFAULT_AVATAR} alt={user.userName} className="friend-avatar" />
+                    <img src={user.avatarUrl} alt={user.userName} className="friend-avatar" />
                     {/* {isFriend && (
                         <FaCircle
                             className="status-indicator"
