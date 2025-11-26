@@ -28,7 +28,6 @@ export const fetchUsers = async (query) => {
     return data.map(user => ({
       id: String(user.user_id),
       userName: user.username,
-      status: user.status || 'offline',
       avatarUrl: user.avatarUrl,
     }));
 

@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { useSidebarToggle } from '../../../hooks/useSidebarToggleFriends';
-import { useState, useCallback, useEffect, useRef, useMemo } from 'react';
 import { useToast } from '../../../hooks/useToast';
 import { useModal } from '../../common/modal/ModalContext';
 
@@ -39,9 +38,9 @@ export function FriendMenu() {
 
     const { isFriendMenuOpen, toggleFriendMenu, closeFriendMenu } = useSidebarToggle();
     const collapsedClass = !isFriendMenuOpen ? 'collapsed' : '';
-    
-    // ⭐ 1. REFERENCIA PARA EL CONTENEDOR DEL MENÚ
-    const menuRef = useRef(null); 
+
+    // 1. REFERENCIA PARA EL CONTENEDOR DEL MENÚ
+    const menuRef = useRef(null);
 
     // --- ESTADOS DE LA VISTA Y DATOS ---
     const [userStatus, setUserStatus] = useState('online');
@@ -55,7 +54,7 @@ export function FriendMenu() {
     const [pendingRequests, setPendingRequests] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [isSearchLoading, setIsSearchLoading] = useState(false); 
+    const [isSearchLoading, setIsSearchLoading] = useState(false);
 
     // ESTADO PARA MI PERFIL
     const [myProfile, setMyProfile] = useState(null);
@@ -88,8 +87,8 @@ export function FriendMenu() {
     // Derivados de estado
     const friendIds = useMemo(() => new Set(friends.map(f => f.id)), [friends]);
     const isSearching = searchQuery.length > 0;
-    
-    // ⭐ 2. LÓGICA DE CLICK-OUTSIDE
+
+    // 2. LÓGICA DE CLICK-OUTSIDE
     useEffect(() => {
         // Solo adjuntamos el listener si el menú está abierto
         if (!isFriendMenuOpen) return;
@@ -116,7 +115,6 @@ export function FriendMenu() {
     // --- LÓGICA DE CARGA DE AMIGOS/SOLICITUDES (FUNCIÓN ESTABLE) ---
     const loadFriendsAndRequests = useCallback(async () => {
         const { showError: currentShowError } = hookFuncsRef.current;
-        // ... (Tu lógica de carga existente)
         const token = getAuthToken();
         if (!token) return;
 
@@ -229,7 +227,8 @@ export function FriendMenu() {
         try {
             const results = await fetchUsers(trimmedQuery);
 
-            // LEEMOS LOS DATOS DE AMISTAD DESDE LA REFERENCIA ESTABLE
+            // -----------------------------------------------------------------
+
             const currentFriends = friendDataRef.current.friends;
             const currentPendingRequests = friendDataRef.current.pendingRequests;
 
@@ -240,13 +239,16 @@ export function FriendMenu() {
             ]);
             const myId = myProfile?.id;
 
+            // El filtrado ahora usa user.id, que fue mapeado.
             const filteredResults = results.filter(user =>
                 !existingIds.has(user.id) && user.id !== myId
             );
 
+
             // Estabilización: solo actualiza si los resultados son REALMENTE diferentes
             setSearchResults(prev => {
                 if (prev.length !== filteredResults.length) {
+                    console.log("filteredResults", filteredResults);
                     return filteredResults;
                 }
                 if (prev.length === 0) {
@@ -257,7 +259,6 @@ export function FriendMenu() {
                 return isSame ? prev : filteredResults;
             });
 
-            // ⭐ ACTUALIZAMOS LA REFERENCIA DE LA ÚLTIMA BÚSQUEDA EXITOSA
             lastSearchQueryRef.current = trimmedQuery;
 
         } catch (error) {
@@ -271,7 +272,7 @@ export function FriendMenu() {
         }
     }, [showError, myProfile, setIsSearchLoading, setSearchResults]);
 
-    // useEffect para manejar el retardo (Debounce)
+    // useEffect para manejar el retardo
     useEffect(() => {
         const trimmedQuery = searchQuery.trim();
 
@@ -283,11 +284,11 @@ export function FriendMenu() {
                 return prev;
             });
             setIsSearchLoading(false);
-            lastSearchQueryRef.current = ''; // ⭐ Limpiamos la referencia
+            lastSearchQueryRef.current = '';
             return;
         }
 
-        // ⭐ ANTI-BUCLE: Si la query es la misma que la última exitosa, no hagas nada
+        // Si la query es la misma que la última exitosa
         if (trimmedQuery === lastSearchQueryRef.current) {
             setIsSearchLoading(false); // Aseguramos que el estado de carga es false
             return;
@@ -335,8 +336,6 @@ export function FriendMenu() {
         setSearchResults([]);
         setSearchQuery('');
     };
-
-    // ... (El resto de las funciones de navegación y estado son correctas)
 
     const handleStatusChange = (newStatus) => {
         setUserStatus(newStatus);
@@ -546,30 +545,7 @@ export function FriendMenu() {
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                     />
-                    {/* INDICADOR DE BÚSQUEDA EN TIEMPO REAL */}
-
-                    {/* {!isSearching && (
-                        <div
-                            className={`custom-status-select ${isDropdownOpen ? 'open' : ''}`}
-                            onBlur={() => setTimeout(() => setIsDropdownOpen(false), 100)}
-                            tabIndex={0}
-                        >
-                            <button className='select-display' onClick={toggleDropdown} aria-expanded={isDropdownOpen}>
-                                {statusOptions.find(opt => opt.value === userStatus)?.label}
-                                <FaChevronDown size={12} className='dropdown-icon' />
-                            </button>
-                            <ul className='select-options'>
-                                {statusOptions.map((option) => (
-                                    <li key={option.value} className={option.value === userStatus ? 'selected' : ''}>
-                                        <button onClick={() => handleStatusChange(option.value)} aria-pressed={option.value === userStatus}>
-                                            {option.label}
-                                            <FaCircle size={18} style={{ marginLeft: '8px', color: option.value === 'online' ? '#90b484' : '#8c8c8c' }} />
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )} */}
+                    {/* INDICADOR DE BÚSQUEDA EN TIEMPO REAL (comentado) */}
                 </div>
                 {/* FIN BARRA DE BÚSQUEDA Y STATUS */}
 
@@ -620,8 +596,8 @@ export function FriendMenu() {
 
 
     return (
-        // ⭐ 3. ADJUNTAR LA REFERENCIA AL CONTENEDOR PRINCIPAL
-        <div className={`friends-menu ${collapsedClass}`} ref={menuRef}> 
+        // 3. ADJUNTAR LA REFERENCIA AL CONTENEDOR PRINCIPAL
+        <div className={`friends-menu ${collapsedClass}`} ref={menuRef}>
             <button
                 onClick={toggleFriendMenu}
                 aria-expanded={isFriendMenuOpen}

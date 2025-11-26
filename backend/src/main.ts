@@ -18,6 +18,7 @@ async function bootstrap() {
       'https://catube-steel.vercel.app',
       'https://catube.xyz',
       'https://www.catube.xyz',
+      "http://localhost:5173"
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,

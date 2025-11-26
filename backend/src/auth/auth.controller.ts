@@ -22,7 +22,7 @@ export class AuthController {
             // Este throw maneja las credenciales inválidas.
             throw new UnauthorizedException('Invalid credentials');
         }
-        // Devuelve: { access_token: "...", user: {...} }
+        // Devuelve: access_token
         return this.authService.login(user);
     }
     

@@ -198,13 +198,13 @@ export class UsersService {
                 username: Like(`%${query}%`),
             },
             // Excluye el campo 'password' para no enviarlo al frontend
-            select: ['user_id', 'username', 'email'],
+            select: ['user_id', 'username', 'avatarUrl'],
         });
 
-        // Filtramos información sensible si el 'select' de TypeORM no es suficiente
         return users.map(user => ({
             user_id: user.user_id,
             username: user.username,
+            avatarUrl: user.avatarUrl,
         }));
     }
 

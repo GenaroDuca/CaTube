@@ -26,7 +26,7 @@ const FriendCard = ({ user, isFriend, onGoToProfile, onGoToChat, onAddFriend }) 
         e.stopPropagation();
         onGoToProfile(user);
     };
-
+    
     return (
         <div
             className={cardClass + (isFriend ? ' clickable' : '')}
