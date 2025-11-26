@@ -394,6 +394,11 @@
     width: 100%;
 }
 
+.recent-cats-container.empty {
+    display: flex;
+    justify-content: center;
+}
+
 .recent-cats {
     padding: 15px;
     width: 100%;

@@ -347,7 +347,8 @@ function Store() {
             <Title title="Loading Store..."></Title>
             <hr />
             <Container className="content">
-                <div>Loading...</div>
+                <div style={{ textAlign: 'center' }}>Loading...</div>
+
             </Container>
         </>
     ), []);

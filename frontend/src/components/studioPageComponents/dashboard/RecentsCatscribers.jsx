@@ -170,7 +170,8 @@ function RecentCatscribers() {
     return (
         <Container className="dashboard-card">
             <Subtitle subtitle="Recent Catscribers"></Subtitle>
-            <Container className="recent-cats-container">
+            {/* Aplica la clase 'empty' si no hay suscriptores */}
+            <Container className={`recent-cats-container ${recentSubscribers.length === 0 ? 'empty' : ''}`}>
                 {recentSubscribers.length > 0 ? (
                     recentSubscribers.map(subscriber => {
                         const channelSlug = subscriber.channelUrl || subscriber.channel?.url || null;
@@ -199,7 +200,7 @@ function RecentCatscribers() {
                 )}
             </Container>
             <Subtitle subtitle="Currents Catscribers"></Subtitle>
-            <p className="sub-number">{totalSubs}</p>
+            <p className="sub-number" style={{ color: 'var(--btn)' }}>{totalSubs}</p>
         </Container>
     );
 }

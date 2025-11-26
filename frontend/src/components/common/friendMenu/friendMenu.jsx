@@ -248,7 +248,6 @@ export function FriendMenu() {
             // Estabilización: solo actualiza si los resultados son REALMENTE diferentes
             setSearchResults(prev => {
                 if (prev.length !== filteredResults.length) {
-                    console.log("filteredResults", filteredResults);
                     return filteredResults;
                 }
                 if (prev.length === 0) {
