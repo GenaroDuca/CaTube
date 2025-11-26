@@ -22,7 +22,7 @@ function TopChannelsPodium({ channels }) {
 
     return (
         <div className="podium-container">
-            <h2 className="podium-title">Top Channels</h2>
+            <h3 className="podium-title">Top Channels</h3>
 
             <div className="podium-wrapper">
                 {/* Segundo Lugar */}

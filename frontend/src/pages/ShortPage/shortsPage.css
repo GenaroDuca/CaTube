@@ -11,7 +11,9 @@
 .fullscreen-short-container>.short-container {
     height: 90vh;
     display: flex;
-    background-color: var(--primary-color);
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-container-color);
     border-radius: 30px;
     padding: 20px;
     gap: 20px;
@@ -110,9 +112,6 @@
 
 /* Botón de sonido */
 .btn-sound {
-    background-color: transparent !important;
-    box-shadow: none !important;
-    border: none !important;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -219,9 +218,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #1e1e1fd9;
+    background-color: var(--container-color-blur);
     color: var(--text-color);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--border-container-color);
 }
 
 .video-options-btn {
@@ -335,7 +334,7 @@
         margin-top: -15px;
         height: 95vh;
     }
-    
+
 }
 
 /* New Styles for Overlay and Drawer */

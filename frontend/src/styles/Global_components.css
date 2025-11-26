@@ -1,584 +1,582 @@
-    /* ===== MODO OSCURO ===== */
-    :root {
-        --primary-color: #1a1a1b;
-        --background-color: #1F1F20;
-        --hover-color: #232324;
-        --btn: #90B484;
-        --btn-dark: #749269;
-        --text-color: #777878;
-        --border-radius: 30px;
-        --font-size: clamp(0.5rem, 3vw, 1rem);
-        --border-color: #2d2d2e;
-        --card-bg: #252526;
-        --accent-color: #90b484;
-        --shadow-color: rgba(0, 0, 0, 0.3);
-        --input-bg: #2a2a2b;
-    }
-
-    /* ===== MODO CLARO ===== */
-    body.light-mode {
-        --primary-color: #ffffff;
-        --background-color: #f1f1f1;
-        --hover-color: #e9ecef;
-        --text-color: #333333;
-        --border-color: #d0d0d0;
-        --card-bg: #f1f1f1;
-        --shadow-color: rgba(0, 0, 0, 0.021);
-        --input-bg: #ffffff;
-    }
-
-    /* ===== ESTILOS BASE ===== */
-    body.light-mode {
-        background-color: var(--background-color) !important;
-        color: var(--text-color) !important;
-    }
-
-    /* ===== ESTRUCTURA PRINCIPAL ===== */
-    body.light-mode header,
-    body.light-mode nav,
-    body.light-mode .header,
-    body.light-mode .navbar,
-    body.light-mode [class*="nav"],
-    body.light-mode main,
-    body.light-mode section,
-    body.light-mode article {
-        background-color: var(--primary-color) !important;
-        border-color: var(--border-color) !important;
-    }
-
-    body.light-mode main,
-    body.light-mode section,
-    body.light-mode article {
-        background-color: var(--card-bg) !important;
-    }
-
-    /* ===== COMPONENTES ESPECÍFICOS ===== */
-    /* Header actions */
-    body.light-mode .sr-header-right>div.sr-header-userActions {
-        background-color: var(--btn) !important;
-    }
-
-    body.light-mode [class="friends-menu "] {
-        background-color: #ffffffd9 !important;
-    }
-
-    body.light-mode [class="friend-menu-header"] {
-        background-color: transparent !important;
-    }
-
-    /* Botones */
-    body.light-mode .btn,
-    body.light-mode button,
-    body.light-mode [class*="btn"],
-    body.light-mode .button {
-        background-color: var(--btn) !important;
-    }
-
-    body.light-mode [class="discard-changes-create-video"],
-    body.light-mode #root>div.right-menu-modal>div>div>section>div>button.delete-account-btn.soon {
-        background-color: #e96765 !important;
-        color: var(--primary-color) !important;
-    }
-
-    body.light-mode [class="discard-changes-create-video"]:hover {
-        background-color: #b94c4a !important;
-    }
-
-    body.light-mode #root>div.right-menu-modal>div>div>section>div>button.disable-account-btn.soon {
-        background-color: #696969 !important;
-        color: var(--primary-color) !important;
-    }
-
-    body.light-mode #root>div.create-video-modal>div>header>button,
-    body.light-mode #root>div.right-menu-modal>div>div>section>div,
-    body.light-mode #root>div>div>header>button,
-    body.light-mode [class*="action-button chat-button"],
-    body.light-mode [class*="action-button profile-button"] {
-        background-color: transparent !important;
-    }
-
-    body.light-mode .btn:hover,
-    body.light-mode #root>aside>header>button:hover,
-    body.light-mode [class*="btn"]:hover,
-    body.light-mode [class="custom-file-label"]:hover {
-        background-color: var(--btn-dark) !important;
-        box-shadow: 0 4px 8px var(--shadow-color) !important;
-    }
-
-    /* Iconos del header */
-    body.light-mode #root>header>div.sr-header-right>div>div.user-menu-container>button>svg>path,
-    body.light-mode #root>header>div.sr-header-right>div>div.notification-menu>button>svg>path,
-    body.light-mode #root>header>div.sr-header-right>button>span,
-    body.light-mode #root>header>div.sr-header-searchBar>button>svg>path,
-    body.light-mode #root>header>div.sr-header-right>button>span {
-        color: var(--text-color) !important;
-        fill: currentColor !important;
-    }
-
-    body.light-mode #root>header>div.sr-header-right>div>div.user-menu-container>button:hover>svg>path,
-    body.light-mode #root>header>div.sr-header-right>div>div.notification-menu>button:hover>svg>path,
-    body.light-mode #root>header>div.sr-header-right>button>span:hover,
-    body.light-mode #root>header>div.sr-header-searchBar>button>svg>path:hover {
-        color: var(--hover-color) !important;
-    }
-
-
-
-    /* ===== Login y Sign Up ===== */
-    body.light-mode #root>aside>div>form {
-        background-color: #56724c !important;
-    }
-
-    body.light-mode [class="sr-auth-input"] {
-        background-color: var(--input-bg) !important;
-        color: var(--text-color) !important;
-        border-color: var(--border-color) !important;
-    }
-
-    /* , */
-    /* esa coma sostiene todo asi que no se puede borrar */
-
-    /* ===== FORMULARIOS ===== */
-    body.light-mode input,
-    body.light-mode textarea,
-    body.light-mode select,
-    body.light-mode [class*="input"],
-    body.light-mode [class*="form-control"] {
-        background-color: var(--input-bg) !important;
-        color: var(--text-color) !important;
-        border-color: var(--border-color) !important;
-    }
-
-    body.light-mode [class="register-btn"] {
-        color: var(--primary-color) !important;
-    }
-
-    body.light-mode input:focus,
-    body.light-mode textarea:focus,
-    body.light-mode select:focus {
-        border-color: var(--accent-color) !important;
-        box-shadow: 0 0 0 2px rgba(144, 180, 132, 0.2) !important;
-    }
-
-    /* ===== TIPOGRAFÍA Y COLORES DE TEXTO ===== */
-    body.light-mode h1,
-    body.light-mode h2,
-    body.light-mode h3,
-    body.light-mode h4,
-    body.light-mode h5,
-    body.light-mode h6,
-    body.light-mode p,
-    body.light-mode span,
-    body.light-mode div,
-    body.light-mode label,
-    body.light-mode #publish-changes-btn,
-    body.light-mode a:not([class*="btn"]),
-    body.light-mode svg,
-    body.light-mode [class*="icon"] {
-        color: var(--text-color) !important;
-
-    }
-
-    body.light-mode #root>main>div.container-short-principal>div>div.title-bar-short>p,
-    body.light-mode #short-actions-container>div.channel-info>p {
-        color: var(--primary-color) !important;
-    }
-
-    /* ===== BORDES Y SEPARADORES ===== */
-    body.light-mode,
-    body.light-mode * {
-        border-color: var(--border-color) !important;
-
-    }
-
-    body.light-mode hr,
-    body.light-mode [class*="border"],
-    body.light-mode [class*="separator"] {
-        border-color: var(--border-color) !important;
-        background-color: var(--border-color) !important;
-    }
-
-    /* ===== TRANSICIONES ===== */
-    body.light-mode #root>aside>nav>ul>li>a.nav-link,
-    body.light-mode #root>aside>nav>ul>li>a.nav-link * {
-        transition: all 0.1s ease !important;
-
-    }
-
-    body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>thead>tr {
-        background-color: var(--accent-color);
-    }
-
-    body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(1)>td:nth-child(8)>div,
-    body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(2)>td:nth-child(8)>div,
-    body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(3)>td:nth-child(8)>div,
-    body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(4)>td:nth-child(8)>div,
-    body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(5)>td:nth-child(8)>div,
-    body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(6)>td:nth-child(8)>div,
-    body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(7)>td:nth-child(8)>div,
-    body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(8)>td:nth-child(8)>div {
-        background-color: var(--primary-color) !important;
-        box-shadow: none !important;
-    }
-
-    /* ===== SCROLLBAR ===== */
-    body.light-mode::-webkit-scrollbar-track {
-        background: var(--background-color) !important;
-    }
-
-    body.light-mode::-webkit-scrollbar-thumb {
-        background: var(--border-color) !important;
-    }
-
-    #root>main>div.container-studio>div.content>div.scroll-table-container {
-        scrollbar-color: var(--btn) var(--primary-color) !important;
-    }
-
-    body.light-mode::-webkit-scrollbar-thumb:hover {
-        background: var(--hover-color) !important;
-
-    }
-
-    .loading,
-    .error {
-        text-align: center;
-        padding: 40px;
-        font-size: 18px;
-    }
-
-    .error {
-        color: #e96765;
-    }
-
-
-    @font-face {
-        font-family: garet;
-        src: url('../assets/fonts/garet/Garet-Book.woff2');
-        font-weight: 400;
-        font-style: normal
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        font-family: garet;
-        box-sizing: border-box;
-        transition: .3s
-    }
-
-    .main-content {
-        margin-left: 100px;
-    }
-
-    a,
-    body {
-        color: var(--text-color)
-    }
-
-
-    .ts-nav-link,
-    a {
-        text-decoration: none
-    }
-
-    .title {
-        font-weight: 500
-    }
-
-    .ts-nav-label {
-        font-size: var(--font-size);
-    }
-
-    #soon-modal {
-        display: none
-    }
-
-    .hide {
-        display: none !important;
-    }
-
-    body {
-        background-color: var(--background-color);
-        padding-top: 72px
-    }
-
-    p {
-        font-size: var(--font-size)
-    }
-
-    h1 {
-        font-size: 2rem
-    }
-
-    hr {
-        background: var(--text-color);
-        height: 1px;
-        border: none;
-        border-radius: 30px;
-    }
-
-    .frequently-asked-questions summary,
-    button:hover {
-        cursor: pointer
-    }
-
-
-    .user-btn.logged-in {
-        color: var(--btn);
-    }
-
-    .menu-btn:hover,
-    .mic-btn:hover,
-    .notify-btn:hover,
-    .user-btn:hover {
-        color: var(--btn)
-    }
-
-    .logo {
-        height: 32px
-    }
-
-    .title {
-        font-size: 1.125rem;
-        color: #777878
-    }
-
-    .search-btn {
-        padding: 8px 12px;
-        border: none;
-        color: #1f1f20;
-        cursor: pointer
-    }
-
-    .search-btn:hover {
-        background-color: #749269
-    }
-
-    .sr-header-createButton {
-        background-color: var(--primary-color);
-        border-radius: 30px;
-        padding: 10px;
-        color: var(--text-color);
-        font-size: 1.2rem;
-        gap: 8px;
-        cursor: pointer;
-        border: none
-    }
-
-    /* 
-.sr-header-createButton i,
-.sidebar-header {
+/* ===== MODO OSCURO ===== */
+:root {
+    --primary-color: #1a1a1b;
+    --background-color: #1F1F20;
+    --hover-color: #232324;
+    --btn: #90B484;
+    --btn-dark: #749269;
+    --text-color: #777878;
+    --border-radius: 30px;
+    --font-size: clamp(0.5rem, 3vw, 1rem);
+    --border-color: #2d2d2e;
+    --card-bg: #252526;
+    --accent-color: #90b484;
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --input-bg: #2a2a2b;
+    --border-container-color: #3a3a3a;
+    --container-color: #1e1e1f;
+    --container-color-blur: #1e1e1fd9;
+    --container-color-gradient: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+}
+
+/* ===== MODO CLARO ===== */
+body.light-mode {
+    --primary-color: #ffffff;
+    --background-color: #f1f1f1;
+    --hover-color: #e9ecef;
+    --text-color: #333333;
+    --border-color: #d0d0d0;
+    --card-bg: #f1f1f1;
+    --shadow-color: rgba(0, 0, 0, 0.021);
+    --input-bg: #ffffff;
+}
+
+/* ===== ESTILOS BASE ===== */
+body.light-mode {
+    background-color: var(--background-color) !important;
+    color: var(--text-color) !important;
+}
+
+/* ===== ESTRUCTURA PRINCIPAL ===== */
+body.light-mode header,
+body.light-mode nav,
+body.light-mode .header,
+body.light-mode .navbar,
+body.light-mode [class*="nav"],
+body.light-mode main,
+body.light-mode section,
+body.light-mode article {
+    background-color: var(--primary-color) !important;
+    border-color: var(--border-color) !important;
+}
+
+body.light-mode main,
+body.light-mode section,
+body.light-mode article {
+    background-color: var(--card-bg) !important;
+}
+
+/* ===== COMPONENTES ESPECÍFICOS ===== */
+/* Header actions */
+body.light-mode .sr-header-right>div.sr-header-userActions {
+    background-color: var(--btn) !important;
+}
+
+body.light-mode [class="friends-menu "] {
+    background-color: #ffffffd9 !important;
+}
+
+body.light-mode [class="friend-menu-header"] {
+    background-color: transparent !important;
+}
+
+/* Botones */
+body.light-mode .btn,
+body.light-mode button,
+body.light-mode [class*="btn"],
+body.light-mode .button {
+    background-color: var(--btn) !important;
+}
+
+body.light-mode [class="discard-changes-create-video"],
+body.light-mode #root>div.right-menu-modal>div>div>section>div>button.delete-account-btn.soon {
+    background-color: #e96765 !important;
+    color: var(--primary-color) !important;
+}
+
+body.light-mode [class="discard-changes-create-video"]:hover {
+    background-color: #b94c4a !important;
+}
+
+body.light-mode #root>div.right-menu-modal>div>div>section>div>button.disable-account-btn.soon {
+    background-color: #696969 !important;
+    color: var(--primary-color) !important;
+}
+
+body.light-mode #root>div.create-video-modal>div>header>button,
+body.light-mode #root>div.right-menu-modal>div>div>section>div,
+body.light-mode #root>div>div>header>button,
+body.light-mode [class*="action-button chat-button"],
+body.light-mode [class*="action-button profile-button"] {
+    background-color: transparent !important;
+}
+
+body.light-mode .btn:hover,
+body.light-mode #root>aside>header>button:hover,
+body.light-mode [class*="btn"]:hover,
+body.light-mode [class="custom-file-label"]:hover {
+    background-color: var(--btn-dark) !important;
+    box-shadow: 0 4px 8px var(--shadow-color) !important;
+}
+
+/* Iconos del header */
+body.light-mode #root>header>div.sr-header-right>div>div.user-menu-container>button>svg>path,
+body.light-mode #root>header>div.sr-header-right>div>div.notification-menu>button>svg>path,
+body.light-mode #root>header>div.sr-header-right>button>span,
+body.light-mode #root>header>div.sr-header-searchBar>button>svg>path,
+body.light-mode #root>header>div.sr-header-right>button>span {
+    color: var(--text-color) !important;
+    fill: currentColor !important;
+}
+
+body.light-mode #root>header>div.sr-header-right>div>div.user-menu-container>button:hover>svg>path,
+body.light-mode #root>header>div.sr-header-right>div>div.notification-menu>button:hover>svg>path,
+body.light-mode #root>header>div.sr-header-right>button>span:hover,
+body.light-mode #root>header>div.sr-header-searchBar>button>svg>path:hover {
+    color: var(--hover-color) !important;
+}
+
+
+
+/* ===== Login y Sign Up ===== */
+body.light-mode #root>aside>div>form {
+    background-color: #56724c !important;
+}
+
+body.light-mode [class="sr-auth-input"] {
+    background-color: var(--input-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
+}
+
+/* , */
+/* esa coma sostiene todo asi que no se puede borrar */
+
+/* ===== FORMULARIOS ===== */
+body.light-mode input,
+body.light-mode textarea,
+body.light-mode select,
+body.light-mode [class*="input"],
+body.light-mode [class*="form-control"] {
+    background-color: var(--input-bg) !important;
+    color: var(--text-color) !important;
+    border-color: var(--border-color) !important;
+}
+
+body.light-mode [class="register-btn"] {
+    color: var(--primary-color) !important;
+}
+
+body.light-mode input:focus,
+body.light-mode textarea:focus,
+body.light-mode select:focus {
+    border-color: var(--accent-color) !important;
+    box-shadow: 0 0 0 2px rgba(144, 180, 132, 0.2) !important;
+}
+
+/* ===== TIPOGRAFÍA Y COLORES DE TEXTO ===== */
+body.light-mode h1,
+body.light-mode h2,
+body.light-mode h3,
+body.light-mode h4,
+body.light-mode h5,
+body.light-mode h6,
+body.light-mode p,
+body.light-mode span,
+body.light-mode div,
+body.light-mode label,
+body.light-mode #publish-changes-btn,
+body.light-mode a:not([class*="btn"]),
+body.light-mode svg,
+body.light-mode [class*="icon"] {
+    color: var(--text-color) !important;
+
+}
+
+body.light-mode #root>main>div.container-short-principal>div>div.title-bar-short>p,
+body.light-mode #short-actions-container>div.channel-info>p {
+    color: var(--primary-color) !important;
+}
+
+/* ===== BORDES Y SEPARADORES ===== */
+body.light-mode,
+body.light-mode * {
+    border-color: var(--border-color) !important;
+
+}
+
+body.light-mode hr,
+body.light-mode [class*="border"],
+body.light-mode [class*="separator"] {
+    border-color: var(--border-color) !important;
+    background-color: var(--border-color) !important;
+}
+
+/* ===== TRANSICIONES ===== */
+body.light-mode #root>aside>nav>ul>li>a.nav-link,
+body.light-mode #root>aside>nav>ul>li>a.nav-link * {
+    transition: all 0.1s ease !important;
+
+}
+
+body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>thead>tr {
+    background-color: var(--accent-color);
+}
+
+body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(1)>td:nth-child(8)>div,
+body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(2)>td:nth-child(8)>div,
+body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(3)>td:nth-child(8)>div,
+body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(4)>td:nth-child(8)>div,
+body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(5)>td:nth-child(8)>div,
+body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(6)>td:nth-child(8)>div,
+body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(7)>td:nth-child(8)>div,
+body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-container>table>tbody>tr:nth-child(8)>td:nth-child(8)>div {
+    background-color: var(--primary-color) !important;
+    box-shadow: none !important;
+}
+
+/* ===== SCROLLBAR ===== */
+body.light-mode::-webkit-scrollbar-track {
+    background: var(--background-color) !important;
+}
+
+body.light-mode::-webkit-scrollbar-thumb {
+    background: var(--border-color) !important;
+}
+
+#root>main>div.container-studio>div.content>div.scroll-table-container {
+    scrollbar-color: var(--btn) var(--primary-color) !important;
+}
+
+body.light-mode::-webkit-scrollbar-thumb:hover {
+    background: var(--hover-color) !important;
+
+}
+
+.loading,
+.error {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+}
+
+.error {
+    color: #e96765;
+}
+
+
+@font-face {
+    font-family: garet;
+    src: url('../assets/fonts/garet/Garet-Book.woff2');
+    font-weight: 400;
+    font-style: normal
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: garet;
+    box-sizing: border-box;
+    transition: .3s
+}
+
+.main-content {
+    margin-left: 100px;
+}
+
+a,
+body {
+    color: var(--text-color)
+}
+
+
+.ts-nav-link,
+a {
+    text-decoration: none
+}
+
+.title {
+    font-weight: 500
+}
+
+.ts-nav-label {
+    font-size: var(--font-size);
+}
+
+#soon-modal {
+    display: none
+}
+
+.hide {
+    display: none !important;
+}
+
+body {
+    background-color: var(--background-color);
+    padding-top: 72px
+}
+
+p {
+    font-size: var(--font-size)
+}
+
+h1 {
+    font-size: 2rem
+}
+
+hr {
+    background: var(--text-color);
+    height: 1px;
+    border: none;
+    border-radius: 30px;
+}
+
+.frequently-asked-questions summary,
+button:hover {
+    cursor: pointer
+}
+
+
+.user-btn.logged-in {
+    color: var(--btn);
+}
+
+.menu-btn:hover,
+.mic-btn:hover,
+.notify-btn:hover,
+.user-btn:hover {
+    color: var(--btn)
+}
+
+.logo {
+    height: 32px
+}
+
+.title {
+    font-size: 1.125rem;
+    color: #777878
+}
+
+.search-btn {
+    padding: 8px 12px;
+    border: none;
+    color: #1f1f20;
+    cursor: pointer
+}
+
+.search-btn:hover {
+    background-color: #749269
+}
+
+.sr-header-createButton {
+    background-color: var(--primary-color);
+    border-radius: 30px;
+    padding: 10px;
+    color: var(--text-color);
+    font-size: 1.2rem;
+    gap: 8px;
+    cursor: pointer;
+    border: none
+}
+
+.sr-header-createButton i {
+    color: var(--primary-color);
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    justify-content: center
+}
+
+.sr-header-createButton:hover {
+    color: var(--btn-dark)
+}
+
+.change-password-form a {
+    cursor: pointer;
+    text-align: end;
+}
+
+.change-password-form a:hover {
+    color: var(--btn);
+}
+
+.sr-header-userActions {
+    background-color: var(--primary-color);
+    border-radius: 20px;
+    padding: 5px 10px
+}
+
+.sidebar,
+.ts-sidebar {
+    width: 270px;
+    position: fixed;
+    background-color: #1e1e1fd9;
+    backdrop-filter: blur(10px);
+    border: 1px solid #3a3a3a;
+}
+
+
+
+.user-button {
+    background-color: var(--primary-color);
+    border: none;
+    border-radius: var(--border-radius);
+    color: var(--text);
+    font-size: 1.2rem;
+    cursor: pointer;
+    position: relative;
+    transition: background-color 0.2s ease;
+}
+
+.user-button:hover {
+    color: var(--btn);
+}
+
+.logged-in-icon {
+    color: var(--btn);
+}
+
+.logged-in-icon:hover {
+    color: var(--btn-dark);
+}
+
+.ts-sidebar {
+    top: 70px;
+    right: 16px;
+    border-radius: 30px;
+    z-index: 4;
+    overflow: hidden;
     display: flex;
-    align-items: center
-} */
+    flex-direction: column
+}
 
-    .sr-header-createButton i {
-        color: var(--primary-color);
-        border-radius: 50%;
-        width: 24px;
-        height: 24px;
-        justify-content: center
+/* RIGHT MENU */
+.ts-sidebar.collapsed {
+    transform: translateX(110%);
+    pointer-events: none;
+    background-color: var(--primary-color);
+    backdrop-filter: blur(10px);
+    border: 1px solid #3a3a3a;
+}
+
+.ts-sidebar-nav {
+    padding: 20px;
+}
+
+.user-menu-username {
+    text-align: center;
+    border-radius: 30px;
+}
+
+.user-menu-username p {
+    color: var(--text-color);
+}
+
+
+.user-menu-username span {
+    color: var(--btn);
+}
+
+.ts-nav-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 5px
+}
+
+.ts-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--text-color);
+    padding: 12px 16px;
+    border-radius: var(--border-radius);
+    width: 100%;
+    background-color: transparent;
+    border: none
+}
+
+.ts-nav-link:hover {
+    background: var(--btn);
+    color: var(--primary-color)
+}
+
+.close-soon-modal-container {
+    width: 100%;
+    padding: 20px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    background-color: #90b484;
+    margin-bottom: -32px
+}
+
+#close-soon-modal {
+    width: 100px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 30px;
+    background-color: transparent;
+    cursor: pointer;
+    border: 1px solid var(--primary-color)
+}
+
+#close-soon-modal:hover {
+    background: var(--primary-color);
+    color: var(--btn)
+}
+
+.play-modal-btn,
+.return-btn-soon {
+    width: 100px;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 30px;
+    margin-bottom: 20px;
+    background-color: var(--btn)
+}
+
+.return-btn-soon {
+    margin: 0
+}
+
+.change-password-form button:hover,
+.play-modal-btn:hover,
+.return-btn-soon:hover {
+    background-color: var(--btn-dark)
+}
+
+.search-friend-btn:hover {
+    background-color: var(--btn-dark);
+}
+
+.title-container {
+    width: 95% !important;
+    margin: 1rem auto;
+}
+
+@media (max-width:768px) {
+    .main-content {
+        margin-left: 0px;
     }
 
-    .sr-header-createButton:hover {
-        color: var(--btn-dark)
-    }
-
-    .change-password-form a {
-        cursor: pointer;
-        text-align: end;
-    }
-
-    .change-password-form a:hover {
-        color: var(--btn);
-    }
-
-    .sr-header-userActions {
-        background-color: var(--primary-color);
-        border-radius: 20px;
-        padding: 5px 10px
-    }
-
-    .sidebar,
-    .ts-sidebar {
-        width: 270px;
-        position: fixed;
-        background-color: #1e1e1fd9;
-        box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493);
-        backdrop-filter: blur(10px);
-    }
-
-
-
-    .user-button {
-        background-color: var(--primary-color);
-        border: none;
-        border-radius: var(--border-radius);
-        color: var(--text);
-        font-size: 1.2rem;
-        cursor: pointer;
-        position: relative;
-        transition: background-color 0.2s ease;
-    }
-
-    .user-button:hover {
-        color: var(--btn);
-    }
-
-    .logged-in-icon {
-        color: var(--btn);
-    }
-
-    .logged-in-icon:hover {
-        color: var(--btn-dark);
-    }
-
-    .ts-sidebar {
-        top: 70px;
-        right: 16px;
-        border-radius: 30px;
-        z-index: 4;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column
-    }
-
-    /* RIGHT MENU */
-    .ts-sidebar.collapsed {
-        transform: translateX(110%);
-        pointer-events: none;
-        background-color: var(--primary-color);
-        box-shadow: none;
-    }
-
-    .ts-sidebar-nav {
+    .setting-section {
         padding: 20px;
+        width: 100%
     }
 
-    .user-menu-username {
-        text-align: center;
-        border-radius: 30px;
+    .change-password-form button,
+    .delete-account-btn,
+    .disable-account-btn,
+    .settings-option-btn {
+        padding: 6px 10px
     }
 
-    .user-menu-username p {
-        color: var(--text-color);
+}
+
+@keyframes skeleton-loading {
+    0% {
+        background-color: #e0e0e0;
     }
 
-
-    .user-menu-username span {
-        color: var(--btn);
+    50% {
+        background-color: #f0f0f0;
     }
 
-    .ts-nav-list {
-        list-style: none;
-        display: flex;
-        flex-direction: column;
-        gap: 5px
+    100% {
+        background-color: #e0e0e0;
     }
+}
 
-    .ts-nav-link {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        color: var(--text-color);
-        padding: 12px 16px;
-        border-radius: var(--border-radius);
-        width: 100%;
-        background-color: transparent;
-        border: none
-    }
-
-    .ts-nav-link:hover {
-        background: var(--btn);
-        color: var(--primary-color)
-    }
-
-    .close-soon-modal-container {
-        width: 100%;
-        padding: 20px;
-        border-bottom-left-radius: 30px;
-        border-bottom-right-radius: 30px;
-        background-color: #90b484;
-        margin-bottom: -32px
-    }
-
-    #close-soon-modal {
-        width: 100px;
-        padding: 8px 15px;
-        border: none;
-        border-radius: 30px;
-        background-color: transparent;
-        cursor: pointer;
-        border: 1px solid var(--primary-color)
-    }
-
-    #close-soon-modal:hover {
-        background: var(--primary-color);
-        color: var(--btn)
-    }
-
-    .play-modal-btn,
-    .return-btn-soon {
-        width: 100px;
-        padding: 8px 15px;
-        border: none;
-        border-radius: 30px;
-        margin-bottom: 20px;
-        background-color: var(--btn)
-    }
-
-    .return-btn-soon {
-        margin: 0
-    }
-
-    .change-password-form button:hover,
-    .play-modal-btn:hover,
-    .return-btn-soon:hover {
-        background-color: var(--btn-dark)
-    }
-
-    .search-friend-btn:hover {
-        background-color: var(--btn-dark);
-    }
-
-    .title-container {
-        width: 95% !important;
-        margin: 1rem auto;
-    }
-
-    @media (max-width:768px) {
-        .main-content {
-            margin-left: 0px;
-        }
-
-        .setting-section {
-            padding: 20px;
-            width: 100%
-        }
-
-        .change-password-form button,
-        .delete-account-btn,
-        .disable-account-btn,
-        .settings-option-btn {
-            padding: 6px 10px
-        }
-
-    }
-
-    @keyframes skeleton-loading {
-        0% {
-            background-color: #e0e0e0;
-        }
-
-        50% {
-            background-color: #f0f0f0;
-        }
-
-        100% {
-            background-color: #e0e0e0;
-        }
-    }
-
-    .skeleton {
-        animation: skeleton-loading 1.5s infinite ease-in-out;
-    }
+.skeleton {
+    animation: skeleton-loading 1.5s infinite ease-in-out;
+}

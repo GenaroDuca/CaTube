@@ -11,7 +11,7 @@
     display: grid;
     grid-auto-flow: column;
     grid-auto-columns: minmax(285px, 285px);
-    gap: 22px;
+    gap: 20px;
     overflow-x: auto;
     scroll-behavior: smooth;
 }

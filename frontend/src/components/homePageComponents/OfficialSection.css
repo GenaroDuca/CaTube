@@ -1,0 +1,102 @@
+.official-section-container {
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.official-header {
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+    border-radius: 30px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.official-badge {
+    background-color: transparent;
+    color: var(--btn);
+    padding: 5px 12px;
+    border-radius: 150px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid #90b484;
+}
+
+.official-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    width: 100%;
+    flex: 1;
+}
+
+.official-grid::-webkit-scrollbar {
+    /* Ocultar scrollbar en navegadores WebKit */
+    display: none;
+}
+
+.official-grid::-webkit-scrollbar-thumb {
+    background-color: #4a4a4a;
+    border-radius: 3px;
+}
+
+.official-card {
+    border-radius: 30px;
+    padding: 20px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-container-color);
+}
+
+.official-avatar-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.official-avatar {
+    width: 120px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 15px rgba(155, 199, 154, 0.384);
+}
+
+.official-verified-icon {
+    color: var(--btn);
+    font-size: 1.2rem;
+}
+
+.official-info {
+    text-align: center;
+}
+
+.official-info h4 {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin: 0;
+}
+
+.official-role {
+    font-size: 0.75rem;
+    color: var(--btn);
+    margin-top: 5px;
+}

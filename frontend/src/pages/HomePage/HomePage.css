@@ -21,12 +21,21 @@ a {
 .trending,
 .subscriptions,
 .VideoContainer {
-  background-color: var(--primary-color);
+  /* background-color: var(--primary-color);
   width: 95%;
   height: auto;
   padding: 1rem 2rem;
   margin: 1rem auto;
+  border-radius: 30px; */
+  width: 95%;
+  margin: 1rem auto;
+  background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
   border-radius: 30px;
+  padding: 25px;
+  border: 1px solid #3a3a3a;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  position: relative;
+  overflow: hidden;
 }
 
 .carousel-container a {
@@ -124,29 +133,29 @@ a {
   display: none;
 }
 
-/* populaar channels */
+/* popular channels */
 .profile {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 160px;
   height: auto;
-text-align: center;
+  text-align: center;
   border-radius: 30px;
 }
 
-.profile:hover {
-  background-color: var(--background-color);
-  border-radius: 30px;
+.official-channels-section-container {
+  width: 95%;
+  margin: 1rem auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
 }
-
-
 
 .profile-photo {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  margin-top: 20px;
 }
 
 .name-channel {
@@ -248,7 +257,9 @@ text-align: center;
     grid-template-columns: repeat(3, 1fr);
   }
 
-
+  .official-channels-section-container {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 900px) {
@@ -301,21 +312,6 @@ text-align: center;
   .profile-photo {
     width: 60px;
     height: 60px;
-  }
-
-  .video-card {
-    width: auto;
-    margin-right: 1px;
-  }
-
-  .video-thumb {
-    width: 100%;
-    border-radius: 15px;
-    margin-top: 10px;
-  }
-
-  .short-card {
-    width: 100%;
   }
 
   .VideoContainer-container::-webkit-scrollbar {

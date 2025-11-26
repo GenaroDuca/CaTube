@@ -4,20 +4,12 @@
     margin: 0rem auto; */
 }
 
-.podium-title {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    color: var(--text-color);
-}
 
 .podium-wrapper {
     display: flex;
     justify-content: center;
     align-items: flex-end;
     gap: 1.5rem;
-    /* padding: 2rem 0; */
     position: relative;
 }
 
@@ -118,9 +110,9 @@
     justify-content: center;
     font-size: 1.2rem;
     font-weight: 700;
-    color: white;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 10;
+    color: var(--container-color);
 }
 
 /* Contenido del podio */
@@ -135,6 +127,7 @@
     position: relative;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
+    z-index: 1;
 }
 
 .podium-item:hover .podium-content {
@@ -224,12 +217,13 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
+    bottom: 20px;
 }
 
 .podium-base::before {
     content: '';
     position: absolute;
-    top: 0;
+    top: 20px;
     left: 0;
     right: 0;
     height: 3px;
@@ -262,7 +256,7 @@
 @media (max-width: 768px) {
 
     .podium-title {
-        font-size: 1.5rem;
+        margin-bottom: 20px;
     }
 
     .podium-wrapper {

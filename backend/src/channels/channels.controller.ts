@@ -1,4 +1,4 @@
-import { Body, Controller,Delete,Get, Param, Post, Patch, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Patch, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateChannelDto } from './dto-channels/create-channel.dto';
 import { ChannelsService } from './channels.service';
@@ -6,7 +6,7 @@ import { User } from 'src/users/entities/user.entity';
 
 @Controller('channels')
 export class ChannelsController {
-    constructor(private readonly channelsService: ChannelsService) {}
+    constructor(private readonly channelsService: ChannelsService) { }
 
     @Post()
     createChannel(@Body() createChannelDto: CreateChannelDto, user: User) {
@@ -15,8 +15,13 @@ export class ChannelsController {
     }
 
     @Get()
-    findAll(){
+    findAll() {
         return this.channelsService.findAll();
+    }
+
+    @Get('official')
+    findOfficial() {
+        return this.channelsService.findOfficialChannels();
     }
 
     @Get(':id')
