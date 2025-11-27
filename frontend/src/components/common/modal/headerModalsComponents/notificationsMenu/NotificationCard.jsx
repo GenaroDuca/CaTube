@@ -1,6 +1,6 @@
 import React from 'react';
-// 🚨 NECESITAS IMPORTAR TU HOOK DE NAVEGACIÓN (ej: useNavigate de react-router-dom)
 import { useNavigate } from 'react-router-dom';
+import logo from '/public/catube_white.svg'
 
 // Styles
 import './NotificationMenu.css';
@@ -32,10 +32,11 @@ export function NotificationCard({ notification, onMarkAsRead, onDelete, onClose
     const { openFriendMenu } = useSidebarToggle();
     const { id, type, sender, read, createdAt, linkTarget, content } = notification;
 
+    const isWelcomeNotification = content.startsWith('Welcome');
+
     // Obtenemos los datos del emisor, asegurándonos de manejar el caso donde 'sender' es null
     const senderUsername = sender?.username || 'El sistema';
     const senderAvatarUrl = sender?.avatarUrl || 'default_avatar_path.png';
-    
 
     const handleNotificationClick = () => {
         onMarkAsRead(id);
@@ -69,16 +70,16 @@ export function NotificationCard({ notification, onMarkAsRead, onDelete, onClose
     return (
         <div className={`notifications-container ${read ? 'read' : ''}`}>
             <div
-                className={`notification-item`}
+                className={`notification-item ${isWelcomeNotification ? 'welcome-notification' : ''}`}
             >
                 <img
-                    src={senderAvatarUrl}
+                    src={isWelcomeNotification ? logo : senderAvatarUrl}
                     alt={`${senderUsername} avatar`}
                     className="notification-avatar"
                 />
                 <div className="notification-content">
                     <p className="notification-text" onClick={handleNotificationClick}>
-                        {senderUsername} {content}
+                        {isWelcomeNotification ? 'Welcome to CaTube!' : `${senderUsername} ${content}`}
                     </p>
                     <span className="notification-time">
                         {formatNotificationTime(createdAt)}
@@ -87,9 +88,11 @@ export function NotificationCard({ notification, onMarkAsRead, onDelete, onClose
 
             </div>
             {/* Botón de acción principal: "Go" */}
-            <button className="btn-link" onClick={handleNotificationClick}>
-                Go
-            </button>
+            {!isWelcomeNotification && (
+                <button className="btn-link" onClick={handleNotificationClick}>
+                    Go
+                </button>
+            )}
 
             {/* BOTÓN DE BORRAR IMPLEMENTADO */}
             <button

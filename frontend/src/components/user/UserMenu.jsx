@@ -124,7 +124,6 @@ export function UserMenu() {
 
                         <li className="ts-nav-item"><hr /></li>
 
-                        {/* ⭐️ Appearance (MODIFICADO para alternar el tema) */}
                         <li className="ts-nav-item">
                             <button
                                 type="button"
@@ -167,7 +166,13 @@ export function UserMenu() {
                         </li>
 
                         <li className="ts-nav-item">
-                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => { closeUserMenu(); openModal('feedback'); }}>
+                            <button type="button" className="ts-nav-link right-menu-modal-btn" onClick={() => {
+                                if (isAuthenticated) {
+                                    closeUserMenu();
+                                    openModal('feedback');
+                                }
+                            }} style={!isAuthenticated ? { opacity: 0.5, cursor: 'not-allowed' } : {}}
+                                disabled={!isAuthenticated}>
                                 <BsFillSendExclamationFill size={25} />
                                 <span className="ts-nav-label">Send feedback</span>
                             </button>
