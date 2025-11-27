@@ -44,7 +44,6 @@ a {
 
 .short-card {
   width: 200px;
-  height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -70,8 +69,10 @@ a {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: var(--btn);
-  border: none;
+  background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+  border: 1px solid var(--border-container-color);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  color: var(--text-color);
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -84,24 +85,24 @@ a {
 
 .carousel-btn.left {
   left: 0;
-  transform: translate(-50%, -50%);
+  transform: translate(-35%, -100%);
 }
 
 .carousel-btn.right {
   right: 0;
-  transform: translate(50%, -50%);
+  transform: translate(35%, -100%);
 }
 
 .carousel-btn:hover {
-  background-color: var(--btn-dark);
+  color: var(--btn);
 }
 
 .carousel-cts {
   display: flex;
   align-items: center;
   gap: 10px;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
+  overflow-x: scroll;
+  scrollbar-width: none;
 }
 
 .carousel-ctsvideos,
@@ -111,8 +112,8 @@ a {
   justify-content: flex-start;
   align-items: flex-start;
   gap: 20px;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
+  overflow-x: scroll;
+  scrollbar-width: none;
   width: 100%;
 }
 
@@ -126,11 +127,12 @@ a {
   height: auto;
 }
 
+/* 
 .carousel-cts::-webkit-scrollbar,
 .carousel-ctshorts::-webkit-scrollbar,
 .carousel-ctsvideos::-webkit-scrollbar {
   display: none;
-}
+} */
 
 /* popular channels */
 .profile {
@@ -190,8 +192,20 @@ a {
 .recommendations-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1rem;
+  gap: 20px;
   width: 100%;
+}
+
+.recommendations-container.shorts {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 20px;
+  width: 100%;
+
+  .short-card {
+    width: 100%;
+    height: auto;
+  }
 }
 
 .recommendations-container a {
@@ -256,6 +270,11 @@ a {
     grid-template-columns: repeat(3, 1fr);
   }
 
+  .recommendations-container.shorts {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+
   .official-channels-section-container {
     grid-template-columns: 1fr;
   }
@@ -265,9 +284,22 @@ a {
   .recommendations-container {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .recommendations-container.shorts {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
 }
 
 @media (max-width: 768px) {
+  .short-card {
+    width: 150px;
+    height: auto;
+  }
+
+  .short-card img {
+    border-radius: 15px;
+  }
 
   .short-card div,
   .video-card div {
@@ -283,9 +315,14 @@ a {
     grid-template-columns: repeat(1, 1fr);
   }
 
-  .recommendations-container::-webkit-scrollbar {
-    display: none;
+  .recommendations-container.shorts {
+    grid-template-columns: repeat(2, 1fr);
   }
+
+
+  /* .recommendations-container::-webkit-scrollbar {
+    display: none;
+  } */
 
   /* Carruseles */
   .carousel-container {
@@ -313,9 +350,10 @@ a {
     height: 60px;
   }
 
+  /* 
   .VideoContainer-container::-webkit-scrollbar {
     display: none;
-  }
+  } */
 
   .recommendations-carousel-btn {
     display: block;

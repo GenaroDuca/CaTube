@@ -1,8 +1,8 @@
 import Container from "../common/Container";
 import { useModal } from "../common/modal/ModalContext";
 import { useToast } from "../../hooks/useToast";
-import trash  from "../../assets/images/yourChannel_media/Delete.png";   
 import { VITE_API_URL } from '../../../config';
+import { MdDelete    } from "react-icons/md";
 
 function PostItem({ post, onDelete, isOwner }) {
     const { openModal, closeModal } = useModal();
@@ -51,7 +51,8 @@ function PostItem({ post, onDelete, isOwner }) {
                     <button className="btn-trash"
                         onClick={handleDelete}
                     >
-                        <img src={trash} alt="Delete Post" />
+                        <MdDelete size={25} color="#1a1a1b" />
+
                     </button>
                 )}
             </div>

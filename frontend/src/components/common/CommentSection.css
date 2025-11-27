@@ -254,21 +254,21 @@
 }
 
 /* Estilo de la barra */
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     width: 8px;
-}
+} */
 
 /* Track (fondo de la barra) */
-::-webkit-scrollbar-track {
+/* ::-webkit-scrollbar-track {
     background: var(--background-color);
     border-radius: 4px;
-}
+} */
 
 /* Thumb (parte que se mueve) */
-::-webkit-scrollbar-thumb {
+/* ::-webkit-scrollbar-thumb {
     background-color: var(--btn);
     border-radius: 4px;
-}
+} */
 
 @media (max-width: 768px) {
     .video-comment {

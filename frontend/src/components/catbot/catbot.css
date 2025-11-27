@@ -59,15 +59,15 @@
     scroll-behavior: smooth;
     overflow-y: auto;
 }
-
+/* 
 .catbotMessageContainer::-webkit-scrollbar {
     width: 8px;
-}
+} */
 
-.catbotMessageContainer::-webkit-scrollbar-thumb {
+/* .catbotMessageContainer::-webkit-scrollbar-thumb {
     background-color: var(--btn);
     border-radius: var(--border-radius);
-}
+} */
 
 .catbotMessage {
     max-width: 80%;

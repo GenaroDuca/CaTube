@@ -607,4 +607,38 @@ export class UsersService {
         }
     }
 
+    async sendFeedbackEmail(userId: string, feedback: string): Promise<void> {
+        const user = await this.usersRepository.findOne({
+            where: { user_id: userId },
+        });
+        const remitenteEmail = user?.email;
+
+        const resend = new Resend(this.configService.get<string>('RESEND_API_KEY'));
+        const DESTINO = "catubeapp@gmail.com";
+
+        // El remitente será el correo proporcionado o 'Anónimo'
+        const remitenteDisplay = remitenteEmail ? remitenteEmail : "Anónimo";
+
+        const htmlContent = `
+        <h1>New Feedback</h1>
+        <p> Sender ${remitenteDisplay}</p>
+        <hr>
+        <p><strong>Feedback message:</strong></p>
+        <p style="white-space: pre-wrap; padding: 10px; border: 1px solid #ccc;">${feedback}</p>
+    `;
+
+        try {
+            await resend.emails.send({
+                from: "Formulario de Feedback <no-reply@catube.xyz>",
+                to: DESTINO,
+                subject: `New Feedback from ${remitenteDisplay}`,
+                html: htmlContent,
+                replyTo: remitenteEmail || "no-reply@catube.xyz"
+            });
+            console.log('✅ Feedback enviado a catubeapp@gmail.com');
+        } catch (error) {
+            console.error('❌ Error enviando email de Feedback con Resend:', error);
+            throw new InternalServerErrorException('Error al enviar el correo de feedback.');
+        }
+    }
 }

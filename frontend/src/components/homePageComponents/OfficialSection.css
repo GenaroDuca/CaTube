@@ -40,15 +40,14 @@
     flex: 1;
 }
 
-.official-grid::-webkit-scrollbar {
-    /* Ocultar scrollbar en navegadores WebKit */
+/* .official-grid::-webkit-scrollbar {
     display: none;
 }
 
 .official-grid::-webkit-scrollbar-thumb {
     background-color: #4a4a4a;
     border-radius: 3px;
-}
+} */
 
 .official-card {
     border-radius: 30px;
