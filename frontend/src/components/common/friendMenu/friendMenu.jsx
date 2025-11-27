@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
 import { useSidebarToggle } from '../../../hooks/useSidebarToggleFriends';
 import { useToast } from '../../../hooks/useToast';
 import { useModal } from '../../common/modal/ModalContext';
+import { useAuth } from '../../../auth/AuthContext';
 
 // Importaciones de iconos
 import { IoArrowBackCircle } from "react-icons/io5";
@@ -33,9 +34,7 @@ import { getAuthToken } from '../../../utils/auth';
 import './friendMenu.css';
 
 export function FriendMenu() {
-    const isAuthenticated = !!getAuthToken();
-    if (!isAuthenticated) return null;
-
+    const { isAuthenticated, user } = useAuth();
     const { isFriendMenuOpen, toggleFriendMenu, closeFriendMenu } = useSidebarToggle();
     const collapsedClass = !isFriendMenuOpen ? 'collapsed' : '';
 
@@ -79,6 +78,21 @@ export function FriendMenu() {
         hookFuncsRef.current.showError = showError;
     });
 
+    // Reset state when user changes or logs out
+    useEffect(() => {
+        if (!isAuthenticated || !user) {
+            setFriends([]);
+            setPendingRequests([]);
+            setSearchResults([]);
+            setMyProfile(null);
+            setSearchQuery('');
+            setSelectedFriend(null);
+            setCurrentView('list');
+            previousPendingRequestIds.current = new Set();
+            friendDataRef.current = { friends: [], pendingRequests: [] };
+        }
+    }, [isAuthenticated, user]);
+
     useEffect(() => {
         friendDataRef.current.friends = friends;
         friendDataRef.current.pendingRequests = pendingRequests;
@@ -96,13 +110,13 @@ export function FriendMenu() {
         const handleClickOutside = (event) => {
             // Referencia para el contenedor del Modal (ajusta la clase o ID según tu implementación)
             const modalRoot = document.querySelector('.universal-modal-content') || document.getElementById('modal-root');
-            
+
             if (modalRoot && modalRoot.contains(event.target)) {
-                return; 
+                return;
             }
-            
+
             if (menuRef.current && !menuRef.current.contains(event.target)) {
-                closeFriendMenu(); 
+                closeFriendMenu();
             }
         };
 
@@ -118,8 +132,7 @@ export function FriendMenu() {
     // --- LÓGICA DE CARGA DE AMIGOS/SOLICITUDES (FUNCIÓN ESTABLE) ---
     const loadFriendsAndRequests = useCallback(async () => {
         const { showError: currentShowError } = hookFuncsRef.current;
-        const token = getAuthToken();
-        if (!token) return;
+        if (!isAuthenticated) return;
 
         try {
             const friendData = await fetchFriendsAndRequests();
@@ -158,13 +171,12 @@ export function FriendMenu() {
             console.error("Error al cargar datos de amistad:", error);
             currentShowError("Failed to load friend data.");
         }
-    }, [setFriends, setPendingRequests]); // Los setters son estables
+    }, [setFriends, setPendingRequests, isAuthenticated]); // Los setters son estables
 
     // --- LÓGICA DE CARGA DE MI PERFIL (UNA SOLA VEZ) ---
     useEffect(() => {
         let isMounted = true;
-        const token = getAuthToken();
-        if (!token || !isAuthenticated) return;
+        if (!isAuthenticated) return;
 
         const loadProfile = async () => {
             // Seteamos isLoading *antes* de la primera carga para mostrar un estado inicial
@@ -596,6 +608,7 @@ export function FriendMenu() {
         );
     };
 
+    if (!isAuthenticated) return null;
 
     return (
         // 3. ADJUNTAR LA REFERENCIA AL CONTENEDOR PRINCIPAL

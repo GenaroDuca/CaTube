@@ -345,7 +345,7 @@
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    overflow: hidden;
+    overflow-y: auto;
     height: 100%;
 }
 
@@ -375,6 +375,7 @@
     object-fit: cover;
     margin: 20px auto 20px;
     flex-shrink: 0;
+    z-index: 1;
 }
 
 .profile-bio {
@@ -411,7 +412,7 @@
 }
 
 .profile-action-btn:hover {
-    transform: scale(1.05);
+    background-color: #313133d9;
 }
 
 .profile-action-btn svg {
@@ -477,12 +478,8 @@
 }
 
 .avatar-upload-button {
-    /* Posición relativa al padre con position:relative, asumiendo que el padre de esta vista lo tiene */
-    position: absolute;
-    top: 130px;
-    /* Ajuste la posición absoluta, puede necesitar ajustes en el componente padre */
-    right: 150px;
-    /* Ajuste la posición absoluta, puede necesitar ajustes en el componente padre */
+    margin-left: 220px;
+    margin-bottom: -30px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -492,7 +489,7 @@
     padding: 6px;
     border-radius: 30px;
     cursor: pointer;
-    z-index: 5;
+    z-index: 2;
 }
 
 .avatar-upload-button:hover {

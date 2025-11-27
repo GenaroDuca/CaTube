@@ -587,11 +587,12 @@
 }
 
 .product-card {
-    width: 200px;
+    width: 240px;
     padding: 10px;
     flex-direction: column;
     gap: 10px;
 }
+
 
 .delete-store-btn {
     margin-top: 20px;
@@ -867,11 +868,11 @@
 }
 
 
-.edit-video-btn svg path{
+.edit-video-btn svg path {
     color: var(--text-color);
 }
 
-.edit-video-btn:hover svg path{
+.edit-video-btn:hover svg path {
     color: var(--btn);
 }
 
@@ -902,11 +903,11 @@
     cursor: pointer;
 }
 
-.delete-video-btn svg path{
+.delete-video-btn svg path {
     color: var(--text-color);
 }
 
-.delete-video-btn:hover svg path{
+.delete-video-btn:hover svg path {
     color: #e96765;
 }
 

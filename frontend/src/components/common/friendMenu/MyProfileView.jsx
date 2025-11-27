@@ -161,11 +161,6 @@ const MyProfileView = ({ myUser, onBack, onSaveProfile, isLoading }) => {
                     <h2>{myUser?.userName}</h2>
 
                     <div className="profile-avatar-container">
-                        <img
-                            src={getAvatarUrl()}
-                            alt={myUser?.userName || 'My Avatar'}
-                            className="profile-large-avatar"
-                        />
                         <button
                             className="avatar-upload-button"
                             onClick={() => fileInputRef.current?.click()}
@@ -181,6 +176,12 @@ const MyProfileView = ({ myUser, onBack, onSaveProfile, isLoading }) => {
                             onChange={handleFileSelect}
                             style={{ display: 'none' }}
                         />
+                        <img
+                            src={getAvatarUrl()}
+                            alt={myUser?.userName || 'My Avatar'}
+                            className="profile-large-avatar"
+                        />
+
                     </div>
                     <div className='profile-edit-group'>
                         <label htmlFor="username-input">Username</label>
