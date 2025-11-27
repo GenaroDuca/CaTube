@@ -16,6 +16,8 @@ import Video from '../../components/homePageComponents/Video.jsx'
 import Short from '../../components/homePageComponents/Short.jsx'
 import { Link } from 'react-router-dom';
 import SectionsCarousel from "../../components/homePageComponents/SectionsCarousel.jsx";
+// IMPORTANTE: Asegúrate de importar el componente Loader
+import Loader from '../../components/common/Loader';
 
 
 function Catscribers() {
@@ -24,14 +26,15 @@ function Catscribers() {
     const [subscribedShorts, setSubscribedShorts] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
+    const [error, setError] = useState(null); // Añadir estado de error
     const token = getAuthToken();
 
     useEffect(() => {
         async function fetchSubscribedContent() {
             try {
                 setLoading(true);
+                setError(null); // Resetear error al iniciar la carga
 
-                // Obtener el userId desde el token
                 const userId = getMyUserId();
                 if (!userId) {
                     console.log('No user logged in');
@@ -39,136 +42,131 @@ function Catscribers() {
                     return;
                 }
 
-                // 1. Obtener las suscripciones del usuario
-                const subsResponse = await fetch(`${VITE_API_URL}/subscriptions/user/${userId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                });
+                // ----------------------------------------------------
+                // 1. Promesas para obtener los datos en paralelo
+                // ----------------------------------------------------
 
-                if (!subsResponse.ok) {
-                    console.error('Failed to fetch subscriptions');
-                    setLoading(false);
-                    return;
-                }
+                // Función auxiliar para obtener suscripciones
+                const fetchSubscriptions = () => fetch(`${VITE_API_URL}/subscriptions/user/${userId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` },
+                }).then(res => res.json());
 
-                const subscriptions = await subsResponse.json();
+                // Función auxiliar para obtener todos los canales
+                const fetchAllChannels = () => fetch(`${VITE_API_URL}/channels`).then(res => res.json());
+
+                // Función auxiliar para obtener videos
+                const fetchAllVideos = () => fetch(`${VITE_API_URL}/videos`, {
+                    headers: { 'Content-Type': 'application/json', ...(token && { 'Authorization': `Bearer ${token}` }) },
+                }).then(res => res.json());
+
+                // Función auxiliar para obtener shorts
+                const fetchAllShorts = () => fetch(`${VITE_API_URL}/videos/shorts`, {
+                    headers: { 'Content-Type': 'application/json', ...(token && { 'Authorization': `Bearer ${token}` }) },
+                }).then(res => res.json());
+
+                // Usamos Promise.all para esperar las peticiones críticas
+                const [subscriptions, allChannels, allVideos, allShorts] = await Promise.all([
+                    fetchSubscriptions(),
+                    fetchAllChannels(),
+                    fetchAllVideos(),
+                    fetchAllShorts(),
+                ]);
+
                 const subscribedChannelIds = subscriptions.map(sub => sub.channel_id);
 
-                // 2. Obtener todos los canales y filtrar los suscritos
-                const channelsResponse = await fetch(`${VITE_API_URL}/channels`);
-                if (channelsResponse.ok) {
-                    const allChannels = await channelsResponse.json();
-
-                    const subscribedChannelsData = allChannels
-                        .filter(channel => subscribedChannelIds.includes(channel.channel_id))
-                        .map(channel => {
-                            let avatar = '/assets/images/profile/A.png';
-
-                            if (channel.photoUrl) {
-                                if (channel.photoUrl.startsWith('/uploads/')) {
-                                    avatar = `${VITE_API_URL}${channel.photoUrl}`;
-                                } else if (channel.photoUrl.startsWith('/assets/images/profile/')) {
-                                    avatar = channel.photoUrl;
-                                } else if (channel.photoUrl.startsWith('/default-avatar/')) {
-                                    const letterMatch = channel.photoUrl.match(/\/default-avatar\/([A-Z])\.png/);
-                                    const letter = letterMatch ? letterMatch[1] : 'A';
-                                    avatar = `/assets/images/profile/${letter}.png`;
-                                } else {
-                                    avatar = `${channel.photoUrl}`;
-                                }
+                // 2. Procesar Canales
+                const subscribedChannelsData = allChannels
+                    .filter(channel => subscribedChannelIds.includes(channel.channel_id))
+                    // ... (Lógica de transformación de canales)
+                    .map(channel => {
+                        let avatar = '/assets/images/profile/A.png';
+                        // ... Lógica de path de avatar (la lógica original es extensa, la mantengo)
+                        if (channel.photoUrl) {
+                            if (channel.photoUrl.startsWith('/uploads/')) {
+                                avatar = `${VITE_API_URL}${channel.photoUrl}`;
+                            } else if (channel.photoUrl.startsWith('/assets/images/profile/')) {
+                                avatar = channel.photoUrl;
+                            } else if (channel.photoUrl.startsWith('/default-avatar/')) {
+                                const letterMatch = channel.photoUrl.match(/\/default-avatar\/([A-Z])\.png/);
+                                const letter = letterMatch ? letterMatch[1] : 'A';
+                                avatar = `/assets/images/profile/${letter}.png`;
                             } else {
-                                const firstLetter = channel.channel_name?.charAt(0).toUpperCase() || 'A';
-                                avatar = `https://catube-uploads.s3.sa-east-1.amazonaws.com/profile/${firstLetter}.png`;
+                                avatar = `${channel.photoUrl}`;
                             }
+                        } else {
+                            const firstLetter = channel.channel_name?.charAt(0).toUpperCase() || 'A';
+                            avatar = `https://catube-uploads.s3.sa-east-1.amazonaws.com/profile/${firstLetter}.png`;
+                        }
 
-                            return {
-                                id: channel.channel_id,
-                                avatar,
-                                userName: channel.channel_name,
-                                subscriptions: channel.subscriberCount || 0,
-                                url: channel.url
-                            };
-                        });
+                        return {
+                            id: channel.channel_id,
+                            avatar,
+                            userName: channel.channel_name,
+                            subscriptions: channel.subscriberCount || 0,
+                            url: channel.url
+                        };
+                    });
+                setSubscribedChannels(subscribedChannelsData);
 
-                    setSubscribedChannels(subscribedChannelsData);
-                }
 
-                // 3. Obtener todos los videos y filtrar los de canales suscritos
-                const videosResponse = await fetch(`${VITE_API_URL}/videos`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        ...(token && { 'Authorization': `Bearer ${token}` })
-                    },
-                });
+                // 3. Procesar Videos
+                const subscribedVideosData = allVideos
+                    .filter(video => subscribedChannelIds.includes(video.channel?.channel_id))
+                    .filter(video => video.type === 'video')
+                    .map(video => {
+                        // ... Lógica de transformación de videos (la mantengo)
+                        const thumbnail = video.thumbnail && video.thumbnail.startsWith('/')
+                            ? `${VITE_API_URL}${video.thumbnail}`
+                            : (video.thumbnail || '');
 
-                if (videosResponse.ok) {
-                    const allVideos = await videosResponse.json();
-
-                    const subscribedVideosData = allVideos
-                        .filter(video => subscribedChannelIds.includes(video.channel?.channel_id))
-                        .filter(video => video.type === 'video')
-                        .map(video => {
-                            const thumbnail = video.thumbnail && video.thumbnail.startsWith('/')
-                                ? `${VITE_API_URL}${video.thumbnail}`
-                                : (video.thumbnail || '');
-
-                            let avatar = '/assets/images/profile/A.png';
-                            if (video.channel?.photoUrl) {
-                                if (video.channel.photoUrl.startsWith('/uploads/')) {
-                                    avatar = `${VITE_API_URL}${video.channel.photoUrl}`;
-                                } else if (video.channel.photoUrl.startsWith('/assets/images/profile/')) {
-                                    avatar = video.channel.photoUrl;
-                                } else if (video.channel.photoUrl.startsWith('/default-avatar/')) {
-                                    const letterMatch = video.channel.photoUrl.match(/\/default-avatar\/([A-Z])\.png/);
-                                    const letter = letterMatch ? letterMatch[1] : 'A';
-                                    avatar = `/assets/images/profile/${letter}.png`;
-                                } else {
-                                    avatar = `${video.channel.photoUrl}`;
-                                }
+                        let avatar = '/assets/images/profile/A.png';
+                        if (video.channel?.photoUrl) {
+                            if (video.channel.photoUrl.startsWith('/uploads/')) {
+                                avatar = `${VITE_API_URL}${video.channel.photoUrl}`;
+                            } else if (video.channel.photoUrl.startsWith('/assets/images/profile/')) {
+                                avatar = video.channel.photoUrl;
+                            } else if (video.channel.photoUrl.startsWith('/default-avatar/')) {
+                                const letterMatch = video.channel.photoUrl.match(/\/default-avatar\/([A-Z])\.png/);
+                                const letter = letterMatch ? letterMatch[1] : 'A';
+                                avatar = `/assets/images/profile/${letter}.png`;
+                            } else {
+                                avatar = `${video.channel.photoUrl}`;
                             }
+                        }
 
-                            return {
-                                id: video.id,
-                                thumbnail,
-                                avatar,
-                                title: video.title,
-                                userName: video.channel?.channel_name || 'Unknown',
-                                description: video.description || '',
-                                type: video.type || 'video',
-                                views: `${video.views} views` || 0,
-                                createdAt: video.createdAt
-                            };
-                        });
+                        return {
+                            id: video.id,
+                            thumbnail,
+                            avatar,
+                            title: video.title,
+                            userName: video.channel?.channel_name || 'Unknown',
+                            description: video.description || '',
+                            type: video.type || 'video',
+                            views: `${video.views} views` || 0,
+                            createdAt: video.createdAt
+                        };
+                    });
+                setSubscribedVideos(subscribedVideosData);
 
-                    setSubscribedVideos(subscribedVideosData);
-                }
+                // 4. Procesar Shorts
+                const subscribedShortsData = allShorts
+                    .filter(short => subscribedChannelIds.includes(short.channel?.channel_id))
+                    .map(short => ({
+                        id: short.id,
+                        thumbnail: short.thumbnail,
+                        nameshort: short.title,
+                        shortviews: `${short.views || 0} views`,
+                        createdAt: short.createdAt,
+                        userName: short.channel?.channel_name || 'Unknown'
+                    }));
+                setSubscribedShorts(subscribedShortsData);
 
-                // 4. Obtener todos los shorts y filtrar los de canales suscritos
-                const shortsResponse = await fetch(`${VITE_API_URL}/videos/shorts`, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        ...(token && { 'Authorization': `Bearer ${token}` })
-                    },
-                });
-
-                if (shortsResponse.ok) {
-                    const allShorts = await shortsResponse.json();
-                    const subscribedShortsData = allShorts
-                        .filter(short => subscribedChannelIds.includes(short.channel?.channel_id))
-                        .map(short => ({
-                            id: short.id,
-                            thumbnail: short.thumbnail,
-                            nameshort: short.title,
-                            shortviews: `${short.views || 0} views`,
-                            createdAt: short.createdAt,
-                            userName: short.channel?.channel_name || 'Unknown'
-                        }));
-                    setSubscribedShorts(subscribedShortsData);
-                }
-
-            } catch (error) {
-                console.error('Error fetching subscribed content:', error);
+            } catch (err) {
+                console.error('Error fetching subscribed content:', err);
+                setError(new Error("Hubo un error al cargar tus suscripciones."));
+                setSubscribedChannels([]);
+                setSubscribedVideos([]);
+                setSubscribedShorts([]);
             } finally {
                 setLoading(false);
             }
@@ -180,6 +178,7 @@ function Catscribers() {
             setLoading(false);
         }
     }, [token]);
+
 
     // Filtrar canales por búsqueda
     const filteredChannels = subscribedChannels.filter(channel =>
@@ -198,33 +197,47 @@ function Catscribers() {
         short.userName.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
+
+    // ============================================
+    // 1. RENDERIZADO CONDICIONAL: CARGANDO
+    // ============================================
     if (loading) {
         return (
             <>
                 <Header />
                 <Sidebar />
                 <main className="main-content">
-                    <div className="catscribers-search-container">
-                        <div className="skeleton" style={{ width: '100%', height: '40px', borderRadius: '30px', backgroundColor: '#e0e0e0' }}></div>
+                    {/* Usamos el Loader genérico en modo Overlay */}
+                    <Loader isOverlay={true} />
+
+                    {/* Mantenemos el input para que no salte el layout, pero cubierto por el loader */}
+                    <div className="catscribers-search-container" style={{ opacity: 0 }}>
+                        <input type="text" className="catscribers-search-input" disabled />
                     </div>
-                    <section className="catscribers-channels-section">
-                        <div className="skeleton" style={{ width: '200px', height: '30px', marginBottom: '20px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                            {[...Array(5)].map((_, index) => (
-                                <div key={index} style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '10px' }}>
-                                    <div className="skeleton" style={{ width: '50px', height: '50px', borderRadius: '50%', backgroundColor: '#e0e0e0' }}></div>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', width: '200px' }}>
-                                        <div className="skeleton" style={{ width: '100%', height: '15px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
-                                        <div className="skeleton" style={{ width: '60%', height: '12px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </section>
                 </main>
             </>
         );
     }
+
+    // ============================================
+    // 2. RENDERIZADO CONDICIONAL: ERROR
+    // ============================================
+    if (error) {
+        return (
+            <>
+                <Header />
+                <Sidebar />
+                <main className="main-content">
+                    <div className="catscribers-empty error-state">
+                        <h2>{error.message}</h2>
+                        <p>No pudimos cargar tu contenido suscrito. Por favor, revisa tu conexión e inténtalo de nuevo.</p>
+                    </div>
+                </main>
+            </>
+        );
+    }
+
+    // El resto de la lógica de No Token y No Suscripciones se mantiene igual
 
     if (!token) {
         return (
@@ -236,7 +249,6 @@ function Catscribers() {
                         <h2>Sign in to see your Catscribers</h2>
                         <p>You need to be logged in to see your subscribed channels</p>
                     </div>
-                    {/* <Footer footer="footer"></Footer> */}
                 </main>
             </>
         );
@@ -252,11 +264,11 @@ function Catscribers() {
                         <h2>No Catscriptions Yet</h2>
                         <p>Subscribe to channels to see their content here!</p>
                     </div>
-                    {/* <Footer footer="footer"></Footer> */}
                 </main>
             </>
         );
     }
+
 
     return (
         <>
@@ -294,7 +306,6 @@ function Catscribers() {
                         <SectionsCarousel
                             section="trending-shorts"
                             subtitle="Shorts"
-                            ref={filteredShorts}
                             render={filteredShorts}
                             type="short"
                             cts="carousel-ctshorts"

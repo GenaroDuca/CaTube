@@ -4,6 +4,7 @@ import FilterBar from "./FilterBar"
 import VideoContent from "./VideoContent";
 import { useState, useEffect } from "react";
 import { VITE_API_URL } from "../../../../config"
+import Loader from "../../common/Loader";
 
 function Content() {
     const [activeContent, setActiveContent] = useState('Videos');
@@ -94,6 +95,10 @@ function Content() {
             fetchMyVideos();
         }
     }, [activeContent]);
+
+    if (loading) {
+        return <div className="content"><Loader /></div>;
+    }
 
     return (
         <>

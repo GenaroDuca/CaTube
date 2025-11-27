@@ -7,6 +7,7 @@ import { VITE_API_URL } from '../../../config';
 import Subtitle from '../homePageComponents/Subtitle'
 import Video from '../homePageComponents/Video.jsx'
 import { Link } from 'react-router-dom';
+import Loader from "../../components/common/Loader";
 
 function VideosTab() {
     const tabvs = ['Latest', 'Popular', 'Oldest'];
@@ -55,7 +56,7 @@ function VideosTab() {
     }, [channelId]);
 
     if (loading) {
-        return <Container className="video-main-content"><p>Loading videos...</p></Container>;
+        return <Loader />
     }
 
     if (videos.latest.length === 0) {
@@ -71,7 +72,7 @@ function VideosTab() {
 
     const tabContents = [
         <Container className="VideoContainer">
-            <Subtitle subtitle="Lastest Videos"/>
+            <Subtitle subtitle="Lastest Videos" />
             <Container className="recommendations-container">
                 {videos.latest.map((video, index) => (
                     <Link to={`/watch/${video.id}`} key={video.id || index}>
@@ -86,7 +87,7 @@ function VideosTab() {
             </Container>
         </Container>,
         <Container className="VideoContainer">
-            <Subtitle subtitle="Popular Videos"/>
+            <Subtitle subtitle="Popular Videos" />
             <Container className="recommendations-container">
                 {videos.popular.map((video, index) => (
                     <Link to={`/watch/${video.id}`} key={video.id || index}>
@@ -101,7 +102,7 @@ function VideosTab() {
             </Container>
         </Container>,
         <Container className="VideoContainer">
-            <Subtitle subtitle="Oldest Videos"/>
+            <Subtitle subtitle="Oldest Videos" />
             <Container className="recommendations-container">
                 {videos.oldest.map((video, index) => (
                     <Link to={`/watch/${video.id}`} key={video.id || index}>

@@ -2,6 +2,7 @@ import Container from "../../common/Container";
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { VITE_API_URL } from "../../../../config";
+import Loader from "../../common/Loader";
 
 function VideoCommunity({ channelId }) {
     const [activeTab, setActiveTab] = useState('comments');
@@ -197,7 +198,7 @@ function VideoCommunity({ channelId }) {
                 </ul>
             </div>
 
-            {loading && <div style={{ textAlign: 'center' }}>Loading...</div>}
+            {loading && <div style={{ textAlign: 'center' }}><Loader /></div>}
             {error && <div>Error: {error}</div>}
 
             {!loading && !error && (

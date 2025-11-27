@@ -8,20 +8,29 @@ import ContainerButton from "../../components/yourChannelPageComponents/Containe
 import HomeTab from "../../components/yourChannelPageComponents/HomeTab";
 import VideosTab from "../../components/yourChannelPageComponents/VideosTab";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Importado useNavigate
 import ShortsTab from "../../components/yourChannelPageComponents/ShortsTab";
 import PostsTab from "../../components/yourChannelPageComponents/PostsTab";
-import Footer from "../../components/common/Footer.jsx";
 import Header from "../../components/common/header/Header.jsx";
 import { VITE_API_URL } from '../../../config';
 import StoreChannel from "../../components/yourChannelPageComponents/StoreChannel.jsx";
+import Loader from "../../components/common/Loader";
 
 function YourChannel() {
     const { url } = useParams();
+    const navigate = useNavigate();
+
     const tabLabels = ['Home', 'Videos', 'Shorts', 'Posts', 'Store'];
     const [activeTab, setActiveTab] = useState(0);
     const [channelId, setChannelId] = useState(null);
     const [isOwner, setIsOwner] = useState(false);
+    const [isSubscribed, setIsSubscribed] = useState(false); // Estado de suscripción global
+
+    // --- ESTADOS CLAVE PARA CARGA CENTRALIZADA ---
+    const [loading, setLoading] = useState(true);
+    const [channelFound, setChannelFound] = useState(true);
+    const [channelData, setChannelData] = useState(null);
+
     const tabContents = [
         <HomeTab key={`home-${channelId}`} channelId={channelId} />,
         <VideosTab key={`videos-${channelId}`} />,
@@ -30,98 +39,150 @@ function YourChannel() {
         <StoreChannel key={`store-${channelId}`} isOwner={isOwner} channelId={channelId} />
     ];
 
+    // --- EFECTO: Carga Centralizada del Canal y sus Datos ---
     useEffect(() => {
-        setChannelId(null); 
+        setChannelId(null);
+        setChannelData(null);
+        setActiveTab(0);
+        setLoading(true);
+        setChannelFound(true);
+
         async function loadChannel() {
             const accessToken = localStorage.getItem('accessToken');
+            let foundChannelId = null;
+            let currentChannelData = null;
+            let isUserOwner = false;
+            let isUserSubscribed = false;
 
-            if (url && url !== 'yourchannel') {
-                const headers = {};
-                if (accessToken) {
-                    headers['Authorization'] = `Bearer ${accessToken}`;
-                }
-
-                const response = await fetch(`${VITE_API_URL}/channels/url/${url}`, {
-                    headers: headers,
-                });
-                if (response.ok) {
-                    const channel = await response.json();
-                    localStorage.setItem('channelId', channel.channel_id);
-                    setChannelId(channel.channel_id); // Update state to force re-render
-                    setActiveTab(0); // Reset to first tab
-                } else {
-                    console.error('Channel not found for URL:', url);
-                }
-            } else {
-                // Load user's own channel for /yourchannel or no url
-                if (accessToken) {
-                    const response = await fetch(`${VITE_API_URL}/users/me`, {
-                        headers: {
-                            'Authorization': `Bearer ${accessToken}`,
-                        },
-                    });
+            try {
+                // 1. Obtener datos del canal (por URL o por usuario logueado)
+                if (url && url !== 'yourchannel') {
+                    const headers = accessToken ? { 'Authorization': `Bearer ${accessToken}` } : {};
+                    const response = await fetch(`${VITE_API_URL}/channels/url/${url}`, { headers });
                     if (response.ok) {
-                        const userData = await response.json();
-                        if (userData.channel) {
-                            localStorage.setItem('channelId', userData.channel.channel_id);
-                            setChannelId(userData.channel.channel_id); // Update state to force re-render
-                            setActiveTab(0); // Reset to first tab
-                        }
+                        currentChannelData = await response.json();
+                        foundChannelId = currentChannelData.channel_id;
                     } else {
-                        console.error('User not authenticated');
+                        setChannelFound(false);
+                        setLoading(false);
+                        return;
                     }
                 } else {
-                    console.error('No access token');
+                    if (accessToken) {
+                        const response = await fetch(`${VITE_API_URL}/users/me`, {
+                            headers: { 'Authorization': `Bearer ${accessToken}` },
+                        });
+                        if (response.ok) {
+                            const userData = await response.json();
+                            if (userData.channel) {
+                                currentChannelData = userData.channel;
+                                foundChannelId = userData.channel.channel_id;
+                                // Asumimos propiedad si carga el canal vía /yourchannel (ruta sin URL)
+                                isUserOwner = true;
+                            }
+                        }
+                    }
+                    if (!foundChannelId) {
+                        // Si no hay canal o no está logueado, fallamos silenciosamente o redirigimos (manejo 404/Error)
+                        setChannelFound(false);
+                        setLoading(false);
+                        return;
+                    }
                 }
+
+                // 2. Comprobar Propiedad y Suscripción (si hay accessToken)
+                if (accessToken && foundChannelId) {
+                    const userDataResponse = await fetch(`${VITE_API_URL}/users/me`, {
+                        headers: { 'Authorization': `Bearer ${accessToken}` },
+                    });
+                    if (userDataResponse.ok) {
+                        const userData = await userDataResponse.json();
+                        // Re-comprobamos la propiedad por si se accedió por URL pública
+                        isUserOwner = userData.channel && userData.channel.channel_id === foundChannelId;
+
+                        if (!isUserOwner) {
+                            // Solo revisamos suscripción si NO es el dueño
+                            const subscriptionsResponse = await fetch(`${VITE_API_URL}/subscriptions/user/${userData.user_id}`, {
+                                headers: { 'Authorization': `Bearer ${accessToken}` },
+                            });
+                            if (subscriptionsResponse.ok) {
+                                const subscriptions = await subscriptionsResponse.json();
+                                isUserSubscribed = subscriptions ? subscriptions.some(sub => sub.channel_id === foundChannelId) : false;
+                            }
+                        }
+                    }
+                }
+
+                // 3. Actualizar Estados Finales
+                localStorage.setItem('channelId', foundChannelId);
+                setChannelId(foundChannelId);
+                setChannelData(currentChannelData);
+                setIsOwner(isUserOwner);
+                setIsSubscribed(isUserSubscribed);
+                setChannelFound(true);
+
+            } catch (error) {
+                console.error("Error loading channel data:", error);
+                setChannelFound(false);
+            } finally {
+                setLoading(false);
             }
         }
         loadChannel();
     }, [url]);
 
-    useEffect(() => {
-        async function checkOwnership() {
-            const accessToken = localStorage.getItem('accessToken');
-            if (!accessToken || !channelId) {
-                setIsOwner(false);
-                return;
-            }
+    // --- RENDERIZADO CONDICIONAL ---
+    if (loading) {
+        // Mostrar Loader si aún estamos cargando datos
+        return <Loader isOverlay={true} />
+    }
 
-            try {
-                const response = await fetch(`${VITE_API_URL}/users/me`, {
-                    headers: {
-                        'Authorization': `Bearer ${accessToken}`,
-                    },
-                });
-                if (response.ok) {
-                    const userData = await response.json();
-                    setIsOwner(userData.channel && userData.channel.channel_id === channelId);
-                } else {
-                    setIsOwner(false);
-                }
-            } catch (error) {
-                console.error('Error checking ownership:', error);
-                setIsOwner(false);
-            }
-        }
-        checkOwnership();
+    if (!channelFound || !channelId) {
+        // Mostrar vista de error 404
+        return (
+            <>
+                <Header />
+                <Sidebar />
+                <main className="main-content error-view" style={{ textAlign: 'center', paddingTop: '50px' }}>
+                    <h1>❌ 404 - Channel Not Found</h1>
+                    <p>The channel you are looking for does not exist or could not be loaded.</p>
+                    <button
+                        onClick={() => navigate('/')}
+                        style={{ padding: '10px 20px', cursor: 'pointer', marginTop: '20px' }}>
+                        Go to Homepage
+                    </button>
+                </main>
+            </>
+        );
+    }
 
-    }, [channelId]);
-
+    // Renderizado Normal 
     return (
-
         <>
             <Header></Header>
             <Sidebar>
             </Sidebar>
             <main className="main-content">
-                <Banner channelId={channelId}></Banner>
-                <Profile channelId={channelId} key={channelId}></Profile>
-                <ContainerButton containerName="container-button" tabs={tabLabels} activeTabIndex={activeTab} onTabClick={setActiveTab} buttonClass="nav-btn" ></ContainerButton>
+                <Banner channelId={channelId} channelData={channelData} key={`banner-${channelId}`}></Banner>
+                <Profile
+                    channelId={channelId}
+                    channelData={channelData}
+                    isOwner={isOwner}
+                    isSubscribed={isSubscribed}
+                    key={`profile-${channelId}`}
+                />
+
+                <ContainerButton
+                    containerName="container-button"
+                    tabs={tabLabels}
+                    activeTabIndex={activeTab}
+                    onTabClick={setActiveTab}
+                    buttonClass="nav-btn"
+                />
 
                 <div className="tab-content-container">
                     {tabContents[activeTab]}
                 </div>
-                {/* <Footer footer="footer"></Footer> */}
             </main>
         </>
     );

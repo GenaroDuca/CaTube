@@ -1,9 +1,12 @@
-import { profile } from "../../assets/data/Data"
+import { profile } from "../../assets/data/Data" // Datos de fallback
 import { Link } from 'react-router-dom'
 import NewButton from "../homePageComponents/Button";
 import { useState, useEffect } from "react";
 import { useToast } from '../../hooks/useToast';
 import { VITE_API_URL } from '../../../config';
+import Loader from '../../components/common/Loader'; // Mantenemos Loader para el botón
+
+// La función apiFetch se mantiene, ya que es necesaria para la suscripción/desuscripción
 
 async function apiFetch(url, options = {}) {
     const accessToken = localStorage.getItem('accessToken');
@@ -46,56 +49,58 @@ async function apiFetch(url, options = {}) {
     }
 }
 
-function Profile({ channelId: propChannelId }) {
+function Profile({ channelId: propChannelId, channelData: initialChannelData, isOwner: initialIsOwner, isSubscribed: initialIsSubscribed }) {
     const { showSuccess, showError } = useToast();
+
+    // --- ESTADOS INICIALIZADOS CON LAS PROPS ---
+    const [channelName, setChannelName] = useState(initialChannelData?.channel_name || profile.name);
+    const [channelHandle, setChannelHandle] = useState(initialChannelData?.url ? '@' + initialChannelData.url : profile.handle);
+    const [channelDescription, setChannelDescription] = useState(initialChannelData?.description || profile.description);
+    const [channelSubs, setChannelSubs] = useState(initialChannelData?.subscriberCount || 0);
+    const [channelVideos, setChannelVideos] = useState(initialChannelData?.videoCount ? `${initialChannelData.videoCount} videos` : '0 videos');
+    const [isOwner, setIsOwner] = useState(initialIsOwner);
+    const [isSubscribed, setIsSubscribed] = useState(initialIsSubscribed);
     const [userPhoto, setUserPhoto] = useState(profile.src);
-    const [channelName, setChannelName] = useState(profile.name);
-    const [channelHandle, setChannelHandle] = useState(profile.handle);
-    const [channelDescription, setChannelDescription] = useState(profile.description);
-    const [channelSubs, setChannelSubs] = useState(profile.subs);
-    const [channelVideos, setChannelVideos] = useState(profile.videos);
-    const [isOwner, setIsOwner] = useState(false);
-    const [isSubscribed, setIsSubscribed] = useState(false);
+    const [isSubscribing, setIsSubscribing] = useState(false); 
 
-    // Use prop if available, otherwise fallback to localStorage
-    const [channelId, setChannelId] = useState(propChannelId || localStorage.getItem('channelId'));
-    const [accessToken, setAccessToken] = useState(localStorage.getItem('accessToken'));
-    const [userId, setUserId] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const channelId = propChannelId;
 
-    // Listen for changes in localStorage only if no prop is provided
+    // --- EFECTO: SINCRONIZAR ESTADOS CON LAS PROPS DEL PADRE ---
     useEffect(() => {
-        if (propChannelId) {
-            setChannelId(propChannelId);
-            return;
+        if (initialChannelData) {
+            // Sincronizar datos del canal
+            setChannelName(initialChannelData.channel_name || profile.name);
+            setChannelHandle(initialChannelData.url ? '@' + initialChannelData.url : profile.handle);
+            setChannelDescription(initialChannelData.description || profile.description);
+            setChannelSubs(initialChannelData.subscriberCount || 0);
+            setChannelVideos(initialChannelData.videoCount ? `${initialChannelData.videoCount} videos` : '0 videos');
+
+            // Lógica para determinar la URL de la foto
+            let photoSrc = profile.src;
+            if (initialChannelData.photoUrl && initialChannelData.photoUrl.trim() !== '') {
+                const photoPath = initialChannelData.photoUrl.trim();
+                if (photoPath.startsWith('http://') || photoPath.startsWith('https://')) {
+                    photoSrc = photoPath;
+                } else if (photoPath.startsWith('/uploads/')) {
+                    photoSrc = VITE_API_URL + photoPath;
+                } else if (photoPath.startsWith('/assets/images/profile/')) {
+                    photoSrc = photoPath;
+                } else if (photoPath.startsWith('/default-avatar/')) {
+                    const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
+                    const letter = letterMatch ? letterMatch[1] : 'A';
+                    photoSrc = `/assets/images/profile/${letter}.png`;
+                } else {
+                    photoSrc = VITE_API_URL + '/' + photoPath;
+                }
+            }
+            setUserPhoto(photoSrc);
         }
 
-        const handleStorageChange = () => {
-            const newChannelId = localStorage.getItem('channelId');
-            const newAccessToken = localStorage.getItem('accessToken');
-            setChannelId(newChannelId);
-            setAccessToken(newAccessToken);
-            setUserId(null); // Reset userId to force re-fetch
-        };
+        // Sincronizar estado de propiedad y suscripción
+        setIsOwner(initialIsOwner);
+        setIsSubscribed(initialIsSubscribed);
 
-        window.addEventListener('storage', handleStorageChange);
-
-        // Also check for changes within the same tab
-        const interval = setInterval(() => {
-            const currentChannelId = localStorage.getItem('channelId');
-            const currentAccessToken = localStorage.getItem('accessToken');
-            if (currentChannelId !== channelId || currentAccessToken !== accessToken) {
-                setChannelId(currentChannelId);
-                setAccessToken(currentAccessToken);
-                setUserId(null); // Reset userId to force re-fetch
-            }
-        }, 1000); // Check every second
-
-        return () => {
-            window.removeEventListener('storage', handleStorageChange);
-            clearInterval(interval);
-        };
-    }, [channelId, accessToken, propChannelId]);
+    }, [initialChannelData, initialIsOwner, initialIsSubscribed]);
 
     const handleSubscribe = async () => {
         const accessToken = localStorage.getItem('accessToken');
@@ -104,130 +109,39 @@ function Profile({ channelId: propChannelId }) {
             return;
         }
 
-        const currentChannelId = channelId || localStorage.getItem('channelId');
-        if (isSubscribed) {
-            // Unsubscribe
-            const result = await apiFetch('/subscriptions', {
-                method: 'DELETE',
-                body: JSON.stringify({ channelId: currentChannelId }),
-            });
-            if (result) {
-                setIsSubscribed(false);
-                setChannelSubs(prev => prev - 1);
-                showSuccess(`Unsubscribed from ${channelName}`);
-            }
-        } else {
-            // Subscribe
-            try {
+        setIsSubscribing(true);
+
+        try {
+            if (isSubscribed) {
+                // Unsubscribe
+                const result = await apiFetch('/subscriptions', {
+                    method: 'DELETE',
+                    body: JSON.stringify({ channelId: channelId }),
+                });
+                if (result) {
+                    setIsSubscribed(false);
+                    setChannelSubs(prev => prev - 1);
+                    showSuccess(`Unsubscribed from ${channelName}`);
+                }
+            } else {
+                // Subscribe
                 const result = await apiFetch('/subscriptions', {
                     method: 'POST',
-                    body: JSON.stringify({ channelId: currentChannelId }),
+                    body: JSON.stringify({ channelId: channelId }),
                 });
                 if (result) {
                     setIsSubscribed(true);
                     setChannelSubs(prev => prev + 1);
                     showSuccess(`Subscribed to ${channelName}!`);
                 }
-            } catch (error) {
-                // If already subscribed, just update the state
-                if (error.message && error.message.includes('already subscribed')) {
-                    setIsSubscribed(true);
-                    setChannelSubs(prev => prev + 1);
-                    showSuccess(`Subscribed to ${channelName}!`);
-                }
             }
+        } catch (error) {
+            console.error("Subscription action failed:", error);
+        } finally {
+            setIsSubscribing(false);
         }
     };
 
-    useEffect(() => {
-        async function loadChannelData() {
-            const currentChannelId = channelId || localStorage.getItem('channelId');
-            const currentAccessToken = localStorage.getItem('accessToken');
-
-            if (!currentChannelId) {
-                setLoading(true);
-                return;
-            }
-
-            setLoading(true);
-
-            // Reset states at the beginning to avoid stale data
-            setIsOwner(false);
-            setIsSubscribed(false);
-
-            // Load channel data
-            const channelData = await apiFetch('/channels/' + currentChannelId);
-            if (channelData) {
-                setChannelName(channelData.channel_name || profile.name);
-                setChannelHandle(channelData.url ? '@' + channelData.url : profile.handle);
-                setChannelDescription(channelData.description || profile.description);
-                setChannelSubs(channelData.subscriberCount || 0);
-                setChannelVideos(channelData.videoCount ? `${channelData.videoCount} videos` : '0 videos');
-                let photoSrc = `/assets/images/profile/A.png`; // default
-
-                if (channelData.photoUrl && channelData.photoUrl.trim() !== '') {
-                    const photoPath = channelData.photoUrl.trim();
-                    if (photoPath.startsWith('http://') || photoPath.startsWith('https://')) {
-                        photoSrc = photoPath; // URL completa de S3
-                    } else if (photoPath.startsWith('/uploads/')) {
-                        photoSrc = VITE_API_URL + photoPath; // rutas del backend
-                    } else if (photoPath.startsWith('/assets/images/profile/')) {
-                        photoSrc = photoPath; // avatar por defecto mapeado
-                    } else if (photoPath.startsWith('/default-avatar/')) {
-                        const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
-                        const letter = letterMatch ? letterMatch[1] : 'A';
-                        photoSrc = `/assets/images/profile/${letter}.png`;
-                    } else {
-                        photoSrc = VITE_API_URL + '/' + photoPath; // fallback
-                    }
-                }
-                setUserPhoto(photoSrc);
-            }
-
-            // Check if user is the owner and subscription status
-            if (currentAccessToken) {
-                const userData = await apiFetch('/users/me');
-                if (userData) {
-                    setUserId(userData.user_id); // Store userId for dependency
-                    if (userData.channel && userData.channel.channel_id === currentChannelId) {
-                        setIsOwner(true);
-                        setIsSubscribed(false); // Owner can't subscribe to their own channel
-                    } else {
-                        setIsOwner(false);
-                        // Check if user is subscribed to this channel
-                        const subscriptions = await apiFetch('/subscriptions/user/' + userData.user_id);
-                        setIsSubscribed(subscriptions ? subscriptions.some(sub => sub.channel_id === currentChannelId) : false);
-                    }
-                }
-            } else {
-                setIsOwner(false);
-                setIsSubscribed(false);
-                setUserId(null);
-            }
-            setLoading(false);
-        }
-        loadChannelData();
-    }, [channelId, accessToken, userId]); // Add userId to dependencies to force re-run when user changes
-
-    if (loading) {
-        return (
-            <div className="container-profile">
-                <div className="first-part-profile">
-                    <div className="channel-photo skeleton" style={{ width: '200px', height: '200px', borderRadius: '50px', backgroundColor: '#e0e0e0' }}></div>
-                    <div className="text-channel" style={{ width: '100%' }}>
-                        <div className="skeleton" style={{ width: '40%', height: '32px', marginBottom: '10px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
-                        <div className="row-info">
-                            <div className="skeleton" style={{ width: '20%', height: '20px', marginRight: '10px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
-                            <div className="skeleton" style={{ width: '20%', height: '20px', marginRight: '10px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
-                            <div className="skeleton" style={{ width: '15%', height: '20px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
-                        </div>
-                        <div className="skeleton" style={{ width: '80%', height: '20px', marginTop: '10px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
-                        <div className="skeleton" style={{ width: '120px', height: '40px', marginTop: '20px', backgroundColor: '#e0e0e0', borderRadius: '20px' }}></div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div className="container-profile">
@@ -243,7 +157,13 @@ function Profile({ channelId: propChannelId }) {
                     <p>{channelDescription} </p>
                     {!isOwner && (
                         <div className="container-subscribe-btn">
-                            <NewButton btnclass="subscribe-btn" btntitle={isSubscribed ? "Subscribed" : "Subscribe"} onClick={handleSubscribe}></NewButton>
+                            <NewButton
+                                btnclass="subscribe-btn"
+                                // Muestra el loader en el botón
+                                btntitle={isSubscribing ? <Loader isLocal={true} size="small" /> : isSubscribed ? "Subscribed" : "Subscribe"}
+                                onClick={isSubscribing ? null : handleSubscribe}
+                                disabled={isSubscribing}
+                            />
                         </div>
                     )}
                 </div>

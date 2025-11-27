@@ -7,6 +7,7 @@ import ProductCard from './ProductCard';
 import { useToast } from '../../../hooks/useToast';
 import { VITE_API_URL } from '../../../../config';
 import { IoIosAdd } from "react-icons/io";
+import Loader from "../../common/Loader";
 
 // ----------------------------------------------------------------------
 // FUNCIONES DE SERVICIO (FUERA DEL COMPONENTE REACT)
@@ -369,7 +370,7 @@ function Store() {
     ), [error, handleCreateStoreClick, authStatus]);
 
     if (loading) {
-        return LoadingUI;
+        return <Loader />;
     }
 
     if (!storeExists) {

@@ -4,6 +4,7 @@ import { useNotification } from '../../../../../hooks/useNotification'
 
 // Components
 import { NotificationCard } from './NotificationCard';
+import Loader from '../../../../../components/common/Loader';
 
 // Styles
 import { FaBell } from "react-icons/fa6";
@@ -41,13 +42,13 @@ export function NotificationMenu() {
                         </button>
                     )}
                     <button onClick={refreshNotifications} className="refresh-btn">
-                        <IoRefreshCircle size={25}/>
+                        <IoRefreshCircle size={25} />
 
                     </button>
                 </header>
                 <main>
                     {loading ? (
-                        <p className="notification-empty">Loading notifications...</p>
+                        <Loader />
                     ) : notifications.length === 0 ? (
                         <p className="notification-empty">You have no notifications.</p>
                     ) : (

@@ -9,7 +9,7 @@ import { VITE_API_URL } from '../../../config';
 function PostsTab({ isOwner, channelId }) {
     const [postContent, setPostContent] = useState("");
     const [publishedPosts, setPublishedPosts] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [posting, setPosting] = useState(false);
     const { showSuccess } = useToast();
 
     useEffect(() => {
@@ -43,7 +43,7 @@ function PostsTab({ isOwner, channelId }) {
     const handlePostNow = async () => {
         if (!postContent.trim() || !channelId) return;
 
-        setLoading(true);
+        setPosting(true);
         try {
             const accessToken = localStorage.getItem('accessToken');
             const postData = {
@@ -72,7 +72,7 @@ function PostsTab({ isOwner, channelId }) {
         } catch (error) {
             console.error('Error creating post:', error);
         } finally {
-            setLoading(false);
+            setPosting(false);
         }
     };
 
@@ -98,9 +98,9 @@ function PostsTab({ isOwner, channelId }) {
                                 <button
                                     className="btn-channel"
                                     onClick={handlePostNow}
-                                    disabled={loading || !postContent.trim()}
+                                    disabled={posting || !postContent.trim()}
                                 >
-                                    {loading ? "Posting..." : "Post now"}
+                                    {posting ? "Posting..." : "Post now"}
                                 </button>
                             </div>
 

@@ -11,17 +11,27 @@ import '../HomePage/HomePage.css'
 import '../TrendingPage/TrendingPage.css'
 import { getAuthToken } from "../../utils/auth";
 import { VITE_API_URL } from '../../../config';
+// IMPORTANTE: Asegúrate de importar el componente Loader
+import Loader from '../../components/common/Loader';
+
 
 function Education() {
     const shortsRef = useRef(null);
     const [shorts, setShorts] = useState([]);
-    const videosRef = useRef(null);
+    const videosRef = useRef(null); // No usado, se puede remover
     const [videos, setVideos] = useState([]);
+
+    // 1. Agregar el estado de carga y error
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
     const token = getAuthToken();
 
     useEffect(() => {
         const fetchVideos = async () => {
+            setLoading(true); // Iniciar la carga
+            setError(null);
+
             try {
                 const response = await fetch(`${VITE_API_URL}/videos/education`, {
                     method: 'GET',
@@ -30,9 +40,14 @@ function Education() {
                         'Authorization': `Bearer ${token}`,
                     },
                 });
+
+                if (!response.ok) {
+                    throw new Error(`Error al obtener videos: ${response.statusText}`);
+                }
+
                 const data = await response.json();
 
-                // Separar entre shorts y videos largos según el campo "type"
+                // Separar y transformar los datos (Lógica original)
                 const shortsList = data.filter(v => v.type === 'short');
                 const transformedShorts = shortsList.map(short => ({
                     type: short.type,
@@ -57,14 +72,48 @@ function Education() {
 
                 setShorts(transformedShorts);
                 setVideos(transformedVideos);
-            } catch (error) {
-                console.error('Error fetching videos:', error);
+
+            } catch (err) {
+                console.error('Error fetching videos:', err);
+                setError(err);
+                // Asegurar que los arrays estén vacíos en caso de error
+                setShorts([]);
+                setVideos([]);
+            } finally {
+                setLoading(false); // 2. Finalizar la carga
             }
         };
 
         fetchVideos();
-    }, []);
+    }, [token]);
 
+
+    // 3. Renderizado Condicional del Loader
+    if (loading) {
+        return (
+            // Usamos isOverlay={true} para que cubra toda la página mientras carga
+            <div className="education-loading-container">
+                <Loader isOverlay={true} />
+            </div>
+        );
+    }
+
+    // 4. Renderizado Condicional de Error
+    if (error) {
+        return (
+            <div className="error-message">
+                <Header />
+                <Sidebar />
+                <main className="main-content">
+                    <h1>¡Ups! No se pudo cargar la sección Educación.</h1>
+                    <p>Error: {error.message}</p>
+                </main>
+            </div>
+        );
+    }
+
+
+    // 5. Renderizado del Contenido (cuando loading es false y no hay error)
     return (
         <>
             <Header />
@@ -83,7 +132,7 @@ function Education() {
 
                 {/* --- Lógica para Shorts --- */}
                 {shorts.length > 0 ? (
-                    // 1. Si hay shorts, renderizar el carrusel
+                    // Si hay shorts, renderizar el carrusel
                     <SectionsCarousel
                         section="trending-shorts"
                         subtitle="Education Shorts"
@@ -93,7 +142,7 @@ function Education() {
                         cts="carousel-ctshorts"
                     />
                 ) : (
-                    // 2. Si no hay shorts, mostrar un <Block> con el mensaje
+                    // Si no hay shorts, mostrar un <Block> con el mensaje
                     <Block section="trending-shorts" subtitle="Education Shorts">
                         <p>No educational shorts found.</p>
                     </Block>
@@ -104,6 +153,5 @@ function Education() {
         </>
     );
 }
-
 
 export default Education;

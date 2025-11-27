@@ -329,20 +329,13 @@
     cursor: pointer;
 }
 
-.btn-trash svg path{
-    color: var(--text-color) ;
+.btn-trash svg path {
+    color: var(--text-color);
 }
 
-.btn-trash:hover svg path{
+.btn-trash:hover svg path {
     color: #e96765;
 }
-
-.postsOptions {
-    display: flex;
-    height: auto;
-    padding: 20px;
-}
-
 
 .postsOptions {
     background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
@@ -352,8 +345,11 @@
     margin-top: 20px;
     border-radius: var(--border-radius);
     flex-direction: column;
-    width: 95%;
-    margin: 1rem auto;
+    width: auto;
+    margin: 1rem 1rem;
+    display: flex;
+    height: auto;
+    padding: 20px;
 }
 
 .empty-posts {
@@ -510,7 +506,7 @@
     .btn-channel {
         padding: 10px 20px;
     }
-    
+
 }
 
 

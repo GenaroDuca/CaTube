@@ -8,12 +8,12 @@ import { IoArrowBackCircle } from "react-icons/io5";
 import { IoIosCloseCircle } from "react-icons/io";
 import { FaUserFriends } from "react-icons/fa";
 
-// Importaciones de tus nuevos componentes
 import FriendProfileView from './FriendProfileView';
 import FriendChatView from './FriendChatView';
 import MyProfileView from './MyProfileView';
 import FriendCard from './FriendCard';
 import FriendRequestCard from './FriendRequestCard';
+import Loader from '../Loader';
 
 // Importaciones de tus funciones de API
 import {
@@ -94,23 +94,26 @@ export function FriendMenu() {
         if (!isFriendMenuOpen) return;
 
         const handleClickOutside = (event) => {
-            // Si el clic NO está dentro del elemento del menú (menuRef.current)
-            // y el menú está realmente abierto
+            // Referencia para el contenedor del Modal (ajusta la clase o ID según tu implementación)
+            const modalRoot = document.querySelector('.universal-modal-content') || document.getElementById('modal-root');
+            
+            if (modalRoot && modalRoot.contains(event.target)) {
+                return; 
+            }
+            
             if (menuRef.current && !menuRef.current.contains(event.target)) {
-                closeFriendMenu(); // Llama a la función para cerrar
+                closeFriendMenu(); 
             }
         };
 
-        // Adjunta el event listener al documento. Usamos 'mousedown' para que
-        // se dispare antes del evento 'click' y evitar posibles conflictos.
+        // Adjunta el event listener al documento. 
         document.addEventListener("mousedown", handleClickOutside);
 
-        // Función de limpieza: Se ejecuta al desmontar el componente o al cambiar 
-        // las dependencias (por ejemplo, cuando isFriendMenuOpen pasa a false).
+        // Función de limpieza
         return () => {
             document.removeEventListener("mousedown", handleClickOutside);
         };
-    }, [isFriendMenuOpen, closeFriendMenu]); // Dependencias: solo se re-ejecuta si el estado del menú o la función de cierre cambian.
+    }, [isFriendMenuOpen, closeFriendMenu]); // Dependencias estables.
 
     // --- LÓGICA DE CARGA DE AMIGOS/SOLICITUDES (FUNCIÓN ESTABLE) ---
     const loadFriendsAndRequests = useCallback(async () => {
@@ -571,7 +574,7 @@ export function FriendMenu() {
                     {isSearching && <h3 className="list-title">Search Results ({searchResults.length})</h3>}
 
                     {isSearchLoading ? (
-                        <p className="no-friends-message">Searching users...</p>
+                        <Loader />
                     ) : displayedUsers.length > 0 ? (
                         displayedUsers.map(user => (
                             <FriendCard

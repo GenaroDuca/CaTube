@@ -10,18 +10,10 @@
     align-items: center;
     min-height: 60vh;
     text-align: center;
-    padding: 40px;
-}
-
-.catscribers-empty h2 {
-    font-size: 2rem;
-    color: var(--text-color);
-    margin-bottom: 16px;
+    margin: 1rem 1rem;
 }
 
 .catscribers-empty p {
-    font-size: 1.2rem;
-    color: var(--text-color-secondary);
     opacity: 0.7;
 }
 
@@ -55,8 +47,8 @@
 
 /* Sections */
 .catscribers-channels-section {
-    width: 95%;
-    margin: 1rem auto;
+    width: auto;
+    margin: 1rem 1rem;
 }
 
 

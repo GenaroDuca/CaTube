@@ -26,7 +26,6 @@ const formatNotificationTime = (timestamp) => {
 };
 
 export function NotificationCard({ notification, onMarkAsRead, onDelete, onCloseNotificationMenu }) {
-    // 🚨 IMPORTAMOS useNavigate
     const navigate = useNavigate();
 
     // El hook de la barra lateral (asumimos que exporta openFriendMenu)
@@ -41,7 +40,6 @@ export function NotificationCard({ notification, onMarkAsRead, onDelete, onClose
     const handleNotificationClick = () => {
         onMarkAsRead(id);
 
-        // 🚨 LÓGICA DE ACCIÓN CORREGIDA 🚨
         if (type === 'friend_request' || type === 'friend_accepted') {
             openFriendMenu();
 
