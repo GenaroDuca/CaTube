@@ -673,16 +673,22 @@ input:checked+.slider:before {
     gap: 20px;
 }
 
-.create-thumbnail video {
-    width: 300px;
-    aspect-ratio: 16/9;
-    border-radius: 15px;
+/* --- Estilo para miniaturas HORIZONTALES (o el estilo por defecto, 16:9, etc.) --- */
+/* Esta clase asegura que la imagen horizontal llena el ancho y se ajusta la altura */
+.create-thumbnail .horizontal-thumbnail {
+    width: 100%;
+    height: auto; 
+    /* object-fit: cover ya asegura que no queden espacios, pero es bueno ser explícito */
 }
 
-.create-thumbnail img {
-    width: 300px;
-    aspect-ratio: 16/9;
-    border-radius: 15px;
+/* --- Estilo para miniaturas VERTICALES (por ejemplo, 9:16) --- */
+/* Queremos que la imagen vertical llene la altura del contenedor */
+.create-thumbnail .vertical-thumbnail {
+    height: 100%; /* Llenar la altura del contenedor */
+    width: auto; /* Dejar que el ancho se ajuste proporcionalmente */
+    /* Usar object-fit: contain o object-fit: cover dependerá de si quieres recortar o mostrar todo */
+    object-fit: contain; /* Mostrar la imagen completa, manteniendo el aspecto */
+    background-color: black; /* El color de fondo para la imagen (si se usa 'contain') */
 }
 
 .create-thumbnail input[type="file"] {
