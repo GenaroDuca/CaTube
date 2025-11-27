@@ -3,7 +3,7 @@
     grid-auto-flow: column;
     grid-auto-columns: minmax(200px, 200px);
     gap: 20px;
-    overflow-x: auto;
+    overflow-x: hidden;
     scroll-behavior: smooth;
 }
 
@@ -12,6 +12,6 @@
     grid-auto-flow: column;
     grid-auto-columns: minmax(285px, 285px);
     gap: 20px;
-    overflow-x: auto;
+    overflow-x: hidden;
     scroll-behavior: smooth;
 }

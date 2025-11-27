@@ -1,7 +1,7 @@
 /* === Card general === */
 .ct-subsCard {
     align-items: center;
-    /* background-color: var(--primary-color); */
+    width: 100%;
     background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
