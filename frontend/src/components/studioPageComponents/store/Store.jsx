@@ -355,9 +355,7 @@ function Store() {
     const StoreNotFoundUI = useMemo(() => (
         <>
             <Title title="Your store"></Title>
-            <hr />
             <Container className="content store-content">
-                <h2>{authStatus === 'logged_out' ? "Please Log In" : "Store not found"}</h2>
                 <p>{error || "You don't have a store yet. Please create one."}</p>
 
                 {/* Solo mostramos el botón si el usuario está logueado pero no tiene tienda */}

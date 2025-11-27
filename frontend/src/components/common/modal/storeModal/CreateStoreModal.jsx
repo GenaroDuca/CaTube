@@ -121,7 +121,7 @@ const CreateStoreModal = ({ onClose, onCreate }) => {
         <div className="create-store-modal">
             <div className="create-store-content">
                 <header>
-                    <h1>Create Your Store</h1>
+                    <h1>Create Store</h1>
                     <button
                         type="button"
                         onClick={onClose}
