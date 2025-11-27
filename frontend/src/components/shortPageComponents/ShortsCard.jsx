@@ -23,6 +23,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
   const { showSuccess, showError } = useToast()
   const [commentCount, setCommentCount] = useState(short.comments || 0);
   const [showComments, setShowComments] = useState(false);
+  const [showSlider, setShowSlider] = useState(false);
 
   // ESTADO DE CARGA
   const [isLoading, setIsLoading] = useState(true);
@@ -39,7 +40,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
     return normalizedCurrentId === normalizedOwnerId;
   }, [short.ownerId]);
 
-
+  
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -349,20 +350,22 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
                 </button>
 
                 <div className="volume-control-container">
-                  <button type="button" id="soundMuteBtn" className="action-button btn-sound" onClick={toggleMute}>
+                  <button type="button" id="soundMuteBtn" className="action-button btn-sound" onClick={() => setShowSlider((prev) => !prev)}>
                     {muted ? <ImVolumeMute2 size={25} /> : <ImVolumeMedium size={25} />}
                   </button>
-                  <input
-                    type="range"
-                    id="volumeSlider"
-                    className={`volume-slider ${sliderVisible ? 'visible' : ''}`}
-                    min="0"
-                    max="1"
-                    step="0.01"
-                    value={volume}
-                    onChange={onVolumeChange}
-                    aria-label="Volume"
-                  />
+                  {showSlider && (
+                    <input
+                      type="range"
+                      id="volumeSlider"
+                      className={`volume-slider ${sliderVisible ? 'visible' : ''}`}
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value={volume}
+                      onChange={onVolumeChange}
+                      aria-label="Volume"
+                    />
+                  )}
                 </div>
 
               </div>

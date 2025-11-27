@@ -149,8 +149,6 @@ export class LikesService {
 
 
   //Count likes and dislikes for a video or comment.
-
-
   async countLikesDislikes(
     videoId?: string | null,
     commentId?: string | null
@@ -184,6 +182,39 @@ export class LikesService {
       });
     }
     return { likes, dislikes };
+  }
+
+  // Get user's reaction on a video or comment
+  async getUserReaction(
+    userId: string,
+    videoId?: string | null,
+    commentId?: string | null
+  ) {
+    let likedDisliked: Like | null = null;
+
+    // Check reaction on a video
+    if (videoId && !commentId) {
+      likedDisliked = await this.likesRepository.findOne({
+        where: {
+          user: { user_id: userId },
+          video: { id: videoId },
+        },
+      });
+    }
+
+    // Check reaction on a comment
+    if (commentId) {
+      likedDisliked = await this.likesRepository.findOne({
+        where: {
+          user: { user_id: userId },
+          comment: { id: commentId },
+        },
+      });
+    }
+
+    if (!likedDisliked) return { reaction: null };
+
+    return { reaction: likedDisliked.like ? 'like' : 'dislike' };
   }
 
   // Get recent likes on user's videos

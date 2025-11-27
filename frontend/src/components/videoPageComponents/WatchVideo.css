@@ -351,11 +351,15 @@
 }
 
 .like-btn:hover svg path,
-.dislike-btn:hover svg path,
 .options-btn:hover svg path,
 .share-btn:hover svg path {
     fill: var(--btn);
     stroke: var(--btn);
+}
+
+.dislike-btn:hover svg path {
+    fill: #e96765 ;
+    stroke: #e96765 ;
 }
 
 

@@ -76,6 +76,24 @@ export class LikesController {
         return this.likesService.removeReact(req.user, null, commentId);
     }
 
+    @Get('video/:videoId/my-reaction')
+    @UseGuards(AuthGuard('jwt'))
+    getMyVideoReaction(
+        @Param('videoId', ParseUUIDPipe) videoId: string,
+        @Req() req: any,
+    ) {
+        return this.likesService.getUserReaction(req.user.user_id, videoId, null);
+    }
+
+    @Get('comment/:commentId/my-reaction')
+    @UseGuards(AuthGuard('jwt'))
+    getMyCommentReaction(
+        @Param('commentId', ParseUUIDPipe) commentId: string,
+        @Req() req: any,
+    ) {
+        return this.likesService.getUserReaction(req.user.user_id, null, commentId);
+    }
+
     @Get('user/recent')
     @UseGuards(AuthGuard('jwt'))
     getRecentLikesOnUserVideos(@Req() req: any, @Query('limit') limit?: string) {
