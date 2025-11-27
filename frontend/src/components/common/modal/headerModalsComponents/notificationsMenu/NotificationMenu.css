@@ -63,6 +63,7 @@
 
 .notifications-sidebar main {
     padding: 0px 20px 0px 20px;
+    overflow-y: auto;
 }
 
 .notifications-sidebar.collapsed {
@@ -76,6 +77,7 @@
     flex-shrink: 0;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
 .notification-dropdown::-webkit-scrollbar {
@@ -176,7 +178,9 @@
 .mark-all-read-btn {
     background: var(--btn);
     border: none;
-    padding: 5px 10px;
+    height: auto;
+    height: 24px;
+    padding: 0px 10px;
     border-radius: var(--border-radius);
     cursor: pointer;
 }
@@ -204,12 +208,24 @@
 
 @media (max-width: 481px) {
     .notifications-sidebar.collapsed {
-        width: 95%;
-        margin-right: 10px;
+        width: auto;
+        margin: 1rem 1rem;
+        margin-top: 0px;
+        z-index: 1000;
     }
 
     .notifications-sidebar {
-        width: 95%;
-        margin-right: 10px;
+        width: auto;
+        margin: 1rem 1rem;
+        margin-top: 0px;
+        z-index: 1000;
+    }
+
+    .notifications-sidebar header {
+        padding: 20px;
+    }
+
+    .notifications-sidebar main {
+        padding: 0px 10px 10px 10px;
     }
 }

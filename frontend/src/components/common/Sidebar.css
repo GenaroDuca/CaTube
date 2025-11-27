@@ -7,7 +7,7 @@
     margin: 0 0 0 15px;
     border-radius: 30px;
     height: calc(100vh - 32px) ;
-    z-index: 1000;
+    z-index: 5;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     overflow-y: auto;
     overflow-x: hidden;
@@ -180,6 +180,7 @@
     .sidebar.collapsed {
         width: 70px;
         height: auto;
+        border-left: none;
     }
 
     .sidebar-nav .nav-list {

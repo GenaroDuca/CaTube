@@ -35,7 +35,7 @@
 .official-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    gap: 10px;
     width: 100%;
     flex: 1;
 }
@@ -76,7 +76,7 @@
     aspect-ratio: 1;
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0 0 15px rgba(155, 199, 154, 0.384);
+    /* box-shadow: 0 0 15px rgba(155, 199, 154, 0.384); */
 }
 
 .official-verified-icon {
@@ -99,4 +99,14 @@
     font-size: 0.75rem;
     color: var(--btn);
     margin-top: 5px;
+}
+
+@media (max-width: 768px) {
+    .official-avatar-container {
+        margin-bottom: 10px;
+    }
+
+    .official-avatar {
+        width: 100px;
+    }
 }

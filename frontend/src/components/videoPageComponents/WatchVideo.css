@@ -250,14 +250,12 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background-color: #1e1e1fd9;
-    border: none;
+    background: var(--container-color);
+    border: 1px solid var(--border-container-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #1e1e1fd9;
     backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
 }
 
 .vv-video-leftControls button:hover,
@@ -269,14 +267,12 @@
     height: 50px;
     padding: 10px;
     border-radius: 30px;
-    background-color: #1e1e1fd9;
-    border: none;
+    background: var(--container-color);
+    border: 1px solid var(--border-container-color);
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #1e1e1fd9;
     backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
     color: var(--btn);
 }
 
@@ -894,6 +890,7 @@ body.in-theater-mode .main-content {
 .volume-control input {
     margin-bottom: -20px !important;
 }
+
 
 /* ========== RESPONSIVE DESIGN ========== */
 

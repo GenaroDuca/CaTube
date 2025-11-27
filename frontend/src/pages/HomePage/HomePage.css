@@ -100,7 +100,7 @@ a {
   display: flex;
   align-items: center;
   gap: 10px;
-  overflow-x: auto;
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 
@@ -111,7 +111,7 @@ a {
   justify-content: flex-start;
   align-items: flex-start;
   gap: 20px;
-  overflow-x: auto;
+  overflow-x: hidden;
   scroll-behavior: smooth;
   width: 100%;
 }

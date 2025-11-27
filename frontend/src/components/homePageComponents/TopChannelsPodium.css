@@ -9,7 +9,7 @@
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    gap: 1.5rem;
+    gap: 20px;
     position: relative;
 }
 
@@ -118,12 +118,11 @@
 /* Contenido del podio */
 .podium-content {
     width: 220px;
-    padding: 2rem 1.5rem;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.8rem;
+    gap: 1rem;
     position: relative;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
@@ -186,7 +185,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: 0.5rem;
 }
 
 .subs-count {
@@ -198,10 +196,10 @@
 
 .subs-label {
     font-size: 0.75rem;
-    color: #666;
     font-weight: 500;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    margin-bottom: 10px;
 }
 
 /* Base del podio */
@@ -262,7 +260,7 @@
     .podium-wrapper {
         flex-direction: column;
         align-items: center;
-        gap: 2rem;
+        gap: 1rem;
     }
 
     .podium-first {

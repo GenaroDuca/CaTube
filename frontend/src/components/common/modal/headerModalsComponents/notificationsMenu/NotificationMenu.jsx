@@ -37,7 +37,7 @@ export function NotificationMenu() {
                     <h2>Notifications</h2>
                     {unreadCount > 0 && (
                         <button onClick={markAllAsRead} className="mark-all-read-btn">
-                            Mark all read
+                            Read all
                         </button>
                     )}
                     <button onClick={refreshNotifications} className="refresh-btn">
