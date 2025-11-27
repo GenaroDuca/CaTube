@@ -7,12 +7,15 @@ import Sidebar from '../../components/common/Sidebar';
 import Footer from '../../components/common/Footer';
 import { getAuthToken } from '../../utils/auth';
 import { VITE_API_URL } from '../../../config';
+// IMPORTANTE: Asegúrate de importar el componente Loader
+import Loader from '../../components/common/Loader';
 
 export default function ShortPage() {
   const { id } = useParams();
   const navigate = useNavigate();
 
   const [shorts, setShorts] = useState([]);
+  // Usaremos el Loader genérico para esta carga
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [maximizedId, setMaximizedId] = useState(null);
@@ -43,10 +46,13 @@ export default function ShortPage() {
     }
   };
 
-  // Lógica de Fetch de Shorts (CORRECCIÓN DE INICIALIZACIÓN AQUÍ)
+  // Lógica de Fetch de Shorts
   useEffect(() => {
     const fetchShorts = async () => {
       try {
+        setLoading(true); // Iniciar carga
+        setError(null);
+
         const response = await fetch(`${VITE_API_URL}/videos/shorts`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -69,7 +75,7 @@ export default function ShortPage() {
           dislikes: short.dislikes || 0,
           tags: short.tags,
           ownerId: short.channel?.user?.user_id,
-          thumbnail: short.thumbnail // Also adding thumbnail just in case
+          thumbnail: short.thumbnail
         }));
 
 
@@ -84,7 +90,7 @@ export default function ShortPage() {
 
         setShorts(transformed);
 
-        // 🚀 CORRECCIÓN: Si hay shorts, activamos inmediatamente el primero
+        // Si hay shorts, activamos inmediatamente el primero
         if (transformed.length > 0) {
           const firstShortId = transformed[0].id;
           setActiveShortId(firstShortId);
@@ -95,14 +101,14 @@ export default function ShortPage() {
       } catch (err) {
         setError(err);
       } finally {
-        setLoading(false);
+        setLoading(false); // Finalizar carga
       }
     };
 
     fetchShorts();
   }, [id, token]);
 
-  // Lógica del IntersectionObserver para detectar y activar el video
+  // Lógica del IntersectionObserver para detectar y activar el video (sin cambios)
   useEffect(() => {
     if (shorts.length === 0) return;
 
@@ -121,15 +127,13 @@ export default function ShortPage() {
           if (entry.isIntersecting && entry.intersectionRatio > 0.65) {
             const visibleId = entry.target.getAttribute('data-id');
 
-            // 🚀 ACTUALIZA EL ESTADO CENTRAL: Pausa el anterior y activa este.
+            // ACTUALIZA EL ESTADO CENTRAL: Pausa el anterior y activa este.
             if (activeShortId !== visibleId) {
               setActiveShortId(visibleId);
             }
 
-            // Lógica de URL y Vistas
+            // Lógica de URL
             updateUrlIfNeeded(visibleId);
-            // Ya no llamamos a incrementView aquí, ya que se llama en handleVideoActive o en la inicialización
-
           }
         });
       },
@@ -143,7 +147,7 @@ export default function ShortPage() {
     return () => observer.disconnect();
   }, [shorts, activeShortId]);
 
-  // Función de Callback para ShortCard (la usa el ShortCard para notificarnos)
+  // Función de Callback para ShortCard (sin cambios)
   const handleVideoActive = (shortId) => {
     if (activeShortId !== shortId) {
       setActiveShortId(shortId);
@@ -161,24 +165,50 @@ export default function ShortPage() {
     setMaximizedId((prev) => (prev === shortId ? null : shortId));
   };
 
-  // Bloquear el scroll cuando se maximiza un short
+  // Bloquear el scroll cuando se maximiza un short (sin cambios)
   useEffect(() => {
     if (maximizedId) {
-      // Bloquear scroll
       document.body.style.overflow = 'hidden';
     } else {
-      // Restaurar scroll
       document.body.style.overflow = 'auto';
     }
 
-    // Cleanup: Asegurar que el scroll se restaura al desmontar el componente
     return () => {
       document.body.style.overflow = 'auto';
     };
   }, [maximizedId]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
+  // ===================================
+  // RENDERIZADO CONDICIONAL DE CARGA/ERROR
+  // ===================================
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <Sidebar />
+        <main className="main-content">
+          {/* Usamos el Loader genérico en modo Overlay */}
+          <Loader isOverlay={true} />
+        </main>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Header />
+        <Sidebar />
+        <main className="main-content">
+          <div className="shortpage-error">
+            <h1>Error al cargar los Shorts</h1>
+            <p>{error.message}</p>
+            <button onClick={() => window.location.reload()}>Recargar Página</button>
+          </div>
+        </main>
+      </>
+    );
+  }
 
   return (
     <>

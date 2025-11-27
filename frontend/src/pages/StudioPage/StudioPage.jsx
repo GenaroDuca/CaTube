@@ -17,6 +17,7 @@ import { useMemo, useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import React from "react";
 import { VITE_API_URL } from '../../../config';
+import Loader from '../../components/common/Loader';
 
 function Studio() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -24,8 +25,10 @@ function Studio() {
     const accessToken = localStorage.getItem('accessToken');
     const [userChannelId, setUserChannelId] = useState(null);
     const componentKey = `${section}-${accessToken}-${userChannelId}`;
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true);
         async function loadUserChannel() {
             if (!accessToken) {
                 setUserChannelId(null);
@@ -48,6 +51,8 @@ function Studio() {
                 }
             } catch (error) {
                 console.error('Error loading user channel:', error);
+            } finally {
+                setLoading(false);
             }
         }
         loadUserChannel();
@@ -86,6 +91,16 @@ function Studio() {
                     <p>You must be logged in to access the studio.</p>
                 </div>
             </div>
+        );
+    }
+
+    if (loading) {
+        return (
+            <>
+                <main className="main-content">
+                    <Loader isOverlay={true} />
+                </main>
+            </>
         );
     }
 

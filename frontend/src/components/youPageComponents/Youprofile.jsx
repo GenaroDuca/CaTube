@@ -2,8 +2,11 @@ import { youProfile } from "../../assets/data/Data";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { VITE_API_URL } from '../../../config';
+// Asumo que el Loader genérico está disponible en esta ruta si es un componente común
+import Loader from '../../components/common/Loader'; 
 
 
+// Función de fetch de API (se mantiene igual)
 async function apiFetch(url, options = {}) {
     const accessToken = localStorage.getItem('accessToken');
     const headers = { ...options.headers };
@@ -55,6 +58,7 @@ function Youprofile() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true); // Asegurar que loading es true al inicio de la carga
         async function loadChannelData() {
             const accessToken = localStorage.getItem('accessToken');
             if (!accessToken) {
@@ -114,25 +118,28 @@ function Youprofile() {
         }
     };
 
+    // ============================================
+    // RENDERIZADO CONDICIONAL DE CARGA
+    // ============================================
     if (loading) {
         return (
-            <div className="container-profile">
-                <div className="first-part-profile">
-                    <div className="skeleton" style={{ width: '200px', height: '200px', borderRadius: '50%', backgroundColor: '#e0e0e0' }}></div>
-                    <div className="text-channel" style={{ width: '100%' }}>
-                        <div className="skeleton" style={{ width: '40%', height: '32px', marginBottom: '10px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
-                        <div className="row-info">
-                            <div className="skeleton" style={{ width: '120px', height: '18px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginRight: '10px' }}></div>
-                            <div className="skeleton" style={{ width: '100px', height: '18px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginRight: '10px' }}></div>
-                            <div className="skeleton" style={{ width: '80px', height: '18px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
-                        </div>
-                        <div className="skeleton" style={{ width: '60%', height: '16px', marginTop: '10px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
-                    </div>
-                </div>
-            </div>
+            <>
+                <main className="main-content">
+                    <Loader isOverlay={true} />
+                </main>
+            </>
         );
     }
 
+    // Si no hay token (usuario no logueado), se puede retornar un div vacío
+    // o el estado inicial de youProfile (que ya se utiliza por defecto en los estados)
+    if (!localStorage.getItem('accessToken')) {
+        return null; // Asumimos que si no hay token y no está cargando, no se muestra nada.
+    }
+
+    // ============================================
+    // RENDERIZADO FINAL
+    // ============================================
     return (
         <div className="container-profile" onClick={handleClick} style={{ cursor: 'pointer' }}>
             <div className="first-part-profile">

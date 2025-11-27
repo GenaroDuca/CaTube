@@ -4,8 +4,6 @@ import { ImVolumeMute2 } from "react-icons/im";
 import { ImVolumeHigh } from "react-icons/im";
 import { ImVolumeLow } from "react-icons/im";
 
-import './volumeControl.css';
-
 export function VolumeControl({ volume, isMuted, changeVolume }) {
     const [showSlider, setShowSlider] = useState(false);
 
@@ -18,19 +16,19 @@ export function VolumeControl({ volume, isMuted, changeVolume }) {
 
     return (
         <div className="volume-control">
-        <button onClick={() => setShowSlider((prev) => !prev)}>
-            {getIcon()}
-        </button>
-        {showSlider && (
-            <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.1"
-            value={volume}
-            onChange={(e) => changeVolume(Number(e.target.value))}
-            />
-        )}
+            <button onClick={() => setShowSlider((prev) => !prev)}>
+                {getIcon()}
+            </button>
+            {showSlider && (
+                <input
+                    type="range"
+                    min="0"
+                    max="1"
+                    step="0.1"
+                    value={volume}
+                    onChange={(e) => changeVolume(Number(e.target.value))}
+                />
+            )}
         </div>
     );
 }

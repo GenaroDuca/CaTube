@@ -29,6 +29,31 @@ export function useReaction(videoId, commentId = null) {
         setDislikes(data.dislikes);
     };
 
+    // Fetch user reaction
+    const fetchUserReaction = async () => {
+        const token = getAuthToken();
+        if (!token) return;
+
+        const url = commentId
+            ? `${VITE_API_URL}/likes/comment/${commentId}/my-reaction`
+            : `${VITE_API_URL}/likes/video/${videoId}/my-reaction`;
+
+        try {
+            const res = await fetch(url, {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                setUserReaction(data.reaction);
+            }
+        } catch (error) {
+            console.error("Error fetching user reaction:", error);
+        }
+    };
+
     // Send new reaction
     const react = async (isLike) => {
         const token = getAuthToken();
@@ -77,6 +102,7 @@ export function useReaction(videoId, commentId = null) {
 
     useEffect(() => {
         fetchCounts();
+        fetchUserReaction();
     }, [videoId, commentId]);
 
     return {

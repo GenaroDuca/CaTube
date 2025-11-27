@@ -3,6 +3,7 @@ import Container from "../../common/Container";
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import { VITE_API_URL } from '../../../../config';
+import Loader from '../../common/Loader';
 
 // Helper function to get profile image source
 function getProfileImageSrc(photoUrl, username) {
@@ -130,29 +131,6 @@ function RecentCatscribers() {
         fetchData();
     }, []);
 
-
-    if (loading) {
-        return (
-            <Container className="dashboard-card">
-                <Subtitle subtitle="Recent Catscribers"></Subtitle>
-                <Container className="recent-cats-container">
-                    {[...Array(3)].map((_, index) => (
-                        <Container key={index} className="recent-cats">
-                            <div className="skeleton" style={{ width: '60px', height: '60px', borderRadius: '50%', backgroundColor: '#e0e0e0' }}></div>
-                            <Container>
-                                <div className="skeleton" style={{ width: '120px', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px', marginBottom: '5px' }}></div>
-                                <div className="skeleton" style={{ width: '90px', height: '14px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
-                            </Container>
-                        </Container>
-                    ))}
-                </Container>
-                <Subtitle subtitle="Currents Catscribers"></Subtitle>
-                <div className="skeleton" style={{ width: '80px', height: '32px', backgroundColor: '#e0e0e0', borderRadius: '4px', margin: '0 auto' }}></div>
-            </Container>
-        );
-    }
-
-
     if (error) {
         return (
             <Container className="dashboard-card">
@@ -164,6 +142,12 @@ function RecentCatscribers() {
                 <p className="sub-number">{totalSubs}</p>
             </Container>
         );
+    }
+
+    if(loading) {
+        return <div className="dashboard-card">
+            <Loader/>
+        </div>
     }
 
 

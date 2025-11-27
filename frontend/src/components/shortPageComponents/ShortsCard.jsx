@@ -1,15 +1,7 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react' // 💡 Agregamos useMemo
-import { FaCirclePlay } from "react-icons/fa6";
-import { FaCirclePause } from "react-icons/fa6";
-import { FaHeart } from "react-icons/fa";
-import { FaComments } from "react-icons/fa6";
+import React, { useEffect, useRef, useState, useMemo } from 'react'
+import { FaCirclePlay, FaCirclePause, FaHeart, FaComments, FaShare } from "react-icons/fa6";
 import { IoHeartDislike } from "react-icons/io5";
-import { FaShare } from "react-icons/fa";
-import { RiSettings2Fill } from "react-icons/ri";
-import { ImVolumeMedium } from "react-icons/im";
-import { ImVolumeMute2 } from "react-icons/im";
-import { FiMinimize2 } from "react-icons/fi";
-import { FiMaximize2 } from "react-icons/fi";
+import { ImVolumeMedium, ImVolumeMute2 } from "react-icons/im";
 import { Link } from 'react-router-dom';
 import { useToast } from '../../hooks/useToast';
 import ShareMenu from '../../components/videoPageComponents/ShareMenu.jsx'
@@ -17,6 +9,8 @@ import { CommentSection } from '../common/CommentSection.jsx';
 import { VITE_API_URL } from "../../../config"
 import { useReaction } from "../../hooks/useReaction.jsx";
 import VideoOptionsMenu from '../videoPageComponents/VideoOptionsMenu.jsx';
+
+import Loader from '../../components/common/Loader.jsx';
 
 // Acepta los props isActive y onVideoActive
 export default function ShortCard({ short, isMaximized, onToggleMaximize, isActive, onVideoActive }) {
@@ -29,13 +23,15 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
   const { showSuccess, showError } = useToast()
   const [commentCount, setCommentCount] = useState(short.comments || 0);
   const [showComments, setShowComments] = useState(false);
+  const [showSlider, setShowSlider] = useState(false);
 
-  // 💡 LÓGICA DE DUEÑO CENTRALIZADA
+  // ESTADO DE CARGA
+  const [isLoading, setIsLoading] = useState(true);
+
   const isOwner = useMemo(() => {
     const currentUserId = localStorage.getItem('userId');
     const ownerId = short.ownerId;
 
-    // Compara asegurándose de que ambos existan y sean iguales (ignorando tipo)
     if (!currentUserId || !ownerId) return false;
 
     const normalizedCurrentId = String(currentUserId).trim();
@@ -44,67 +40,99 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
     return normalizedCurrentId === normalizedOwnerId;
   }, [short.ownerId]);
 
-
-  // ❌ Se eliminó el bloque que hacía 'return null' si eras el dueño.
-  // Ahora el short siempre se renderiza, pero ocultamos los botones de acción relevantes.
-
-
+  
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
 
+    // FUNCIONES PARA MANEJAR EVENTOS DE CARGA
+    const handleCanPlay = () => {
+      setIsLoading(false);
+    };
+
+    const handleWaiting = () => {
+      if (!v.paused) {
+        setIsLoading(true); // Se detiene por buffering
+      }
+    };
+
+    // Añadir listeners
+    v.addEventListener('canplay', handleCanPlay);
+    v.addEventListener('waiting', handleWaiting);
+
     // Función auxiliar para intentar la reproducción
     const attemptPlay = () => {
-      // 1. Intentar reproducir con el estado actual de muteo (idealmente sin muteo)
+      // Establecer cargando si el video no tiene suficientes datos aún
+      if (v.readyState < 3) {
+        setIsLoading(true);
+      } else {
+        setIsLoading(false);
+      }
+
+      // 1. Intentar reproducir
       v.play().then(() => {
         setPaused(false);
-        setMuted(v.muted); // Sincroniza el estado de muteo
+        setMuted(v.muted);
+        setIsLoading(false);
       }).catch(e => {
-        // 2. Si falla por Autoplay Policy (permisos)
+        // 2. Si falla por Autoplay Policy, intentar mutear
         console.error("Autoplay bloqueado. Intentando mutear y reintentar.", e);
 
         v.muted = true;
 
         v.play().then(() => {
           setPaused(false);
-          setMuted(true); // Se muteó forzadamente y sincroniza
+          setMuted(true);
+          setIsLoading(false);
         }).catch(error => {
-          // 3. Si falla incluso muteado (video no cargado o error grave)
+          // 3. Fallo total
           console.error("Fallo la reproducción incluso muteado.", error);
           setPaused(true);
+          setIsLoading(false);
         });
       });
     };
 
     if (isActive) {
-      // Verificar si los metadatos ya están cargados (readyState 1: metadata is available)
+      // Comprobar el estado inicial
       if (v.readyState >= 1) {
         attemptPlay();
       } else {
-        // Si el video aún está cargando, usa el evento 'loadedmetadata'
+        // Muestra el spinner si el video no tiene metadata
+        setIsLoading(true);
         const onLoaded = () => {
           attemptPlay();
           v.removeEventListener('loadedmetadata', onLoaded);
         };
         v.addEventListener('loadedmetadata', onLoaded);
 
-        return () => v.removeEventListener('loadedmetadata', onLoaded);
+        return () => {
+          v.removeEventListener('loadedmetadata', onLoaded);
+          v.removeEventListener('canplay', handleCanPlay);
+          v.removeEventListener('waiting', handleWaiting);
+        };
       }
     } else {
       // Si NO es el video activo, páusalo
       v.pause();
       setPaused(true);
+      setIsLoading(false);
     }
+
+    // Limpieza de listeners
+    return () => {
+      v.removeEventListener('canplay', handleCanPlay);
+      v.removeEventListener('waiting', handleWaiting);
+    };
+
   }, [isActive]);
 
-  // --- LÓGICA DE SUBSCRIPCIÓN ---
+  // --- Lógica de Suscripción (se mantiene igual) ---
   useEffect(() => {
     const checkSubscription = async () => {
       const token = localStorage.getItem('accessToken');
       const userId = localStorage.getItem('userId');
-      // Solo comprueba si el usuario no es el dueño y tiene token
       if (isOwner || !token || !userId || !short.channelId) return;
-
       try {
         const res = await fetch(`${VITE_API_URL}/subscriptions/user/${userId}`, {
           headers: { 'Authorization': `Bearer ${token}` },
@@ -117,9 +145,8 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
         console.error('Error checking subscription:', err);
       }
     };
-
     checkSubscription();
-  }, [short.channelId, isOwner]) // 💡 Dependencia isOwner
+  }, [short.channelId, isOwner])
 
   async function handleSubscribe(short) {
     const accessToken = localStorage.getItem('accessToken');
@@ -129,7 +156,6 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
     }
 
     if (isSubscribed) {
-      // Unsubscribe
       const response = await fetch(`${VITE_API_URL}/subscriptions`, {
         method: 'DELETE',
         headers: {
@@ -147,7 +173,6 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
         showError(`Error: ${error.message}`);
       }
     } else {
-      // Subscribe
       try {
         const response = await fetch(`${VITE_API_URL}/subscriptions`, {
           method: 'POST',
@@ -171,20 +196,14 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
       }
     }
   }
-  // --- FIN DE LÓGICA DE SUBSCRIPCIÓN ---
-
-
-  // --- MANEJO DE CONTROLES ---
   function togglePlay() {
     const v = videoRef.current
     if (!v) return
     if (v.paused) {
-      // Al hacer clic para reproducir, intentamos desmutear (si el usuario no lo ha hecho)
       if (v.muted) {
         v.muted = false;
         setMuted(false);
       }
-
       v.play().then(() => setPaused(false)).catch((e) => console.error(e))
     } else {
       v.pause()
@@ -211,7 +230,6 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
       }
     }
 
-    // Actualiza el color del slider
     const slider = e.target
     const percent = val * 100
     slider.style.background = `linear-gradient(to right, rgb(144, 180, 132) ${percent}%, #1a1a1b ${percent}%)`
@@ -223,9 +241,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
       togglePlay()
     }
   }
-  // --- FIN DE MANEJO DE CONTROLES ---
 
-  // Reaction hook
   const {
     likes,
     dislikes,
@@ -233,6 +249,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
     react,
     removeReaction
   } = useReaction(short.id);
+
 
   return (
     <>
@@ -242,61 +259,69 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
           <div className={`short-block`} role="region" aria-label={`Short ${short.title || short.id}`}>
 
             <div className="video-placeholder" onClick={onVideoClick}>
+              {/* 💡 TU LOADER IMPLEMENTADO */}
+              {isLoading && (
+                // Usamos Loader sin el prop isOverlay=true para que use la clase 'loader-local'
+                // y se posicione localmente sobre el video sin tapar la pantalla completa.
+                <Loader isOverlay={false} />
+              )}
+
               <video
                 id="shortVideo"
                 ref={videoRef}
                 src={short.videoSrc}
-                preload="metadata" // Ayuda a que loadedmetadata se dispare rápido
+                preload="metadata"
                 muted={muted}
                 loop
+                // Asegura que el video sea transparente cuando se está cargando
+                style={{ opacity: isLoading ? 0 : 1 }}
               />
             </div>
 
-            {/* User Info Overlay */}
-            <div className="short-info-overlay">
+            {/* User Info Overlay (Ocultar si está cargando) */}
+            {!isLoading && (
+              <div className="short-info-overlay">
 
-              {/* ... (Detalles y tags) ... */}
-              <div className="short-details">
-                <h3 className="short-title">{short.title}</h3>
-                <p className="short-desc">{short.description}</p>
-                <div className="short-tags">
-                  {short.tags.map(tag => (
-                    <Link
-                      key={tag.name}
-                      to={`/discover?tag=${encodeURIComponent(tag.name)}`}
-                      className="tag-link"
-                    >
-                      #{tag.name}
-                    </Link>
-                  ))}
+                <div className="short-details">
+                  <h3 className="short-title">{short.title}</h3>
+                  <p className="short-desc">{short.description}</p>
+                  <div className="short-tags">
+                    {short.tags.map(tag => (
+                      <Link
+                        key={tag.name}
+                        to={`/discover?tag=${encodeURIComponent(tag.name)}`}
+                        className="tag-link"
+                      >
+                        #{tag.name}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div className="short-user-header">
-                <Link to={`/yourchannel/${short.channelUrl}`} className="overlay-avatar">
-                  <img src={short.channelAvatar} alt={short.channelName} />
-                </Link>
-                <div className="overlay-text-info">
-                  <Link to={`/yourchannel/${short.channelUrl}`}>
-                    <h4 className="overlay-username">{short.channelName}</h4>
+                <div className="short-user-header">
+                  <Link to={`/yourchannel/${short.channelUrl}`} className="overlay-avatar">
+                    <img src={short.channelAvatar} alt={short.channelName} />
                   </Link>
+                  <div className="overlay-text-info">
+                    <Link to={`/yourchannel/${short.channelUrl}`}>
+                      <h4 className="overlay-username">{short.channelName}</h4>
+                    </Link>
 
-                  {/* 💡 RENDERIZADO CONDICIONAL DEL BOTÓN DE SUSCRIPCIÓN */}
-                  {/* Solo se muestra si NO eres el dueño (!isOwner) */}
-                  {!isOwner && (
-                    <button
-                      type="button"
-                      className={`subscribe-button overlay-subscribe ${isSubscribed ? 'subscribed' : ''}`}
-                      onClick={() => handleSubscribe(short)}
-                    >
-                      {isSubscribed ? 'Subscribed' : 'Subscribe'}
-                    </button>
-                  )}
+                    {!isOwner && (
+                      <button
+                        type="button"
+                        className={`subscribe-button overlay-subscribe ${isSubscribed ? 'subscribed' : ''}`}
+                        onClick={() => handleSubscribe(short)}
+                      >
+                        {isSubscribed ? 'Subscribed' : 'Subscribe'}
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
 
-            {/* Comments Drawer (se mantiene igual) */}
+            {/* Comments Drawer */}
             <div className={`comments-drawer ${showComments ? 'open' : ''}`}>
               <div className="comments-drawer-header">
                 <h3>Comments</h3>
@@ -309,89 +334,96 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
 
           </div>
 
-          <div className='short-action-buttons-container'>
+          {/* Controles y botones de acción (Ocultar si está cargando) */}
+          {!isLoading && (
+            <div className='short-action-buttons-container'>
 
-            <div className="container-play-vol">
-              <button
-                type="button"
-                id="playPauseBtn"
-                className="action-button btn-play"
-                onClick={togglePlay}
-                aria-label={paused ? 'Play' : 'Pause'}
-              >
-                {paused ? <FaCirclePlay size={25} /> : <FaCirclePause size={25} />}
-              </button>
-
-              <div className="volume-control-container">
-                <button type="button" id="soundMuteBtn" className="action-button btn-sound" onClick={toggleMute}>
-                  {muted ? <ImVolumeMute2 size={25} /> : <ImVolumeMedium size={25} />}
+              <div className="container-play-vol">
+                <button
+                  type="button"
+                  id="playPauseBtn"
+                  className="action-button btn-play"
+                  onClick={togglePlay}
+                  aria-label={paused ? 'Play' : 'Pause'}
+                >
+                  {paused ? <FaCirclePlay size={25} /> : <FaCirclePause size={25} />}
                 </button>
-                <input
-                  type="range"
-                  id="volumeSlider"
-                  className={`volume-slider ${sliderVisible ? 'visible' : ''}`}
-                  min="0"
-                  max="1"
-                  step="0.01"
-                  value={volume}
-                  onChange={onVolumeChange}
-                  aria-label="Volume"
-                />
+
+                <div className="volume-control-container">
+                  <button type="button" id="soundMuteBtn" className="action-button btn-sound" onClick={() => setShowSlider((prev) => !prev)}>
+                    {muted ? <ImVolumeMute2 size={25} /> : <ImVolumeMedium size={25} />}
+                  </button>
+                  {showSlider && (
+                    <input
+                      type="range"
+                      id="volumeSlider"
+                      className={`volume-slider ${sliderVisible ? 'visible' : ''}`}
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value={volume}
+                      onChange={onVolumeChange}
+                      aria-label="Volume"
+                    />
+                  )}
+                </div>
+
               </div>
 
+              <div className="action-buttons">
+                {!isOwner && (
+                  <>
+                    <button
+                      type="button"
+                      className={`action-button ${userReaction === "like" ? "reacted-like" : ""}`}
+                      onClick={() => {
+                        if (userReaction === "like") removeReaction();
+                        else react(true);
+                      }}
+                    >
+                      <FaHeart size={25} />
+                    </button>
+                    <span>{likes}</span>
+
+                    <button
+                      type="button"
+                      className={`action-button ${userReaction === "dislike" ? "reacted-dislike" : ""} dislike-btn`}
+                      onClick={() => {
+                        if (userReaction === "dislike") removeReaction();
+                        else react(false);
+                      }}
+                    >
+                      <IoHeartDislike size={25} />
+                    </button>
+                    <span>{dislikes}</span>
+                  </>
+                )}
+
+
+                <button type="button" className="action-button comment-short-btn" onClick={() => setShowComments(!showComments)}>
+                  <FaComments size={25} />
+                </button>
+                <span className="comment-short-btn">{commentCount}</span>
+
+                <button type="button" className="action-button"><ShareMenu videoUrl={short.url} videoTitle={short.title} /></button>
+
+                {isOwner && (
+                  <div className="action-button">
+                    <VideoOptionsMenu
+                      videoId={short.id}
+                      title={short.title}
+                      description={short.description}
+                      thumbnail={short.thumbnail}
+                      tags={short.tags}
+                      contentType="Shorts"
+                      ownerId={short.ownerId}
+                    />
+                  </div>
+                )}
+
+              </div>
             </div>
-            <div className="action-buttons">
-              {/* LIKE */}
-              <button
-                type="button"
-                className={`action-button ${userReaction === "like" ? "reacted-like" : ""}`}
-                onClick={() => {
-                  if (userReaction === "like") removeReaction();
-                  else react(true);
-                }}
-              >
-                <FaHeart size={25} />
-              </button>
-              <span>{likes}</span>
-
-              {/* DISLIKE */}
-              <button
-                type="button"
-                className={`action-button ${userReaction === "dislike" ? "reacted-dislike" : ""} dislike-btn`}
-                onClick={() => {
-                  if (userReaction === "dislike") removeReaction();
-                  else react(false);
-                }}
-              >
-                <IoHeartDislike size={25} />
-              </button>
-              <span>{dislikes}</span>
-
-              <button type="button" className="action-button comment-short-btn" onClick={() => setShowComments(!showComments)}>
-                <FaComments size={25} />
-              </button>
-              <span className="comment-short-btn">{commentCount}</span>
-
-              <button type="button" className="action-button"><ShareMenu videoUrl={short.url} videoTitle={short.title} /></button>
-
-              {/* 💡 RENDERIZADO CONDICIONAL DEL BOTÓN DE OPCIONES */}
-              {/* Solo se muestra si SÍ eres el dueño (isOwner) */}
-              {isOwner && (
-                <div className="action-button">
-                  <VideoOptionsMenu
-                    videoId={short.id}
-                    title={short.title}
-                    description={short.description}
-                    thumbnail={short.thumbnail}
-                    tags={short.tags}
-                    contentType="Shorts"
-                    ownerId={short.ownerId}
-                  />
-                </div>
-              )}
-
-            </div>
-          </div>
+          )}
 
         </div>
       </div >

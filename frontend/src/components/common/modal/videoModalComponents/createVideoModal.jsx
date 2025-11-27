@@ -2,9 +2,10 @@ import React, { useState, useEffect } from "react";
 import { IoIosCloseCircle } from "react-icons/io";
 import { useToast } from "../../../../hooks/useToast.jsx";
 import { getAuthToken } from "../../../../utils/auth.js";
-import { VITE_API_URL } from "../../../../../config"
+import { VITE_API_URL } from "../../../../../config";
 
 const { showSuccess, showError } = useToast();
+
 // ===============================================================
 // API: CREATE VIDEO
 // ===============================================================
@@ -30,7 +31,6 @@ async function CreateVideoFetch(videoData) {
         if (res.ok) {
             return await res.json();
         } else {
-            // Intenta obtener el error del cuerpo si está disponible
             const errorData = await res.json().catch(() => ({}));
             showError(errorData.message || "Error creating video");
         }
@@ -46,9 +46,13 @@ async function CreateVideoFetch(videoData) {
 const CreateVideoModal = ({ onClose, onSubmit }) => {
     const [videoName, setVideoName] = useState("");
     const [videoDescription, setVideoDescription] = useState("");
-    const [descriptionError, setDescriptionError] = useState(""); // validation state
+    const [descriptionError, setDescriptionError] = useState("");
     const [videoFile, setVideoFile] = useState("");
     const [videoThumbnail, setVideoThumbnail] = useState("");
+
+    const [videoOrientation, setVideoOrientation] = useState("landscape");
+    const [thumbOrientation, setThumbOrientation] = useState("landscape");
+
     const [defaultTags, setDefaultTags] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [selectedTags, setSelectedTags] = useState([]);
@@ -57,20 +61,15 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     const [uploadProgress, setUploadProgress] = useState(0);
     const [processingStatus, setProcessingStatus] = useState("");
 
-    // ----------------------------------------------------------------------
-    // CONSTANTE DE LÍMITE DE CARACTERES
-    // ----------------------------------------------------------------------
-    const DEFAULT_THUMBNAIL_URL = "https://catube-uploads.s3.sa-east-1.amazonaws.com/thumbnails/default-video-thumbnail.png";
     const MAX_DESCRIPTION_LENGTH = 5000;
     const MAX_TITLE_LENGTH = 100;
 
-    // Handler for description input with max length validation (5000 chars)
     const handleDescriptionChange = (e) => {
         const newDesc = e.target.value;
         if (newDesc.length > MAX_DESCRIPTION_LENGTH) {
-            setDescriptionError('Description cannot exceed 5000 characters');
+            setDescriptionError("Description cannot exceed 5000 characters");
         } else {
-            setDescriptionError('');
+            setDescriptionError("");
             setVideoDescription(newDesc);
         }
     };
@@ -82,10 +81,11 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
         tag.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    // Verificar si existe una coincidencia exacta (no solo parcial)
-    const exactMatch = searchTerm.trim() && defaultTags.some((tag) =>
-        tag.name.toLowerCase() === searchTerm.toLowerCase().trim()
-    );
+    const exactMatch =
+        searchTerm.trim() &&
+        defaultTags.some(
+            (tag) => tag.name.toLowerCase() === searchTerm.toLowerCase().trim()
+        );
 
     // ===============================================================
     // CARGAR TAGS POR DEFECTO
@@ -98,7 +98,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     }, []);
 
     // ===============================================================
-    // AGREGAR TAG (fixeado: AHORA AGREGA TODOS)
+    // AGREGAR TAG
     // ===============================================================
     const handleAddTag = (tag) => {
         if (!selectedTags.some((t) => t.name === tag.name)) {
@@ -106,25 +106,22 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
         }
     };
 
-
     // ===============================================================
-    // ELIMINAR TAG (fix: AHORA ELIMINA POR ID)
+    // ELIMINAR TAG
     // ===============================================================
-
     const handleRemoveTag = (name) => {
-        setSelectedTags(prev => prev.filter((t) => t.name !== name));
+        setSelectedTags((prev) => prev.filter((t) => t.name !== name));
     };
 
     // ===============================================================
     // CREAR TAG CUSTOM
     // ===============================================================
     const handleAddCustomTag = async (nameParam) => {
-        // resolver el nombre: param > custom input > searchTerm
-        const rawName = (nameParam || customTagInput || searchTerm || "").trim();
+        const rawName =
+            (nameParam || customTagInput || searchTerm || "").trim();
         const name = rawName.toLowerCase();
         if (!name) return;
 
-        // evitar duplicados
         const alreadySelected = selectedTags.some((t) => t.name === name);
         if (alreadySelected) {
             showError(`Tag #${name} already selected`);
@@ -133,17 +130,13 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
 
         const existsInDefault = defaultTags.some((t) => t.name === name);
 
-        // tempTag para que aparezca al instante
         const tempTag = { tag_id: `temp-${Date.now()}`, name };
 
-        // Añadir inmediatamente
         setSelectedTags((prev) => [...prev, tempTag]);
         if (!existsInDefault) setDefaultTags((prev) => [...prev, tempTag]);
 
-        // Limpio SOLO el input del custom tag, PERO NO el searchTerm
         setCustomTagInput("");
 
-        // Llamada real
         try {
             const res = await fetch(`${VITE_API_URL}/tags`, {
                 method: "POST",
@@ -155,7 +148,6 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
             });
 
             if (!res.ok) {
-                // rollback
                 setSelectedTags((prev) =>
                     prev.filter((t) => t.tag_id !== tempTag.tag_id)
                 );
@@ -170,7 +162,6 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
 
             const newTag = await res.json();
 
-            // Reemplazar tempTag con el real
             setDefaultTags((prev) =>
                 prev.map((t) => (t.tag_id === tempTag.tag_id ? newTag : t))
             );
@@ -179,14 +170,12 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                 prev.map((t) => (t.tag_id === tempTag.tag_id ? newTag : t))
             );
 
-            // AHORA sí podés limpiar el searchTerm
             setSearchTerm("");
 
             showSuccess(`Tag #${newTag.name} created`);
         } catch (err) {
             console.error("Network error creating tag", err);
 
-            // rollback
             setSelectedTags((prev) =>
                 prev.filter((t) => t.tag_id !== tempTag.tag_id)
             );
@@ -198,23 +187,21 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
         }
     };
 
-
     // ===============================================================
-    // SUBIR VIDEO - MODIFICADO para que thumbnail sea opcional
+    // SUBIR VIDEO
     // ===============================================================
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (loading) return;
 
-        const missingFields = [];
-        if (!videoName) missingFields.push("Title");
-        if (!videoDescription) missingFields.push("Description");
-        if (!videoFile) missingFields.push("Video file");
-        // Thumbnail is now OPTIONAL, so we don't check it here
+        const missing = [];
+        if (!videoName) missing.push("Title");
+        if (!videoDescription) missing.push("Description");
+        if (!videoFile) missing.push("Video");
 
-        if (missingFields.length > 0) {
-            showError(`Missing: ${missingFields.join(", ")}`);
+        if (missing.length > 0) {
+            showError(`Missing: ${missing.join(", ")}`);
             return;
         }
 
@@ -223,36 +210,9 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
         formData.append("description", videoDescription);
         formData.append("video", videoFile);
 
-        // --- INICIO DE LA LÓGICA MODIFICADA PARA EL THUMBNAIL ---
-        let thumbnailToSend = videoThumbnail; // Archivo subido por el usuario (File object o null/string)
-
-        // Si no hay archivo de thumbnail subido por el usuario
-        if (!videoThumbnail) {
-            setProcessingStatus("Fetching default thumbnail...");
-            try {
-                // 1. Obtiene el archivo predeterminado como un objeto File
-                const defaultFile = await urlToFile(
-                    DEFAULT_THUMBNAIL_URL,
-                    "default-video-thumbnail.png",
-                    "image/png"
-                );
-                thumbnailToSend = defaultFile;  
-                showSuccess("Using default thumbnail.");
-            } catch (err) {
-                console.error("Error fetching default thumbnail", err);
-                showError("Could not fetch default thumbnail. Aborting upload.");
-                setLoading(false);
-                return;
-            }
+        if (videoThumbnail) {
+            formData.append("thumbnail", videoThumbnail);
         }
-
-        // 2. Adjunta el archivo (el subido por el usuario o el predeterminado)
-        // La validación `if (!videoThumbnail)` ya asegura que si llegamos aquí,
-        // `thumbnailToSend` es un objeto File válido (o el subido por el usuario).
-        if (thumbnailToSend) {
-            formData.append("thumbnail", thumbnailToSend);
-        }
-        // --- FIN DE LA LÓGICA MODIFICADA PARA EL THUMBNAIL ---
 
         try {
             setLoading(true);
@@ -266,21 +226,20 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
 
             const jobId = response.jobId || response.id;
 
-            // Polling Loop (remains the same)
             const pollInterval = setInterval(async () => {
-                // ... polling logic remains the same ...
                 try {
-                    const statusRes = await fetch(`${VITE_API_URL}/videos/status/${jobId}`);
+                    const statusRes = await fetch(
+                        `${VITE_API_URL}/videos/status/${jobId}`
+                    );
                     if (!statusRes.ok) return;
 
                     const statusData = await statusRes.json();
                     setUploadProgress(statusData.progress);
                     setProcessingStatus(`Processing: ${statusData.progress}%`);
 
-                    if (statusData.status === 'completed') {
+                    if (statusData.status === "completed") {
                         clearInterval(pollInterval);
 
-                        // Asignar Tags (remains the same)
                         await fetch(`${VITE_API_URL}/tags/assign`, {
                             method: "POST",
                             headers: {
@@ -291,18 +250,24 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                                 video_id: jobId,
                                 tag_ids: selectedTags
                                     .map((t) => t.tag_id)
-                                    .filter((id) => id && !id.toString().startsWith("temp-")),
+                                    .filter(
+                                        (id) =>
+                                            id &&
+                                            !id.toString().startsWith("temp-")
+                                    ),
                             }),
                         });
 
-                        const videoRes = await fetch(`${VITE_API_URL}/videos/${jobId}`);
+                        const videoRes = await fetch(
+                            `${VITE_API_URL}/videos/${jobId}`
+                        );
                         const videoData = await videoRes.json();
 
                         showSuccess("Video processed successfully!");
                         if (onSubmit) onSubmit(videoData);
                         onClose();
                         setLoading(false);
-                    } else if (statusData.status === 'failed') {
+                    } else if (statusData.status === "failed") {
                         clearInterval(pollInterval);
                         showError("Processing failed.");
                         setLoading(false);
@@ -311,7 +276,6 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                     console.error("Polling error", err);
                 }
             }, 1000);
-
         } catch (err) {
             console.error(err);
             showError("Unexpected error.");
@@ -320,13 +284,12 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
     };
 
     // ===============================================================
-    // FILE INPUT PREVIEWS
+    // PREVIEWS
     // ===============================================================
     const videoPreviewUrl = videoFile
         ? URL.createObjectURL(videoFile)
         : "/assets/videos/";
 
-    // La URL por defecto se usa si videoThumbnail es falsy (string vacío o null)
     const thumbnailPreviewUrl = videoThumbnail
         ? URL.createObjectURL(videoThumbnail)
         : "https://catube-uploads.s3.sa-east-1.amazonaws.com/thumbnails/default-video-thumbnail.png";
@@ -358,7 +321,14 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                             disabled={loading}
                             maxLength={MAX_TITLE_LENGTH}
                         />
-                        <div className="description-counter" style={{ width: '100%', textAlign: 'right', marginTop: '-20px' }}>
+                        <div
+                            className="description-counter"
+                            style={{
+                                width: "100%",
+                                textAlign: "right",
+                                marginTop: "-20px",
+                            }}
+                        >
                             {videoName.length} / {MAX_TITLE_LENGTH}
                         </div>
 
@@ -370,24 +340,67 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                             disabled={loading}
                             maxLength={MAX_DESCRIPTION_LENGTH}
                         />
-                        <div className="description-counter" style={{ width: '100%', textAlign: 'right', marginTop: '-20px' }}>
-                            {videoDescription.length} / {MAX_DESCRIPTION_LENGTH}
+                        <div
+                            className="description-counter"
+                            style={{
+                                width: "100%",
+                                textAlign: "right",
+                                marginTop: "-20px",
+                            }}
+                        >
+                            {videoDescription.length} /{" "}
+                            {MAX_DESCRIPTION_LENGTH}
                         </div>
-                        {descriptionError && <p className="error-text" style={{ color: 'red' }}>{descriptionError}</p>}
+
+                        {descriptionError && (
+                            <p
+                                className="error-text"
+                                style={{ color: "red" }}
+                            >
+                                {descriptionError}
+                            </p>
+                        )}
 
                         <div className="create-video-media-input">
                             <div>
                                 <h2>Video</h2>
                                 <div className="create-thumbnail">
-                                    <video width="300" controls src={videoPreviewUrl} />
+                                   <video
+                                        controls
+                                        src={videoPreviewUrl}
+                                        style={{
+                                            objectFit: "cover",
+                                            width: thumbOrientation === "portrait" ? "170px" : "300px",
+                                            height: thumbOrientation === "portrait" ? "300px" : "170px",
+                                            borderRadius: "15px",
+                                            margin: "0 auto",
+                                            background: "#000",
+                                        }}
+                                    />
+
                                     <label htmlFor="upload-video">Upload</label>
+
                                     <input
                                         type="file"
                                         id="upload-video"
                                         accept="video/mp4"
-                                        onChange={(e) =>
-                                            setVideoFile(e.target.files?.[0] || null)
-                                        }
+                                        onChange={(e) => {
+                                            const file = e.target.files?.[0] || null;
+                                            setVideoFile(file);
+
+                                            if (file) {
+                                                const url = URL.createObjectURL(file);
+                                                const videoEl = document.createElement("video");
+                                                videoEl.src = url;
+                                                videoEl.onloadedmetadata = () => {
+                                                    const o =
+                                                        videoEl.videoHeight > videoEl.videoWidth
+                                                            ? "portrait"
+                                                            : "landscape";
+                                                    setVideoOrientation(o);
+                                                };
+                                            }
+                                        }}
                                         disabled={loading}
                                         style={{ display: "none" }}
                                     />
@@ -395,18 +408,47 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                             </div>
 
                             <div>
-                                <h2>Thumbnail (Optional)</h2> {/* <-- Etiqueta actualizada */}
+                                <h2>Thumbnail (Optional)</h2>
+
                                 <div className="create-thumbnail">
-                                    {/* Mantiene la lógica de previsualización que usa la URL por defecto si no hay archivo */}
-                                    <img src={thumbnailPreviewUrl} alt="Thumbnail preview" />
-                                    <label htmlFor="upload-thumbnail">Upload</label>
+                                    <img
+                                        src={thumbnailPreviewUrl}
+                                        alt="Thumbnail preview"
+                                        style={{
+                                            width: thumbOrientation === "portrait" ? "170px" : "300px",
+                                            height: thumbOrientation === "portrait" ? "300px" : "170px",
+                                            borderRadius: "10px",
+                                            background: "#000",
+                                        }}
+                                    />
+
+                                    <label htmlFor="upload-thumbnail">
+                                        Upload
+                                    </label>
                                     <input
                                         type="file"
                                         id="upload-thumbnail"
                                         accept="image/*"
-                                        onChange={(e) =>
-                                            setVideoThumbnail(e.target.files?.[0] || null)
-                                        }
+                                        onChange={(e) => {
+                                            const file =
+                                                e.target.files?.[0] || null;
+                                            setVideoThumbnail(file);
+
+                                            if (file) {
+                                                const url =
+                                                    URL.createObjectURL(file);
+                                                const img = new Image();
+                                                img.src = url;
+                                                img.onload = () => {
+                                                    const o =
+                                                        img.height >
+                                                            img.width
+                                                            ? "portrait"
+                                                            : "landscape";
+                                                    setThumbOrientation(o);
+                                                };
+                                            }
+                                        }}
                                         disabled={loading}
                                         style={{ display: "none" }}
                                     />
@@ -417,6 +459,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                         {/* =============================================================== */}
                         {/* TAGS */}
                         {/* =============================================================== */}
+
                         <h2>Video tags</h2>
 
                         <div className="create-video-tags-container">
@@ -426,25 +469,45 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                                     type="text"
                                     placeholder="Search tags..."
                                     value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    onChange={(e) =>
+                                        setSearchTerm(e.target.value)
+                                    }
                                     disabled={loading}
                                 />
 
                                 {filteredTags.length > 0 && (
                                     <ul>
                                         {filteredTags.map((tag) => {
-                                            const isSelected = selectedTags.some(
-                                                (t) =>
-                                                    (t.tag_id && tag.tag_id && t.tag_id === tag.tag_id) ||
-                                                    (!t.tag_id && !tag.tag_id && t.name === tag.name)
-                                            );
+                                            const isSelected =
+                                                selectedTags.some(
+                                                    (t) =>
+                                                        (t.tag_id &&
+                                                            tag.tag_id &&
+                                                            t.tag_id ===
+                                                            tag.tag_id) ||
+                                                        (!t.tag_id &&
+                                                            !tag.tag_id &&
+                                                            t.name ===
+                                                            tag.name)
+                                                );
 
                                             return (
-                                                <li key={tag.tag_id || tag.name}>
+                                                <li
+                                                    key={
+                                                        tag.tag_id ||
+                                                        tag.name
+                                                    }
+                                                >
                                                     <button
                                                         type="button"
-                                                        onClick={() => handleAddTag(tag)}
-                                                        className={isSelected ? "tag-selected" : ""}
+                                                        onClick={() =>
+                                                            handleAddTag(tag)
+                                                        }
+                                                        className={
+                                                            isSelected
+                                                                ? "tag-selected"
+                                                                : ""
+                                                        }
                                                         disabled={loading}
                                                     >
                                                         # {tag.name}
@@ -455,38 +518,46 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                                     </ul>
                                 )}
 
-                                {/* Mostrar botón de crear tag si no hay coincidencia exacta */}
-                                {searchTerm.trim().length > 0 && !exactMatch && (
-                                    <div className="no-tags-container">
-                                        <p className="no-tags-message">
-                                            {filteredTags.length > 0
-                                                ? `No exact match for: "${searchTerm}"`
-                                                : `No tag found for: "${searchTerm}"`
-                                            }
-                                        </p>
+                                {searchTerm.trim().length > 0 &&
+                                    !exactMatch && (
+                                        <div className="no-tags-container">
+                                            <p className="no-tags-message">
+                                                {filteredTags.length > 0
+                                                    ? `No exact match for: "${searchTerm}"`
+                                                    : `No tag found for: "${searchTerm}"`}
+                                            </p>
 
-                                        <button
-                                            type="button"
-                                            onClick={() => handleAddCustomTag(searchTerm)}
-                                            className="create-tag-btn"
-                                            disabled={loading}
-                                        >
-                                            Create tag: #{searchTerm}
-                                        </button>
-                                    </div>
-                                )}
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    handleAddCustomTag(
+                                                        searchTerm
+                                                    )
+                                                }
+                                                className="create-tag-btn"
+                                                disabled={loading}
+                                            >
+                                                Create tag: #{searchTerm}
+                                            </button>
+                                        </div>
+                                    )}
                             </section>
 
                             {/* ---------- TAGS SELECCIONADOS ----------- */}
                             <section className="tag-input-container">
-                                <p> <strong></strong>Assigned tags</p>
+                                <p>
+                                    {" "}
+                                    <strong></strong>Assigned tags
+                                </p>
                                 <ul>
                                     {selectedTags.map((tag) => (
                                         <li key={tag.tag_id}>
                                             {`# ${tag.name} `}
                                             <button
                                                 type="button"
-                                                onClick={() => handleRemoveTag(tag.name)}
+                                                onClick={() =>
+                                                    handleRemoveTag(tag.name)
+                                                }
                                                 disabled={loading}
                                             >
                                                 ✕
@@ -502,27 +573,44 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                         {/* =============================================================== */}
                         <div className="create-video-buttons">
                             {loading && (
-                                <div style={{ width: '100%', marginBottom: '10px' }}>
-                                    <div style={{
-                                        width: '100%',
-                                        height: '10px',
-                                        backgroundColor: '#e0e0e0',
-                                        borderRadius: '5px',
-                                        overflow: 'hidden'
-                                    }}>
-                                        <div style={{
-                                            width: `${uploadProgress}%`,
-                                            height: '100%',
-                                            backgroundColor: '#90b484',
-                                            transition: 'width 0.5s ease',
-                                            borderRadius: '30px'
-                                        }} />
+                                <div
+                                    style={{
+                                        width: "100%",
+                                        marginBottom: "10px",
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            width: "100%",
+                                            height: "10px",
+                                            backgroundColor: "#e0e0e0",
+                                            borderRadius: "5px",
+                                            overflow: "hidden",
+                                        }}
+                                    >
+                                        <div
+                                            style={{
+                                                width: `${uploadProgress}%`,
+                                                height: "100%",
+                                                backgroundColor: "#90b484",
+                                                transition:
+                                                    "width 0.5s ease",
+                                                borderRadius: "30px",
+                                            }}
+                                        />
                                     </div>
-                                    <p style={{ textAlign: 'center', fontSize: '12px', marginTop: '5px' }}>{processingStatus}</p>
+                                    <p
+                                        style={{
+                                            textAlign: "center",
+                                            fontSize: "12px",
+                                            marginTop: "5px",
+                                        }}
+                                    >
+                                        {processingStatus}
+                                    </p>
                                 </div>
                             )}
                             <div className="create-video-buttons-container">
-
                                 <button
                                     type="button"
                                     className="discard-changes-create-video"
@@ -530,11 +618,14 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                                 >
                                     Discard
                                 </button>
-                                <button type="submit" className="upload-btn" disabled={loading}>
+                                <button
+                                    type="submit"
+                                    className="upload-btn"
+                                    disabled={loading}
+                                >
                                     {loading ? "Processing..." : "Upload"}
                                 </button>
                             </div>
-
                         </div>
                     </form>
                 </main>

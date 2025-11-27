@@ -610,6 +610,8 @@ input:checked+.slider:before {
 /* ==================================== */
 .create-video-content {
     height: 90vh;
+    display: flex;
+    flex-direction: column;
     background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
     border: 1px solid var(--border-container-color);
     border-radius: 30px;
@@ -671,16 +673,22 @@ input:checked+.slider:before {
     gap: 20px;
 }
 
-.create-thumbnail video {
-    width: 300px;
-    aspect-ratio: 16/9;
-    border-radius: 15px;
+/* --- Estilo para miniaturas HORIZONTALES (o el estilo por defecto, 16:9, etc.) --- */
+/* Esta clase asegura que la imagen horizontal llena el ancho y se ajusta la altura */
+.create-thumbnail .horizontal-thumbnail {
+    width: 100%;
+    height: auto; 
+    /* object-fit: cover ya asegura que no queden espacios, pero es bueno ser explícito */
 }
 
-.create-thumbnail img {
-    width: 300px;
-    aspect-ratio: 16/9;
-    border-radius: 15px;
+/* --- Estilo para miniaturas VERTICALES (por ejemplo, 9:16) --- */
+/* Queremos que la imagen vertical llene la altura del contenedor */
+.create-thumbnail .vertical-thumbnail {
+    height: 100%; /* Llenar la altura del contenedor */
+    width: auto; /* Dejar que el ancho se ajuste proporcionalmente */
+    /* Usar object-fit: contain o object-fit: cover dependerá de si quieres recortar o mostrar todo */
+    object-fit: contain; /* Mostrar la imagen completa, manteniendo el aspecto */
+    background-color: black; /* El color de fondo para la imagen (si se usa 'contain') */
 }
 
 .create-thumbnail input[type="file"] {
@@ -854,13 +862,22 @@ input:checked+.slider:before {
     padding: 20px;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
-    background-color: var(--background-color);
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
     flex-grow: 1;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
+
+.edit-product-content,
+.add-product-content,
+.create-store-content {
+    border: 1px solid var(--border-container-color);
+    border-radius: 30px;
+}
+
+
 
 .edit-product-content main {
     height: 100%;
@@ -898,9 +915,11 @@ input:checked+.slider:before {
 .create-store-content form input[type="text"] {
     width: 100%;
     padding: 12px 20px;
-    border: 1px solid var(--text-color);
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border-radius: 30px;
-    background-color: transparent;
+
     color: var(--text-color);
     box-sizing: border-box;
     margin-bottom: 20px;
@@ -912,10 +931,11 @@ input:checked+.slider:before {
     width: 100%;
     cursor: pointer;
     padding: 8px;
-    border: 1px solid var(--text-color);
     border-radius: 30px;
-    background-color: transparent;
     color: var(--text-color);
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 /* Personalizar el texto del botón del input file */
@@ -989,9 +1009,10 @@ input:checked+.slider:before {
     width: 100%;
     height: 100px;
     padding: 12px 20px;
-    border: 1px solid var(--text-color);
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border-radius: 30px;
-    background-color: transparent;
     color: var(--text-color);
     margin-bottom: 20px;
 }

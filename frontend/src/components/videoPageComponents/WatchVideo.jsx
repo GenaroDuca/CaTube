@@ -151,11 +151,11 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
 
                     <div className="vv-video-rightControls">
                         <VolumeControl volume={volume} isMuted={isMuted} changeVolume={changeVolume} />
-                        <button className="vv-video-rightControls-theaterMode" onClick={toggleTheaterMode}>
+                        {/* <button className="vv-video-rightControls-theaterMode" onClick={toggleTheaterMode}>
                             {isTheaterMode
                                 ? <TbLayoutSidebarRightExpandFilled color='rgb(144, 180, 132)' size={25} />
                                 : <TbLayoutSidebarRightCollapseFilled color='rgb(144, 180, 132)' size={25} />}
-                        </button>
+                        </button> */}
                         <button className="vv-video-rightControls-button" onClick={toggleFullScreen}>
                             {isFullScreen
                                 ? <FiMinimize2 color='rgb(144, 180, 132)' size={25} />

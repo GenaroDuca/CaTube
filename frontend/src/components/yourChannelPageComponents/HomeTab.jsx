@@ -4,15 +4,16 @@ import ContainerChannel from "../../components/yourChannelPageComponents/Contain
 import SectionsCarousel from "../homePageComponents/SectionsCarousel";
 import { getAuthToken } from "../../utils/auth.js";
 import { VITE_API_URL } from '../../../config';
+import Loader from "../../components/common/Loader";
 
 function HomeTab({ channelId }) {
-    const foryouRef = useRef(null);
-    const videosRef = useRef(null);
+    const foryouRef = useRef(null); // Usado para Recent Videos
+    const popularRef = useRef(null); // Nuevo ref para Popular Videos
     const shortsRef = useRef(null);
 
     const [videos, setVideos] = useState([]);
     const [shorts, setShorts] = useState([]);
-    // recent videos will be derived from `videos` (sorted by createdAt desc)
+    const [loading, setLoading] = useState(true);
 
     const token = getAuthToken();
 
@@ -21,16 +22,23 @@ function HomeTab({ channelId }) {
             try {
                 if (!channelId) return;
 
+                setLoading(true);
+
                 // Fetch videos for this channel
                 const videosRes = await fetch(`${VITE_API_URL}/videos/channel/${channelId}`, {
                     headers: { 'Authorization': `Bearer ${token}` },
                 });
+
                 if (videosRes.ok) {
                     const data = await videosRes.json();
-                    // Separate by type
+
+                    // --- Mapeo y Separación de Contenido ---
+
                     const allVideos = data.filter(v => v.type === "video" || !v.type).map(video => ({
                         id: video.id,
                         namevideo: video.title,
+                        // 💡 Almacenar las vistas como número para la clasificación
+                        views: video.views || 0,
                         videoviews: `${video.views || 0} views`,
                         createdAt: video.createdAt,
                         thumbnail: `${video.thumbnail}`,
@@ -56,21 +64,29 @@ function HomeTab({ channelId }) {
                 console.error("Error fetching channel content:", error);
                 setVideos([]);
                 setShorts([]);
+            } finally {
+                setLoading(false);
             }
         }
 
         fetchChannelContent();
-    }, [channelId]);
+    }, [channelId, token]); 
 
-    // Ordenar los videos
+    if (loading) {
+        return <Loader />;
+    }
+
+    // --- LÓGICA DE ORDENAMIENTO DE VIDEOS ---
     const recentVideos = videos.slice().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     const popularVideos = videos.slice().sort((a, b) => b.views - a.views);
+
     return (
         <>
             <Container className="content-table">
                 <ContainerChannel channelId={channelId} />
             </Container>
 
+            {/* --- 1. RECIENTES (LATEST) --- */}
             {recentVideos.length > 0 && (
                 <SectionsCarousel
                     section="subscriptions"
@@ -82,17 +98,19 @@ function HomeTab({ channelId }) {
                 />
             )}
 
+            {/* --- 2. MÁS POPULARES (MOST POPULAR) --- */}
             {popularVideos.length > 0 && (
                 <SectionsCarousel
                     section="subscriptions"
                     subtitle="Most Popular"
-                    ref={videosRef}
+                    ref={popularRef}
                     render={popularVideos}
                     type="video"
                     cts="carousel-ctsvideos"
                 />
             )}
 
+            {/* --- 3. SHORTS --- */}
             {shorts.length > 0 && (
                 <SectionsCarousel
                     section="subscriptions"

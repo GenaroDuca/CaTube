@@ -4,6 +4,7 @@ import Subtitle from "../../homePageComponents/Subtitle";
 import { getAuthToken } from '../../../utils/auth';
 import { VITE_API_URL } from '../../../../config';
 import { Link } from 'react-router-dom';
+import Loader from '../../common/Loader';
 
 function LatestVideo({ channelId }) {
     const [latest, setLatest] = useState(null);
@@ -65,21 +66,17 @@ function LatestVideo({ channelId }) {
         return d.toLocaleDateString();
     };
 
+      if(loading) {
+        return <div className="dashboard-card">
+            <Loader/>
+        </div>
+    }
+
+
     return (
         <Container className="dashboard-card">
             <Subtitle subtitle="Latest Video performance"></Subtitle>
-            {loading ? (
-                <>
-                    <div className="skeleton" style={{ width: '80%', aspectRatio: '16/9', backgroundColor: '#e0e0e0', borderRadius: '15px', margin: '0 auto 15px' }}></div>
-                    <Container className="lca-dashboard">
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, width: '100%' }}>
-                            <div className="skeleton" style={{ width: '70%', height: '20px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
-                            <div className="skeleton" style={{ width: '40%', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
-                            <div className="skeleton" style={{ width: '50%', height: '16px', backgroundColor: '#e0e0e0', borderRadius: '4px' }}></div>
-                        </div>
-                    </Container>
-                </>
-            ) : latest ? (
+            { latest ? (
                 <>
                     <Link to={latest.type === 'short' ? `/shorts/${latest.id}` : `/watch/${latest.id}`}>
                         <img

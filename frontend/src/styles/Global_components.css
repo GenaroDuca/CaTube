@@ -256,6 +256,11 @@ body.light-mode #root>main>div.container-studio>div.content>div.scroll-table-con
     background-color: var(--scrollbar-thumb-hover);
 }
 
+*::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+}
+
 .loading,
 .error {
     text-align: center;

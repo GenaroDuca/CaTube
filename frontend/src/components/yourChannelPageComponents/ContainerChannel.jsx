@@ -5,9 +5,11 @@ import { VITE_API_URL } from '../../../config';
 function ContainerChannel({ channelId }) {
     const [featuredVideo, setFeaturedVideo] = useState(null);
     const token = getAuthToken();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         async function fetchFeaturedVideo() {
+            setLoading(true);
             if (!channelId) return;
 
             try {
@@ -40,6 +42,8 @@ function ContainerChannel({ channelId }) {
                 }
             } catch (error) {
                 console.error('Error fetching featured video:', error);
+            } finally {
+                setLoading(false);
             }
         }
 
@@ -100,6 +104,10 @@ function ContainerChannel({ channelId }) {
 
     if (!featuredVideo) {
         return null; // No mostrar nada si no hay videos
+    }
+
+    if (loading) {
+        return <Loader />
     }
 
     return (

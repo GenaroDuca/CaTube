@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom"
 import "./StoreChannel.css";
 import { useModal } from "../common/modal/ModalContext";
 import { VITE_API_URL } from "../../../config";
+import Loader from "../../components/common/Loader";
 
 function StoreChannel({ isOwner, channelId }) {
     const [products, setProducts] = useState([]);
@@ -136,13 +137,13 @@ function StoreChannel({ isOwner, channelId }) {
     // ----------------------------------------------------------------------
     // RENDER
     // ----------------------------------------------------------------------
+      if (loading) {
+        return <Loader />
+    }
 
     return (
         <Container className="content-store-channel">
             <Subtitle text={isOwner ? "Your Products" : "Channel Products"} />
-
-            {loading && <p>Loading products...</p>}
-
             {!loading && storeError && products.length === 0 && (
                 <div className="store-empty-state">
                     <p>{storeError}</p>

@@ -4,6 +4,7 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { useModal } from '../modal/ModalContext';
 import { useToast } from '../../../hooks/useToast';
 import { IoIosCloseCircle } from "react-icons/io";
+import Loader from '../Loader';
 
 import {
   getSocket,
@@ -184,7 +185,7 @@ const FriendChatView = ({ friend, onBack, onGoToProfile }) => {
   }, [messages.length]);
 
   if (isLoading) {
-    return <div className="dynamic-view chat-view"><p>Loading chat data...</p></div>;
+    return <Loader />
   }
 
   return (

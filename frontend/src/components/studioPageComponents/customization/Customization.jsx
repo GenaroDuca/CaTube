@@ -7,6 +7,7 @@ import banner from "../../../assets/images/studio_media/banner-customization.png
 import { useState, useEffect } from "react";
 import { useToast } from "../../../hooks/useToast";
 import { VITE_API_URL } from "../../../../config"
+import Loader from "../../common/Loader";
 
 
 async function apiFetch(url, options = {}) {
@@ -56,6 +57,7 @@ function Customization({ channelId }) {
     const [photoPreview, setPhotoPreview] = useState("");
     const [bannerPreview, setBannerPreview] = useState("");
     const [channelData, setChannelData] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const getAvatar = (channel) => {
         if (channel.photoUrl && channel.photoUrl.trim() !== '') {
@@ -87,6 +89,7 @@ function Customization({ channelId }) {
     };
 
     useEffect(() => {
+        setLoading(true);
         async function loadChannelData() {
             if (!channelId) {
                 setPhotoPreview('/assets/images/profile/A.png');
@@ -102,6 +105,8 @@ function Customization({ channelId }) {
                 }
             } catch (error) {
                 console.error('Error displaying channel data:', error);
+            } finally {
+                setLoading(false);
             }
         }
         loadChannelData();
@@ -152,6 +157,10 @@ function Customization({ channelId }) {
             }
         }
     };
+
+    if (loading) {
+        return <Loader />;
+    }
 
     return (
         <>

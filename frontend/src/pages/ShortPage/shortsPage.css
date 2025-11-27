@@ -35,9 +35,6 @@
 /* Contenedor principal del volumen */
 .volume-control-container {
     height: 50px;
-    background-color: #1e1e1fd9;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
     border-radius: 30px;
     display: flex;
     flex-direction: column;
@@ -45,6 +42,7 @@
     justify-content: flex-start;
     overflow: hidden;
     transition: height 0.3s ease-in-out;
+    height: 160px;
 }
 
 .volume-slider {
@@ -54,7 +52,6 @@
     transform: translateY(-10px) rotate(-90deg);
     transition: all 0.3s ease-in-out;
     cursor: pointer;
-
     -webkit-appearance: none;
     appearance: none;
     height: 4px;
@@ -63,28 +60,20 @@
     background: rgb(144, 180, 132)
 }
 
-/* Hover del contenedor */
-.volume-control-container:hover {
-    height: 120px;
-        background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
-    border: 1px solid var(--border-container-color);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-
 /* Cuando está en hover, animamos suavemente la barra */
-.volume-control-container:hover .volume-slider {
+.volume-slider {
     opacity: 1;
-    max-height: 60px;
+    width: 80px;
+    height: 8px !important;
     transform: translateY(0) rotate(-90deg);
-    margin-top: 25px;
-
+    margin-top: 40px;
 }
 
 /* --- ESTILO DEL SLIDER PERSONALIZADO --- */
 .volume-slider::-webkit-slider-runnable-track {
-    background: rgba(144, 180, 132, 0.3);
+    background-color: var(--btn);
     border-radius: 5px;
-    height: 4px;
+    height: 6px;
 }
 
 .volume-slider::-webkit-slider-thumb {
@@ -95,8 +84,7 @@
     border-radius: 50%;
     background: rgb(144, 180, 132);
     cursor: pointer;
-    margin-top: -5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    margin-top: -4px;
 }
 
 .volume-slider::-moz-range-track {
@@ -111,7 +99,6 @@
     border-radius: 50%;
     background: rgb(144, 180, 132);
     cursor: pointer;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
 }
 
 /* Botón de sonido */

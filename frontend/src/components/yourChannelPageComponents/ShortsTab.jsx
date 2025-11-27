@@ -7,6 +7,7 @@ import { VITE_API_URL } from '../../../config';
 import { Link } from 'react-router-dom';
 import Subtitle from '../homePageComponents/Subtitle'
 import Short from "../homePageComponents/Short";
+import Loader from "../../components/common/Loader";
 
 function ShortsTab() {
     const tabs = ['Latest', 'Popular', 'Oldest'];
@@ -38,6 +39,8 @@ function ShortsTab() {
                 const allShorts = data.filter(v => v.type === "short").map(short => ({
                     id: short.id,
                     nameshort: short.title,
+                    // 💡 MANTENER la vista como número para clasificar
+                    views: short.views || 0,
                     shortviews: `${short.views || 0} views`,
                     thumbnail: short.thumbnail,
                     createdAt: short.createdAt
@@ -45,7 +48,10 @@ function ShortsTab() {
 
                 // Ordenar por latest, popular, oldest
                 const latest = [...allShorts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+                // 💡 CORREGIDO: Ahora usamos la propiedad numérica 'views'
                 const popular = [...allShorts].sort((a, b) => b.views - a.views);
+
                 const oldest = [...allShorts].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
                 setShorts({ latest, popular, oldest });
@@ -57,10 +63,10 @@ function ShortsTab() {
         }
 
         fetchShorts();
-    }, [channelId]);
+    }, [channelId, token]);
 
     if (loading) {
-        return <Container className="video-main-content"><p>Loading shorts...</p></Container>;
+        return <Loader />
     }
 
     if (shorts.latest.length === 0) {
@@ -74,63 +80,41 @@ function ShortsTab() {
         );
     }
 
+    const renderShorts = (shortList, subtitle) => (
+        <Container className="VideoContainer">
+            <Subtitle subtitle={subtitle} />
+            <Container className="recommendations-container shorts">
+                {shortList.map((video, index) => (
+                    // Asegúrate de usar `/shorts/${video.id}` si ese es el endpoint correcto para shorts
+                    <Link to={`/watch/${video.id}`} key={video.id || index}>
+                        <Short
+                            key={index}
+                            nameshort={video.nameshort}
+                            shortviews={video.shortviews}
+                            thumbnail={video.thumbnail}
+                            createdAt={video.createdAt}
+                        />
+                    </Link>
+                ))}
+            </Container>
+        </Container>
+    );
+
     const tabContents = [
-        <Container className="VideoContainer">
-            <Subtitle subtitle="Lastest Shorts" />
-            <Container className="recommendations-container shorts">
-                {shorts.latest.map((video, index) => (
-                    <Link to={`/watch/${video.id}`} key={video.id || index}>
-                        <Short
-                            key={index}
-                            nameshort={video.nameshort}
-                            shortviews={video.shortviews}
-                            thumbnail={video.thumbnail}
-                            createdAt={video.createdAt}
-                        />
-                    </Link>
-                ))}
-            </Container>
-        </Container>,
-        <Container className="VideoContainer">
-            <Subtitle subtitle="Popular Shorts" />
-            <Container className="recommendations-container shorts">
-                {shorts.popular.map((video, index) => (
-                    <Link to={`/watch/${video.id}`} key={video.id || index}>
-                        <Short
-                            key={index}
-                            nameshort={video.nameshort}
-                            shortviews={video.shortviews}
-                            thumbnail={video.thumbnail}
-                            createdAt={video.createdAt}
-                        />
-                    </Link>
-                ))}
-            </Container>
-        </Container>,
-        <Container className="VideoContainer">
-            <Subtitle subtitle="Oldest Shorts" />
-            <Container className="recommendations-container shorts">
-                {shorts.oldest.map((video, index) => (
-                    <Link to={`/watch/${video.id}`} key={video.id || index}>
-                        <Short
-                            key={index}
-                            nameshort={video.nameshort}
-                            shortviews={video.shortviews}
-                            thumbnail={video.thumbnail}
-                            createdAt={video.createdAt}
-                        />
-                    </Link>
-                ))}
-            </Container>
-        </Container>,
-        // <VideosLatest render={shorts.latest} id="shortsLatest" className="content-table-shorts" container="shorts-container" ref={shortsLatestRef} type="shorts" />,
-        // <VideosLatest render={shorts.popular} id="shortsPopular" className="content-table-shorts" container="shorts-container" ref={shortsPopularRef} type="shorts" />,
-        // <VideosLatest render={shorts.oldest} id="shortsOldest" className="content-table-shorts" container="shorts-container" ref={shortsOldestRef} type="shorts" />
+        renderShorts(shorts.latest, "Latest Shorts"),
+        renderShorts(shorts.popular, "Popular Shorts"),
+        renderShorts(shorts.oldest, "Oldest Shorts"),
     ];
+
     return (
         <>
             <Container className="video-main-content">
-                <ContainerButton tabs={tabs} activeTabIndex={activeTab} onTabClick={setActiveTab} containerName="nav-btn-videos-container" ></ContainerButton>
+                <ContainerButton
+                    tabs={tabs}
+                    activeTabIndex={activeTab}
+                    onTabClick={setActiveTab}
+                    containerName="nav-btn-videos-container"
+                />
 
                 <div className="tab-content-container">
                     {tabContents[activeTab]}
