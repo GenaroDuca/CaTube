@@ -63,7 +63,7 @@
 
 .notifications-sidebar main {
     padding: 0px 20px 0px 20px;
-    overflow-y: auto;
+    overflow-y: scroll;
 }
 
 .notifications-sidebar.collapsed {
@@ -80,14 +80,14 @@
     align-items: center;
 }
 
-.notification-dropdown::-webkit-scrollbar {
+/* .notification-dropdown::-webkit-scrollbar {
     display: none;
 }
 
 .notification-dropdown::-webkit-scrollbar-thumb {
     background-color: var(--btn);
     border-radius: var(--border-radius);
-}
+} */
 
 .titleNotificationMenu {
     margin-bottom: 9px;

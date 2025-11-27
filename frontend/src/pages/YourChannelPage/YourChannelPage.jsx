@@ -31,12 +31,11 @@ function YourChannel() {
     ];
 
     useEffect(() => {
-        setChannelId(null); // Reset to prevent showing old data
+        setChannelId(null); 
         async function loadChannel() {
             const accessToken = localStorage.getItem('accessToken');
 
             if (url && url !== 'yourchannel') {
-                // URL like /yourchannel/genad, treat as channel URL
                 const headers = {};
                 if (accessToken) {
                     headers['Authorization'] = `Bearer ${accessToken}`;

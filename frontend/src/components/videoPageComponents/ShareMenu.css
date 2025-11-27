@@ -72,7 +72,7 @@
 }
 
 /* Estilo del scrollbar para que se vea bien */
-.friends-section::-webkit-scrollbar {
+/* .friends-section::-webkit-scrollbar {
   width: 4px;
 }
 
@@ -87,7 +87,7 @@
 
 .friends-section::-webkit-scrollbar-thumb:hover {
   background: var(--btn-dark);
-}
+} */
 
 @keyframes fadeIn {
   from {

@@ -67,7 +67,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden;
+    overflow-y: hidden;
     padding: 0;
 }
 
@@ -249,10 +249,10 @@
     overflow-x: hidden;
     flex-grow: 1;
     padding-bottom: 10px;
-    scrollbar-width: thin;
+    /* scrollbar-width: thin; */
 }
 
-.friend-list-containet::-webkit-scrollbar,
+/* .friend-list-containet::-webkit-scrollbar,
 .profile-edit-group textarea::-webkit-scrollbar {
     width: 6px;
 }
@@ -265,7 +265,7 @@
 .friend-list-container::-webkit-scrollbar-track,
 .profile-edit-group textarea::-webkit-scrollbar-track {
     background: transparent;
-}
+} */
 
 .friend-card {
     display: flex;
@@ -444,7 +444,7 @@
     color: var(--text);
 }
 
-.chat-window::-webkit-scrollbar {
+/* .chat-window::-webkit-scrollbar {
     width: 6px;
 }
 
@@ -455,7 +455,7 @@
 
 .chat-window::-webkit-scrollbar-track {
     background: transparent;
-}
+} */
 
 .chat-profile-link {
     background: none;
@@ -503,12 +503,12 @@
 /* Estilos de la vista de Mi Perfil */
 .my-profile-view div {
     overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--btn) transparent;
+    /* scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent; */
 }
 
 
-.my-profile-view::-webkit-scrollbar {
+/* .my-profile-view::-webkit-scrollbar {
     width: 6px;
 }
 
@@ -519,7 +519,7 @@
 
 .my-profile-view::-webkit-scrollbar-track {
     background: transparent;
-}
+} */
 
 .my-profile-view .profile-large-avatar {
     margin: 10px auto 20px auto;
@@ -556,8 +556,8 @@
     resize: none;
     min-height: 120px;
     overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--btn) transparent
+    /* scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent */
 }
 
 .profile-save-btn {
@@ -936,7 +936,7 @@
     color: var(--text);
 }
 
-.chat-window::-webkit-scrollbar {
+/* .chat-window::-webkit-scrollbar {
     width: 6px;
 }
 
@@ -947,7 +947,7 @@
 
 .chat-window::-webkit-scrollbar-track {
     background: transparent;
-}
+} */
 
 .chat-profile-link {
     background: none;
@@ -995,12 +995,12 @@
 /* Estilos de la vista de Mi Perfil */
 .my-profile-view div {
     overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--btn) transparent;
+    /* scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent; */
 }
 
 
-.my-profile-view::-webkit-scrollbar {
+/* .my-profile-view::-webkit-scrollbar {
     width: 6px;
 }
 
@@ -1011,7 +1011,7 @@
 
 .my-profile-view::-webkit-scrollbar-track {
     background: transparent;
-}
+} */
 
 .my-profile-view .profile-large-avatar {
     margin: 10px auto 20px auto;
@@ -1048,8 +1048,8 @@
     resize: none;
     min-height: 120px;
     overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: var(--btn) transparent
+    /* scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent */
 }
 
 .profile-save-btn {

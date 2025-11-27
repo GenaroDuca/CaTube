@@ -35,8 +35,8 @@
     height: calc(100vh - 32px - 90px);
     overflow-y: auto;
     overflow-x: hidden;
-    scrollbar-width: thin;
-    scrollbar-color: var(--btn) transparent
+    /* scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent */
 }
 
 .sidebar.collapsed .sidebar-nav {
@@ -52,18 +52,18 @@
     height: 50px
 }
 
-.sidebar-nav::-webkit-scrollbar {
+/* .sidebar-nav::-webkit-scrollbar {
     width: 6px
-}
+} */
 
-.sidebar-nav::-webkit-scrollbar-thumb {
+/* .sidebar-nav::-webkit-scrollbar-thumb {
     background: var(--btn);
     border-radius: 8px
-}
+} */
 
-.sidebar-nav::-webkit-scrollbar-track {
+/* .sidebar-nav::-webkit-scrollbar-track {
     background: 0 0
-}
+} */
 
 .sidebar-header .toggler {
     position: absolute;

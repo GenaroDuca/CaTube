@@ -26,7 +26,7 @@ export class UsersController {
         const userId = req.user.id;
         return this.usersService.findMe(userId);
     }
-
+    
     @Get('verify-email')
     async verifyEmail(@Query('token') token: string, @Res() res: Response) {
         // 1. Definir las URLs de redirección del frontend (desde .env)
@@ -112,5 +112,19 @@ export class UsersController {
     async updateMe(@Req() req, @Body() updateUserDto: UpdateUserDto) {
         const userId = req.user.id;
         return this.usersService.updateUser(userId, updateUserDto);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post("feedback")
+    async submitFeedback(@Req() req, @Body() body: { email?: string; feedback: string }) {
+        if (!body.feedback) {
+            throw new BadRequestException('Feedback is required');
+        }
+
+        const userId = req.user.id;
+
+        await this.usersService.sendFeedbackEmail(userId, body.feedback);
+        
+        return { success: true, message: 'Feedback enviado correctamente' };
     }
 }

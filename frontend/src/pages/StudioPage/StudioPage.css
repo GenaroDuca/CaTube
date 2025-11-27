@@ -336,12 +336,12 @@
 
 .scroll-table-container {
     /* Firefox */
-    scrollbar-width: thin;
-    scrollbar-color: var(--btn) transparent;
+    /* scrollbar-width: thin;
+    scrollbar-color: var(--btn) transparent; */
 }
 
 /* WebKit (Chrome, Edge, Safari) */
-.scroll-table-container ::-webkit-scrollbar {
+/* .scroll-table-container ::-webkit-scrollbar {
     height: 10px;
     width: 10px;
 }
@@ -359,7 +359,7 @@
 
 .scroll-table-container ::-webkit-scrollbar-thumb:hover {
     background: var(--btn-dark);
-}
+} */
 
 .analytics-table,
 .content-tabled {
@@ -414,7 +414,8 @@
     flex-direction: column;
     gap: 10px;
     align-items: center;
-    background-color: var(--secondary-color);
+    border: 1px solid var(--border-container-color);
+
     border-radius: 15px;
     transition: transform 0.2s ease;
     text-align: center;
@@ -505,7 +506,7 @@
 
 .video-community {
     width: 100%;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
     border-radius: var(--border-radius);
     border: 1px solid var(--border-container-color);
@@ -621,9 +622,10 @@
     display: -webkit-box;
 }
 
+/* 
 .product-card h2::-webkit-scrollbar {
     display: none;
-}
+} */
 
 .product-card img {
     width: 100%;
@@ -852,20 +854,25 @@
 }
 
 .edit-video-btn {
-    width: 40px;
-    height: 40px;
-    background: var(--btn);
-    border-radius: 30px;
-    border: none;
-    cursor: pointer;
+    aspect-ratio: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 50%;
+    padding: 10px;
+    background: var(--container-color);
+    border: 1px solid var(--border-container-color);
+    cursor: pointer;
     margin-right: 10px;
 }
 
-.edit-video-btn:hover {
-    background: var(--btn-dark);
+
+.edit-video-btn svg path{
+    color: var(--text-color);
+}
+
+.edit-video-btn:hover svg path{
+    color: var(--btn);
 }
 
 .edit-video-modal {
@@ -884,15 +891,23 @@
 }
 
 .delete-video-btn {
-    width: 40px;
-    height: 40px;
-    background: #e96765 !important;
-    border-radius: 30px;
-    border: none;
-    cursor: pointer;
+    aspect-ratio: 1;
     display: flex;
     justify-content: center;
     align-items: center;
+    border-radius: 50%;
+    padding: 10px;
+    background: var(--container-color);
+    border: 1px solid var(--border-container-color);
+    cursor: pointer;
+}
+
+.delete-video-btn svg path{
+    color: var(--text-color);
+}
+
+.delete-video-btn:hover svg path{
+    color: #e96765;
 }
 
 .edit-video-content {
@@ -904,8 +919,6 @@
     min-height: 120px;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
     overflow-y: scroll;
-    scrollbar-width: thin;
-    scrollbar-color: var(--btn) transparent;
     background-color: var(--background-color);
 }
 
@@ -1023,8 +1036,7 @@
     background-color: var(--primary-color);
     color: var(--text-color);
     border: none;
-    scrollbar-width: thin;
-    scrollbar-color: var(--btn) transparent;
+    /* scrollbar-width: thin; */
 }
 
 .edit-video-tags-container section :focus {
@@ -1094,7 +1106,7 @@
         justify-content: center;
     }
 
-    .right-menu h1,
+    .right-menu h2,
     .sidebar-left-studio-nav .nav-link .nav-label {
         display: none;
     }
@@ -1189,7 +1201,6 @@
 
 .video-dashboard {
     width: 100%;
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
     border: 1px solid var(--border-container-color);
     border-radius: var(--border-radius);
     padding: 20px;

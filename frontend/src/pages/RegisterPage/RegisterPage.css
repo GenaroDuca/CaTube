@@ -46,12 +46,11 @@ a {
 
 .auth-box-login,
 .auth-box-signup {
-    /* Estilos compartidos para las cajas principales */
-    background-color: #1a1a1b;
-    /* Fondo oscuro de la caja */
     border-radius: 30px;
-    box-shadow: 0 0 10px rgba(144, 180, 132, 0.21);
-    /* Sombra sutil verde */
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    
     display: flex;
     overflow: hidden;
     width: 600px;
@@ -158,16 +157,16 @@ a {
     /* Estilo para el fondo del icono */
     width: 50px;
     height: 50px;
-    background-color: #fff;
+    background-color: var(--container-color);
+    border: 1px solid var(--border-container-color);
     border-radius: 50%;
-
-
-
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 1;
-    /* Asegurar que el icono esté encima del solapamiento del input */
+}
+.icon-circle svg path{
+    color: var(--btn);
 }
 
 .input {
@@ -175,8 +174,10 @@ a {
     width: 250px;
     height: 40px;
     border: none;
-    border-radius: 0 10px 10px 0;
-    background-color: #d9dee7;
+    border-radius: 0 30px 30px 0;
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+    color: var(--text-color);
     text-align: center;
     margin-left: -10px;
 

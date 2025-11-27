@@ -937,10 +937,10 @@ body.in-theater-mode .main-content {
         max-height: 400px;
         overflow-y: auto;
         padding: 10px;
-        scrollbar-width: thin;
-        scrollbar-color: var(--btn) var(--primary-color);
+        /* scrollbar-width: thin;
+        scrollbar-color: var(--btn) var(--primary-color); */
     }
-
+/* 
     .comments-watch::-webkit-scrollbar {
         width: 8px;
         background: var(--primary-color);
@@ -960,7 +960,7 @@ body.in-theater-mode .main-content {
     .comments-watch::-webkit-scrollbar-track {
         background: var(--primary-color);
         border-radius: 8px;
-    }
+    } */
 
     .container-watch-right {
         position: static;

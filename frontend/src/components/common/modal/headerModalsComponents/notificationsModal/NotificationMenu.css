@@ -48,7 +48,7 @@
 .notification-dropdown.collapsed {
     display: none;
 }
-
+/* 
 .notifications-sidebar::-webkit-scrollbar {
     display: none;
 }
@@ -56,7 +56,7 @@
 .notifications-sidebar::-webkit-scrollbar-thumb {
     background-color: var(--btn);
     border-radius: var(--border-radius);
-}
+} */
 
 .titleNotificationMenu {
     margin-bottom: 9px;

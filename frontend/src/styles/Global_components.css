@@ -17,8 +17,8 @@
     --container-color: #1e1e1f;
     --container-color-blur: #1e1e1fd9;
     --container-color-gradient: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
-    --scrollbar-thumb: #3a3a3a;
-    --scrollbar-thumb-hover: #555;
+    --scrollbar-thumb: #90b484;
+    --scrollbar-thumb-hover: #749269;
     --scrollbar-track: transparent;
 }
 

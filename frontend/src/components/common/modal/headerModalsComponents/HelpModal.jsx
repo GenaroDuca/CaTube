@@ -26,7 +26,7 @@ const HelpModal = ({ onClose }) => (
         <details>
           <summary><strong>How do I report a problem?</strong></summary>
           <p>Use the feedback form or contact our support team directly.</p>
-          <p>Contact us at <a href="mailto:catube@gmail.com">catube@gmail.com</a></p>
+          <p>Contact us at catubeapp@gmail.com</p>
         </details>
       </div>
     </div>

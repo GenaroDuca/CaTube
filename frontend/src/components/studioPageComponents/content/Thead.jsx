@@ -12,7 +12,7 @@ function Thead(props) {
                 <th>Date</th>
                 <th>Views</th>
                 <th>Comments</th>
-                <th>"Like" (%)</th>
+                <th>Likes</th>
                 {props.contentType !== 'Playlists' && (
                     <th>Edit</th>
                 )}

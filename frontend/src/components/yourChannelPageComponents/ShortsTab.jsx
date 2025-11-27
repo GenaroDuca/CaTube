@@ -77,7 +77,7 @@ function ShortsTab() {
     const tabContents = [
         <Container className="VideoContainer">
             <Subtitle subtitle="Lastest Shorts" />
-            <Container className="recommendations-container">
+            <Container className="recommendations-container shorts">
                 {shorts.latest.map((video, index) => (
                     <Link to={`/watch/${video.id}`} key={video.id || index}>
                         <Short
@@ -93,7 +93,7 @@ function ShortsTab() {
         </Container>,
         <Container className="VideoContainer">
             <Subtitle subtitle="Popular Shorts" />
-            <Container className="recommendations-container">
+            <Container className="recommendations-container shorts">
                 {shorts.popular.map((video, index) => (
                     <Link to={`/watch/${video.id}`} key={video.id || index}>
                         <Short
@@ -109,7 +109,7 @@ function ShortsTab() {
         </Container>,
         <Container className="VideoContainer">
             <Subtitle subtitle="Oldest Shorts" />
-            <Container className="recommendations-container">
+            <Container className="recommendations-container shorts">
                 {shorts.oldest.map((video, index) => (
                     <Link to={`/watch/${video.id}`} key={video.id || index}>
                         <Short
