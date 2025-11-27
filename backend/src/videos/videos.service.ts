@@ -67,6 +67,12 @@ export class VideosService {
   // ======================================================
   async processVideo(videoId: string, files: Express.Multer.File[]) {
     console.log(`LOG: Iniciando procesamiento de fondo para video ${videoId}`);
+
+    // --- URLs de Miniatura por Defecto ---
+    const DEFAULT_VIDEO_THUMBNAIL = 'https://catube-uploads.s3.sa-east-1.amazonaws.com/thumbnails/default-video-thumbnail.png';
+    const DEFAULT_SHORT_THUMBNAIL = 'https://catube-uploads.s3.sa-east-1.amazonaws.com/thumbnails/default-short-thumbnail.png';
+    // ------------------------------------
+
     try {
       const video = await this.videoRepository.findOne({ where: { id: videoId } });
       if (!video) {
@@ -83,25 +89,26 @@ export class VideosService {
         throw new Error('No video file found');
       }
 
-      // 30% - Analizando duración
+      // 30% - Analizando duración y clasificando tipo (short/video)
       let duration = 61;
       try {
         console.log(`🎬 Analizando duración del video ${videoId}...`);
+        // ASUMIDO: Este método existe y devuelve la duración en segundos
         duration = await this.getVideoDurationFromBuffer(videoFile.buffer, videoFile.mimetype);
-        console.log(`⏱️  Duración detectada: ${duration} segundos`);
+        console.log(`⏱️  Duración detectada: ${duration} segundos`);
       } catch (error) {
         console.error('FFPROBE error, using fallback duration', error);
-        console.log(`⚠️  Usando duración por defecto: ${duration} segundos`);
+        console.log(`⚠️  Usando duración por defecto: ${duration} segundos`);
       }
 
       video.duration = duration === 0 ? 61 : duration;
       video.type = video.duration <= 60 ? 'short' : 'video';
-      
+
       console.log(`📊 Clasificación del video ${videoId}: ${video.title}`);
-      console.log(`   - Duración final: ${video.duration} segundos`);
-      console.log(`   - Tipo asignado: ${video.type}`);
-      console.log(`   - Es Short: ${video.duration <= 60 ? 'SÍ ✅' : 'NO ❌'}`);
-      
+      console.log(`   - Duración final: ${video.duration} segundos`);
+      console.log(`   - Tipo asignado: ${video.type}`);
+      console.log(`   - Es Short: ${video.duration <= 60 ? 'SÍ ✅' : 'NO ❌'}`);
+
       video.processingProgress = 30;
       await this.videoRepository.save(video);
 
@@ -122,9 +129,11 @@ export class VideosService {
       video.processingProgress = 70;
       await this.videoRepository.save(video);
 
-      // 90% - Subiendo Thumbnail (si existe)
+      // 90% - Subiendo Thumbnail (si existe) O ASIGNANDO DEFAULT
       const thumbnailFile = files.find(file => file.mimetype.startsWith('image/'));
+
       if (thumbnailFile) {
+        // Caso 1: El usuario SUBIÓ una miniatura, la subimos a S3
         const thumbExtension = thumbnailFile.originalname.split('.').pop();
         const thumbKey = `thumbnails/${uuidv4()}_${Date.now()}.${thumbExtension}`;
 
@@ -137,6 +146,17 @@ export class VideosService {
 
         await this.s3Client.send(thumbCommand);
         video.thumbnail = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${thumbKey}`;
+        console.log(`🖼️  Miniatura personalizada subida.`);
+
+      } else {
+        // Caso 2: El usuario NO SUBIÓ miniatura, asignamos la URL por defecto
+        if (video.type === 'short') {
+          video.thumbnail = DEFAULT_SHORT_THUMBNAIL;
+          console.log(`🖼️  Asignando miniatura por defecto para SHORT.`);
+        } else {
+          video.thumbnail = DEFAULT_VIDEO_THUMBNAIL;
+          console.log(`🖼️  Asignando miniatura por defecto para VIDEO.`);
+        }
       }
 
       video.processingProgress = 90;

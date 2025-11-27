@@ -223,36 +223,12 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
         formData.append("description", videoDescription);
         formData.append("video", videoFile);
 
-        // --- INICIO DE LA LÓGICA MODIFICADA PARA EL THUMBNAIL ---
-        let thumbnailToSend = videoThumbnail; // Archivo subido por el usuario (File object o null/string)
+        let thumbnailToSend = videoThumbnail; 
 
-        // Si no hay archivo de thumbnail subido por el usuario
-        if (!videoThumbnail) {
-            setProcessingStatus("Fetching default thumbnail...");
-            try {
-                // 1. Obtiene el archivo predeterminado como un objeto File
-                const defaultFile = await urlToFile(
-                    DEFAULT_THUMBNAIL_URL,
-                    "default-video-thumbnail.png",
-                    "image/png"
-                );
-                thumbnailToSend = defaultFile;  
-                showSuccess("Using default thumbnail.");
-            } catch (err) {
-                console.error("Error fetching default thumbnail", err);
-                showError("Could not fetch default thumbnail. Aborting upload.");
-                setLoading(false);
-                return;
-            }
-        }
 
-        // 2. Adjunta el archivo (el subido por el usuario o el predeterminado)
-        // La validación `if (!videoThumbnail)` ya asegura que si llegamos aquí,
-        // `thumbnailToSend` es un objeto File válido (o el subido por el usuario).
         if (thumbnailToSend) {
             formData.append("thumbnail", thumbnailToSend);
         }
-        // --- FIN DE LA LÓGICA MODIFICADA PARA EL THUMBNAIL ---
 
         try {
             setLoading(true);

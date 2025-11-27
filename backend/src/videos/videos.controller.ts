@@ -55,7 +55,7 @@ export class VideosController {
     // 1. Crear el Job (rápido, solo DB)
     const video = await this.videosService.create(createVideoDto, userId);
 
-    // 2. Iniciar procesamiento en segundo plano (fire and forget)
+    // 2. Iniciar procesamiento en segundo plano
     this.videosService.processVideo(video.id, allFiles).catch(err => {
       console.error('Background processing error:', err);
     });
