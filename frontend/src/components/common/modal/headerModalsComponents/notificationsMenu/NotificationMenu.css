@@ -31,8 +31,9 @@
 .notifications-sidebar {
     width: 400px;
     height: 400px;
-    background-color: #1e1e1fd9;
-    box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493);
+    background: var(--container-color-blur);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(10px);
     border-radius: 30px;
     position: fixed;
@@ -53,7 +54,9 @@
 .notifications-container {
     margin-bottom: 10px;
     gap: 10px;
-    background-color: var(--primary-color);
+    border: 1px solid var(--border-container-color);
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border-radius: 30px;
 }
 
@@ -65,7 +68,7 @@
 .notifications-sidebar.collapsed {
     width: 400px;
     height: 0;
-    box-shadow: none;
+    border: none;
 }
 
 .notifications-sidebar header {
@@ -109,7 +112,6 @@
     justify-content: space-between;
     align-items: center;
     border-radius: 30px 0px 0px 30px;
-    background-color: var(--primary-color);
 }
 
 .notification-content {
@@ -151,7 +153,6 @@
     color: var(--btn);
     cursor: pointer;
     width: 40px;
-    background-color: var(--primary-color);
 }
 
 .btn-link:hover {

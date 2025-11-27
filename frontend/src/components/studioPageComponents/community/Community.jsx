@@ -6,7 +6,6 @@ import VideoCommunity from "./VideoCommunity";
     return (
         <>
             <Title title="Community"></Title>
-            <hr></hr>
             <Container className="content">
                     <VideoCommunity></VideoCommunity>
             </Container>

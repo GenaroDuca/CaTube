@@ -1,10 +1,6 @@
 .tag-search-container, .selected-tag-title {
-    width: 95%;
-    margin: 1rem auto;
-}
-
-.tag-search-container h3 {
-    margin: 0px 0px 10px;
+  width: auto;
+  margin: 1rem 1rem;
 }
 
 

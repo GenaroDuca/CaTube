@@ -8,7 +8,6 @@ function Dashboard({ channelId }) {
     return (
         <>
             <Title title="Dashboard"></Title>
-            <hr></hr>
             <Container className="content">
                 <Container className="cards-container">
                     <Container className="three-cards">

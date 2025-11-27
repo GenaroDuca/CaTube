@@ -119,7 +119,7 @@ export class SubscriptionsService {
   }
 
   //Get recent subscribers of the logged-in user's channel
-  async getRecentSubscribersForLoggedUser(userId: string, limit: number = 10) {
+  async getRecentSubscribersForLoggedUser(userId: string, limit: number = 12) {
     const user = await this.usersRepository.findOne({
       where: { user_id: userId },
       relations: ['channel'],

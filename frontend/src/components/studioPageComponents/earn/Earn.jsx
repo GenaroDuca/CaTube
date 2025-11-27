@@ -17,7 +17,6 @@ function Earn() {
     return (
         <>
             <Title title="Earn CaTube"></Title>
-            <hr></hr>
             <Container className="content">
                 <Container className="earn-options">
                     <EarnOption

@@ -142,7 +142,7 @@
   width: 100%;
   padding: 8px;
   margin-top: 10px;
-  background-color: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+  background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
   border: 1px solid var(--border-container-color);
 
   border-radius: 30px;

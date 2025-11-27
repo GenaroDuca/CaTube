@@ -5,9 +5,11 @@
     gap: 20px;
     flex-direction: column;
     width: 360px;
-    margin-bottom: 15px;
+    margin-bottom: 20px;
     overflow: hidden;
-    background-color: var(--primary-color);
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border-radius: var(--border-radius);
     padding: 20px;
 }

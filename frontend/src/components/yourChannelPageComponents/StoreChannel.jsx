@@ -159,7 +159,7 @@ function StoreChannel({ isOwner, channelId }) {
             )}
 
             {!loading && products.length > 0 && (
-                <div className="products-grid">
+                <div className="products-container">
                     {products.map((product) => (
                         <ProductCard
                             key={product.product_id}

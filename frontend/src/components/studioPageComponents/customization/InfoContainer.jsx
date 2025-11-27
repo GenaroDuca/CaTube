@@ -74,6 +74,14 @@ function InfoContainer({ channelId }) {
     const [handleValid, setHandleValid] = useState(null);
     const [descriptionValid, setDescriptionValid] = useState(null);
 
+    // ----------------------------------------------------------------------
+    // CONSTANTE DE LÍMITE DE CARACTERES
+    // ----------------------------------------------------------------------
+    const MAX_DESCRIPTION_LENGTH = 255;
+    const MAX_NAME_LENGTH = 20;
+    const MAX_HANDLE_LENGTH = 20;
+
+
     // Estados para rastrear si los campos han sido tocados
     const [touched, setTouched] = useState({
         name: false,
@@ -256,46 +264,6 @@ function InfoContainer({ channelId }) {
         return baseClass;
     };
 
-    // Mensaje de ayuda
-    const getHelperText = (fieldName) => {
-        let isValid, isTouched, value;
-
-        if (fieldName === "name") {
-            isValid = nameValid;
-            isTouched = touched.name;
-            value = name;
-        } else if (fieldName === "handle") {
-            isValid = handleValid;
-            isTouched = touched.handle;
-            value = handle;
-        } else if (fieldName === "description") {
-            isValid = descriptionValid;
-            isTouched = touched.description;
-            value = description;
-        } else {
-            return "";
-        }
-
-        if (isValid === false && value !== "" && isTouched) {
-            // === CAMBIO: Mensaje de error específico para descripción ===
-            if (fieldName === "description") {
-                return `Max  ${255} characters. Current: ${value.length}`;
-            }
-            // ===========================================================
-
-            return "Min 5, max 20 chars (letters, numbers, _). No spaces at start/end.";
-        }
-        return "";
-    };
-
-    const helperTextStyle = (fieldName) => ({
-        color: "#fcc4c4",
-        fontSize: "12px",
-        marginTop: "-20px",
-        textAlign: "end",
-        width: "100%",
-        display: getHelperText(fieldName) ? "block" : "none",
-    });
 
     // =================================================================
     // RENDERIZADO (ACTUALIZADO)
@@ -312,8 +280,11 @@ function InfoContainer({ channelId }) {
                 value={name}
                 onChange={handleNameChange}
                 onBlur={() => setTouched((prev) => ({ ...prev, name: true }))}
+                maxLength={MAX_NAME_LENGTH}
             />
-            <div style={helperTextStyle("name")}>{getHelperText("name")}</div>
+            <div className="description-counter" style={{ width: '100%', textAlign: 'right', marginTop: '-20px' }}>
+                {name.length} / {MAX_NAME_LENGTH}
+            </div>
 
             <span>@handle</span>
             <input
@@ -324,27 +295,31 @@ function InfoContainer({ channelId }) {
                 value={handle}
                 onChange={handleHandleChange}
                 onBlur={() => setTouched((prev) => ({ ...prev, handle: true }))}
+                maxLength={MAX_HANDLE_LENGTH}
             />
-            <div style={helperTextStyle("handle")}>{getHelperText("handle")}</div>
+            <div className="description-counter" style={{ width: '100%', textAlign: 'right', marginTop: '-20px' }}>
+                {handle.length} / {MAX_HANDLE_LENGTH}
+            </div>
 
             <span>Description</span>
-            <input
-                type="text"
+            <textarea
                 id="channel-description-input"
                 className={getInputClass("description")}
                 placeholder="Description"
                 value={description}
                 onChange={handleDescriptionChange}
                 onBlur={() => setTouched((prev) => ({ ...prev, description: true }))}
+                maxLength={MAX_DESCRIPTION_LENGTH}
             />
-            <div style={helperTextStyle("description")}>
-                {getHelperText("description")}
+            <div className="description-counter" style={{ width: '100%', textAlign: 'right', marginTop: '-20px' }}>
+                {description.length} / {MAX_DESCRIPTION_LENGTH}
             </div>
+
 
             <NewButton
                 id="publish-changes-btn"
                 btnclass="custom-file-label"
-                btntitle="Publish"
+                btntitle="Save"
                 onClick={handlePublish}
             ></NewButton>
         </div>

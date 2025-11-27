@@ -303,7 +303,7 @@ a {
 
 body {
     background-color: var(--background-color);
-    padding-top: 72px
+    padding-top: 56px;
 }
 
 p {
@@ -540,11 +540,21 @@ button:hover {
 }
 
 .title-container {
-    width: 95% !important;
+    width: 95%;
     margin: 1rem auto;
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border-radius: var(--border-radius);
+    text-align: center;
 }
 
 @media (max-width:768px) {
+
+    .subtitle, 
+    .podium-title,
+    .title-container h1 {
+        text-align: center;
+    }
+
     .main-content {
         margin-left: 0px;
     }
