@@ -98,7 +98,6 @@ function Content() {
     return (
         <>
             <Title title="Content"></Title>
-            <hr></hr>
             <Container className="content">
                 {/* FilterBar visibility logic */}
                 {(videos.length > 0 || shorts.length > 0) && (

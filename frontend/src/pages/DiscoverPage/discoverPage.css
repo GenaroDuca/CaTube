@@ -1,20 +1,17 @@
 .tag-search-container, .selected-tag-title {
-    width: 95%;
-    margin: 1rem auto;
-}
-
-.tag-search-container h3 {
-    margin: 0px 0px 10px;
+  width: auto;
+  margin: 1rem 1rem;
 }
 
 
 .tag-input {
     width: 100%;
     padding: 12px 20px;
-    background-color: transparent;
-    border: 1px solid var(--text-color);
     border-radius: 30px;
     color: var(--text-color);
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 

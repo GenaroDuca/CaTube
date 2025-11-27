@@ -156,7 +156,6 @@ function Customization({ channelId }) {
     return (
         <>
             <Title title="Customization"></Title>
-            <hr></hr>
             <Container className="content">
                 <Container className="cards-customization-container">
                     <CardCustomization title="Banner image" imageClass="photo-card-banner" src={bannerPreview || banner} alt="Banner" for="banner-upload" onChange={handleBannerChange}></CardCustomization>

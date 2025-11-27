@@ -345,7 +345,6 @@ function Store() {
     const LoadingUI = useMemo(() => (
         <>
             <Title title="Loading Store..."></Title>
-            <hr />
             <Container className="content">
                 <div style={{ textAlign: 'center' }}>Loading...</div>
 
@@ -383,9 +382,7 @@ function Store() {
     return (
         <>
             <Title title={dynamicTitle}></Title>
-            <hr></hr>
             <Container className="content store-content">
-                {/* 💡 CONTENEDOR DE BOTONES DE ACCIÓN DE LA TIENDA */}
                 <Container className="store-actions-container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
 
                     {/* Botón AÑADIR PRODUCTO */}
@@ -407,7 +404,6 @@ function Store() {
                 {/* FIN CONTENEDOR DE ACCIONES */}
 
                 <h2>Your products</h2>
-                <hr></hr>
 
                 <Container className={products.length === 0 ? "products-container-empty" : "products-container"}>
                     {products.length === 0 ? (

@@ -57,7 +57,7 @@ function Studio() {
         { name: 'dashboard', component: <Dashboard channelId={userChannelId} /> },
         { name: 'content', component: <Content /> },
         // { name: 'analytics', component: <Analytics /> },
-        { name: 'community', component: <Community /> },
+        { name: 'community', component: <Community channelId={userChannelId} /> },
         { name: 'store', component: <Store /> },
         // { name: 'earn', component: <Earn /> },
         { name: 'customization', component: <Customization channelId={userChannelId} /> }

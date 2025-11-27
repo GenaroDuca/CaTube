@@ -1,10 +1,12 @@
 .top-section-wrapper {
-  background-color: var(--primary-color);
-  width: 95%;
-  height: auto;
-  padding: 1rem 2rem;
-  margin: 1rem auto;
-  border-radius: 30px;
+    width: 100%;
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border-radius: 30px;
+    padding: 20px;
+    border: 1px solid #3a3a3a;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
 }
 
 /* Responsive */
@@ -22,6 +24,5 @@
 @media (max-width: 768px) {
     .top-section-wrapper {
         gap: 1.5rem;
-        margin: 1rem auto;
     }
 }

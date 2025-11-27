@@ -7,12 +7,14 @@
     width: 400px;
     height: 70vh;
     border-radius: 30px;
-    background-color: #1e1e1fd9;
+    background-color: var(--container-color-blur);
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
     padding: 20px;
     box-sizing: border-box;
     transition: width 0.3s ease-in-out, height 0.3s ease-in-out, border-radius 0.3s ease-in-out, background-color 0.3s ease-in-out;
+
+    border: 1px solid #3a3a3a;
 }
 
 @media (max-width: 450px) {
@@ -35,8 +37,9 @@
     width: 80px;
     height: 80px;
     border-radius: 50%;
-    background-color: #1e1e1fd9;
+    background-color: var(--container-color-blur);
     backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -123,7 +126,8 @@
     border: none;
     color: var(--text);
     outline: none;
-    background-color: var(--primary-color);
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
     border-radius: 30px;
 }
 
@@ -247,7 +251,8 @@
     align-items: center;
     padding: 20px;
     margin-top: 20px;
-    background-color: var(--primary-color);
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
     border-radius: 30px;
 }
 
@@ -376,7 +381,8 @@
     height: 75px;
     border: none;
     border-radius: 30px;
-    background-color: var(--primary-color);
+    background-color: var(--container-color);
+    border: 1px solid var(--border-container-color);
     font-weight: 500;
     cursor: pointer;
     transition: 0.2s ease;
@@ -404,7 +410,8 @@
 
 /* Estilos de Chat */
 .chat-window {
-    background-color: var(--primary-color);
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
     padding: 10px 20px 10px 20px;
     border-radius: 30px;
     min-height: 200px;
@@ -509,9 +516,9 @@
 .profile-edit-group textarea {
     width: 100%;
     padding: 12px 20px;
-    border: 1px solid var(--text-color);
+    border: 1px solid var(--border-container-color);
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
     border-radius: 30px;
-    background-color: transparent;
     color: var(--text-color);
     margin-bottom: 20px;
     resize: none;
@@ -569,6 +576,7 @@
 .avatar-upload-button:hover {
     color: var(--btn);
 }
+
 .message {
     margin-top: 10px;
     display: flex;
@@ -586,9 +594,13 @@
 }
 
 .message div {
-    background-color: #1e1e1f;
-    border-radius: 15px;
+    border-radius:20px;
     padding: 5px 10px;
+}
+
+.message-bubble-content {
+    background-color: var(--container-color);
+    border: 1px solid var(--border-container-color);
 }
 
 
@@ -596,13 +608,10 @@
 .message-content,
 .message-bubble-content p {
     max-width: 100%;
-    /* Nunca excede el ancho del contenedor */
+
     word-wrap: break-word;
-    /* Rompe palabras largas si es necesario */
     white-space: pre-wrap;
-    /* Mantiene saltos de línea */
     overflow-wrap: break-word;
-    /* Compatibilidad adicional para romper palabras largas */
 }
 
 .message-bubble-content button {
@@ -610,8 +619,9 @@
     color: var(--text);
     border: none;
     cursor: pointer;
-    padding: 0;;
+    padding: 0;
 }
+
 .message-bubble-content button:hover {
     color: var(--btn);
 }
@@ -650,9 +660,9 @@
     height: 40px;
     width: 100%;
     padding: 10px 15px;
-    background-color: #1a1a1b;
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
     border-radius: 30px;
-    border: none;
     color: var(--text-color);
 }
 

@@ -6,17 +6,18 @@
 .sidebar {
     margin: 0 0 0 15px;
     border-radius: 30px;
-    height: calc(100vh - 32px);
+    height: calc(100vh - 32px) ;
     z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     overflow-y: auto;
     overflow-x: hidden;
 }
 
 .sidebar.collapsed {
     width: 85px;
-    background-color: var(--primary-color);
-    box-shadow: 0 0 30px 5px rgba(0, 0, 0, .493) !important;
-    box-shadow: none;
+    backdrop-filter: blur(10px);
+    border: 1px solid #3a3a3a;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     overflow: visible;
 }
 
@@ -163,7 +164,6 @@
     .sidebar {
         width: 250px;
         margin: 0;
-        margin-top: -20px;
         border-radius: 0px 30px 30px 0px;
     }
 
@@ -174,7 +174,7 @@
 
     .sidebar-header {
         padding: 60px 0 0 76px;
-        
+
     }
 
     .sidebar.collapsed {

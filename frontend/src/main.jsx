@@ -29,12 +29,14 @@ import { NotificationProvider } from './hooks/useNotification.jsx';
 import { ThemeProvider } from './hooks/useTheme.jsx';
 import { SidebarToggleProvider } from "./hooks/useSidebarToggleFriends.jsx"
 import { AuthProvider } from './auth/AuthContext.jsx';
+import ScrollToTop from './hooks/ScrollToTop.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <AuthProvider>
       <ThemeProvider>
         <Router>
+          <ScrollToTop />
           <SidebarToggleProvider>
             <SidebarProvider>
               <NotificationProvider>

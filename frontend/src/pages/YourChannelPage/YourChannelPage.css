@@ -1,7 +1,10 @@
 .container-button,
-.container-channel,
-.content-ul li button {
-    background: var(--primary-color);
+.container-channel {
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    width: auto;
+    margin: 1rem 1rem;
 }
 
 .banner-container {
@@ -15,6 +18,8 @@
     max-height: 200px;
     object-fit: cover;
     border-radius: 30px;
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .text-principal-video h2,
@@ -32,10 +37,9 @@
 .container-button,
 .container-profile {
     display: flex;
-    width: 95%;
+
     height: auto;
     padding: 20px;
-    margin: 1rem auto;
     border-radius: 30px;
     justify-content: space-between;
 }
@@ -87,6 +91,8 @@
     width: 199px;
     height: 199px;
     border-radius: 50%;
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .customize-btn-channel,
@@ -97,8 +103,10 @@
     border: none;
     border-radius: 30px;
     padding: 10px;
-    background-color: var(--primary-color);
-    color: #777878;
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-container-color);
+    color: var(--text-color);
     text-wrap: nowrap;
 }
 
@@ -127,10 +135,16 @@
 }
 
 .content-ul li button {
-    border: none;
     color: var(--text-color);
-    padding: 12px 20px;
+    background: var(--container-color);
+    border: 1px solid var(--border-container-color);
     border-radius: 30px;
+    padding: 10px 20px;
+}
+
+
+.content-ul li button:hover {
+    color: var(--btn);
 }
 
 .content-ul li button.active {
@@ -147,10 +161,8 @@
 }
 
 .container-channel {
-    width: 95%;
     height: auto;
     padding: 20px;
-    margin: 1rem auto;
     border-radius: 30px;
 }
 
@@ -333,7 +345,9 @@
 
 
 .postsOptions {
-    background: var(--primary-color);
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     width: 1200px;
     margin-top: 20px;
     border-radius: var(--border-radius);
@@ -344,7 +358,9 @@
 
 .empty-posts {
     text-align: center;
-    background-color: transparent;
+    background: transparent;
+    border: none;
+    box-shadow: none;
     padding: 0;
     padding-bottom: 1000px;
 }
@@ -407,7 +423,20 @@
     padding-bottom: 1000px;
 }
 
+.products-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
 @media (max-width: 768px) {
+
+    /* .container-button,
+    .container-profile {
+        width: auto;
+        margin: 1rem 1rem;
+    } */
+
     .banner {
         height: auto;
         aspect-ratio: 16/9;
@@ -440,10 +469,6 @@
         justify-content: center;
     }
 
-    .row {
-        flex-direction: column;
-    }
-
     .row a {
         display: flex;
         justify-content: center;
@@ -462,7 +487,8 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
+        border-radius: 15px;
     }
 
     .container-subscribe-btn {
@@ -482,12 +508,15 @@
 
     .content-ul li button,
     .btn-channel {
-        padding: 6px 12px;
+        padding: 10px 20px;
     }
+    
 }
+
 
 @media (max-width: 1100px) {
     .principal-video-container {
+
         justify-content: center;
         flex-direction: column;
     }
@@ -507,8 +536,9 @@
     }
 
     .row {
-        justify-content: center;
-        margin-top: 20px;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
     }
 
     .text-principal-video h2 {

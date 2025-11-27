@@ -6,6 +6,7 @@ import Footer from "../../components/common/Footer.jsx";
 import VideosContainer from '../../components/homePageComponents/VideosContainer.jsx'
 import SectionsCarousel from '../../components/homePageComponents/SectionsCarousel.jsx'
 import TopSectionWrapper from '../../components/homePageComponents/TopSectionWrapper.jsx'
+import OfficialSection from '../../components/homePageComponents/OfficialSection.jsx'
 import Header from '../../components/common/header/Header.jsx'
 import { useRef, useState, useEffect } from 'react';
 import { getAuthToken } from "../../utils/auth";
@@ -42,6 +43,7 @@ function Home() {
           url: channel.url,
           channel_date: channel.channel_date,
           handle: '@' + channel.url,
+          user_type: channel.user?.user_type, // Include user_type for filtering
         }));
 
         // Sort channels by subscriber count in descending order (Popular Channels)
@@ -49,7 +51,10 @@ function Home() {
         setChannels(sortedBySubscribers);
 
         // Sort channels by creation date (Recent Channels) - más reciente primero
-        const sortedByDate = [...transformedChannels].sort((a, b) => {
+        // Filtrar canales de admin antes de ordenar
+        const nonAdminChannels = transformedChannels.filter(channel => channel.user_type !== 'admin');
+
+        const sortedByDate = [...nonAdminChannels].sort((a, b) => {
           const dateA = new Date(a.channel_date);
           const dateB = new Date(b.channel_date);
           const diff = dateB - dateA;
@@ -233,7 +238,11 @@ function Home() {
         <SectionsCarousel section="trending" subtitle="Shorts" ref={shortsRef} render={shorts} type="short" cts="carousel-ctshorts"></SectionsCarousel>
         {/* <Sections section="subscriptions" subtitle="Catscribers" ref={catsRef} render={videos} type="video" cts="carousel-ctsvideos"></Sections> */}
 
-        <TopSectionWrapper channels={channels} videos={videos} />
+        <div className="official-channels-section-container">
+          <TopSectionWrapper channels={channels} videos={videos} />
+          <OfficialSection />
+        </div>
+
 
         <VideosContainer />
 

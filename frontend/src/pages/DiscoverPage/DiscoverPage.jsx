@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from "react";
 import "./discoverPage.css";
 import Header from "../../components/common/header/Header";
 import Sidebar from "../../components/common/Sidebar";
-import DiscoverHeader from "../../components/discoverPageComponents/DiscoverHeader";
 import { getAuthToken } from "../../utils/auth";
 import Container from "../../components/common/Container.jsx";
 import Subtitle from "../../components/homePageComponents/Subtitle.jsx";
@@ -114,8 +113,9 @@ function DiscoverPage() {
             <Sidebar />
 
             <main className="main-content">
-                <DiscoverHeader />
-
+                <div className="title-container">
+                    <h1>Discover</h1>
+                </div>
                 {/* TAG SEARCH */}
                 <Container className="tag-search-container">
                     <Subtitle subtitle="Search by tags" />

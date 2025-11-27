@@ -1,10 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, ParseUUIDPipe, ParseBoolPipe } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req, ParseUUIDPipe, ParseBoolPipe, Query } from '@nestjs/common';
 import { LikesService } from './likes.service';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('likes')
 export class LikesController {
-    constructor(private readonly likesService: LikesService) {}
+    constructor(private readonly likesService: LikesService) { }
 
     //VIDEO REACTIONS
     @Post('video/:videoId')
@@ -74,6 +74,13 @@ export class LikesController {
         @Req() req: any,
     ) {
         return this.likesService.removeReact(req.user, null, commentId);
+    }
+
+    @Get('user/recent')
+    @UseGuards(AuthGuard('jwt'))
+    getRecentLikesOnUserVideos(@Req() req: any, @Query('limit') limit?: string) {
+        const limitNum = limit ? parseInt(limit, 10) : 10;
+        return this.likesService.getRecentLikesOnUserVideos(req.user.user_id, limitNum);
     }
 }
 

@@ -36,9 +36,10 @@
 .catscribers-search-input {
     width: 100%;
     padding: 12px 20px;
-    background-color: transparent;
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
     color: var(--text-color);
-    border: 1px solid var(--text-color);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border-radius: 30px;
     outline: none;
     transition: all 0.3s ease;

@@ -41,9 +41,17 @@ export class ChannelsService {
         return this.channelRepository.save(newChannel);
     }
 
-    findAll(): Promise<Channel[]> {
-        console.log(this.channelRepository.find())
-        return this.channelRepository.find();
+    async findAll(): Promise<Channel[]> {
+        return this.channelRepository.find({
+            relations: ['user'],
+        });
+    }
+
+    async findOfficialChannels(): Promise<Channel[]> {
+        return this.channelRepository.createQueryBuilder('channel')
+            .innerJoinAndSelect('channel.user', 'user')
+            .where('user.user_type IN (:...types)', { types: ['admin', 'official'] })
+            .getMany();
     }
 
     async remove(id: string): Promise<void> {

@@ -251,7 +251,7 @@ function Profile({ channelId: propChannelId }) {
             <div className="row">
                 {isOwner && (
                     <>
-                        <Link to="/studio/?section=customization" className="customize-btn-channel">
+                        <Link to="/studio/?section=customization">
                             <NewButton btnclass="customize-btn-channel" btntitle="Customize channel"></NewButton>
                         </Link>
                         <Link to="/studio/?section=content">

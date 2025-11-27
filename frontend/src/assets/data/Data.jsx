@@ -1774,16 +1774,16 @@ const leftMenu = [
         text: "CaTube Education",
         link: "/education",
     },
-
-    { divider: true },
-
-    { icon: <BsFillFilePlayFill />, text: "Shorts", link: "/shorts" },
     { icon: <FaCrown />, text: "Trending", link: "/trending" },
     {
         icon: <BsCollectionPlayFill />,
         text: "Catscribers",
         link: "/subscribers",
     },
+
+    { divider: true },
+
+    { icon: <BsFillFilePlayFill />, text: "Shorts", link: "/shorts" },
 
     { divider: true },
 
@@ -1794,7 +1794,7 @@ const leftMenu = [
     {
         icon: <BsFillPlayBtnFill />,
         text: "Your videos",
-        link: "/studio?section=content",
+        link: "/studio?section=content", isSubmenu: true
     },
 ];
 
