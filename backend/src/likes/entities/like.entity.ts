@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, Unique, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, Unique, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Video } from 'src/videos/entities/video.entity';
 import { Comment } from 'src/comments/entities/comment.entity';
@@ -20,15 +20,18 @@ export class Like {
 
 
     @ManyToOne(() => Video, (video) => video.likes, {
-    onDelete: 'CASCADE',
-    nullable: true
+        onDelete: 'CASCADE',
+        nullable: true
     })
     video: Video | null;
 
 
     @ManyToOne(() => Comment, (comment) => comment.likes, {
-    onDelete: 'CASCADE',
-    nullable: true
+        onDelete: 'CASCADE',
+        nullable: true
     })
     comment: Comment | null;
+
+    @CreateDateColumn()
+    createdAt: Date;
 }

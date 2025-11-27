@@ -20,7 +20,7 @@ export class LikesService {
 
     @InjectRepository(Comment)
     private readonly commentsRepository: Repository<Comment>,
-  ) {}
+  ) { }
 
 
   // Create or update a like/dislike on a video or a comment.
@@ -103,7 +103,8 @@ export class LikesService {
 
       // Create new reaction
       const newLike = this.likesRepository.create({ user, video: null, comment, like });
-      return this.likesRepository.save(newLike);}
+      return this.likesRepository.save(newLike);
+    }
   }
 
 
@@ -183,5 +184,38 @@ export class LikesService {
       });
     }
     return { likes, dislikes };
+  }
+
+  // Get recent likes on user's videos
+  async getRecentLikesOnUserVideos(userId: string, limit: number = 10) {
+    const likes = await this.likesRepository.find({
+      where: {
+        video: {
+          channel: {
+            user: { user_id: userId }
+          }
+        },
+        like: true
+      },
+      relations: ['user', 'user.channel', 'video'],
+      order: { createdAt: 'DESC' },
+      take: limit,
+    });
+
+    return likes.map(like => ({
+      id: like.id,
+      user: {
+        id: like.user.user_id,
+        username: like.user.username,
+        photoUrl: like.user.channel?.photoUrl
+      },
+      video: {
+        id: like.video?.id,
+        title: like.video?.title,
+        thumbnail: like.video?.thumbnail,
+        type: like.video?.type
+      },
+      createdAt: like.createdAt
+    }));
   }
 }

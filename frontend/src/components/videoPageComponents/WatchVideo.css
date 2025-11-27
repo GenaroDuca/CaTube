@@ -422,11 +422,7 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
-      width: auto;
-  margin: 1rem 1rem;
-    padding: 0px 40px;
-    width: 100%;
-    height: 100vh;
+    margin: 1rem 1rem;
 }
 
 .container-watch-comments {
@@ -928,11 +924,6 @@ body.in-theater-mode .main-content {
 
 /* Tablets (Stacked layout, centered content) */
 @media (max-width: 1023px) {
-    .container-all {
-        align-items: center;
-        padding-left: 15px;
-        padding-right: 15px;
-    }
 
     .container-watch-comments,
     .container-medium,
@@ -989,6 +980,11 @@ body.in-theater-mode .main-content {
         flex-direction: column  ;
         gap: 20px;
     }
+
+    .container-all {
+
+    }
+
 }
 
 @media (max-width: 600px) {
@@ -999,11 +995,6 @@ body.in-theater-mode .main-content {
     .vv-time-display {
         font-size: 0.8rem;
     }
-
-    .container-all {
-        padding: 10px;
-    }
-
     .video-player-container {
         max-height: 45vh;
     }

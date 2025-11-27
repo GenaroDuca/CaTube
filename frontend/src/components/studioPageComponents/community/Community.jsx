@@ -2,12 +2,12 @@ import Container from "../../common/Container";
 import Title from "../../trendingPageComponents/Title";
 import VideoCommunity from "./VideoCommunity";
 
-    function Community() {
+function Community({ channelId }) {
     return (
         <>
             <Title title="Community"></Title>
             <Container className="content">
-                    <VideoCommunity></VideoCommunity>
+                <VideoCommunity channelId={channelId}></VideoCommunity>
             </Container>
         </>
     );

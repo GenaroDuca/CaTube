@@ -102,7 +102,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    gap: 10px;
+    gap: 20px;
 }
 
 .dashboard-card {
@@ -110,8 +110,8 @@
     border-radius: var(--border-radius);
     flex-direction: column;
     align-items: center;
-    padding: 10px 0;
-    gap: 10px;
+    padding: 20px;
+    gap: 20px;
     text-align: center;
 }
 
@@ -539,7 +539,6 @@
 }
 
 .video {
-    flex: 1.5;
     text-align: center;
     display: -webkit-box;
     -webkit-line-clamp: 3;
@@ -1112,7 +1111,11 @@
 }
 
 @media (max-width: 768px) {
-    
+    .three-cards {
+        gap: 10px
+    }
+
+
     .video-community {
         flex-direction: column;
         margin-bottom: 10px;
@@ -1182,6 +1185,14 @@
     .products-container {
         justify-content: center;
     }
+}
+
+.video-dashboard {
+    width: 100%;
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+    border-radius: var(--border-radius);
+    padding: 20px;
 }
 
 .video-dashboard>a {

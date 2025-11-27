@@ -1,4 +1,4 @@
-import { Controller, Post, Delete, Get, Param, ParseUUIDPipe, Body, UseGuards, Req } from '@nestjs/common';
+import { Controller, Post, Delete, Get, Param, ParseUUIDPipe, Body, UseGuards, Req, Query } from '@nestjs/common';
 import { SubscriptionsService } from './subs.service';
 import { CreateSubscriptionDto } from './dto/create-sub.dto';
 import { DeleteSubscriptionDto } from './dto/delete-sub.dto';
@@ -6,7 +6,7 @@ import { AuthGuard } from '@nestjs/passport';
 
 @Controller('subscriptions')
 export class SubscriptionsController {
-  constructor(private readonly subscriptionsService: SubscriptionsService) {}
+  constructor(private readonly subscriptionsService: SubscriptionsService) { }
 
   //Subscribe
   @Post()
@@ -52,8 +52,10 @@ export class SubscriptionsController {
   @Get('channel/:channelId/recent')
   findRecentSubscribersByChannel(
     @Param('channelId', ParseUUIDPipe) channelId: string,
+    @Query('limit') limit?: string,
   ) {
-    return this.subscriptionsService.getRecentSubscribers(channelId);
+    const limitNum = limit ? parseInt(limit, 10) : 10;
+    return this.subscriptionsService.getRecentSubscribers(channelId, limitNum);
   }
 
   //Get recent subscribers for logged-in user
