@@ -33,9 +33,6 @@ export class User {
     @Column({ name: 'is_verified', default: false })
     is_verified: boolean;
 
-    @Column({ name: 'is_private', default: false })
-    is_private: boolean;
-
     @Column({ name: 'verification_token', nullable: true, unique: true, type: 'varchar', length: 255 })
     verification_token: string | null;
 
