@@ -157,20 +157,32 @@ export class ChannelsService {
         const channel = await this.channelRepository.findOneBy({ channel_id: id });
         if (!channel) throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
 
-        // Eliminar foto anterior de S3 si existe
-        if (channel.photoUrl && channel.photoUrl.includes('amazonaws.com')) {
+        // --- Lógica de eliminación modificada ---
+        const defaultPhotoPattern = /https:\/\/catube-uploads\.s3\.sa-east-1\.amazonaws\.com\/profile\/[a-zA-Z]\.png/;
+
+        // Eliminar foto anterior de S3 si existe Y NO es la foto por defecto
+        if (
+            channel.photoUrl &&
+            channel.photoUrl.includes('amazonaws.com') &&
+            !defaultPhotoPattern.test(channel.photoUrl)
+        ) {
             try {
+                // Se asume que el dominio del bucket es el mismo que en el patrón default
                 const oldKey = channel.photoUrl.split('.com/')[1];
+
                 if (oldKey) {
                     await this.s3.send(new DeleteObjectCommand({
                         Bucket: process.env.AWS_BUCKET_NAME!,
                         Key: oldKey
                     }));
+                    console.log(`Foto anterior eliminada de S3: ${oldKey}`);
                 }
             } catch (error) {
-                console.error('Error deleting old photo from S3:', error);
+                console.error('Error al eliminar la foto anterior de S3:', error);
+                // Considera si este error debe impedir la actualización o solo registrarse
             }
         }
+        // ----------------------------------------
 
         const photoUrl = await this.uploadToS3(file, 'profile');
         channel.photoUrl = photoUrl;
@@ -178,6 +190,7 @@ export class ChannelsService {
 
         return this.channelRepository.save(channel);
     }
+
 
     async setDefaultPhoto(id: string): Promise<Channel> {
         const channel = await this.findOneById(id);
