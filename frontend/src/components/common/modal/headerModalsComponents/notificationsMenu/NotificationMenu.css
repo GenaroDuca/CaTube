@@ -52,12 +52,18 @@
 }
 
 .notifications-container {
+    width: 100%;
+    height: 100px;
     margin-bottom: 10px;
-    gap: 10px;
+    padding: 20px;
+    gap: 10px !important;
     border: 1px solid var(--border-container-color);
     background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 
@@ -107,7 +113,6 @@
 
 .notification-item {
     width: auto;
-    padding: 10px 0px 10px 20px;
     color: var(--text);
     display: flex;
     flex-direction: row;
@@ -134,7 +139,7 @@
 }
 
 .notification-text {
-    font-size: 14px;
+    font-size: 12px;
 }
 
 .notification-item button {
@@ -172,17 +177,24 @@
 }
 
 .delete-notification-button {
-    background-color: #e96765;
+    /* background-color: #e96765; */
     width: 40px;
-    border: none;
-    border-radius: 0px 30px 30px 0px;
+    height: 40px;
+    aspect-ratio: 1;
+    background-color: var(--container-color);
+    border: 1px solid var(--border-container-color);
+    border-radius: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.delete-notification-button:hover {
-    background-color: #b94c4a;
+.delete-notification-button svg {
+    fill: var(--text-color);
+}
+
+.delete-notification-button:hover svg {
+    fill: #e96765;
 }
 
 .mark-all-read-btn {

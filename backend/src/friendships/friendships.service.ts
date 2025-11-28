@@ -61,8 +61,8 @@ export class FriendshipService {
         receiverId,
         senderId,
         NotificationType.FRIEND_REQUEST,
-        'has sent you a friend request!',
-        `/profile/${senderId}`, // Enlace al perfil del emisor
+        'sent you a friend request!',
+        `/profile/${senderId}`,
       );
     } catch (e) {
       console.error('Failed to create FRIEND_REQUEST notification:', e);
@@ -104,7 +104,7 @@ export class FriendshipService {
         senderId,
         newFriendId,
         NotificationType.FRIEND_ACCEPTED,
-        'has accepted your friend request!',
+        'accepted your friend request!',
         `/profile/${newFriendId}`,
       );
     } catch (e) {

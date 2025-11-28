@@ -4,6 +4,8 @@ import { Repository } from 'typeorm';
 import { Subscription } from './entities/sub.entity';
 import { User } from 'src/users/entities/user.entity';
 import { Channel } from 'src/channels/entities/channel.entity';
+import { NotificationsService } from '../notifications/notifications.service';
+import { NotificationType } from '../notifications/entities/notification.entity';
 
 @Injectable()
 export class SubscriptionsService {
@@ -14,12 +16,16 @@ export class SubscriptionsService {
     private readonly usersRepository: Repository<User>,
     @InjectRepository(Channel)
     private readonly channelsRepository: Repository<Channel>,
-  ) {}
+
+    private readonly notificationsService: NotificationsService,
+
+  ) { }
 
   //Subscribe
-    async subscribe(user: User, channelId: string) {
+  async subscribe(user: User, channelId: string) {
     const channel = await this.channelsRepository.findOne({
       where: { channel_id: channelId },
+      relations: ['user'],
     });
 
     if (!channel) throw new NotFoundException('Channel not found');
@@ -38,10 +44,25 @@ export class SubscriptionsService {
       channel,
     });
 
+    console.log(channel);
+
     await this.subscriptionsRepository.save(subscription);
 
     // Increment subscriber count
     await this.channelsRepository.increment({ channel_id: channelId }, 'subscriberCount', 1);
+
+    try {
+      await this.notificationsService.createNotification(
+        channel.user.user_id,
+        user.user_id,
+        NotificationType.NEW_SUBSCRIPTION,
+        'started following you!',
+        `/yourchannel/${channel.url}`,
+      );
+    } catch (e) {
+      console.error('Failed to create notification:', e);
+    }
+
 
     return subscription;
   }

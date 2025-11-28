@@ -4,9 +4,9 @@ import { Repository } from 'typeorm';
 import { Video } from './entities/video.entity';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
-import { Channel } from '../channels/entities/channel.entity';
 import { UsersService } from 'src/users/users.service';
-import { Tag } from 'src/tags/entities/tag.entity';
+import { Subscription } from 'src/subs/entities/sub.entity';
+import { NotificationsService } from 'src/notifications/notifications.service';
 
 import { Readable } from 'stream'; // Debe importar Readable de 'stream'
 import * as ffmpeg from 'fluent-ffmpeg';
@@ -15,6 +15,7 @@ import * as ffprobeStatic from 'ffprobe-static';
 import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getS3Client } from 'src/aws/s3.config';
 import { v4 as uuidv4 } from 'uuid';
+import { NotificationType } from 'src/notifications/entities/notification.entity';
 
 // Configurar ffmpeg
 ffmpeg.setFfmpegPath(ffmpegStatic as any);
@@ -28,6 +29,10 @@ export class VideosService {
     @InjectRepository(Video)
     private readonly videoRepository: Repository<Video>,
     private userService: UsersService,
+
+    @InjectRepository(Subscription)
+    private subscriptionsRepository: Repository<Subscription>,
+    private notificationsService: NotificationsService,
 
   ) {
     this.s3Client = getS3Client();
@@ -74,7 +79,12 @@ export class VideosService {
     // ------------------------------------
 
     try {
-      const video = await this.videoRepository.findOne({ where: { id: videoId } });
+      // 🚨 IMPORTANTE: Cargar las relaciones necesarias para la notificación al final.
+      const video = await this.videoRepository.findOne({
+        where: { id: videoId },
+        relations: ['channel', 'channel.user'], // 👈 Relaciones esenciales para notificar.
+      });
+
       if (!video) {
         console.error(`ERROR: Video ${videoId} no encontrado para procesar.`);
         return;
@@ -169,12 +179,75 @@ export class VideosService {
 
       console.log(`LOG: Procesamiento completado para video ${videoId}`);
 
+      try {
+        await this.notifySubscribers(video);
+      } catch (e) {
+        console.error('Failed to send NEW_VIDEO notification:', e);
+      }
+
     } catch (error) {
       console.error(`ERROR: Fallo procesando video ${videoId}`, error);
       await this.videoRepository.update(videoId, {
         status: 'failed',
         processingProgress: 0
       });
+    }
+  }
+
+  // ======================================================
+  // NOTIFICACIÓN DE SUSCRIPTORES AL TERMINAR PROCESO
+  // ======================================================
+  private async notifySubscribers(video: Video): Promise<void> {
+    // Es crucial que 'video' tenga las relaciones channel y channel.user cargadas (ver punto 3)
+    if (!video.channel || !video.channel.user) {
+      console.error(`ERROR: No se puede notificar a los suscriptores. Faltan datos de canal o usuario para el video ${video.id}`);
+      return;
+    }
+
+    const videoOwnerId = video.channel.user.user_id;
+    const videoId = video.id;
+    const videoTitle = video.title;
+
+    try {
+      // 1. Encontrar todas las suscripciones al canal del creador
+      const subscriptions = await this.subscriptionsRepository.find({
+        where: {
+          channel: { channel_id: video.channel.channel_id }
+        },
+        relations: ['user'],
+      });
+
+      if (subscriptions.length === 0) {
+        console.log(`Video ${videoId}: No hay suscriptores para notificar.`);
+        return;
+      }
+
+      // 2. Crear y enviar notificaciones a todos los suscriptores
+      const notificationPromises = subscriptions.map(sub => {
+        const subscriberId = sub.user.user_id;
+
+        // Evitar auto-notificación (opcional)
+        if (subscriberId === videoOwnerId) {
+          return Promise.resolve();
+        }
+
+        const linkTarget = video.type === 'short' ? `/shorts/${videoId}` : `/watch/${videoId}`;
+        const notificationContent = `posted a new ${video.type}: ${videoTitle.substring(0, 30)}...`;
+
+        return this.notificationsService.createNotification(
+          subscriberId, // Receptor: El suscriptor
+          videoOwnerId, // Emisor: El dueño del video
+          NotificationType.NEW_VIDEO,
+          notificationContent,
+          linkTarget,
+        );
+      });
+
+      await Promise.all(notificationPromises);
+      console.log(`Video ${videoId}: ${notificationPromises.length} suscriptores notificados.`);
+
+    } catch (error) {
+      console.error(`ERROR: Falló el envío de notificaciones para el video ${videoId}`, error);
     }
   }
 
@@ -434,7 +507,12 @@ export class VideosService {
       throw new ForbiddenException('You cannot delete this video');
     }
 
-    // Eliminar video de S3
+    // --- URLs de Miniatura por Defecto (Necesario declararlas aquí o como constantes de clase) ---
+    const DEFAULT_VIDEO_THUMBNAIL = 'https://catube-uploads.s3.sa-east-1.amazonaws.com/thumbnails/default-video-thumbnail.png';
+    const DEFAULT_SHORT_THUMBNAIL = 'https://catube-uploads.s3.sa-east-1.amazonaws.com/thumbnails/default-short-thumbnail.png';
+    // ---------------------------------------------------------------------------------------------
+
+    // Eliminar video de S3 (ESTO NO CAMBIA, siempre se borra el video)
     if (video.url) {
       try {
         const videoKey = video.url.split('/').pop();
@@ -443,24 +521,34 @@ export class VideosService {
             Bucket: process.env.AWS_BUCKET_NAME!,
             Key: `videos/${videoKey}`
           }));
+          console.log(`🗑️ Video ${id} eliminado de S3.`);
         }
       } catch (error) {
         console.error('Error deleting video from S3:', error);
       }
     }
 
-    // Eliminar thumbnail de S3
+    // Eliminar thumbnail de S3 (Lógica Modificada)
     if (video.thumbnail) {
-      try {
-        const thumbnailKey = video.thumbnail.split('/').pop();
-        if (thumbnailKey) {
-          await this.s3Client.send(new DeleteObjectCommand({
-            Bucket: process.env.AWS_BUCKET_NAME!,
-            Key: `thumbnails/${thumbnailKey}`
-          }));
+      const isDefaultThumbnail =
+        video.thumbnail === DEFAULT_VIDEO_THUMBNAIL ||
+        video.thumbnail === DEFAULT_SHORT_THUMBNAIL;
+
+      if (isDefaultThumbnail) {
+        console.log(`⚠️ Thumbnail para video ${id} es por defecto, se omite el borrado de S3.`);
+      } else {
+        try {
+          const thumbnailKey = video.thumbnail.split('/').pop();
+          if (thumbnailKey) {
+            await this.s3Client.send(new DeleteObjectCommand({
+              Bucket: process.env.AWS_BUCKET_NAME!,
+              Key: `thumbnails/${thumbnailKey}`
+            }));
+            console.log(`🖼️ Thumbnail personalizado para video ${id} eliminado de S3.`);
+          }
+        } catch (error) {
+          console.error('Error deleting custom thumbnail from S3:', error);
         }
-      } catch (error) {
-        console.error('Error deleting thumbnail from S3:', error);
       }
     }
 

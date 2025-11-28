@@ -24,7 +24,9 @@ import * as multer from 'multer';
 
 @Controller('videos')
 export class VideosController {
-  constructor(private readonly videosService: VideosService) { }
+  constructor(private readonly videosService: VideosService,
+
+  ) { }
 
   // Create a new video
   @Post('create')
@@ -34,7 +36,7 @@ export class VideosController {
     { name: 'video', maxCount: 1 },
   ], {
     storage: multer.memoryStorage(),
-    limits: { fileSize: 500 * 1024 * 1024 } 
+    limits: { fileSize: 500 * 1024 * 1024 }
   }))
   async create(
     @Body() createVideoDto: CreateVideoDto,
@@ -68,6 +70,8 @@ export class VideosController {
       status: video.status
     };
   }
+
+  
 
   @Get('status/:jobId')
   async getStatus(@Param('jobId') jobId: string) {

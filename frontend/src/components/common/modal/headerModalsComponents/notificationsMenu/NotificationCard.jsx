@@ -41,7 +41,7 @@ export function NotificationCard({ notification, onMarkAsRead, onDelete, onClose
     const handleNotificationClick = () => {
         onMarkAsRead(id);
 
-        if (type === 'friend_request' || type === 'friend_accepted') {
+        if (type === 'friend_request' || type === 'friend_accepted' || type === 'message') {
             openFriendMenu();
 
             if (onCloseNotificationMenu) {
