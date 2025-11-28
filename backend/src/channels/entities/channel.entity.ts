@@ -18,16 +18,13 @@ export class Channel {
   @PrimaryGeneratedColumn('uuid')
   channel_id: string;
 
-  @CreateDateColumn()
-  channel_date: Date;
-
-  @Column()
+  @Column({ nullable: true })
   channel_name: string;
 
   @Column({ nullable: true })
   description: string;
 
-  @Column({ unique: true })
+  @Column({ unique: true, nullable: true })
   url: string;
 
   @Column({ nullable: true })
@@ -36,10 +33,12 @@ export class Channel {
   @Column({ nullable: true })
   bannerUrl: string;
 
-  @Column({ default: 0 })
-  subscriberCount: number;
+  @Column({ default: false })
+  is_hidden: boolean;
 
-  // Relación 1:1 con User con restricción de unicidad
+  @CreateDateColumn()
+  channel_date: Date;
+
   @OneToOne(() => User, user => user.channel, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })
   user: User;
@@ -47,12 +46,15 @@ export class Channel {
   @OneToOne(() => Store, store => store.channel)
   store: Store;
 
-  @OneToMany(() => Subscription, subs => subs.channel)
-  subscribers: Subscription[];
-
   @OneToMany(() => Video, video => video.channel, { onDelete: 'CASCADE' })
   videos: Video[];
 
   @OneToMany(() => Post, post => post.channel, { onDelete: 'CASCADE' })
   posts: Post[];
+
+  @Column({ default: 0 })
+  subscriberCount: number;
+
+  @OneToMany(() => Subscription, subscription => subscription.channel)
+  subscribers: Subscription[];
 }
