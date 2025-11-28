@@ -81,7 +81,7 @@ const PrivacySettings = () => {
     <section className="setting-section">
       <h2>Privacy</h2>
       <div className="setting-item">
-        <h3>Private Account (CaTube Social)</h3>
+        <h3>Private Account</h3>
         <label className="toggle-switch">
           <input type="checkbox" checked={isPrivate} onChange={handlePrivacyToggle} disabled={loading} />
           <span className="slider"></span>

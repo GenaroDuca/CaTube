@@ -54,21 +54,24 @@ const ResetPasswordModal = ({ onClose }) => {
         </header>
 
         <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <h2>Your Mail</h2>
+          <div>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
 
-          <button
-            type="submit"
-            className="submit-feedback-btn"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Sending...' : 'Send Request'}
-          </button>
+            <button
+              type="submit"
+              className="submit-feedback-btn"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Sending...' : 'Send Request'}
+            </button>
+          </div>
         </form>
       </div>
     </div>

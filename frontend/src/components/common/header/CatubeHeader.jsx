@@ -199,7 +199,7 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
                                     searchQuery={currentSearchQuery}
                                     setSearchQuery={currentSetSearchQuery}
                                     placeholder={placeholder}
-                                />
+                                        />
                                 <button className="sr-header-searchButton" onClick={handleSearchToggleOrSubmit}>
                                     <ImSearch size={20} />
                                 </button>

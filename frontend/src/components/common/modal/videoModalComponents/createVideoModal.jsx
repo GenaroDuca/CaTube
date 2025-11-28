@@ -365,7 +365,7 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                             <div>
                                 <h2>Video</h2>
                                 <div className="create-thumbnail">
-                                   <video
+                                    <video
                                         controls
                                         src={videoPreviewUrl}
                                         style={{
@@ -552,9 +552,11 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                                 <ul>
                                     {selectedTags.map((tag) => (
                                         <li key={tag.tag_id}>
-                                            {`# ${tag.name} `}
                                             <button
                                                 type="button"
+                                                className="tag-remove-btn"
+                                                title={`Remove tag #${tag.name}`}
+                                                aria-label={`Remove tag ${tag.name}`}
                                                 onClick={() =>
                                                     handleRemoveTag(tag.name)
                                                 }
@@ -562,6 +564,8 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                                             >
                                                 ✕
                                             </button>
+                                            <span className="tag-name">{`# ${tag.name} `}</span>
+
                                         </li>
                                     ))}
                                 </ul>

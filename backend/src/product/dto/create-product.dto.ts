@@ -2,10 +2,10 @@ import { IsNotEmpty, MaxLength } from 'class-validator';
 
 export class CreateProductDto {
     @IsNotEmpty()
-    @MaxLength(25)
+    @MaxLength(60)
     product_name: string;
 
-    @MaxLength(350)
+    @MaxLength(255)
     description: string;
 
     @IsNotEmpty()

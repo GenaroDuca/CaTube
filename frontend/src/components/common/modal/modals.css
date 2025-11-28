@@ -218,6 +218,73 @@
     scrollbar-color: var(--btn) transparent;
 } */
 
+/* ==================================== */
+/* 3.c MODAL SIZE VARIABLES & UNIFIED SIZING */
+/* ==================================== */
+/* CSS variables that define the default modal sizing (desktop) and
+   provide flexible overrides for special modals. */
+:root {
+    --modal-width: 60vh;
+    /* default modal width */
+    --modal-max-width: 90vw;
+    /* max width fallback */
+    --modal-height: 76vh;
+    /* default modal height */
+    --modal-min-height: 420px;
+    /* min height to avoid tiny modals */
+}
+
+/* Apply a modal shell that keeps fixed shell size and allows content scroll */
+.modal-unified-content,
+.universal-modal-content,
+.create-video-content,
+.edit-product-content,
+.add-product-content,
+.create-store-content,
+.settings-modal-content,
+.feedback-modal-content,
+.help-modal-content,
+.reset-modal-content,
+.soon-modal-content {
+    width: var(--modal-width);
+    max-width: var(--modal-max-width);
+    height: var(--modal-height);
+    min-height: var(--modal-min-height);
+    overflow: hidden;
+    /* ensures inner content scrolls and not the modal container */
+}
+
+/* Inner scrollable areas - keep modal shell size constant */
+.modal-unified-content>main,
+.modal-unified-content>form,
+.modal-unified-content .settings-main-content,
+.modal-unified-content .setting-section,
+.universal-modal-content main,
+.create-video-content main,
+.feedback-modal-content form,
+.edit-product-content form,
+.add-product-content form,
+.create-store-content form {
+    overflow-y: auto;
+}
+
+/* Make feedback modal a bit larger so the form feels less cramped */
+.feedback-modal-content {
+    width: calc(var(--modal-width) + 8vh);
+    height: calc(var(--modal-height) + 6vh);
+}
+
+/* Keep right-menu modal narrow / side-panel style */
+.right-menu-modal .universal-modal-content,
+.right-menu-modal .modal-unified-content {
+    width: 30vh;
+    max-width: 40vw;
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+}
+
+
 
 /* ------------------------------------ */
 /* ESTILOS DEL MODAL DE CONFIRMACIÓN UNIVERSAL (ConfirmModal) */
@@ -228,7 +295,10 @@
     box-shadow: 0 8px 32px rgba(0, 0, 0, .2);
     display: flex;
     flex-direction: column;
-    width: 50vh;
+    width: var(--modal-width, 50vh);
+    height: var(--modal-height, 76vh);
+    min-height: var(--modal-min-height, 420px);
+    overflow: hidden;
     max-width: 90vw;
     text-align: center;
 }
@@ -253,8 +323,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     padding: 20px;
+    height: 100%;
+
+}
+
+.universal-modal-content main div {
+    width: 100%;
 }
 
 .universal-modal-content main h3 {
@@ -331,27 +407,38 @@
 
 .feedback-modal-content form,
 .reset-modal-content form {
+    
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     padding: 20px;
     gap: 20px;
     background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
     border-radius: 0px 0px 30px 30px;
+    height: 90%;
+}
+
+.feedback-modal-content form input {
+    width: 100%;
+}
+
+.feedback-modal-content form div {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.feedback-modal-content form textarea {
+    width: 100%;
+    height: 300px;
 }
 
 .feedback-modal-content form input[type=file] {
     display: none !important;
-}
-
-.feedback-modal-content form label[for=feedback-file] {
-    display: inline-block;
-    padding: 10px 20px;
-    border-radius: 30px;
-    text-align: center;
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
-    border: 1px solid var(--border-container-color);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    cursor: pointer
 }
 
 .feedback-modal-content form label[for=feedback-file]:hover {
@@ -366,7 +453,8 @@
     padding: 12px 20px;
     border-radius: 30px;
     cursor: pointer;
-    margin-top: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 .feedback-modal-content form button:hover {
@@ -380,7 +468,7 @@
     gap: 20px;
     background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
     border-radius: 0px 0px 30px 30px;
-
+    height: 90%;
 }
 
 .frequently-asked-questions summary,
@@ -403,12 +491,11 @@ button:hover {
 .settings-main-content {
     display: flex;
     flex-grow: 1;
-    overflow: hidden;
     background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
     border-radius: 0px 0px 30px 30px;
     gap: 20px;
     padding: 20px;
-
+    height: 100%;
 }
 
 .delete-account-main {
@@ -544,27 +631,26 @@ button:hover {
 .change-password-form a,
 .change-password-form p {
     margin-top: -15px;
-    margin-left: 10px;
     font-size: 0.8em;
+    text-align: end;
 }
 
 .setting-section-btn-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.delete-account-btn {
+.change-password-form button {
+    padding: 12px 10px !important;
     width: 100%;
-    color: var(--primary-color);
-    border: none;
-    padding: 12px 20px;
-    border-radius: 30px;
-    cursor: pointer;
 }
 
 .delete-account-btn {
     background-color: #e96765 !important;
+
 }
 
 .delete-account-btn:hover {
@@ -598,13 +684,15 @@ button:hover {
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    transition: .4s;
-    border-radius: 30px;
+    height: 100%;
+    width:50px;
     background-color: var(--container-color);
     border: 1px solid var(--border-container-color);
+    border-radius: 30px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
+
+
 
 .slider:before {
     position: absolute;
@@ -676,7 +764,8 @@ input:checked+.slider:before {
 /* 7. ESTILOS ESPECÍFICOS DE CREATE VIDEO MODAL */
 /* ==================================== */
 .create-video-content {
-    height: 90vh;
+    height: var(--modal-height);
+    width: var(--modal-width);
     display: flex;
     flex-direction: column;
     background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
@@ -686,7 +775,7 @@ input:checked+.slider:before {
 
 .create-video-content main {
     width: 100%;
-    height: 90%;
+    height: 100%;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
     flex-grow: 1;
@@ -794,6 +883,7 @@ input:checked+.slider:before {
     width: 48%;
     display: flex;
     flex-direction: column;
+
 }
 
 .create-video-tags-container section ul {
@@ -804,10 +894,13 @@ input:checked+.slider:before {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     padding: 20px;
     border-radius: 30px;
+    overflow-x: hidden;
+    width: 100% !important;
 }
 
 .create-video-tags-container section ul li {
     list-style: none;
+    width: 100%;
 }
 
 .create-video-tags-container section ul li button {
@@ -817,6 +910,11 @@ input:checked+.slider:before {
     padding: 5px 0px;
     cursor: pointer;
     font-size: 16px;
+    display: block;
+    max-width: 150px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 
@@ -824,6 +922,20 @@ input:checked+.slider:before {
     color: var(--btn);
 }
 
+.tag-input-container ul li {
+    background-color: transparent;
+    color: var(--text-color);
+    border: none;
+    cursor: default;
+    font-size: 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 .create-video-tags-container section select {
     padding: 20px;
@@ -841,9 +953,9 @@ input:checked+.slider:before {
 }
 
 .create-video-buttons {
-    width: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
     margin-top: 20px;
     gap: 20px;
 }
@@ -853,10 +965,6 @@ input:checked+.slider:before {
     gap: 20px;
 }
 
-.create-video-media-input {
-    display: flex;
-    gap: 20px;
-}
 
 .tag-input-container div {
     display: flex;
@@ -900,6 +1008,7 @@ input:checked+.slider:before {
 
 .create-video-buttons button {
     padding: 12px 20px;
+    width: 160px;
     background-color: var(--btn);
     border: none;
     border-radius: 30px;
@@ -912,6 +1021,7 @@ input:checked+.slider:before {
 }
 
 .discard-changes-create-video {
+    width: 160px;
     background-color: #e96765 !important;
     color: var(--primary-color);
 }
@@ -929,7 +1039,7 @@ input:checked+.slider:before {
 .add-product-content form,
 .create-store-content form {
     width: 100%;
-    height: 100%;
+    height: 90%;
     padding: 20px;
     border-bottom-left-radius: 30px;
     border-bottom-right-radius: 30px;
@@ -939,6 +1049,7 @@ input:checked+.slider:before {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
 }
 
 .edit-product-content,
@@ -946,6 +1057,9 @@ input:checked+.slider:before {
 .create-store-content {
     border: 1px solid var(--border-container-color);
     border-radius: 30px;
+    width: var(--modal-width);
+    height: var(--modal-height);
+    overflow: hidden;
 }
 
 
@@ -1147,8 +1261,8 @@ input:checked+.slider:before {
     border: none;
     border-radius: 30px;
     cursor: pointer;
-    font-size: 1rem;
     text-align: center;
+    margin-bottom: 20px;
     margin-top: 20px;
 }
 
@@ -1167,6 +1281,16 @@ input:checked+.slider:before {
 
 @media (max-width:768px) {
 
+    .edit-product-content form,
+    .add-product-content form,
+    .create-store-content form {
+        overflow-y: auto !important;
+    }
+
+    .setting-section-btn-container{
+        flex-direction: row;
+    }
+
     .create-video-buttons {
         display: flex;
         flex-direction: column;
@@ -1177,13 +1301,6 @@ input:checked+.slider:before {
         display: flex;
         justify-content: center;
     }
-
-    .create-video-content,
-    .add-product-content {
-        width: 90vw;
-
-    }
-
 
     .create-video-btn {
         margin: 0 -10px
@@ -1205,13 +1322,10 @@ input:checked+.slider:before {
     }
 
     .setting-section {
-        padding: 20px;
-        width: 100%
+        padding: 0px;
+        width: 100%;
     }
 
-    .change-password-form button,
-    .delete-account-btn,
-    .disable-account-btn,
     .settings-option-btn {
         padding: 6px 10px
     }
@@ -1222,8 +1336,11 @@ input:checked+.slider:before {
     }
 
     .create-thumbnail img {
-        margin-bottom: 20px;
         width: 100%;
+    }
+
+    .create-thumbnail video {
+        width: 100% !important;
     }
 
     .create-video-tags-container section:nth-child(1) {
@@ -1265,4 +1382,29 @@ input:checked+.slider:before {
     .universal-modal-content header h1 {
         font-size: 25px;
     }
+}
+
+/* Specific class for remove tag button (explicit target) */
+.tag-remove-btn {
+    background: transparent;
+    color: var(--btn);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 4px 8px;
+    min-width: 28px;
+}
+
+.tag-remove-btn:hover,
+.tag-remove-btn:focus {
+    color: var(--primary-color);
+    outline: none;
+}
+
+/* Tag text truncation so long names do not hide the remove button */
+.tag-input-container ul li .tag-name {
+    display: inline-block;
+    max-width: calc(100% - 44px);
+    /* account for the remove button width */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

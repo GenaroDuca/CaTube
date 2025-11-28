@@ -562,6 +562,7 @@
 .thumbnail-preview-short {
     width: 120px !important;
     height: 200px;
+    border-radius: 15px;
 }
 
 .earn-options,
@@ -1097,6 +1098,7 @@
     border-bottom-right-radius: 0px !important;
     border-top-right-radius: 0px !important;
 }
+
 
 .studio-empty-message {
     text-align: center;
