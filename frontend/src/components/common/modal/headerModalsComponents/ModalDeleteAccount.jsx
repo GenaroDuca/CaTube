@@ -52,7 +52,7 @@ const ModalDeleteAccount = ({ onClose }) => {
                     </button>
                 </header>
                 <main className="delete-account-main">
-                    <p>This action is irreversible. Please enter your password and type "DELETE" to confirm.</p>
+                    <h4>This action is irreversible. Please enter your password and type "DELETE" to confirm.</h4>
 
                     <div className="input-group">
                         <label>Current Password</label>

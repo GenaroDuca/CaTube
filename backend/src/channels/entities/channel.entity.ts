@@ -39,6 +39,9 @@ export class Channel {
   @Column({ default: 0 })
   subscriberCount: number;
 
+  @Column({ name: 'is_hidden', default: false })
+  isHidden: boolean;
+
   // Relación 1:1 con User con restricción de unicidad
   @OneToOne(() => User, user => user.channel, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'user_id' })

@@ -461,14 +461,14 @@ export function CommentSection({ videoId, onCountChange }) {
                                 {/* Actions */}
                                 <div className="comment-actions">
                                     {currentUser?.id === comment.user_id && (
-                                        <>
+                                        <div style={{ display: "flex", alignItems: "center" }} >
                                             <button onClick={() => startEditing(comment)}>
-                                                <MdEdit size={18} />
+                                                <MdEdit size={24} />
                                             </button>
-                                            <button onClick={() => handleDeleteComment(comment.id)}>
-                                                <MdDelete size={18} />
+                                            <button onClick={() => handleDeleteComment(comment.id)} className="delete-comment-btn">
+                                                <MdDelete size={24} />
                                             </button>
-                                        </>
+                                        </div>
                                     )}
                                     {/* Comments reactions */}
                                     <CommentReaction videoId={videoId} commentId={comment.id} />

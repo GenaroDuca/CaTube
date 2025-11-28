@@ -41,8 +41,13 @@ export class ChannelsService {
         return this.channelRepository.save(newChannel);
     }
 
-    async findAll(): Promise<Channel[]> {
+    async findAll(includeHidden = false): Promise<Channel[]> {
+        if (includeHidden) {
+            return this.channelRepository.find({ relations: ['user'] });
+        }
+        // Exclude hidden channels for public listings
         return this.channelRepository.find({
+            where: { isHidden: false },
             relations: ['user'],
         });
     }
@@ -86,6 +91,13 @@ export class ChannelsService {
 
         Object.assign(channelToUpdate, updateChannelDto);
         return this.channelRepository.save(channelToUpdate);
+    }
+
+    async setVisibilityByUserId(userId: string, isHidden: boolean): Promise<Channel> {
+        const channel = await this.channelRepository.findOne({ where: { user: { user_id: userId } }, relations: ['user'] });
+        if (!channel) throw new NotFoundException('Channel not found for user');
+        channel.isHidden = !!isHidden;
+        return this.channelRepository.save(channel);
     }
 
     // ---------------- AWS S3 ----------------

@@ -212,6 +212,7 @@ export class UsersService {
             // Usamos el operador 'Like' para buscar coincidencias parciales (case-insensitive en algunos BD)
             where: {
                 username: Like(`%${query}%`),
+                is_private: false,
             },
             // Excluye el campo 'password' para no enviarlo al frontend
             select: ['user_id', 'username', 'avatarUrl'],
@@ -245,7 +246,8 @@ export class UsersService {
                 'email',
                 'avatarUrl',
                 'description',
-                'is_verified'
+                'is_verified',
+                'is_private'
             ],
             relations: ['channel'],
         });
@@ -580,6 +582,40 @@ export class UsersService {
         user.reset_token_expiry = null;
 
         return this.usersRepository.save(user);
+    }
+
+    // Change password by user: verifies current password before updating
+    async changePassword(userId: string, currentPassword: string, newPassword: string): Promise<void> {
+        const user = await this.usersRepository.findOneBy({ user_id: userId });
+        if (!user) throw new NotFoundException('User not found');
+
+        const match = await bcrypt.compare(currentPassword, user.password);
+        if (!match) {
+            throw new BadRequestException('Current password incorrect');
+        }
+
+        const salt = await bcrypt.genSalt();
+        user.password = await bcrypt.hash(newPassword, salt);
+        await this.usersRepository.save(user);
+    }
+
+    async setPrivacy(userId: string, isPrivate: boolean): Promise<Partial<User>> {
+        const user = await this.usersRepository.findOneBy({ user_id: userId });
+        if (!user) throw new NotFoundException('User not found');
+        user.is_private = !!isPrivate;
+        const saved = await this.usersRepository.save(user);
+        const { password, ...result } = saved;
+        return result;
+    }
+
+    async deleteMe(userId: string, password: string): Promise<void> {
+        const user = await this.usersRepository.findOneBy({ user_id: userId });
+        if (!user) throw new NotFoundException('User not found');
+
+        const match = await bcrypt.compare(password, user.password);
+        if (!match) throw new BadRequestException('Password incorrect');
+
+        await this.remove(userId);
     }
 
     /**

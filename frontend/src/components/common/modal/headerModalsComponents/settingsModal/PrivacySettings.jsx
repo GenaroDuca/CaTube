@@ -5,6 +5,7 @@ import { useToast } from '../../../../../hooks/useToast';
 const PrivacySettings = () => {
   const [isPrivate, setIsPrivate] = useState(false);
   const [isHidden, setIsHidden] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { showSuccess, showError } = useToast();
 
   useEffect(() => {
@@ -18,19 +19,21 @@ const PrivacySettings = () => {
         });
         if (response.ok) {
           const data = await response.json();
-          setIsPrivate(data.is_private);
-          if (data.channel) {
-            setIsHidden(data.channel.is_hidden);
-          }
+          // Accept both snake_case and camelCase field names
+          setIsPrivate(data?.is_private ?? data?.isPrivate ?? false);
+          const channelIsHidden = data?.channel?.is_hidden ?? data?.channel?.isHidden ?? false;
+          setIsHidden(channelIsHidden);
         }
       } catch (error) {
         console.error("Failed to fetch settings", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchSettings();
   }, []);
 
-  const handlePrivacyToggle = async () => {
+    const handlePrivacyToggle = async () => {
     const newValue = !isPrivate;
     try {
       const response = await fetch(`${VITE_API_URL}/users/me/privacy`, {
@@ -52,7 +55,7 @@ const PrivacySettings = () => {
     }
   };
 
-  const handleChannelVisibilityToggle = async () => {
+    const handleChannelVisibilityToggle = async () => {
     const newValue = !isHidden;
     try {
       const response = await fetch(`${VITE_API_URL}/users/me/channel-visibility`, {
@@ -80,16 +83,16 @@ const PrivacySettings = () => {
       <div className="setting-item">
         <h3>Private Account (CaTube Social)</h3>
         <label className="toggle-switch">
-          <input type="checkbox" checked={isPrivate} onChange={handlePrivacyToggle} />
+          <input type="checkbox" checked={isPrivate} onChange={handlePrivacyToggle} disabled={loading} />
           <span className="slider"></span>
         </label>
       </div>
       <p className="setting-description" style={{ fontSize: '12px', marginTop: '-15px' }}>If enabled, your account will not appear in CaTube Social searches.</p>
 
       <div className="setting-item">
-        <h3>Hide My Channel</h3>
+        <h3>Hide my Channel</h3>
         <label className="toggle-switch">
-          <input type="checkbox" checked={isHidden} onChange={handleChannelVisibilityToggle} />
+          <input type="checkbox" checked={isHidden} onChange={handleChannelVisibilityToggle} disabled={loading} />
           <span className="slider"></span>
         </label>
       </div>

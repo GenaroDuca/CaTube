@@ -1,5 +1,6 @@
 import { Body, Controller, Get, Post, Delete, Param, Query, Res, ConflictException, NotFoundException, Patch, UseInterceptors, UploadedFile, BadRequestException } from '@nestjs/common';
 import { CreateUserDto } from './dto-users/create-user.dto';
+import { ChannelsService } from 'src/channels/channels.service';
 import { UsersService } from './users.service';
 import { Response } from 'express';
 import { ConfigService } from '@nestjs/config';
@@ -12,7 +13,8 @@ import { FileInterceptor } from '@nestjs/platform-express';
 export class UsersController {
     constructor(
         private readonly usersService: UsersService,
-        private readonly configService: ConfigService
+        private readonly configService: ConfigService,
+        private readonly channelsService: ChannelsService,
     ) { }
 
     @Post()
@@ -87,6 +89,14 @@ export class UsersController {
     }
 
     @UseGuards(JwtAuthGuard)
+    @Post('me/change-password')
+    async changePassword(@Req() req, @Body() body: { currentPassword: string; newPassword: string }) {
+        const userId = req.user.id;
+        await this.usersService.changePassword(userId, body.currentPassword, body.newPassword);
+        return { success: true };
+    }
+
+    @UseGuards(JwtAuthGuard)
     @Post('me/avatar')
     @UseInterceptors(FileInterceptor('avatar'))
     async uploadAvatar(
@@ -112,6 +122,28 @@ export class UsersController {
     async updateMe(@Req() req, @Body() updateUserDto: UpdateUserDto) {
         const userId = req.user.id;
         return this.usersService.updateUser(userId, updateUserDto);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Patch('me/privacy')
+    async updatePrivacy(@Req() req, @Body() body: { isPrivate: boolean }) {
+        const userId = req.user.id;
+        return this.usersService.setPrivacy(userId, body.isPrivate);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Patch('me/channel-visibility')
+    async updateChannelVisibility(@Req() req, @Body() body: { isHidden: boolean }) {
+        const userId = req.user.id;
+        return this.channelsService.setVisibilityByUserId(userId, body.isHidden);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete('me')
+    async deleteMe(@Req() req, @Body() body: { password: string }) {
+        const userId = req.user.id;
+        await this.usersService.deleteMe(userId, body.password);
+        return { success: true };
     }
 
     @UseGuards(JwtAuthGuard)

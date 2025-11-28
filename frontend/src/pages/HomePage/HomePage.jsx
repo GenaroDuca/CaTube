@@ -9,6 +9,7 @@ import Header from '../../components/common/header/Header.jsx'
 import { useRef, useState, useEffect } from 'react';
 import { getAuthToken } from "../../utils/auth";
 import { VITE_API_URL } from '../../../config';
+import resolveUrl from '../../utils/url';
 import Loader from '../../components/common/Loader';
 
 function Home() {
@@ -37,7 +38,7 @@ function Home() {
       const transformedChannels = data.map(channel => ({
         name: channel.channel_name,
         subs: channel.subscriberCount,
-        photo: channel.photoUrl?.startsWith('http') ? channel.photoUrl : VITE_API_URL + channel.photoUrl,
+          photo: channel.photoUrl?.startsWith('http') ? channel.photoUrl : resolveUrl(channel.photoUrl),
         url: channel.url,
         channel_date: channel.channel_date,
         handle: '@' + channel.url,

@@ -411,6 +411,69 @@ button:hover {
 
 }
 
+.delete-account-main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    overflow: hidden;
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    padding: 20px;
+    border-bottom-left-radius: 30px;
+    border-bottom-right-radius: 30px;
+    height: 300px;
+    align-items: center;
+}
+
+.delete-account-main .input-group {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    width: 100%;
+
+}
+
+.delete-account-main .input-group input {
+    padding: 12px 20px;
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-radius: 30px;
+    color: var(--text-color);
+}
+
+
+.delete-account-main .input-group input:focus {
+    outline: none;
+}
+
+.delete-account-btn-confirm {
+    background-color: #e96765;
+    color: var(--primary-color);
+    border: none;
+    padding: 12px 20px;
+    border-radius: 30px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 200px;
+}
+
+.delete-account-btn-confirm:hover {
+    background-color: #b94c4a;
+}
+
+.create-delete-content header {
+    display: flex;
+    justify-content: space-between;
+    background-color: #e96765;
+    padding: 20px;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+    color: var(--primary-color);
+    width: 100%;
+    flex-shrink: 0;
+    gap: 20px;
+}
+
 .settings-main-content nav {
     border-bottom-left-radius: 30px;
     flex-shrink: 0;

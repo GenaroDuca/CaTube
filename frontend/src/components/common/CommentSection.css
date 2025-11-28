@@ -23,8 +23,9 @@
     align-items: center;
     width: 100%;
     padding: 8px 12px;
-    background-color: var(--background-color);
-    border-radius: var(--border-radius);
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+    border-radius: 30px;
     margin-bottom: 20px;
 
     input {
@@ -151,6 +152,20 @@
     }
 }
 
+.comment-actions div {
+    gap: 5px;
+}
+
+.delete-comment-btn:hover {
+    color: #e96765 !important;
+}
+
+.comment-actions div button{
+   display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .comments-drawer-header {
     display: flex;
     justify-content: space-between;
@@ -177,7 +192,8 @@
 }
 
 .comment {
-    background-color: var(--background-color);
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
     padding: 20px;
     border-radius: var(--border-radius);
     overflow: hidden;

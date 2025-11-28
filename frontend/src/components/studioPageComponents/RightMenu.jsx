@@ -1,6 +1,7 @@
 import { getAuthToken } from '../../utils/auth.js';
 import React, { useState, useEffect } from 'react';
 import { VITE_API_URL } from "../../../config"
+import resolveUrl from '../../utils/url';
 import { Link } from 'react-router-dom';
 
 
@@ -25,7 +26,7 @@ function RightMenu({ channelId }) {
                 return `/assets/images/profile/${letter}.png`;
             } else {
                 // Asumir que es una ruta relativa de la API
-                return VITE_API_URL + photoPath;
+                return resolveUrl(photoPath);
             }
         } else {
             // Set default avatar based on first letter of channel name

@@ -1,4 +1,5 @@
 import { VITE_API_URL } from '../../../config';
+import resolveUrl from '../../utils/url';
 import { useState, useMemo, useEffect } from 'react'
 
 //Components
@@ -42,10 +43,10 @@ export function Search() {
           const data = await response.json();
           const transformedChannels = data.map(channel => {
             let avatar = Angel; // default fallback
-            if (channel.photoUrl) {
-              if (channel.photoUrl.startsWith('/uploads/')) {
+              if (channel.photoUrl) {
+                if (channel.photoUrl.startsWith('/uploads/')) {
                 // Uploaded image
-                avatar = `${VITE_API_URL}${channel.photoUrl}`;
+                avatar = resolveUrl(channel.photoUrl);
               } else if (channel.photoUrl.startsWith('/assets/images/profile/')) {
                 // Default image
                 avatar = channel.photoUrl;
@@ -99,9 +100,9 @@ export function Search() {
         const mapped = data.map(v => {
           const thumbnail = v.thumbnail && v.thumbnail.startsWith('/') ? `${VITE_API_URL}${v.thumbnail}` : (v.thumbnail || '');
           let avatar = '/assets/images/profile/A.png'; // default
-          if (v.channel?.photoUrl) {
+              if (v.channel?.photoUrl) {
             if (v.channel.photoUrl.startsWith('/uploads/')) {
-              avatar = `${VITE_API_URL}${v.channel.photoUrl}`;
+              avatar = resolveUrl(v.channel.photoUrl);
             } else if (v.channel.photoUrl.startsWith('/assets/images/profile/')) {
               avatar = v.channel.photoUrl;
             } else if (v.channel.photoUrl.startsWith('/default-avatar/')) {
