@@ -447,7 +447,7 @@ button:hover {
 .setting-section {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 20px;
     overflow-y: auto;
     height: 100%;
 }
