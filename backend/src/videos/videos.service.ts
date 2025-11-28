@@ -273,6 +273,10 @@ export class VideosService {
   // UPDATE VIDEO
   // ======================================================
   async update(id: string, updateVideoDto: UpdateVideoDto, files?: Express.Multer.File[]) {
+    const DEFAULT_VIDEO_THUMBNAIL = 'https://catube-uploads.s3.sa-east-1.amazonaws.com/thumbnails/default-video-thumbnail.png';
+    const DEFAULT_SHORT_THUMBNAIL = 'https://catube-uploads.s3.sa-east-1.amazonaws.com/thumbnails/default-short-thumbnail.png';
+    // ---------------------------------------------------------------------------------
+
     const video = await this.videoRepository.findOne({
       where: { id },
       relations: ['channel', 'channel.user', 'tags'],
@@ -292,6 +296,7 @@ export class VideosService {
       const key = `thumbnails/${uuidv4()}_${Date.now()}.${extension}`;
 
       try {
+        // 1. Subir nueva thumbnail
         const command = new PutObjectCommand({
           Bucket: process.env.AWS_BUCKET_NAME!,
           Key: key,
@@ -303,13 +308,28 @@ export class VideosService {
         const url = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
         updates.thumbnail = url;
 
-        // borrar thumbnail anterior
+        // 2. Eliminar thumbnail anterior SOLO SI NO ES DEFAULT
         if (video.thumbnail) {
-          const oldKey = video.thumbnail.split('/').pop();
-          await this.s3Client.send(new DeleteObjectCommand({
-            Bucket: process.env.AWS_BUCKET_NAME!,
-            Key: `thumbnails/${oldKey}`
-          }));
+          const isDefaultThumbnail =
+            video.thumbnail === DEFAULT_VIDEO_THUMBNAIL ||
+            video.thumbnail === DEFAULT_SHORT_THUMBNAIL;
+
+          if (isDefaultThumbnail) {
+            console.log(`⚠️ Thumbnail anterior es por defecto, se omite el borrado de S3.`);
+          } else {
+            try {
+              // Borrar thumbnail anterior
+              const oldKey = video.thumbnail.split('/').pop();
+              await this.s3Client.send(new DeleteObjectCommand({
+                Bucket: process.env.AWS_BUCKET_NAME!,
+                Key: `thumbnails/${oldKey}`
+              }));
+              console.log(`🗑️ Thumbnail personalizado anterior eliminado de S3.`);
+            } catch (deleteError) {
+              console.error('Error deleting old custom thumbnail from S3:', deleteError);
+              // No lanzamos excepción aquí, solo registramos, ya que la nueva thumbnail ya se subió.
+            }
+          }
         }
 
       } catch (err) {
