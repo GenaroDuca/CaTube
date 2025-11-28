@@ -5,7 +5,8 @@ import { Like } from './entities/like.entity';
 import { Video } from '../videos/entities/video.entity';
 import { Comment } from 'src/comments/entities/comment.entity';
 import { User } from '../users/entities/user.entity';
-
+import { NotificationsService } from '../notifications/notifications.service';
+import { NotificationType } from '../notifications/entities/notification.entity';
 
 @Injectable()
 export class LikesService {
@@ -13,33 +14,28 @@ export class LikesService {
     @InjectRepository(Like)
     private readonly likesRepository: Repository<Like>,
 
-
     @InjectRepository(Video)
     private readonly videosRepository: Repository<Video>,
 
-
     @InjectRepository(Comment)
     private readonly commentsRepository: Repository<Comment>,
-  ) { }
 
+    private readonly notificationsService: NotificationsService,
+  ) { }
 
   // Create or update a like/dislike on a video or a comment.
   async react(
     user: User,
     like: boolean,
     videoId?: string | null,
-    commentId?: string | null
+    commentId?: string | null,
   ) {
-    // At least one target must be provided.
     if (!videoId && !commentId) {
-      throw new BadRequestException(
-        'Either videoId or commentId must be provided'
-      );
+      throw new BadRequestException('Either videoId or commentId must be provided');
     }
 
-
     let likedDisliked: Like | null = null;
-
+    let targetOwnerId: string | null = null;
 
     // -------------------------
     // LIKE / DISLIKE ON VIDEO
@@ -47,13 +43,13 @@ export class LikesService {
     if (videoId && !commentId) {
       const video = await this.videosRepository.findOne({
         where: { id: videoId },
+        relations: ['channel', 'channel.user'],
       });
-
 
       if (!video) throw new NotFoundException('Video not found');
 
+      targetOwnerId = video.channel?.user?.user_id || null;
 
-      // Check if the user already reacted to this video
       likedDisliked = await this.likesRepository.findOne({
         where: {
           user: { user_id: user.user_id },
@@ -61,31 +57,45 @@ export class LikesService {
         },
       });
 
+      const isLikeAction = like === true;
 
-      // Update existing reaction
       if (likedDisliked) {
         likedDisliked.like = like;
         return this.likesRepository.save(likedDisliked);
       }
 
+      const newLike = this.likesRepository.create({ user, video, comment: null, like });
 
-      // Create new reaction
-      const newLike = this.likesRepository.create({ user, video, comment: null, like, });
+      if (isLikeAction && targetOwnerId && targetOwnerId !== user.user_id) {
+        try {
+          await this.notificationsService.createNotification(
+            targetOwnerId,
+            user.user_id,
+            NotificationType.LIKE_VIDEO,
+            `liked your video: ${video.title.substring(0, 30)}...`,
+            `/watch/${videoId}`
+          );
+        } catch (e) {
+          console.error('Failed to create LIKE_VIDEO notification:', e);
+        }
+      }
+
       return this.likesRepository.save(newLike);
     }
 
-
+    // -------------------------
     // LIKE / DISLIKE ON COMMENT
+    // -------------------------
     if (commentId) {
       const comment = await this.commentsRepository.findOne({
         where: { id: commentId },
+        relations: ['user'],
       });
-
 
       if (!comment) throw new NotFoundException('Comment not found');
 
+      targetOwnerId = comment.user?.user_id || null;
 
-      // Check if user already reacted to this comment
       likedDisliked = await this.likesRepository.findOne({
         where: {
           user: { user_id: user.user_id },
@@ -93,31 +103,41 @@ export class LikesService {
         },
       });
 
+      const isLikeAction = like === true;
 
-      // Update existing reaction
       if (likedDisliked) {
         likedDisliked.like = like;
         return this.likesRepository.save(likedDisliked);
       }
 
-
-      // Create new reaction
       const newLike = this.likesRepository.create({ user, video: null, comment, like });
+
+      if (isLikeAction && targetOwnerId && targetOwnerId !== user.user_id) {
+        try {
+          await this.notificationsService.createNotification(
+            targetOwnerId,
+            user.user_id,
+            NotificationType.LIKE_COMMENT,
+            `liked your comment: ${comment.content.substring(0, 50)}...`,
+            `/watch/${videoId}`,
+          );
+        } catch (e) {
+          console.error('Failed to create LIKE_COMMENT notification:', e);
+        }
+      }
+
       return this.likesRepository.save(newLike);
     }
   }
 
-
-  //Remove an existing like/dislike  
+  // Remove an existing like/dislike
   async removeReact(
     user: User,
     videoId?: string | null,
-    commentId?: string | null
+    commentId?: string | null,
   ) {
     let likedDisliked: Like | null = null;
 
-
-    // Remove reaction on a video
     if (videoId && !commentId) {
       likedDisliked = await this.likesRepository.findOne({
         where: {
@@ -127,8 +147,6 @@ export class LikesService {
       });
     }
 
-
-    // Remove reaction on a comment
     if (commentId) {
       likedDisliked = await this.likesRepository.findOne({
         where: {
@@ -137,50 +155,40 @@ export class LikesService {
         },
       });
     }
-
 
     if (!likedDisliked) {
       throw new NotFoundException('Reaction not found');
     }
 
-
     return this.likesRepository.remove(likedDisliked);
   }
 
-
-  //Count likes and dislikes for a video or comment.
+  // Count likes and dislikes for a video or comment.
   async countLikesDislikes(
     videoId?: string | null,
-    commentId?: string | null
+    commentId?: string | null,
   ) {
     let likes = 0;
     let dislikes = 0;
 
-
-    //Count reactions on a video
     if (videoId && !commentId) {
       likes = await this.likesRepository.count({
         where: { video: { id: videoId }, like: true },
       });
-
-
       dislikes = await this.likesRepository.count({
         where: { video: { id: videoId }, like: false },
       });
     }
 
-
-    //Count reactions on a comment
     if (commentId) {
       likes = await this.likesRepository.count({
         where: { comment: { id: commentId }, like: true },
       });
-
-
       dislikes = await this.likesRepository.count({
         where: { comment: { id: commentId }, like: false },
       });
     }
+
     return { likes, dislikes };
   }
 
@@ -188,11 +196,10 @@ export class LikesService {
   async getUserReaction(
     userId: string,
     videoId?: string | null,
-    commentId?: string | null
+    commentId?: string | null,
   ) {
     let likedDisliked: Like | null = null;
 
-    // Check reaction on a video
     if (videoId && !commentId) {
       likedDisliked = await this.likesRepository.findOne({
         where: {
@@ -202,7 +209,6 @@ export class LikesService {
       });
     }
 
-    // Check reaction on a comment
     if (commentId) {
       likedDisliked = await this.likesRepository.findOne({
         where: {
@@ -213,7 +219,6 @@ export class LikesService {
     }
 
     if (!likedDisliked) return { reaction: null };
-
     return { reaction: likedDisliked.like ? 'like' : 'dislike' };
   }
 
@@ -223,30 +228,30 @@ export class LikesService {
       where: {
         video: {
           channel: {
-            user: { user_id: userId }
-          }
+            user: { user_id: userId },
+          },
         },
-        like: true
+        like: true,
       },
       relations: ['user', 'user.channel', 'video'],
       order: { createdAt: 'DESC' },
       take: limit,
     });
 
-    return likes.map(like => ({
+    return likes.map((like) => ({
       id: like.id,
       user: {
         id: like.user.user_id,
         username: like.user.username,
-        photoUrl: like.user.channel?.photoUrl
+        photoUrl: like.user.channel?.photoUrl,
       },
       video: {
         id: like.video?.id,
         title: like.video?.title,
         thumbnail: like.video?.thumbnail,
-        type: like.video?.type
+        type: like.video?.type,
       },
-      createdAt: like.createdAt
+      createdAt: like.createdAt,
     }));
   }
 }

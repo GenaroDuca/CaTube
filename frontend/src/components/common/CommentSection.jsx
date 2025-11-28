@@ -103,7 +103,7 @@ export function CommentSection({ videoId, onCountChange }) {
         }
 
         // Desactivar para prevenir spam
-        setIsSendingComment(true); // 👈 INICIO DE CARGA
+        setIsSendingComment(true);
 
         try {
             const res = await fetch(`${VITE_API_URL}/comment/${videoId}/comments`, {
@@ -116,6 +116,7 @@ export function CommentSection({ videoId, onCountChange }) {
 
             if (res.status === 201) {
                 setNewComment("");
+                showSuccess("Comment sent!");
                 setComments((prev) => {
                     const updated = [result, ...prev];
                     onCountChange?.(getTotalCommentsCount(updated));
@@ -272,7 +273,7 @@ export function CommentSection({ videoId, onCountChange }) {
         const token = getAuthToken();
 
         // Desactivar para prevenir spam en replies
-        setIsSendingReply(true); 
+        setIsSendingReply(true);
 
         console.log(replyContent, parentCommentId);
 
@@ -304,7 +305,7 @@ export function CommentSection({ videoId, onCountChange }) {
                 return updated;
             });
 
-            showSuccess("Reply added!");
+            showSuccess("Reply sent!");
             cancelReplying();
         } catch {
             showError("Error sending reply.");

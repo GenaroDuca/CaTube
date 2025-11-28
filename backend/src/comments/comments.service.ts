@@ -11,7 +11,8 @@ import { UpdateCommentDto } from './dto/update-comment.dto';
 import { User } from '../users/entities/user.entity';
 import { Video } from 'src/videos/entities/video.entity';
 import { IsNull } from 'typeorm';
-
+import { NotificationsService } from '../notifications/notifications.service';
+import { NotificationType } from '../notifications/entities/notification.entity';
 
 @Injectable()
 export class CommentsService {
@@ -25,10 +26,10 @@ export class CommentsService {
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
 
+    private readonly notificationsService: NotificationsService,
 
   ) { }
 
-  //Create a comment
   async create(createCommentDto: CreateCommentDto, userId: string, videoId: string) {
     const user = await this.userRepository.findOne({
       where: { user_id: userId },
@@ -37,23 +38,33 @@ export class CommentsService {
 
     if (!user) throw new NotFoundException('User not found');
 
+    // 💡 PASO 1: Cargar el video con la relación Channel y User para obtener el dueño.
     const video = await this.videoRepository.findOne({
       where: { id: videoId },
+      relations: ['channel', 'channel.user'], // ¡CRUCIAL! Para obtener el dueño del video
     });
 
     if (!video) throw new NotFoundException('Video not found');
 
+    let parentCommentAuthorId: string | null = null;
+    let parentComment: any = null; // Para guardar el objeto del padre si es una respuesta
+
     // Check if this is a reply (has parentCommentId)
     if (createCommentDto.parentCommentId) {
-      const parentExists = await this.commentRepository.findOne({
+      // 💡 PASO 2: Cargar el comentario padre con su relación User para obtener el autor.
+      parentComment = await this.commentRepository.findOne({
         where: { id: createCommentDto.parentCommentId },
+        relations: ['user'], // ¡CRUCIAL! Para obtener el autor del comentario padre
       });
 
-      if (!parentExists) {
+      if (!parentComment) {
         console.log('❌ Parent comment not found!');
         throw new NotFoundException('Parent comment not found');
       }
-      console.log('✅ Parent comment found:', parentExists.id);
+      console.log('✅ Parent comment found:', parentComment.id);
+
+      // Guardar el ID del autor del comentario padre
+      parentCommentAuthorId = parentComment.user.user_id;
     }
 
     // Create comment with proper structure
@@ -65,19 +76,55 @@ export class CommentsService {
 
     // Only add parentComment if it exists
     if (createCommentDto.parentCommentId) {
-      commentData.parentComment = { id: createCommentDto.parentCommentId };
+      // Se utiliza el objeto completo si fue cargado, o solo el ID si no se cargó arriba
+      commentData.parentComment = parentComment || { id: createCommentDto.parentCommentId };
     }
-
 
     // Use insert with proper typing
     const insertResult = await this.commentRepository.insert(commentData);
     const newCommentId = insertResult.identifiers[0].id;
 
+    // --- ENVIAR NOTIFICACIONES ---
+
+    // 1. Notificación al dueño del video (si el autor del comentario no es el dueño)
+    const videoOwnerId = video.channel?.user?.user_id;
+
+    if (videoOwnerId && videoOwnerId !== userId) {
+      try {
+        await this.notificationsService.createNotification(
+          videoOwnerId, // Receptor: Dueño del video
+          userId, // Emisor: Autor del comentario
+          NotificationType.NEW_COMMENT, 
+          `commented your video: ${video.title.substring(0, 25)}...`,
+          `/watch/${videoId}`
+        );
+      } catch (e) {
+        console.error('Failed to create NEW_COMMENT notification:', e);
+      }
+    }
+
+    // 2. Notificación al dueño del comentario padre (si es una respuesta y no es el mismo usuario)
+    if (parentCommentAuthorId && parentCommentAuthorId !== userId) {
+      try {
+        await this.notificationsService.createNotification(
+          parentCommentAuthorId,
+          userId, 
+          NotificationType.REPLY_COMMENT,
+          `replied to your comment: ${parentComment.content.substring(0, 25)}...`,
+          `/watch/${videoId}`
+        );
+      } catch (e) {
+        console.error('Failed to create REPLY_COMMENT notification:', e);
+      }
+    }
+
+    // --- FIN DE NOTIFICACIONES ---
+
+    // Obtener el comentario completo para el DTO de respuesta
     const fullComment = await this.commentRepository.findOne({
       where: { id: newCommentId },
       relations: ['user', 'user.channel', 'replies', 'likes', 'parentComment'],
     });
-
 
     if (!fullComment) {
       throw new NotFoundException('Failed to retrieve created comment');

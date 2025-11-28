@@ -15,6 +15,9 @@ import { S3Client, PutObjectCommand, DeleteObjectCommand } from '@aws-sdk/client
 import { v4 as uuidv4 } from 'uuid';
 import * as sharp from 'sharp';
 
+import { NotificationsService } from '../notifications/notifications.service';
+import { NotificationType } from '../notifications/entities/notification.entity';
+
 @Injectable()
 export class UsersService {
     private s3: S3Client;
@@ -29,7 +32,7 @@ export class UsersService {
         private readonly configService: ConfigService,
         private readonly dataSource: DataSource,
 
-
+        private readonly notificationsService: NotificationsService,
 
     ) {
         this.s3 = new S3Client({
@@ -112,9 +115,22 @@ export class UsersService {
             };
             await this.channelsService.create(defaultChannelDto, savedUser);
 
+            // NOTIFICACIÓN AL RECEPTOR (El usuario que recibió la solicitud)
+            try {
+                // Usaremos el tipo FRIEND_REQUEST y enlazaremos al perfil del emisor
+                await this.notificationsService.createNotification(
+                    savedUser.user_id,
+                    null,
+                    NotificationType.WELCOME,
+                    'Welcome to CaTube!',
+                    `/profile/${savedUser.user_id}`,
+                );
+            } catch (e) {
+                console.error('Failed to create FRIEND_REQUEST notification:', e);
+            }
+
             return savedUser;
         } catch (error) {
-            // ... (Tu manejo de errores existente)
             const uniqueViolationCode = '23505';
             if (error instanceof QueryFailedError && (error as any).code === uniqueViolationCode) {
                 const detail = (error as any).detail || error.message;

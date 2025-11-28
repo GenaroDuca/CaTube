@@ -6,14 +6,15 @@ import { User } from '../../users/entities/user.entity';
 export enum NotificationType {
     FRIEND_REQUEST = 'friend_request',
     FRIEND_ACCEPTED = 'friend_accepted',
-    NEW_FOLLOWER = 'new_follower', 
+    MESSAGE = 'message',
     NEW_SUBSCRIPTION = 'new_subscription',
     NEW_COMMENT = 'new_comment',
     LIKE_VIDEO = 'like_video',
+    REPLY_COMMENT = 'reply_comment',
+    NEW_VIDEO = 'new_video',
     LIKE_COMMENT = 'like_comment',
-    DISLIKE_VIDEO = 'dislike_video',
-    DISLIKE_COMMENT = 'dislike_comment',
     WELCOME = 'welcome', 
+    NEW_POST = 'new_post',
 }
 
 @Entity('notifications')

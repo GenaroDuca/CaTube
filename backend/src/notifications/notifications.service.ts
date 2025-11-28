@@ -22,7 +22,6 @@ export class NotificationsService {
   ): Promise<Notification | null> {
     try {
       const newNotificationData = {
-        // 🚨 FIX CLAVE: Usamos las propiedades de ID explícitas
         receiverId: receiverId, 
         senderId: senderId,
         
