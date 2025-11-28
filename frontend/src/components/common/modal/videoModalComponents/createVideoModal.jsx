@@ -612,13 +612,6 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                             )}
                             <div className="create-video-buttons-container">
                                 <button
-                                    type="button"
-                                    className="discard-changes-create-video"
-                                    onClick={onClose}
-                                >
-                                    Discard
-                                </button>
-                                <button
                                     type="submit"
                                     className="upload-btn"
                                     disabled={loading}
