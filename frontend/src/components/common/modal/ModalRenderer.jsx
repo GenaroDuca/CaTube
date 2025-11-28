@@ -1,6 +1,6 @@
 import React from 'react';
 import './modals.css';
-import { useModal } from './ModalContext'; // Importa el hook desde el archivo de contexto
+import { useModal } from './ModalContext';
 import SettingsModal from '../modal/headerModalsComponents/SettingsModal';
 import HelpModal from '../modal/headerModalsComponents/HelpModal';
 import FeedbackModal from '../modal/headerModalsComponents/FeedbackModal'
@@ -11,7 +11,7 @@ import CreateVideoModal from '../modal/videoModalComponents/createVideoModal';
 import EditVideoModal from '../modal/videoModalComponents/editVideoModal';
 import ConfirmModal from '../modal/ConfirmModal';
 import ResetPasswordModal from '../modal/ResetPasswordModal';
-
+import ModalDeleteAccount from '../modal/headerModalsComponents/ModalDeleteAccount';
 
 const ModalRenderer = () => {
     const { modalState, closeModal } = useModal();
@@ -44,6 +44,8 @@ const ModalRenderer = () => {
             return renderModal(ConfirmModal);
         case 'reset-password':
             return renderModal(ResetPasswordModal);
+        case 'delete-account':
+            return renderModal(ModalDeleteAccount);
         default:
             return null;
     }

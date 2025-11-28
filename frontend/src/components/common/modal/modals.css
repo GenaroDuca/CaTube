@@ -427,12 +427,14 @@ button:hover {
 
 .settings-option-btn {
     width: 100%;
-    background: var(--primary-color);
-    border: none;
-    border-radius: 20px;
+    background: var(--container-color);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
+    border-radius: 30px;
     padding: 12px 20px;
     cursor: pointer;
-    text-align: start;
+    text-align: center;
     color: var(--text-color);
 
     transition: background-color 0.2s;
@@ -517,8 +519,8 @@ button:hover {
 .toggle-switch {
     position: relative;
     display: inline-block;
-    width: 60px;
-    height: 34px;
+    width: 50px;
+    height: 30px;
 }
 
 .toggle-switch input {
@@ -534,29 +536,31 @@ button:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #696969;
     transition: .4s;
-    border-radius: 34px;
+    border-radius: 30px;
+    background-color: var(--container-color);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .slider:before {
     position: absolute;
     content: "";
-    height: 26px;
-    width: 26px;
+    height: 20px;
+    width: 20px;
     left: 4px;
     bottom: 4px;
-    background-color: white;
+    background-color: var(--btn);
     transition: .4s;
     border-radius: 50%;
 }
 
 input:checked+.slider {
-    background-color: var(--btn);
+    background-color: var(--btn-dark);
 }
 
 input:checked+.slider:before {
-    transform: translateX(26px);
+    transform: translateX(20px);
 }
 
 /* Payment History Table */
@@ -677,18 +681,22 @@ input:checked+.slider:before {
 /* Esta clase asegura que la imagen horizontal llena el ancho y se ajusta la altura */
 .create-thumbnail .horizontal-thumbnail {
     width: 100%;
-    height: auto; 
+    height: auto;
     /* object-fit: cover ya asegura que no queden espacios, pero es bueno ser explícito */
 }
 
 /* --- Estilo para miniaturas VERTICALES (por ejemplo, 9:16) --- */
 /* Queremos que la imagen vertical llene la altura del contenedor */
 .create-thumbnail .vertical-thumbnail {
-    height: 100%; /* Llenar la altura del contenedor */
-    width: auto; /* Dejar que el ancho se ajuste proporcionalmente */
+    height: 100%;
+    /* Llenar la altura del contenedor */
+    width: auto;
+    /* Dejar que el ancho se ajuste proporcionalmente */
     /* Usar object-fit: contain o object-fit: cover dependerá de si quieres recortar o mostrar todo */
-    object-fit: contain; /* Mostrar la imagen completa, manteniendo el aspecto */
-    background-color: black; /* El color de fondo para la imagen (si se usa 'contain') */
+    object-fit: contain;
+    /* Mostrar la imagen completa, manteniendo el aspecto */
+    background-color: black;
+    /* El color de fondo para la imagen (si se usa 'contain') */
 }
 
 .create-thumbnail input[type="file"] {
