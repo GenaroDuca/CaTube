@@ -286,7 +286,6 @@ export function Search() {
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
       >
         Order by: {orderBy.charAt(0).toUpperCase() + orderBy.slice(1).replace('_', ' ')}
-        <i className={`fas fa-chevron-down ${isDropdownOpen ? 'rotated' : ''}`}></i>
       </button>
 
       {/* Lista del Dropdown con animación via CSS */}

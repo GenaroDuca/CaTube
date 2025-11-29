@@ -104,7 +104,7 @@
 /* Estilo del botón que abre el dropdown */
 .dropdown-toggle-button {
     padding: 8px 16px;
-    width: 150px;
+    width: 160px;
     border-radius: 20px;
     background: var(--container-color);
     border: 1px solid var(--border-container-color);
@@ -140,17 +140,58 @@
     position: absolute;
     top: calc(100% + 5px);
     right: 0;
-    min-width: 150px;
-
-    /* --- ANIMACIÓN DE DESPLIEGUE (La clave es max-height) --- */
+    min-width: 160px;
+    height: 0px;
     opacity: 0;
     max-height: 0;
-    /* Colapsado */
     overflow: hidden;
     transform: translateY(10px);
+    transition:
+        opacity 0.3s ease-out,
+        transform 0.3s ease-out,
+        max-height 0.4s ease-in-out;
+    /* Animación de despliegue */
+}
 
-    /* Quitamos el background y border del estado normal para que solo se apliquen en 'open' */
+.dropdown-menu-search.open {
+    height: 200px;
+        min-width: 160px;
+}
 
+/* Items del menú */
+.dropdown-menu-search li {
+    padding: 8px 8px;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: background-color 0.15s;
+    border-radius: var(--border-radius);
+    text-align: center;
+    margin: 5px;
+}
+/* Estilo del ícono (Flecha) */
+.dropdown-toggle-button i {
+    transition: transform 0.2s ease;
+}
+
+
+.dropdown-toggle-button i.rotated {
+    transform: rotate(180deg);
+}
+
+/* Estilo del menú desplegable */
+.dropdown-menu-search {
+    list-style: none;
+    /* Quitamos el padding global del UL para darlo a los LI */
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    min-width: 150px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transform: translateY(10px);
     transition:
         opacity 0.3s ease-out,
         transform 0.3s ease-out,
@@ -162,9 +203,7 @@
     opacity: 1;
     transform: translateY(0px);
     max-height: 300px;
-    /* Desplegado */
-
-    /* Estilos de apariencia aplicados SOLO cuando está abierto */
+    z-index: 1;
     background-color: var(--container-color-blur);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border-container-color);
@@ -220,7 +259,7 @@
     .search-categories {
         flex-direction: column;
         align-items: center;
-        gap: 10px;  
+        gap: 1x;
     }
 
     .search-categories {
