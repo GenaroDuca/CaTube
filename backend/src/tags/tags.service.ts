@@ -20,7 +20,14 @@ export class TagService {
     return this.tagRepo.save(tag);
   }
 
-  async getAllTags() {
+  async getAllTags(q?: string) {
+    if (q && q.trim() !== '') {
+      const search = `%${q.toLowerCase()}%`;
+      return this.tagRepo
+        .createQueryBuilder('tag')
+        .where('LOWER(tag.name) LIKE :search', { search })
+        .getMany();
+    }
     return this.tagRepo.find();
   }
 

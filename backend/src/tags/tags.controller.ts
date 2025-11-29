@@ -5,6 +5,7 @@ import {
   Get,
   UseGuards,
   Param,
+  Query,
 } from '@nestjs/common';
 import { TagService } from './tags.service';
 import { CreateTagDto } from './dto/create-tag.dto';
@@ -24,8 +25,8 @@ export class TagController {
   }
 
   @Get()
-  getAllTags() {
-    return this.tagService.getAllTags();
+  getAllTags(@Query('q') q?: string) {
+    return this.tagService.getAllTags(q);
   }
 
 

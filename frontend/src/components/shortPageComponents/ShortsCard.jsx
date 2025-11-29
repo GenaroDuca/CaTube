@@ -40,7 +40,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
     return normalizedCurrentId === normalizedOwnerId;
   }, [short.ownerId]);
 
-  
+
   useEffect(() => {
     const v = videoRef.current;
     if (!v) return;
@@ -286,7 +286,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
                   <h3 className="short-title">{short.title}</h3>
                   <p className="short-desc">{short.description}</p>
                   <div className="short-tags">
-                    {short.tags.map(tag => (
+                    {(short.tags || []).map(tag => (
                       <Link
                         key={tag.name}
                         to={`/discover?tag=${encodeURIComponent(tag.name)}`}
@@ -299,11 +299,11 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
                 </div>
                 <div className="short-user-header">
                   <Link to={`/yourchannel/${short.channelUrl}`} className="overlay-avatar">
-                    <img src={short.channelAvatar} alt={short.channelName} />
+                    <img src={short.channelAvatar || short.avatar} alt={short.channelName || short.userName} />
                   </Link>
                   <div className="overlay-text-info">
                     <Link to={`/yourchannel/${short.channelUrl}`}>
-                      <h4 className="overlay-username">{short.channelName}</h4>
+                      <h4 className="overlay-username">{short.channelName || short.userName}</h4>
                     </Link>
 
                     {!isOwner && (
@@ -371,33 +371,30 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
               </div>
 
               <div className="action-buttons">
-                {!isOwner && (
-                  <>
-                    <button
-                      type="button"
-                      className={`action-button ${userReaction === "like" ? "reacted-like" : ""}`}
-                      onClick={() => {
-                        if (userReaction === "like") removeReaction();
-                        else react(true);
-                      }}
-                    >
-                      <FaHeart size={25} />
-                    </button>
-                    <span>{likes}</span>
 
-                    <button
-                      type="button"
-                      className={`action-button ${userReaction === "dislike" ? "reacted-dislike" : ""} dislike-btn`}
-                      onClick={() => {
-                        if (userReaction === "dislike") removeReaction();
-                        else react(false);
-                      }}
-                    >
-                      <IoHeartDislike size={25} />
-                    </button>
-                    <span>{dislikes}</span>
-                  </>
-                )}
+                <button
+                  type="button"
+                  className={`action-button ${userReaction === "like" ? "reacted-like" : ""}`}
+                  onClick={() => {
+                    if (userReaction === "like") removeReaction();
+                    else react(true);
+                  }}
+                >
+                  <FaHeart size={25} />
+                </button>
+                <span>{likes}</span>
+
+                <button
+                  type="button"
+                  className={`action-button ${userReaction === "dislike" ? "reacted-dislike" : ""} dislike-btn`}
+                  onClick={() => {
+                    if (userReaction === "dislike") removeReaction();
+                    else react(false);
+                  }}
+                >
+                  <IoHeartDislike size={25} />
+                </button>
+                <span>{dislikes}</span>
 
 
                 <button type="button" className="action-button comment-short-btn" onClick={() => setShowComments(!showComments)}>

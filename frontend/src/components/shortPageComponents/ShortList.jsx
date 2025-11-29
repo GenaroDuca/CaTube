@@ -1,4 +1,4 @@
-import { ShortCard } from './shortCard.jsx'
+import ShortCard from './ShortsCard.jsx'
 import './ShortList.css'
 
 export function ShortList({shorts}) {
@@ -6,11 +6,8 @@ export function ShortList({shorts}) {
         <div className='sr-shortSection'>
             {shorts.map((short) => (
                 <ShortCard 
-                key={short.id}
-                thumbnail={short.thumbnail}
-                title={short.title}
-                avatar={short.avatar}
-                userName={short.userName}
+                    key={short.id}
+                    short={short}
                 />
             ))}
         </div>

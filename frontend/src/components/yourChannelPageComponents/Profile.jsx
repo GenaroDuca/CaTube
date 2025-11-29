@@ -4,6 +4,7 @@ import NewButton from "../homePageComponents/Button";
 import { useState, useEffect } from "react";
 import { useToast } from '../../hooks/useToast';
 import { VITE_API_URL } from '../../../config';
+import resolveUrl from '../../utils/url';
 import Loader from '../../components/common/Loader'; // Mantenemos Loader para el botón
 
 // La función apiFetch se mantiene, ya que es necesaria para la suscripción/desuscripción
@@ -82,7 +83,7 @@ function Profile({ channelId: propChannelId, channelData: initialChannelData, is
                 if (photoPath.startsWith('http://') || photoPath.startsWith('https://')) {
                     photoSrc = photoPath;
                 } else if (photoPath.startsWith('/uploads/')) {
-                    photoSrc = VITE_API_URL + photoPath;
+                    photoSrc = resolveUrl(photoPath);
                 } else if (photoPath.startsWith('/assets/images/profile/')) {
                     photoSrc = photoPath;
                 } else if (photoPath.startsWith('/default-avatar/')) {
@@ -90,7 +91,7 @@ function Profile({ channelId: propChannelId, channelData: initialChannelData, is
                     const letter = letterMatch ? letterMatch[1] : 'A';
                     photoSrc = `/assets/images/profile/${letter}.png`;
                 } else {
-                    photoSrc = VITE_API_URL + '/' + photoPath;
+                    photoSrc = resolveUrl(photoPath);
                 }
             }
             setUserPhoto(photoSrc);

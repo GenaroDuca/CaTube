@@ -51,19 +51,21 @@ const FeedbackModal = ({ onClose }) => {
         </header>
 
         <form method="POST" encType="text/plain" onSubmit={handleSendFeedback}>
-          <label htmlFor="feedback-text">Your feedback</label>
-          <textarea
-            id="feedback-text"
-            name="feedback"
-            rows="4"
-            required
-            placeholder="Write your feedback here..."
-            onChange={(e) => setFeedback(e.target.value)}
-          ></textarea>
+          <h2>Your Feedback</h2>
+          <div>
+            <textarea
+              id="feedback-text"
+              name="feedback"
+              rows="4"
+              required
+              placeholder="Write your feedback here..."
+              onChange={(e) => setFeedback(e.target.value)}
+            ></textarea>
 
-          <button type="submit" className="submit-feedback-btn" disabled={loading}>
-            {loading ? 'Sending...' : 'Send Feedback'}
-          </button>
+            <button type="submit" className="submit-feedback-btn" disabled={loading}>
+              {loading ? 'Sending...' : 'Send Feedback'}
+            </button>
+          </div>
         </form>
       </div>
     </div>

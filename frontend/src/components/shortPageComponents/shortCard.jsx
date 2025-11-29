@@ -32,7 +32,6 @@ export function ShortCard({ short, onToggleMaximize, isActive, onVideoActive }) 
     return (
         <article className="sr-shortCard" >
             <header className="sr-shortCard-header" >
-                {/* 💡 Video Player irá aquí, pero usamos el thumbnail por ahora */}
                 <img className="sr-shortCard-thumbnail" src={thumbnail} alt="short thumbnail" />
             </header>
             
@@ -51,10 +50,7 @@ export function ShortCard({ short, onToggleMaximize, isActive, onVideoActive }) 
                     </span>
                 </div>
                 
-                {/* 💡 LÓGICA DE OCULTAR BOTÓN DE SUSCRIPCIÓN */}
                 {!isOwner && (
-                    // 🚨 Reemplaza el comentario con tu componente de botón de suscripción real
-                    // <SubscribeButton channelId={channelId} /> 
                     <button className="sr-subscribe-btn">SUBSCRIBE</button>
                 )}
             </div>

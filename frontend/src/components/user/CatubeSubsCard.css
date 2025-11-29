@@ -1,5 +1,9 @@
 /* === Card general === */
 .ct-subsCard {
+    /* **Ajuste para uniformidad:** Ancho fijo para que todas las cards midan lo mismo. */
+    width: 380px;
+    /* Ejemplo de ancho fijo */
+    max-width: 100%;
     align-items: center;
     background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
     border: 1px solid var(--border-container-color);
@@ -7,10 +11,17 @@
     border-radius: var(--border-radius);
     color: var(--text);
     display: flex;
-    font-size: 0.8rem;
-    gap: 30px;
+
+    /* Mantenemos el gap fijo, pero definiremos los anchos */
+    gap: 20px;
+
+    /* Utilizamos space-between para distribuir el espacio restante */
     justify-content: space-between;
     padding: 1rem;
+    height: 72px;
+    /* Altura fija para uniformidad visual si es necesario */
+    box-sizing: border-box;
+    /* Asegura que el padding no afecte el width total */
 }
 
 /* === Avatar e info === */
@@ -19,28 +30,50 @@
     cursor: pointer;
     display: flex;
     gap: 15px;
+
+    /* Permite que el contenedor de avatar/info crezca para ocupar el espacio central */
+    flex-grow: 1;
+    /* Aseguramos que el texto no fuerce el ancho si es muy largo */
+    min-width: 0;
 }
 
 .ct-subsCard-avatar {
     border-radius: 1000px;
     height: 48px;
     width: 48px;
+    /* Aseguramos que el tamaño no cambie */
+    flex-shrink: 0;
 }
 
 .ct-subsCard-info {
     display: flex;
     flex-direction: column;
+
+    /* Ocultar el desbordamiento si el nombre es demasiado largo */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .ct-subsCard-userName {
     font-weight: bold;
+    /* Evita que el texto largo empuje la card */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .ct-subsCard-infoUserName {
     opacity: 0.6;
+    /* Evita que el texto largo empuje la card */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* === Botón === */
+
+/* **Ajuste para uniformidad:** Definir un ancho fijo para todos los botones */
 .ct-subsCard-button {
     background-color: var(--btn);
     border: none;
@@ -49,6 +82,13 @@
     cursor: pointer;
     padding: 6px 16px;
     transition: 0.3s ease background-color;
+
+    /* Ancho fijo para el botón de 'Subscribe' y 'Following' */
+    width: 120px;
+    text-align: center;
+    /* Aseguramos que el botón no encoja ni crezca */
+    flex-shrink: 0;
+    flex-grow: 0;
 }
 
 .ct-subsCard-button:hover {
@@ -58,9 +98,11 @@
 /* === Estado: siguiendo === */
 .ct-subsCard-button.is-following {
     background: transparent;
-    border: 1px solid;
+    border: 1px solid var(--text);
+    /* Usar variable para el borde en estado normal */
     color: var(--text);
-    width: 140px;
+    /* Mantener el mismo ancho fijo */
+    width: 120px;
 }
 
 .ct-subsCard-button.is-following:hover {

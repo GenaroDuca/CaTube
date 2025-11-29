@@ -18,6 +18,7 @@ import { getAuthToken } from '../../utils/auth.js';
 import Footer from '../../components/common/Footer.jsx';
 
 import { VITE_API_URL } from '../../../config';
+import resolveUrl from '../../utils/url';
 
 export function VideoPage() {
     const [searchQuery, setSearchQuery] = useState('');
@@ -104,8 +105,8 @@ export function VideoPage() {
                 if (!res.ok) throw new Error('Video not found');
                 const data = await res.json();
 
-                const fileUrl = data.url && data.url.startsWith('/') ? `${VITE_API_URL}${data.url}` : data.url;
-                const thumbnailUrl = data.thumbnail && data.thumbnail.startsWith('/') ? `${VITE_API_URL}${data.thumbnail}` : data.thumbnail;
+                const fileUrl = data.url && data.url.startsWith('/') ? resolveUrl(data.url) : data.url;
+                const thumbnailUrl = data.thumbnail && data.thumbnail.startsWith('/') ? resolveUrl(data.thumbnail) : data.thumbnail;
 
                 let channelPhotoUrl = null;
                 const rawPhoto = data.channel?.photoUrl;

@@ -33,7 +33,7 @@ const SettingsModal = ({ onClose }) => {
         <div className="settings-main-content">
           <nav>
             <ul>
-              {['Account'].map(section => (
+              {['Account', 'Privacy'].map(section => (
                 <li key={section}>
                   <button
                     className={`settings-option-btn ${activeSection === section ? 'active' : ''}`}

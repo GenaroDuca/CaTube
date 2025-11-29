@@ -8,6 +8,7 @@ import Header from "../../components/common/header/Header.jsx";
 import { useRef, useState, useEffect } from "react";
 import { getAuthToken, getMyUserId } from '../../utils/auth.js';
 import { VITE_API_URL } from '../../../config';
+import resolveUrl from '../../utils/url';
 import Loader from '../../components/common/Loader'; // Importar Loader
 import { Link } from 'react-router-dom'; // Importar Link si es necesario
 
@@ -20,13 +21,13 @@ import '../YouPage/YouPage.css';
 // Función para mapear datos de video (similar a Catscribers)
 const mapVideoData = (video, token) => {
     const thumbnail = video.thumbnail && video.thumbnail.startsWith('/')
-        ? `${VITE_API_URL}${video.thumbnail}`
+        ? resolveUrl(video.thumbnail)
         : (video.thumbnail || '');
 
     let avatar = '/assets/images/profile/A.png';
-    if (video.channel?.photoUrl) {
+        if (video.channel?.photoUrl) {
         if (video.channel.photoUrl.startsWith('/uploads/')) {
-            avatar = `${VITE_API_URL}${video.channel.photoUrl}`;
+            avatar = resolveUrl(video.channel.photoUrl);
         } else if (video.channel.photoUrl.startsWith('/assets/images/profile/')) {
             avatar = video.channel.photoUrl;
         } else if (video.channel.photoUrl.startsWith('/default-avatar/')) {
