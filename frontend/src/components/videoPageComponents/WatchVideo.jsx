@@ -1,6 +1,6 @@
 import { useMemo, useRef, useEffect, useState } from "react";
 import { CatubeSubsCard } from "../../components/user/CatubeSubsCard.jsx";
-import { useAuth } from "../../auth/AuthContext.jsx";
+import { useAuth } from "../../../public/auth/AuthContext.jsx";
 import { useVideoControl } from "../../hooks/useVideoControl.jsx";
 import { VolumeControl } from "../../components/videoPageComponents/volumeControl.jsx";
 import './WatchVideo.css';

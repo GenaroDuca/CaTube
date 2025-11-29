@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect, useRef, useMemo } from 'react'
 import { useSidebarToggle } from '../../../hooks/useSidebarToggleFriends';
 import { useToast } from '../../../hooks/useToast';
 import { useModal } from '../../common/modal/ModalContext';
-import { useAuth } from '../../../auth/AuthContext';
+import { useAuth } from '../../../../public/auth/AuthContext';
 
 // Importaciones de iconos
 import { IoArrowBackCircle } from "react-icons/io5";

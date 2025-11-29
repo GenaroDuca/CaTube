@@ -2,7 +2,7 @@ import { useOverlay } from '../../hooks/useOverlay.jsx';
 import { leftMenu } from "../../assets/data/Data.jsx";
 import { Link } from 'react-router-dom';
 import './Sidebar.css';
-import { useAuth } from '../../auth/AuthContext';
+import { useAuth } from '../../../public/auth/AuthContext.jsx';
 import { FaAngleLeft } from "react-icons/fa";
 
 function Sidebar() {
@@ -49,8 +49,8 @@ function Sidebar() {
                 key={`nav-item-${index}`}
               >
                 <NavComponent
-                  to={!isDisabled ? props.link : undefined} 
-                  className={`nav-link ${isDisabled ? 'disabled-link' : ''}`} 
+                  to={!isDisabled ? props.link : undefined}
+                  className={`nav-link ${isDisabled ? 'disabled-link' : ''}`}
                   onClick={isDisabled ? (e) => e.preventDefault() : undefined}
                   title={isDisabled ? "Inicia sesión para acceder" : props.text}
                   style={{ opacity: isDisabled ? 0.5 : 1, cursor: isDisabled ? 'not-allowed' : 'pointer' }}

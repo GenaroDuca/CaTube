@@ -5,7 +5,7 @@ import { FaKey } from "react-icons/fa";
 import { useToast } from '../../hooks/useToast.jsx';
 import { useModal } from '../common/modal/ModalContext';
 import { VITE_API_URL } from "../../../config"
-import { useAuth } from '../../auth/AuthContext';
+import { useAuth } from '../../../public/auth/AuthContext.jsx';
 
 const LoginForm = ({ togglePanel }) => {
   const navigate = useNavigate();

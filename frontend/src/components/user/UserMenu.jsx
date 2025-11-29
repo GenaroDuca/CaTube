@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useModal } from '../common/modal/ModalContext';
 
 import { useTheme } from '../../hooks/useTheme';
-import { useAuth } from '../../auth/AuthContext';
+import { useAuth } from '../../../public/auth/AuthContext';
 
 import { BsPersonFill } from "react-icons/bs";
 import { TbLogout } from "react-icons/tb";
