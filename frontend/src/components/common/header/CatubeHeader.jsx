@@ -12,7 +12,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 //Hooks
 import { useState, useEffect, useRef } from 'react';
-import { useAuth } from '../../../auth/AuthContext';
+import { useAuth } from '../../../../public/auth/AuthContext.jsx';
 
 export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
     const { pathname } = useLocation();
@@ -26,7 +26,7 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
     // Use provided or local
     const currentSearchQuery = searchQuery !== undefined ? searchQuery : localSearchQuery;
     const currentSetSearchQuery = setSearchQuery || setLocalSearchQuery;
-    
+
     const isSearchEmpty = !currentSearchQuery || currentSearchQuery.trim() === '';
 
     // Voice search states
@@ -139,7 +139,7 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
 
     const handleSearchSubmit = () => {
         if (isSearchEmpty) {
-            return; 
+            return;
         }
         const searchPagePath = '/Search';
         if (!pathname.includes(searchPagePath)) {
@@ -208,7 +208,7 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
                                     setSearchQuery={currentSetSearchQuery}
                                     placeholder={placeholder}
                                     disabled={isSearchEmpty}
-                                        />
+                                />
                                 <button className="sr-header-searchButton" onClick={handleSearchToggleOrSubmit}>
                                     <ImSearch size={20} />
                                 </button>

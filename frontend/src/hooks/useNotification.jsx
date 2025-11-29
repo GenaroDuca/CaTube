@@ -1,6 +1,6 @@
 import { useState, createContext, useContext, useMemo, useEffect } from 'react';
 import { notificationService } from '../services/notificationService';
-import { useAuth } from '../auth/AuthContext';
+import { useAuth } from '../../public/auth/AuthContext';
 
 const NotificationContext = createContext();
 

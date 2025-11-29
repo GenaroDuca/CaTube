@@ -25,7 +25,7 @@
 }
 
 .search-content-results .tags-list {
-    margin: 0px ;
+    margin: 0px;
 }
 
 .VideoContainer.empty-search {
@@ -38,17 +38,12 @@
     margin: 1rem 1rem;
 }
 
-.search-content-results {
-    padding-top: 95px;
-}
-
 
 /* === search-categories (Barra de categorías y ordenamiento) === */
 .search-categories {
     display: flex;
     gap: 20px;
     align-items: center;
-    position: fixed;
     border-radius: 30px;
     background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
     padding: 20px;
@@ -56,8 +51,8 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     justify-content: space-between;
     z-index: 1;
-    width: calc(100% - 130px);
-    }
+    width: calc(100vw - 130px);
+}
 
 .category-buttons {
     display: flex;
@@ -109,6 +104,7 @@
 /* Estilo del botón que abre el dropdown */
 .dropdown-toggle-button {
     padding: 8px 16px;
+    width: 160px;
     border-radius: 20px;
     background: var(--container-color);
     border: 1px solid var(--border-container-color);
@@ -144,17 +140,58 @@
     position: absolute;
     top: calc(100% + 5px);
     right: 0;
-    min-width: 150px;
-
-    /* --- ANIMACIÓN DE DESPLIEGUE (La clave es max-height) --- */
+    min-width: 160px;
+    height: 0px;
     opacity: 0;
     max-height: 0;
-    /* Colapsado */
     overflow: hidden;
     transform: translateY(10px);
+    transition:
+        opacity 0.3s ease-out,
+        transform 0.3s ease-out,
+        max-height 0.4s ease-in-out;
+    /* Animación de despliegue */
+}
 
-    /* Quitamos el background y border del estado normal para que solo se apliquen en 'open' */
+.dropdown-menu-search.open {
+    height: 200px;
+        min-width: 160px;
+}
 
+/* Items del menú */
+.dropdown-menu-search li {
+    padding: 8px 8px;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: background-color 0.15s;
+    border-radius: var(--border-radius);
+    text-align: center;
+    margin: 5px;
+}
+/* Estilo del ícono (Flecha) */
+.dropdown-toggle-button i {
+    transition: transform 0.2s ease;
+}
+
+
+.dropdown-toggle-button i.rotated {
+    transform: rotate(180deg);
+}
+
+/* Estilo del menú desplegable */
+.dropdown-menu-search {
+    list-style: none;
+    /* Quitamos el padding global del UL para darlo a los LI */
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    min-width: 150px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transform: translateY(10px);
     transition:
         opacity 0.3s ease-out,
         transform 0.3s ease-out,
@@ -166,9 +203,7 @@
     opacity: 1;
     transform: translateY(0px);
     max-height: 300px;
-    /* Desplegado */
-
-    /* Estilos de apariencia aplicados SOLO cuando está abierto */
+    z-index: 1;
     background-color: var(--container-color-blur);
     backdrop-filter: blur(10px);
     border: 1px solid var(--border-container-color);
@@ -209,6 +244,14 @@
 
 
 /* === Media Queries (Responsive) === */
+@media (max-width: 970px) {
+    .category-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        gap: 10px;
+    }
+}
 
 @media (max-width: 768px) {
 
@@ -216,14 +259,11 @@
     .search-categories {
         flex-direction: column;
         align-items: center;
-        gap: 10px;
+        gap: 1x;
     }
 
-    .category-buttons {
-        flex-wrap: wrap;
-        justify-content: center;
-        width: 100%;
-        gap: 10px;
+    .search-categories {
+        width: calc(100vw - 30px);
     }
 
     .order-dropdown-wrapper {

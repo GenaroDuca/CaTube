@@ -1,18 +1,18 @@
 import React, { useMemo } from 'react';
 import './shortCard.css';
-import { useAuth } from '../../auth/AuthContext.jsx';
+import { useAuth } from '../../../public/auth/AuthContext.jsx';
 
 export function ShortCard({ short, onToggleMaximize, isActive, onVideoActive }) {
     // Extraemos las props necesarias del objeto short y otras props
-    const { 
-        thumbnail, 
-        channelAvatar, 
-        title, 
-        channelName, 
-        ownerId, 
-        channelId 
+    const {
+        thumbnail,
+        channelAvatar,
+        title,
+        channelName,
+        ownerId,
+        channelId
     } = short;
-    
+
     const { user } = useAuth();
     const currentUserId = user?.id;
 
@@ -28,20 +28,20 @@ export function ShortCard({ short, onToggleMaximize, isActive, onVideoActive }) 
 
     // Nota: El componente ShortPage ya está pasando el objeto 'short', 
     // por lo que he ajustado las props para desestructurar `short`.
-    
+
     return (
         <article className="sr-shortCard" >
             <header className="sr-shortCard-header" >
                 <img className="sr-shortCard-thumbnail" src={thumbnail} alt="short thumbnail" />
             </header>
-            
+
             <div className="sr-shortCard-info">
                 <div className="sr-shortCard-infoShort">
                     <span className="sr-shortCard-title">{title}</span>
                     <span>view • date</span>
                 </div>
             </div>
-            
+
             <div className="sr-shortCard-infoUser">
                 <div className="sr-shortCard-user">
                     <img className="sr-shortCard-avatar" src={channelAvatar} alt="Profile image" />
@@ -49,7 +49,7 @@ export function ShortCard({ short, onToggleMaximize, isActive, onVideoActive }) 
                         {channelName}
                     </span>
                 </div>
-                
+
                 {!isOwner && (
                     <button className="sr-subscribe-btn">SUBSCRIBE</button>
                 )}

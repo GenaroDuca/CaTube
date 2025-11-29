@@ -28,7 +28,7 @@ import { ToastManager } from './components/common/toast/ToastManager.jsx';
 import { NotificationProvider } from './hooks/useNotification.jsx';
 import { ThemeProvider } from './hooks/useTheme.jsx';
 import { SidebarToggleProvider } from "./hooks/useSidebarToggleFriends.jsx"
-import { AuthProvider } from './auth/AuthContext.jsx';
+import { AuthProvider } from '../public/auth/AuthContext.jsx';
 import ScrollToTop from './hooks/ScrollToTop.jsx';
 
 createRoot(document.getElementById('root')).render(
