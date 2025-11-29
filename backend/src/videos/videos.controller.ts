@@ -11,7 +11,8 @@ import {
   Delete,
   ForbiddenException,
   NotFoundException,
-  InternalServerErrorException
+  InternalServerErrorException,
+  Query
 } from '@nestjs/common';
 import { VideosService } from './videos.service';
 import { CreateVideoDto } from './dto/create-video.dto';
@@ -87,8 +88,8 @@ export class VideosController {
 
   // Get all videos
   @Get()
-  findAll() {
-    return this.videosService.findAll();
+  findAll(@Query('q') q?: string) {
+    return this.videosService.findAll(q);
   }
 
   @Get('by-tag/:tag')
@@ -98,14 +99,14 @@ export class VideosController {
 
   // Get all shorts
   @Get('shorts')
-  findAllShorts() {
-    return this.videosService.findAllShorts();
+  findAllShorts(@Query('q') q?: string) {
+    return this.videosService.findAllShorts(q);
   }
 
   // Get all videos only (excluding shorts)
   @Get('videos-only')
-  findAllVideosOnly() {
-    return this.videosService.findAllVideosOnly();
+  findAllVideosOnly(@Query('q') q?: string) {
+    return this.videosService.findAllVideosOnly(q);
   }
 
   //Get all videos for logged-in user's channel

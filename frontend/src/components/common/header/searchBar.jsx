@@ -19,7 +19,7 @@ function SearchBar({ className, searchQuery, setSearchQuery, placeholder = "Sear
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={handleKeyDown}
-            autocomplete="new-search"
+            autoomplete="new-search"
         />
     );
 }

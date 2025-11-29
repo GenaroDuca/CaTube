@@ -60,7 +60,7 @@ import { Post } from './posts/entities/post.entity';
           Subscription, Friendship, Notification, Message,
           Room, Tag, Post
         ],
-        synchronize: false,
+        synchronize: true,
       }),
     }),
 

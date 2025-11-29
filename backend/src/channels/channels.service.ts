@@ -41,7 +41,21 @@ export class ChannelsService {
         return this.channelRepository.save(newChannel);
     }
 
-    async findAll(includeHidden = false): Promise<Channel[]> {
+    async findAll(includeHidden = false, q?: string): Promise<Channel[]> {
+        if (q && q.trim() !== '') {
+            const search = `%${q.toLowerCase()}%`;
+            const qb = this.channelRepository
+                .createQueryBuilder('channel')
+                .leftJoinAndSelect('channel.user', 'user')
+                .where('LOWER(channel.channel_name) LIKE :search', { search });
+
+            if (!includeHidden) {
+                qb.andWhere('channel.isHidden = :isHidden', { isHidden: false });
+            }
+
+            return qb.orderBy('channel.channel_name', 'ASC').getMany();
+        }
+
         if (includeHidden) {
             return this.channelRepository.find({ relations: ['user'] });
         }

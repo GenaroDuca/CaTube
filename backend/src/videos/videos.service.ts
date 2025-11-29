@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, Brackets } from 'typeorm';
 import { Video } from './entities/video.entity';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
@@ -388,27 +388,75 @@ export class VideosService {
     await this.videoRepository.save(video);
   }
 
-  async findAll() {
-    return this.videoRepository.find({
-      relations: ['channel', 'tags'],
-      order: { createdAt: 'DESC' },
-    });
+  async findAll(q?: string) {
+    if (!q || q.trim() === '') {
+      return this.videoRepository.find({
+        relations: ['channel', 'tags'],
+        order: { createdAt: 'DESC' },
+      });
+    }
+
+    const search = `%${q.toLowerCase()}%`;
+    return this.videoRepository
+      .createQueryBuilder('video')
+      .leftJoinAndSelect('video.channel', 'channel')
+      .leftJoinAndSelect('video.tags', 'tag')
+      .where('LOWER(video.title) LIKE :search', { search })
+      .orWhere('LOWER(video.description) LIKE :search', { search })
+      .orWhere('LOWER(channel.channel_name) LIKE :search', { search })
+      .orWhere('LOWER(tag.name) LIKE :search', { search })
+      .orderBy('video.createdAt', 'DESC')
+      .getMany();
   }
 
-  async findAllShorts() {
-    return this.videoRepository.find({
-      where: { type: 'short' },
-      relations: ['channel', 'channel.user', 'tags'],
-      order: { createdAt: 'DESC' },
-    });
+  async findAllShorts(q?: string) {
+    if (!q || q.trim() === '') {
+      return this.videoRepository.find({
+        where: { type: 'short' },
+        relations: ['channel', 'channel.user', 'tags'],
+        order: { createdAt: 'DESC' },
+      });
+    }
+
+    const search = `%${q.toLowerCase()}%`;
+    return this.videoRepository
+      .createQueryBuilder('video')
+      .leftJoinAndSelect('video.channel', 'channel')
+      .leftJoinAndSelect('video.tags', 'tag')
+      .where('video.type = :short', { short: 'short' })
+      .andWhere(new Brackets(qb => {
+        qb.where('LOWER(video.title) LIKE :search', { search })
+          .orWhere('LOWER(video.description) LIKE :search', { search })
+          .orWhere('LOWER(channel.channel_name) LIKE :search', { search })
+          .orWhere('LOWER(tag.name) LIKE :search', { search });
+      }))
+      .orderBy('video.createdAt', 'DESC')
+      .getMany();
   }
 
-  async findAllVideosOnly() {
-    return this.videoRepository.find({
-      where: { type: 'video' },
-      relations: ['channel', 'tags'],
-      order: { createdAt: 'DESC' },
-    });
+  async findAllVideosOnly(q?: string) {
+    if (!q || q.trim() === '') {
+      return this.videoRepository.find({
+        where: { type: 'video' },
+        relations: ['channel', 'tags'],
+        order: { createdAt: 'DESC' },
+      });
+    }
+
+    const search = `%${q.toLowerCase()}%`;
+    return this.videoRepository
+      .createQueryBuilder('video')
+      .leftJoinAndSelect('video.channel', 'channel')
+      .leftJoinAndSelect('video.tags', 'tag')
+      .where('video.type = :video', { video: 'video' })
+      .andWhere(new Brackets(qb => {
+        qb.where('LOWER(video.title) LIKE :search', { search })
+          .orWhere('LOWER(video.description) LIKE :search', { search })
+          .orWhere('LOWER(channel.channel_name) LIKE :search', { search })
+          .orWhere('LOWER(tag.name) LIKE :search', { search });
+      }))
+      .orderBy('video.createdAt', 'DESC')
+      .getMany();
   }
 
   async findAllByChannelId(channelId: string) {

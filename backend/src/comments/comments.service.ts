@@ -80,11 +80,16 @@ export class CommentsService {
       commentData.parentComment = parentComment || { id: createCommentDto.parentCommentId };
     }
 
-    // Use insert with proper typing
     const insertResult = await this.commentRepository.insert(commentData);
     const newCommentId = insertResult.identifiers[0].id;
 
     // --- ENVIAR NOTIFICACIONES ---
+
+    // --- LÓGICA DE VALIDACIÓN DE URL AÑADIDA AQUÍ ---
+    const isShort = video.type === 'short';
+    const videoUrl = isShort ? `/shorts/${videoId}` : `/watch/${videoId}`;
+    // ----------------------------------------------------
+
 
     // 1. Notificación al dueño del video (si el autor del comentario no es el dueño)
     const videoOwnerId = video.channel?.user?.user_id;
@@ -94,9 +99,9 @@ export class CommentsService {
         await this.notificationsService.createNotification(
           videoOwnerId, // Receptor: Dueño del video
           userId, // Emisor: Autor del comentario
-          NotificationType.NEW_COMMENT, 
+          NotificationType.NEW_COMMENT,
           `commented your video: ${video.title.substring(0, 25)}...`,
-          `/watch/${videoId}`
+          videoUrl // ¡URL DINÁMICA!
         );
       } catch (e) {
         console.error('Failed to create NEW_COMMENT notification:', e);
@@ -108,7 +113,22 @@ export class CommentsService {
       try {
         await this.notificationsService.createNotification(
           parentCommentAuthorId,
-          userId, 
+          userId,
+          NotificationType.REPLY_COMMENT,
+          `replied to your comment: ${parentComment.content.substring(0, 25)}...`,
+          videoUrl // ¡URL DINÁMICA!
+        );
+      } catch (e) {
+        console.error('Failed to create REPLY_COMMENT notification:', e);
+      }
+    }
+
+    // 2. Notificación al dueño del comentario padre (si es una respuesta y no es el mismo usuario)
+    if (parentCommentAuthorId && parentCommentAuthorId !== userId) {
+      try {
+        await this.notificationsService.createNotification(
+          parentCommentAuthorId,
+          userId,
           NotificationType.REPLY_COMMENT,
           `replied to your comment: ${parentComment.content.substring(0, 25)}...`,
           `/watch/${videoId}`

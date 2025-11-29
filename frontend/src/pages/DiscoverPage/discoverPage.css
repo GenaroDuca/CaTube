@@ -1,9 +1,11 @@
+/* === Contenedor de Búsqueda y Título (Se mantiene igual) === */
 .tag-search-container, .selected-tag-title {
   width: auto;
   margin: 1rem 1rem;
 }
 
 
+/* === Input de Búsqueda de Tags (Se mantiene igual) === */
 .tag-input {
     width: 100%;
     padding: 12px 20px;
@@ -11,7 +13,7 @@
     color: var(--text-color);
     background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
     border: 1px solid var(--border-container-color);
-     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 
@@ -20,19 +22,39 @@
     border: 1px solid var(--btn);
 }
 
+/* ------------------------------------------------ */
+/* === CAMBIO CLAVE: LISTADO DE TAGS CON GRID === */
+/* ------------------------------------------------ */
+
 .tags-list {
     margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+    
+    /* 1. Usar Grid para la estructura */
+    display: grid;
+    
+    /* 2. Definir las columnas: 5 columnas de ancho uniforme */
+    grid-template-columns: repeat(5, 1fr);
+    
+    /* 3. Espacio entre las filas y columnas */
+    gap: 20px; /* Ajustado el gap para el grid */
+    
 }
 
 .tag-item {
-    padding: 6px 12px;
+    /* Aseguramos que el texto esté centrado si los tags tienen anchos diferentes */
+    text-align: center; 
+    
+    /* Estilo del Tag */
+    padding: 8px 15px; /* Aumentado ligeramente para mejor aspecto */
     border-radius: 30px;
     border: 1px solid var(--text-color);
     cursor: pointer;
     transition: 0.2s;
+    
+    /* Aseguramos que el contenido no desborde si el texto es largo */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .tag-item:hover {
@@ -44,4 +66,29 @@
     color: var(--primary-color);
     border-color: var(--btn);
 
+}
+
+/* === Media Query para Responsividad === */
+
+@media (max-width: 1200px) {
+    .tags-list {
+        /* 4 columnas en tabletas grandes */
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .tags-list {
+        /* 3 columnas en tabletas y móviles */
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        padding: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .tags-list {
+        /* 2 columnas en móviles pequeños */
+        grid-template-columns: repeat(2, 1fr);
+    }
 }

@@ -26,6 +26,8 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
     // Use provided or local
     const currentSearchQuery = searchQuery !== undefined ? searchQuery : localSearchQuery;
     const currentSetSearchQuery = setSearchQuery || setLocalSearchQuery;
+    
+    const isSearchEmpty = !currentSearchQuery || currentSearchQuery.trim() === '';
 
     // Voice search states
     const [isListening, setIsListening] = useState(false);
@@ -118,9 +120,10 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
                 const searchPagePath = '/Search';
                 if (pathname.includes(searchPagePath)) {
                     currentSetSearchQuery(cleanedTranscript);
+                    // Update URL query param if already on search page
+                    navigate(`${searchPagePath}?q=${encodeURIComponent(cleanedTranscript)}`, { replace: true });
                 } else {
-                    sessionStorage.setItem('voiceSearchTerm', cleanedTranscript);
-                    navigate(searchPagePath);
+                    navigate(`${searchPagePath}?q=${encodeURIComponent(cleanedTranscript)}`);
                 }
             }
         };
@@ -135,10 +138,14 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
     };
 
     const handleSearchSubmit = () => {
+        if (isSearchEmpty) {
+            return; 
+        }
         const searchPagePath = '/Search';
         if (!pathname.includes(searchPagePath)) {
-            sessionStorage.setItem('voiceSearchTerm', currentSearchQuery);
-            navigate(searchPagePath);
+            navigate(`${searchPagePath}?q=${encodeURIComponent(currentSearchQuery)}`);
+        } else {
+            navigate(`${searchPagePath}?q=${encodeURIComponent(currentSearchQuery)}`, { replace: true });
         }
         setShowMobileSearch(false);
     };
@@ -164,6 +171,7 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
                             searchQuery={currentSearchQuery}
                             setSearchQuery={currentSetSearchQuery}
                             placeholder={placeholder}
+                            disabled={isSearchEmpty}
                         />
                         <button className="sr-header-searchButton mobile-search-btn" onClick={handleSearchSubmit}>
                             <ImSearch size={20} />
@@ -199,6 +207,7 @@ export function CatubeHeader({ logo, searchQuery, setSearchQuery }) {
                                     searchQuery={currentSearchQuery}
                                     setSearchQuery={currentSetSearchQuery}
                                     placeholder={placeholder}
+                                    disabled={isSearchEmpty}
                                         />
                                 <button className="sr-header-searchButton" onClick={handleSearchToggleOrSubmit}>
                                     <ImSearch size={20} />

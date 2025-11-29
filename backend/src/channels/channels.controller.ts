@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Patch, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Patch, UploadedFile, UseInterceptors, Query } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CreateChannelDto } from './dto-channels/create-channel.dto';
 import { ChannelsService } from './channels.service';
@@ -15,8 +15,8 @@ export class ChannelsController {
     }
 
     @Get()
-    findAll() {
-        return this.channelsService.findAll();
+    findAll(@Query('q') q?: string) {
+        return this.channelsService.findAll(false, q);
     }
 
     @Get('official')

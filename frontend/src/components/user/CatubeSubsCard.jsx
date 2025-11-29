@@ -88,7 +88,7 @@ export function CatubeSubsCard({ avatar, userName, subscriptions, channelId, isF
         }
     };
 
-    const text = isFollowing ? 'Subscribed' : 'Subscribe';
+    const text = isFollowing ? 'Catscribed' : 'Catscribe';
     const buttonClassName = isFollowing
         ? 'ct-subsCard-button '
         : 'ct-subsCard-button';

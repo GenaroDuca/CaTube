@@ -1,23 +1,234 @@
-
-.short-section, .video-section {
+/* === short-section y video-section (General) === */
+.short-section,
+.video-section {
     margin-bottom: 1rem;
     width: 95%;
 }
 
+/* === channel-section (Contenido) === */
 .channel-section {
-  width: 95%;
-  height: auto;
-  padding: 1rem 2rem;
+    width: auto;
+    height: auto;
+    padding: 0px 20px 0px 20px;
 }
 
-/* .video-section {
-    background-color: var(--primary-color);
-    padding: 2rem 5rem;
-    border-radius: var(--border-radius);
+/* === channel-section y tags-section (Feedback de búsqueda vacía) === */
+.channel-section.empty-search,
+.tags-section.empty-search {
+    text-align: center;
+    width: auto;
+    margin: 1rem 1rem;
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-radius: 30px;
 }
 
-.short-section {
-    background-color: var(--primary-color);
-    padding: 2rem 5rem;
+.search-content-results .tags-list {
+    margin: 0px ;
+}
+
+.VideoContainer.empty-search {
+    text-align: center !important;
+}
+
+/* === search-categories-container (Contenedor principal) === */
+.search-categories-container {
+    width: auto;
+    margin: 1rem 1rem;
+}
+
+.search-content-results {
+    padding-top: 95px;
+}
+
+
+/* === search-categories (Barra de categorías y ordenamiento) === */
+.search-categories {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    position: fixed;
+    border-radius: 30px;
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    padding: 20px;
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    justify-content: space-between;
+    z-index: 1;
+    width: calc(100% - 130px);
+    }
+
+.category-buttons {
+    display: flex;
+    gap: 20px;
+}
+
+.search-categories button {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: var(--container-color);
+    border: 1px solid var(--border-container-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+}
+
+.search-categories button.active,
+.search-categories button:hover {
+    background: var(--btn);
+    color: var(--primary-color);
+    border-color: var(--btn);
+}
+
+/* === Tags Section === */
+.tags-section {
+    width: auto;
+    padding: 1rem 1rem;
+}
+
+.tags-container {
+    margin-bottom: 20px;
+}
+
+/* ------------------------------------------- */
+/* === CAMBIO CLAVE: LISTADO DE TAGS CON GRID === */
+/* ------------------------------------------- */
+.video-section {
+    width: auto;
+    padding: 1rem 1rem;
+}
+
+/* === Dropdown de Ordenamiento (Animado) === */
+
+.search-order-dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* Estilo del botón que abre el dropdown */
+.dropdown-toggle-button {
+    padding: 8px 16px;
+    border-radius: 20px;
+    background: var(--container-color);
+    border: 1px solid var(--border-container-color);
+    color: var(--text-color);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dropdown-toggle-button:hover,
+.dropdown-toggle-button.open {
+    background: var(--btn);
+    border-color: var(--btn);
+    color: var(--primary-color);
+}
+
+/* Estilo del ícono (Flecha) */
+.dropdown-toggle-button i {
+    transition: transform 0.2s ease;
+}
+
+.dropdown-toggle-button i.rotated {
+    transform: rotate(180deg);
+}
+
+/* Estilo del menú desplegable */
+.dropdown-menu-search {
+    list-style: none;
+    /* Quitamos el padding global del UL para darlo a los LI */
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    top: calc(100% + 5px);
+    right: 0;
+    min-width: 150px;
+
+    /* --- ANIMACIÓN DE DESPLIEGUE (La clave es max-height) --- */
+    opacity: 0;
+    max-height: 0;
+    /* Colapsado */
+    overflow: hidden;
+    transform: translateY(10px);
+
+    /* Quitamos el background y border del estado normal para que solo se apliquen en 'open' */
+
+    transition:
+        opacity 0.3s ease-out,
+        transform 0.3s ease-out,
+        max-height 0.4s ease-in-out;
+    /* Animación de despliegue */
+}
+
+.dropdown-menu-search.open {
+    opacity: 1;
+    transform: translateY(0px);
+    max-height: 300px;
+    /* Desplegado */
+
+    /* Estilos de apariencia aplicados SOLO cuando está abierto */
+    background-color: var(--container-color-blur);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    border-radius: 30px;
+    padding: 5px;
+}
+
+/* Items del menú */
+.dropdown-menu-search li {
+    padding: 8px 8px;
+    cursor: pointer;
+    color: var(--text-color);
+    transition: background-color 0.15s;
     border-radius: var(--border-radius);
-} */
+    text-align: center;
+    margin: 5px;
+}
+
+.dropdown-menu-search li:hover {
+    background-color: var(--btn);
+    color: var(--primary-color);
+}
+
+.dropdown-menu-search li.active {
+    background-color: var(--btn);
+    color: var(--primary-color);
+}
+
+.tags-list.empty-search {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin: 0px;
+    padding: 20px;
+}
+
+
+/* === Media Queries (Responsive) === */
+
+@media (max-width: 768px) {
+
+
+    .search-categories {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .category-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100%;
+        gap: 10px;
+    }
+
+    .order-dropdown-wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+}

@@ -57,7 +57,8 @@ export class LikesService {
         },
       });
 
-      const isLikeAction = like === true;
+      // Removida la variable 'isLikeAction'
+      // const isLikeAction = like === true; 
 
       if (likedDisliked) {
         likedDisliked.like = like;
@@ -66,14 +67,20 @@ export class LikesService {
 
       const newLike = this.likesRepository.create({ user, video, comment: null, like });
 
-      if (isLikeAction && targetOwnerId && targetOwnerId !== user.user_id) {
+      // --- LÓGICA DE VALIDACIÓN DE URL ---
+      const isShort = video.type === 'short';
+      const videoUrl = isShort ? `/shorts/${videoId}` : `/watch/${videoId}`;
+      // ------------------------------------
+
+      // CORRECCIÓN AQUÍ: Usamos 'like' directamente
+      if (like && targetOwnerId && targetOwnerId !== user.user_id) {
         try {
           await this.notificationsService.createNotification(
             targetOwnerId,
             user.user_id,
             NotificationType.LIKE_VIDEO,
             `liked your video: ${video.title.substring(0, 30)}...`,
-            `/watch/${videoId}`
+            videoUrl, // URL DINÁMICA
           );
         } catch (e) {
           console.error('Failed to create LIKE_VIDEO notification:', e);
@@ -89,10 +96,11 @@ export class LikesService {
     if (commentId) {
       const comment = await this.commentsRepository.findOne({
         where: { id: commentId },
-        relations: ['user'],
+        relations: ['user', 'video'], // Aseguramos que 'video' esté incluido
       });
 
       if (!comment) throw new NotFoundException('Comment not found');
+      if (!comment.video) throw new NotFoundException('Comment video not found');
 
       targetOwnerId = comment.user?.user_id || null;
 
@@ -103,7 +111,8 @@ export class LikesService {
         },
       });
 
-      const isLikeAction = like === true;
+      // Removida la variable 'isLikeAction'
+      // const isLikeAction = like === true;
 
       if (likedDisliked) {
         likedDisliked.like = like;
@@ -112,14 +121,21 @@ export class LikesService {
 
       const newLike = this.likesRepository.create({ user, video: null, comment, like });
 
-      if (isLikeAction && targetOwnerId && targetOwnerId !== user.user_id) {
+      // --- LÓGICA DE VALIDACIÓN DE URL ---
+      const isShort = comment.video.type === 'short';
+      const videoId = comment.video.id;
+      const videoUrl = isShort ? `/shorts/${videoId}` : `/watch/${videoId}`;
+      // ------------------------------------
+
+      // CORRECCIÓN AQUÍ: Usamos 'like' directamente
+      if (like && targetOwnerId && targetOwnerId !== user.user_id) {
         try {
           await this.notificationsService.createNotification(
             targetOwnerId,
             user.user_id,
             NotificationType.LIKE_COMMENT,
             `liked your comment: ${comment.content.substring(0, 50)}...`,
-            `/watch/${videoId}`,
+            videoUrl, // URL DINÁMICA
           );
         } catch (e) {
           console.error('Failed to create LIKE_COMMENT notification:', e);
