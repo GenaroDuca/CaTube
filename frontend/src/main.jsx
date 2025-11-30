@@ -48,9 +48,6 @@ createRoot(document.getElementById('root')).render(
                     <Route path="/trending" element={<Trending />} />
                     <Route path="/subscribers" element={<Catscribers />} />
                     <Route path="/you" element={<You />} />
-                    <Route path="/history" element={<You />} />
-                    <Route path="/view-later" element={<You />} />
-                    <Route path="/liked" element={<You />} />
                     <Route path="/register" element={<RegisterPage />} />
                     <Route path="/studio" element={<Studio />} />
                     <Route path="/yourchannel/:url?" element={<YourChannel />} />

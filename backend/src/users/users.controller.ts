@@ -8,6 +8,7 @@ import { UseGuards, Req } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { UpdateUserDto } from './dto-users/update-user.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { LikesService } from '../likes/likes.service';
 
 @Controller('users')
 export class UsersController {
@@ -15,6 +16,7 @@ export class UsersController {
         private readonly usersService: UsersService,
         private readonly configService: ConfigService,
         private readonly channelsService: ChannelsService,
+        private readonly likesService: LikesService,
     ) { }
 
     @Post()
@@ -28,7 +30,7 @@ export class UsersController {
         const userId = req.user.id;
         return this.usersService.findMe(userId);
     }
-    
+
     @Get('verify-email')
     async verifyEmail(@Query('token') token: string, @Res() res: Response) {
         // 1. Definir las URLs de redirección del frontend (desde .env)
@@ -156,7 +158,57 @@ export class UsersController {
         const userId = req.user.id;
 
         await this.usersService.sendFeedbackEmail(userId, body.feedback);
-        
+
         return { success: true, message: 'Feedback enviado correctamente' };
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get(':id/history')
+    getHistory(@Param('id') id: string) {
+        return this.usersService.getHistory(id);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get(':id/watchlater')
+    getWatchLater(@Param('id') id: string) {
+        return this.usersService.getWatchLater(id);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get(':id/liked')
+    getLiked(@Param('id') id: string) {
+        return this.likesService.findLikedVideosByUserId(id);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post(':id/history')
+    addToHistory(@Param('id') id: string, @Body() body: { videoId: string }) {
+        return this.usersService.addToHistory(id, body.videoId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post(':id/watchlater')
+    addToWatchLater(@Param('id') id: string, @Body() body: { videoId: string }) {
+        return this.usersService.addToWatchLater(id, body.videoId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete(':id/watchlater/:videoId')
+    removeFromWatchLater(@Param('id') id: string, @Param('videoId') videoId: string) {
+        return this.usersService.removeFromWatchLater(id, videoId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete('me/history/:videoId')
+    removeFromHistory(@Req() req, @Param('videoId') videoId: string) {
+        const userId = req.user.id;
+        return this.usersService.removeFromHistory(userId, videoId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete('me/history')
+    clearHistory(@Req() req) {
+        const userId = req.user.id;
+        return this.usersService.clearHistory(userId);
     }
 }

@@ -33,14 +33,17 @@
     border-radius: 50% !important;
 }
 
+.container-button {
+    padding: 20px;
+}
 
 .container-button,
 .container-profile {
     display: flex;
 
     height: auto;
-    padding: 20px;
     border-radius: 30px;
+    margin: 1rem 1rem;
     justify-content: space-between;
 }
 

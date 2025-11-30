@@ -1788,9 +1788,10 @@ const leftMenu = [
     { divider: true },
 
     { icon: <BsPersonFill size={25} />, text: "You", link: "/you" },
-    { icon: <FaHistory />, text: "History", link: "/history", isSubmenu: true },
-    { icon: <FaClock />, text: "View later", link: "/view-later", isSubmenu: true },
-    { icon: <FaHeart />, text: "Liked", link: "/liked", isSubmenu: true },
+    { icon: <FaHistory />, text: "History", link: "/you#history", isSubmenu: true },
+    { icon: <FaHeart />, text: "Liked", link: "/you#liked", isSubmenu: true },
+    { icon: <FaClock />, text: "View later", link: "/you#viewlater", isSubmenu: true },
+
     {
         icon: <BsFillPlayBtnFill />,
         text: "Your videos",

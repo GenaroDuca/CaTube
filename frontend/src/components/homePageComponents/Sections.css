@@ -13,3 +13,15 @@
 .section-container {
     margin-bottom: 2rem;
 }
+
+.carousel-item-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.carousel-item-wrapper .btn-trash {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 10;
+}

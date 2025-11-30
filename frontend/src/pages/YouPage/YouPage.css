@@ -1,10 +1,28 @@
-
 .container-profile {
     display: flex;
     height: auto;
     border-radius: 30px;
-    width: auto;
-    margin: 1rem 1rem;
+    gap: 20px;
+}
+
+.profile-info-you-page h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.profile-info-you-page {
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 30px;
+    width: 100%;
+}
+
+.title-container {
+    /* Aquí se le dice al navegador que mantenga 80px de espacio
+       por encima del punto donde se detiene el scroll. */
+    scroll-margin-top: 70px; 
 }
 
 .first-part-profile {
@@ -181,7 +199,7 @@ a {
         grid-template-columns: 1fr;
     }
 
-    .playlistThumb{
+    .playlistThumb {
         border-radius: 15px !important;
     }
 
@@ -203,4 +221,29 @@ a {
 
 
 
+}
+
+.title-actions .btn-trash {
+    margin-left: 8px;
+    padding: 6px 10px;
+    font-weight: 600;
+}
+
+.btn-clear-history-container {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-clear-history {
+    padding: 10px 20px;
+    background-color: #e96765;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    color: var(--primary-color);
+    border-radius: 30px;
+}
+
+.btn-clear-history:hover {
+    background-color: #b94c4a;
+    cursor: pointer;
 }

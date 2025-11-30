@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 
 //Components
@@ -14,7 +14,7 @@ import './VideoPage.css';
 import Yukki from '../../assets/images/profile/yukki.jpg'
 import Video from '../../assets/videos/channel-video-proof.mp4'
 import { VideoList } from '../../components/videoPageComponents/VideoList.jsx';
-import { getAuthToken } from '../../utils/auth.js';
+import { getAuthToken, getMyUserId } from '../../utils/auth.js';
 import Footer from '../../components/common/Footer.jsx';
 
 import { VITE_API_URL } from '../../../config';
@@ -24,6 +24,7 @@ export function VideoPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [isTheaterMode, setIsTheaterMode] = useState(false);
     const token = getAuthToken();
+    const lastHistoryVideoRef = useRef(null); // Para evitar duplicados en historial
 
     useEffect(() => {
         window.scrollTo({ top: 0 });
@@ -166,9 +167,29 @@ export function VideoPage() {
 
                         viewedVideos.push(id);
                         localStorage.setItem(viewedVideosKey, JSON.stringify(viewedVideos));
-                        // console.log('Views incremented successfully');
                     } catch (error) {
                         console.error('Error incrementing views:', error);
+                    }
+                }
+
+                // Add to History (Always, even if already viewed in this session, to update timestamp)
+                if (token && userId !== 'anonymous') {
+                    try {
+                        const myId = getMyUserId();
+                        // Solo agregar si es un video diferente al último agregado
+                        if (myId && lastHistoryVideoRef.current !== id) {
+                            lastHistoryVideoRef.current = id; // Marcar como agregado
+                            await fetch(`${VITE_API_URL}/users/${myId}/history`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${token}`
+                                },
+                                body: JSON.stringify({ videoId: id })
+                            });
+                        }
+                    } catch (err) {
+                        console.error('Error adding to history:', err);
                     }
                 }
                 // --------------------------------------------------------
@@ -202,7 +223,7 @@ export function VideoPage() {
                 <div className="container-all">
                     {loading ? (
                         <article className="vv-displayVideo-container">
-                            <Loader isOverlay={true}/>
+                            <Loader isOverlay={true} />
                         </article>
                     ) : (
                         <WatchVideo

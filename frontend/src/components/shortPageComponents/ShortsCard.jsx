@@ -259,10 +259,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
           <div className={`short-block`} role="region" aria-label={`Short ${short.title || short.id}`}>
 
             <div className="video-placeholder" onClick={onVideoClick}>
-              {/* 💡 TU LOADER IMPLEMENTADO */}
               {isLoading && (
-                // Usamos Loader sin el prop isOverlay=true para que use la clase 'loader-local'
-                // y se posicione localmente sobre el video sin tapar la pantalla completa.
                 <Loader isOverlay={false} />
               )}
 
@@ -404,7 +401,6 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
 
                 <button type="button" className="action-button"><ShareMenu videoUrl={short.url} videoTitle={short.title} /></button>
 
-                {isOwner && (
                   <div className="action-button">
                     <VideoOptionsMenu
                       videoId={short.id}
@@ -416,7 +412,6 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
                       ownerId={short.ownerId}
                     />
                   </div>
-                )}
 
               </div>
             </div>

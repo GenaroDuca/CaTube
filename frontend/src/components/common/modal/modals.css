@@ -602,6 +602,7 @@ button:hover {
     gap: 20px;
     overflow-y: auto;
     height: 100%;
+    width: 100%;
 }
 
 .setting-section.hide {
@@ -645,7 +646,7 @@ button:hover {
 
 .change-password-form button {
     padding: 12px 10px !important;
-    width: 100%;
+    width: 160px;
 }
 
 .delete-account-btn {

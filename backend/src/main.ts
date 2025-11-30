@@ -13,13 +13,24 @@ async function bootstrap() {
   app.use(json({ limit: '500mb' }));
   app.use(urlencoded({ extended: true, limit: '500mb' }));
 
+  const allowedOrigins = [
+    'https://catube-steel.vercel.app',
+    'https://catube.xyz',
+    'https://www.catube.xyz',
+    'http://localhost:5173',
+    'http://localhost:5174'
+  ];
+
   app.enableCors({
-    origin: [
-      'https://catube-steel.vercel.app',
-      'https://catube.xyz',
-      'https://www.catube.xyz',
-      "http://localhost:5173"
-    ],
+    origin: (origin, callback) => {
+      // If no origin (like curl or server-to-server requests), allow it
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        return callback(null, true);
+      } else {
+        return callback(new Error('Not allowed by CORS'));
+      }
+    },
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });

@@ -2,8 +2,7 @@ import { youProfile } from "../../assets/data/Data";
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom';
 import { VITE_API_URL } from '../../../config';
-// Asumo que el Loader genérico está disponible en esta ruta si es un componente común
-import Loader from '../../components/common/Loader'; 
+import Loader from '../../components/common/Loader';
 
 
 // Función de fetch de API (se mantiene igual)
@@ -50,15 +49,23 @@ async function apiFetch(url, options = {}) {
 
 function Youprofile() {
     const navigate = useNavigate();
-    const [userPhoto, setUserPhoto] = useState(youProfile.src);
-    const [channelName, setChannelName] = useState(youProfile.name);
-    const [channelHandle, setChannelHandle] = useState(youProfile.handle);
-    const [channelDescription, setChannelDescription] = useState(youProfile.description);
-    const [channelSubs, setChannelSubs] = useState(youProfile.subs);
+
+    // USR INFO
+    const [username, setUsername] = useState('');
+    const [userEmail, setUserEmail] = useState(''); // Nuevo: para mostrar más info de usuario
+    const [userDescription, setUserDescription] = useState('');
+    const [userPhoto, setUserPhoto] = useState('');
+
+    //CHANNEL INFO
+    const [channelName, setChannelName] = useState('');
+    const [channelHandle, setChannelHandle] = useState('');
+    const [channelDescription, setChannelDescription] = useState('');
+    const [channelSubs, setChannelSubs] = useState('');
     const [loading, setLoading] = useState(true);
+    const [channelPhoto, setChannelPhoto] = useState('');
 
     useEffect(() => {
-        setLoading(true); // Asegurar que loading es true al inicio de la carga
+        setLoading(true);
         async function loadChannelData() {
             const accessToken = localStorage.getItem('accessToken');
             if (!accessToken) {
@@ -67,39 +74,31 @@ function Youprofile() {
             }
 
             try {
+                // 1. OBTENER DATOS DEL USUARIO
                 const userData = await apiFetch('/users/me');
+
+                if (userData) {
+                    setUsername(userData.username);
+                    setUserEmail(userData.email);
+                    setUserDescription(userData.description);
+                    setUserPhoto(userData.avatarUrl);
+                }
+
                 if (userData && userData.channel) {
                     const channelId = userData.channel.channel_id;
+
+                    // 2. OBTENER DATOS DEL CANAL (A veces /users/me ya trae todo lo necesario, pero mantengo la llamada a /channels/id)
                     const channelData = await apiFetch('/channels/' + channelId);
-                    if (channelData) {
-                        setChannelName(channelData.channel_name || youProfile.name);
-                        setChannelHandle(channelData.url ? '@' + channelData.url : youProfile.handle);
-                        setChannelDescription(channelData.description || youProfile.description);
-                        setChannelSubs(channelData.subscriberCount || 0)
-                        let photoSrc;
-                        if (channelData.photoUrl && channelData.photoUrl.trim() !== '') {
-                            let photoPath = channelData.photoUrl;
-                            if (photoPath.startsWith('/uploads/')) {
-                                // Imagen subida por el usuario
-                                photoSrc = VITE_API_URL + photoPath;
-                            } else if (photoPath.startsWith('/assets/images/profile/')) {
-                                // Imagen predeterminada ya mapeada
-                                photoSrc = photoPath;
-                            } else if (photoPath.startsWith('/default-avatar/')) {
-                                // Map old default-avatar paths to new assets path
-                                const letterMatch = photoPath.match(/\/default-avatar\/([A-Z])\.png/);
-                                const letter = letterMatch ? letterMatch[1] : 'A';
-                                photoSrc = `/assets/images/profile/${letter}.png`;
-                            } else {
-                                // Otro tipo de ruta, asumir que es subida
-                                photoSrc = photoPath;
-                            }
-                        } else {
-                            // Set default avatar based on first letter of channel name
-                            const firstLetter = channelData.channel_name?.charAt(0).toUpperCase() || 'A';
-                            photoSrc = `https://catube-uploads.s3.sa-east-1.amazonaws.com/profile/${firstLetter}.png`;
-                        }
-                        setUserPhoto(photoSrc);
+
+                    // Si channelData es null, usamos los datos parciales de userData.channel
+                    const finalChannelData = channelData || userData.channel;
+
+                    if (finalChannelData) {
+                        setChannelName(finalChannelData.channel_name);
+                        setChannelHandle(finalChannelData.url ? '@' + finalChannelData.url : youProfile.handle);
+                        setChannelDescription(finalChannelData.description);
+                        setChannelSubs(finalChannelData.subscriberCount);
+                        setChannelPhoto(finalChannelData.photoUrl);
                     }
                 }
             } catch (error) {
@@ -118,40 +117,54 @@ function Youprofile() {
         }
     };
 
-    // ============================================
-    // RENDERIZADO CONDICIONAL DE CARGA
-    // ============================================
+    // ---
+    // RENDERIZADO DE CARGA
+    // ---
     if (loading) {
         return (
-            <>
-                <main className="main-content">
-                    <Loader isOverlay={true} />
-                </main>
-            </>
+            <main className="main-content">
+                <Loader isOverlay={true} />
+            </main>
         );
     }
 
-    // Si no hay token (usuario no logueado), se puede retornar un div vacío
-    // o el estado inicial de youProfile (que ya se utiliza por defecto en los estados)
     if (!localStorage.getItem('accessToken')) {
-        return null; // Asumimos que si no hay token y no está cargando, no se muestra nada.
+        return null;
     }
 
-    // ============================================
-    // RENDERIZADO FINAL
-    // ============================================
+    // ---
+    // RENDERIZADO FINAL CON SEPARACIÓN DE INFO
+    // ---
     return (
-        <div className="container-profile" onClick={handleClick} style={{ cursor: 'pointer' }}>
-            <div className="first-part-profile">
-                <img className="channel-photo" src={userPhoto} alt={channelName} />
-                <div className="text-channel">
-                    <h2>{channelName} </h2>
-                    <div className="row-info">
-                        <p className="space">{channelHandle} </p>
-                        <p className="space">{channelSubs} Catscribers </p>
-                        <p className="space">{youProfile.videos} </p>
+        <div className="container-profile">
+            {/* 📺 SECCIÓN DE INFORMACIÓN DEL CANAL */}
+            <div className="profile-info-you-page" onClick={handleClick} style={{ cursor: 'pointer' }}>
+                <h2>Your Channel info</h2>
+                <div className="first-part-profile">
+                    <img className="channel-photo" src={channelPhoto} alt={channelName} />
+                    <div className="text-channel">
+                        <h3>{channelName} </h3>
+                        <div className="row-info">
+                            <p className="space">@{channelHandle.replace('@', '')} </p>
+                            <p className="space">{channelSubs} Catscribers </p>
+                            <p className="space">{youProfile.videos} Videos </p> 
+                        </div>
+                        <p>{channelDescription} </p>
                     </div>
-                    <p>{channelDescription} </p>
+                </div>
+            </div>
+
+            <div className="profile-info-you-page">
+                <h2>Your User info</h2>
+                <div className="first-part-profile">
+                    <img className="channel-photo" src={userPhoto} alt={username} />
+                    <div className="text-channel">
+                        <h3>{username} </h3>
+                        <div className="row-info">
+                            <p className="space">{userEmail}</p>
+                        </div>
+                        <p> {userDescription}</p>
+                    </div>
                 </div>
             </div>
         </div>

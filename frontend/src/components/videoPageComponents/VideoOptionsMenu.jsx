@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { SlOptionsVertical } from "react-icons/sl";
-import { MdModeEditOutline, MdDelete } from "react-icons/md";
+import { MdModeEditOutline, MdDelete, MdWatchLater } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 import { useModal } from "../../components/common/modal/ModalContext";
 import { VITE_API_URL } from "../../../config";
@@ -30,7 +30,7 @@ export default function VideoOptionsMenu({ videoId, title, description, thumbnai
         };
     }, [menuRef]);
 
-    if (!isOwner) return null;
+    // if (!isOwner) return null; // Allow non-owners to see menu
 
     const handleEdit = () => {
         setOpen(false);
@@ -79,6 +79,37 @@ export default function VideoOptionsMenu({ videoId, title, description, thumbnai
         });
     };
 
+    const handleWatchLater = async () => {
+        setOpen(false);
+        const token = localStorage.getItem('accessToken');
+        const userId = localStorage.getItem('userId');
+
+        if (!token || !userId) {
+            showError('Please login to save to Watch Later');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${VITE_API_URL}/users/${userId}/watchlater`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`,
+                },
+                body: JSON.stringify({ videoId }),
+            });
+
+            if (response.ok) {
+                showSuccess('Added to Watch Later');
+            } else {
+                showError('Failed to add to Watch Later');
+            }
+        } catch (error) {
+            console.error('Error adding to watch later:', error);
+            showError('Error adding to Watch Later');
+        }
+    };
+
     return (
         <div className="video-options-wrapper" ref={menuRef}>
             <div className={`video-options-expandable ${open ? "open" : ""}`}>
@@ -111,23 +142,37 @@ export default function VideoOptionsMenu({ videoId, title, description, thumbnai
 
                         <div
                             className="video-option-item"
-                            onClick={handleEdit}
+                            onClick={handleWatchLater}
                             role="button"
                             tabIndex={0}
                         >
-                            <MdModeEditOutline size={18} />
-                            <span>Edit {contentType === 'Shorts' ? 'Short' : 'Video'}</span>
+                            <MdWatchLater size={18} /> {/* You might want a different icon like MdWatchLater */}
+                            <span>Watch Later</span>
                         </div>
 
-                        <div
-                            className="video-option-item delete"
-                            onClick={handleDelete}
-                            role="button"
-                            tabIndex={0}
-                        >
-                            <MdDelete size={18} />
-                            <span>Delete {contentType === 'Shorts' ? 'Short' : 'Video'}</span>
-                        </div>
+                        {isOwner && (
+                            <>
+                                <div
+                                    className="video-option-item"
+                                    onClick={handleEdit}
+                                    role="button"
+                                    tabIndex={0}
+                                >
+                                    <MdModeEditOutline size={18} />
+                                    <span>Edit {contentType === 'Shorts' ? 'Short' : 'Video'}</span>
+                                </div>
+
+                                <div
+                                    className="video-option-item delete"
+                                    onClick={handleDelete}
+                                    role="button"
+                                    tabIndex={0}
+                                >
+                                    <MdDelete size={18} />
+                                    <span>Delete {contentType === 'Shorts' ? 'Short' : 'Video'}</span>
+                                </div>
+                            </>
+                        )}
                     </div>
                 )}
             </div>
