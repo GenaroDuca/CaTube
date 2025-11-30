@@ -17,6 +17,7 @@
 .carousel-item-wrapper {
     position: relative;
     display: inline-block;
+    height: 100%;
 }
 
 .carousel-item-wrapper .btn-trash {
