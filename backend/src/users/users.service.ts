@@ -414,7 +414,6 @@ export class UsersService {
 
     async remove(id: string): Promise<void> {
         await this.dataSource.transaction(async manager => {
-            // 1️⃣ Traer usuario con todas las relaciones necesarias
             const user = await manager.findOne(User, {
                 where: { user_id: id },
                 relations: [

@@ -122,6 +122,7 @@ export function Search() {
           id: channel.channel_id,
           avatar,
           userName: channel.channel_name,
+          url: channel.url,
           subscriptions: channel.subscriberCount || 0
         };
       });
