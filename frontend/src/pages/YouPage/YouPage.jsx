@@ -11,7 +11,7 @@ import { useToast } from '../../hooks/useToast';
 import { VITE_API_URL } from '../../../config';
 import resolveUrl from '../../utils/url';
 import Loader from '../../components/common/Loader';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 // Importaciones de estilos
 import '../../styles/Global_components.css';
@@ -56,8 +56,10 @@ const mapVideoData = (video, token) => {
 };
 
 function You() {
+    const location = useLocation();
+
     const HistoryRef = useRef(null);
-    const PlaylistRef = useRef(null);
+    const YouRef = useRef(null);
     const ViewLaterRef = useRef(null);
     const LikedRef = useRef(null);
 
@@ -73,6 +75,56 @@ function You() {
     const { showSuccess, showError } = useToast();
     const { openModal, closeModal } = useModal();
 
+    // ----------------------------------------------------
+    // Lógica de Scroll a la Sección
+    // ----------------------------------------------------
+    useEffect(() => {
+        if (loading || !isLogged) {
+            return;
+        }
+
+        const hash = location.hash;
+        let refToScroll = null;
+        const HEADER_HEIGHT = 70; // <-- Ajusta esta altura si tu Header es diferente (e.g., 80 o 90)
+
+        // Lógica para determinar el destino del scroll
+        if (hash) {
+            const sectionId = hash.substring(1); // Elimina el '#'
+
+            switch (sectionId) {
+                case 'you':
+                    refToScroll = YouRef; // Lleva al tope de la página 'You'
+                    break;
+                case 'history':
+                    refToScroll = HistoryRef;
+                    break;
+                case 'viewlater':
+                    refToScroll = ViewLaterRef;
+                    break;
+                case 'liked':
+                    refToScroll = LikedRef;
+                    break;
+                default:
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                    return;
+            }
+        } else {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            return;
+        }
+        if (refToScroll && refToScroll.current) {
+            setTimeout(() => {
+                const element = refToScroll.current;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - HEADER_HEIGHT + 10;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }, 100);
+        }
+    }, [loading, isLogged, location]);
     // ----------------------------------------------------
     // Lógica de Fetch
     // ----------------------------------------------------
@@ -238,10 +290,10 @@ function You() {
             <Header />
             <Sidebar />
 
-            <main className="main-content you-page">
+            <main className="main-content you-page" ref={YouRef} id="you">
                 <Youprofile />
 
-                <div className="title-container">
+                <div className="title-container" ref={HistoryRef} id="history">
                     <h1>History</h1>
 
                 </div>
@@ -277,7 +329,7 @@ function You() {
                     />
                 )}
 
-                <div className="title-container">
+                <div className="title-container" ref={LikedRef} id="liked">
                     <h1>Liked</h1>
                 </div>
                 {/* --- Liked Videos --- */}
@@ -302,7 +354,7 @@ function You() {
                     />
                 )}
 
-                <div className="title-container">
+                <div className="title-container" ref={ViewLaterRef} id="viewlater">
                     <h1>View Later</h1>
                 </div>
                 {/* --- View Later Videos --- */}

@@ -19,6 +19,12 @@
     width: 100%;
 }
 
+.title-container {
+    /* Aquí se le dice al navegador que mantenga 80px de espacio
+       por encima del punto donde se detiene el scroll. */
+    scroll-margin-top: 70px; 
+}
+
 .first-part-profile {
     display: flex;
     align-items: center;
