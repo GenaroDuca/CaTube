@@ -29,7 +29,8 @@ a {
   border-radius: 30px; */
   width: auto;
   margin: 1rem 1rem;
-  background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+  background: var(--container-color-gradient);
+  ;
   border-radius: 30px;
   padding: 20px;
   border: 1px solid #3a3a3a;
@@ -80,7 +81,8 @@ a {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+  background: var(--container-color-gradient);
+  ;
   border: 1px solid var(--border-container-color);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   color: var(--text-color);

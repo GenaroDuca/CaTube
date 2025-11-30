@@ -1,5 +1,6 @@
 .dashboard-card {
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     display: flex;
@@ -185,7 +186,8 @@
 .btn-container,
 .filter-bar {
     border-radius: var(--border-radius);
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
@@ -352,7 +354,7 @@
 }
 
 .scroll-table-container ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, var(--btn), var(--btn-dark));
+        background: var(--container-color-gradient);-gradient(180deg, var(--btn), var(--btn-dark));
     border-radius: 10px;
     border: 2px solid transparent;
 }
@@ -507,7 +509,8 @@
 .video-community {
     width: 100%;
     margin-bottom: 20px;
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border-radius: var(--border-radius);
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -570,7 +573,8 @@
     border-radius: var(--border-radius);
     display: flex;
     justify-content: space-between;
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
@@ -708,7 +712,8 @@
     align-items: center;
     width: 100%;
     min-height: 250px;
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border-radius: var(--border-radius);
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -771,7 +776,8 @@
 .info-customization-container input,
 .info-customization-container textarea {
     width: 100%;
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     color: var(--text-color);

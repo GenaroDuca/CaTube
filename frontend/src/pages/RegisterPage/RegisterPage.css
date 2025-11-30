@@ -47,10 +47,11 @@ a {
 .auth-box-login,
 .auth-box-signup {
     border-radius: 30px;
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    
+
     display: flex;
     overflow: hidden;
     width: 600px;
@@ -165,7 +166,8 @@ a {
     align-items: center;
     z-index: 1;
 }
-.icon-circle svg path{
+
+.icon-circle svg path {
     color: var(--btn);
 }
 
@@ -175,7 +177,8 @@ a {
     height: 40px;
     border: none;
     border-radius: 0 30px 30px 0;
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     color: var(--text-color);
     text-align: center;

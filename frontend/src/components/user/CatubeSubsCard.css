@@ -5,7 +5,8 @@
     /* Ejemplo de ancho fijo */
     max-width: 100%;
     align-items: center;
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border-radius: var(--border-radius);

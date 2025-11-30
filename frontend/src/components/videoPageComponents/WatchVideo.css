@@ -93,9 +93,10 @@
 .vv-progress-bar::-webkit-slider-runnable-track {
     height: 6px;
     border-radius: 4px;
-    background: linear-gradient(to right,
-            rgb(144, 180, 132) var(--progress, 0%),
-            #3a3a3a var(--progress, 0%));
+    background: var(--container-color-gradient);
+    -gradient(to right,
+        rgb(144, 180, 132) var(--progress, 0%),
+        #3a3a3a var(--progress, 0%));
 }
 
 /* Firefox */
@@ -204,7 +205,8 @@
     cursor: pointer;
     width: 100%;
     aspect-ratio: 16/9;
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
@@ -283,7 +285,8 @@
 }
 
 .vv-displayVideo-description {
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     padding: 20px;
@@ -358,8 +361,8 @@
 }
 
 .dislike-btn:hover svg path {
-    fill: #e96765 ;
-    stroke: #e96765 ;
+    fill: #e96765;
+    stroke: #e96765;
 }
 
 
@@ -944,7 +947,8 @@ body.in-theater-mode .main-content {
         /* scrollbar-width: thin;
         scrollbar-color: var(--btn) var(--primary-color); */
     }
-/* 
+
+    /* 
     .comments-watch::-webkit-scrollbar {
         width: 8px;
         background: var(--primary-color);
@@ -978,24 +982,25 @@ body.in-theater-mode .main-content {
 /* Mobile Devices */
 @media (max-width: 768px) {
     .vv-displayVideo-userActions {
-        flex-direction: column  ;
+        flex-direction: column;
         gap: 20px;
     }
 
-    .container-all {
-
-    }
+    .container-all {}
 
 }
 
 @media (max-width: 600px) {
-    .vv-video-leftControls-button, .vv-video-rightControls-theaterMode {
+
+    .vv-video-leftControls-button,
+    .vv-video-rightControls-theaterMode {
         display: none !important;
     }
 
     .vv-time-display {
         font-size: 0.8rem;
     }
+
     .video-player-container {
         max-height: 45vh;
     }

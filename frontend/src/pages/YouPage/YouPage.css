@@ -11,7 +11,8 @@
 }
 
 .profile-info-you-page {
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     padding: 20px;
@@ -22,7 +23,7 @@
 .title-container {
     /* Aquí se le dice al navegador que mantenga 80px de espacio
        por encima del punto donde se detiene el scroll. */
-    scroll-margin-top: 70px; 
+    scroll-margin-top: 70px;
 }
 
 .first-part-profile {
@@ -184,7 +185,7 @@ a {
 .youpage-empty {
     display: flex;
     justify-content: center;
- }
+}
 
 
 @media (max-width:1100px) {

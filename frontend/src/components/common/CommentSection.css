@@ -23,7 +23,8 @@
     align-items: center;
     width: 100%;
     padding: 8px 12px;
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     border-radius: 30px;
     margin-bottom: 20px;
@@ -62,7 +63,8 @@
     align-items: center;
     width: 100%;
     padding: 8px 20px;
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border-radius: var(--border-radius);
@@ -160,8 +162,8 @@
     color: #e96765 !important;
 }
 
-.comment-actions div button{
-   display: flex;
+.comment-actions div button {
+    display: flex;
     justify-content: center;
     align-items: center;
 }
@@ -192,7 +194,8 @@
 }
 
 .comment {
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     padding: 20px;
     border-radius: var(--border-radius);
@@ -208,7 +211,8 @@
 }
 
 .video-comment {
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     padding: 20px;

@@ -1,7 +1,8 @@
 /* === Contenedor de Búsqueda y Título (Se mantiene igual) === */
-.tag-search-container, .selected-tag-title {
-  width: auto;
-  margin: 1rem 1rem;
+.tag-search-container,
+.selected-tag-title {
+    width: auto;
+    margin: 1rem 1rem;
 }
 
 
@@ -11,7 +12,8 @@
     padding: 12px 20px;
     border-radius: 30px;
     color: var(--text-color);
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
@@ -28,29 +30,31 @@
 
 .tags-list {
     margin-top: 20px;
-    
+
     /* 1. Usar Grid para la estructura */
     display: grid;
-    
+
     /* 2. Definir las columnas: 5 columnas de ancho uniforme */
     grid-template-columns: repeat(5, 1fr);
-    
+
     /* 3. Espacio entre las filas y columnas */
-    gap: 20px; /* Ajustado el gap para el grid */
-    
+    gap: 20px;
+    /* Ajustado el gap para el grid */
+
 }
 
 .tag-item {
     /* Aseguramos que el texto esté centrado si los tags tienen anchos diferentes */
-    text-align: center; 
-    
+    text-align: center;
+
     /* Estilo del Tag */
-    padding: 8px 15px; /* Aumentado ligeramente para mejor aspecto */
+    padding: 8px 15px;
+    /* Aumentado ligeramente para mejor aspecto */
     border-radius: 30px;
     border: 1px solid var(--text-color);
     cursor: pointer;
     transition: 0.2s;
-    
+
     /* Aseguramos que el contenido no desborde si el texto es largo */
     overflow: hidden;
     text-overflow: ellipsis;
