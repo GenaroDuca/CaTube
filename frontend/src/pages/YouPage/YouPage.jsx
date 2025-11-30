@@ -85,15 +85,15 @@ function You() {
 
         const hash = location.hash;
         let refToScroll = null;
-        const HEADER_HEIGHT = 70; // <-- Ajusta esta altura si tu Header es diferente (e.g., 80 o 90)
+        const HEADER_HEIGHT = 70;
 
         // Lógica para determinar el destino del scroll
         if (hash) {
-            const sectionId = hash.substring(1); // Elimina el '#'
+            const sectionId = hash.substring(1);
 
             switch (sectionId) {
                 case 'you':
-                    refToScroll = YouRef; // Lleva al tope de la página 'You'
+                    refToScroll = YouRef;
                     break;
                 case 'history':
                     refToScroll = HistoryRef;
@@ -297,6 +297,12 @@ function You() {
                     <h1>History</h1>
 
                 </div>
+                {historyVideos.length === 0 && !loading && (
+                    <div className="youpage-empty">
+                        <p>Nothing here yet</p>
+                    </div>
+                )}
+
                 {/* --- History Videos --- */}
                 {historyVideos.filter(v => v.type !== 'short').length > 0 && (
                     <SectionsCarousel
@@ -332,6 +338,11 @@ function You() {
                 <div className="title-container" ref={LikedRef} id="liked">
                     <h1>Liked</h1>
                 </div>
+                {likedVideos.length === 0 && !loading && (
+                    <div className="youpage-empty">
+                        <p>Nothing here yet</p>
+                    </div>
+                )}
                 {/* --- Liked Videos --- */}
                 {likedVideos.filter(v => v.type !== 'short').length > 0 && (
                     <SectionsCarousel
@@ -357,6 +368,11 @@ function You() {
                 <div className="title-container" ref={ViewLaterRef} id="viewlater">
                     <h1>View Later</h1>
                 </div>
+                {viewLaterVideos.length === 0 && !loading && (
+                    <div className="youpage-empty">
+                        <p>Nothing here yet</p>
+                    </div>
+                )}
                 {/* --- View Later Videos --- */}
                 {viewLaterVideos.filter(v => v.type !== 'short').length > 0 && (
                     <SectionsCarousel
@@ -381,14 +397,6 @@ function You() {
                         showTrashButton={true}
                         onRemove={handleRemoveFromWatchLater}
                     />
-                )}
-
-                {/* Mensaje si no hay nada en las listas */}
-                {historyVideos.length === 0 && viewLaterVideos.length === 0 && likedVideos.length === 0 && !loading && (
-                    <div className="catscribers-empty" style={{ paddingTop: '50px' }}>
-                        <h2>Nothing here yet</h2>
-                        <p>Start watching videos, liking them, or saving them to "View Later".</p>
-                    </div>
                 )}
 
                 {error && (

@@ -18,9 +18,9 @@ function Sidebar() {
   const protectedLinks = [
     '/subscribers',
     '/you',
-    '/history',
-    '/view-later',
-    '/liked',
+    '/you#history',
+    '/you#viewlater',
+    '/you#liked',
     '/studio?section=content'
   ];
 
