@@ -17,6 +17,8 @@ import * as sharp from 'sharp';
 
 import { NotificationsService } from '../notifications/notifications.service';
 import { NotificationType } from '../notifications/entities/notification.entity';
+import { History } from './entities/history.entity';
+import { WatchLater } from './entities/watch-later.entity';
 
 @Injectable()
 export class UsersService {
@@ -25,6 +27,12 @@ export class UsersService {
     constructor(
         @InjectRepository(User)
         private usersRepository: Repository<User>,
+
+        @InjectRepository(History)
+        private historyRepository: Repository<History>,
+
+        @InjectRepository(WatchLater)
+        private watchLaterRepository: Repository<WatchLater>,
 
         @Inject(forwardRef(() => ChannelsService))
         private channelsService: ChannelsService,
@@ -692,5 +700,88 @@ export class UsersService {
             console.error('❌ Error enviando email de Feedback con Resend:', error);
             throw new InternalServerErrorException('Error al enviar el correo de feedback.');
         }
+    }
+
+    // =================================================================
+    // HISTORY & WATCH LATER
+    // =================================================================
+
+    async getHistory(userId: string) {
+        const history = await this.historyRepository.find({
+            where: { user: { user_id: userId } },
+            relations: ['video', 'video.channel', 'video.channel.user'],
+            order: { viewedAt: 'DESC' },
+        });
+        return history.map(h => h.video);
+    }
+
+    async getWatchLater(userId: string) {
+        const wl = await this.watchLaterRepository.find({
+            where: { user: { user_id: userId } },
+            relations: ['video', 'video.channel', 'video.channel.user'],
+            order: { addedAt: 'DESC' },
+        });
+        return wl.map(w => w.video);
+    }
+
+    async addToHistory(userId: string, videoId: string) {
+        try {
+            // Primero eliminamos cualquier entrada existente
+            await this.historyRepository.delete({
+                user: { user_id: userId },
+                video: { id: videoId }
+            });
+
+            // Luego creamos una nueva entrada con el timestamp actualizado
+            const historyItem = this.historyRepository.create({
+                user: { user_id: userId },
+                video: { id: videoId },
+                viewedAt: new Date()
+            });
+
+            return await this.historyRepository.save(historyItem);
+        } catch (error) {
+            // Si aún así hay un error de duplicado (race condition extrema),
+            // simplemente lo ignoramos ya que el objetivo es que esté en el historial
+            if (error.code === 'ER_DUP_ENTRY') {
+                console.log('Duplicate entry ignored for history - video already in history');
+                return null;
+            }
+            console.error('Error adding to history:', error);
+            throw error;
+        }
+    }
+
+    async addToWatchLater(userId: string, videoId: string) {
+        const exists = await this.watchLaterRepository.findOne({
+            where: {
+                user: { user_id: userId },
+                video: { id: videoId }
+            }
+        });
+
+        if (exists) {
+            return exists;
+        }
+
+        const newItem = this.watchLaterRepository.create({
+            user: { user_id: userId },
+            video: { id: videoId }
+        });
+        return this.watchLaterRepository.save(newItem);
+    }
+
+    async removeFromWatchLater(userId: string, videoId: string) {
+        const item = await this.watchLaterRepository.findOne({
+            where: {
+                user: { user_id: userId },
+                video: { id: videoId }
+            }
+        });
+
+        if (item) {
+            return this.watchLaterRepository.remove(item);
+        }
+        return null;
     }
 }

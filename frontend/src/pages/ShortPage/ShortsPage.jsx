@@ -5,9 +5,8 @@ import './shortsPage.css';
 import Header from '../../components/common/header/Header';
 import Sidebar from '../../components/common/Sidebar';
 import Footer from '../../components/common/Footer';
-import { getAuthToken } from '../../utils/auth';
+import { getAuthToken, getMyUserId } from '../../utils/auth';
 import { VITE_API_URL } from '../../../config';
-// IMPORTANTE: Asegúrate de importar el componente Loader
 import Loader from '../../components/common/Loader';
 
 export default function ShortPage() {
@@ -15,18 +14,16 @@ export default function ShortPage() {
   const navigate = useNavigate();
 
   const [shorts, setShorts] = useState([]);
-  // Usaremos el Loader genérico para esta carga
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [maximizedId, setMaximizedId] = useState(null);
-
-  // ESTADO CENTRAL: ID del short que debe estar reproduciéndose
   const [activeShortId, setActiveShortId] = useState(null);
 
   const shortRefs = useRef({});
+  const lastHistoryShortRef = useRef(null); // Para evitar duplicados en historial
   const token = getAuthToken();
 
-  // Función para incrementar vistas (se mantiene igual)
+  // Función para incrementar vistas y agregar al historial
   const incrementView = async (videoId) => {
     const userId = localStorage.getItem('userId') || 'anonymous';
     const viewedVideosKey = `viewedVideos_${userId}`;
@@ -44,13 +41,34 @@ export default function ShortPage() {
         console.error('Error incrementing views:', error);
       }
     }
+
+    // Agregar al historial (siempre, para actualizar timestamp)
+    if (token && userId !== 'anonymous') {
+      try {
+        const myId = getMyUserId();
+        // Solo agregar si es un short diferente al último agregado
+        if (myId && lastHistoryShortRef.current !== videoId) {
+          lastHistoryShortRef.current = videoId; // Marcar como agregado
+          await fetch(`${VITE_API_URL}/users/${myId}/history`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({ videoId })
+          });
+        }
+      } catch (err) {
+        console.error('Error adding short to history:', err);
+      }
+    }
   };
 
   // Lógica de Fetch de Shorts
   useEffect(() => {
     const fetchShorts = async () => {
       try {
-        setLoading(true); // Iniciar carga
+        setLoading(true);
         setError(null);
 
         const response = await fetch(`${VITE_API_URL}/videos/shorts`, {
@@ -78,7 +96,6 @@ export default function ShortPage() {
           thumbnail: short.thumbnail
         }));
 
-
         if (id) {
           const index = transformed.findIndex((s) => String(s.id) === String(id));
           if (index !== -1) {
@@ -90,25 +107,22 @@ export default function ShortPage() {
 
         setShorts(transformed);
 
-        // Si hay shorts, activamos inmediatamente el primero
         if (transformed.length > 0) {
           const firstShortId = transformed[0].id;
           setActiveShortId(firstShortId);
-
-          // También incrementamos la vista inicial aquí
           incrementView(firstShortId);
         }
       } catch (err) {
         setError(err);
       } finally {
-        setLoading(false); // Finalizar carga
+        setLoading(false);
       }
     };
 
     fetchShorts();
   }, [id, token]);
 
-  // Lógica del IntersectionObserver para detectar y activar el video (sin cambios)
+  // Lógica del IntersectionObserver - AHORA GUARDA EN HISTORIAL AL HACER SCROLL
   useEffect(() => {
     if (shorts.length === 0) return;
 
@@ -127,12 +141,12 @@ export default function ShortPage() {
           if (entry.isIntersecting && entry.intersectionRatio > 0.65) {
             const visibleId = entry.target.getAttribute('data-id');
 
-            // ACTUALIZA EL ESTADO CENTRAL: Pausa el anterior y activa este.
             if (activeShortId !== visibleId) {
               setActiveShortId(visibleId);
+              // ✅ AGREGAR AL HISTORIAL CUANDO SE VUELVE VISIBLE POR SCROLL
+              incrementView(visibleId);
             }
 
-            // Lógica de URL
             updateUrlIfNeeded(visibleId);
           }
         });
@@ -147,12 +161,11 @@ export default function ShortPage() {
     return () => observer.disconnect();
   }, [shorts, activeShortId]);
 
-  // Función de Callback para ShortCard (sin cambios)
+  // Función de Callback para ShortCard
   const handleVideoActive = (shortId) => {
     if (activeShortId !== shortId) {
       setActiveShortId(shortId);
 
-      // Si se activa por callback, actualizamos la URL y sumamos vista
       const currentIdInUrl = window.location.pathname.split('/').pop();
       if (shortId && shortId !== currentIdInUrl) {
         window.history.replaceState(null, '', `/shorts/${shortId}`);
@@ -165,7 +178,7 @@ export default function ShortPage() {
     setMaximizedId((prev) => (prev === shortId ? null : shortId));
   };
 
-  // Bloquear el scroll cuando se maximiza un short (sin cambios)
+  // Bloquear el scroll cuando se maximiza un short
   useEffect(() => {
     if (maximizedId) {
       document.body.style.overflow = 'hidden';
@@ -178,16 +191,12 @@ export default function ShortPage() {
     };
   }, [maximizedId]);
 
-  // ===================================
-  // RENDERIZADO CONDICIONAL DE CARGA/ERROR
-  // ===================================
   if (loading) {
     return (
       <>
         <Header />
         <Sidebar />
         <main className="main-content">
-          {/* Usamos el Loader genérico en modo Overlay */}
           <Loader isOverlay={true} />
         </main>
       </>

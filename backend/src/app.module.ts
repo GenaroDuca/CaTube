@@ -36,6 +36,8 @@ import { Message } from './messages/entities/message.entity';
 import { Room } from './rooms/entities/room.entity';
 import { Tag } from './tags/entities/tag.entity';
 import { Post } from './posts/entities/post.entity';
+import { History } from './users/entities/history.entity';
+import { WatchLater } from './users/entities/watch-later.entity';
 // import { UploadsModule } from './uploads/uploads.module';
 
 @Module({
@@ -58,7 +60,7 @@ import { Post } from './posts/entities/post.entity';
         entities: [
           User, Channel, Store, Product, Video, Comment, Like,
           Subscription, Friendship, Notification, Message,
-          Room, Tag, Post
+          Room, Tag, Post, History, WatchLater
         ],
         synchronize: true,
       }),

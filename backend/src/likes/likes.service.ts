@@ -270,4 +270,19 @@ export class LikesService {
       createdAt: like.createdAt,
     }));
   }
+  // Get videos liked by a specific user
+  async findLikedVideosByUserId(userId: string): Promise<Video[]> {
+    const likes = await this.likesRepository.find({
+      where: {
+        user: { user_id: userId },
+        like: true,
+        // Ensure it's a video like, not a comment like
+        video: { id: require('typeorm').Not(require('typeorm').IsNull()) }
+      },
+      relations: ['video', 'video.channel', 'video.channel.user'],
+      order: { createdAt: 'DESC' },
+    });
+    // Filter out any potential null videos just in case, and map to Video entity
+    return likes.filter(l => l.video).map(like => like.video!);
+  }
 }

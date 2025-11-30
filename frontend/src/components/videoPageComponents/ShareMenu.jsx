@@ -6,6 +6,7 @@ import { fetchFriendsAndRequests } from "../common/friendMenu/friendShipApi.js";
 import { getAuthToken } from "../../utils/auth";
 import { getOrCreatePrivateRoom, sendMessage } from "../common/friendMenu/chatApi.js";
 import { getSocket } from "../common/friendMenu/chatApi.js";
+import Loader from "../../components/common/Loader";
 
 import "./ShareMenu.css";
 
@@ -144,7 +145,7 @@ export default function ShareMenu({ videoUrl, videoTitle }) {
                         <div className="friends-section">
                             <h4 style={{ fontSize: "16px", textAlign: "start", color: "#777878" }}>Send to friends</h4>
 
-                            {isLoading && <p style={{ color: "#777878" }}>Loading friends...</p>}
+                            {isLoading && <Loader />}
 
                             {!isLoading && friends.length === 0 && (
                                 <h5 style={{ fontSize: "13px", textAlign: "start", color: "#777878" }} className="no-friends">

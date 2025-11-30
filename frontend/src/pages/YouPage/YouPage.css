@@ -1,10 +1,21 @@
-
 .container-profile {
     display: flex;
     height: auto;
     border-radius: 30px;
-    width: auto;
-    margin: 1rem 1rem;
+    gap: 20px;
+}
+
+.profile-info-you-page h2 {
+    text-align: center;
+}
+
+.profile-info-you-page {
+    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    border: 1px solid var(--border-container-color);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 30px;
+    width: 100%;
 }
 
 .first-part-profile {
@@ -181,7 +192,7 @@ a {
         grid-template-columns: 1fr;
     }
 
-    .playlistThumb{
+    .playlistThumb {
         border-radius: 15px !important;
     }
 

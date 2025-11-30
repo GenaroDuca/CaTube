@@ -9,8 +9,8 @@ import { useRef, useState, useEffect } from "react";
 import { getAuthToken, getMyUserId } from '../../utils/auth.js';
 import { VITE_API_URL } from '../../../config';
 import resolveUrl from '../../utils/url';
-import Loader from '../../components/common/Loader'; // Importar Loader
-import { Link } from 'react-router-dom'; // Importar Link si es necesario
+import Loader from '../../components/common/Loader';
+import { Link } from 'react-router-dom';
 
 // Importaciones de estilos
 import '../../styles/Global_components.css';
@@ -25,7 +25,7 @@ const mapVideoData = (video, token) => {
         : (video.thumbnail || '');
 
     let avatar = '/assets/images/profile/A.png';
-        if (video.channel?.photoUrl) {
+    if (video.channel?.photoUrl) {
         if (video.channel.photoUrl.startsWith('/uploads/')) {
             avatar = resolveUrl(video.channel.photoUrl);
         } else if (video.channel.photoUrl.startsWith('/assets/images/profile/')) {
@@ -84,7 +84,6 @@ function You() {
             setLoading(true);
             setError(null);
 
-            // Definición de las funciones de fetch (asumiendo endpoints de listas de reproducción)
             const fetchList = async (listType) => {
                 const endpoint = listType === 'history' ? `/users/${userId}/history` :
                     listType === 'watchlater' ? `/users/${userId}/watchlater` :
@@ -101,8 +100,6 @@ function You() {
                 }
 
                 const data = await response.json();
-
-                // Mapear el contenido de la lista (asumiendo que devuelve una lista de videos)
                 return data.map(item => mapVideoData(item, token));
             };
 
@@ -156,7 +153,6 @@ function You() {
                     <div className="catscribers-empty" style={{ paddingTop: '100px' }}>
                         <h2>Sign in to see your profile</h2>
                         <p>Your history, watch later list, and liked videos will appear here.</p>
-                        {/* Aquí puedes añadir un botón de login si tienes una ruta de navegación */}
                     </div>
                 </main>
             </>
@@ -174,39 +170,82 @@ function You() {
             <main className="main-content you-page">
                 <Youprofile />
 
-                {/* --- History --- */}
-                {historyVideos.length > 0 && (
+                <div className="title-container">
+                    <h1>History</h1>
+                </div>
+                {/* --- History Videos --- */}
+                {historyVideos.filter(v => v.type !== 'short').length > 0 && (
                     <SectionsCarousel
-                        section="history-list"
-                        subtitle="History"
-                        render={historyVideos}
+                        section="subscriptions"
+                        subtitle="History Videos"
+                        render={historyVideos.filter(v => v.type !== 'short')}
                         type="video"
                         cts="carousel-ctsvideos"
-                        showTrashButton={true} // Propiedad para mostrar botón de eliminar
-                        isHistory={true} // Propiedad para lógica específica de historial
+                        showTrashButton={true}
+                        isHistory={true}
                     />
                 )}
 
-                {/* --- View Later --- */}
-                {viewLaterVideos.length > 0 && (
+                {/* --- History Shorts --- */}
+                {historyVideos.filter(v => v.type === 'short').length > 0 && (
                     <SectionsCarousel
-                        section="view-later-list"
-                        subtitle="View Later"
-                        render={viewLaterVideos}
-                        type="video"
-                        cts="carousel-ctsvideos"
-                        showViewAllButton={true} // Propiedad para View All
+                        section="trending"
+                        subtitle="History Shorts"
+                        render={historyVideos.filter(v => v.type === 'short')}
+                        type="short"
+                        cts="carousel-ctshorts"
+                        showTrashButton={true}
+                        isHistory={true}
                     />
                 )}
 
-                {/* --- Liked --- */}
-                {likedVideos.length > 0 && (
+                <div className="title-container">
+                    <h1>Liked</h1>
+                </div>
+                {/* --- Liked Videos --- */}
+                {likedVideos.filter(v => v.type !== 'short').length > 0 && (
                     <SectionsCarousel
-                        section="liked-list"
+                        section="subscriptions"
                         subtitle="Liked Videos"
-                        render={likedVideos}
+                        render={likedVideos.filter(v => v.type !== 'short')}
                         type="video"
                         cts="carousel-ctsvideos"
+                    />
+                )}
+
+                {/* --- Liked Shorts --- */}
+                {likedVideos.filter(v => v.type === 'short').length > 0 && (
+                    <SectionsCarousel
+                        section="trending"
+                        subtitle="Liked Shorts"
+                        render={likedVideos.filter(v => v.type === 'short')}
+                        type="short"
+                        cts="carousel-ctshorts"
+                    />
+                )}
+
+                <div className="title-container">
+                    <h1>View Later</h1>
+                </div>
+                {/* --- View Later Videos --- */}
+                {viewLaterVideos.filter(v => v.type !== 'short').length > 0 && (
+                    <SectionsCarousel
+                        section="subscriptions"
+                        subtitle="View Later Videos"
+                        render={viewLaterVideos.filter(v => v.type !== 'short')}
+                        type="video"
+                        cts="carousel-ctsvideos"
+                    />
+                )}
+
+                {/* --- View Later Shorts --- */}
+                {viewLaterVideos.filter(v => v.type === 'short').length > 0 && (
+                    <SectionsCarousel
+                        section="trending"
+                        subtitle="View Later Shorts"
+                        render={viewLaterVideos.filter(v => v.type === 'short')}
+                        type="short"
+                        cts="carousel-ctshorts"
                     />
                 )}
 
@@ -226,7 +265,7 @@ function You() {
                 )}
 
                 {/* <Footer footer="footer" /> */}
-            </main >
+            </main>
 
         </>
     );
