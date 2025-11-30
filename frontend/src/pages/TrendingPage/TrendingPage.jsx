@@ -120,7 +120,7 @@ function Trending() {
                         <VideoCard key={video.id} video={video} />
                     ))}
                 </Block>
-                <Footer footer="footer"></Footer>
+                {/* <Footer footer="footer"></Footer> */}
             </main>
         </>
     );

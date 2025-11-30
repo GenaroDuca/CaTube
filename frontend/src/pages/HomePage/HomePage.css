@@ -52,10 +52,20 @@ a {
   justify-content: space-between;
 }
 
-.short-card div {
+.short-card-footer {
   width: 100%;
   display: flex;
   justify-content: space-between;
+}
+
+.name-channel {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  line-clamp: 3;
+  margin-top: 5px;
 }
 
 /*carruseles*/
@@ -158,12 +168,6 @@ a {
   width: 80px;
   height: 80px;
   border-radius: 50%;
-}
-
-.name-channel {
-  display: block;
-  overflow-wrap: break-word;
-  margin-top: 5px;
 }
 
 .short {
