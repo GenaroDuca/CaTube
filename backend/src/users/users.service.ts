@@ -784,4 +784,27 @@ export class UsersService {
         }
         return null;
     }
+
+    async removeFromHistory(userId: string, videoId: string) {
+        try {
+            const result = await this.historyRepository.delete({
+                user: { user_id: userId },
+                video: { id: videoId }
+            });
+            return result.affected! > 0;
+        } catch (error) {
+            console.error('Error removing from history:', error);
+            throw error;
+        }
+    }
+
+    async clearHistory(userId: string) {
+        try {
+            const res = await this.historyRepository.delete({ user: { user_id: userId } });
+            return { success: true, deleted: res.affected || 0 };
+        } catch (err) {
+            console.error('Error clearing history:', err);
+            throw err;
+        }
+    }
 }

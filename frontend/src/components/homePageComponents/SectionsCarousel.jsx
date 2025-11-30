@@ -6,6 +6,7 @@ import Container from '../common/Container.jsx'
 import Subtitle from './Subtitle.jsx'
 import ButtonCarousel from './ButtonCarousel.jsx'
 import { Link } from 'react-router-dom'
+import { MdDelete } from 'react-icons/md'
 import { getAuthToken } from '../../utils/auth.js'
 
 import './Sections.css';
@@ -29,27 +30,43 @@ function SectionsCarousel(props) {
                 );
             case 'video':
                 return (
-                    <Link to={`/watch/${item.id}`}>
-                        <Video
-                            key={index}
-                            namevideo={item.namevideo || item.title}
-                            videoviews={item.videoviews || item.views}
-                            thumbnail={item.thumbnail}
-                            createdAt={item.createdAt}
-                        />
-                    </Link>
+                    <div className="carousel-item-wrapper" key={`video-${item.id}-${index}`}>
+                        {props.showTrashButton && (
+                            <button 
+                                className="btn-trash" 
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); props.onRemove && props.onRemove(item); }}
+                                aria-label="Remove"
+                            ><MdDelete /></button>
+                        )}
+                        <Link to={`/watch/${item.id}`}>
+                            <Video
+                                namevideo={item.namevideo || item.title}
+                                videoviews={item.videoviews || item.views}
+                                thumbnail={item.thumbnail}
+                                createdAt={item.createdAt}
+                            />
+                        </Link>
+                    </div>
                 );
             case 'short':
                 return (
-                    <Link to={`/shorts/${item.id}`}>
-                        <Short
-                            key={index}
-                            nameshort={item.nameshort || item.title}
-                            shortviews={item.shortviews || item.views}
-                            thumbnail={item.thumbnail}
-                            createdAt={item.createdAt}
-                        />
-                    </Link>
+                    <div className="carousel-item-wrapper" key={`short-${item.id}-${index}`}>
+                        {props.showTrashButton && (
+                            <button 
+                                className="btn-trash" 
+                                onClick={(e) => { e.preventDefault(); e.stopPropagation(); props.onRemove && props.onRemove(item); }}
+                                aria-label="Remove"
+                            ><MdDelete /></button>
+                        )}
+                        <Link to={`/shorts/${item.id}`}>
+                            <Short
+                                nameshort={item.nameshort || item.title}
+                                shortviews={item.shortviews || item.views}
+                                thumbnail={item.thumbnail}
+                                createdAt={item.createdAt}
+                            />
+                        </Link>
+                    </div>
                 );
             default:
                 return null;

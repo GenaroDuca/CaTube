@@ -7,6 +7,7 @@
 
 .profile-info-you-page h2 {
     text-align: center;
+    margin-bottom: 10px;
 }
 
 .profile-info-you-page {
@@ -214,4 +215,29 @@ a {
 
 
 
+}
+
+.title-actions .btn-trash {
+    margin-left: 8px;
+    padding: 6px 10px;
+    font-weight: 600;
+}
+
+.btn-clear-history-container {
+    display: flex;
+    justify-content: center;
+}
+
+.btn-clear-history {
+    padding: 10px 20px;
+    background-color: #e96765;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    color: var(--primary-color);
+    border-radius: 30px;
+}
+
+.btn-clear-history:hover {
+    background-color: #b94c4a;
+    cursor: pointer;
 }

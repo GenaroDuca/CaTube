@@ -76,7 +76,6 @@ function Youprofile() {
             try {
                 // 1. OBTENER DATOS DEL USUARIO
                 const userData = await apiFetch('/users/me');
-                console.log(userData);
 
                 if (userData) {
                     setUsername(userData.username);
@@ -154,8 +153,6 @@ function Youprofile() {
                     </div>
                 </div>
             </div>
-
-            <hr style={{ margin: '20px 0', borderTop: '1px solid #333' }} />
 
             <div className="profile-info-you-page">
                 <h2>Your User info</h2>

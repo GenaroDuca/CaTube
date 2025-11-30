@@ -197,4 +197,18 @@ export class UsersController {
     removeFromWatchLater(@Param('id') id: string, @Param('videoId') videoId: string) {
         return this.usersService.removeFromWatchLater(id, videoId);
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete('me/history/:videoId')
+    removeFromHistory(@Req() req, @Param('videoId') videoId: string) {
+        const userId = req.user.id;
+        return this.usersService.removeFromHistory(userId, videoId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete('me/history')
+    clearHistory(@Req() req) {
+        const userId = req.user.id;
+        return this.usersService.clearHistory(userId);
+    }
 }
