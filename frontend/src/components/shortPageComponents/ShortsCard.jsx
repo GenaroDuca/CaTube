@@ -281,18 +281,8 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
 
                 <div className="short-details">
                   <h3 className="short-title">{short.title}</h3>
-                  <p className="short-desc">{short.description}</p>
-                  <div className="short-tags">
-                    {(short.tags || []).map(tag => (
-                      <Link
-                        key={tag.name}
-                        to={`/discover?tag=${encodeURIComponent(tag.name)}`}
-                        className="tag-link"
-                      >
-                        #{tag.name}
-                      </Link>
-                    ))}
-                  </div>
+                  {/* <p className="short-desc">{short.description}</p> */}
+
                 </div>
                 <div className="short-user-header">
                   <Link to={`/yourchannel/${short.channelUrl}`} className="overlay-avatar">
@@ -313,6 +303,17 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
                       </button>
                     )}
                   </div>
+                </div>
+                <div className="short-tags">
+                  {(short.tags || []).map(tag => (
+                    <Link
+                      key={tag.name}
+                      to={`/discover?tag=${encodeURIComponent(tag.name)}`}
+                      className="tag-link"
+                    >
+                      #{tag.name}
+                    </Link>
+                  ))}
                 </div>
               </div>
             )}
@@ -401,17 +402,17 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
 
                 <button type="button" className="action-button"><ShareMenu videoUrl={short.url} videoTitle={short.title} /></button>
 
-                  <div className="action-button">
-                    <VideoOptionsMenu
-                      videoId={short.id}
-                      title={short.title}
-                      description={short.description}
-                      thumbnail={short.thumbnail}
-                      tags={short.tags}
-                      contentType="Shorts"
-                      ownerId={short.ownerId}
-                    />
-                  </div>
+                <div className="action-button">
+                  <VideoOptionsMenu
+                    videoId={short.id}
+                    title={short.title}
+                    description={short.description}
+                    thumbnail={short.thumbnail}
+                    tags={short.tags}
+                    contentType="Shorts"
+                    ownerId={short.ownerId}
+                  />
+                </div>
 
               </div>
             </div>

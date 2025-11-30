@@ -196,7 +196,7 @@ export default function ShortPage() {
       <>
         <Header />
         <Sidebar />
-        <main className="main-content">
+        <main className="main-content shortpage">
           <Loader isOverlay={true} />
         </main>
       </>
@@ -208,7 +208,7 @@ export default function ShortPage() {
       <>
         <Header />
         <Sidebar />
-        <main className="main-content">
+        <main className="main-content shortpage">
           <div className="shortpage-error">
             <h1>Error al cargar los Shorts</h1>
             <p>{error.message}</p>
@@ -224,7 +224,7 @@ export default function ShortPage() {
       <Header />
       <Sidebar />
 
-      <main className="main-content">
+      <main className="main-content shortpage">
         <div className="container-short-principal">
           {shorts.map((short) => (
             <div
