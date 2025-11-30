@@ -2,7 +2,7 @@ import { VITE_API_URL } from '../../../config';
 
 function getTimeAgo(dateInput) {
     const date = new Date(dateInput);
-    
+
     const msDifference = Math.abs(new Date() - date);
     const seconds = Math.floor(msDifference / 1000);
 
@@ -52,18 +52,20 @@ function getTimeAgo(dateInput) {
 }
 
 function Short(props) {
-        // Handle photo URL properly
-        let photoSrc = props.thumbnail || '';
+    // Handle photo URL properly
+    let photoSrc = props.thumbnail || '';
 
-        return (
-                <div className="short-card">
-                        <img className="short" src={photoSrc} alt={props.nameshort} />
-                        <p className="name-channel">{props.nameshort}</p>
-                        <div>
-                                <p className="subs-channel">{props.shortviews}</p>
-                                <p className="subs-channel" style={{ color: '#90b484' }}>{getTimeAgo(props.createdAt)}</p>
-                        </div>
-                </div>
-        );
+    return (
+        <div className="short-card">
+            <div className='short-card-header'>
+                <img className="short" src={photoSrc} alt={props.nameshort} />
+                <p className="name-channel">{props.nameshort}</p>
+            </div>
+            <div className='short-card-footer'>
+                <p className="subs-channel">{props.shortviews}</p>
+                <p className="subs-channel" style={{ color: '#90b484' }}>{getTimeAgo(props.createdAt)}</p>
+            </div>
+        </div>
+    );
 }
 export default Short;

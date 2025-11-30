@@ -1,6 +1,7 @@
 .top-section-wrapper {
     width: 100%;
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border-radius: 30px;
     padding: 20px;
     border: 1px solid #3a3a3a;

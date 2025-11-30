@@ -18,7 +18,8 @@
     text-align: center;
     width: auto;
     margin: 1rem 1rem;
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     border-radius: 30px;
@@ -45,7 +46,8 @@
     gap: 20px;
     align-items: center;
     border-radius: 30px;
-    background: linear-gradient(90deg, #1e1e1f, #252526, #1e1e1f);
+    background: var(--container-color-gradient);
+    ;
     padding: 20px;
     border: 1px solid var(--border-container-color);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -59,7 +61,8 @@
     gap: 20px;
 }
 
-.search-categories button {
+.search-categories button,
+.dropdown-toggle-button {
     padding: 8px 16px;
     border-radius: 20px;
     background: var(--container-color);
@@ -69,11 +72,19 @@
     transition: background 0.2s, color 0.2s;
 }
 
-.search-categories button.active,
-.search-categories button:hover {
+.dropdown-toggle-button {
+    width: 160px;
+}
+
+
+.search-categories button:hover,
+.dropdown-toggle-button:hover {
+    color: var(--btn);
+}
+
+.search-categories button.active {
     background: var(--btn);
     color: var(--primary-color);
-    border-color: var(--btn);
 }
 
 /* === Tags Section === */
@@ -101,36 +112,6 @@
     display: inline-block;
 }
 
-/* Estilo del botón que abre el dropdown */
-.dropdown-toggle-button {
-    padding: 8px 16px;
-    width: 160px;
-    border-radius: 20px;
-    background: var(--container-color);
-    border: 1px solid var(--border-container-color);
-    color: var(--text-color);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.dropdown-toggle-button:hover,
-.dropdown-toggle-button.open {
-    background: var(--btn);
-    border-color: var(--btn);
-    color: var(--primary-color);
-}
-
-/* Estilo del ícono (Flecha) */
-.dropdown-toggle-button i {
-    transition: transform 0.2s ease;
-}
-
-.dropdown-toggle-button i.rotated {
-    transform: rotate(180deg);
-}
-
 /* Estilo del menú desplegable */
 .dropdown-menu-search {
     list-style: none;
@@ -155,7 +136,7 @@
 
 .dropdown-menu-search.open {
     height: 200px;
-        min-width: 160px;
+    min-width: 160px;
 }
 
 /* Items del menú */
@@ -167,15 +148,6 @@
     border-radius: var(--border-radius);
     text-align: center;
     margin: 5px;
-}
-/* Estilo del ícono (Flecha) */
-.dropdown-toggle-button i {
-    transition: transform 0.2s ease;
-}
-
-
-.dropdown-toggle-button i.rotated {
-    transform: rotate(180deg);
 }
 
 /* Estilo del menú desplegable */

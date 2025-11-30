@@ -8,6 +8,7 @@ import Footer from '../../components/common/Footer';
 import { getAuthToken, getMyUserId } from '../../utils/auth';
 import { VITE_API_URL } from '../../../config';
 import Loader from '../../components/common/Loader';
+import { FaArrowUp, FaArrowDown } from "react-icons/fa";
 
 export default function ShortPage() {
   const { id } = useParams();
@@ -161,6 +162,48 @@ export default function ShortPage() {
     return () => observer.disconnect();
   }, [shorts, activeShortId]);
 
+  const handleScroll = (direction) => {
+    if (shorts.length === 0) return;
+
+    const currentIndex = shorts.findIndex(s => String(s.id) === String(activeShortId));
+
+    // Si no se encuentra (por ejemplo al inicio), asumimos el primero
+    const safeIndex = currentIndex === -1 ? 0 : currentIndex;
+
+    let nextIndex = safeIndex;
+    if (direction === 'next') {
+      nextIndex = Math.min(shorts.length - 1, safeIndex + 1);
+    } else {
+      nextIndex = Math.max(0, safeIndex - 1);
+    }
+
+    if (nextIndex !== safeIndex || currentIndex === -1) {
+      const nextShortId = shorts[nextIndex].id;
+      const element = shortRefs.current[nextShortId];
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
+  // Lógica de navegación con teclado
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (shorts.length === 0) return;
+
+      if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        handleScroll('prev');
+      } else if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        handleScroll('next');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [shorts, activeShortId]);
+
   // Función de Callback para ShortCard
   const handleVideoActive = (shortId) => {
     if (activeShortId !== shortId) {
@@ -220,7 +263,7 @@ export default function ShortPage() {
   }
 
   return (
-    <>
+    <div className="short-page-wrapper">
       <Header />
       <Sidebar />
 
@@ -242,7 +285,16 @@ export default function ShortPage() {
             </div>
           ))}
         </div>
+
+        <div className="short-nav-buttons">
+          <button className="nav-btn-up" onClick={() => handleScroll('prev')} aria-label="Previous Short">
+            <FaArrowUp size={20} />
+          </button>
+          <button className="nav-btn-down" onClick={() => handleScroll('next')} aria-label="Next Short">
+            <FaArrowDown size={20} />
+          </button>
+        </div>
       </main>
-    </>
+    </div>
   );
 }
