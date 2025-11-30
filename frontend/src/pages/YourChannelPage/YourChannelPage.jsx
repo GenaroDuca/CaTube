@@ -24,9 +24,8 @@ function YourChannel() {
     const [activeTab, setActiveTab] = useState(0);
     const [channelId, setChannelId] = useState(null);
     const [isOwner, setIsOwner] = useState(false);
-    const [isSubscribed, setIsSubscribed] = useState(false); // Estado de suscripción global
+    const [isSubscribed, setIsSubscribed] = useState(false); 
 
-    // --- ESTADOS CLAVE PARA CARGA CENTRALIZADA ---
     const [loading, setLoading] = useState(true);
     const [channelFound, setChannelFound] = useState(true);
     const [channelData, setChannelData] = useState(null);
@@ -39,7 +38,6 @@ function YourChannel() {
         <StoreChannel key={`store-${channelId}`} isOwner={isOwner} channelId={channelId} />
     ];
 
-    // --- EFECTO: Carga Centralizada del Canal y sus Datos ---
     useEffect(() => {
         setChannelId(null);
         setChannelData(null);
@@ -77,13 +75,11 @@ function YourChannel() {
                             if (userData.channel) {
                                 currentChannelData = userData.channel;
                                 foundChannelId = userData.channel.channel_id;
-                                // Asumimos propiedad si carga el canal vía /yourchannel (ruta sin URL)
                                 isUserOwner = true;
                             }
                         }
                     }
                     if (!foundChannelId) {
-                        // Si no hay canal o no está logueado, fallamos silenciosamente o redirigimos (manejo 404/Error)
                         setChannelFound(false);
                         setLoading(false);
                         return;
@@ -97,11 +93,9 @@ function YourChannel() {
                     });
                     if (userDataResponse.ok) {
                         const userData = await userDataResponse.json();
-                        // Re-comprobamos la propiedad por si se accedió por URL pública
                         isUserOwner = userData.channel && userData.channel.channel_id === foundChannelId;
 
                         if (!isUserOwner) {
-                            // Solo revisamos suscripción si NO es el dueño
                             const subscriptionsResponse = await fetch(`${VITE_API_URL}/subscriptions/user/${userData.user_id}`, {
                                 headers: { 'Authorization': `Bearer ${accessToken}` },
                             });

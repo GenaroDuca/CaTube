@@ -1,4 +1,3 @@
-// src/auth/auth.service.ts
 import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
@@ -51,7 +50,7 @@ export class AuthService {
 
     async sendResetPasswordLink(email: string) {
         const user = await this.usersService.findByEmail(email);
-        if (!user) return; // no revelar si existe
+        if (!user) return;
 
         const token = randomBytes(32).toString('hex');
         const hashedToken = await bcrypt.hash(token, 10);
@@ -62,7 +61,6 @@ export class AuthService {
             reset_token_expiry: expires
         });
 
-        // Aquí enviarías el mail
         const frontendResetUrl = process.env.FRONTEND_RESET_URL;
         const resetUrl = `${frontendResetUrl}?token=${token}`;
 

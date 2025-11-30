@@ -182,7 +182,6 @@ function You() {
         fetchUserLists();
     }, [token, userId]);
 
-    // Remove a single video from watch later
     const handleRemoveFromWatchLater = async (video) => {
 
         if (!token || !userId) return;
@@ -202,7 +201,6 @@ function You() {
         }
     };
 
-    // Remove a single entry from history
     const handleRemoveFromHistory = async (video) => {
         if (!token || !userId) return;
         try {

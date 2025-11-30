@@ -9,7 +9,6 @@ import { json, urlencoded } from 'express';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
-  // Aumentar el límite de tamaño del cuerpo de la solicitud
   app.use(json({ limit: '500mb' }));
   app.use(urlencoded({ extended: true, limit: '500mb' }));
 
@@ -23,7 +22,6 @@ async function bootstrap() {
 
   app.enableCors({
     origin: (origin, callback) => {
-      // If no origin (like curl or server-to-server requests), allow it
       if (!origin) return callback(null, true);
       if (allowedOrigins.indexOf(origin) !== -1) {
         return callback(null, true);
@@ -37,7 +35,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
 
-  // Servir archivos estáticos desde la carpeta uploads
+  // Servir archivos estáticos desde la carpeta uploads //YA NO SE USA MAS XQ PUSIMOS EL BUCKET
   app.useStaticAssets(getUploadsPath(), {
     prefix: '/uploads/',
   });

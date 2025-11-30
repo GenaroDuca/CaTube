@@ -6,7 +6,8 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { NotificationsService } from '../notifications/notifications.service';
 import { NotificationType } from '../notifications/entities/notification.entity';
-import { Subscription } from '../subs/entities/sub.entity'; // Ajusta la ruta si es necesario
+import { Subscription } from '../subs/entities/sub.entity';
+import { ChannelsService } from '../channels/channels.service';
 
 @Injectable()
 export class PostsService {
@@ -16,6 +17,7 @@ export class PostsService {
     @InjectRepository(Subscription)
     private readonly subscriptionsRepository: Repository<Subscription>,
     private notificationsService: NotificationsService,
+    private channelsRepository: ChannelsService,
   ) { }
 
   async create(createPostDto: CreatePostDto): Promise<Post> {
@@ -24,16 +26,14 @@ export class PostsService {
     const newPost = await this.postRepository.save(post);
 
     // 2. Notificar a los seguidores
-    // NOTA: Asumimos que createPostDto incluye 'userId' y 'channelId'
     this.notifyFollowers(newPost);
 
     return newPost;
   }
 
   private async notifyFollowers(post: Post): Promise<void> {
-    // Necesitas el ID del dueño del canal (senderId)
     const senderId = post.userId;
-    const channelId = post.channelId;
+    const channelId = post.channelId; // Este es el canal que publicó el post
     const postId = post.id;
 
     if (!senderId || !channelId) {
@@ -42,7 +42,17 @@ export class PostsService {
     }
 
     try {
-      // 1. Encontrar todas las suscripciones (seguidores) a este canal
+      const sendingChannel = await this.channelsRepository.findOneById(channelId);
+
+      if (!sendingChannel) {
+        console.error(`ERROR: No se encontró el canal con ID ${channelId} para el post ${postId}.`);
+        return;
+      }
+
+      // 2. Definir el URL de destino una sola vez con la URL del canal remitente
+      const linkTarget = `/yourchannel/${sendingChannel.url}`; 
+
+      // 3. Encontrar todas las suscripciones (seguidores) a este canal
       const subscriptions = await this.subscriptionsRepository.find({
         where: {
           channel: { channel_id: channelId }
@@ -55,26 +65,24 @@ export class PostsService {
         return;
       }
 
-      // 2. Crear y enviar notificaciones
+      // 4. Crear y enviar notificaciones
       const notificationPromises = subscriptions.map(sub => {
         const receiverId = sub.user.user_id;
 
-        // Opcional: No auto-notificar al dueño del post
         if (receiverId === senderId) {
           return Promise.resolve();
         }
 
-        const linkTarget = `/yourchannel/${channelId}`;
         const notificationContent = `posted a new post "${post.content.substring(0, 30)}..."`;
 
         return this.notificationsService.createNotification(
-          receiverId, 
-          senderId,  
+          receiverId,
+          senderId,
           NotificationType.NEW_POST,
           notificationContent,
-          linkTarget
+          linkTarget // 👈 Se usa el linkTarget definido arriba
         );
-      }); 
+      });
 
       await Promise.all(notificationPromises);
       console.log(`Post ${postId}: ${notificationPromises.length} seguidores notificados.`);
@@ -107,7 +115,6 @@ export class PostsService {
 
   async remove(id: number, userId?: string): Promise<void> {
     const post = await this.findOne(id);
-    // Allow deletion if userId is not provided (for channel owners) or if it matches the post's userId
     if (userId && post.userId && post.userId !== userId) {
       throw new NotFoundException('You can only delete your own posts');
     }

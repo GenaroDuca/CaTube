@@ -568,6 +568,12 @@
     border-radius: 15px;
 }
 
+.thumbnail-preview-video {
+    width: 240px !important;
+    aspect-ratio: 16/9;
+    border-radius: 15px;
+}
+
 .earn-options,
 .product-card {
     border-radius: var(--border-radius);
