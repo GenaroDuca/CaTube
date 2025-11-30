@@ -1,13 +1,11 @@
-import { profile } from "../../assets/data/Data" // Datos de fallback
+import { profile } from "../../assets/data/Data" 
 import { Link } from 'react-router-dom'
 import NewButton from "../homePageComponents/Button";
 import { useState, useEffect } from "react";
 import { useToast } from '../../hooks/useToast';
 import { VITE_API_URL } from '../../../config';
 import resolveUrl from '../../utils/url';
-import Loader from '../../components/common/Loader'; // Mantenemos Loader para el botón
-
-// La función apiFetch se mantiene, ya que es necesaria para la suscripción/desuscripción
+import Loader from '../../components/common/Loader'; 
 
 async function apiFetch(url, options = {}) {
     const accessToken = localStorage.getItem('accessToken');
@@ -62,7 +60,7 @@ function Profile({ channelId: propChannelId, channelData: initialChannelData, is
     const [isOwner, setIsOwner] = useState(initialIsOwner);
     const [isSubscribed, setIsSubscribed] = useState(initialIsSubscribed);
     const [userPhoto, setUserPhoto] = useState(profile.src);
-    const [isSubscribing, setIsSubscribing] = useState(false); 
+    const [isSubscribing, setIsSubscribing] = useState(false);
 
     const channelId = propChannelId;
 
@@ -160,8 +158,7 @@ function Profile({ channelId: propChannelId, channelData: initialChannelData, is
                         <div className="container-subscribe-btn">
                             <NewButton
                                 btnclass="subscribe-btn"
-                                // Muestra el loader en el botón
-                                btntitle={isSubscribing ? <Loader isLocal={true} size="small" /> : isSubscribed ? "Subscribed" : "Subscribe"}
+                                btntitle={isSubscribing ? <Loader isLocal={true} size="small" /> : isSubscribed ? "Catscribed" : "Catscribe"}
                                 onClick={isSubscribing ? null : handleSubscribe}
                                 disabled={isSubscribing}
                             />

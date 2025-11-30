@@ -11,7 +11,6 @@ export class WsJwtAuthGuard extends AuthGuard('jwt') {
         const client: Socket = context.switchToWs().getClient();
 
         // 2. Extrae el token del 'auth' que envías desde el frontend
-        // Usamos optional chaining para evitar un error si 'auth' no existe
         const token = client.handshake.auth?.token;
 
         // 3. Devuelve un objeto fake-request que el JwtStrategy pueda procesar
@@ -25,13 +24,11 @@ export class WsJwtAuthGuard extends AuthGuard('jwt') {
     handleRequest(err: any, user: any, info: any, context: ExecutionContext) {
 
         if (err || !user) {
-            // Obtenemos el socket para acceder al token original si es necesario
             const client: Socket = context.switchToWs().getClient();
             const token = client.handshake.auth?.token || 'TOKEN_NO_ENVIADO';
 
             console.error(`Token recibido (Primeros 30 chars): ${token.substring(0, 30)}...`);
 
-            // 'info' contiene la razón de fallo de passport-jwt
             if (info && info.name) {
                 console.error(`Razón del fallo: ${info.name}. Mensaje: ${info.message}`);
             } else {
