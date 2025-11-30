@@ -85,6 +85,14 @@ export class UsersController {
     }
 
     @UseGuards(JwtAuthGuard)
+    @Delete('me')
+    async deleteMe(@Req() req, @Body() body: { password: string }) {
+        const userId = req.user.id;
+        await this.usersService.deleteMe(userId, body.password);
+        return { success: true };
+    }
+
+    @UseGuards(JwtAuthGuard)
     @Delete(':id')
     remove(@Param('id') id: string) {
         return this.usersService.remove(id);
@@ -140,13 +148,7 @@ export class UsersController {
         return this.channelsService.setVisibilityByUserId(userId, body.isHidden);
     }
 
-    @UseGuards(JwtAuthGuard)
-    @Delete('me')
-    async deleteMe(@Req() req, @Body() body: { password: string }) {
-        const userId = req.user.id;
-        await this.usersService.deleteMe(userId, body.password);
-        return { success: true };
-    }
+
 
     @UseGuards(JwtAuthGuard)
     @Post("feedback")
