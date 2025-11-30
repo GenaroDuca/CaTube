@@ -373,7 +373,6 @@ const CreateVideoModal = ({ onClose, onSubmit }) => {
                                             width: thumbOrientation === "portrait" ? "170px" : "300px",
                                             height: thumbOrientation === "portrait" ? "300px" : "170px",
                                             borderRadius: "15px",
-                                            margin: "0 auto",
                                             background: "#000",
                                         }}
                                     />
