@@ -25,18 +25,6 @@ export const getSocket = () => {
                 token: token
             }
         });
-
-        socket.on('connect', () => {
-            console.log('Socket conectado con éxito.');
-        });
-
-        socket.on('disconnect', (reason) => {
-            console.log('Socket desconectado:', reason);
-        });
-
-        socket.on('exception', (error) => {
-            console.error('Error de socket del servidor:', error);
-        });
     }
     return socket;
 };

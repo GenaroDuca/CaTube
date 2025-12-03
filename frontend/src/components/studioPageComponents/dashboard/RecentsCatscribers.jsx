@@ -180,7 +180,7 @@ function RecentCatscribers() {
                         );
                     })
                 ) : (
-                    <p>No recent subscribers</p>
+                    <p>No recent catscribers</p>
                 )}
             </Container>
             <Subtitle subtitle="Currents Catscribers"></Subtitle>

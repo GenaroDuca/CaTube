@@ -270,7 +270,6 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
                 preload="metadata"
                 muted={muted}
                 loop
-                // Asegura que el video sea transparente cuando se está cargando
                 style={{ opacity: isLoading ? 0 : 1 }}
               />
             </div>
@@ -299,7 +298,7 @@ export default function ShortCard({ short, isMaximized, onToggleMaximize, isActi
                         className={`subscribe-button overlay-subscribe ${isSubscribed ? 'subscribed' : ''}`}
                         onClick={() => handleSubscribe(short)}
                       >
-                        {isSubscribed ? 'Subscribed' : 'Subscribe'}
+                        {isSubscribed ? 'Catscribed' : 'Catscribe'}
                       </button>
                     )}
                   </div>

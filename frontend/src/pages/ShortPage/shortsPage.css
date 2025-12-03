@@ -489,7 +489,6 @@
 
 .short-video-container {
     position: relative;
-    /* overflow: hidden; Removed to allow ShareMenu to pop out */
 }
 
 /* --- MAXIMIZED MODE STYLES --- */
@@ -586,9 +585,6 @@
     }
 }
 
-/* Sidebar Adjustment for Shorts Page */
 .short-page-wrapper .sidebar {
     margin-top: 15px;
-    height: calc(100vh - 47px);
-    /* 32px + 15px to account for margin */
 }

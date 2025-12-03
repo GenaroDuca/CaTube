@@ -16,7 +16,7 @@ function Sidebar() {
   const { isAuthenticated } = useAuth(); // Obtenemos el estado de autenticación
 
   const protectedLinks = [
-    '/subscribers',
+    '/catscribers',
     '/you',
     '/you#history',
     '/you#viewlater',
