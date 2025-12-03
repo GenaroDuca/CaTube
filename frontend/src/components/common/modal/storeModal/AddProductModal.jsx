@@ -32,11 +32,6 @@ async function getExistingProductsSolo() {
     }
 }
 
-/**
- * Realiza el fetch para crear un nuevo producto.
- * @param {FormData} formDataToSend - Datos del producto, incluyendo el archivo de imagen.
- * @returns {Promise<object|null>} El producto creado o null si falla.
- */
 async function createProductSolo(formDataToSend) {
     const accessToken = localStorage.getItem('accessToken');
     const url = `${VITE_API_URL}/product`;

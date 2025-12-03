@@ -7,11 +7,6 @@ import { VITE_API_URL } from "../../../../../config"
 // FUNCIONES DE FETCH (MOVIDAS DENTRO DEL ARCHIVO)
 // ----------------------------------------------------------------------
 
-/**
- * Realiza el fetch para crear una nueva tienda.
- * @param {object} storeData - Datos de la tienda (store_name, description).
- * @returns {Promise<object|null>} El objeto de la tienda creada o null si falla.
- */
 async function createStoreSolo(storeData) {
     const accessToken = localStorage.getItem('accessToken');
     const url = `${VITE_API_URL}/store`;

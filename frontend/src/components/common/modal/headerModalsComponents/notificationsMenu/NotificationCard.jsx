@@ -28,7 +28,6 @@ const formatNotificationTime = (timestamp) => {
 export function NotificationCard({ notification, onMarkAsRead, onDelete, onCloseNotificationMenu }) {
     const navigate = useNavigate();
 
-    // El hook de la barra lateral (asumimos que exporta openFriendMenu)
     const { openFriendMenu } = useSidebarToggle();
     const { id, type, sender, read, createdAt, linkTarget, content } = notification;
 

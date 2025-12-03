@@ -11,7 +11,6 @@ export function useReaction(videoId, commentId = null) {
     const fetchCounts = async () => {
         const token = getAuthToken();
 
-        // NEW → URLs adaptad   as a NestJS 10 (sin parámetros opcionales)
         const url = commentId
             ? `${VITE_API_URL}/likes/comment/${commentId}`
             : `${VITE_API_URL}/likes/video/${videoId}`;

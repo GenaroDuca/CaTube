@@ -23,12 +23,9 @@ export class AuthService {
             const isPasswordValid = await bcrypt.compare(pass, user.password);
 
             if (isPasswordValid) {
-
-                // VERIFICACIÓN DE CORREO ELECTRÓNICO
                 if (!user.is_verified) {
                     throw new UnauthorizedException('Please verify your email address to log in.');
                 }
-
                 // 4. Si todo es válido, devolvemos el usuario (excluyendo la contraseña)
                 // Usamos 'user_id' como identificador, que se mapea a 'sub' en el payload.
                 const { password, ...result } = user;

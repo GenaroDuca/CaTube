@@ -15,7 +15,7 @@ export class Comment {
     @JoinColumn({ name: 'userId' })
     user: User;
 
-    @ManyToOne(() => Video, (video) => video.comments, { onDelete: 'CASCADE' }) //OnDelete: 'CASCADE' for deleting comments if video is deleted
+    @ManyToOne(() => Video, (video) => video.comments, { onDelete: 'CASCADE' }) 
     @JoinColumn({ name: 'videoId' })
     video: Video;
 

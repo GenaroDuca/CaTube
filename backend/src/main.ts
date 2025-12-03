@@ -40,11 +40,9 @@ async function bootstrap() {
     prefix: '/uploads/',
   });
 
-  // Servir avatares por defecto desde frontend/src/assets/images/profile
   app.useStaticAssets(
     join(__dirname, '..', '..', 'frontend', 'src', 'assets'),
     {
-      // El prefijo es '/assets/'. Esto mapea la carpeta 'assets' a esta URL.
       prefix: '/assets/',
     }
   );

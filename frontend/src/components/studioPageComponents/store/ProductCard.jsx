@@ -5,15 +5,6 @@ import { MdDelete } from "react-icons/md";
 import { VITE_API_URL } from '../../../../config';
 import { FaShoppingCart } from "react-icons/fa"; 
 
-/**
- * Componente para renderizar una tarjeta de producto.
- * @param {object} props
- * @param {object} props.product - El objeto completo del producto.
- * @param {boolean} props.isOwner - Bandera que indica si el usuario actual es el propietario del producto/canal.
- * @param {function} props.onEditClick - Handler para la edición (solo si isOwner es true).
- * @param {function} props.onDeleteClick - Handler para la eliminación (solo si isOwner es true).
- * @param {function} props.onBuyClick - Handler para la compra (solo si isOwner es false).
- */
 const ProductCard = ({ 
     product, 
     isOwner,

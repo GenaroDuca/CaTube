@@ -22,7 +22,7 @@ export class Notification {
     @PrimaryGeneratedColumn('uuid')
     notification_id: string;
 
-    // --- CLAVES FORÁNEAS EXPLÍCITAS ---
+    // CLAVES FORÁNEAS EXPLÍCITAS ---
 
     @Column({ name: 'receiver_id' })
     receiverId: string;
@@ -30,7 +30,7 @@ export class Notification {
     @Column({ name: 'sender_id', nullable: true })
     senderId: string | null;
 
-    // --- RELACIONES CLAVE  ---
+    // RELACIONES CLAVE  ---
     
     // El dueño de la notificación (Receptor)
     @ManyToOne(() => User, user => user.receivedNotifications, { onDelete: 'CASCADE' })
@@ -48,7 +48,7 @@ export class Notification {
     }) 
     sender: User;
     
-    // --- DATOS ADICIONALES PARA REFERENCIA ---
+    // DATOS ADICIONALES PARA REFERENCIA ---
     
     @Column({ name: 'video_id', type: 'uuid', nullable: true })
     videoId: string | null; 
@@ -56,7 +56,7 @@ export class Notification {
     @Column({ name: 'comment_id', type: 'uuid', nullable: true })
     commentId: string | null; 
     
-    // --- PROPIEDADES BASE ---
+    // PROPIEDADES BASE ---
 
     @Column({
         type: 'enum',

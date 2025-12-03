@@ -79,14 +79,12 @@ export class VideosController {
     return this.videosService.getJobStatus(jobId);
   }
 
-  // Visitas inclementales
   @Post(':id/views')
   async incrementViews(@Param('id', ParseUUIDPipe) id: string) {
     await this.videosService.incrementViews(id);
     return { message: 'Views incremented successfully' };
   }
 
-  // Get all videos
   @Get()
   findAll(@Query('q') q?: string) {
     return this.videosService.findAll(q);
@@ -97,19 +95,16 @@ export class VideosController {
     return this.videosService.getVideosByTag(tag);
   }
 
-  // Get all shorts
   @Get('shorts')
   findAllShorts(@Query('q') q?: string) {
     return this.videosService.findAllShorts(q);
   }
 
-  // Get all videos only (excluding shorts)
   @Get('videos-only')
   findAllVideosOnly(@Query('q') q?: string) {
     return this.videosService.findAllVideosOnly(q);
   }
 
-  //Get all videos for logged-in user's channel
   @Get('my-videos')
   @UseGuards(AuthGuard('jwt'))
   findAllByChannel(@Req() req) {
@@ -117,25 +112,21 @@ export class VideosController {
     return this.videosService.findAllByChannel(userId.toString());
   }
 
-
   @Get('education')
   findEducationalVideos() {
     return this.videosService.findEducationalVideos();
   }
 
-  // Get single video by id (public)
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.videosService.findOneById(id);
   }
 
-  // Get all videos by channel ID
   @Get('channel/:channelId')
   findAllByChannelId(@Param('channelId', ParseUUIDPipe) channelId: string) {
     return this.videosService.findAllByChannelId(channelId);
   }
 
-  // Update a video by its ID
   @Patch(':id')
   @UseGuards(AuthGuard('jwt'))
   @UseInterceptors(FileFieldsInterceptor([
@@ -176,19 +167,14 @@ export class VideosController {
       return result;
 
     } catch (error) {
-      // Log detallado del error
       console.error('Error updating video:', {
         error: error.message,
         stack: error.stack,
         details: error
       });
-
-      // Re-throw para que NestJS maneje la respuesta de error
       throw error;
     }
   }
-
-  // Delete a video by its ID
   @Delete(':id')
   @UseGuards(AuthGuard('jwt'))
   remove(@Param('id', ParseUUIDPipe) id: string, @Req() req: any) {

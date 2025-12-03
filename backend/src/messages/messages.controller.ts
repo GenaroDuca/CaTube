@@ -70,7 +70,7 @@ export class MessagesController {
   @Get(':roomId')
   async getMessageHistory(
     @Param('roomId') roomId: string,
-    @Query() query: GetHistoryQueryDto, // DTO para la paginación
+    @Query() query: GetHistoryQueryDto,
     @Request() req
   ) {
     const userId = req.user.id;

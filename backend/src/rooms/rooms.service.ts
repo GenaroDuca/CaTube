@@ -35,7 +35,6 @@ export class RoomsService {
             userA.user_id < userB.user_id ? [userA, userB] : [userB, userA];
 
         try {
-            // A. INTENTO 1: Intentar crear la sala (INSERT)
             const room = this.roomRepository.create({
                 type: 'private',
                 user1: firstUser,
@@ -45,12 +44,7 @@ export class RoomsService {
 
         } catch (error) {
 
-            // B. CAPTURA DEL ERROR DE DUPLICADO (Race Condition o ya existente)
-            // MySQL Duplicate entry code is ER_DUP_ENTRY (1062)
             if (error.code === 'ER_DUP_ENTRY' || error.errno === 1062) {
-
-                // C. BÚSQUEDA DE RESCATE: Si la creación falló por duplicado, la sala ya existe.
-                // La buscamos usando la lógica de dos vías (A-B O B-A) para encontrarla.
                 const existingRoom = await this.roomRepository
                     .createQueryBuilder('room')
                     .leftJoinAndSelect('room.user1', 'user1')
@@ -71,12 +65,10 @@ export class RoomsService {
                     return existingRoom;
                 }
 
-                // Si falla por duplicado pero no se encuentra, hay un problema grave de esquema/datos.
                 throw new InternalServerErrorException("Error de concurrencia: Duplicado detectado, pero la sala existente no pudo ser recuperada.");
 
             }
 
-            // D. Si es cualquier otro error (conexión, permisos, etc.), relanzarlo.
             throw error;
         }
     }

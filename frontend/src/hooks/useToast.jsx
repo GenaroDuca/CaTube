@@ -2,11 +2,7 @@ import { toast, Bounce } from "react-toastify";
 import { NOTIFICATION_TYPES, NOTIFICATION_CONFIG } from "../components/common/toast/ToastConfig";
 
 export const useToast = () => {
-
-    /**
-     @param {string} type - Uno de los tipos definidos en NOTIFICATION_TYPES.
-     @param {string} message - El contenido principal del toast.
-     */
+    
     const showToast = (type, message) => {
         const config = NOTIFICATION_CONFIG[type];
         if (!config || !message) return;

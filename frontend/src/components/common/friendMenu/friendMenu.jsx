@@ -151,7 +151,6 @@ export function FriendMenu() {
             setFriends(prevFriends => {
                 if (prevFriends.length !== friendData.friends.length) return friendData.friends;
 
-                // Comprobación de igualdad de IDs (asumiendo orden estable de la API)
                 const isSame = prevFriends.every((f, i) => String(f.id) === String(friendData.friends[i].id));
 
                 return isSame ? prevFriends : friendData.friends;

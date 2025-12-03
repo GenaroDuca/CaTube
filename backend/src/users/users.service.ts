@@ -85,13 +85,11 @@ export class UsersService {
         const awsRegion = this.configService.get<string>('AWS_REGION');
 
         // Calcular la clave: Primera letra del nombre de usuario capitalizada + '.png'
-        // Ejemplo: 'Angel' -> 'A' -> 'profile/A.png' (asumiendo que las imágenes están en la carpeta 'profile/')
         const firstLetter = capitalizedUsername.charAt(0).toUpperCase();
         const key = `profile/${firstLetter}.png`;
 
         // Construir la URL completa
         const defaultAvatarUrl = `https://${bucketName}.s3.${awsRegion}.amazonaws.com/${key}`;
-        // ------------------------------------
 
         const newUser = this.usersRepository.create({
             username: capitalizedUsername,
@@ -125,7 +123,6 @@ export class UsersService {
 
             // NOTIFICACIÓN AL RECEPTOR (El usuario que recibió la solicitud)
             try {
-                // Usaremos el tipo FRIEND_REQUEST y enlazaremos al perfil del emisor
                 await this.notificationsService.createNotification(
                     savedUser.user_id,
                     null,
@@ -160,12 +157,6 @@ export class UsersService {
     // =================================================================
     // Lógica de Verificación del Token
     // =================================================================
-
-    /**
-     * Valida el token recibido y verifica la cuenta del usuario.
-     * @param token El token único de la URL.
-     * @returns El usuario verificado.
-     */
     async verifyEmail(token: string): Promise<User> {
         // 1. Buscar el usuario por el token
         const user = await this.usersRepository.findOne({
@@ -189,8 +180,8 @@ export class UsersService {
 
         // 4. Verificación exitosa: Actualizar el usuario
         user.is_verified = true;
-        user.verification_token = null; // Limpia el token
-        user.token_expiry = null;       // Limpia la caducidad
+        user.verification_token = null; 
+        user.token_expiry = null;  
 
         return this.usersRepository.save(user);
     }
@@ -210,11 +201,6 @@ export class UsersService {
         });
     }
 
-    /**
-   * Busca usuarios por nombre de usuario que contenga la cadena de búsqueda.
-   * @param query - El término de búsqueda.
-   * @returns Promesa que resuelve a una lista de entidades User.
-   */
     async searchUsers(query: string): Promise<Partial<User>[]> {
         const users = await this.usersRepository.find({
             // Usamos el operador 'Like' para buscar coincidencias parciales (case-insensitive en algunos BD)
@@ -240,11 +226,6 @@ export class UsersService {
         });
     }
 
-    /**
-     * Obtiene los detalles del usuario autenticado por su ID.
-     * @param userId El ID del usuario autenticado (extraído del JWT payload).
-     * @returns Datos del usuario.
-     */
     async findMe(userId: string): Promise<Partial<User>> {
         const user = await this.usersRepository.findOne({
             where: { user_id: userId },
@@ -267,12 +248,6 @@ export class UsersService {
         return user;
     }
 
-    /**
-     * Actualiza el perfil del usuario autenticado (username y/o description).
-     * @param userId El ID del usuario autenticado (extraído del JWT payload).
-     * @param updateData Los datos a actualizar (UpdateUserDto).
-     * @returns El usuario actualizado.
-     */
     async updateUser(userId: string, updateData: UpdateUserDto): Promise<Partial<User>> {
         // 1. Obtener el usuario
         const user = await this.usersRepository.findOneBy({ user_id: userId });
@@ -333,9 +308,6 @@ export class UsersService {
         }
     }
 
-    /**
-     * Upload user avatar to S3
-     */
     async uploadAvatar(userId: string, file: Express.Multer.File): Promise<Partial<User>> {
         const user = await this.usersRepository.findOneBy({ user_id: userId });
         if (!user) {
@@ -347,7 +319,6 @@ export class UsersService {
 
         if (isCustomAvatar && !isDefaultAvatar) {
             try {
-                // Utilizamos 'avatar/' para dividir la URL y obtener la clave de S3
                 const oldKey = user.avatarUrl!.split('.com/')[1];
 
                 if (oldKey) {
@@ -377,9 +348,6 @@ export class UsersService {
         };
     }
 
-    /**
-     * Helper method to upload file to S3
-     */
     private async uploadToS3(file: Express.Multer.File, folder: string): Promise<string> {
         try {
             const bucketName = process.env.AWS_BUCKET_NAME!;
@@ -454,9 +422,9 @@ export class UsersService {
 
     // Verificacion de mail
     async sendVerificationEmail(newUserEmail: string, verificationLink: string) {
-        console.log(`📨 Preparando email de verificación con Resend...`);
-        console.log(`➡️ Destinatario: ${newUserEmail}`);
-        console.log(`➡️ Link: ${verificationLink}`);
+        console.log(`Preparando email de verificación con Resend...`);
+        console.log(`Destinatario: ${newUserEmail}`);
+        console.log(`Link: ${verificationLink}`);
 
         try {
             const resend = new Resend(this.configService.get<string>('RESEND_API_KEY'));
@@ -479,19 +447,17 @@ export class UsersService {
             });
 
             if (error) {
-                console.error('❌ Error enviando email con Resend:', error);
+                console.error('Error enviando email con Resend:', error);
                 throw new Error('Email sending failed.');
             }
 
             console.log('✅ Email enviado correctamente con Resend:', data);
 
         } catch (error) {
-            console.error('❌ Error inesperado al enviar el email:', error);
+            console.error('Error inesperado al enviar el email:', error);
             throw error;
         }
     }
-
-    // Resetear contraseña
 
     // Buscar por email
     async findByEmail(email: string): Promise<User | null> {
@@ -524,20 +490,18 @@ export class UsersService {
         // Buscar usuario
         const user = await this.usersRepository.findOne({ where: { email } });
         if (!user) {
-            // Por seguridad, no revelar si existe o no
             return;
         }
 
         // Generar token único
         const resetToken = crypto.randomBytes(32).toString('hex');
-        const expiry = new Date(Date.now() + 15 * 60 * 1000); // 15 minutos
+        const expiry = new Date(Date.now() + 15 * 60 * 1000); // 15 minuto
 
         // Guardar token y expiración
         user.reset_password_token = resetToken;
         user.reset_token_expiry = expiry;
         await this.usersRepository.save(user);
 
-        // Construir la URL del enlace (configurable desde .env)
         const BASE_RESET_URL = this.configService.get<string>('BACKEND_RESET_URL');
         const resetUrl = `${BASE_RESET_URL}?token=${resetToken}`;
 
@@ -546,7 +510,7 @@ export class UsersService {
     }
 
     /**
-     * Paso 2: Validar token (usado cuando el usuario abre el link)
+     * Paso 2: Validar token
      */
     async validateResetToken(token: string): Promise<User> {
         const user = await this.usersRepository.findOne({
@@ -591,7 +555,6 @@ export class UsersService {
         return this.usersRepository.save(user);
     }
 
-    // Change password by user: verifies current password before updating
     async changePassword(userId: string, currentPassword: string, newPassword: string): Promise<void> {
         const user = await this.usersRepository.findOneBy({ user_id: userId });
         if (!user) throw new NotFoundException('User not found');
@@ -629,9 +592,9 @@ export class UsersService {
      * Enviar correo de restablecimiento
      */
     async sendResetPasswordEmail(userEmail: string, resetLink: string) {
-        console.log(`📨 Preparando email de reset con Resend...`);
-        console.log(`➡️ Destinatario: ${userEmail}`);
-        console.log(`➡️ Link: ${resetLink}`);
+        console.log(`Preparando email de reset con Resend...`);
+        console.log(`Destinatario: ${userEmail}`);
+        console.log(`Link: ${resetLink}`);
 
         try {
             const resend = new Resend(this.configService.get<string>('RESEND_API_KEY'));
@@ -654,14 +617,14 @@ export class UsersService {
             });
 
             if (error) {
-                console.error('❌ Error enviando email con Resend:', error);
+                console.error('Error enviando email con Resend:', error);
                 throw new Error('Reset email sending failed.');
             }
 
-            console.log('✅ Reset email enviado correctamente con Resend:', data);
+            console.log('Reset email enviado correctamente con Resend:', data);
 
         } catch (error) {
-            console.error('❌ Error inesperado al enviar el email:', error);
+            console.error('Error inesperado al enviar el email:', error);
             throw error;
         }
     }
@@ -694,9 +657,9 @@ export class UsersService {
                 html: htmlContent,
                 replyTo: remitenteEmail || "no-reply@catube.xyz"
             });
-            console.log('✅ Feedback enviado a catubeapp@gmail.com');
+            console.log('Feedback enviado a catubeapp@gmail.com');
         } catch (error) {
-            console.error('❌ Error enviando email de Feedback con Resend:', error);
+            console.error('Error enviando email de Feedback con Resend:', error);
             throw new InternalServerErrorException('Error al enviar el correo de feedback.');
         }
     }
@@ -740,8 +703,6 @@ export class UsersService {
 
             return await this.historyRepository.save(historyItem);
         } catch (error) {
-            // Si aún así hay un error de duplicado (race condition extrema),
-            // simplemente lo ignoramos ya que el objetivo es que esté en el historial
             if (error.code === 'ER_DUP_ENTRY') {
                 console.log('Duplicate entry ignored for history - video already in history');
                 return null;

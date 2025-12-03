@@ -19,23 +19,20 @@ export function NotificationProvider({ children }) {
             const backendNotifications = await notificationService.getNotifications();
 
             const transformedNotifications = backendNotifications.map(notification => ({
-                id: notification.notification_id, // El ID del backend es ahora 'id' en el frontend
-                type: notification.type, // Usamos el tipo directo (ej: 'friend_request')
+                id: notification.notification_id,
+                type: notification.type,
 
-                // Objeto 'sender' simplificado para el frontend, usando la estructura del DTO
                 sender: {
-                    id: notification.sender?.user_id || null, // Usar user_id del sender
+                    id: notification.sender?.user_id || null,
                     username: notification.sender?.username || 'El sistema',
-                    // Asegúrate de que esta propiedad exista en el objeto 'sender' del DTO si no usas 'avatarUrl'
                     avatarUrl: notification.sender?.avatarUrl || '/default-avatar.png',
                 },
 
-                content: notification.content, // <--- EL MENSAJE PRE-GENERADO DEL BACKEND
-                linkTarget: notification.linkTarget, // La ruta a la que debe navegar
+                content: notification.content,
+                linkTarget: notification.linkTarget,
 
-                // Usamos 'isRead' como prop en el backend, pero lo mapeamos a 'read' para el componente
                 read: notification.isRead,
-                createdAt: notification.createdAt, // <--- PROPIEDAD DE TIEMPO CORRECTA
+                createdAt: notification.createdAt,
                 isFromBackend: true
             }));
 
@@ -67,7 +64,7 @@ export function NotificationProvider({ children }) {
             content,
             linkTarget,
             read: false,
-            createdAt: new Date().toISOString(), // <--- USAMOS 'createdAt'
+            createdAt: new Date().toISOString(), 
             isFromBackend: false
         };
         setNotifications(prev => [newNotification, ...prev]);

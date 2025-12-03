@@ -5,7 +5,7 @@ import {
     ManyToOne, 
     JoinColumn 
 } from 'typeorm';
-import { User } from '../../users/entities/user.entity'; // Asegúrate que esta ruta es correcta
+import { User } from '../../users/entities/user.entity'; 
 
 export enum FriendshipStatus {
     PENDING = 'pending',
@@ -17,9 +17,9 @@ export enum FriendshipStatus {
 export class Friendship {
 
     @PrimaryGeneratedColumn("uuid")
-    friendship_id: string; // Clave primaria de la tabla friendship
+    friendship_id: string; 
 
-    // --- Relación con el Usuario que ENVÍA (SENDER) ---
+    // Relación con el Usuario que ENVÍA (SENDER) 
     @Column({ name: 'user_id_sender', type: 'uuid' }) 
     userIdSender: string;
     @ManyToOne(() => User, user => user.sentFriendships, { 
@@ -28,16 +28,16 @@ export class Friendship {
     @JoinColumn({ name: 'user_id_sender', referencedColumnName: 'user_id' }) 
     sender: User;
 
-    // --- Relación con el Usuario que RECIBE (RECEIVER) ---
+    // Relación con el Usuario que RECIBE (RECEIVER) 
     @Column({ name: 'user_id_receiver', type: 'uuid' }) 
-    userIdReceiver: string; // Se eliminó 'ON DELETE CASCADE' de aquí
+    userIdReceiver: string; 
     @ManyToOne(() => User, user => user.receivedFriendships, { 
         onDelete: 'CASCADE', 
     }) 
     @JoinColumn({ name: 'user_id_receiver', referencedColumnName: 'user_id' }) 
     receiver: User;
 
-    // --- Columna del Estado ---
+    // Columna del Estado 
     @Column({
         type: 'enum', 
         enum: FriendshipStatus,
@@ -45,7 +45,7 @@ export class Friendship {
     })
     status: FriendshipStatus;
 
-    // --- Timestamps (Fechas) ---
+    // Timestamps (Fechas) 
     @Column({ name: 'created_at', type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: Date;
 

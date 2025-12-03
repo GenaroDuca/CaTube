@@ -6,7 +6,7 @@ import { PostsController } from './posts.controller';
 import { Post } from './entities/post.entity';
 import { NotificationsModule } from '../notifications/notifications.module';
 import { Subscription } from '../subs/entities/sub.entity';
-import { ChannelsModule } from '../channels/channels.module'; // <-- ¡Importar el módulo!
+import { ChannelsModule } from '../channels/channels.module';
 
 @Module({
   imports: [

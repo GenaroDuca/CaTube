@@ -49,12 +49,6 @@ async function deleteProduct(productId) {
 // FeedbackToast
 const { showSuccess, showError } = useToast();
 
-/**
- * @param {function} onClose - Función para cerrar el modal.
- * @param {function} onProductDeleted - Función de refresh (fetchProducts) que viene de Store.jsx.
- * @param {string} productName - Nombre del producto.
- * @param {string} productId - 💡 ID DEL PRODUCTO PARA LA LLAMADA A LA API.
- */
 const ProductDeleteConfirmModal = ({ onClose, onProductDeleted, productName, productId }) => {
 
     const handleConfirm = async () => {

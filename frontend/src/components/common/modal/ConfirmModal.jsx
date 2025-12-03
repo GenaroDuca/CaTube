@@ -1,17 +1,6 @@
 import { IoIosCloseCircle } from "react-icons/io";
 
-/**
- * Modal universal de confirmación para cualquier acción de eliminación o irreversible.
- *
- * @param {object} props
- * @param {string} props.title - Título del modal (ej: "Eliminar Amigo")
- * @param {string} props.message - Pregunta principal (ej: "¿Estás seguro de que quieres eliminar a Juan?")
- * @param {string} props.confirmText - Texto del botón de acción (ej: "Eliminar Permanentemente")
- * @param {function} props.onConfirm - La función que se ejecuta al presionar el botón de confirmación (el fetch)
- * @param {function} props.onClose - La función para cerrar el modal
- * @param {boolean} [props.isProcessing=false] - Para deshabilitar el botón durante la solicitud
- * @param {string} [props.buttonClass="delete-account-btn"] - Clase CSS específica para el botón de acción
- */
+
 const ConfirmModal = ({
     title,
     message,

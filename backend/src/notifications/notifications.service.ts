@@ -12,7 +12,7 @@ export class NotificationsService {
     private notificationRepository: Repository<Notification>,
   ) { }
 
-  // --- 1. Crear notificación ---
+  // 1. Crear notificación ---
   async createNotification(
     receiverId: string,
     senderId: string | null,
@@ -42,12 +42,11 @@ export class NotificationsService {
 
     } catch (error) {
       console.error('Error saving notification:', error);
-      // Lanzamos la excepción después de loguear
       throw new InternalServerErrorException('Failed to create notification.');
     }
   }
 
-  // --- 2. Obtener notificaciones ---
+  // 2. Obtener notificaciones ---
   async findNotificationsByUserId(
     userId: string,
     limit: number = 20,
@@ -80,7 +79,6 @@ export class NotificationsService {
     const notification = await this.notificationRepository.findOne({
       where: {
         notification_id: notificationId,
-        // 🚨 FIX CLAVE: Usamos el ID de la FK
         receiverId: userId 
       } as any
     });
@@ -93,7 +91,7 @@ export class NotificationsService {
     await this.notificationRepository.save(notification);
   }
 
-  // --- 4. Marcar todas como leídas ---
+  // 4. Marcar todas como leídas ---
   async markAllAsRead(userId: string): Promise<void> {
     await this.notificationRepository.createQueryBuilder()
       .update(Notification)
@@ -103,7 +101,7 @@ export class NotificationsService {
       .execute();
   }
 
-  // --- 5. Eliminar notificación ---
+  // 5. Eliminar notificación ---
   async remove(notificationId: string, userId: string): Promise<void> {
     const result = await this.notificationRepository.delete({
       notification_id: notificationId,
@@ -115,7 +113,7 @@ export class NotificationsService {
     }
   }
 
-  // --- 6. Mapear a DTO ---
+  // 6. Mapear a DTO ---
   mapToDto(notification: Notification): CreateNotificationDto {
     const dto = new CreateNotificationDto();
 

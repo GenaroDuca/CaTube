@@ -57,8 +57,6 @@ export class LikesService {
         },
       });
 
-      // Removida la variable 'isLikeAction'
-      // const isLikeAction = like === true; 
 
       if (likedDisliked) {
         likedDisliked.like = like;
@@ -67,12 +65,9 @@ export class LikesService {
 
       const newLike = this.likesRepository.create({ user, video, comment: null, like });
 
-      // --- LÓGICA DE VALIDACIÓN DE URL ---
       const isShort = video.type === 'short';
       const videoUrl = isShort ? `/shorts/${videoId}` : `/watch/${videoId}`;
-      // ------------------------------------
 
-      // CORRECCIÓN AQUÍ: Usamos 'like' directamente
       if (like && targetOwnerId && targetOwnerId !== user.user_id) {
         try {
           await this.notificationsService.createNotification(
@@ -96,7 +91,7 @@ export class LikesService {
     if (commentId) {
       const comment = await this.commentsRepository.findOne({
         where: { id: commentId },
-        relations: ['user', 'video'], // Aseguramos que 'video' esté incluido
+        relations: ['user', 'video']
       });
 
       if (!comment) throw new NotFoundException('Comment not found');
@@ -111,9 +106,6 @@ export class LikesService {
         },
       });
 
-      // Removida la variable 'isLikeAction'
-      // const isLikeAction = like === true;
-
       if (likedDisliked) {
         likedDisliked.like = like;
         return this.likesRepository.save(likedDisliked);
@@ -121,13 +113,10 @@ export class LikesService {
 
       const newLike = this.likesRepository.create({ user, video: null, comment, like });
 
-      // --- LÓGICA DE VALIDACIÓN DE URL ---
       const isShort = comment.video.type === 'short';
       const videoId = comment.video.id;
       const videoUrl = isShort ? `/shorts/${videoId}` : `/watch/${videoId}`;
-      // ------------------------------------
 
-      // CORRECCIÓN AQUÍ: Usamos 'like' directamente
       if (like && targetOwnerId && targetOwnerId !== user.user_id) {
         try {
           await this.notificationsService.createNotification(
@@ -270,19 +259,18 @@ export class LikesService {
       createdAt: like.createdAt,
     }));
   }
+
   // Get videos liked by a specific user
   async findLikedVideosByUserId(userId: string): Promise<Video[]> {
     const likes = await this.likesRepository.find({
       where: {
         user: { user_id: userId },
         like: true,
-        // Ensure it's a video like, not a comment like
         video: { id: require('typeorm').Not(require('typeorm').IsNull()) }
       },
       relations: ['video', 'video.channel', 'video.channel.user'],
       order: { createdAt: 'DESC' },
     });
-    // Filter out any potential null videos just in case, and map to Video entity
     return likes.filter(l => l.video).map(like => like.video!);
   }
 }

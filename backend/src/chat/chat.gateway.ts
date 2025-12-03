@@ -101,7 +101,7 @@ export class ChatGateway {
             // 3. EMITIR LA CONFIRMACIÓN A TODOS LOS PARTICIPANTES
             if (deletedMessageRoomId) {
                 this.server.to(deletedMessageRoomId).emit('message deleted', {
-                    id: messageIdToDelete, // ID del mensaje eliminado
+                    id: messageIdToDelete, 
                     roomId: deletedMessageRoomId,
                     deletedBy: userId,
                 });
@@ -112,11 +112,9 @@ export class ChatGateway {
 
         } catch (error) {
             console.error('Error al intentar eliminar el mensaje:', error.message);
-            // Si el error fue la falta de autorización o no encontrado, se lanza.
             if (error instanceof WsException) {
                 throw error;
             }
-            // Para otros errores (DB, etc.)
             throw new WsException('Error interno al intentar eliminar el mensaje.');
         }
     }
@@ -125,7 +123,6 @@ export class ChatGateway {
     @SubscribeMessage('edit message')
     async handleEditMessage(
         @ConnectedSocket() client: Socket,
-        // El cliente React envía { messageId: string, newContent: string }
         @MessageBody() payload: { messageId: string, newContent: string } 
     ) {
         const userPayload: AuthenticatedUserPayload = (client as any).user;
@@ -143,7 +140,7 @@ export class ChatGateway {
             throw new WsException('Faltan el ID del mensaje o el contenido.');
         }
 
-        let updatedMessage: any; // Usaremos 'any' temporalmente para los campos extras
+        let updatedMessage: any; 
         
         try {
             // 1. Obtener el mensaje para verificar la propiedad
@@ -156,7 +153,6 @@ export class ChatGateway {
             }
 
             // 2. ACTUALIZAR EN LA BASE DE DATOS
-            // Usaremos el nuevo método updateContent que implementaremos en MessagesService
             updatedMessage = await this.messagesService.updateContent(messageId, trimmedContent); 
             
             // 3. EMITIR LA CONFIRMACIÓN A TODOS LOS PARTICIPANTES
@@ -164,10 +160,10 @@ export class ChatGateway {
                 
                 // El objeto que enviamos de vuelta al cliente para que actualice su estado
                 const updatedMsgPayload = {
-                    id: updatedMessage.message_id, // Usamos message_id, según tu service
+                    id: updatedMessage.message_id,
                     content: updatedMessage.content,
                     roomId: messageToUpdate.roomId,
-                    isEdited: true, // Marcamos que ha sido editado
+                    isEdited: true,
                 };
                 
                 this.server.to(messageToUpdate.roomId).emit('message updated', updatedMsgPayload);

@@ -22,7 +22,6 @@ export class Store {
 
   @OneToOne(() => Channel, channel => channel.store, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'channel_id' })
-  // @Column({ unique: true })
   channel: Channel;
 
   @OneToMany(() => Product, product => product.store)
