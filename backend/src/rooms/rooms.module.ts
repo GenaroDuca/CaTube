@@ -6,7 +6,7 @@ import { Room } from './entities/room.entity';
 import { User } from '../users/entities/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Room, User])], // Necesita User para getOrCreatePrivateRoom
+  imports: [TypeOrmModule.forFeature([Room, User])],
   controllers: [RoomsController],
   providers: [RoomsService],
   exports: [RoomsService], 

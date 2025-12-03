@@ -38,7 +38,6 @@ function CommentItem(props) {
                 const letter = letterMatch ? letterMatch[1] : 'A';
                 return `/assets/images/profile/${letter}.png`;
             } else {
-                // Otro tipo de ruta, asumir que es subida
                 return photoPath;
             }
         } else {

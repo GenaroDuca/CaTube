@@ -114,15 +114,15 @@ export class ChannelsService {
         return this.channelRepository.save(channel);
     }
 
-    // ---------------- AWS S3 ----------------
+    //AWS S3
     private async uploadToS3(file: Express.Multer.File, folder: string): Promise<string> {
         try {
             const bucketName = process.env.AWS_BUCKET_NAME!;
 
-            // 1. Procesar y convertir la imagen a WebP (o JPEG si prefieres)
+            // 1. Procesar y convertir la imagen a WebP
             const processedBuffer = await sharp(file.buffer)
-                .resize({ width: 800, withoutEnlargement: true }) // Opcional: redimensionar si es muy grande
-                .webp({ quality: 80 }) // Convertir a WebP con calidad 80
+                .resize({ width: 800, withoutEnlargement: true })
+                .webp({ quality: 80 })
                 .toBuffer();
 
             // 2. Determinar la nueva extensión y ContentType
@@ -147,7 +147,6 @@ export class ChannelsService {
             return `https://${bucketName}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
         } catch (err) {
             console.error('S3 upload error:', err);
-            // Podrías añadir un log específico si la imagen es de un tipo no soportado por Sharp inicialmente
             throw new InternalServerErrorException('Failed to process and upload file to S3');
         }
     }
@@ -183,17 +182,16 @@ export class ChannelsService {
         const channel = await this.channelRepository.findOneBy({ channel_id: id });
         if (!channel) throw new NotFoundException(`Canal con ID ${id} no encontrado.`);
 
-        // --- Lógica de eliminación modificada ---
+        //Lógica de eliminación modificada
         const defaultPhotoPattern = /https:\/\/catube-uploads\.s3\.sa-east-1\.amazonaws\.com\/profile\/[a-zA-Z]\.png/;
 
-        // Eliminar foto anterior de S3 si existe Y NO es la foto por defecto
+        //Eliminar foto anterior de S3 si existe Y NO es la foto por defecto
         if (
             channel.photoUrl &&
             channel.photoUrl.includes('amazonaws.com') &&
             !defaultPhotoPattern.test(channel.photoUrl)
         ) {
             try {
-                // Se asume que el dominio del bucket es el mismo que en el patrón default
                 const oldKey = channel.photoUrl.split('.com/')[1];
 
                 if (oldKey) {
@@ -205,7 +203,6 @@ export class ChannelsService {
                 }
             } catch (error) {
                 console.error('Error al eliminar la foto anterior de S3:', error);
-                // Considera si este error debe impedir la actualización o solo registrarse
             }
         }
         // ----------------------------------------

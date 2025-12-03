@@ -38,30 +38,30 @@ export class CommentsService {
 
     if (!user) throw new NotFoundException('User not found');
 
-    // 💡 PASO 1: Cargar el video con la relación Channel y User para obtener el dueño.
+    // 1: Cargar el video con la relación Channel y User para obtener el dueño.
     const video = await this.videoRepository.findOne({
       where: { id: videoId },
-      relations: ['channel', 'channel.user'], // ¡CRUCIAL! Para obtener el dueño del video
+      relations: ['channel', 'channel.user'], 
     });
 
     if (!video) throw new NotFoundException('Video not found');
 
     let parentCommentAuthorId: string | null = null;
-    let parentComment: any = null; // Para guardar el objeto del padre si es una respuesta
+    let parentComment: any = null;
 
     // Check if this is a reply (has parentCommentId)
     if (createCommentDto.parentCommentId) {
-      // 💡 PASO 2: Cargar el comentario padre con su relación User para obtener el autor.
+      // 2: Cargar el comentario padre con su relación User para obtener el autor.
       parentComment = await this.commentRepository.findOne({
         where: { id: createCommentDto.parentCommentId },
-        relations: ['user'], // ¡CRUCIAL! Para obtener el autor del comentario padre
+        relations: ['user'], 
       });
 
       if (!parentComment) {
-        console.log('❌ Parent comment not found!');
+        console.log('Parent comment not found!');
         throw new NotFoundException('Parent comment not found');
       }
-      console.log('✅ Parent comment found:', parentComment.id);
+      console.log('Parent comment found:', parentComment.id);
 
       // Guardar el ID del autor del comentario padre
       parentCommentAuthorId = parentComment.user.user_id;
@@ -76,20 +76,17 @@ export class CommentsService {
 
     // Only add parentComment if it exists
     if (createCommentDto.parentCommentId) {
-      // Se utiliza el objeto completo si fue cargado, o solo el ID si no se cargó arriba
       commentData.parentComment = parentComment || { id: createCommentDto.parentCommentId };
     }
 
     const insertResult = await this.commentRepository.insert(commentData);
     const newCommentId = insertResult.identifiers[0].id;
 
-    // --- ENVIAR NOTIFICACIONES ---
+    // ENVIAR NOTIFICACIONES
 
-    // --- LÓGICA DE VALIDACIÓN DE URL AÑADIDA AQUÍ ---
+    // LÓGICA DE VALIDACIÓN DE URL AÑADIDA AQUÍ
     const isShort = video.type === 'short';
     const videoUrl = isShort ? `/shorts/${videoId}` : `/watch/${videoId}`;
-    // ----------------------------------------------------
-
 
     // 1. Notificación al dueño del video (si el autor del comentario no es el dueño)
     const videoOwnerId = video.channel?.user?.user_id;

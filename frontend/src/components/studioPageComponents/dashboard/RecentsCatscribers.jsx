@@ -21,7 +21,6 @@ function getProfileImageSrc(photoUrl, username) {
             const letter = letterMatch ? letterMatch[1] : 'A';
             return `/assets/images/profile/${letter}.png`;
         } else {
-            // Otro tipo de ruta, asumir que es subida
             return photoPath;
         }
     } else {
@@ -180,7 +179,7 @@ function RecentCatscribers() {
                         );
                     })
                 ) : (
-                    <p>No recent subscribers</p>
+                    <p>No recent catscribers</p>
                 )}
             </Container>
             <Subtitle subtitle="Currents Catscribers"></Subtitle>

@@ -7,7 +7,6 @@ import { Repository } from 'typeorm';
 import { Store } from 'src/store/entities/store.entity';
 import { PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
 import { getS3Client } from 'src/aws/s3.config';
-import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class ProductService {
@@ -36,7 +35,7 @@ export class ProductService {
     // 3. Guardar el producto en la base de datos primero para obtener el ID.
     await this.productRepository.save(newProduct);
 
-    // 4. Si hay un archivo de imagen, subirlo a S3
+    // 4. subirlo a S3 la foto de lproducto
     if (file) {
       const extension = file.originalname.split('.').pop();
       const key = `products/${newProduct.product_id}_${Date.now()}.${extension}`;
@@ -70,7 +69,6 @@ export class ProductService {
     });
 
     if (!store) {
-      // Return empty array instead of throwing error
       return [];
     }
 

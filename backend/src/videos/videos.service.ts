@@ -374,7 +374,6 @@ export class VideosService {
         }
         resolve(metadata.format.duration || 0);
       });
-      // El stream se cerrará automáticamente, por lo que no necesita .end()
     });
   }
 
@@ -509,7 +508,6 @@ export class VideosService {
 
     // 3. Mapear los Conteos para Búsqueda Rápida
     const countsMap = countsResult.reduce((map, item) => {
-      // Usamos el alias simple 'likeCount' y 'commentCount' de la consulta
       map[item.video_id] = {
         likes: parseInt(item.likeCount || '0', 10),
         comments: parseInt(item.commentCount || '0', 10)
@@ -575,12 +573,12 @@ export class VideosService {
       throw new ForbiddenException('You cannot delete this video');
     }
 
-    // --- URLs de Miniatura por Defecto (Necesario declararlas aquí o como constantes de clase) ---
+    // --- URLs de Miniatura por Defecto
     const DEFAULT_VIDEO_THUMBNAIL = 'https://catube-uploads.s3.sa-east-1.amazonaws.com/thumbnails/default-video-thumbnail.png';
     const DEFAULT_SHORT_THUMBNAIL = 'https://catube-uploads.s3.sa-east-1.amazonaws.com/thumbnails/default-short-thumbnail.png';
     // ---------------------------------------------------------------------------------------------
 
-    // Eliminar video de S3 (ESTO NO CAMBIA, siempre se borra el video)
+    // Eliminar video de S3 
     if (video.url) {
       try {
         const videoKey = video.url.split('/').pop();
@@ -589,21 +587,21 @@ export class VideosService {
             Bucket: process.env.AWS_BUCKET_NAME!,
             Key: `videos/${videoKey}`
           }));
-          console.log(`🗑️ Video ${id} eliminado de S3.`);
+          console.log(`Video ${id} eliminado de S3.`);
         }
       } catch (error) {
         console.error('Error deleting video from S3:', error);
       }
     }
 
-    // Eliminar thumbnail de S3 (Lógica Modificada)
+    // Eliminar thumbnail de S3
     if (video.thumbnail) {
       const isDefaultThumbnail =
         video.thumbnail === DEFAULT_VIDEO_THUMBNAIL ||
         video.thumbnail === DEFAULT_SHORT_THUMBNAIL;
 
       if (isDefaultThumbnail) {
-        console.log(`⚠️ Thumbnail para video ${id} es por defecto, se omite el borrado de S3.`);
+        console.log(`Thumbnail para video ${id} es por defecto, se omite el borrado de S3.`);
       } else {
         try {
           const thumbnailKey = video.thumbnail.split('/').pop();
@@ -612,7 +610,7 @@ export class VideosService {
               Bucket: process.env.AWS_BUCKET_NAME!,
               Key: `thumbnails/${thumbnailKey}`
             }));
-            console.log(`🖼️ Thumbnail personalizado para video ${id} eliminado de S3.`);
+            console.log(`Thumbnail personalizado para video ${id} eliminado de S3.`);
           }
         } catch (error) {
           console.error('Error deleting custom thumbnail from S3:', error);

@@ -1,7 +1,7 @@
 import { ExecutionContext, Injectable } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { WsException } from '@nestjs/websockets';
-import { Socket } from 'socket.io'; // Importar Socket para tipado y acceso a handshake
+import { Socket } from 'socket.io';
 
 @Injectable()
 export class WsJwtAuthGuard extends AuthGuard('jwt') {

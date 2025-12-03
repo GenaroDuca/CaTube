@@ -43,7 +43,6 @@ export class StoreService {
   async findStoreByUserId(userId: string): Promise<Store> {
     const user = await this.usersService.findOneById(userId);
     if (!user || !user.channel) {
-      // Si el usuario autenticado no tiene un canal, es una condición de error.
       throw new NotFoundException(`No se encontró un canal para el usuario con ID ${userId}.`);
     }
 
@@ -52,26 +51,17 @@ export class StoreService {
     });
 
     if (!store) {
-      // Lanzamos un error 404 explícito si no se encuentra la tienda.
       throw new NotFoundException(`No se encontró una tienda para el canal.`);
     }
 
     return store;
   }
 
-  /**
-   * Elimina la tienda del usuario y todos sus productos asociados.
-   * @param userId El ID del usuario autenticado, extraído del token.
-   * @returns Un mensaje de éxito o lanza una excepción.
-   */
   async deleteMyStore(userId: string): Promise<{ message: string }> {
     // 1. Obtener la entidad Channel asociada al userId
-    // Asumimos que usersService.findOneById(userId) devuelve una entidad User,
-    // y que la entidad User tiene una relación 'channel'.
     const user = await this.usersService.findOneById(userId);
 
     if (!user || !user.channel || !user.channel.channel_id) {
-      // Manejar el caso si el usuario existe pero no tiene un canal asociado
       throw new NotFoundException('Channel not found for this user.');
     }
 

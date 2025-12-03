@@ -46,7 +46,7 @@ export class MessagesService {
             throw new NotFoundException('El remitente no es parte de esta sala.');
         }
 
-        // --- Creación y guardado del mensaje ---
+        // Creación y guardado del mensaje ---
         const message = this.messageRepository.create({
             content,
             senderId,
@@ -73,10 +73,8 @@ export class MessagesService {
     }
 
     async findOne(messageId: string): Promise<Message> {
-        // Busca el mensaje por su ID y trae las relaciones necesarias (aunque solo necesitamos el senderId/roomId)
         const message = await this.messageRepository.findOne({
             where: { message_id: messageId },
-            // Solo necesitamos el senderId y roomId, no la entidad completa del remitente
             select: ['message_id', 'senderId', 'roomId'],
         });
 
@@ -91,7 +89,6 @@ export class MessagesService {
         const result = await this.messageRepository.delete(messageId);
 
         if (result.affected === 0) {
-            // Esto solo debería ocurrir si findOne ya falló
             throw new NotFoundException(`Mensaje con ID ${messageId} no pudo ser eliminado.`);
         }
     }

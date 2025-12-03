@@ -8,7 +8,7 @@ export const getS3Client = () => {
 
     // Verificación de seguridad
     if (!accessKeyId || !secretAccessKey || !region) {
-        console.error("❌ ERROR S3: Credenciales de AWS faltantes o inválidas.");
+        console.error("ERROR S3: Credenciales de AWS faltantes o inválidas.");
         throw new Error("AWS credentials missing. Ensure .env is loaded first.");
     }
 

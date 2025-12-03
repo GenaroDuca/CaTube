@@ -18,7 +18,6 @@ export class AuthController {
     async signIn(@Body() loginDto: LoginDto) {
         const user = await this.authService.validateUser(loginDto.username, loginDto.password);
         if (!user) {
-            // Este throw maneja las credenciales inválidas.
             throw new UnauthorizedException('Invalid credentials');
         }
         // Devuelve: access_token

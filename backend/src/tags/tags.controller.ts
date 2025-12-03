@@ -4,7 +4,6 @@ import {
   Body,
   Get,
   UseGuards,
-  Param,
   Query,
 } from '@nestjs/common';
 import { TagService } from './tags.service';

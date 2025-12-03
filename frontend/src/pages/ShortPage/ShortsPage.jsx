@@ -167,7 +167,6 @@ export default function ShortPage() {
 
     const currentIndex = shorts.findIndex(s => String(s.id) === String(activeShortId));
 
-    // Si no se encuentra (por ejemplo al inicio), asumimos el primero
     const safeIndex = currentIndex === -1 ? 0 : currentIndex;
 
     let nextIndex = safeIndex;

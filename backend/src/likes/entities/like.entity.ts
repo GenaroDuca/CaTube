@@ -5,26 +5,22 @@ import { Comment } from 'src/comments/entities/comment.entity';
 
 
 @Entity()
-@Unique(['user', 'video', 'comment']) // A user can like/dislike a video or comment only once
+@Unique(['user', 'video', 'comment'])
 export class Like {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-
     @Column()
-    like: boolean; // true for like, false for dislike
+    like: boolean; 
 
-
-    @ManyToOne(() => User, (user) => user.likes, { onDelete: 'CASCADE' }) // When a user is deleted, delete their likes as well
+    @ManyToOne(() => User, (user) => user.likes, { onDelete: 'CASCADE' })
     user: User;
-
 
     @ManyToOne(() => Video, (video) => video.likes, {
         onDelete: 'CASCADE',
         nullable: true
     })
     video: Video | null;
-
 
     @ManyToOne(() => Comment, (comment) => comment.likes, {
         onDelete: 'CASCADE',

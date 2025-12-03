@@ -33,7 +33,7 @@ export class PostsService {
 
   private async notifyFollowers(post: Post): Promise<void> {
     const senderId = post.userId;
-    const channelId = post.channelId; // Este es el canal que publicó el post
+    const channelId = post.channelId; 
     const postId = post.id;
 
     if (!senderId || !channelId) {
@@ -80,7 +80,7 @@ export class PostsService {
           senderId,
           NotificationType.NEW_POST,
           notificationContent,
-          linkTarget // 👈 Se usa el linkTarget definido arriba
+          linkTarget 
         );
       });
 

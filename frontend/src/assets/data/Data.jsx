@@ -1778,7 +1778,7 @@ const leftMenu = [
     {
         icon: <BsCollectionPlayFill />,
         text: "Catscribers",
-        link: "/subscribers",
+        link: "/catscribers",
     },
 
     { divider: true },

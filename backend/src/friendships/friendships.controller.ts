@@ -8,7 +8,7 @@ import { CreateFriendshipDto } from './dto/create-friendship.dto';
 export class FriendshipsController {
     constructor(private readonly friendshipService: FriendshipService) { }
 
-    // 1. ENVIAR SOLICITUD DE AMISTAD (POST /friendships)
+    // 1. ENVIAR SOLICITUD DE AMISTAD
     @Post()
     @HttpCode(HttpStatus.CREATED)
     async sendRequest(
@@ -21,7 +21,7 @@ export class FriendshipsController {
         return this.friendshipService.sendRequest(senderId, receiverId);
     }
 
-    // 2. ACEPTAR SOLICITUD PENDIENTE (PUT /friendships/:friendshipId/accept)
+    // 2. ACEPTAR SOLICITUD PENDIENTE
     @Put(':friendshipId/accept')
     async acceptRequest(
         @Req() req: any,
@@ -31,7 +31,7 @@ export class FriendshipsController {
         return this.friendshipService.acceptRequest(friendshipId, acceptorId);
     }
 
-    // 3. ELIMINAR AMISTAD / RECHAZAR SOLICITUD (DELETE /friendships/:friendshipId)
+    // 3. ELIMINAR AMISTAD / RECHAZAR SOLICITUD
     @Delete(':friendshipId')
     @HttpCode(HttpStatus.NO_CONTENT) 
     async removeFriendship(
@@ -42,7 +42,7 @@ export class FriendshipsController {
         await this.friendshipService.removeFriendship(friendshipId, currentUserId);
     }
 
-    // 4. OBTENER AMIGOS Y SOLICITUDES (GET /friendships)
+    // 4. OBTENER AMIGOS Y SOLICITUDES
     @Get()
     async getFriendsAndRequests(@Req() req: any) {
         const userId = req.user.id;

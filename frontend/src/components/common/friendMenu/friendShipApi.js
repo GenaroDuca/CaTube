@@ -2,11 +2,6 @@
 import { VITE_API_URL } from "../../../../config.js"
 import { getAuthToken } from '../../../utils/auth';
 
-/**
- * Realiza una búsqueda de usuarios en el backend por nombre de usuario.
- * @param {string} query - El término de búsqueda.
- * @returns {Promise<Array>} Lista de usuarios que coinciden.
- */
 export const fetchUsers = async (query) => {
   if (!query || query.trim().length < 2) return [];
 
@@ -93,10 +88,6 @@ export const fetchFriendsAndRequests = async () => {
   }
 };
 
-/**
- * Envía una solicitud de amistad.
- * @param {string} receiverId - ID del usuario que recibirá la solicitud.
- */
 export const sendFriendRequest = async (receiverId) => {
   const token = getAuthToken();
   if (!token) throw new Error('User not authenticated!');

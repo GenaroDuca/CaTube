@@ -6,7 +6,6 @@ import { Friendship, FriendshipStatus } from './entities/friendship.entity';
 import { User } from '../users/entities/user.entity';
 import { FriendProfile } from "./friend-profile.interface";
 
-// Importaciones necesarias para la notificación
 import { NotificationsService } from '../notifications/notifications.service';
 import { NotificationType } from '../notifications/entities/notification.entity';
 
@@ -27,7 +26,6 @@ export class FriendshipService {
    */
   async sendRequest(senderId: string, receiverId: string): Promise<Friendship> {
     if (senderId === receiverId) {
-      // Usar excepción de NestJS
       throw new ForbiddenException('Cannot send a friendship request to yourself.');
     }
 
@@ -42,7 +40,6 @@ export class FriendshipService {
       .getOne();
 
     if (existingFriendship) {
-      // 409 Conflict si ya existe
       throw new ConflictException(`A relationship already exists with status: ${existingFriendship.status}.`);
     }
 
@@ -56,7 +53,6 @@ export class FriendshipService {
 
     // NOTIFICACIÓN AL RECEPTOR (El usuario que recibió la solicitud)
     try {
-      // Usaremos el tipo FRIEND_REQUEST y enlazaremos al perfil del emisor
       await this.notificationsService.createNotification(
         receiverId,
         senderId,
@@ -152,7 +148,7 @@ export class FriendshipService {
       .leftJoin(
         'channels',
         "channel",
-        "channel.user_id = friend.user_id" // user_id del canal coincide con el user_id del amigo
+        "channel.user_id = friend.user_id" 
       )
       .select([
         "friend.user_id AS friend_id",
@@ -177,7 +173,6 @@ export class FriendshipService {
   /**
    * Obtiene solicitudes pendientes que el usuario actual ha recibido.
    */
-  // En FriendshipsService.ts (Solo para diagnóstico)
   async getPendingRequests(receiverId: string): Promise<Friendship[]> {
     return this.friendshipRepository.find({
       where: {

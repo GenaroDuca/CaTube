@@ -13,7 +13,7 @@ export class ProductController {
   @Post()
   @UseInterceptors(FileInterceptor('image'))
   create(@Body() createProductDto: CreateProductDto, @Request() req, @UploadedFile() file?: any) {
-    const userId = req.user.id; // obtenemos el userId del token
+    const userId = req.user.id;
     return this.productService.create(createProductDto, userId, file);
   }
 

@@ -1,23 +1,18 @@
 import { Controller, Get, Post, Body, UseGuards, Request, ForbiddenException, BadRequestException } from '@nestjs/common';
-// Asume que esta es la ruta correcta a tu Guard de autenticación
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RoomsService } from './rooms.service';
 
-/**
- * El objeto Request (req) en NestJS con JwtAuthGuard tendrá la siguiente estructura:
- * req.user = { userId: string, username: string }
- */
+//req.user = { userId: string, username: string }
 interface AuthenticatedRequest extends Request {
   user: { userId: string; username: string };
 }
 
-@UseGuards(JwtAuthGuard) // Protege todas las rutas de este controlador
+@UseGuards(JwtAuthGuard) 
 @Controller('rooms')
 export class RoomsController {
   constructor(private readonly roomsService: RoomsService) { }
 
   /**
-   * Endpoint GET /rooms/my-rooms
    * Obtiene la lista de todas las salas (conversaciones) del usuario autenticado.
    * Usado para cargar la barra lateral de chats.
    */
@@ -30,9 +25,7 @@ export class RoomsController {
   }
 
   /**
-   * Endpoint POST /rooms/private
    * Inicia o recupera una conversación privada con otro usuario por su ID.
-   * El servicio se encarga de calcular el ID compuesto (room_id).
    */
   @Post('private')
   async createOrGetPrivateRoom(
@@ -45,7 +38,6 @@ export class RoomsController {
       throw new ForbiddenException("No puedes crear una sala contigo mismo.");
     }
 
-    // VERIFICACIÓN ESTRICTA (Si targetUserId viene undefined/null, esto falla la request)
     if (!userId || !targetUserId) {
       throw new BadRequestException("Ambos IDs de usuario son requeridos para la sala privada.");
     }

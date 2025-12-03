@@ -9,9 +9,6 @@ import { CreateNotificationDto } from './dto/create-notification.dto';
 export class NotificationsController {
     constructor(private readonly notificationsService: NotificationsService) {}
 
-    /**
-     * GET /api/notifications
-     */
     @Get()
     async findAll(
         @Req() req: any,
@@ -30,9 +27,6 @@ export class NotificationsController {
         return notifications.map(n => this.notificationsService.mapToDto(n));
     }
 
-    /**
-     * PATCH /api/notifications/mark-all-read
-     */
     @Patch('mark-all-read')
     @HttpCode(HttpStatus.NO_CONTENT) 
     async markAllAsRead(@Req() req: any): Promise<void> {
@@ -40,9 +34,6 @@ export class NotificationsController {
         await this.notificationsService.markAllAsRead(userId);
     }
 
-    /**
-     * PATCH /api/notifications/:id
-     */
     @Patch(':id')
     @HttpCode(HttpStatus.NO_CONTENT) 
     async updateReadStatus(
@@ -62,10 +53,6 @@ export class NotificationsController {
         );
     }
 
-    /**
-     * DELETE /api/notifications/:id
-     * (AGREGADO) Necesario para que funcione el botón "Borrar" del frontend
-     */
     @Delete(':id')
     @HttpCode(HttpStatus.NO_CONTENT)
     async remove(
