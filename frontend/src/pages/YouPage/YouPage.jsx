@@ -239,9 +239,9 @@ function You() {
 
     const handleClearHistoryConfirm = async () => {
         openModal('confirm', {
-            title: "Delete Comment",
-            message: `Are you sure you want to delete this comment?`,
-            confirmText: "Delete",
+            title: "Clear History",
+            message: `Are you sure you want to clear your history?`,
+            confirmText: "Clear",
             onConfirm: handleClearHistory,
         });
     }
