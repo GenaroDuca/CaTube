@@ -177,7 +177,7 @@ export class CommentsService {
       relations: ['user', 'user.channel', 'likes', 'replies', 'replies.user.channel', 'replies.user'],
       order: { createdAt: 'DESC' },
     });
-
+  
     return comments.map((comment) => ({
       id: comment.id,
       username: comment.user.username,

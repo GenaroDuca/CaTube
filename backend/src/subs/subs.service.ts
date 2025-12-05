@@ -44,7 +44,7 @@ export class SubscriptionsService {
       channel,
     });
 
-    console.log(channel);
+    // console.log(channel);
 
     await this.subscriptionsRepository.save(subscription);
 
