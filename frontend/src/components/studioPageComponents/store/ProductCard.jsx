@@ -8,7 +8,7 @@ import { FaShoppingCart } from "react-icons/fa";
 const ProductCard = ({ 
     product, 
     isOwner,
-    onEditClick, 
+    onEditClick,
     onDeleteClick,
     onBuyClick 
 }) => {
@@ -35,7 +35,7 @@ const ProductCard = ({
 
                 {/* Lógica Condicional: Si es el propietario, muestra Editar/Eliminar. Si no, muestra Comprar. */}
                 {isOwner ? (
-                    // ⚙️ VISTA DE PROPIETARIO (ADMINISTRACIÓN)
+                    //VISTA DE PROPIETARIO (ADMINISTRACIÓN)
                     <>
                         <button
                             type="button"
@@ -54,7 +54,7 @@ const ProductCard = ({
                         </button>
                     </>
                 ) : (
-                    // 💳 VISTA DE VISITANTE (COMPRA)
+                    // VISTA DE VISITANTE (COMPRA)
                     <button
                         type="button"
                         className="buy-product-btn"

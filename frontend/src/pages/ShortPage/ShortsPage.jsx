@@ -123,7 +123,7 @@ export default function ShortPage() {
     fetchShorts();
   }, [id, token]);
 
-  // Lógica del IntersectionObserver - AHORA GUARDA EN HISTORIAL AL HACER SCROLL
+  // Lógica del IntersectionObserver
   useEffect(() => {
     if (shorts.length === 0) return;
 
@@ -144,7 +144,6 @@ export default function ShortPage() {
 
             if (activeShortId !== visibleId) {
               setActiveShortId(visibleId);
-              // ✅ AGREGAR AL HISTORIAL CUANDO SE VUELVE VISIBLE POR SCROLL
               incrementView(visibleId);
             }
 
