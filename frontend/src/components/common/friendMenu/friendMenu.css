@@ -569,6 +569,17 @@
     text-align: right;
 }
 
+.edit-message-buttons button {
+    background: none;
+    border: none;
+    color: var(--text-color);
+    cursor: pointer;
+}
+
+.edit-message-buttons button:hover {
+    color: var(--btn);
+}
+
 /* Acciones en mensaje (ej. editar, borrar) */
 .message-actions {
     padding: 0 !important;

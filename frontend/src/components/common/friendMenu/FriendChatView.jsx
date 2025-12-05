@@ -247,7 +247,7 @@ const FriendChatView = ({ friend, onBack, onGoToProfile }) => {
                         autoFocus
                       />
 
-                      <div className="edit-comment-buttons">
+                      <div className="edit-message-buttons">
                         <button onClick={submitEdit}>
                           <IoCheckmark size={18} />
                         </button>
