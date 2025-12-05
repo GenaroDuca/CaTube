@@ -93,8 +93,7 @@
 .vv-progress-bar::-webkit-slider-runnable-track {
     height: 6px;
     border-radius: 4px;
-    background: var(--container-color-gradient);
-    -gradient(to right,
+    background: linear-gradient(to right,
         rgb(144, 180, 132) var(--progress, 0%),
         #3a3a3a var(--progress, 0%));
 }

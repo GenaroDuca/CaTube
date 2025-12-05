@@ -126,7 +126,7 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
                     max={duration}
                     value={progress}
                     onChange={handleSeek}
-                    style={{ "--progress": `${(progress / duration) * 100}%` }}
+                    style={{ "--progress": `${duration ? (progress / duration) * 100 : 0}%` }}
                 />
 
                 <div className="vv-video-controls">
