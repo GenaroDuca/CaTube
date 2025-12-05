@@ -7,8 +7,7 @@ import { UpdateVideoDto } from './dto/update-video.dto';
 import { UsersService } from 'src/users/users.service';
 import { Subscription } from 'src/subs/entities/sub.entity';
 import { NotificationsService } from 'src/notifications/notifications.service';
-
-import { Readable } from 'stream'; // Debe importar Readable de 'stream'
+import { Readable } from 'stream';
 import * as ffmpeg from 'fluent-ffmpeg';
 import * as ffmpegStatic from 'ffmpeg-static';
 import * as ffprobeStatic from 'ffprobe-static';
@@ -55,8 +54,8 @@ export class VideosService {
       channel,
       status: 'processing',
       processingProgress: 0,
-      url: '', // Placeholder
-      thumbnail: '', // Placeholder
+      url: '',
+      thumbnail: '',
       duration: 0,
       type: 'video' // Default
     });
@@ -79,10 +78,10 @@ export class VideosService {
     // ------------------------------------
 
     try {
-      // 🚨 IMPORTANTE: Cargar las relaciones necesarias para la notificación al final.
+      //Cargar las relaciones necesarias para la notificación al final.
       const video = await this.videoRepository.findOne({
         where: { id: videoId },
-        relations: ['channel', 'channel.user'], // 👈 Relaciones esenciales para notificar.
+        relations: ['channel', 'channel.user'],
       });
 
       if (!video) {
@@ -102,22 +101,22 @@ export class VideosService {
       // 30% - Analizando duración y clasificando tipo (short/video)
       let duration = 61;
       try {
-        console.log(`🎬 Analizando duración del video ${videoId}...`);
-        // ASUMIDO: Este método existe y devuelve la duración en segundos
+        console.log(`Analizando duración del video ${videoId}...`);
+        // Este método existe y devuelve la duración en segundos
         duration = await this.getVideoDurationFromBuffer(videoFile.buffer, videoFile.mimetype);
-        console.log(`⏱️  Duración detectada: ${duration} segundos`);
+        console.log(`Duración detectada: ${duration} segundos`);
       } catch (error) {
         console.error('FFPROBE error, using fallback duration', error);
-        console.log(`⚠️  Usando duración por defecto: ${duration} segundos`);
+        console.log(` Usando duración por defecto: ${duration} segundos`);
       }
 
       video.duration = duration === 0 ? 61 : duration;
       video.type = video.duration <= 60 ? 'short' : 'video';
 
-      console.log(`📊 Clasificación del video ${videoId}: ${video.title}`);
-      console.log(`   - Duración final: ${video.duration} segundos`);
-      console.log(`   - Tipo asignado: ${video.type}`);
-      console.log(`   - Es Short: ${video.duration <= 60 ? 'SÍ ✅' : 'NO ❌'}`);
+      console.log(`Clasificación del video ${videoId}: ${video.title}`);
+      console.log(`Duración final: ${video.duration} segundos`);
+      console.log(`Tipo asignado: ${video.type}`);
+      console.log(`Es Short: ${video.duration <= 60 ? 'SÍ ' : 'NO '}`);
 
       video.processingProgress = 30;
       await this.videoRepository.save(video);
@@ -156,16 +155,16 @@ export class VideosService {
 
         await this.s3Client.send(thumbCommand);
         video.thumbnail = `https://${process.env.AWS_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com/${thumbKey}`;
-        console.log(`🖼️  Miniatura personalizada subida.`);
+        console.log(` Miniatura personalizada subida.`);
 
       } else {
         // Caso 2: El usuario NO SUBIÓ miniatura, asignamos la URL por defecto
         if (video.type === 'short') {
           video.thumbnail = DEFAULT_SHORT_THUMBNAIL;
-          console.log(`🖼️  Asignando miniatura por defecto para SHORT.`);
+          console.log(`Asignando miniatura por defecto para SHORT.`);
         } else {
           video.thumbnail = DEFAULT_VIDEO_THUMBNAIL;
-          console.log(`🖼️  Asignando miniatura por defecto para VIDEO.`);
+          console.log(`Asignando miniatura por defecto para VIDEO.`);
         }
       }
 
@@ -315,7 +314,7 @@ export class VideosService {
             video.thumbnail === DEFAULT_SHORT_THUMBNAIL;
 
           if (isDefaultThumbnail) {
-            console.log(`⚠️ Thumbnail anterior es por defecto, se omite el borrado de S3.`);
+            console.log(`Thumbnail anterior es por defecto, se omite el borrado de S3.`);
           } else {
             try {
               // Borrar thumbnail anterior
@@ -324,10 +323,9 @@ export class VideosService {
                 Bucket: process.env.AWS_BUCKET_NAME!,
                 Key: `thumbnails/${oldKey}`
               }));
-              console.log(`🗑️ Thumbnail personalizado anterior eliminado de S3.`);
+              console.log(`Thumbnail personalizado anterior eliminado de S3.`);
             } catch (deleteError) {
               console.error('Error deleting old custom thumbnail from S3:', deleteError);
-              // No lanzamos excepción aquí, solo registramos, ya que la nueva thumbnail ya se subió.
             }
           }
         }
@@ -515,7 +513,7 @@ export class VideosService {
       return map;
     }, {});
 
-    // 4.Obtener Videos con Relaciones (sin conflictos de agrupación)
+    // 4.Obtener Videos con Relaciones
     const videos = await this.videoRepository.find({
       where: { channel: { channel_id: channelId } },
       relations: ['channel', 'tags'], // Carga tags y canal
