@@ -104,11 +104,40 @@ function StoreChannel({ isOwner, channelId }) {
         [openModal, fetchProducts]
     );
 
+    /** Eliminar un producto por ID. */
+    const deleteProduct = async (productId) => {
+        const token = getAuthToken();
+        const url = `${VITE_API_URL}/product/${productId}`;
+
+        try {
+            const response = await fetch(url, {
+                method: 'DELETE',
+                headers: token ? { Authorization: `Bearer ${token}` } : {}
+            });
+
+            if (!response.ok) {
+                let errorBody = null;
+                const contentType = response.headers.get("content-type");
+                if (contentType && contentType.includes("application/json")) {
+                    errorBody = await response.json().catch(() => ({}));
+                }
+                const errorMessage = errorBody?.message || response.statusText;
+                throw new Error(errorMessage);
+            }
+
+            return true;
+
+        } catch (error) {
+            console.error('Error al eliminar producto:', error);
+            throw error;
+        }
+    };
+
     const handleDeleteProduct = useCallback(
         (product) => {
             const apiDeleteHandler = async () => {
                 try {
-                    // await deleteProduct(product.product_id); // Asumiendo deleteProduct existe
+                    await deleteProduct(product.product_id);
                     showSuccess(`Product "${product.product_name}" deleted successfully.`);
                     closeModal();
                     fetchProducts();
@@ -137,7 +166,7 @@ function StoreChannel({ isOwner, channelId }) {
     // ----------------------------------------------------------------------
     // RENDER
     // ----------------------------------------------------------------------
-      if (loading) {
+    if (loading) {
         return <Loader />
     }
 
@@ -147,7 +176,7 @@ function StoreChannel({ isOwner, channelId }) {
             {!loading && storeError && products.length === 0 && (
                 <div className="store-empty-state">
                     <p>{storeError}</p>
-                    {isOwner && ( 
+                    {isOwner && (
                         <button
                             type="button"
                             className="btn-primary go-to-studio-store-btn"
