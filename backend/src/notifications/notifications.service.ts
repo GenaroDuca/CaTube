@@ -55,12 +55,11 @@ export class NotificationsService {
 
     try {
       const qb = this.notificationRepository.createQueryBuilder('notification')
-        // Hacemos JOIN explícito con 'receiver' y 'sender'
         .leftJoinAndSelect('notification.receiver', 'receiver')
-        .leftJoinAndSelect('notification.sender', 'sender')
-        .where('notification.receiverId = :userId', { userId })
-        .orderBy('notification.createdAt', 'DESC')
-        .take(limit);
+          .leftJoinAndSelect('notification.sender', 'sender')
+          .where('notification.receiverId = :userId', { userId })
+          .orderBy('notification.createdAt', 'DESC')
+          .take(limit);
 
       if (unreadOnly) {
         qb.andWhere('notification.isRead = :isRead', { isRead: false });

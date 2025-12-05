@@ -203,12 +203,10 @@ export class UsersService {
 
     async searchUsers(query: string): Promise<Partial<User>[]> {
         const users = await this.usersRepository.find({
-            // Usamos el operador 'Like' para buscar coincidencias parciales (case-insensitive en algunos BD)
             where: {
                 username: Like(`%${query}%`),
                 is_private: false,
             },
-            // Excluye el campo 'password' para no enviarlo al frontend
             select: ['user_id', 'username', 'avatarUrl'],
         });
 
@@ -451,7 +449,7 @@ export class UsersService {
                 throw new Error('Email sending failed.');
             }
 
-            console.log('✅ Email enviado correctamente con Resend:', data);
+            console.log('Email enviado correctamente con Resend:', data);
 
         } catch (error) {
             console.error('Error inesperado al enviar el email:', error);

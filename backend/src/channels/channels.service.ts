@@ -59,7 +59,7 @@ export class ChannelsService {
         if (includeHidden) {
             return this.channelRepository.find({ relations: ['user'] });
         }
-        // Exclude hidden channels for public listings
+        // Exclude hidden channels
         return this.channelRepository.find({
             where: { isHidden: false },
             relations: ['user'],

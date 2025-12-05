@@ -485,6 +485,11 @@ button:hover {
 /* 6. ESTILOS ESPECÍFICOS DE SETTINGS MODAL */
 /* ==================================== */
 
+.settings-modal-content {
+    display: flex;
+    flex-direction: column;
+}
+
 .settings-modal-content,
 .help-modal-content,
 .feedback-modal-content {
@@ -496,11 +501,11 @@ button:hover {
     display: flex;
     flex-grow: 1;
     background: var(--container-color-gradient);
-    ;
     border-radius: 0px 0px 30px 30px;
     gap: 20px;
     padding: 20px;
     height: 100%;
+    overflow-y: auto;
 }
 
 .delete-account-main {
@@ -608,8 +613,6 @@ button:hover {
     flex-direction: column;
     gap: 20px;
     overflow-y: auto;
-    height: 100%;
-    width: 100%;
 }
 
 .setting-section.hide {
@@ -1334,6 +1337,7 @@ input:checked+.slider:before {
     .setting-section {
         padding: 0px;
         width: 100%;
+
     }
 
     .settings-option-btn {
