@@ -1,4 +1,4 @@
-// 🎯 Archivo: src/hooks/useTheme.jsx (CÓDIGO CORREGIDO Y ÚNICO)
+// Archivo: src/hooks/useTheme.jsx (CÓDIGO CORREGIDO Y ÚNICO)
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
@@ -8,7 +8,7 @@ export const ThemeProvider = ({ children }) => {
     const [isDarkMode, setIsDarkMode] = useState(() => {
         const saved = localStorage.getItem('catube-dark-mode');
         // Si hay algo en localStorage, lo usamos. Si no, Dark Mode (true) por defecto.
-        return saved !== null ? JSON.parse(saved) : true; 
+        return saved !== null ? JSON.parse(saved) : true;
     });
 
     useEffect(() => {

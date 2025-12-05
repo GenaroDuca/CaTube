@@ -166,7 +166,7 @@
     max-width: fit-content;
     /* O un valor muy grande, ej: 1000px, si necesitas limitar */
     position: absolute;
-    /* ⚠️ Hace que se muestre encima de otros elementos */
+    /* Hace que se muestre encima de otros elementos */
     z-index: 10;
     /* Asegura que esté por encima de otros elementos */
     background: var(--primary-color, #fff);

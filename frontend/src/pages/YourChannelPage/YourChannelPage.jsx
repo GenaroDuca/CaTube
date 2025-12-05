@@ -8,7 +8,7 @@ import ContainerButton from "../../components/yourChannelPageComponents/Containe
 import HomeTab from "../../components/yourChannelPageComponents/HomeTab";
 import VideosTab from "../../components/yourChannelPageComponents/VideosTab";
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // Importado useNavigate
+// Importado useNavigate
 import ShortsTab from "../../components/yourChannelPageComponents/ShortsTab";
 import PostsTab from "../../components/yourChannelPageComponents/PostsTab";
 import Header from "../../components/common/header/Header.jsx";
@@ -24,7 +24,7 @@ function YourChannel() {
     const [activeTab, setActiveTab] = useState(0);
     const [channelId, setChannelId] = useState(null);
     const [isOwner, setIsOwner] = useState(false);
-    const [isSubscribed, setIsSubscribed] = useState(false); 
+    const [isSubscribed, setIsSubscribed] = useState(false);
 
     const [loading, setLoading] = useState(true);
     const [channelFound, setChannelFound] = useState(true);
@@ -138,7 +138,7 @@ function YourChannel() {
                 <Header />
                 <Sidebar />
                 <main className="main-content error-view" style={{ textAlign: 'center', paddingTop: '50px' }}>
-                    <h1>❌ 404 - Channel Not Found</h1>
+                    <h1>404 - Channel Not Found</h1>
                     <p>The channel you are looking for does not exist or could not be loaded.</p>
                     <button
                         onClick={() => navigate('/')}

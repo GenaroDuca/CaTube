@@ -43,7 +43,7 @@ const LoginForm = ({ togglePanel }) => {
         // --- 2. LOGIN FAILED (Response Not OK) ---
         const errorMessage = result.message || 'Unknown error';
 
-        // 🔥 CRITICAL: Check for the specific verification message from the backend
+        // CRITICAL: Check for the specific verification message from the backend
         if (errorMessage.includes('Please verify your email address to log in.')) {
 
           // Show a custom toast with a call to action

@@ -91,7 +91,7 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
         }
     }, [url]);
 
-    // 🔹 Formatear tiempo (segundos → mm:ss)
+    // Formatear tiempo (segundos -> mm:ss)
     const formatTime = (seconds) => {
         if (isNaN(seconds)) return "0:00";
         const minutes = Math.floor(seconds / 60);
@@ -143,7 +143,7 @@ export function WatchVideo({ videoId, url, title, avatar, userName, description,
                             <BiSkipNext color='rgb(144, 180, 132)' size={30} />
                         </button>
 
-                        {/* 🔹 Tiempo actual y duración */}
+                        {/* Tiempo actual y duración */}
                         <span className="vv-time-display">
                             {formatTime(progress)} / {formatTime(duration)}
                         </span>

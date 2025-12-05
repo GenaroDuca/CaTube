@@ -10,7 +10,7 @@ export function useVideoControl(videoRef, onTheaterToggle, onEndedCallback) {
     const [duration, setDuration] = useState(0);
     const isSeekingRef = useRef(false);
 
-    // ▶Alternar play/pause (sin AbortError)
+    // Alternar play/pause (sin AbortError)
     const togglePlayPause = useCallback(() => {
         const video = videoRef.current;
         if (!video) return;
@@ -53,7 +53,7 @@ export function useVideoControl(videoRef, onTheaterToggle, onEndedCallback) {
         video.currentTime = newTime;
     }, [videoRef]);
 
-    // 🎭 Modo teatro
+    // Modo teatro
     const toggleTheaterMode = useCallback(() => {
         setIsTheaterMode(prev => {
             const newMode = !prev;
@@ -111,7 +111,7 @@ export function useVideoControl(videoRef, onTheaterToggle, onEndedCallback) {
         const newTime = parseFloat(event.target.value);
         if (isNaN(newTime)) return;
 
-        isSeekingRef.current = true; // 👈 evita que timeupdate dispare conflictos
+        isSeekingRef.current = true; // evita que timeupdate dispare conflictos
         const wasPlaying = !video.paused;
 
         video.currentTime = newTime;
