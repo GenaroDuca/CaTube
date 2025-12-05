@@ -284,7 +284,14 @@ const FriendChatView = ({ friend, onBack, onGoToProfile }) => {
                       </div>
                     )}
                     <span className="message-time">
-                      {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      {(() => {
+                        const msgDate = new Date(msg.timestamp);
+                        const now = new Date();
+                        const diffInHours = (now - msgDate) / (1000 * 60 * 60);
+                        return diffInHours > 24
+                          ? msgDate.toLocaleDateString()
+                          : msgDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                      })()}
                       {msg.isEdited && <span className="edited-mark"> (edited)</span>}
                     </span>
                   </div>

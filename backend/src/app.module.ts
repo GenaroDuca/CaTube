@@ -63,6 +63,7 @@ import { WatchLater } from './users/entities/watch-later.entity';
           Room, Tag, Post, History, WatchLater
         ],
         synchronize: true,
+        timezone: 'Z',
       }),
     }),
 
