@@ -57,7 +57,7 @@ export function useReaction(videoId, commentId = null) {
     const react = async (isLike) => {
         const token = getAuthToken();
 
-        // NEW → Rutas separadas para video/comment
+        // NEW -> Rutas separadas para video/comment
         const url = commentId
             ? `${VITE_API_URL}/likes/comment/${commentId}`
             : `${VITE_API_URL}/likes/video/${videoId}`;
@@ -81,7 +81,7 @@ export function useReaction(videoId, commentId = null) {
     const removeReaction = async () => {
         const token = getAuthToken();
 
-        // NEW → DELETE usando rutas nuevas
+        // NEW -> DELETE usando rutas nuevas
         const url = commentId
             ? `${VITE_API_URL}/likes/comment/${commentId}`
             : `${VITE_API_URL}/likes/video/${videoId}`;

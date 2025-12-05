@@ -137,7 +137,7 @@ function Youprofile() {
     // ---
     return (
         <div className="container-profile">
-            {/* 📺 SECCIÓN DE INFORMACIÓN DEL CANAL */}
+            {/* SECCIÓN DE INFORMACIÓN DEL CANAL */}
             <div className="profile-info-you-page" onClick={handleClick} style={{ cursor: 'pointer' }}>
                 <h2>Your Channel info</h2>
                 <div className="first-part-profile">
@@ -147,7 +147,7 @@ function Youprofile() {
                         <div className="row-info">
                             <p className="space">@{channelHandle.replace('@', '')} </p>
                             <p className="space">{channelSubs} Catscribers </p>
-                            <p className="space">{youProfile.videos} Videos </p> 
+                            <p className="space">{youProfile.videos} Videos </p>
                         </div>
                         <p>{channelDescription} </p>
                     </div>

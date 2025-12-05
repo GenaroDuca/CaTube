@@ -4,7 +4,7 @@ import { useToast } from '../../../../hooks/useToast.jsx';
 import { VITE_API_URL } from "../../../../../config"
 
 // ----------------------------------------------------------------------
-// 💡 FUNCIÓN DE SERVICIO DE ELIMINACIÓN (AHORA DENTRO O IMPORTADA POR EL MODAL)
+// FUNCIÓN DE SERVICIO DE ELIMINACIÓN (AHORA DENTRO O IMPORTADA POR EL MODAL)
 // ----------------------------------------------------------------------
 async function deleteProduct(productId) {
 

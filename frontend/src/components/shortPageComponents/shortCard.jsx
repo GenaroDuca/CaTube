@@ -16,7 +16,7 @@ export function ShortCard({ short, onToggleMaximize, isActive, onVideoActive }) 
     const { user } = useAuth();
     const currentUserId = user?.id;
 
-    // 💡 Lógica para determinar si el usuario es el dueño del canal del short
+    // Lógica para determinar si el usuario es el dueño del canal del short
     const isOwner = useMemo(() => {
         if (!currentUserId || !ownerId) return false;
 

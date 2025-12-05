@@ -39,7 +39,7 @@ function ShortsTab() {
                 const allShorts = data.filter(v => v.type === "short").map(short => ({
                     id: short.id,
                     nameshort: short.title,
-                    // 💡 MANTENER la vista como número para clasificar
+                    // MANTENER la vista como número para clasificar
                     views: short.views || 0,
                     shortviews: `${short.views || 0} views`,
                     thumbnail: short.thumbnail,
@@ -49,7 +49,7 @@ function ShortsTab() {
                 // Ordenar por latest, popular, oldest
                 const latest = [...allShorts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
-                // 💡 CORREGIDO: Ahora usamos la propiedad numérica 'views'
+                // CORREGIDO: Ahora usamos la propiedad numérica 'views'
                 const popular = [...allShorts].sort((a, b) => b.views - a.views);
 
                 const oldest = [...allShorts].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));

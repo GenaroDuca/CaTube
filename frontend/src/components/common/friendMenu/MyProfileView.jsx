@@ -108,7 +108,7 @@ const MyProfileView = ({ myUser, onBack, onSaveProfile, isLoading }) => {
         // 2. Verificar si hay un archivo de avatar seleccionado para subir
         if (selectedFile) {
             try {
-                // 💡 Subir el avatar primero
+                // Subir el avatar primero
                 const uploadedUrl = await uploadAvatar(selectedFile);
                 newAvatarUrl = uploadedUrl;
                 hasChanges = true;

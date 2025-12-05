@@ -42,7 +42,7 @@ export function CommentSection({ videoId, onCountChange }) {
     const [newComment, setNewComment] = useState("");
 
     // Nuevo estado para controlar la carga/envío
-    const [isSendingComment, setIsSendingComment] = useState(false); // 👈 ¡NUEVO!
+    const [isSendingComment, setIsSendingComment] = useState(false);
 
     //Editing comments or replies
     const [editingCommentId, setEditingCommentId] = useState(null);
@@ -52,7 +52,7 @@ export function CommentSection({ videoId, onCountChange }) {
     //Replies
     const [replyingToId, setReplyingToId] = useState(null);
     const [replyContent, setReplyContent] = useState("");
-    const [isSendingReply, setIsSendingReply] = useState(false); // 👈 ¡NUEVO! para replies
+    const [isSendingReply, setIsSendingReply] = useState(false);
 
     //Replies toggle and display count
     const [openReplies, setOpenReplies] = useState({});
@@ -130,7 +130,7 @@ export function CommentSection({ videoId, onCountChange }) {
             showError("Network error or unexpected failure.");
         } finally {
             // Re-activar siempre, independientemente del éxito o fracaso
-            setIsSendingComment(false); // 👈 FIN DE CARGA
+            setIsSendingComment(false);
         }
     };
 
@@ -311,7 +311,7 @@ export function CommentSection({ videoId, onCountChange }) {
             showError("Error sending reply.");
         } finally {
             // Re-activar siempre, independientemente del éxito o fracaso
-            setIsSendingReply(false); // 👈 FIN DE CARGA DE REPLY
+            setIsSendingReply(false);
         }
     };
 
@@ -392,12 +392,12 @@ export function CommentSection({ videoId, onCountChange }) {
                         if (e.key === "Enter" && !isSendingComment) handleAddComment();
                     }}
                     placeholder="Write a comment..."
-                    disabled={isSendingComment} // 👈 Deshabilitado durante el envío
+                    disabled={isSendingComment} // Deshabilitado durante el envío
                 />
                 <button
                     onClick={handleAddComment}
                     // Deshabilitado si: 1) Está enviando O 2) El campo está vacío
-                    disabled={isSendingComment || !newComment.trim()} // 👈 Deshabilitado durante el envío
+                    disabled={isSendingComment || !newComment.trim()} // Deshabilitado durante el envío
                 >
                     <IoSend size={18} />
                 </button>
@@ -503,12 +503,12 @@ export function CommentSection({ videoId, onCountChange }) {
                                         }}
                                         placeholder={`Reply to ${comment.username}...`}
                                         autoFocus
-                                        disabled={isSendingReply} // 👈 Deshabilitado durante el envío de reply
+                                        disabled={isSendingReply} // Deshabilitado durante el envío de reply
                                     />
                                     <button
                                         onClick={() => handleSendReply(comment.id)}
                                         // Deshabilitado si: 1) Está enviando O 2) El campo está vacío
-                                        disabled={isSendingReply || !replyContent.trim()} // 👈 Deshabilitado durante el envío de reply
+                                        disabled={isSendingReply || !replyContent.trim()} // Deshabilitado durante el envío de reply
                                     >
                                         <IoSend size={18} />
                                     </button>

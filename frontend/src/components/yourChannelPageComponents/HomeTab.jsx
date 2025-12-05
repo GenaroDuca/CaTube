@@ -37,7 +37,7 @@ function HomeTab({ channelId }) {
                     const allVideos = data.filter(v => v.type === "video" || !v.type).map(video => ({
                         id: video.id,
                         namevideo: video.title,
-                        // 💡 Almacenar las vistas como número para la clasificación
+                        // Almacenar las vistas como número para la clasificación
                         views: video.views || 0,
                         videoviews: `${video.views || 0} views`,
                         createdAt: video.createdAt,
@@ -70,7 +70,7 @@ function HomeTab({ channelId }) {
         }
 
         fetchChannelContent();
-    }, [channelId, token]); 
+    }, [channelId, token]);
 
     if (loading) {
         return <Loader />;

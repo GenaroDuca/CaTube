@@ -27,7 +27,7 @@ export function UserMenu() {
     const { openModal } = useModal();
     const navigate = useNavigate();
 
-    // ⭐️ Consumir el hook useTheme
+    // Consumir el hook useTheme
     const { isDarkMode, toggleTheme } = useTheme();
 
     const { user, isAuthenticated, logout } = useAuth();

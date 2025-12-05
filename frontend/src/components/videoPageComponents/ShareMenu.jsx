@@ -78,7 +78,7 @@ export default function ShareMenu({ videoUrl, videoTitle }) {
         try {
             setSendingTo(friend.id);
             const url = window.location.href;
-            // 1️ Enviar el video como texto directamente al usuario (no a la sala)
+            // 1 Enviar el video como texto directamente al usuario (no a la sala)
             await sendMessage(friend.id, url);
 
             showSuccess(`Video shared with ${friend.name}`);
